@@ -1,0 +1,133 @@
+create table fh_flight_airline (
+  id serial PRIMARY key,
+  airline_code varchar(16) not null,
+  airline_name varchar(64) not null,
+  airline_abbreviation varchar(64) not null,
+  status integer not null default 1,
+  create_time timestamptz(6)
+);
+
+--数据量太小，直接全表扫描，不需要建立索引
+
+comment on table fh_flight_airline is '航司对照表';
+comment on column fh_flight_airline.airline_code is '航司代码';
+comment on column fh_flight_airline.airline_name is '航司全名';
+comment on column fh_flight_airline.airline_abbreviation is '航司简称';
+comment on column fh_flight_airline.status is '有效状态(0: 无效 1：有效)';
+
+--初始化数据
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('MU','中国东方航空公司','东航',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('CA','中国国际航空公司','国航',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('CZ','中国南方航空公司','南航',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('FM','上海航空公司','上航',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('HU','海南航空公司','海航',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('MF','厦门航空公司','厦航',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('SC','山东航空公司','山航',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('ZH','深圳航空公司','深航',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('3U','四川航空公司','川航',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('WH','西北航空公司','西北航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('NS','河北航空公司','河北航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('CJ','北方航空公司','北方航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('EU','鹰联航空公司','鹰联航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('F6','中国航空股份有限公司','中国航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('SZ','西南航空公司','西南航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('XO','新疆航空公司','新疆航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('3Q','云南航空公司','云南航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('X2','新华航空公司','新华航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('G8','长城航空公司','长城航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('8L','云南祥鹏公司','云南祥鹏',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('2Z','长安航空公司','长安航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('WU','武汉航空公司','武汉航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('3A','珠江客运公司','珠江客运',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('8C','东星航空公司','东星航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('9C','春秋航空公司','春秋航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('BK','奥凯航空公司','奥凯航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('CK','货运航空公司','货运航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('F4','上海国际货运航空公司','上海国际货运',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('HX','香港航空公司','香港航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('IV','福建航空公司','福建航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('KN','联合航空公司','中联航',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('KY','昆明航空公司','昆明航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('LD','华民航空公司','华民航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('OQ','重庆航空公司','重庆航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('PN','西部航空公司','西部航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('Y8','扬子江快运航空公司','扬子江快运航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('ZG','非凡航空公司','非凡航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('HO','吉祥航空公司','吉祥航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('CX','国泰航空公司','国泰航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('JL','日本航空公司','日本航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('KA','港龙航空公司','港龙航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('NX','澳门航空公司','澳门航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('AF','法国航空公司','法国航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('EK','阿联酋航空公司','阿联酋航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('KE','大韩航空公司','大韩航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('KL','荷兰航空公司','荷兰航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('LH','汉莎航空公司','汉莎航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('LX','瑞士航空公司','瑞士航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('OZ','韩亚航空公司','韩亚航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('QR','卡塔尔航空公司','卡塔尔航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('SQ','新加坡航空公司','新加坡航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('TG','泰国航空公司','泰国航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('TK','土耳其航空公司','土耳其航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('AA','美国航空公司','美国航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('AC','加拿大航空公司','加拿大航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('CI','中华航空公司公司','中华航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('CO','美国大陆航空公司','美国大陆航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('UA','联合航空公司','联合航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('B7','立荣航空公司','立荣航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('BR','长荣航空公司','长荣航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('BA','英国航空公司','英国航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('AY','芬兰航空公司','芬兰航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('AI','印度航空公司','印度航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('DL','达美航空公司','达美航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('ET','埃塞俄比亚航空公司','埃塞俄比亚航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('GA','嘉鲁达印尼航空公司','嘉鲁达印尼航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('GE','复兴航空公司','复兴航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('KQ','肯尼亚航空公司','肯尼亚航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('LY','以色列航空公司','以色列航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('MH','马来西亚航空公司','马来西亚航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('NH','全日空航空公司','全日空航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('NZ','新西兰航空公司','新西兰航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('OS','奥地利航空公司','奥地利航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('PR','菲律宾航空公司','菲律宾航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('QF','澳洲航空公司','澳洲航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('SA','南非航空公司','南非航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('SK','北欧航空公司','北欧航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('SU','俄罗斯航空公司','俄罗斯航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('UO','香港快运航空公司','香港快运航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('VN','越南航空公司','越南航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('VS','维珍航空公司','维珍航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('VV','乌克兰航空公司','乌克兰航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('JJ','巴西航空公司','巴西航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('MI','新加坡胜安航空公司','新加坡胜安航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('MK','毛里求斯航空公司','毛里求斯航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('PG','曼谷航空公司','曼谷航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('PK','巴基斯坦航空公司','巴基斯坦航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('EY','阿联酋阿提哈德航空公司','阿联酋阿提哈德航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('IB','西班牙航空公司','西班牙航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('OU','克罗地亚航空公司','克罗地亚航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('KC','阿斯塔那航空公司','阿斯塔那航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('JD','金鹿航空公司','金鹿航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('AE','华信航空公司','华信航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('MS','埃及航空公司','埃及航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('AB','德国柏林航空公司','德国柏林航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('AS','阿拉斯加航空公司','阿拉斯加航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('AM','墨西哥国际航空公司','墨西哥国际航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('AZ','意大利航空公司','意大利航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('VX','维珍美国航空公司','维珍美国航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('CN','大新华航空公司','大新华航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('UL','斯里兰卡航空公司','斯里兰卡航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('WS','西捷航空公司','西捷航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('SV','阿拉伯航空公司','阿拉伯航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('9W','印度捷特航空公司','印度捷特航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('YI','云南英安航空公司','云南英安航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('FU','福州航空公司','福州航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('QW','青岛航空','青岛航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('DZ','东海航空公司','东海航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('GS','天津航空有限公司','天津航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('DR','瑞丽航空有限公司','瑞丽航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('G5','华夏航空公司','华夏航空公司',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('TV','西藏航空公司','西藏航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('JR','幸福航空公司','幸福航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('GJ','长龙航空公司','长龙航空',1,'2015-11-02 12:00');
+insert into fh_flight_airline (airline_code, airline_name, airline_abbreviation,status,create_time) values ('UQ','乌鲁木齐航空公司','乌鲁木齐航空',1,'2015-11-02 12:00');

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.qunar.flight:travelco-rdf:5.0.0-PRE">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/qunar/flight/travelco-rdf/5.0.0-PRE/travelco-rdf-5.0.0-PRE.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/qunar/flight/travelco-rdf/5.0.0-PRE/travelco-rdf-5.0.0-PRE-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/qunar/flight/travelco-rdf/5.0.0-PRE/travelco-rdf-5.0.0-PRE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

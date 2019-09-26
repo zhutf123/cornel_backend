@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>酒店管理工具</title>
+</head>
+<body>
+<h2>酒店管理工具</h2>
+<hr>
+
+<h4>查询酒店列表</h4>
+<form action="/admin/hotel/list" method="get">
+    城市:<input type="text" name="city"/>
+    入住日期:<input type="text" name="checkinDate"/>
+    离店日期:<input type="text" name="checkoutDate"/>
+    成人数:<input type="text" name="adultNum"/>
+    儿童数:<input type="text" name="childNum"/>
+    <input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+<h4>查询酒店详情</h4>
+<form action="/admin/hotel/info" method="get">
+    资源key:<input type="text" name="key"/>
+    成人数:<input type="text" name="adultNum"/>
+    儿童数:<input type="text" name="childNum"/>
+    房间数:<input type="text" name="roomNum"/>
+    是否选择(true或false):<input type="text" name="elected"/>
+    <input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+<h4>查询酒店房型报价</h4>
+<form action="/admin/hotel/rooms" method="get">
+    资源key:<input type="text" name="key"/>
+    成人数:<input type="text" name="adultNum"/>
+    儿童数:<input type="text" name="childNum"/>
+    房间数:<input type="text" name="roomNum"/>
+    是否选择(true或false):<input type="text" name="elected"/>
+    <input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+
+<h4>查询酒店redis报价</h4>
+<form action="/admin/hotel/price/redis" method="get">
+    酒店Seq:<input type="text" name="hotelSeq"/>
+    供应商Id:<input type="text" name="supplierId"/>
+    入住日期:<input type="text" name="checkinDate"/>
+    离店日期:<input type="text" name="checkoutDate"/>
+    <input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+
+<h4>查询酒店wrapper报价</h4>
+<form action="/admin/hotel/price/wrapper" method="get">
+    酒店Seq:<input type="text" name="hotelSeq"/>
+    供应商Id:<input type="text" name="supplierId"/>
+    入住日期:<input type="text" name="checkinDate"/>
+    离店日期:<input type="text" name="checkoutDate"/>
+    <input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+<h4>重新抓取酒店报价</h4>
+<form action="/admin/hotel/price/crawl" method="get">
+    酒店Seq:<input type="text" name="hotelSeq"/>
+    供应商Id:<input type="text" name="supplierId"/>
+    入住日期:<input type="text" name="checkinDate"/>
+    离店日期:<input type="text" name="checkoutDate"/>
+    <input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+<h4>发送酒店报价更新消息</h4>
+<form action="/admin/hotel/price/msg/update" method="get">
+    酒店Seq:<input type="text" name="hotelSeq"/>
+    供应商Id:<input type="text" name="supplierId"/>
+    入住日期:<input type="text" name="checkinDate"/>
+    离店日期:<input type="text" name="checkoutDate"/>
+    <input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+<h4>发送酒店报价变更消息</h4>
+<form action="/admin/hotel/price/msg/change" method="get">
+    酒店Seq:<input type="text" name="hotelSeq"/>
+    供应商Id:<input type="text" name="supplierId"/>
+    变更日期:<input type="text" name="changeDate"/>
+    <input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+<h4>发送酒店信息变更消息</h4>
+<form action="/admin/hotel/hotel/msg/operation" method="get">
+    酒店Seq:<input type="text" name="hotelSeq"/>
+    供应商Id:<input type="text" name="supplierId"/>
+    操作（ONLINE或OFFLINE）:<input type="text" name="operation"/>
+    <input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+<h4>发送供应商信息变更消息</h4>
+<form action="/admin/hotel/supplier/msg/operation" method="get"/>
+    供应商Id:<input type="text" name="supplierId"/>
+    操作（ONLINE或OFFLINE）:<input type="text" name="operation"/>
+    <input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+<h4>供应商抓取配置查询</h4>
+<form action="/admin/hotel/crawConfig" method="get"/>
+供应商Id:<input type="text" name="supplierId"/>
+<input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+<h4>酒店状态查询</h4>
+<form action="/admin/hotel/price/status/diff" method="get">
+    酒店Seq:<input type="text" name="hotelSeq"/>
+    供应商Id:<input type="text" name="supplierId"/>
+    入住日期:<input type="text" name="checkinDate"/>
+    离店日期:<input type="text" name="checkoutDate"/>
+    <input type="submit" value="提交">
+</form>
+<br/>
+<hr>
+
+</body>
+</html>

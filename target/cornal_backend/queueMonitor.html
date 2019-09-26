@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height">
+    <title>队列监控</title>
+<!--    <style>::-webkit-scrollbar {-->
+<!--        display: none;-->
+<!--    }-->
+<!--    html, body {-->
+<!--        overflow: hidden;-->
+<!--        height: 100%;-->
+<!--        margin: 0;-->
+<!--    }</style>-->
+
+    <style>
+        .g2-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            border-radius: 4px 4px 0 0;
+            /*table-layout: fixed;*/
+        }
+
+        .g2-thead {
+            display: table-header-group;
+            vertical-align: middle;
+            border-bottom-color: #e8e8e8;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            background-color: #fafafa
+        }
+
+        .g2-thead th {
+            text-align: center;
+            height: 30px;
+            font-size: 12px;
+        }
+
+
+        .g2-table-row {
+            height: 30px;
+            vertical-align: middle;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-bottom-color: #e8e8e8;
+        }
+
+        .g2-table-column {
+            font-size: 12px;
+            color: #8c8c8c;
+            padding: 15px;
+            text-align: center
+        }
+
+        .before-start {
+            color: #bfbfbf;
+        }
+
+        .in-processing {
+            color: #1890ff;
+        }
+
+        .fail {
+            color: #f5222d;
+        }
+
+        .sucess {
+            color: #52c41a;
+        }
+
+        .abnormal {
+            color: #faad14;
+        }
+
+        li {
+            font-size: 12px;
+        }
+
+        li span {
+            color: #8c8c8c;
+        }
+
+        .g2-guide-html {
+            width: 50px;
+            height: 30px;
+            vertical-align: middle;
+            line-height: 0.8
+        }
+
+        .g2-guide-html .title {
+            font-size: 12px;
+            color: #8c8c8c;
+            font-weight: 300;
+        }
+
+        .g2-guide-html .value {
+            font-size: 14px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .g2-label-item-inner {
+            text-align: center;
+            font-size: 12px;
+            color: #ffffff;
+            text-shadow: 0px 0px 2px #595959;
+        }
+
+        .g2-label-item-outer {
+            width:60px;
+            font-size: 12px;
+            color: #595959;
+        }
+    </style>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.5.1/dist/g2.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.1/dist/data-set.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<div id="queueSizeChartsArea" align="center">
+    <h1>各队列实时监控</h1>
+    <div id="mountNode">
+        <!-- table -->
+        <table class="g2-table">
+            <!--head-->
+            <thead class="g2-thead">
+            <tr>
+                <th class="th-index">序号</th>
+                <th class="th-id">队列名称</th>
+                <th class="th-time">队列实时大小</th>
+                <th class="th-status">当日总接收量</th>
+                <th class="th-status">去重数量</th>
+                <th class="th-status">队列长度监控</th>
+                <th class="th-status">队列实际消费数量监控</th>
+                <th class="th-status">队列消费时长监控</th>
+                <th class="th-status">并发数设置</th>
+                <th class="th-status">预览</th>
+                <th class="th-status">删除</th>
+            </tr>
+            </thead>
+            <!--body-->
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="totalSizeChartsArea" align="center">
+    <h1>队列去重效果总览</h1>
+    <table width="100%">
+        <tr>
+            <td width="80%">
+                <div id="totalSizeChartsContainer"></div>
+            </td>
+            <td>
+                <div id="monitorArea">
+                    <ul>
+                        <li><a target="_blank" href="http://cerberus.corp.qunar.com/full_new_metric.htm?appCode=vs_fh_product_service&name=redis.zset.duplicate.size"><h4>去重效果监控地址</h4></a></li>
+                        <li><a target="_blank" href="http://cerberus.corp.qunar.com/full_new_metric.htm?appCode=vs_fh_product_service&name=hotel_price_update_qmq_count"><h4>报价变更QMQ数量监控地址</h4></a></li>
+                        <li><a target="_blank" href="/api/debug/price/queue/delAllPriceQueue?confirm=true"><h3>清空所有供应商队列！！</h3></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <p>PS:「数据统计每天刷新，起始时间：每天19:00」</p>
+</div>
+
+
+<script src="js/queueMonitor.js"></script>
+</body>
+</html>

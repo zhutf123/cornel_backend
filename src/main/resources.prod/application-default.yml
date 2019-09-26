@@ -1,0 +1,33 @@
+jetcache:
+  statIntervalMinutes: 1
+  areaInCacheName: false
+  local:
+    default:
+      type: caffeine
+      limit: 100
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      expireAfterWriteInMillis: 60000
+
+caching:
+  types:
+    - CAFFEINE
+  config:
+    caffeine:
+      spec: maximumSize=100,expireAfterWrite=1h,recordStats
+  configs:
+    hblist:
+      caffeine:
+        spec: maximumSize=5000,expireAfterWrite=15m,recordStats
+#        cacheNullValues: false
+        
+datasources:
+  fhtts-master:
+    driverClassName: org.postgresql.Driver
+    jdbcUrl: 'jdbc:postgresql://xxxxx:5432/fh_tts'
+    username: xxx
+    password: xxxx
+    maximumPoolSize: 5
+    idleTimeout: 600000
+    maxLifetime: 1800000

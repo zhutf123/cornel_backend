@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+    	http://code.alibabatech.com/schema/dubbo
+    	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- provide service -->
+	<dubbo:service ref="flightService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.flight.IFlightService" />
+	<dubbo:service ref="flightListService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.flight.IFlightListService" />
+	<dubbo:service ref="flightPriceService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.flight.IFlightPriceService" />
+	<dubbo:service ref="flightCabinService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.flight.IFlightCabinService" />
+	<dubbo:service ref="flightPlaneService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.flight.IFlightPlaneService" />
+	<dubbo:service ref="flightAirlineService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.flight.IFlightAirlineService" />
+	<dubbo:service ref="flightAirportService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.flight.IFlightAirportService" />
+	<dubbo:service ref="wishCreateOrderQmqService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.wish.IWishCreateOrderQmqService" />
+	<dubbo:service ref="mainOrderLogQmqService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.common.IMainOrderLogQmqService" />
+	<dubbo:service ref="wishOrderService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.wish.IWishOrderService" />
+	<dubbo:service ref="orderInfoSPService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.flight.IOrderInfoSPService" />
+	<dubbo:service ref="pyResourceService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.py.service.IPyResourceService" timeout="100000"/>
+	<dubbo:service ref="userPermissionService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.common.IUserPermissionService"/>
+	<dubbo:service ref="resourceService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.common.IResourceService"/>
+	<dubbo:service ref="hotelService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.hotel.IHotelService"/>
+	<dubbo:service ref="hotelPriceService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.hotel.IHotelPriceService"/>
+	<dubbo:service ref="hotelOpLogService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.hotel.IHotelOpLogService"/>
+	<dubbo:service ref="realConfirmService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.common.IRealConfirmService"/>
+	<dubbo:service ref="configurationService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.common.IConfigurationService"/>
+	<dubbo:service ref="fpSupplierService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.common.IFpSupplierService"/>
+	<dubbo:service ref="cityInfoService" version="${dubbo.service.version}" group="${dubbo.service.group}" interface="com.qunar.vc.api.service.common.ICityInfoService" />
+
+	<dubbo:service ref="flightDetailBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseFlightDetailBusiness" />
+	<dubbo:service ref="czkFlightListBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseFlightListBusiness" />
+	<dubbo:service ref="flightSaveBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseFlightSaveBusiness" />
+	<dubbo:service ref="flightOperateBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseFlightOperateBusiness" />
+	<dubbo:service ref="flightQuoteBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseFlightQuoteBusiness" />
+	<dubbo:service ref="wishOrderCreateBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseWishOrderCreateBusiness" />
+	<dubbo:service ref="wishOrderListBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseWishOrderListBusiness" />
+	<dubbo:service ref="wishOrderOperateBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseWishOrderOperateBusiness" />
+	<dubbo:service ref="wishOrderDetailBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseWishOrderDetailBusiness" />
+	<dubbo:service ref="wishOrderResourceBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseWishOrderResourceBusiness" />
+
+	<dubbo:service ref="hotelBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseHotelBusiness" />
+	<dubbo:service ref="hotelOperateBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseHotelOperateBusiness" />
+	<dubbo:service ref="hotelRoomBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseHotelRoomBusiness" />
+	<dubbo:service ref="hotelPriceBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseHotelPriceBusiness" />
+	<dubbo:service ref="hotelApiService" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.hotel.IHotelApiService" />
+	<dubbo:service ref="flightlpBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.BaseFlightlpBusiness" />
+	<dubbo:service ref="ttsProductBusiness" version="1.0.0" group="fh-product-service" interface="com.qunar.vc.api.service.bussiness.TtsProductBusiness" />
+
+	<!--度假tts供应商信息接口 -->
+	<dubbo:reference id="dubboSupplierService" version="1.1.3" check="false" interface="com.qunar.vacation.supplier.api.service.SupplierService" registry="supplierServiceCenter"/>
+
+	<!-- sms -->
+	<dubbo:reference id="commonSend2QMQ" version="1.0.1" check="false" interface="com.qunar.vc.dbnotify.api.service.SendMsg2QMQService" />
+	<!-- 机票订单查询 -->
+	<dubbo:reference id="fhxOrderService" registry="vc-fh" version="1.0.0" check="false" interface="com.qunar.vc.fh.service.IFhxOrderService"/>
+	<!--航班信息查询-->
+	<dubbo:reference id="flightDetailBatchService" registry="flight-detail-api" version="1.0.0" check="false" interface="com.qunar.flight.international.schedule.api.IFlightDetailBatchService" timeout="3000"/>
+
+	<dubbo:reference id="sendMsgService" version="1.0.0" check="false" interface="com.qunar.vc.fh.service.ISendMsgService"/>
+	<dubbo:reference id="fcbConfirmOrderService" registry="vc-fh" version="1.0.0" check="false" interface="com.qunar.vc.fh.service.IFcbConfirmOrderService"/>
+	<dubbo:reference id="mainOrderLogService" registry="vc-fh" version="1.0.0"  check="false" interface="com.qunar.vc.fh.service.IMainOrderLogService" timeout="30000"/>
+
+	<!--酒店RT对外查询接口-->
+	<dubbo:reference id="roomCategoryService" registry="qhotel-room-type-provider" version="1.0" check="false" interface="com.qunar.hotel.qhotel.rt.api.RoomCategoryService"/>
+	<dubbo:reference id="roomCategoryInterService" registry="qhotel-inter-rt" version="1.0" check="false" interface="com.qunar.hotel.qhotel.inter.rt.api.RoomCategoryService"/>
+	<dubbo:reference id="rtNodeDescService" registry="qhotel-room-type-provider" version="1.0" check="false" interface="com.qunar.hotel.qhotel.rt.api.RtNodeDescService"/>
+	<dubbo:reference id="interRtNodeDescService" registry="qhotel-inter-rt" version="1.0" check="false" interface="com.qunar.hotel.qhotel.inter.rt.api.RtNodeDescService"/>
+
+	<dubbo:reference id="imageManager" interface="com.qunar.hotel.qhimg.system.image.ImageManager" version="1.0"
+					 registry="qhotel-image" check="false" timeout="60000" async="false"/>
+
+	<dubbo:reference id="flightHotelCombinedFreeService" registry="vc-tts" version="1.0.0" check="false"
+					 interface="com.qunar.vacation.recommend.daren.FlightHotelCombinedFreeService"/>
+</beans>
