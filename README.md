@@ -4,7 +4,7 @@
 jdk1.8
 
 下载：
-git@github.com:zhutf123/cornel.git
+git@github.com:zhutf123/cornel_backend.git
 or
-https://github.com/zhutf123/cornel.git
+https://github.com/zhutf123/cornel_backend.git
 
