@@ -492,6 +492,13 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>cornal_backend</name>
+            <url></url>
+        </repository>
+    </distributionManagement>
     <build>
         <finalName>cornal_backend</finalName>
 
