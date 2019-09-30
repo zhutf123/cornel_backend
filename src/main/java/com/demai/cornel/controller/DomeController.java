@@ -14,7 +14,7 @@ import com.demai.cornel.vo.JsonResult;
 @Controller
 @RequestMapping("/test")
 @Slf4j
-public class TestController{
+public class DomeController {
 
     @RequestMapping(value = "/dome", method = RequestMethod.GET)
     @ResponseBody
