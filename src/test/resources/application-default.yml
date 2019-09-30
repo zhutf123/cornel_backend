@@ -54,78 +54,9 @@ caching:
 datasources:
   fhtts-master:
     driverClassName: org.postgresql.Driver
-    jdbcUrl: 'jdbc:postgresql://l-ddrdbbeta1.vc.beta.cn0.qunar.com:5432/fh_tts_beta'
-    username: fh_beta
-    password: 1e4362db-349c-44cd-9e51-a407f42f9de4
+    jdbcUrl: 'jdbc:postgresql://xxxxxx/fh_tts_beta'
+    username: xxxxx
+    password: xxxxx
     maximumPoolSize: 5
     idleTimeout: 600000
     maxLifetime: 1800000
-  fhtts-slave:
-    driverClassName: org.postgresql.Driver
-    jdbcUrl: 'jdbc:postgresql://l-ddrdbbeta1.vc.beta.cn0.qunar.com:5432/fh_tts_beta'
-    username: fh_beta
-    password: 1e4362db-349c-44cd-9e51-a407f42f9de4
-    maximumPoolSize: 5
-    idleTimeout: 600000
-    maxLifetime: 1800000
-    readOnly: true
-  djb2c:
-    driverClassName: org.postgresql.Driver
-    url: 'jdbc:postgresql://l-djb2cdb2.vc.beta.cn0.qunar.com:5432/b2c_product_beta'
-    username: b2c_qa
-    password: c7ceedcd-6bcf-4aba-92f4-6edd89e99c56
-  package:
-    driverClassName: org.postgresql.Driver
-    url: 'jdbc:postgresql://l-schrd1.vc.beta.cn0.qunar.com:6432/freepack'
-    username: vacation_dev
-    password: fd89aa5c-8a03-4a4d-97d7-3c7a12f01f32
-  package-slave:
-        driverClassName: org.postgresql.Driver
-        url: 'jdbc:postgresql://l-vacationdb4.vc.beta.cn0:5432/vacation_freepack_beta'
-        username: vacation_dev
-        password: fd89aa5c-8a03-4a4d-97d7-3c7a12f01f32
-  package-product:
-        driverClassName: org.postgresql.Driver
-        url: 'jdbc:postgresql://l-vacationdb4.vc.beta.cn0:5432/vacation_freepack_beta'
-        username: vacation_dev
-        password: fd89aa5c-8a03-4a4d-97d7-3c7a12f01f32
-  package-hotel-master:
-    driverClassName: org.postgresql.Driver
-    url: 'jdbc:postgresql://l-schrd1.vc.beta.cn0.qunar.com:6432/freepack'
-    username: vacation_dev
-    password: fd89aa5c-8a03-4a4d-97d7-3c7a12f01f32
-  package-hotel-slave:
-      driverClassName: org.postgresql.Driver
-      url: 'jdbc:postgresql://l-schrd1.vc.beta.cn0.qunar.com:6432/freepack'
-      username: vacation_dev
-      password: fd89aa5c-8a03-4a4d-97d7-3c7a12f01f32
-  package-hotel-slave-b:
-      driverClassName: org.postgresql.Driver
-      url: 'jdbc:postgresql://l-schrd1.vc.beta.cn0.qunar.com:6432/freepack_ab_hoteldb_beta'
-      username: vacation_dev
-      password: fd89aa5c-8a03-4a4d-97d7-3c7a12f01f32
-  package-hotel-master-b:
-    driverClassName: org.postgresql.Driver
-    url: 'jdbc:postgresql://l-schrd1.vc.beta.cn0.qunar.com:6432/freepack_ab_hoteldb_beta'
-    username: vacation_dev
-    password: fd89aa5c-8a03-4a4d-97d7-3c7a12f01f32
-  dujia-tts:
-    driverClassName: org.postgresql.Driver
-    url: 'jdbc:postgresql://l-djb2cdb2.vc.beta.cn0.qunar.com:5432/b2c_product_beta'
-    username: b2c_qa
-    password: c7ceedcd-6bcf-4aba-92f4-6edd89e99c56
-  dujia-search:
-    driverClassName: org.postgresql.Driver
-    url: 'jdbc:postgresql://l-vacationdb2.vc.beta.cn0.qunar.com:6432/vacation'
-    username: vacation_dev
-    password: 9265645e-2536-456f-b441-6d0871114cea
-  dujia-search2:
-    driverClassName: org.postgresql.Driver
-    url: 'jdbc:postgresql://l-vacationdb3.vc.beta.cn0.qunar.com:6432/vacation'
-    username: vacation_dev
-    password: 9265645e-2536-456f-b441-6d0871114cea
-  dujia-data:
-    driverClassName: org.postgresql.Driver
-    url: 'jdbc:postgresql://l-pgdata5.vc.cn6.qunar.com:65432/data_sas'
-    username: fh_dev
-    password: 3c7520ed-ecb9-47f3-b824-8a8fd3faa79e
