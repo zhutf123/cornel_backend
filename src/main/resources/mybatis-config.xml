@@ -15,9 +15,9 @@
 
     <typeAliases>
         <!--<typeAlias alias="ArrayStringHandler" type="com.qunar.vc.db.postgres.handler.ArrayStringSetTypeHandler"/>-->
-        <!--<typeAlias alias="HotelDateStatusHandler" type="com.demai.cornal.util.HotelDateStatusTypeHandler"/>-->
-        <!--<typeAlias alias="JsonTypeHandler" type="com.demai.cornal.util.JsonTypeHandler"/>-->
-        <!--<typeAlias alias="JsonListTypeHandler" type="com.demai.cornal.util.JsonListTypeHandler"/>-->
+        <!--<typeAlias alias="HotelDateStatusHandler" type="com.demai.cornel.util.HotelDateStatusTypeHandler"/>-->
+        <!--<typeAlias alias="JsonTypeHandler" type="com.demai.cornel.util.JsonTypeHandler"/>-->
+        <!--<typeAlias alias="JsonListTypeHandler" type="com.demai.cornel.util.JsonListTypeHandler"/>-->
         <!--<typeAlias alias="flightLine" type="com.qunar.vc.api.entity.flight.FlightLine"/>-->
         <!--<typeAlias alias="EnumHandler" type="com.qunar.vc.db.postgres.handler.IEmusHandler"/>-->
     </typeAliases>
