@@ -1,5 +1,5 @@
-package com.demai.cornel.dao;
-
-public interface WishResourceDao {
-
-}
+//package com.demai.cornel.dao;
+//
+//public interface WishResourceDao {
+//
+//}

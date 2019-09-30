@@ -14,21 +14,13 @@ import com.demai.cornel.vo.JsonResult;
 @Controller
 @RequestMapping("/test")
 @Slf4j
-public class TestController extends SpringBootServletInitializer {
+public class TestController{
 
     @RequestMapping(value = "/dome", method = RequestMethod.GET)
     @ResponseBody
     public JsonResult getProductMainInfoById() {
 
         return JsonResult.success("success");
-    }
-
-    /**
-     * 需要把web项目打成war包部署到外部tomcat运行时需要改变启动方式
-     */
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(TestController.class);
     }
 
 }
