@@ -1,3 +1,10 @@
+spring:
+  redis:
+    cluster:
+      nodes: xxxxxxx:6379,xxxxxxx:6379
+      max-redirects: 5
+      password: schrd
+      timeout: 5
 
 caching:
   types:
@@ -18,6 +25,9 @@ caching:
       redis:
         timeToLive: 15m
         cacheNullValues: false
+
+we-chat:
+   code2session: https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code
 
 datasources:
   dm-master:
