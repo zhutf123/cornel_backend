@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class TrainPackageToSearchJob {
-    private static final Logger logger = LoggerFactory.getLogger(TrainPackageToSearchJob.class);
+public class DosomethingJob {
+    private static final Logger logger = LoggerFactory.getLogger(DosomethingJob.class);
 
 
 }

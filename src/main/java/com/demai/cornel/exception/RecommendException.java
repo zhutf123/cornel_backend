@@ -6,5 +6,5 @@ package com.demai.cornel.exception;
 /**
  * Create By zhutf 19-1-30 下午6:11
  */
-public class RecommendHotelException extends RuntimeException {
+public class RecommendException extends RuntimeException {
 }
