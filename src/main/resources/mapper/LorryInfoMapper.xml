@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.LorryInfoDao">
+
+    <resultMap type="com.demai.cornel.model.LorryInfo" id="lorryInfoResultMap">
+        <id column="id" property="id"/>
+        <result column="lorry_type" property="lorryType"/>
+        <result column="company" property="company"/>
+        <result column="weight" property="weight"/>
+        <result column="carry_weight" property="carryWeight"/>
+        <result column="length" property="length"/>
+        <result column="width" property="width"/>
+        <result column="buy_time" property="buyTime"/>
+        <result column="mileage" property="mileage"/>
+        <result column="plate_number" property="plateNumber"/>
+        <result column="frame_number" property="frameNumber"/>
+        <result column="id_type" property="idType"/>
+        <result column="id_card" property="idCard"/>
+        <result column="status" property="status"/>
+        <result column="ext_info" property="extInfo"/>
+        <result column="create_time" property="createTime"/>
+        <result column="operate_time" property="operateTime"/>
+    </resultMap>
+
+    <sql id="main_column">
+        id,
+        lorry_type,
+        company,
+        weight,
+        carry_weight,
+        length,
+        width,
+        buy_time,
+        mileage,
+        plate_number,
+        frame_number,
+        id_type,
+        id_card,
+        status,
+        ext_info,
+        create_time,
+        operate_time
+    </sql>
+
+    <update id="update" parameterType="com.demai.cornel.model.LorryInfo">
+        update lorry_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="lorryType != null">lorry_type = #{lorryType},</if>
+            <if test="company != null">company = #{company},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="carryWeight != null">carry_weight = #{carryWeight},</if>
+            <if test="length != null">length = #{length},</if>
+            <if test="width != null">width = #{width},</if>
+            <if test="buyTime != null">buy_time = #{buyTime},</if>
+            <if test="mileage != null">mileage = #{mileage},</if>
+            <if test="plateNumber != null">plate_number = #{plateNumber},</if>
+            <if test="frameNumber != null">frame_number = #{frameNumber},</if>
+            <if test="idType != null">id_type = #{idType},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="extInfo != null">ext_info = #{extInfo},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="operateTime != null">operate_time = #{operateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.demai.cornel.model.LorryInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into lorry_info(
+        <trim suffixOverrides=",">
+            <if test="lorryType != null">lorry_type ,</if>
+            <if test="company != null">company ,</if>
+            <if test="weight != null">weight ,</if>
+            <if test="carryWeight != null">carry_weight ,</if>
+            <if test="length != null">length ,</if>
+            <if test="width != null">width ,</if>
+            <if test="buyTime != null">buy_time ,</if>
+            <if test="mileage != null">mileage ,</if>
+            <if test="plateNumber != null">plate_number ,</if>
+            <if test="frameNumber != null">frame_number ,</if>
+            <if test="idType != null">id_type ,</if>
+            <if test="idCard != null">id_card ,</if>
+            <if test="status != null">status ,</if>
+            <if test="extInfo != null">ext_info ,</if>
+            <if test="createTime != null">create_time ,</if>
+            <if test="operateTime != null">operate_time ,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="lorryType != null">#{lorryType} ,</if>
+            <if test="company != null">#{company} ,</if>
+            <if test="weight != null">#{weight} ,</if>
+            <if test="carryWeight != null">#{carryWeight} ,</if>
+            <if test="length != null">#{length} ,</if>
+            <if test="width != null">#{width} ,</if>
+            <if test="buyTime != null">#{buyTime} ,</if>
+            <if test="mileage != null">#{mileage} ,</if>
+            <if test="plateNumber != null">#{plateNumber} ,</if>
+            <if test="frameNumber != null">#{frameNumber} ,</if>
+            <if test="idType != null">#{idType} ,</if>
+            <if test="idCard != null">#{idCard} ,</if>
+            <if test="status != null">#{status} ,</if>
+            <if test="extInfo != null">#{extInfo} ,</if>
+            <if test="createTime != null">#{createTime} ,</if>
+            <if test="operateTime != null">#{operateTime} ,</if>
+        </trim>
+        )
+    </insert>
+</mapper>

@@ -1,0 +1,15 @@
+/**
+ * Copyright (c) 2015 Qunar.com. All Rights Reserved.
+ */
+package com.demai.cornel.dao;
+
+import com.demai.cornel.model.UserRoleInfo;
+
+/**
+ * Create By zhutf 19-10-6 下午1:18
+ */
+public interface UserRoleInfoDao {
+    public void update(UserRoleInfo userRoleInfo);
+
+    public void save(UserRoleInfo userRoleInfo);
+}

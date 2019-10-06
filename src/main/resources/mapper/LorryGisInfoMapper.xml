@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.LorryGisInfoDao">
+
+    <resultMap type="com.demai.cornel.model.LorryGisInfo" id="lorryGisInfoResultMap">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="lorry_id" property="lorryId"/>
+        <result column="user_id" property="userId"/>
+        <result column="status" property="status"/>
+        <result column="ext_info" property="extInfo"/>
+        <result column="create_time" property="createTime"/>
+        <result column="operate_time" property="operateTime"/>
+    </resultMap>
+
+    <sql id="main_column">
+        id,
+        order_id,
+        lorry_id,
+        user_id,
+        --gis,
+        status,
+        ext_info,
+        create_time,
+        operate_time
+    </sql>
+
+    <update id="update" parameterType="com.demai.cornel.model.LorryGisInfo">
+        update lorry_gis_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="lorryId != null">lorry_id = #{lorryId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="extInfo != null">ext_info = #{extInfo},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="operateTime != null">operate_time = #{operateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.demai.cornel.model.LorryGisInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into lorry_gis_info(
+        <trim suffixOverrides=",">
+            <if test="orderId != null">order_id ,</if>
+            <if test="lorryId != null">lorry_id ,</if>
+            <if test="userId != null">user_id ,</if>
+            <if test="status != null">status ,</if>
+            <if test="extInfo != null">ext_info ,</if>
+            <if test="createTime != null">create_time ,</if>
+            <if test="operateTime != null">operate_time ,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="orderId != null">#{orderId} ,</if>
+            <if test="lorryId != null">#{lorryId} ,</if>
+            <if test="userId != null">#{userId} ,</if>
+            <if test="status != null">#{status} ,</if>
+            <if test="extInfo != null">#{extInfo} ,</if>
+            <if test="createTime != null">#{createTime} ,</if>
+            <if test="operateTime != null">#{operateTime} ,</if>
+        </trim>
+        )
+    </insert>
+</mapper>

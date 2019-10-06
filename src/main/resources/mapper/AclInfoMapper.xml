@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.AclInfoDao">
+
+    <resultMap type="com.demai.cornel.model.AclInfo" id="aclInfoResultMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="url" property="url"/>
+        <result column="module" property="module"/>
+        <result column="status" property="status"/>
+        <result column="ext_info" property="extInfo"/>
+        <result column="create_time" property="createTime"/>
+        <result column="operate_time" property="operateTime"/>
+    </resultMap>
+
+    <sql id="main_column">
+        id,
+        name,
+        code,
+        url,
+        module,
+        status,
+        ext_info,
+        create_time,
+        operate_time
+    </sql>
+
+    <update id="update" parameterType="com.demai.cornel.model.AclInfo">
+        update acl_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="module != null">module = #{module},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="extInfo != null">ext_info = #{extInfo},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="operateTime != null">operate_time = #{operateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.demai.cornel.model.AclInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into acl_info(
+        <trim suffixOverrides=",">
+            <if test="name != null">name ,</if>
+            <if test="code != null">code ,</if>
+            <if test="url != null">url ,</if>
+            <if test="module != null">module ,</if>
+            <if test="status != null">status ,</if>
+            <if test="extInfo != null">ext_info ,</if>
+            <if test="createTime != null">create_time ,</if>
+            <if test="operateTime != null">operate_time ,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="name != null">#{name} ,</if>
+            <if test="code != null">#{code} ,</if>
+            <if test="url != null">#{url} ,</if>
+            <if test="module != null">#{module} ,</if>
+            <if test="status != null">#{status} ,</if>
+            <if test="extInfo != null">#{extInfo} ,</if>
+            <if test="createTime != null">#{createTime} ,</if>
+            <if test="operateTime != null">#{operateTime} ,</if>
+        </trim>
+        )
+    </insert>
+</mapper>
