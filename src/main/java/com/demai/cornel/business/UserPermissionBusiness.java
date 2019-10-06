@@ -4,9 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-@Service("testBusiness")
-public class testBusiness {
-    private final Logger logger = LoggerFactory.getLogger(testBusiness.class);
+@Service
+public class UserPermissionBusiness {
+    private final Logger logger = LoggerFactory.getLogger(UserPermissionBusiness.class);
     private final int SYSTEM_ROLE = 0;
+
 
 }
