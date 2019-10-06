@@ -31,7 +31,7 @@ public class DataBaseConfiguration {
     public HikariConfig dmMasterHikariConfig() {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.addDataSourceProperty("ApplicationName", "");
-        hikariConfig.setPoolName("HikariPool-fhMaster");
+        hikariConfig.setPoolName("HikariPool-dmMaster");
         return hikariConfig;
     }
 

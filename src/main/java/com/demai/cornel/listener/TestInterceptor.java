@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HotelInfoVersionInterceptor implements MethodInterceptor {
-    private static final Logger logger = LoggerFactory.getLogger(HotelInfoVersionInterceptor.class);
+public class TestInterceptor implements MethodInterceptor {
+    private static final Logger logger = LoggerFactory.getLogger(TestInterceptor.class);
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
