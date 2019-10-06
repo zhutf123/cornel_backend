@@ -3,198 +3,37 @@
     <property name="APP_Name" value="cornel_backend"/>
 
     <contextName>${APP_Name}</contextName>
+    <!--<springProperty scope="context" name="springAppName" source="spring.application.name"/>-->
+
+    <!--<contextName>${springAppName}</contextName>-->
 
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder charset="UTF-8">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} QTraceId[%X{qtraceid}] %thread ${LOG_LEVEL_PATTERN:-%5p} %c:%L %m%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %c:%L %m%n</pattern>
         </encoder>
     </appender>
-
-    <!-- smtp报警设置 -->
-    <appender name="email" class="com.qunar.vc.log.logback.CustomSMTPAppender">
-        <smtpHost>mta1.corp.qunar.com</smtpHost>
-
-        <from>fh-product-service@qunar.com</from>
-
-        <to>dj_jjalert@qunar.com</to>
-        <layout class="com.qunar.vc.log.logback.HTMLWrapperLayout">
-            <pattern>%date%level%logger%line%message</pattern>
-        </layout>
-
-        <filter class="com.qunar.vc.log.logback.ThresholdAndLoggerNameFilter">
-            <level>ERROR</level>
-            <loggerPrefix>com.qunar.zkclient,org.apache.velocity,org.apache.curator.ConnectionState</loggerPrefix>
-        </filter>
-    </appender>
-    
-    <appender name="python_confirm_data"
-            class="ch.qos.logback.core.rolling.RollingFileAppender">
-          <file>${catalina.base}/logs/python/python_confirm_data.log</file>
-          <prudent>false</prudent>
-          <Append>true</Append>
-          <encoder>
-              <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p %c{1}:%L - %m%n</pattern>
-              <charset>UTF-8</charset>
-          </encoder>
-          <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-              <fileNamePattern>${catalina.base}/logs/python/python_confirm_data.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-          </rollingPolicy>
-    </appender>
-
-    <appender name="event_log_data"
-        class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina.base}/logs/event_log_data.log</file>
-        <prudent>false</prudent>
-        <Append>true</Append>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p %c{1}:%L - %m%n</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${catalina.base}/logs/event_log_data.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-        </rollingPolicy>
-    </appender>
-    <appender name="price_engine"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina.base}/logs/price_engine.log</file>
-        <prudent>false</prudent>
-        <Append>true</Append>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} QTraceId[%X{qtraceid}] %-5p %c{1}:%L - %m%n</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${catalina.base}/logs/price_engine.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-        </rollingPolicy>
-    </appender>
-
-    <appender name="price_queue" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina.base}/logs/price_queue.log</file>
-        <prudent>false</prudent>
-        <Append>true</Append>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} QTraceId[%X{qtraceid}] %-5p %c{1}:%L - %m%n</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${catalina.base}/logs/price_queue.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-        </rollingPolicy>
-    </appender>
-
-    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina.base}/logs/error.log</file>
-        <prudent>false</prudent>
-        <Append>true</Append>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} QTraceId[%X{qtraceid}] %-5p %c{1}:%L - %m%n</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${catalina.base}/logs/error.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-        </rollingPolicy>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-    </appender>
-
-    <appender name="product-service" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina.base}/logs/product_service.log</file>
-        <prudent>false</prudent>
-        <Append>true</Append>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} QTraceId[%X{qtraceid}] %-5p %c{1}:%L - %m%n</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${catalina.base}/logs/product_service.%d{yyyy-MM-dd-HH}.log.gz</fileNamePattern>
-        </rollingPolicy>
-    </appender>
-
-    <appender name="JETCACHE_LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina.base}/logs/jetcache.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>jetcache.log.%d{yyyy-MM-dd}</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} QTraceId[%X{qtraceid}] %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
-    </appender>
-
-    <logger name="com.alicp.jetcache" level="INFO" additivity="false">
-        <appender-ref ref="JETCACHE_LOGFILE" />
-    </logger>
 
     <root level="DEBUG">
         <appender-ref ref="stdout"/>
-<!--        <appender-ref ref="email"/>-->
     </root>
 
-<!--    <logger name="com.qunar.vc" level="DEBUG" additivity="true">-->
-<!--        <appender-ref ref="product-service"/>-->
-<!--    </logger>-->
+    <logger name="org.apache.zookeeper" level="WARN" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
 
-<!--    <logger name="com.qunar.vc.fh.queue" level="DEBUG" additivity="true">-->
-<!--        <appender-ref ref="price_queue" />-->
-<!--    </logger>-->
+    <logger name="org.springframework" level="WARN" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
 
-<!--    <logger name="com.qunar.vc.fh.engine" additivity="true" level="DEBUG">-->
-<!--        <appender-ref ref="price_engine"/>-->
-<!--    </logger>-->
+    <logger name="com.mchange.v2" level="WARN" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
 
-<!--    <logger name="com.qunar.vc.log.EventLogBuilder" level="DEBUG" additivity="true">-->
-<!--        <appender-ref ref="event_log_data" />-->
-<!--    </logger>-->
+    <logger name="org.apache.http" level="WARN" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
 
-<!--    <logger name="PythonConfirmData" level="DEBUG" additivity="true">-->
-<!--        <appender-ref ref="python_confirm_data" />-->
-<!--    </logger>-->
-
-<!--    <logger name="org.apache.zookeeper" level="WARN" additivity="true">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </logger>-->
-
-<!--    <logger name="org.redisson" level="WARN" additivity="true">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </logger>-->
-
-<!--    <logger name="org.springframework" level="WARN" additivity="true">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </logger>-->
-
-<!--    <logger name="com.alibaba.dubbo" level="WARN" additivity="true">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </logger>-->
-
-<!--    <logger name="com.mchange.v2" level="WARN" additivity="true">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </logger>-->
-
-<!--    <logger name="org.apache.http" level="WARN" additivity="true">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </logger>-->
-
-<!--    <logger name="com.qunar.base.meerkat" level="WARN" additivity="true">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </logger>-->
-
-<!--    <logger name="com.ning.http" level="WARN" additivity="true">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </logger>-->
-
-<!--    <logger name="com.qunar.vc.api.util" level="DEBUG" additivity="true">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </logger>-->
-<!--    -->
-<!--    <logger name="org.dozer" level="WARN" additivity="true">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </logger>-->
-
-<!--    <logger name="qunar.tc" level="INFO" additivity="false">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </logger>-->
+    <logger name="com.ning.http" level="WARN" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
 </configuration>

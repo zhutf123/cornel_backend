@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015 Qunar.com. All Rights Reserved.
+ * Copyright (c) 2019 dm.com. All Rights Reserved.
  */
 package com.demai.cornel.databaseHandler;
 
@@ -61,7 +61,7 @@ public class HstoreObjectTypeHandler extends BaseTypeHandler<HstoreType> {
                 if (HstoreType.class.isAssignableFrom(clazz)) {
                     return JsonUtil.fromJson(JsonUtil.toJson(rawMap), (Class<HstoreType>) clazz);
                 }
-                throw new SQLException("@clazz:" + clazzName + "未继承com.qunar.vc.core.model.HstoreType !");
+                throw new SQLException("@clazz:" + clazzName + "未继承com.demai.cornel.model.HstoreType !");
             } catch (ClassNotFoundException e) {
                 throw new SQLException("@clazz:" + clazzName + "类不存在!", e);
             }

@@ -1,3 +1,10 @@
+spring:
+  redis:
+    cluster:
+      nodes: xxxxxxx:6379,xxxxxxx:6379
+      max-redirects: 5
+      password: schrd
+      timeout: 5
 
 caching:
   types:
