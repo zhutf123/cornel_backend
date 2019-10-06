@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.TaskInfoDao">
+    <resultMap type="com.demai.cornel.model.TaskInfo" id="taskInfoResultMap">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="product" property="product"/>
+        <result column="weight" property="weight"/>
+        <result column="unit" property="unit"/>
+        <result column="unaccept_weight" property="unacceptWeight"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="unit_cost_time" property="unitCostTime"/>
+        <result column="dep" property="dep"/>
+        <result column="arr" property="arr"/>
+        <result column="distance" property="distance"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="estimate_price" property="estimatePrice"/>
+        <result column="level" property="level"/>
+        <result column="status" property="status"/>
+        <result column="ext_info" property="extInfo"/>
+        <result column="create_time" property="createTime"/>
+        <result column="operate_time" property="operateTime"/>
+    </resultMap>
+
+    <sql id="main_column">
+        id,
+        title,
+        product,
+        weight,
+        unit,
+        unaccept_weight,
+        start_time,
+        end_time,
+        unit_cost_time,
+        dep,
+        arr,
+        --dep_gis,
+        --arr_gis,
+        distance,
+        unit_price,
+        estimate_price,
+        level,
+        status,
+        ext_info,
+        create_time,
+        operate_time
+    </sql>
+
+    <update id="update" parameterType="com.demai.cornel.model.TaskInfo">
+        update task_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="product != null">product = #{product},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="unacceptWeight != null">unaccept_weight = #{unacceptWeight},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="unitCostTime != null">unit_cost_time = #{unitCostTime},</if>
+            <if test="dep != null">dep = #{dep},</if>
+            <if test="arr != null">arr = #{arr},</if>
+            <if test="distance != null">distance = #{distance},</if>
+            <if test="unitPrice != null">unit_price = #{unitPrice},</if>
+            <if test="estimatePrice != null">estimate_price = #{estimatePrice},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="extInfo != null">ext_info = #{extInfo},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="operateTime != null">operate_time = #{operateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.demai.cornel.model.TaskInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into task_info(
+        <trim suffixOverrides=",">
+            <if test="title != null">title ,</if>
+            <if test="product != null">product ,</if>
+            <if test="weight != null">weight ,</if>
+            <if test="unit != null">unit ,</if>
+            <if test="unacceptWeight != null">unaccept_weight ,</if>
+            <if test="startTime != null">start_time ,</if>
+            <if test="endTime != null">end_time ,</if>
+            <if test="unitCostTime != null">unit_cost_time ,</if>
+            <if test="dep != null">dep ,</if>
+            <if test="arr != null">arr ,</if>
+            <if test="distance != null">distance ,</if>
+            <if test="unitPrice != null">unit_price ,</if>
+            <if test="estimatePrice != null">estimate_price ,</if>
+            <if test="level != null">level ,</if>
+            <if test="status != null">status ,</if>
+            <if test="extInfo != null">ext_info ,</if>
+            <if test="createTime != null">create_time ,</if>
+            <if test="operateTime != null">operate_time ,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="title != null">#{title} ,</if>
+            <if test="product != null">#{product} ,</if>
+            <if test="weight != null">#{weight} ,</if>
+            <if test="unit != null">#{unit} ,</if>
+            <if test="unacceptWeight != null">#{unacceptWeight} ,</if>
+            <if test="startTime != null">#{startTime} ,</if>
+            <if test="endTime != null">#{endTime} ,</if>
+            <if test="unitCostTime != null">#{unitCostTime} ,</if>
+            <if test="dep != null">#{dep} ,</if>
+            <if test="arr != null">#{arr} ,</if>
+            <if test="distance != null">#{distance} ,</if>
+            <if test="unitPrice != null">#{unitPrice} ,</if>
+            <if test="estimatePrice != null">#{estimatePrice} ,</if>
+            <if test="level != null">#{level} ,</if>
+            <if test="status != null">#{status} ,</if>
+            <if test="extInfo != null">#{extInfo} ,</if>
+            <if test="createTime != null">#{createTime} ,</if>
+            <if test="operateTime != null">#{operateTime} ,</if>
+        </trim>
+        )
+    </insert>
+</mapper>

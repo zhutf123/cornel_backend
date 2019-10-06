@@ -9,9 +9,6 @@
     <!--
     ###################################### ###########################
     -->
-    <listener>
-        <listener-class>qunar.ServletWatcher</listener-class>
-    </listener>
     <!--因为ServletWatcher里调用了getParameter，请将下面的filter放置在ServletWatcher之前-->
     <filter>
         <filter-name>encodingFilter</filter-name>
@@ -31,14 +28,6 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <filter>
-        <filter-name>watcher</filter-name>
-        <filter-class>qunar.ServletWatcher</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>watcher</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
     <!--
     ############注意, 此段listener和filter直接放置在web.xml顶端########
     -->
@@ -70,14 +59,6 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>cacheAdmin</servlet-name>
-        <servlet-class>com.qunar.vc.cache.admin.CacheAdminServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>cacheAdmin</servlet-name>
-        <url-pattern>/-/admin/cache</url-pattern>
-    </servlet-mapping>
     <servlet>
         <display-name>HystrixMetricsStreamServlet</display-name>
         <servlet-name>HystrixMetricsStreamServlet</servlet-name>

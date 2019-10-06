@@ -1,3 +1,10 @@
+spring:
+  redis:
+    cluster:
+      nodes: xxxxxxx:6379,xxxxxxx:6379
+      max-redirects: 5
+      password: schrd
+      timeout: 5
 
 caching:
   types:
@@ -20,11 +27,11 @@ caching:
         cacheNullValues: false
 
 datasources:
-  fhtts-master:
+  dm-master:
     driverClassName: org.postgresql.Driver
-    jdbcUrl: 'jdbc:postgresql://xxxxxx:5432/fh_tts_beta'
-    username: xxxxx
-    password: xxxxx
+    jdbcUrl: 'jdbc:postgresql://150.242.184.16:7654/cornel_product'
+    username: postgres
+    password: 123456
     maximumPoolSize: 5
     idleTimeout: 600000
     maxLifetime: 1800000

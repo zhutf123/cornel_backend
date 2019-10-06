@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.OrderInfoDao">
+
+    <resultMap type="com.demai.cornel.model.OrderInfo" id="orderInfoResultMap">
+        <id column="id" property="id"/>
+        <result column="task_id" property="taskId"/>
+        <result column="lorry_id" property="lorryId"/>
+        <result column="user_id" property="userId"/>
+        <result column="distance" property="distance"/>
+        <result column="unit" property="unit"/>
+        <result column="carry_weight" property="carryWeight"/>
+        <result column="order_weight" property="orderWeight"/>
+        <result column="succ_weight" property="succWeight"/>
+        <result column="overweight" property="overweight"/>
+        <result column="accept_time" property="acceptTime"/>
+        <result column="start_time" property="startTime"/>
+        <result column="must_finish_time" property="mustFinishTime"/>
+        <result column="send_out_time" property="sendOutTime"/>
+        <result column="estimate_finish_time" property="estimateFinishTime"/>
+        <result column="finish_time" property="finishTime"/>
+        <result column="send_out_code" property="sendOutCode"/>
+        <result column="send_out_user_id" property="sendOutUserId"/>
+        <result column="receive_code" property="receiveCode"/>
+        <result column="receiver_user_id" property="receiverUserId"/>
+        <result column="status" property="status"/>
+        <result column="unexpect" property="unexpect"/>
+        <result column="cancel_time" property="cancelTime"/>
+        <result column="cancel_reason" property="cancelReason"/>
+        <result column="ext_info" property="extInfo"/>
+        <result column="create_time" property="createTime"/>
+        <result column="operate_time" property="operateTime"/>
+    </resultMap>
+
+    <sql id="main_column">
+        id,
+        task_id,
+        lorry_id,
+        user_id,
+        distance,
+        unit,
+        carry_weight,
+        order_weight,
+        succ_weight,
+        overweight,
+        accept_time,
+        start_time,
+        must_finish_time,
+        send_out_time,
+        estimate_finish_time,
+        finish_time,
+        send_out_code,
+        send_out_user_id,
+        receive_code,
+        receiver_user_id,
+        status,
+        unexpect,
+        cancel_time,
+        cancel_reason,
+        ext_info,
+        create_time,
+        operate_time
+    </sql>
+
+    <update id="update" parameterType="com.demai.cornel.model.OrderInfo">
+        update order_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="lorryId != null">lorry_id = #{lorryId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="distance != null">distance = #{distance},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="carryWeight != null">carry_weight = #{carryWeight},</if>
+            <if test="orderWeight != null">order_weight = #{orderWeight},</if>
+            <if test="succWeight != null">succ_weight = #{succWeight},</if>
+            <if test="overweight != null">overweight = #{overweight},</if>
+            <if test="acceptTime != null">accept_time = #{acceptTime},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="mustFinishTime != null">must_finish_time = #{mustFinishTime},</if>
+            <if test="sendOutTime != null">send_out_time = #{sendOutTime},</if>
+            <if test="estimateFinishTime != null">estimate_finish_time = #{estimateFinishTime},</if>
+            <if test="finishTime != null">finish_time = #{finishTime},</if>
+            <if test="sendOutCode != null">send_out_code = #{sendOutCode},</if>
+            <if test="sendOutUserId != null">send_out_user_id = #{sendOutUserId},</if>
+            <if test="receiveCode != null">receive_code = #{receiveCode},</if>
+            <if test="receiverUserId != null">receiver_user_id = #{receiverUserId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="unexpect != null">unexpect = #{unexpect},</if>
+            <if test="cancelTime != null">cancel_time = #{cancelTime},</if>
+            <if test="cancelReason != null">cancel_reason = #{cancelReason},</if>
+            <if test="extInfo != null">ext_info = #{extInfo},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="operateTime != null">operate_time = #{operateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.demai.cornel.model.OrderInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into order_info(
+        <trim suffixOverrides=",">
+            <if test="taskId != null">task_id ,</if>
+            <if test="lorryId != null">lorry_id ,</if>
+            <if test="userId != null">user_id ,</if>
+            <if test="distance != null">distance ,</if>
+            <if test="unit != null">unit ,</if>
+            <if test="carryWeight != null">carry_weight ,</if>
+            <if test="orderWeight != null">order_weight ,</if>
+            <if test="succWeight != null">succ_weight ,</if>
+            <if test="overweight != null">overweight ,</if>
+            <if test="acceptTime != null">accept_time ,</if>
+            <if test="startTime != null">start_time ,</if>
+            <if test="mustFinishTime != null">must_finish_time ,</if>
+            <if test="sendOutTime != null">send_out_time ,</if>
+            <if test="estimateFinishTime != null">estimate_finish_time ,</if>
+            <if test="finishTime != null">finish_time ,</if>
+            <if test="sendOutCode != null">send_out_code ,</if>
+            <if test="sendOutUserId != null">send_out_user_id ,</if>
+            <if test="receiveCode != null">receive_code ,</if>
+            <if test="receiverUserId != null">receiver_user_id ,</if>
+            <if test="status != null">status ,</if>
+            <if test="unexpect != null">unexpect ,</if>
+            <if test="cancelTime != null">cancel_time ,</if>
+            <if test="cancelReason != null">cancel_reason ,</if>
+            <if test="extInfo != null">ext_info ,</if>
+            <if test="createTime != null">create_time ,</if>
+            <if test="operateTime != null">operate_time ,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="taskId != null">#{taskId} ,</if>
+            <if test="lorryId != null">#{lorryId} ,</if>
+            <if test="userId != null">#{userId} ,</if>
+            <if test="distance != null">#{distance} ,</if>
+            <if test="unit != null">#{unit} ,</if>
+            <if test="carryWeight != null">#{carryWeight} ,</if>
+            <if test="orderWeight != null">#{orderWeight} ,</if>
+            <if test="succWeight != null">#{succWeight} ,</if>
+            <if test="overweight != null">#{overweight} ,</if>
+            <if test="acceptTime != null">#{acceptTime} ,</if>
+            <if test="startTime != null">#{startTime} ,</if>
+            <if test="mustFinishTime != null">#{mustFinishTime} ,</if>
+            <if test="sendOutTime != null">#{sendOutTime} ,</if>
+            <if test="estimateFinishTime != null">#{estimateFinishTime} ,</if>
+            <if test="finishTime != null">#{finishTime} ,</if>
+            <if test="sendOutCode != null">#{sendOutCode} ,</if>
+            <if test="sendOutUserId != null">#{sendOutUserId} ,</if>
+            <if test="receiveCode != null">#{receiveCode} ,</if>
+            <if test="receiverUserId != null">#{receiverUserId} ,</if>
+            <if test="status != null">#{status} ,</if>
+            <if test="unexpect != null">#{unexpect} ,</if>
+            <if test="cancelTime != null">#{cancelTime} ,</if>
+            <if test="cancelReason != null">#{cancelReason} ,</if>
+            <if test="extInfo != null">#{extInfo} ,</if>
+            <if test="createTime != null">#{createTime} ,</if>
+            <if test="operateTime != null">#{operateTime} ,</if>
+        </trim>
+        )
+    </insert>
+</mapper>

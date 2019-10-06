@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.UserInfoDao">
+
+    <resultMap type="com.demai.cornel.model.UserInfo" id="userInfoResultMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="birthday" property="birthday"/>
+        <result column="head_img" property="headImg"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="id_type" property="idType"/>
+        <result column="id_card" property="idCard"/>
+        <result column="term_validity" property="termValidity"/>
+        <result column="mobile" property="mobile"/>
+        <result column="lorry" property="lorry"/>
+        <result column="order_nums" property="orderNums"/>
+        <result column="score" property="score"/>
+        <result column="distance" property="distance"/>
+        <result column="punish" property="punish"/>
+        <result column="urgent_name_f" property="urgentNameF"/>
+        <result column="urgent_mobile_f" property="urgentMobileF"/>
+        <result column="urgent_name_s" property="urgentNameS"/>
+        <result column="urgent_mobile_s" property="urgentMobileS"/>
+        <result column="status" property="status"/>
+        <result column="ext_info" property="extInfo"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="operate_time" property="operateTime"/>
+        <result column="with" property="with"/>
+    </resultMap>
+
+    <sql id="main_column">
+        id,
+        name,
+        gender,
+        birthday,
+        head_img,
+        nick_name,
+        id_type,
+        id_card,
+        term_validity,
+        mobile,
+        lorry,
+        order_nums,
+        score,
+        distance,
+        punish,
+        urgent_name_f,
+        urgent_mobile_f,
+        urgent_name_s,
+        urgent_mobile_s,
+        status,
+        ext_info,
+        last_login_time,
+        create_time,
+        operate_time
+    </sql>
+
+    <update id="update" parameterType="com.demai.cornel.model.UserInfo">
+        update user_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="headImg != null">head_img = #{headImg},</if>
+            <if test="nickName != null">nick_name = #{nickName},</if>
+            <if test="idType != null">id_type = #{idType},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="termValidity != null">term_validity = #{termValidity},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="lorry != null">lorry = #{lorry},</if>
+            <if test="orderNums != null">order_nums = #{orderNums},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="distance != null">distance = #{distance},</if>
+            <if test="punish != null">punish = #{punish},</if>
+            <if test="urgentNameF != null">urgent_name_f = #{urgentNameF},</if>
+            <if test="urgentMobileF != null">urgent_mobile_f = #{urgentMobileF},</if>
+            <if test="urgentNameS != null">urgent_name_s = #{urgentNameS},</if>
+            <if test="urgentMobileS != null">urgent_mobile_s = #{urgentMobileS},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="extInfo != null">ext_info = #{extInfo},</if>
+            <if test="lastLoginTime != null">last_login_time = #{lastLoginTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="operateTime != null">operate_time = #{operateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.demai.cornel.model.UserInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into user_info(
+        <trim suffixOverrides=",">
+            <if test="name != null">name ,</if>
+            <if test="gender != null">gender ,</if>
+            <if test="birthday != null">birthday ,</if>
+            <if test="headImg != null">head_img ,</if>
+            <if test="nickName != null">nick_name ,</if>
+            <if test="idType != null">id_type ,</if>
+            <if test="idCard != null">id_card ,</if>
+            <if test="termValidity != null">term_validity ,</if>
+            <if test="mobile != null">mobile ,</if>
+            <if test="lorry != null">lorry ,</if>
+            <if test="orderNums != null">order_nums ,</if>
+            <if test="score != null">score ,</if>
+            <if test="distance != null">distance ,</if>
+            <if test="punish != null">punish ,</if>
+            <if test="urgentNameF != null">urgent_name_f ,</if>
+            <if test="urgentMobileF != null">urgent_mobile_f ,</if>
+            <if test="urgentNameS != null">urgent_name_s ,</if>
+            <if test="urgentMobileS != null">urgent_mobile_s ,</if>
+            <if test="status != null">status ,</if>
+            <if test="extInfo != null">ext_info ,</if>
+            <if test="lastLoginTime != null">last_login_time ,</if>
+            <if test="createTime != null">create_time ,</if>
+            <if test="operateTime != null">operate_time ,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="name != null">#{name} ,</if>
+            <if test="gender != null">#{gender} ,</if>
+            <if test="birthday != null">#{birthday} ,</if>
+            <if test="headImg != null">#{headImg} ,</if>
+            <if test="nickName != null">#{nickName} ,</if>
+            <if test="idType != null">#{idType} ,</if>
+            <if test="idCard != null">#{idCard} ,</if>
+            <if test="termValidity != null">#{termValidity} ,</if>
+            <if test="mobile != null">#{mobile} ,</if>
+            <if test="lorry != null">#{lorry} ,</if>
+            <if test="orderNums != null">#{orderNums} ,</if>
+            <if test="score != null">#{score} ,</if>
+            <if test="distance != null">#{distance} ,</if>
+            <if test="punish != null">#{punish} ,</if>
+            <if test="urgentNameF != null">#{urgentNameF} ,</if>
+            <if test="urgentMobileF != null">#{urgentMobileF} ,</if>
+            <if test="urgentNameS != null">#{urgentNameS} ,</if>
+            <if test="urgentMobileS != null">#{urgentMobileS} ,</if>
+            <if test="status != null">#{status} ,</if>
+            <if test="extInfo != null">#{extInfo} ,</if>
+            <if test="lastLoginTime != null">#{lastLoginTime} ,</if>
+            <if test="createTime != null">#{createTime} ,</if>
+            <if test="operateTime != null">#{operateTime} ,</if>
+        </trim>
+        )
+    </insert>
+</mapper>

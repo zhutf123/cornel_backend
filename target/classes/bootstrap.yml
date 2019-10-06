@@ -2,4 +2,4 @@ spring:
   application:
     admin:
       enabled: true
-    name: cornal_backend
+    name: cornel_backend

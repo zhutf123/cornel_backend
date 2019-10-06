@@ -10,8 +10,8 @@ import java.lang.annotation.Target;
  * Date: 19-03-25
  * Time: 下午2:36
  */
-@Target({ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-public @interface DataSync {
-    Class handler();
-}
+//@Target({ElementType.METHOD})
+//@Retention(RetentionPolicy.RUNTIME)
+//public @interface DataSync {
+//    Class handler();
+//}
