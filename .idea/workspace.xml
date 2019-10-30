@@ -4,9 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ConfigProperties.java" line="12" mnemonic="0" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ce4bddb-ce46-4e5f-acdc-9f6197fb7b0f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="9ce4bddb-ce46-4e5f-acdc-9f6197fb7b0f" name="Default" comment="" />
     <ignored path="cornel_backend.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -114,8 +112,8 @@
       <file leaf-file-name="GenJavaCode4Pg.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/GenJavaCode4Pg.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6643234" vertical-offset="189" max-vertical-offset="6995">
-              <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.84885764" vertical-offset="189" max-vertical-offset="6995">
+              <caret line="41" column="52" selection-start-line="41" selection-start-column="51" selection-end-line="41" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -1188,16 +1186,16 @@
       <workItem from="1570674511581" duration="866000" />
       <workItem from="1570676318983" duration="1792000" />
       <workItem from="1572417794417" duration="1046000" />
-      <workItem from="1572419949973" duration="1252000" />
+      <workItem from="1572419949973" duration="1538000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66375000" />
+    <option name="totallyTimeSpent" value="66661000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1366" y="0" width="1920" height="1080" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1684,8 +1682,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/GenJavaCode4Pg.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6643234" vertical-offset="189" max-vertical-offset="6995">
-          <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.84885764" vertical-offset="189" max-vertical-offset="6995">
+          <caret line="41" column="52" selection-start-line="41" selection-start-column="51" selection-end-line="41" selection-end-column="51" />
           <folding />
         </state>
       </provider>
