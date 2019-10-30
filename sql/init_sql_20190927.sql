@@ -291,8 +291,10 @@ DROP TABLE IF EXISTS "role_info";
 CREATE TABLE "role_info" (
 "id" serial PRIMARY KEY,
 "name" varchar(40),
+"role_id" varchar(40),
 "status" integer default 1,
 "ext_info" hstore,
+"authority" varchar(40)[],
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now()
 )
@@ -300,6 +302,8 @@ WITH (OIDS=FALSE)
 ;
 COMMENT ON COLUMN "role_info"."name" IS '角色名称';
 COMMENT ON COLUMN "role_info"."status" IS '1 有效  2 无效';
+COMMENT ON COLUMN "role_info"."authority" IS '角色对应的权限,数组类型对应acl_info的code字段';
+COMMENT ON COLUMN "role_info"."role_id" IS '角色id';
 
 
 DROP TABLE IF EXISTS "user_role_info";
