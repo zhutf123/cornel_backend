@@ -4,7 +4,9 @@
     <bookmark url="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ConfigProperties.java" line="12" mnemonic="0" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ce4bddb-ce46-4e5f-acdc-9f6197fb7b0f" name="Default" comment="" />
+    <list default="true" id="9ce4bddb-ce46-4e5f-acdc-9f6197fb7b0f" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="cornel_backend.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -103,7 +105,7 @@
         <entry file="file://$PROJECT_DIR$/sql/init_sql_20190927.sql">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="441" max-vertical-offset="7119">
-              <caret line="21" column="73" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+              <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -113,7 +115,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/GenJavaCode4Pg.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.6643234" vertical-offset="189" max-vertical-offset="6995">
-              <caret line="36" column="45" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+              <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -1186,12 +1188,12 @@
       <workItem from="1570674511581" duration="866000" />
       <workItem from="1570676318983" duration="1792000" />
       <workItem from="1572417794417" duration="1046000" />
-      <workItem from="1572419949973" duration="9000" />
+      <workItem from="1572419949973" duration="1252000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65132000" />
+    <option name="totallyTimeSpent" value="66375000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1366" y="0" width="1920" height="1080" extended-state="6" />
@@ -1210,7 +1212,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33473685" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33473685" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25053304" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -1675,7 +1677,7 @@
     <entry file="file://$PROJECT_DIR$/sql/init_sql_20190927.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="441" max-vertical-offset="7119">
-          <caret line="21" column="73" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
           <folding />
         </state>
       </provider>
@@ -1683,7 +1685,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/GenJavaCode4Pg.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6643234" vertical-offset="189" max-vertical-offset="6995">
-          <caret line="36" column="45" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+          <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
           <folding />
         </state>
       </provider>
