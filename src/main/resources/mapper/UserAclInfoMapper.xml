@@ -39,7 +39,7 @@
         insert into user_acl_info(
         <trim suffixOverrides=",">
             <if test="userId != null">user_id ,</if>
-            <if test="aclId != null">acl_id ,</if>
+            <if test="aclId != null">acl_code ,</if>
             <if test="status != null">status ,</if>
             <if test="extInfo != null">ext_info ,</if>
             <if test="createTime != null">create_time ,</if>

@@ -1,5 +1,6 @@
 package com.demai.cornel.controller;
 
+import com.demai.cornel.auth.annotation.Authority;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -20,6 +21,13 @@ public class DomeController {
     @ResponseBody
     public JsonResult getProductMainInfoById() {
 
+        return JsonResult.success("success");
+    }
+
+    @RequestMapping(value = "/dome2", method = RequestMethod.GET)
+    @ResponseBody
+    @Authority
+    public JsonResult demp2() {
         return JsonResult.success("success");
     }
 

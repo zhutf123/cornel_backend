@@ -3,6 +3,7 @@
  */
 package com.demai.cornel.service.impl;
 
+import com.demai.cornel.model.RoleInfo;
 import com.demai.cornel.service.IUserPermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,4 +14,13 @@ import org.slf4j.LoggerFactory;
 public class UserPermissionServiceImpl implements IUserPermissionService {
     private final Logger logger = LoggerFactory.getLogger(UserPermissionServiceImpl.class);
 
+    @Override
+    public RoleInfo getRoleInfoByMobile(String mobile) {
+        return null;
+    }
+
+    @Override
+    public RoleInfo getRoleInfoByopendId(String opendId) {
+        return null;
+    }
 }

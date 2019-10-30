@@ -2,6 +2,8 @@
 DROP TABLE IF EXISTS "user_info";
 CREATE TABLE "user_info" (
 "id" serial PRIMARY KEY,
+"user_id" varchar(50),
+"open_id" varchar(50)[],
 "name" varchar(40),
 "gender" varchar(10),
 "birthday" varchar(20),
@@ -28,6 +30,8 @@ CREATE TABLE "user_info" (
 )
 WITH (OIDS=FALSE)
 ;
+COMMENT ON COLUMN "user_info"."user_id" IS '用户ID,具有唯一性';
+COMMENT ON COLUMN "user_info"."open_id" IS 'openid,存在一个用户对应多个openID';
 COMMENT ON COLUMN "user_info"."name" IS '姓名';
 COMMENT ON COLUMN "user_info"."gender" IS '性别';
 COMMENT ON COLUMN "user_info"."car_type" IS '证件类型';
@@ -294,7 +298,7 @@ CREATE TABLE "role_info" (
 "role_id" varchar(40),
 "status" integer default 1,
 "ext_info" hstore,
-"authority" varchar(40)[],
+"acl_code" varchar(40),
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now()
 )
@@ -302,7 +306,7 @@ WITH (OIDS=FALSE)
 ;
 COMMENT ON COLUMN "role_info"."name" IS '角色名称';
 COMMENT ON COLUMN "role_info"."status" IS '1 有效  2 无效';
-COMMENT ON COLUMN "role_info"."authority" IS '角色对应的权限,数组类型对应acl_info的code字段';
+COMMENT ON COLUMN "role_info"."acl_code" IS '角色对应的权限';
 COMMENT ON COLUMN "role_info"."role_id" IS '角色id';
 
 
@@ -327,7 +331,7 @@ DROP TABLE IF EXISTS "user_acl_info";
 CREATE TABLE "user_acl_info" (
 "id" serial PRIMARY KEY,
 "user_id" integer,
-"acl_id" integer,
+"acl_code" varchar(40),
 "status" integer default 1,
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),

@@ -21,7 +21,7 @@ public class UserAclInfo implements Serializable {
     private static final long serialVersionUID = -208778118523553523L;
     private Long id;
     private Long userId;
-    private Long aclId;
+    private String aclCode;
     private Integer status;
     private Map<String, String> extInfo;
     private Date createTime;

@@ -1,14 +1,9 @@
 debug: true
-sedis:
-  namespace: si_lvtu_lm
-  cipher: be1e8df1
-  zk-address: zk1.dba.beta.qunar.com:2181,zk2.dba.beta.qunar.com:2181,zk3.dba.beta.qunar.com:2181,zk4.dba.beta.qunar.com:2181,zk5.dba.beta.qunar.com:2181
-
 
 spring:
   redis:
     cluster:
-      nodes: 10.90.185.253:6379,10.90.185.226:6379
+      nodes: xxxxxxx:6379,xxxxxxx:6379
       max-redirects: 5
       password: schrd
       timeout: 5
@@ -52,11 +47,12 @@ caching:
         cacheNullValues: false
         
 datasources:
-  fhtts-master:
+  dm-master:
     driverClassName: org.postgresql.Driver
-    jdbcUrl: 'jdbc:postgresql://xxxxxx/fh_tts_beta'
-    username: xxxxx
-    password: xxxxx
+    jdbcUrl: jdbc:postgresql://150.242.184.16:7654/cornel_product
+    username: postgres
+    password: 123456
     maximumPoolSize: 5
     idleTimeout: 600000
     maxLifetime: 1800000
+
