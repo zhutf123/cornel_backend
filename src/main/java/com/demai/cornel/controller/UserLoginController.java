@@ -3,7 +3,7 @@
  */
 package com.demai.cornel.controller;
 
-import com.demai.cornel.business.UserLoginBusiness;
+import com.demai.cornel.service.UserLoginService;
 import com.demai.cornel.vo.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 public class UserLoginController {
 
     @Resource
-    private UserLoginBusiness userLoginBusiness;
+    private UserLoginService userLoginService;
 
     /***
      * 给用户手机号 发送短信验证码 需要补充逻辑 在n分钟内，发送x条的限制
