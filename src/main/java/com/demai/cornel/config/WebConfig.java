@@ -30,19 +30,14 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         if (CollectionUtils.isNotEmpty(handlerInterceptors)) {
         handlerInterceptors.sort(Comparator.comparingInt(this::getOrder));
-        handlerInterceptors.forEach(handlerInterceptor -> {
-            registry.addInterceptor(handlerInterceptor)
-                    .addPathPatterns(getAddPathPatterns(handlerInterceptor))
-                    .excludePathPatterns(getExcludePathPatterns(handlerInterceptor));
-        });
+            for (HandlerInterceptor handlerInterceptor:handlerInterceptors) {
+                    registry.addInterceptor(handlerInterceptor)
+                            .addPathPatterns(getAddPathPatterns(handlerInterceptor))
+                            .excludePathPatterns(getExcludePathPatterns(handlerInterceptor));
+            }
     }
-        //registry.addInterceptor(authCheckInterceptor()).addPathPatterns("/**");
     }
 
-    @Bean
-    public AuthCheckInterceptor authCheckInterceptor() {
-        return new AuthCheckInterceptor();
-    }
 
     private int getOrder(HandlerInterceptor handlerInterceptor) {
         CustomInterceptor annotation = AnnotationUtils.findAnnotation(handlerInterceptor.getClass(), CustomInterceptor.class);

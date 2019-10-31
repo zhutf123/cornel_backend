@@ -4,11 +4,13 @@ import com.demai.cornel.auth.annotation.Authority;
 import com.demai.cornel.auth.service.impl.UrlAclServiceImpl;
 import com.demai.cornel.auth.service.impl.UserServiceImpl;
 import com.demai.cornel.holder.UserHolder;
+import com.demai.cornel.interceptor.CustomInterceptor;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -22,7 +24,8 @@ import java.util.List;
  * bin.zhang 2019
  */
 @Slf4j
-public class AuthCheckInterceptor extends HandlerInterceptorAdapter {
+@CustomInterceptor(order = 3, addPathPatterns = {"/**"})
+public class AuthCheckInterceptor implements HandlerInterceptor {
 
     @Autowired
     private UrlAclServiceImpl urlAclService;
@@ -45,5 +48,8 @@ public class AuthCheckInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(
             HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+    }
+    @Override
+    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
     }
 }
