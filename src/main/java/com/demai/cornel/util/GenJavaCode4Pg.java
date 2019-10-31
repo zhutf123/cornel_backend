@@ -82,7 +82,7 @@ public class GenJavaCode4Pg {
         System.out.println("*************请手动生成toString()方法 shift+alt+s,s**************");
         System.out.println("\n\n");
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(GenJavaCode4Pg.class.getResourceAsStream("/src.sql")));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(GenJavaCode4Pg.class.getResourceAsStream("/auth.sql")));
 
         List<GenJavaCodeData> list = new ArrayList<GenJavaCodeData>();
         for (String line : readData(reader)) {

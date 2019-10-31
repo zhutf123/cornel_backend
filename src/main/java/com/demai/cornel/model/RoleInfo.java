@@ -21,6 +21,8 @@ public class RoleInfo implements Serializable {
     private static final long serialVersionUID = -8784176082403415679L;
     private Long id;
     private String name;
+    private String roleId;
+    private String aclCode;
     private Integer status;
     private Map<String, String> extInfo;
     private Date createTime;

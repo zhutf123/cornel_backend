@@ -6,6 +6,8 @@
     <resultMap type="com.demai.cornel.model.UserInfo" id="userInfoResultMap">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
+        <result column="user_id" property="userId"/>
+        <result column="open_id" property="openId" jdbcType="ARRAY" typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="gender" property="gender"/>
         <result column="birthday" property="birthday"/>
         <result column="head_img" property="headImg"/>
@@ -13,7 +15,7 @@
         <result column="id_type" property="idType"/>
         <result column="id_card" property="idCard"/>
         <result column="term_validity" property="termValidity"/>
-        <result column="mobile" property="mobile"/>
+        <result column="mobile" property="mobile" jdbcType="ARRAY" typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="lorry" property="lorry"/>
         <result column="order_nums" property="orderNums"/>
         <result column="score" property="score"/>
@@ -34,6 +36,8 @@
     <sql id="main_column">
         id,
         name,
+        user_id,
+        open_id,
         gender,
         birthday,
         head_img,
@@ -62,6 +66,8 @@
         update user_info
         <trim prefix="set" suffixOverrides=",">
             <if test="name != null">name = #{name},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="openId != null">open_id = #{openId},</if>
             <if test="gender != null">gender = #{gender},</if>
             <if test="birthday != null">birthday = #{birthday},</if>
             <if test="headImg != null">head_img = #{headImg},</if>
@@ -92,6 +98,8 @@
         insert into user_info(
         <trim suffixOverrides=",">
             <if test="name != null">name ,</if>
+            <if test="userId != null">user_id ,</if>
+            <if test="openId != null">open_id ,</if>
             <if test="gender != null">gender ,</if>
             <if test="birthday != null">birthday ,</if>
             <if test="headImg != null">head_img ,</if>
@@ -118,6 +126,8 @@
         )values(
         <trim suffixOverrides=",">
             <if test="name != null">#{name} ,</if>
+            <if test="userId != null">#{userId} ,</if>
+            <if test="openId != null">#{openId,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,</if>
             <if test="gender != null">#{gender} ,</if>
             <if test="birthday != null">#{birthday} ,</if>
             <if test="headImg != null">#{headImg} ,</if>
@@ -125,7 +135,7 @@
             <if test="idType != null">#{idType} ,</if>
             <if test="idCard != null">#{idCard} ,</if>
             <if test="termValidity != null">#{termValidity} ,</if>
-            <if test="mobile != null">#{mobile} ,</if>
+            <if test="mobile != null">#{mobile jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},</if>
             <if test="lorry != null">#{lorry} ,</if>
             <if test="orderNums != null">#{orderNums} ,</if>
             <if test="score != null">#{score} ,</if>
@@ -143,4 +153,6 @@
         </trim>
         )
     </insert>
+
+
 </mapper>
