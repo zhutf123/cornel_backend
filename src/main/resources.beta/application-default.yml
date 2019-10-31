@@ -84,6 +84,8 @@ caching:
 
  we-chat:
     code2session: https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code
+    appId: xxxxx
+    appSecret: xxxx
 
 
 datasources:

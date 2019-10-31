@@ -12,6 +12,13 @@ public class ConfigProperties implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigProperties.class);
 
+    /** 获取openid 请求接口 */
     public @Value("${we-chat.code2session}") String weChatCode2SessionPath;
+
+    /** 小程序 appId */
+    public @Value("${we-chat.appId}") String appId;
+
+    /** 小程序 appSecret */
+    public @Value("${we-chat.appSecret}") String appSecret;
 
 }
