@@ -35,7 +35,7 @@ public class DomeController {
     @RequestMapping(value = "/demo_get", method = RequestMethod.GET)
     @ResponseBody
     public JsonResult dealGet() {
-        weChatService.code2Session();
+        weChatService.getOpenId("xx");
         return JsonResult.success("");
     }
 

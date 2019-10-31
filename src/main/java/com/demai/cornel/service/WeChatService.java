@@ -4,6 +4,8 @@
 package com.demai.cornel.service;
 
 import com.demai.cornel.constant.ConfigProperties;
+import com.demai.cornel.util.json.JsonUtil;
+import com.demai.cornel.vo.WeChat.WechatCode2SessionResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,14 +27,19 @@ public class WeChatService {
     @Resource
     private RestTemplate restTemplate;
 
-    public void code2Session() {
-        String result = null;
+    public WechatCode2SessionResp getOpenId(String jsCode) {
+        WechatCode2SessionResp result = null;
         try {
-            result = restTemplate.getForObject(configProperties.weChatCode2SessionPath, String.class);
-            logger.info("======={}", result);
+            result = restTemplate.getForObject(configProperties.weChatCode2SessionPath, WechatCode2SessionResp.class,
+                    configProperties.appId, configProperties.appSecret, jsCode);
+            if (result == null
+                    || result.getErrcode().compareTo(WechatCode2SessionResp.CODE_ENUE.SUCCESS.getValue()) != 0) {
+                logger.error("通过用户登录信息获取 用户openid信息失败-{}-{}", jsCode, JsonUtil.toJson(result));
+            }
         } catch (Exception e) {
-            logger.error("==========", e);
+            logger.error("通过用户登录信息获取 用户的openId", e);
         }
+        return result;
     }
 
 }
