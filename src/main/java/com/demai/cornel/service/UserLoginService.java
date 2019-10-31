@@ -37,7 +37,7 @@ public class UserLoginService {
         WechatCode2SessionResp resp = weChatService.getOpenId(param.getJscode());
         if (resp != null && resp.getErrcode() == WechatCode2SessionResp.CODE_ENUE.SUCCESS.getValue()) {
             if (log.isDebugEnabled()) {
-                log.debug("get openid by jscode result:{}", JsonUtil.toJson(resp));
+                log.debug("get openid by js code result:{}", JsonUtil.toJson(resp));
             }
             return new UserLoginResp(resp.getOpenid(), userInfo.getUserId(), 0,
                     UserLoginResp.CODE_ENUE.SUCCESS.getValue());
