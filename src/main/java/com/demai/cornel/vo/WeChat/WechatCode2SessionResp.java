@@ -28,7 +28,7 @@ public class WechatCode2SessionResp implements Serializable {
     public static enum CODE_ENUE implements IEmus {
         FALSE(-1, "系统繁忙，此时请开发者稍候再试"),
         SUCCESS(0, "请求成功"),
-        ERROR_CODE(40029, "code 无效"),
+        INVALID_CODE(40029, "code 无效"),
         MANY_REQUEST(45011, "频率限制，每个用户每分钟100次");
 
         private int value;

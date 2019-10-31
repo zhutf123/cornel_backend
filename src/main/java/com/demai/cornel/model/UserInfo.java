@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.Map;
 import java.util.Set;
 
+import com.demai.cornel.dmEnum.IEmus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,5 +45,31 @@ public class UserInfo implements Serializable {
 
     public Set<String> getMobile() {
         return mobile;
+    }
+
+    /***
+     * 出去权限 用户的角色
+     */
+    public static enum ROLE_ENUE implements IEmus {
+        DRIVER(0, "司机"), ADMIN(1, "后台人员"), OPERATOR(2, "操作员"), WAREHOUSE(3, "仓库管理员");
+
+        private int value;
+        private String expr;
+
+        private ROLE_ENUE(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+
+        @Override
+        public String getExpr() {
+            return expr;
+        }
+
     }
 }

@@ -154,5 +154,12 @@
         )
     </insert>
 
+    <select id="getUserInfoByPhone" parameterType="String" resultMap="userInfoResultMap">
+         SELECT
+           <include refid="main_column" />
+         from user_info
+        where status=1 and <![CDATA[ when mobile @> #{phone} ]]>
+        limit 1
+    </select>
 
 </mapper>
