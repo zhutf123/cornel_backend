@@ -30,28 +30,28 @@ CREATE TABLE "user_info" (
 )
 WITH (OIDS=FALSE)
 ;
-COMMENT ON COLUMN "user_info"."user_id" IS ''用户ID,具有唯一性'';
-COMMENT ON COLUMN "user_info"."open_id" IS ''openid,存在一个用户对应多个openID'';
-COMMENT ON COLUMN "user_info"."name" IS ''姓名'';
-COMMENT ON COLUMN "user_info"."gender" IS ''性别'';
-COMMENT ON COLUMN "user_info"."car_type" IS ''证件类型'';
-COMMENT ON COLUMN "user_info"."head_img" IS ''头像'';
-COMMENT ON COLUMN "user_info"."nick_name" IS ''昵称'';
-COMMENT ON COLUMN "user_info"."id_card" IS ''证件号'';
-COMMENT ON COLUMN "user_info"."term_validity" IS ''证件有效期'';
-COMMENT ON COLUMN "user_info"."mobile" IS ''电话'';
-COMMENT ON COLUMN "user_info"."lorry" IS ''车辆信息'';
-COMMENT ON COLUMN "user_info"."order_nums" IS ''订单数量'';
-COMMENT ON COLUMN "user_info"."score" IS ''积分'';
-COMMENT ON COLUMN "user_info"."distance" IS ''总货运里程'';
-COMMENT ON COLUMN "user_info"."punish" IS ''触发信息'';
-COMMENT ON COLUMN "user_info"."urgent_name_f" IS ''紧急联系人1姓名'';
-COMMENT ON COLUMN "user_info"."urgent_mobile_f" IS ''紧急联系人1电话'';
-COMMENT ON COLUMN "user_info"."urgent_name_s" IS ''紧急联系人2姓名'';
-COMMENT ON COLUMN "user_info"."urgent_mobile_s" IS ''紧急联系人2电话'';
-COMMENT ON COLUMN "user_info"."status" IS ''状态 1:有效  2无效'';
-COMMENT ON COLUMN "user_info"."ext_info" IS ''扩展信息'';
-COMMENT ON COLUMN "user_info"."last_login_time" IS ''最后登录时间'';
+COMMENT ON COLUMN "user_info"."user_id" IS '用户ID,具有唯一性';
+COMMENT ON COLUMN "user_info"."open_id" IS 'openid,存在一个用户对应多个openID';
+COMMENT ON COLUMN "user_info"."name" IS '姓名';
+COMMENT ON COLUMN "user_info"."gender" IS '性别';
+COMMENT ON COLUMN "user_info"."car_type" IS '证件类型';
+COMMENT ON COLUMN "user_info"."head_img" IS '头像';
+COMMENT ON COLUMN "user_info"."nick_name" IS '昵称';
+COMMENT ON COLUMN "user_info"."id_card" IS '证件号';
+COMMENT ON COLUMN "user_info"."term_validity" IS '证件有效期';
+COMMENT ON COLUMN "user_info"."mobile" IS '电话';
+COMMENT ON COLUMN "user_info"."lorry" IS '车辆信息';
+COMMENT ON COLUMN "user_info"."order_nums" IS '订单数量';
+COMMENT ON COLUMN "user_info"."score" IS '积分';
+COMMENT ON COLUMN "user_info"."distance" IS '总货运里程';
+COMMENT ON COLUMN "user_info"."punish" IS '触发信息';
+COMMENT ON COLUMN "user_info"."urgent_name_f" IS '紧急联系人1姓名';
+COMMENT ON COLUMN "user_info"."urgent_mobile_f" IS '紧急联系人1电话';
+COMMENT ON COLUMN "user_info"."urgent_name_s" IS '紧急联系人2姓名';
+COMMENT ON COLUMN "user_info"."urgent_mobile_s" IS '紧急联系人2电话';
+COMMENT ON COLUMN "user_info"."status" IS '状态 1:有效  2无效';
+COMMENT ON COLUMN "user_info"."ext_info" IS '扩展信息';
+COMMENT ON COLUMN "user_info"."last_login_time" IS '最后登录时间';
 
 
 司机信息
@@ -91,19 +91,19 @@ CREATE TABLE "lorry_info" (
 )
 WITH (OIDS=FALSE)
 ;
-COMMENT ON COLUMN "lorry_info"."lorry_type" IS ''车型'';
-COMMENT ON COLUMN "lorry_info"."company" IS ''品牌'';
-COMMENT ON COLUMN "lorry_info"."weight" IS ''车重'';
-COMMENT ON COLUMN "lorry_info"."carry_weight" IS ''载重'';
-COMMENT ON COLUMN "lorry_info"."length" IS ''长度'';
-COMMENT ON COLUMN "lorry_info"."width" IS ''宽度'';
-COMMENT ON COLUMN "lorry_info"."buy_time" IS ''购置日期'';
-COMMENT ON COLUMN "lorry_info"."mileage" IS ''里程'';
-COMMENT ON COLUMN "lorry_info"."plate_number" IS ''车牌号'';
-COMMENT ON COLUMN "lorry_info"."frame_number" IS ''车架号'';
-COMMENT ON COLUMN "lorry_info"."id_type" IS ''车主证件类型'';
-COMMENT ON COLUMN "lorry_info"."id_card" IS ''车主证件号'';
-COMMENT ON COLUMN "lorry_info"."status" IS ''状态 1:有效  2无效'';
+COMMENT ON COLUMN "lorry_info"."lorry_type" IS '车型';
+COMMENT ON COLUMN "lorry_info"."company" IS '品牌';
+COMMENT ON COLUMN "lorry_info"."weight" IS '车重';
+COMMENT ON COLUMN "lorry_info"."carry_weight" IS '载重';
+COMMENT ON COLUMN "lorry_info"."length" IS '长度';
+COMMENT ON COLUMN "lorry_info"."width" IS '宽度';
+COMMENT ON COLUMN "lorry_info"."buy_time" IS '购置日期';
+COMMENT ON COLUMN "lorry_info"."mileage" IS '里程';
+COMMENT ON COLUMN "lorry_info"."plate_number" IS '车牌号';
+COMMENT ON COLUMN "lorry_info"."frame_number" IS '车架号';
+COMMENT ON COLUMN "lorry_info"."id_type" IS '车主证件类型';
+COMMENT ON COLUMN "lorry_info"."id_card" IS '车主证件号';
+COMMENT ON COLUMN "lorry_info"."status" IS '状态 1:有效  2无效';
 
 
 订单信息
@@ -145,30 +145,30 @@ CREATE TABLE "order_info" (
 WITH (OIDS=FALSE)
 ;
 
-COMMENT ON COLUMN "order_info"."task_id" IS ''任务编号'';
-COMMENT ON COLUMN "order_info"."distance" IS ''距离'';
-COMMENT ON COLUMN "order_info"."lorry_id" IS ''车辆id'';
-COMMENT ON COLUMN "order_info"."user_id" IS ''用户id'';
-COMMENT ON COLUMN "order_info"."unit" IS ''运送单位'';
-COMMENT ON COLUMN "order_info"."carry_weight" IS ''运送重量'';
-COMMENT ON COLUMN "order_info"."order_weight" IS ''清单重量'';
-COMMENT ON COLUMN "order_info"."succ_weight" IS ''送达重量'';
-COMMENT ON COLUMN "order_info"."overweight" IS ''是否超重'';
-COMMENT ON COLUMN "order_info"."accept_time" IS ''接单时间'';
-COMMENT ON COLUMN "order_info"."start_time" IS ''开始时间'';
-COMMENT ON COLUMN "order_info"."must_finish_time" IS ''要求送达时间'';
-COMMENT ON COLUMN "order_info"."estimate_finish_time" IS ''预计送达时间'';
-COMMENT ON COLUMN "order_info"."send_out_time" IS ''出货时间'';
-COMMENT ON COLUMN "order_info"."send_out_code" IS ''出货码'';
-COMMENT ON COLUMN "order_info"."send_out_user_id" IS ''出货操作人id'';
-COMMENT ON COLUMN "order_info"."finish_time" IS ''送达时间'';
-COMMENT ON COLUMN "order_info"."receive_code" IS ''接货码'';
-COMMENT ON COLUMN "order_info"."receiver_user_id" IS ''接货人id'';
-COMMENT ON COLUMN "order_info"."unexpect" IS ''意外情况说明'';
-COMMENT ON COLUMN "order_info"."cancel_time" IS ''取消时间'';
-COMMENT ON COLUMN "order_info"."cancel_reason" IS ''取消原因'';
-COMMENT ON COLUMN "order_info"."ext_info" IS ''扩展信息'';
-COMMENT ON COLUMN "order_info"."status" IS ''状态 1:有效  2无效'';
+COMMENT ON COLUMN "order_info"."task_id" IS '任务编号';
+COMMENT ON COLUMN "order_info"."distance" IS '距离';
+COMMENT ON COLUMN "order_info"."lorry_id" IS '车辆id';
+COMMENT ON COLUMN "order_info"."user_id" IS '用户id';
+COMMENT ON COLUMN "order_info"."unit" IS '运送单位';
+COMMENT ON COLUMN "order_info"."carry_weight" IS '运送重量';
+COMMENT ON COLUMN "order_info"."order_weight" IS '清单重量';
+COMMENT ON COLUMN "order_info"."succ_weight" IS '送达重量';
+COMMENT ON COLUMN "order_info"."overweight" IS '是否超重';
+COMMENT ON COLUMN "order_info"."accept_time" IS '接单时间';
+COMMENT ON COLUMN "order_info"."start_time" IS '开始时间';
+COMMENT ON COLUMN "order_info"."must_finish_time" IS '要求送达时间';
+COMMENT ON COLUMN "order_info"."estimate_finish_time" IS '预计送达时间';
+COMMENT ON COLUMN "order_info"."send_out_time" IS '出货时间';
+COMMENT ON COLUMN "order_info"."send_out_code" IS '出货码';
+COMMENT ON COLUMN "order_info"."send_out_user_id" IS '出货操作人id';
+COMMENT ON COLUMN "order_info"."finish_time" IS '送达时间';
+COMMENT ON COLUMN "order_info"."receive_code" IS '接货码';
+COMMENT ON COLUMN "order_info"."receiver_user_id" IS '接货人id';
+COMMENT ON COLUMN "order_info"."unexpect" IS '意外情况说明';
+COMMENT ON COLUMN "order_info"."cancel_time" IS '取消时间';
+COMMENT ON COLUMN "order_info"."cancel_reason" IS '取消原因';
+COMMENT ON COLUMN "order_info"."ext_info" IS '扩展信息';
+COMMENT ON COLUMN "order_info"."status" IS '状态 1:有效  2无效';
 
 
 任务信息
@@ -203,22 +203,22 @@ CREATE TABLE "task_info" (
 WITH (OIDS=FALSE)
 ;
 
-COMMENT ON COLUMN "task_info"."title" IS ''标题'';
-COMMENT ON COLUMN "task_info"."product" IS ''产品名称'';
-COMMENT ON COLUMN "task_info"."weight" IS ''重量'';
-COMMENT ON COLUMN "task_info"."unit" IS ''单位'';
-COMMENT ON COLUMN "task_info"."unaccept_weight" IS ''未接单量'';
-COMMENT ON COLUMN "task_info"."start_time" IS ''订单开始时间'';
-COMMENT ON COLUMN "task_info"."end_time" IS ''订单结束时间'';
-COMMENT ON COLUMN "task_info"."unit_cost_time" IS ''单位任务耗时'';
-COMMENT ON COLUMN "task_info"."dep" IS ''出发地'';
-COMMENT ON COLUMN "task_info"."arr" IS ''到达地'';
-COMMENT ON COLUMN "task_info"."distance" IS ''距离'';
-COMMENT ON COLUMN "task_info"."unit_price" IS ''单位价格'';
-COMMENT ON COLUMN "task_info"."estimate_price" IS ''预期收益'';
-COMMENT ON COLUMN "task_info"."level" IS ''任务级别'';
-COMMENT ON COLUMN "task_info"."status" IS ''状态'';
-COMMENT ON COLUMN "task_info"."ext_info" IS ''扩展信息'';
+COMMENT ON COLUMN "task_info"."title" IS '标题';
+COMMENT ON COLUMN "task_info"."product" IS '产品名称';
+COMMENT ON COLUMN "task_info"."weight" IS '重量';
+COMMENT ON COLUMN "task_info"."unit" IS '单位';
+COMMENT ON COLUMN "task_info"."unaccept_weight" IS '未接单量';
+COMMENT ON COLUMN "task_info"."start_time" IS '订单开始时间';
+COMMENT ON COLUMN "task_info"."end_time" IS '订单结束时间';
+COMMENT ON COLUMN "task_info"."unit_cost_time" IS '单位任务耗时';
+COMMENT ON COLUMN "task_info"."dep" IS '出发地';
+COMMENT ON COLUMN "task_info"."arr" IS '到达地';
+COMMENT ON COLUMN "task_info"."distance" IS '距离';
+COMMENT ON COLUMN "task_info"."unit_price" IS '单位价格';
+COMMENT ON COLUMN "task_info"."estimate_price" IS '预期收益';
+COMMENT ON COLUMN "task_info"."level" IS '任务级别';
+COMMENT ON COLUMN "task_info"."status" IS '状态';
+COMMENT ON COLUMN "task_info"."ext_info" IS '扩展信息';
 
 
 定位信息
@@ -240,11 +240,11 @@ CREATE TABLE "lorry_gis_info" (
 WITH (OIDS=FALSE)
 ;
 
-COMMENT ON COLUMN "lorry_gis_info"."order_id" IS ''订单id'';
-COMMENT ON COLUMN "lorry_gis_info"."gis" IS ''订单id'';
-COMMENT ON COLUMN "lorry_gis_info"."lorry_id" IS ''订单id'';
-COMMENT ON COLUMN "lorry_gis_info"."user_id" IS ''用户id'';
-COMMENT ON COLUMN "lorry_gis_info"."status" IS ''1 有效 2 无效'';
+COMMENT ON COLUMN "lorry_gis_info"."order_id" IS '订单id';
+COMMENT ON COLUMN "lorry_gis_info"."gis" IS '订单id';
+COMMENT ON COLUMN "lorry_gis_info"."lorry_id" IS '订单id';
+COMMENT ON COLUMN "lorry_gis_info"."user_id" IS '用户id';
+COMMENT ON COLUMN "lorry_gis_info"."status" IS '1 有效 2 无效';
 
 
 订单操作记录
@@ -262,10 +262,10 @@ CREATE TABLE "order_operation_log" (
 )
 WITH (OIDS=FALSE)
 ;
-COMMENT ON COLUMN "order_operation_log"."order_id" IS ''订单id'';
-COMMENT ON COLUMN "order_operation_log"."mark" IS ''操作内容'';
-COMMENT ON COLUMN "order_operation_log"."operator" IS ''操作人id'';
-COMMENT ON COLUMN "order_operation_log"."status" IS ''1 有效  2 无效'';
+COMMENT ON COLUMN "order_operation_log"."order_id" IS '订单id';
+COMMENT ON COLUMN "order_operation_log"."mark" IS '操作内容';
+COMMENT ON COLUMN "order_operation_log"."operator" IS '操作人id';
+COMMENT ON COLUMN "order_operation_log"."status" IS '1 有效  2 无效';
 
 
 权限表 角色表   用户角色 用户权限表
@@ -284,11 +284,11 @@ CREATE TABLE "acl_info" (
 )
 WITH (OIDS=FALSE)
 ;
-COMMENT ON COLUMN "acl_info"."name" IS ''名称'';
-COMMENT ON COLUMN "acl_info"."code" IS ''标记'';
-COMMENT ON COLUMN "acl_info"."url" IS ''链接'';
-COMMENT ON COLUMN "acl_info"."module" IS ''模块类型 1 菜单 2按钮'';
-COMMENT ON COLUMN "acl_info"."status" IS ''1 有效  2 无效'';
+COMMENT ON COLUMN "acl_info"."name" IS '名称';
+COMMENT ON COLUMN "acl_info"."code" IS '标记';
+COMMENT ON COLUMN "acl_info"."url" IS '链接';
+COMMENT ON COLUMN "acl_info"."module" IS '模块类型 1 菜单 2按钮';
+COMMENT ON COLUMN "acl_info"."status" IS '1 有效  2 无效';
 
 
 DROP TABLE IF EXISTS "role_info";
@@ -304,10 +304,10 @@ CREATE TABLE "role_info" (
 )
 WITH (OIDS=FALSE)
 ;
-COMMENT ON COLUMN "role_info"."name" IS ''角色名称'';
-COMMENT ON COLUMN "role_info"."status" IS ''1 有效  2 无效'';
-COMMENT ON COLUMN "role_info"."acl_code" IS ''角色对应的权限'';
-COMMENT ON COLUMN "role_info"."role_id" IS ''角色id'';
+COMMENT ON COLUMN "role_info"."name" IS '角色名称';
+COMMENT ON COLUMN "role_info"."status" IS '1 有效  2 无效';
+COMMENT ON COLUMN "role_info"."acl_code" IS '角色对应的权限';
+COMMENT ON COLUMN "role_info"."role_id" IS '角色id';
 
 
 DROP TABLE IF EXISTS "user_role_info";
@@ -322,9 +322,9 @@ CREATE TABLE "user_role_info" (
 )
 WITH (OIDS=FALSE)
 ;
-COMMENT ON COLUMN "user_role_info"."user_id" IS ''用户id'';
-COMMENT ON COLUMN "user_role_info"."role" IS ''角色id'';
-COMMENT ON COLUMN "user_role_info"."status" IS ''1 有效  2 无效'';
+COMMENT ON COLUMN "user_role_info"."user_id" IS '用户id';
+COMMENT ON COLUMN "user_role_info"."role" IS '角色id';
+COMMENT ON COLUMN "user_role_info"."status" IS '1 有效  2 无效';
 
 
 DROP TABLE IF EXISTS "user_acl_info";
@@ -339,7 +339,7 @@ CREATE TABLE "user_acl_info" (
 )
 WITH (OIDS=FALSE)
 ;
-COMMENT ON COLUMN "user_acl_info"."user_id" IS ''用户id'';
-COMMENT ON COLUMN "user_acl_info"."acl_id" IS ''权限id'';
-COMMENT ON COLUMN "user_acl_info"."status" IS ''1 有效  2 无效'';
+COMMENT ON COLUMN "user_acl_info"."user_id" IS '用户id';
+COMMENT ON COLUMN "user_acl_info"."acl_id" IS '权限id';
+COMMENT ON COLUMN "user_acl_info"."status" IS '1 有效  2 无效';
 
