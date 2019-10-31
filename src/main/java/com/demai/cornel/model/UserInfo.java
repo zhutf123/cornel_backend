@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Map;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class UserInfo implements Serializable {
     private Long id;
     private String name;
     private String userId;
-    private String[] openId;
+    private Set<String> openId;
     private String gender;
     private String birthday;
     private String headImg;
@@ -25,7 +26,7 @@ public class UserInfo implements Serializable {
     private Integer idType;
     private String idCard;
     private String termValidity;
-    private String mobile;
+    private Set<String> mobile;
     private String lorry;
     private Integer orderNums;
     private BigDecimal score;
@@ -41,4 +42,7 @@ public class UserInfo implements Serializable {
     private Date createTime;
     private Date operateTime;
 
+    public Set<String> getMobile() {
+        return mobile;
+    }
 }

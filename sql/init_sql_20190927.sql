@@ -117,7 +117,7 @@ CREATE TABLE "order_info" (
 "id" serial PRIMARY KEY,
 "task_id" integer,
 "lorry_id" integer,
-"user_id" integer,
+"user_id" varchar(40),
 "distance" numeric(10,2),
 "unit" varchar(40),
 "carry_weight" numeric(10,2),
@@ -314,7 +314,7 @@ DROP TABLE IF EXISTS "user_role_info";
 CREATE TABLE "user_role_info" (
 "id" serial PRIMARY KEY,
 "user_id" integer,
-"role_id" integer,
+"role_id" varchar(40),
 "status" integer default 1,
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),
@@ -330,7 +330,7 @@ COMMENT ON COLUMN "user_role_info"."status" IS '1 有效  2 无效';
 DROP TABLE IF EXISTS "user_acl_info";
 CREATE TABLE "user_acl_info" (
 "id" serial PRIMARY KEY,
-"user_id" integer,
+"user_id" varchar(40),
 "acl_code" varchar(40),
 "status" integer default 1,
 "ext_info" hstore,
