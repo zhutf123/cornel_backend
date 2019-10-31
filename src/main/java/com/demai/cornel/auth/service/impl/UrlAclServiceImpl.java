@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class UrlAclServiceImpl implements IUrlAclService {
-    @Autowired
+    @Resource
     private AclDao aclDao;
 
     @Override
@@ -26,7 +26,7 @@ public class UrlAclServiceImpl implements IUrlAclService {
 
     @Override
     public boolean checkUserUrlAcls(String userId, String url) {
-        if (StringUtil.isEmpty(userId) || StringUtil.isEmpty(url)) {
+        if (StringUtil.isEmpty(userId)) {
             return false;
         }
         List<String> urlAcls = aclDao.selectAclsByUrl(url);

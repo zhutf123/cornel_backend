@@ -15,7 +15,7 @@
         <result column="id_type" property="idType"/>
         <result column="id_card" property="idCard"/>
         <result column="term_validity" property="termValidity"/>
-        <result column="mobile" property="mobile" jdbcType="ARRAY" typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="mobile" property="mobile"  jdbcType="ARRAY" typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="lorry" property="lorry"/>
         <result column="order_nums" property="orderNums"/>
         <result column="score" property="score"/>
@@ -135,7 +135,7 @@
             <if test="idType != null">#{idType} ,</if>
             <if test="idCard != null">#{idCard} ,</if>
             <if test="termValidity != null">#{termValidity} ,</if>
-            <if test="mobile != null">#{mobile jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},</if>
+            <if test="mobile != null">#{mobile,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},</if>
             <if test="lorry != null">#{lorry} ,</if>
             <if test="orderNums != null">#{orderNums} ,</if>
             <if test="score != null">#{score} ,</if>
