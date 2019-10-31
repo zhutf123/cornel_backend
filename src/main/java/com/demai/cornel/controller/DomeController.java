@@ -1,8 +1,10 @@
 package com.demai.cornel.controller;
 
-import com.demai.cornel.auth.annotation.Authority;
+import com.demai.cornel.constant.ConfigProperties;
+import com.demai.cornel.service.WeChatService;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.stereotype.Controller;
@@ -12,23 +14,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.demai.cornel.vo.JsonResult;
 
+import javax.annotation.Resource;
+
 @Controller
 @RequestMapping("/test")
 @Slf4j
 public class DomeController {
 
-    @RequestMapping(value = "/dome", method = RequestMethod.GET)
+    @Resource
+    private ConfigProperties configProperties;
+    @Resource
+    private WeChatService weChatService;
+
+    @RequestMapping(value = "/demo", method = RequestMethod.GET)
     @ResponseBody
     public JsonResult getProductMainInfoById() {
-
-        return JsonResult.success("success");
+        return JsonResult.success(configProperties.weChatCode2SessionPath);
     }
 
-    @RequestMapping(value = "/dome2", method = RequestMethod.GET)
+    @RequestMapping(value = "/demo_get", method = RequestMethod.GET)
     @ResponseBody
-    @Authority
-    public JsonResult demp2() {
-        return JsonResult.success("success");
+    public JsonResult dealGet() {
+        weChatService.code2Session();
+        return JsonResult.success("");
     }
 
 }
