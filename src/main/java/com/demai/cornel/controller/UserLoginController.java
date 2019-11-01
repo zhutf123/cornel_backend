@@ -43,7 +43,7 @@ public class UserLoginController {
     @ResponseBody
     public JsonResult getProductMainInfoById(String phoneNum) {
         try {
-
+            userLoginService.sendLoginCodeMsg(phoneNum);
             return JsonResult.success("");
         } catch (Exception e) {
             log.error("用户发送短信异常！", e);
@@ -62,6 +62,7 @@ public class UserLoginController {
             Preconditions.checkNotNull(param);
             Preconditions.checkNotNull(param.getJscode());
             Preconditions.checkNotNull(param.getPhone());
+            Preconditions.checkNotNull(param.getMsgCode());
 
             UserLoginResp login = userLoginService.doLogin(param);
             if (login != null) {

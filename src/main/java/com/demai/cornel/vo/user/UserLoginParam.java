@@ -17,5 +17,7 @@ public class UserLoginParam implements Serializable {
     private String phone;
     /** 微信登录code */
     private String jscode;
+    /**短信验证码*/
+    private String msgCode;
 
 }

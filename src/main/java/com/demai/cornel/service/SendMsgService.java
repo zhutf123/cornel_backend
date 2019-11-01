@@ -66,9 +66,10 @@ public class SendMsgService {
      * @param phone
      * @param paramValue
      */
-    public void sendLoginValid(String phone, String paramValue) {
+    public Integer sendLoginValid(String phone, String paramValue) {
         Integer result = doSendMsg(Lists.newArrayList(phone), paramValue, configProperties.loginValidcodeId);
         log.info("send code to phone: {},{}", phone, result);
+        return result;
     }
 
     /***

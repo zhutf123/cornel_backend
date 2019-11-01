@@ -30,7 +30,8 @@ public class UserLoginResp implements Serializable {
         NO_USER(-1, "用户不存在，请先注册"),
         SUCCESS(0, "请求成功"),
         NETWORK_ERROR(1, "网络异常，请稍后重试"),
-        OPENID_ERROR(2, "opendId获取失败");
+        OPENID_ERROR(2, "opendId获取失败"),
+        MSG_CODE_ERROR(3, "短信验证码错误");
 
         private int value;
         private String expr;
