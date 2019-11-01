@@ -36,14 +36,14 @@ public class UserLoginController {
     /***
      * 给用户手机号 发送短信验证码 需要补充逻辑 在n分钟内，发送x条的限制
      *
-     * @param phoneNum
+     * @param p 手机号
      * @return
      */
     @RequestMapping(value = "/sendCode", method = RequestMethod.GET)
     @ResponseBody
-    public JsonResult getProductMainInfoById(String phoneNum) {
+    public JsonResult getProductMainInfoById(String p) {
         try {
-            userLoginService.sendLoginCodeMsg(phoneNum);
+            userLoginService.sendLoginCodeMsg(p);
             return JsonResult.success("");
         } catch (Exception e) {
             log.error("用户发送短信异常！", e);
