@@ -52,6 +52,11 @@ we-chat:
    code2session: https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code
    appId: xxxxx
    appSecret: xxxx
+
+ali-config:
+    accessKeyId: LTAI4FrsE2fex1MYUNFFYBKG
+    accessSecret: hfkMjTSyoZhGqksvk3fq4QUNw0zOqo
+    loginValidcodeId: SMS_176539582
         
 datasources:
   dm-master:

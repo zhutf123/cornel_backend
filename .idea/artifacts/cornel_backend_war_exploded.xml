@@ -1,19 +1,19 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="cornel_backend:war exploded">
     <output-path>$PROJECT_DIR$/target/cornel_backend</output-path>
-    <properties id="maven-jee-properties">
-      <options>
-        <exploded>true</exploded>
-        <module>cornel_backend</module>
-        <packaging>war</packaging>
-      </options>
-    </properties>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="cornel_backend" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.aliyun:aliyun-java-sdk-core:4.0.3" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.5" />
+          <element id="library" level="project" name="Maven: javax.xml.bind:jaxb-api:2.3.1" />
+          <element id="library" level="project" name="Maven: javax.activation:javax.activation-api:1.2.0" />
+          <element id="library" level="project" name="Maven: com.sun.xml.bind:jaxb-core:2.1.14" />
+          <element id="library" level="project" name="Maven: com.sun.xml.bind:jaxb-impl:2.1" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1.1" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.3.1" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.3" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.9" />
@@ -114,7 +114,6 @@
           <element id="library" level="project" name="Maven: org.lz4:lz4-java:1.4" />
           <element id="library" level="project" name="Maven: org.xerial.snappy:snappy-java:1.1.7.1" />
           <element id="library" level="project" name="Maven: javax.mail:mail:1.4.5" />
-          <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
           <element id="library" level="project" name="Maven: com.hp.gagawa:gagawa:1.0.1" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
           <element id="library" level="project" name="Maven: commons-configuration:commons-configuration:1.9" />
@@ -125,7 +124,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/cornel_backend/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="cornel_backend/web/Web" />
     </root>

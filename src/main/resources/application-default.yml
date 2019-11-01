@@ -31,6 +31,11 @@ we-chat:
    appId: xxxxx
    appSecret: xxxx
 
+ali-config:
+    accessKeyId: LTAI4FrsE2fex1MYUNFFYBKG
+    accessSecret: hfkMjTSyoZhGqksvk3fq4QUNw0zOqo
+    loginValidcodeId: SMS_176539582
+
 datasources:
   dm-master:
     driverClassName: org.postgresql.Driver

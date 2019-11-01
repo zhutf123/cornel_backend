@@ -21,4 +21,11 @@ public class ConfigProperties implements Serializable {
     /** 小程序 appSecret */
     public @Value("${we-chat.appSecret}") String appSecret;
 
+    /** 阿里api访问 id */
+    public @Value("${ali-config.accessKeyId}") String AliAccessKeyId;
+    /** 阿里api访问  secret*/
+    public @Value("${ali-config.accessSecret}") String AliAccessSecret;
+    /** 阿里api访问  secret*/
+    public @Value("${ali-config.loginValidcodeId}") String loginValidcodeId;
+
 }
