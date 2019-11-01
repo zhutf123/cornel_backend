@@ -6,6 +6,7 @@ package com.demai.cornel.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,7 @@ public class UserLoginController {
             return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(p));
         } catch (Exception e) {
             log.error("用户发送短信异常！", e);
-            return JsonResult.error("网络异常，请稍后重试！");
+            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR.getValue());
         }
     }
 
@@ -65,10 +66,10 @@ public class UserLoginController {
             if (login != null) {
                 return JsonResult.success(login);
             }
-            return JsonResult.error("网络异常，请稍后重试！");
+            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR.getValue());
         } catch (Exception e) {
             log.error("用户登录异常！", e);
-            return JsonResult.error("网络异常，请稍后重试！");
+            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR.getValue());
         }
 
     }
