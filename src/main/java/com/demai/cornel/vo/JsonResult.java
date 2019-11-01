@@ -28,11 +28,15 @@ public class JsonResult<DATATYPE> implements Serializable {
 
     public JsonResult(DATATYPE data) {
         this();
+        this.status = ResponseStatusEnum.SUCCESS.getValue();
+        this.msg = ResponseStatusEnum.SUCCESS.getExpr();
         this.data = data;
     }
 
     public JsonResult<DATATYPE> data(DATATYPE data) {
         this.data = data;
+        this.status = ResponseStatusEnum.SUCCESS.getValue();
+        this.msg = ResponseStatusEnum.SUCCESS.getExpr();
         return this;
     }
 
@@ -89,10 +93,6 @@ public class JsonResult<DATATYPE> implements Serializable {
 
     public static JsonResult success(Object object) {
         return new JsonResult<>(object);
-    }
-
-    public static JsonResult success(String msg) {
-        return new JsonResult(true, msg);
     }
 
     public static JsonResult successStatus(Integer status) {

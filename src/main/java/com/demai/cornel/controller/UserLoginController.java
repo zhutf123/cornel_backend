@@ -40,9 +40,9 @@ public class UserLoginController {
      */
     @RequestMapping(value = "/sendCode", method = RequestMethod.GET)
     @ResponseBody
-    public JsonResult getProductMainInfoById(String p) {
+    public JsonResult getProductMainInfoById(String phone) {
         try {
-            return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(p));
+            return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(phone));
         } catch (Exception e) {
             log.error("用户发送短信异常！", e);
             return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
