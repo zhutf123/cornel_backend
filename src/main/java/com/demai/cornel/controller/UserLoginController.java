@@ -45,7 +45,7 @@ public class UserLoginController {
             return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(p));
         } catch (Exception e) {
             log.error("用户发送短信异常！", e);
-            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR.getValue());
+            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
         }
     }
 
@@ -66,12 +66,11 @@ public class UserLoginController {
             if (login != null) {
                 return JsonResult.success(login);
             }
-            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR.getValue());
+            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
         } catch (Exception e) {
             log.error("用户登录异常！", e);
-            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR.getValue());
+            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
         }
-
     }
 
 }
