@@ -39,6 +39,11 @@ public class JsonResult<DATATYPE> implements Serializable {
         this.ret = ret;
     }
 
+    public JsonResult(boolean ret, Integer status) {
+        this.status = status;
+        this.ret = ret;
+    }
+
     public void setErrInfo(String msg) {
         this.msg = msg;
         this.ret = false;
@@ -80,6 +85,10 @@ public class JsonResult<DATATYPE> implements Serializable {
 
     public static JsonResult success(String msg) {
         return new JsonResult(true, msg);
+    }
+
+    public static JsonResult successStatus(Integer status) {
+        return new JsonResult(true, status);
     }
 
     public boolean isRet() {

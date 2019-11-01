@@ -3,24 +3,22 @@
  */
 package com.demai.cornel.controller;
 
-import com.demai.cornel.service.UserLoginService;
-import com.demai.cornel.util.CookieAuthUtils;
-import com.demai.cornel.vo.JsonResult;
-import com.demai.cornel.vo.user.UserLoginParam;
-import com.demai.cornel.vo.user.UserLoginResp;
-import com.google.common.base.Preconditions;
-import io.netty.handler.codec.http.HttpRequest;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.demai.cornel.service.UserLoginService;
+import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.user.UserLoginParam;
+import com.demai.cornel.vo.user.UserLoginResp;
+import com.google.common.base.Preconditions;
 
 /**
  * Create By zhutf 19-10-31 上午10:43
@@ -43,8 +41,7 @@ public class UserLoginController {
     @ResponseBody
     public JsonResult getProductMainInfoById(String p) {
         try {
-            userLoginService.sendLoginCodeMsg(p);
-            return JsonResult.success("");
+            return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(p));
         } catch (Exception e) {
             log.error("用户发送短信异常！", e);
             return JsonResult.error("网络异常，请稍后重试！");
