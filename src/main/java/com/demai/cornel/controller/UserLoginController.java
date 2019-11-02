@@ -63,14 +63,15 @@ public class UserLoginController {
             Preconditions.checkNotNull(param.getMsgCode());
 
             UserLoginResp login = userLoginService.doLogin(param);
-            if (login != null) {
+            if (login.getCode().compareTo(UserLoginResp.CODE_ENUE.SUCCESS.getValue()) == 0) {
                 return JsonResult.success(login);
+            } else {
+                return JsonResult.successStatus(UserLoginResp.CODE_ENUE.getByValue(login.getCode()));
             }
-            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
         } catch (Exception e) {
             log.error("用户登录异常！", e);
-            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
         }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 
 }

@@ -3,6 +3,7 @@
  */
 package com.demai.cornel.vo;
 
+import com.demai.cornel.dmEnum.IEmus;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import lombok.Data;
 
@@ -99,7 +100,7 @@ public class JsonResult<DATATYPE> implements Serializable {
         return new JsonResult(true, status);
     }
 
-    public static JsonResult successStatus(ResponseStatusEnum status) {
+    public static JsonResult successStatus(IEmus status) {
         return new JsonResult(true, status.getValue(),status.getExpr());
     }
 

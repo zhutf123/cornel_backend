@@ -9,6 +9,7 @@ import com.demai.cornel.dmEnum.IEmus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 
 /**
  * Create By zhutf 19-10-31 下午11:50
@@ -49,6 +50,15 @@ public class UserLoginResp implements Serializable {
         @Override
         public String getExpr() {
             return expr;
+        }
+
+        public static CODE_ENUE getByValue(Integer value) {
+            for (CODE_ENUE x : CODE_ENUE.values()) {
+                if (x.getValue() == value) {
+                    return x;
+                }
+            }
+            return null;
         }
 
     }
