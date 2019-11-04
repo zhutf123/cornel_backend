@@ -38,7 +38,7 @@ public class UserLoginController {
      * @param p 手机号
      * @return
      */
-    @RequestMapping(value = "/sendCode", method = RequestMethod.GET)
+    @RequestMapping(value = "/sendCode", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult getProductMainInfoById(String phone) {
         try {
