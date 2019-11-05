@@ -115,7 +115,8 @@ COMMENT ON COLUMN "lorry_info"."status" IS '状态 1:有效  2无效';
 DROP TABLE IF EXISTS "order_info";
 CREATE TABLE "order_info" (
 "id" serial PRIMARY KEY,
-"task_id" integer,
+"task_id" varchar(40),
+"order_id" varchar(40),
 "lorry_id" integer,
 "user_id" varchar(40),
 "distance" numeric(10,2),
@@ -146,6 +147,7 @@ WITH (OIDS=FALSE)
 ;
 
 COMMENT ON COLUMN "order_info"."task_id" IS '任务编号';
+COMMENT ON COLUMN "order_info"."order_id" IS '订单ID';
 COMMENT ON COLUMN "order_info"."distance" IS '距离';
 COMMENT ON COLUMN "order_info"."lorry_id" IS '车辆id';
 COMMENT ON COLUMN "order_info"."user_id" IS '用户id';
@@ -180,6 +182,7 @@ DROP TABLE IF EXISTS "task_info";
 CREATE TABLE "task_info" (
 "id" serial PRIMARY KEY,
 "title" varchar(256),
+"task_id" varchar(40),
 "product" varchar(128),
 "weight" numeric(10,2),
 "unit" varchar(40),
@@ -252,7 +255,7 @@ COMMENT ON COLUMN "lorry_gis_info"."status" IS '1 有效 2 无效';
 DROP TABLE IF EXISTS "order_operation_log";
 CREATE TABLE "order_operation_log" (
 "id" serial PRIMARY KEY,
-"order_id" integer,
+"order_id" varchar(40),
 "mark" text,
 "operator" integer,
 "status" integer default 1,
@@ -342,4 +345,35 @@ WITH (OIDS=FALSE)
 COMMENT ON COLUMN "user_acl_info"."user_id" IS '用户id';
 COMMENT ON COLUMN "user_acl_info"."acl_id" IS '权限id';
 COMMENT ON COLUMN "user_acl_info"."status" IS '1 有效  2 无效';
+
+create table notify_info
+(
+  id serial not null,
+  task_id varchar(40) not null,
+  job_no int,
+  job_status int,
+  operation_time json,
+  order_id varchar(40)
+);
+
+comment on table notify_info is '发送通知信息表';
+
+comment on column notify_info.id is '自增ID';
+
+comment on column notify_info.task_id is '任务ID';
+
+comment on column notify_info.job_no is '批次号';
+
+comment on column notify_info.job_status is '发布任务的表示
+0 接单
+1 拒绝接单
+2 接单后取消
+3 超时未接单
+4 接单后超时未去姐任务';
+
+comment on column notify_info.operation_time is '操作时间';
+
+comment on column notify_info.order_id is '对应的订单ID。只有司机接单时才会生成这个订单ID';
+
+
 
