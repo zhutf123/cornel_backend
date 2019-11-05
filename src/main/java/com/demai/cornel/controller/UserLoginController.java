@@ -35,7 +35,7 @@ public class UserLoginController {
     /***
      * 给用户手机号 发送短信验证码 需要补充逻辑 在n分钟内，发送x条的限制
      *
-     * @param p 手机号
+     * @param phone 手机号
      * @return
      */
     @RequestMapping(value = "/sendCode", method = RequestMethod.POST)
