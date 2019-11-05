@@ -1,11 +1,20 @@
+debug: true
+
+#redis 集群模式
+#spring:
+#  redis:
+#    cluster:
+#      nodes: 192.168.0.104:6379
+#      max-redirects: 5
+#      password: cornel*..00147258
+#      timeout: 5
+
+#redis 单点模式
 spring:
   redis:
-    #cluster:
-      nodes: 192.168.0.104:6379
-      max-redirects: 5
+      host: 192.168.0.104:6379
       password: cornel*..00147258
       timeout: 5
-
 
 caching:
   types:
