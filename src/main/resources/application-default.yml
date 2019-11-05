@@ -1,10 +1,11 @@
 spring:
   redis:
-    cluster:
+    #cluster:
       nodes: 192.168.0.104:6379
       max-redirects: 5
       password: cornel*..00147258
       timeout: 5
+
 
 caching:
   types:

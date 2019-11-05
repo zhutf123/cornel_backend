@@ -29,7 +29,7 @@ public class RedisConfiguration {
     @Bean
     public RedisConnectionFactory redisConnectionFactory(
             @Autowired AbstractEnvironment abstractEnvironment,
-            @Value("${spring.redis.cluster.password}") String password) {
+            @Value("${spring.redis.password}") String password) {
         org.springframework.core.env.PropertySource<?> propertySource = abstractEnvironment.getPropertySources().get("applicationConfig: [classpath:/application-default.yml]");
         if (null != propertySource) {
             RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(propertySource);
@@ -47,12 +47,12 @@ public class RedisConfiguration {
         if(propertySource == null){
             throw new RuntimeException("redissonClient注册异常 未找到配置文件");
         }
-        String nodes = String.valueOf(propertySource.getProperty("spring.redis.cluster.nodes"));
+        String nodes = String.valueOf(propertySource.getProperty("spring.redis.nodes"));
         List<String> nodeList = COMMA_SPLITTER.splitToList(nodes).stream().map(item -> "redis://" + item)
                 .collect(Collectors.toList());
         Config config = new Config();
         config.useClusterServers()
-                .setPassword(String.valueOf(propertySource.getProperty("spring.redis.cluster.password")))
+                .setPassword(String.valueOf(propertySource.getProperty("spring.redis.password")))
                 .addNodeAddress(nodeList.toArray(new String[nodeList.size()]));
         RedissonClient redissonClient = Redisson.create(config);
         return redissonClient;
