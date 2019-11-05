@@ -47,7 +47,7 @@ public class RedisConfiguration {
         if(propertySource == null){
             throw new RuntimeException("redissonClient注册异常 未找到配置文件");
         }
-        String nodes = String.valueOf(propertySource.getProperty("spring.redis.nodes"));
+        String nodes = String.valueOf(propertySource.getProperty("spring.redis.host"));
         List<String> nodeList = COMMA_SPLITTER.splitToList(nodes).stream().map(item -> "redis://" + item)
                 .collect(Collectors.toList());
         Config config = new Config();
