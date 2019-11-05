@@ -32,6 +32,11 @@ public class WeChatService {
         try {
             result = restTemplate.getForObject(configProperties.weChatCode2SessionPath, WechatCode2SessionResp.class,
                     configProperties.appId, configProperties.appSecret, jsCode);
+
+            if(log.isDebugEnabled()){
+                log.debug("获取用户openId 返回结果：{}", JsonUtil.toJson(result));
+            }
+
             if (result == null
                     || result.getErrcode().compareTo(WechatCode2SessionResp.CODE_ENUE.SUCCESS.getValue()) != 0) {
                 log.error("通过用户登录信息获取 用户openid信息失败-{}-{}", jsCode, JsonUtil.toJson(result));
