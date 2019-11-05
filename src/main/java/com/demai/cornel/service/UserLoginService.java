@@ -47,10 +47,12 @@ public class UserLoginService {
         }
 
         WechatCode2SessionResp resp = weChatService.getOpenId(param.getJscode());
+
+        if(log.isDebugEnabled()){
+            log.debug("get openid by js code result:{}", JsonUtil.toJson(resp));
+        }
+
         if (resp != null && StringUtil.isNotBlank(resp.getOpenid())) {
-            if (log.isDebugEnabled()) {
-                log.debug("get openid by js code result:{}", JsonUtil.toJson(resp));
-            }
             // to do update user info phone valid and openId
 
             return new UserLoginResp(resp.getOpenid(), userInfo.getUserId(), 0,
