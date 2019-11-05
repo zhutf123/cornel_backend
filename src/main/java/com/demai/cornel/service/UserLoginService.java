@@ -36,13 +36,13 @@ public class UserLoginService {
     public UserLoginResp doLogin(UserLoginParam param) {
         // valid msg code
         if (!checkLoginMsgCode(param.getPhone())) {
-            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 0,
+            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
                     UserLoginResp.CODE_ENUE.MSG_CODE_ERROR.getValue());
         }
 
         UserInfo userInfo = userInfoDao.getUserInfoByPhone(param.getPhone());
         if (userInfo == null) {
-            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 0,
+            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
                     UserLoginResp.CODE_ENUE.NO_USER.getValue());
         }
 
@@ -55,10 +55,10 @@ public class UserLoginService {
         if (resp != null && StringUtil.isNotBlank(resp.getOpenid())) {
             // to do update user info phone valid and openId
 
-            return new UserLoginResp(resp.getOpenid(), userInfo.getUserId(), 0,
+            return new UserLoginResp(resp.getOpenid(), userInfo.getUserId(), userInfo.getRole(),
                     UserLoginResp.CODE_ENUE.SUCCESS.getValue());
         }
-        return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 0,
+        return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, userInfo.getRole(),
                 UserLoginResp.CODE_ENUE.OPENID_ERROR.getValue());
     }
 

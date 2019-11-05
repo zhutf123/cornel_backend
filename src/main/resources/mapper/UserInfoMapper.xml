@@ -9,6 +9,7 @@
         <result column="user_id" property="userId"/>
         <result column="open_id" property="openId" jdbcType="ARRAY" typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="gender" property="gender"/>
+        <result column="role" property="role"/>
         <result column="birthday" property="birthday"/>
         <result column="head_img" property="headImg"/>
         <result column="nick_name" property="nickName"/>
@@ -39,6 +40,7 @@
         user_id,
         open_id,
         gender,
+        role,
         birthday,
         head_img,
         nick_name,
@@ -68,6 +70,7 @@
             <if test="name != null">name = #{name},</if>
             <if test="userId != null">user_id = #{userId},</if>
             <if test="openId != null">open_id = #{openId},</if>
+            <if test="role != null">role = #{role},</if>
             <if test="gender != null">gender = #{gender},</if>
             <if test="birthday != null">birthday = #{birthday},</if>
             <if test="headImg != null">head_img = #{headImg},</if>
@@ -101,6 +104,7 @@
             <if test="userId != null">user_id ,</if>
             <if test="openId != null">open_id ,</if>
             <if test="gender != null">gender ,</if>
+            <if test="role != null">role ,</if>
             <if test="birthday != null">birthday ,</if>
             <if test="headImg != null">head_img ,</if>
             <if test="nickName != null">nick_name ,</if>
@@ -129,6 +133,7 @@
             <if test="userId != null">#{userId} ,</if>
             <if test="openId != null">#{openId,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,</if>
             <if test="gender != null">#{gender} ,</if>
+            <if test="role != null">#{role} ,</if>
             <if test="birthday != null">#{birthday} ,</if>
             <if test="headImg != null">#{headImg} ,</if>
             <if test="nickName != null">#{nickName} ,</if>

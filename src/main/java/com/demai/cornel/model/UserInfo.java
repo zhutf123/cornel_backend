@@ -20,6 +20,7 @@ public class UserInfo implements Serializable {
     private String name;
     private String userId;
     private Set<String> openId;
+    private Integer role;
     private String gender;
     private String birthday;
     private String headImg;

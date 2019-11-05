@@ -4,6 +4,7 @@ CREATE TABLE "user_info" (
 "id" serial PRIMARY KEY,
 "user_id" varchar(50),
 "open_id" varchar(50)[],
+"role" integer default 1,
 "name" varchar(40),
 "gender" varchar(10),
 "birthday" varchar(20),
@@ -32,6 +33,7 @@ WITH (OIDS=FALSE)
 ;
 COMMENT ON COLUMN "user_info"."user_id" IS '用户ID,具有唯一性';
 COMMENT ON COLUMN "user_info"."open_id" IS 'openid,存在一个用户对应多个openID';
+COMMENT ON COLUMN "user_info"."role" IS '0 管理员  1 司机  2 出货人  3 收货人';
 COMMENT ON COLUMN "user_info"."name" IS '姓名';
 COMMENT ON COLUMN "user_info"."gender" IS '性别';
 COMMENT ON COLUMN "user_info"."car_type" IS '证件类型';
