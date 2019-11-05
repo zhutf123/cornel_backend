@@ -54,7 +54,7 @@ public class UserLoginController {
      *
      * @return
      */
-    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     @ResponseBody
     public JsonResult getProductMainInfoById(@RequestBody UserLoginParam param, HttpServletResponse response) {
         try {
