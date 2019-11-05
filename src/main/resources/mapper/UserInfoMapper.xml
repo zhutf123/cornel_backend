@@ -158,7 +158,7 @@
          SELECT
            <include refid="main_column" />
          from user_info
-        where status=1 and <![CDATA[ mobile @> #{phone} ]]>
+        where status=1 and <![CDATA[ mobile @> array[#{phone}] ]]>
         limit 1
     </select>
 

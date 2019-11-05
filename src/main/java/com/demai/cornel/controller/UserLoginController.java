@@ -40,7 +40,7 @@ public class UserLoginController {
      */
     @RequestMapping(value = "/sendCode", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult getProductMainInfoById(String phone) {
+    public JsonResult getProductMainInfoById(@RequestBody String phone) {
         try {
             return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(phone));
         } catch (Exception e) {
