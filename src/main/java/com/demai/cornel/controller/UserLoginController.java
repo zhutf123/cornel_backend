@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Controller;
@@ -40,9 +41,9 @@ public class UserLoginController {
      */
     @RequestMapping(value = "/sendCode", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult getProductMainInfoById(@RequestBody String phone) {
+    public JsonResult getProductMainInfoById(@RequestBody UserLoginSendMsgParam phone) {
         try {
-            return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(phone));
+            return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(phone.getPhone()));
         } catch (Exception e) {
             log.error("用户发送短信异常！", e);
             return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
