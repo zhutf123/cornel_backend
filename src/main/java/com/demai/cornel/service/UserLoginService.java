@@ -6,6 +6,7 @@ package com.demai.cornel.service;
 import javax.annotation.Resource;
 
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
@@ -46,11 +47,11 @@ public class UserLoginService {
         }
 
         WechatCode2SessionResp resp = weChatService.getOpenId(param.getJscode());
-        if (resp != null && resp.getErrcode() == WechatCode2SessionResp.CODE_ENUE.SUCCESS.getValue()) {
+        if (resp != null && StringUtil.isNotBlank(resp.getOpenid())) {
             if (log.isDebugEnabled()) {
                 log.debug("get openid by js code result:{}", JsonUtil.toJson(resp));
             }
-            //to do update user info phone valid and openId
+            // to do update user info phone valid and openId
 
             return new UserLoginResp(resp.getOpenid(), userInfo.getUserId(), 0,
                     UserLoginResp.CODE_ENUE.SUCCESS.getValue());
