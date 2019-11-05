@@ -50,8 +50,8 @@ caching:
 
 we-chat:
    code2session: https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code
-   appId: xxxxx
-   appSecret: xxxx
+   appId: wx5bde5e1ca69bd7f6
+   appSecret: 80dc07ef341d0c59314d935378075068
 
 ali-config:
     accessKeyId: LTAI4FrsE2fex1MYUNFFYBKG
@@ -63,7 +63,7 @@ datasources:
     driverClassName: org.postgresql.Driver
     jdbcUrl: 'jdbc:postgresql://150.242.184.16:7654/cornel_product'
     username: postgres
-    password: 123456
+    password: cornel*..123
     maximumPoolSize: 5
     idleTimeout: 600000
     maxLifetime: 1800000
