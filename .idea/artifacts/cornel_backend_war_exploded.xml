@@ -45,7 +45,7 @@
           <element id="library" level="project" name="Maven: com.alicp.jetcache:jetcache-anno-api:2.5.11" />
           <element id="library" level="project" name="Maven: com.github.ben-manes.caffeine:caffeine:2.6.2" />
           <element id="library" level="project" name="Maven: org.javassist:javassist:3.21.0-GA" />
-          <element id="library" level="project" name="Maven: org.redisson:redisson:3.10.7" />
+          <element id="library" level="project" name="Maven: org.redisson:redisson:3.11.5" />
           <element id="library" level="project" name="Maven: io.netty:netty-common:4.1.31.Final" />
           <element id="library" level="project" name="Maven: io.netty:netty-codec:4.1.31.Final" />
           <element id="library" level="project" name="Maven: io.netty:netty-buffer:4.1.31.Final" />
@@ -63,8 +63,8 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.8" />
           <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.23" />
           <element id="library" level="project" name="Maven: net.bytebuddy:byte-buddy:1.9.7" />
-          <element id="library" level="project" name="Maven: org.jodd:jodd-bean:5.0.10" />
-          <element id="library" level="project" name="Maven: org.jodd:jodd-core:5.0.10" />
+          <element id="library" level="project" name="Maven: org.jodd:jodd-bean:5.0.13" />
+          <element id="library" level="project" name="Maven: org.jodd:jodd-core:5.0.13" />
           <element id="library" level="project" name="Maven: com.tdunning:t-digest:3.2" />
           <element id="library" level="project" name="Maven: org.objenesis:objenesis:2.6" />
           <element id="library" level="project" name="Maven: io.netty:netty-all:4.1.31.Final" />
