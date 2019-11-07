@@ -5,11 +5,11 @@ package com.demai.cornel.vo.user;
 
 import java.io.Serializable;
 
-import com.demai.cornel.dmEnum.IEmus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
+
+import com.demai.cornel.dmEnum.IEmus;
 
 /**
  * Create By zhutf 19-10-31 下午11:50

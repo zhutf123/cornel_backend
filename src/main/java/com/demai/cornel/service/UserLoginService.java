@@ -6,6 +6,7 @@ package com.demai.cornel.service;
 import javax.annotation.Resource;
 
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
@@ -35,27 +36,29 @@ public class UserLoginService {
     public UserLoginResp doLogin(UserLoginParam param) {
         // valid msg code
         if (!checkLoginMsgCode(param.getPhone())) {
-            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 0,
+            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
                     UserLoginResp.CODE_ENUE.MSG_CODE_ERROR.getValue());
         }
 
         UserInfo userInfo = userInfoDao.getUserInfoByPhone(param.getPhone());
         if (userInfo == null) {
-            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 0,
+            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
                     UserLoginResp.CODE_ENUE.NO_USER.getValue());
         }
 
         WechatCode2SessionResp resp = weChatService.getOpenId(param.getJscode());
-        if (resp != null && resp.getErrcode() == WechatCode2SessionResp.CODE_ENUE.SUCCESS.getValue()) {
-            if (log.isDebugEnabled()) {
-                log.debug("get openid by js code result:{}", JsonUtil.toJson(resp));
-            }
-            //to do update user info phone valid and openId
 
-            return new UserLoginResp(resp.getOpenid(), userInfo.getUserId(), 0,
+        if(log.isDebugEnabled()){
+            log.debug("get openid by js code result:{}", JsonUtil.toJson(resp));
+        }
+
+        if (resp != null && StringUtil.isNotBlank(resp.getOpenid())) {
+            // to do update user info phone valid and openId
+
+            return new UserLoginResp(resp.getOpenid(), userInfo.getUserId(), userInfo.getRole(),
                     UserLoginResp.CODE_ENUE.SUCCESS.getValue());
         }
-        return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 0,
+        return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, userInfo.getRole(),
                 UserLoginResp.CODE_ENUE.OPENID_ERROR.getValue());
     }
 
