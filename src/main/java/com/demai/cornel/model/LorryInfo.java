@@ -37,5 +37,7 @@ public class LorryInfo implements Serializable {
     private Map<String, String> extInfo;
     private Date createTime;
     private Date operateTime;
+    private Integer defaultFlag;
+
 
 }

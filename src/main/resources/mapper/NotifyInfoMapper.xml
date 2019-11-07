@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.NotifyInfoDao">
+    <resultMap type="com.demai.cornel.model.NotifyInfo" id="notifyInfoResultMap">
+        <id column="id" property="id" />
+        <id column="user_id" property="userId" />
+        <result column="task_id" property="taskId" />
+        <result column="job_no" property="jobNo" />
+        <result column="job_status" property="jobStatus" />
+        <result column="operation_time" property="operationTime" />
+        <result column="create_time" property="createTime" />
+        <result column="expire_time" property="expireTime" />
+        <result column="order_id" property="orderId" />
+    </resultMap>
+
+    <sql id="main_column">
+	id,
+	task_id,
+	user_id,
+	job_no,
+	job_status,
+	operation_time,
+	create_time,
+	expire_time,
+	order_id
+</sql>
+
+    <update id="update" parameterType="com.demai.cornel.model.NotifyInfo">
+        update notify_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="taskId != null"> task_id = #{taskId},</if>
+            <if test="jobNo != null"> job_no = #{jobNo},</if>
+            <if test="userId != null"> user_id = #{userId},</if>
+            <if test="jobStatus != null"> job_status = #{jobStatus},</if>
+            <if test="operationTime != null"> operation_time = #{operationTime},</if>
+            <if test="createTime != null"> create_time = #{createTime},</if>
+            <if test="expireTime != null"> expire_time = #{expireTime},</if>
+            <if test="orderId != null"> order_id = #{orderId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.demai.cornel.model.NotifyInfo" useGeneratedKeys="true" keyProperty="id" >
+        insert into notify_info(
+        <trim suffixOverrides=",">
+            <if test="taskId != null"> task_id ,</if>
+            <if test="userId != null"> user_id ,</if>
+            <if test="jobNo != null"> job_no ,</if>
+            <if test="jobStatus != null"> job_status ,</if>
+            <if test="operationTime != null"> operation_time ,</if>
+            <if test="createTime != null"> create_time ,</if>
+            <if test="expireTime != null"> expire_time ,</if>
+            <if test="orderId != null"> order_id ,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="taskId != null"> #{taskId} ,</if>
+            <if test="userId != null"> #{userId} ,</if>
+            <if test="jobNo != null"> #{jobNo} ,</if>
+            <if test="jobStatus != null"> #{jobStatus} ,</if>
+            <if test="operationTime != null"> #{operationTime} ,</if>
+            <if test="createTime != null"> #{createTime} ,</if>
+            <if test="expireTime != null"> #{expireTime} ,</if>
+            <if test="orderId != null"> #{orderId} ,</if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getTaskCurrJobNo" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT job_no FROM notify_info WHERE task_id=#{taskId} order by job_no desc limit 1;
+    </select>
+
+    <select id="getExpireNotify" resultMap="notifyInfoResultMap">
+        SELECT
+        <include refid="main_column"/>
+        FROM notify_info where expire_time <![CDATA[ >= ]]> #{curTime};
+    </select>
+
+</mapper>

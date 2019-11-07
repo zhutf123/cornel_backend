@@ -7,7 +7,8 @@
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="user_id" property="userId"/>
-        <result column="open_id" property="openId" jdbcType="ARRAY" typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="open_id" property="openId" jdbcType="ARRAY"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="gender" property="gender"/>
         <result column="birthday" property="birthday"/>
         <result column="head_img" property="headImg"/>
@@ -15,7 +16,8 @@
         <result column="id_type" property="idType"/>
         <result column="id_card" property="idCard"/>
         <result column="term_validity" property="termValidity"/>
-        <result column="mobile" property="mobile"  jdbcType="ARRAY" typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="mobile" property="mobile" jdbcType="ARRAY"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="lorry" property="lorry"/>
         <result column="order_nums" property="orderNums"/>
         <result column="score" property="score"/>
@@ -127,7 +129,9 @@
         <trim suffixOverrides=",">
             <if test="name != null">#{name} ,</if>
             <if test="userId != null">#{userId} ,</if>
-            <if test="openId != null">#{openId,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,</if>
+            <if test="openId != null">
+                #{openId,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,
+            </if>
             <if test="gender != null">#{gender} ,</if>
             <if test="birthday != null">#{birthday} ,</if>
             <if test="headImg != null">#{headImg} ,</if>
@@ -135,7 +139,9 @@
             <if test="idType != null">#{idType} ,</if>
             <if test="idCard != null">#{idCard} ,</if>
             <if test="termValidity != null">#{termValidity} ,</if>
-            <if test="mobile != null">#{mobile,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},</if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
             <if test="lorry != null">#{lorry} ,</if>
             <if test="orderNums != null">#{orderNums} ,</if>
             <if test="score != null">#{score} ,</if>
@@ -155,11 +161,33 @@
     </insert>
 
     <select id="getUserInfoByPhone" parameterType="String" resultMap="userInfoResultMap">
-         SELECT
-           <include refid="main_column" />
-         from user_info
+        SELECT
+        <include refid="main_column"/>
+        from user_info
         where status=1 and <![CDATA[ mobile @> array[#{phone}] ]]>
         limit 1
+    </select>
+    <select id="getUsersInfoByPhones" resultMap="userInfoResultMap">
+        SELECT
+        <include refid="main_column"/>
+        from user_info
+        where status=1 and <![CDATA[ mobile && #{phones,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>;
+    </select>
+   <select id="getUserDefaultLorryByTels" resultType="com.demai.cornel.model.UserDistOrderModel">
+       SELECT u.user_id as userId,u.name as userName,u.id_type as idType,u.id_card as idCard,l.carry_weight as carryWeight ,l.plate_number as plateNumber
+       FROM user_info as  u left join lorry_info as l on u.id_card=l.id_card and u.id_type=l.id_type where l.status=1 and l.default_flag=1
+       and u.status=1 and <![CDATA[ u.mobile && #{phones,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>
+   </select>
+
+    <select id="getUsersLorryInfoByPlateNumber" resultType="com.demai.cornel.model.UserDistOrderModel">
+       SELECT u.user_id as userId,u.name as userName,u.id_type as idType,u.id_card as idCard,l.carry_weight as carryWeight ,l.plate_number as plateNumber,u.mobile[1] as tel
+       FROM lorry_info as l  left join user_info as u on l.id_card=u.id_card and l.id_type=u.id_type  where l.plate_number in
+            <if test="platNumbers!=null and platNumbers.size()>0">
+                <foreach collection="platNumbers" item="platNumber" index="index" open="(" separator="," close=")">
+                    #{platNumber}
+                </foreach>
+            </if>
+        and l.status=1 and u.status=1;
     </select>
 
 </mapper>

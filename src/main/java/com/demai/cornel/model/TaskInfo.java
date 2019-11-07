@@ -22,6 +22,7 @@ public class TaskInfo implements Serializable {
     private static final long serialVersionUID = 3690760337103210363L;
     private Long id;
     private String title;
+    private String taskId;
     private String product;
 
     private BigDecimal weight;
@@ -29,6 +30,7 @@ public class TaskInfo implements Serializable {
     private String unit;
 
     private BigDecimal unacceptWeight;
+    private BigDecimal undistWeight;
 
     private Date startTime;
     private Date endTime;

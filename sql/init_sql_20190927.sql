@@ -49,7 +49,7 @@ COMMENT ON COLUMN "user_info"."urgent_name_f" IS '紧急联系人1姓名';
 COMMENT ON COLUMN "user_info"."urgent_mobile_f" IS '紧急联系人1电话';
 COMMENT ON COLUMN "user_info"."urgent_name_s" IS '紧急联系人2姓名';
 COMMENT ON COLUMN "user_info"."urgent_mobile_s" IS '紧急联系人2电话';
-COMMENT ON COLUMN "user_info"."status" IS '状态 1:有效  2无效';
+COMMENT ON COLUMN "user_info"."status" IS '状态 1:有效  2无效 3接单中';
 COMMENT ON COLUMN "user_info"."ext_info" IS '扩展信息';
 COMMENT ON COLUMN "user_info"."last_login_time" IS '最后登录时间';
 
@@ -351,8 +351,10 @@ create table notify_info
   id serial not null,
   task_id varchar(40) not null,
   job_no int,
-  job_status int,
+  job_status int default 0,
   operation_time json,
+  create_time timestamptz(6) default now(),
+  expire_time timestamptz(6) default now(),
   order_id varchar(40)
 );
 
@@ -365,15 +367,15 @@ comment on column notify_info.task_id is '任务ID';
 comment on column notify_info.job_no is '批次号';
 
 comment on column notify_info.job_status is '发布任务的表示
-0 接单
-1 拒绝接单
-2 接单后取消
-3 超时未接单
-4 接单后超时未去姐任务';
+0 待接单
+1 接单
+2 拒绝接单
+3 接单后取消
+4 超时未接单
+5 接单后超时未去接受任务';
 
 comment on column notify_info.operation_time is '操作时间';
 
+comment on column notify_info.create_time is '下发短信时间';
+comment on column notify_info.expire_time is '过期时间';
 comment on column notify_info.order_id is '对应的订单ID。只有司机接单时才会生成这个订单ID';
-
-
-

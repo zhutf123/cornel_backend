@@ -1,10 +1,11 @@
-CREATE TABLE role_info (
-id serial PRIMARY KEY,
-name varchar(40),
-role_id varchar(40),
-status integer default 1,
-ext_info hstore,
-authority varchar(40)[],
-create_time timestamptz(6) default now(),
-operate_time timestamptz(6) default now()
-)
+create table notify_info
+(
+  id serial not null,
+  task_id varchar(40) not null,
+  job_no int,
+  job_status int default 0,
+  operation_time json,
+  create_time timestamptz(6) default now(),
+  expire_time timestamptz(6) default now(),
+  order_id varchar(40)
+);
