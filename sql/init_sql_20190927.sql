@@ -4,7 +4,6 @@ CREATE TABLE "user_info" (
 "id" serial PRIMARY KEY,
 "user_id" varchar(50),
 "open_id" varchar(50)[],
-"role" integer default 1,
 "name" varchar(40),
 "gender" varchar(10),
 "birthday" varchar(20),
@@ -33,7 +32,6 @@ WITH (OIDS=FALSE)
 ;
 COMMENT ON COLUMN "user_info"."user_id" IS '用户ID,具有唯一性';
 COMMENT ON COLUMN "user_info"."open_id" IS 'openid,存在一个用户对应多个openID';
-COMMENT ON COLUMN "user_info"."role" IS '0 管理员  1 司机  2 出货人  3 收货人';
 COMMENT ON COLUMN "user_info"."name" IS '姓名';
 COMMENT ON COLUMN "user_info"."gender" IS '性别';
 COMMENT ON COLUMN "user_info"."car_type" IS '证件类型';
@@ -89,7 +87,8 @@ CREATE TABLE "lorry_info" (
 "status" integer default 1,
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),
-"operate_time" timestamptz(6) default now()
+"operate_time" timestamptz(6) default now(),
+"default_flag" integer default 0,
 )
 WITH (OIDS=FALSE)
 ;
@@ -106,6 +105,7 @@ COMMENT ON COLUMN "lorry_info"."frame_number" IS '车架号';
 COMMENT ON COLUMN "lorry_info"."id_type" IS '车主证件类型';
 COMMENT ON COLUMN "lorry_info"."id_card" IS '车主证件号';
 COMMENT ON COLUMN "lorry_info"."status" IS '状态 1:有效  2无效';
+COMMENT ON COLUMN "lorry_info"."default_flag" IS '默认车辆标志位 1表明该车辆是该名车主的默认车辆，0表示其他';
 
 
 订单信息
@@ -189,6 +189,7 @@ CREATE TABLE "task_info" (
 "weight" numeric(10,2),
 "unit" varchar(40),
 "unaccept_weight" numeric(10,2),
+"undist_weight" numeric(10,2),
 "start_time" timestamptz(6),
 "end_time" timestamptz(6),
 "unit_cost_time" timestamptz(6),
@@ -213,6 +214,8 @@ COMMENT ON COLUMN "task_info"."product" IS '产品名称';
 COMMENT ON COLUMN "task_info"."weight" IS '重量';
 COMMENT ON COLUMN "task_info"."unit" IS '单位';
 COMMENT ON COLUMN "task_info"."unaccept_weight" IS '未接单量';
+COMMENT ON COLUMN "task_info"."undist_weight" IS '未派发量';
+
 COMMENT ON COLUMN "task_info"."start_time" IS '订单开始时间';
 COMMENT ON COLUMN "task_info"."end_time" IS '订单结束时间';
 COMMENT ON COLUMN "task_info"."unit_cost_time" IS '单位任务耗时';
@@ -351,6 +354,7 @@ COMMENT ON COLUMN "user_acl_info"."status" IS '1 有效  2 无效';
 create table notify_info
 (
   id serial not null,
+  user_id varchar40,
   task_id varchar(40) not null,
   job_no int,
   job_status int default 0,
@@ -361,6 +365,8 @@ create table notify_info
 );
 
 comment on table notify_info is '发送通知信息表';
+
+comment on column notify_info.user_id is '车主的userID';
 
 comment on column notify_info.id is '自增ID';
 
@@ -377,7 +383,6 @@ comment on column notify_info.job_status is '发布任务的表示
 5 接单后超时未去接受任务';
 
 comment on column notify_info.operation_time is '操作时间';
-
 comment on column notify_info.create_time is '下发短信时间';
 comment on column notify_info.expire_time is '过期时间';
 comment on column notify_info.order_id is '对应的订单ID。只有司机接单时才会生成这个订单ID';
