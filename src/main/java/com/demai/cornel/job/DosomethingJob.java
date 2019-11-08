@@ -25,7 +25,7 @@ public class DosomethingJob extends IJobHandler {
 
     @Override
     public ReturnT<String> execute(String s) throws Exception {
-        System.out.println("XXL-JOB Hello World");
+        logger.info("XXL-JOB Hello World===========");
         return SUCCESS;
     }
 }
