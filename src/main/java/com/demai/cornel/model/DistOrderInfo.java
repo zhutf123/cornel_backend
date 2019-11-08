@@ -10,10 +10,11 @@ import java.util.Date;
  * @Date: 2019-11-07    16:50
  */
 @Data
-public class NotifyInfo implements Serializable {
+public class DistOrderInfo implements Serializable {
     private static final long serialVersionUID = 2326190091185718697L;
     private Long id;
     private String taskId;
+    private String distId;
     private String userId;
     private Integer jobNo;
     private Integer jobStatus;
@@ -21,4 +22,5 @@ public class NotifyInfo implements Serializable {
     private Date createTime;
     private Date expireTime;
     private String orderId;
+    private String mobile;
 }

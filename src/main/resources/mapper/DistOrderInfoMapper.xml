@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.demai.cornel.dao.NotifyInfoDao">
-    <resultMap type="com.demai.cornel.model.NotifyInfo" id="notifyInfoResultMap">
+<mapper namespace="com.demai.cornel.dao.DistOrderInfoDao">
+    <resultMap type="com.demai.cornel.model.DistOrderInfo" id="notifyInfoResultMap">
         <id column="id" property="id" />
         <id column="user_id" property="userId" />
         <result column="task_id" property="taskId" />
@@ -26,8 +26,8 @@
 	order_id
 </sql>
 
-    <update id="update" parameterType="com.demai.cornel.model.NotifyInfo">
-        update notify_info
+    <update id="update" parameterType="com.demai.cornel.model.DistOrderInfo">
+        update dist_order_info
         <trim prefix="set" suffixOverrides=",">
             <if test="taskId != null"> task_id = #{taskId},</if>
             <if test="jobNo != null"> job_no = #{jobNo},</if>
@@ -41,8 +41,8 @@
         where id = #{id}
     </update>
 
-    <insert id="save" parameterType="com.demai.cornel.model.NotifyInfo" useGeneratedKeys="true" keyProperty="id" >
-        insert into notify_info(
+    <insert id="save" parameterType="com.demai.cornel.model.DistOrderInfo" useGeneratedKeys="true" keyProperty="id" >
+        insert into dist_order_info(
         <trim suffixOverrides=",">
             <if test="taskId != null"> task_id ,</if>
             <if test="userId != null"> user_id ,</if>
@@ -68,13 +68,13 @@
     </insert>
 
     <select id="getTaskCurrJobNo" resultType="java.lang.Integer" parameterType="java.lang.String">
-        SELECT job_no FROM notify_info WHERE task_id=#{taskId} order by job_no desc limit 1;
+        SELECT job_no FROM dist_order_info WHERE task_id=#{taskId} order by job_no desc limit 1;
     </select>
 
     <select id="getExpireNotify" resultMap="notifyInfoResultMap">
         SELECT
         <include refid="main_column"/>
-        FROM notify_info where expire_time <![CDATA[ >= ]]> #{curTime};
+        FROM dist_order_info where expire_time <![CDATA[ >= ]]> #{curTime};
     </select>
 
 </mapper>

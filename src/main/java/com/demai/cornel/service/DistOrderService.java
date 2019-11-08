@@ -1,6 +1,6 @@
 package com.demai.cornel.service;
 
-import com.demai.cornel.dao.NotifyInfoDao;
+import com.demai.cornel.dao.DistOrderInfoDao;
 import com.demai.cornel.dao.TaskInfoDao;
 import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.model.*;
@@ -18,6 +18,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +36,7 @@ public class DistOrderService {
     private UserInfoDao userInfoDao;
 
     @Resource
-    private NotifyInfoDao notifyInfoDao;
+    private DistOrderInfoDao distOrderInfoDao;
 
     @Resource
     private TaskInfoDao taskInfoDao;
@@ -161,16 +162,18 @@ public class DistOrderService {
             curDistWeight = userDistOrderModel.getCarryWeight();
         }
         //todo operationTime 待补充
-        NotifyInfo notifyInfo = new NotifyInfo();
+        DistOrderInfo distOrderInfo = new DistOrderInfo();
         Date curTime = new Date(System.currentTimeMillis());
-        notifyInfo.setUserId(userDistOrderModel.getUserId());
-        notifyInfo.setCreateTime(curTime);
-        notifyInfo.setExpireTime(new Date(curTime.getTime() + NOTIFY_EXPIRE_TIME * 60 * 60 * 10000));
-        notifyInfo.setTaskId(taskInfo.getTaskId());
-        Optional<Integer> taskCurrJobNo = Optional.ofNullable(notifyInfoDao.getTaskCurrJobNo(taskInfo.getTaskId()));
-        notifyInfo.setJobNo(taskCurrJobNo.orElse(1));
+        distOrderInfo.setUserId(userDistOrderModel.getUserId());
+        distOrderInfo.setCreateTime(curTime);
+        distOrderInfo.setExpireTime(new Date(curTime.getTime() + NOTIFY_EXPIRE_TIME * 60 * 60 * 10000));
+        distOrderInfo.setTaskId(taskInfo.getTaskId());
+        distOrderInfo.setMobile(userDistOrderModel.getMobile());
+        distOrderInfo.setDistId(UUID.randomUUID().toString());
+        Optional<Integer> taskCurrJobNo = Optional.ofNullable(distOrderInfoDao.getTaskCurrJobNo(taskInfo.getTaskId()));
+        distOrderInfo.setJobNo(taskCurrJobNo.orElse(1));
         userDistOrderModel.setDistWeigth(curDistWeight);
-        notifyInfoDao.save(notifyInfo);
+        distOrderInfoDao.save(distOrderInfo);
         taskInfo.setUndistWeight(taskUnDistWeight.subtract(curDistWeight));
         taskInfoDao.updateTaskUnDistWeight(taskInfo.getUndistWeight(), taskInfo.getTaskId());
         if (!sendDistOrder(taskInfo, userDistOrderModel).equals(0)) {
@@ -185,7 +188,7 @@ public class DistOrderService {
      */
     public void timerTasks(){
         //todo
-        List<NotifyInfo> expireNotify = notifyInfoDao.getExpireNotify(new Date(System.currentTimeMillis()));
+        List<DistOrderInfo> expireNotify = distOrderInfoDao.getExpireNotify(new Date(System.currentTimeMillis()));
         if(CollectionUtils.isEmpty(expireNotify)){
             return;
         }
