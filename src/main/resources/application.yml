@@ -50,7 +50,7 @@ mybatis:
 xxl:
  job:
   admin:
-   addresses: http://192.168.0.104:9528
+   addresses: http://182.92.1.233:9528
   accessToken: ''
   executor:
    appname: cornel
