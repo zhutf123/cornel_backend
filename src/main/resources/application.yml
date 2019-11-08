@@ -51,11 +51,13 @@ xxl:
  job:
   admin:
    addresses: http://192.168.0.104:9528
+  accessToken: ''
   executor:
    appname: cornel
    ip: 192.168.0.104
    port: 9999
-  accessToken: ''
-  logpath: '/home/www/cornel_job/logs/'
-  logretentiondays: 10
+   logpath: '/home/www/cornel_job/logs/'
+   logretentiondays: 10
+
+
 

@@ -38,15 +38,16 @@ public class ScheduleJobConfig {
 
     @Value("${xxl.job.executor.port}")
     private int port;
-
-    @Value("${xxl.job.accessToken}")
-    private String accessToken;
-
     @Value("${xxl.job.executor.logpath}")
     private String logPath;
 
     @Value("${xxl.job.executor.logretentiondays}")
     private int logRetentionDays;
+
+    @Value("${xxl.job.accessToken}")
+    private String accessToken;
+
+
 
 
     @Bean(initMethod = "start", destroyMethod = "destroy")
