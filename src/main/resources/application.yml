@@ -55,7 +55,7 @@ xxl:
   executor:
    appname: cornel
    ip: 182.92.1.233
-   port: 9528
+   port: 9999
    logpath: '/home/www/cornel_job/logs/'
    logretentiondays: 10
 
