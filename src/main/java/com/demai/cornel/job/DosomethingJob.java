@@ -3,6 +3,7 @@
  */
 package com.demai.cornel.job;
 
+import com.xxl.job.core.handler.annotation.JobHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import com.xxl.job.core.handler.IJobHandler;
  */
 @Component
 @Slf4j
+@JobHandler("dosomethingJob")
 public class DosomethingJob extends IJobHandler {
     private static final Logger logger = LoggerFactory.getLogger(DosomethingJob.class);
 
