@@ -56,7 +56,7 @@ xxl:
    appname: cornel
    ip: 182.92.1.233
    port: 9999
-   logpath: '/home/www/cornel_job/logs/'
+   logpath: '/home/www/cornel_web/logs/'
    logretentiondays: 10
 
 
