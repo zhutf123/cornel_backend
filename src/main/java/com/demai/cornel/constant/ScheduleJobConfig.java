@@ -47,12 +47,10 @@ public class ScheduleJobConfig {
     @Value("${xxl.job.accessToken}")
     private String accessToken;
 
-
-
-
     @Bean(initMethod = "start", destroyMethod = "destroy")
     public XxlJobExecutor xxlJobExecutor() {
-        logger.info(">>>>>>>>>>> cornel-job config init.");
+        logger.info(">>>>>>>>>>> cornel-job config init.{}-{}-{}-{}-{}-{}-{}", adminAddresses, appName, ip, port,
+                accessToken, logPath, logRetentionDays);
         XxlJobExecutor xxlJobExecutor = new XxlJobExecutor();
         xxlJobExecutor.setAdminAddresses(adminAddresses);
         xxlJobExecutor.setAppName(appName);
