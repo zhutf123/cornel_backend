@@ -47,11 +47,11 @@ mybatis:
   config-location: 'classpath:mybatis-config.xml'
   mapper-locations: 'classpath:mapper/*.xml'
 
-xxl
- job
-  admin
+xxl:
+ job:
+  admin:
    addresses: http://192.168.0.104:9528
-  executor
+  executor:
    appname: xxl-job-executor-cornel
    ip: 192.168.0.104
    port: 9999
