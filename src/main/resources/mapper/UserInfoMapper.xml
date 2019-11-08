@@ -180,13 +180,13 @@
     </select>
    <select id="getUserDefaultLorryByTels" resultType="com.demai.cornel.model.UserDistOrderModel">
        SELECT u.user_id as userId,u.name as userName,u.id_type as idType,u.id_card as idCard,l.carry_weight as carryWeight ,l.plate_number as plateNumber
-       FROM user_info as  u left join lorry_info as l on u.id_card=l.id_card and u.id_type=l.id_type where l.status=1 and l.default_flag=1
+       FROM user_info as  u inner join lorry_info as l on u.id_card=l.id_card and u.id_type=l.id_type where l.status=1 and l.default_flag=1
        and u.status=1 and <![CDATA[ u.mobile && #{phones,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>
    </select>
 
     <select id="getUsersLorryInfoByPlateNumber" resultType="com.demai.cornel.model.UserDistOrderModel">
        SELECT u.user_id as userId,u.name as userName,u.id_type as idType,u.id_card as idCard,l.carry_weight as carryWeight ,l.plate_number as plateNumber,u.mobile[1] as tel
-       FROM lorry_info as l  left join user_info as u on l.id_card=u.id_card and l.id_type=u.id_type  where l.plate_number in
+       FROM lorry_info as l  inner join user_info as u on l.id_card=u.id_card and l.id_type=u.id_type  where l.plate_number in
             <if test="platNumbers!=null and platNumbers.size()>0">
                 <foreach collection="platNumbers" item="platNumber" index="index" open="(" separator="," close=")">
                     #{platNumber}

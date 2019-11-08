@@ -24,7 +24,8 @@ public class TaskServiceTest extends BaseTest {
     public void testDistOrder(){
         Set<String> phones = new HashSet<>();
         phones.add("13551151842");
-        phones.add("13551151847");
+        phones.add("13551151845");
+        phones.add("13551151846");
         String taskId = "8011ec4d-5517-4d5a-b71b-0d011c11cb8f";
         distOrderService.distOrderByTels(phones,taskId);
     }
