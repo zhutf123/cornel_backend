@@ -19,6 +19,7 @@ public interface UserInfoDao {
 
     List<UserDistOrderModel> getUserDefaultLorryByTels (@Param("phones") Set<String> phones);
 
+    int updateUserOpenIdByUid(@Param("openIds")Set<String> openIds,@Param("userId")Long userId);
 
     List<UserDistOrderModel> getUsersLorryInfoByPlateNumber (@Param("platNumbers") Set<String> platNumber);
 

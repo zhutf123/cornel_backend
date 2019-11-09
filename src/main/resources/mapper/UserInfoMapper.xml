@@ -71,7 +71,7 @@
         <trim prefix="set" suffixOverrides=",">
             <if test="name != null">name = #{name},</if>
             <if test="userId != null">user_id = #{userId},</if>
-            <if test="openId != null">open_id = #{openId},</if>
+            <if test="openId != null">open_id =  #{openId,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},</if>
             <if test="role != null">role = #{role},</if>
             <if test="gender != null">gender = #{gender},</if>
             <if test="birthday != null">birthday = #{birthday},</if>
@@ -194,5 +194,10 @@
             </if>
         and l.status=1 and u.status=1;
     </select>
+
+    <update id="updateUserOpenIdByUid">
+        update user_info set open_id= #{openIds,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+        where id=#{userId}
+    </update>
 
 </mapper>

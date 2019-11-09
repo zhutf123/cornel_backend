@@ -15,6 +15,7 @@ refs/
 
 # idea ignore
 .idea/
+.idea/workspace.xml
 *.ipr
 *.iml
 *.iws
