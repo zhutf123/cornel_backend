@@ -38,7 +38,7 @@ public class DomeController {
 
     @RequestMapping(value = "/demo_get", method = RequestMethod.GET)
     @ResponseBody
-    @AccessControl(value = "1_30")
+    @AccessControl(value = "10_5")
     public JsonResult dealGet() {
         weChatService.getOpenId("xx");
         return JsonResult.success("");
