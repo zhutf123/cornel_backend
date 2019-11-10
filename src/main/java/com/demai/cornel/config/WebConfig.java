@@ -49,7 +49,7 @@ public class WebConfig implements WebMvcConfigurer {
     private String[] getAddPathPatterns(HandlerInterceptor handlerInterceptor) {
         CustomInterceptor annotation = AnnotationUtils.findAnnotation(handlerInterceptor.getClass(), CustomInterceptor.class);
         if (annotation == null) {
-            return null;
+            return new String[]{};
         }
         return annotation.addPathPatterns();
     }
@@ -57,7 +57,7 @@ public class WebConfig implements WebMvcConfigurer {
     private String[] getExcludePathPatterns(HandlerInterceptor handlerInterceptor) {
         CustomInterceptor annotation = AnnotationUtils.findAnnotation(handlerInterceptor.getClass(), CustomInterceptor.class);
         if (annotation == null) {
-            return null;
+            return new String[]{};
         }
         return annotation.excludePathPatterns();
     }

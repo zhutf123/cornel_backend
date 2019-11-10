@@ -36,4 +36,13 @@
     <logger name="com.ning.http" level="WARN" additivity="false">
         <appender-ref ref="stdout"/>
     </logger>
+
+    <logger name="org.eclipse.jetty.server" level="WARN" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+
+    <logger name="org.redisson.cluster" level="WARN" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+
 </configuration>

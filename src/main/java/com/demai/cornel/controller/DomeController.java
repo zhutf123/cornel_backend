@@ -1,5 +1,6 @@
 package com.demai.cornel.controller;
 
+import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.constant.ConfigProperties;
 import com.demai.cornel.service.WeChatService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,7 @@ public class DomeController {
 
     @RequestMapping(value = "/demo_get", method = RequestMethod.GET)
     @ResponseBody
+    @AccessControl(value = "10_5")
     public JsonResult dealGet() {
         weChatService.getOpenId("xx");
         return JsonResult.success("");

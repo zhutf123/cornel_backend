@@ -1,24 +1,20 @@
 package com.demai.cornel.auth.interceptors;
 
-import com.demai.cornel.auth.annotation.Authority;
-import com.demai.cornel.auth.service.impl.UrlAclServiceImpl;
-import com.demai.cornel.auth.service.impl.UserServiceImpl;
-import com.demai.cornel.holder.UserHolder;
-import com.demai.cornel.interceptor.CustomInterceptor;
-import com.demai.cornel.util.CookieAuthUtils;
-import com.google.common.base.Strings;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.lang.ref.PhantomReference;
-import java.util.List;
+import com.demai.cornel.auth.annotation.Authority;
+import com.demai.cornel.auth.service.impl.UrlAclServiceImpl;
+import com.demai.cornel.holder.UserHolder;
+import com.demai.cornel.interceptor.CustomInterceptor;
+import com.demai.cornel.util.CookieAuthUtils;
 
 /**
  * bin.zhang 2019

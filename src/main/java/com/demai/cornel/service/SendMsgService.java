@@ -66,15 +66,19 @@ public class SendMsgService {
      * @param phone
      * @param paramValue
      */
-    public Integer sendLoginValid(String phone, String paramValue) {
-        Integer result = doSendMsg(Lists.newArrayList(phone), paramValue, configProperties.loginValidcodeId);
-        log.info("send code to phone: {},{}", phone, result);
+    public Integer sendLoginValid(String phone, Integer paramValue) {
+        Integer result = doSendMsg(Lists.newArrayList(phone),
+                "{\"code\":"+paramValue+"}", configProperties.loginValidcodeId);
+        if(log.isDebugEnabled()){
+            log.debug("send code to phone: {},{}", phone, result);
+        }
         return result;
     }
 
     /***
      * 阿里平台发送短信操作，phones size limit 1000
-     * 
+     *   templateCode  json 格式 key 值短信模板中定义的key  value 需要替换的值
+     *
      * @param phones
      */
     public Integer doSendMsg(List<String> phones, String paramValue, String templateCode) {
@@ -110,7 +114,7 @@ public class SendMsgService {
             request.setAction("SendSms");
             request.putQueryParameter("RegionId", "cn-hangzhou");
             request.putQueryParameter("PhoneNumbers", Joiner.on(",").join(phones));
-            request.putQueryParameter("SignName", "xxxx");
+            request.putQueryParameter("SignName", "得麦科技");
             request.putQueryParameter("TemplateCode", templateCode);
             if (StringUtils.isNotBlank(paramValue)) {
                 request.putQueryParameter("TemplateParam", paramValue);

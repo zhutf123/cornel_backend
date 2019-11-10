@@ -6,7 +6,9 @@ package com.demai.cornel.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,12 +37,13 @@ public class UserLoginController {
 
     /***
      * 给用户手机号 发送短信验证码 需要补充逻辑 在n分钟内，发送x条的限制
-     *
+     * 60s 内最大发3次
      * @param phone 手机号
      * @return
      */
     @RequestMapping(value = "/sendCode", method = RequestMethod.POST)
     @ResponseBody
+    @AccessControl(value = "60_3")
     public JsonResult getProductMainInfoById(@RequestBody UserLoginSendMsgParam phone) {
         try {
             return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(phone.getPhone()));
@@ -62,7 +65,6 @@ public class UserLoginController {
             Preconditions.checkNotNull(param.getJscode());
             Preconditions.checkNotNull(param.getPhone());
             Preconditions.checkNotNull(param.getMsgCode());
-
             UserLoginResp login = userLoginService.doLogin(param);
             if (login.getCode().compareTo(UserLoginResp.CODE_ENUE.SUCCESS.getValue()) == 0) {
                 return JsonResult.success(login);
