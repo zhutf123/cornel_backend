@@ -44,7 +44,7 @@ public class UserLoginController {
     @RequestMapping(value = "/sendCode", method = RequestMethod.POST)
     @ResponseBody
     @AccessControl(value = "60_3")
-    public JsonResult getProductMainInfoById(@RequestBody UserLoginSendMsgParam phone) {
+    public JsonResult userLoginSendCode(@RequestBody UserLoginSendMsgParam phone) {
         try {
             return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(phone.getPhone()));
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class UserLoginController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     @ResponseBody
-    public JsonResult getProductMainInfoById(@RequestBody UserLoginParam param, HttpServletResponse response) {
+    public JsonResult doUserLogin(@RequestBody UserLoginParam param, HttpServletResponse response) {
         try {
             Preconditions.checkNotNull(param);
             Preconditions.checkNotNull(param.getJscode());

@@ -32,7 +32,7 @@ public class DomeController {
 
     @RequestMapping(value = "/demo", method = RequestMethod.GET)
     @ResponseBody
-    public JsonResult getProductMainInfoById() {
+    public JsonResult demo() {
         return JsonResult.success(configProperties.weChatCode2SessionPath);
     }
 
