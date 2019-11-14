@@ -18,7 +18,7 @@
         <com.fasterxml.jackson.version>2.9.6</com.fasterxml.jackson.version>
         <org.mybatis.mybatis.version>3.4.6</org.mybatis.mybatis.version>
         <org.mybatis.spring.version>1.3.2</org.mybatis.spring.version>
-        <netty4.version>4.1.16.Final</netty4.version>
+        <netty4.version>4.1.31.Final</netty4.version>
         <postgresql.version>42.1.4</postgresql.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skipTests>true</skipTests>
