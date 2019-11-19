@@ -3,6 +3,8 @@
  */
 package com.demai.cornel.vo;
 
+import com.demai.cornel.dmEnum.IEmus;
+import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -24,18 +26,34 @@ public class JsonResult<DATATYPE> implements Serializable {
         this.msg = "";
     }
 
+
     public JsonResult(DATATYPE data) {
         this();
+        this.status = ResponseStatusEnum.SUCCESS.getValue();
+        this.msg = ResponseStatusEnum.SUCCESS.getExpr();
         this.data = data;
     }
 
     public JsonResult<DATATYPE> data(DATATYPE data) {
         this.data = data;
+        this.status = ResponseStatusEnum.SUCCESS.getValue();
+        this.msg = ResponseStatusEnum.SUCCESS.getExpr();
         return this;
     }
 
     public JsonResult(boolean ret, String msg) {
         this.msg = msg;
+        this.ret = ret;
+    }
+
+    public JsonResult(boolean ret,Integer status, String msg) {
+        this.msg = msg;
+        this.status = status;
+        this.ret = ret;
+    }
+
+    public JsonResult(boolean ret, Integer status) {
+        this.status = status;
         this.ret = ret;
     }
 
@@ -78,8 +96,12 @@ public class JsonResult<DATATYPE> implements Serializable {
         return new JsonResult<>(object);
     }
 
-    public static JsonResult success(String msg) {
-        return new JsonResult(true, msg);
+    public static JsonResult successStatus(Integer status) {
+        return new JsonResult(true, status);
+    }
+
+    public static JsonResult successStatus(IEmus status) {
+        return new JsonResult(true, status.getValue(),status.getExpr());
     }
 
     public boolean isRet() {

@@ -4,6 +4,10 @@
 package com.demai.cornel.service;
 
 import com.demai.cornel.constant.ConfigProperties;
+import com.demai.cornel.util.json.JsonUtil;
+import com.demai.cornel.vo.WeChat.WechatCode2SessionResp;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,9 +19,8 @@ import javax.annotation.Resource;
  * Create By zhutf 19-10-6 下午7:20
  */
 @Service
+@Slf4j
 public class WeChatService {
-
-    private final Logger logger = LoggerFactory.getLogger(WeChatService.class);
 
     @Resource
     private ConfigProperties configProperties;
@@ -25,14 +28,15 @@ public class WeChatService {
     @Resource
     private RestTemplate restTemplate;
 
-    public void code2Session() {
-        String result = null;
+    public WechatCode2SessionResp getOpenId(String jsCode) {
+        WechatCode2SessionResp result = null;
         try {
-            result = restTemplate.getForObject(configProperties.weChatCode2SessionPath, String.class);
-            logger.info("======={}", result);
+            result = restTemplate.getForObject(configProperties.weChatCode2SessionPath, WechatCode2SessionResp.class,
+                    configProperties.appId, configProperties.appSecret, jsCode);
         } catch (Exception e) {
-            logger.error("==========", e);
+            log.error("通过用户登录信息获取 用户的openId", e);
         }
+        return result;
     }
 
 }

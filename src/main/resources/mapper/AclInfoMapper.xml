@@ -3,7 +3,7 @@
 
 <mapper namespace="com.demai.cornel.dao.AclInfoDao">
 
-    <resultMap type="com.demai.cornel.model.AclInfo" id="aclInfoResultMap">
+    <resultMap type="com.demai.cornel.auth.model.AclInfo" id="aclInfoResultMap">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="code" property="code"/>

@@ -7,8 +7,9 @@
         <result column="title" property="title"/>
         <result column="product" property="product"/>
         <result column="weight" property="weight"/>
-        <result column="unit" property="unit"/>
+        <result column="task_id" property="taskId"/>
         <result column="unaccept_weight" property="unacceptWeight"/>
+        <result column="undist_weight" property="undistWeight"/>
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
         <result column="unit_cost_time" property="unitCostTime"/>
@@ -27,10 +28,12 @@
     <sql id="main_column">
         id,
         title,
+        task_id,
         product,
         weight,
         unit,
         unaccept_weight,
+        undist_weight,
         start_time,
         end_time,
         unit_cost_time,
@@ -52,10 +55,12 @@
         update task_info
         <trim prefix="set" suffixOverrides=",">
             <if test="title != null">title = #{title},</if>
+            <if test="taskId != null">task_id = #{taskId},</if>
             <if test="product != null">product = #{product},</if>
             <if test="weight != null">weight = #{weight},</if>
             <if test="unit != null">unit = #{unit},</if>
             <if test="unacceptWeight != null">unaccept_weight = #{unacceptWeight},</if>
+            <if test="undistWeight != null">undist_weight = #{undistWeight},</if>
             <if test="startTime != null">start_time = #{startTime},</if>
             <if test="endTime != null">end_time = #{endTime},</if>
             <if test="unitCostTime != null">unit_cost_time = #{unitCostTime},</if>
@@ -77,10 +82,13 @@
         insert into task_info(
         <trim suffixOverrides=",">
             <if test="title != null">title ,</if>
+            <if test="taskId != null">task_id ,</if>
             <if test="product != null">product ,</if>
             <if test="weight != null">weight ,</if>
             <if test="unit != null">unit ,</if>
             <if test="unacceptWeight != null">unaccept_weight ,</if>
+            <if test="undistWeight != null">undist_weight ,</if>
+
             <if test="startTime != null">start_time ,</if>
             <if test="endTime != null">end_time ,</if>
             <if test="unitCostTime != null">unit_cost_time ,</if>
@@ -98,10 +106,12 @@
         )values(
         <trim suffixOverrides=",">
             <if test="title != null">#{title} ,</if>
+            <if test="taskId != null">#{taskId},</if>
             <if test="product != null">#{product} ,</if>
             <if test="weight != null">#{weight} ,</if>
             <if test="unit != null">#{unit} ,</if>
             <if test="unacceptWeight != null">#{unacceptWeight} ,</if>
+            <if test="undistWeight != null">#{undistWeight} ,</if>
             <if test="startTime != null">#{startTime} ,</if>
             <if test="endTime != null">#{endTime} ,</if>
             <if test="unitCostTime != null">#{unitCostTime} ,</if>
@@ -118,4 +128,15 @@
         </trim>
         )
     </insert>
+
+    <select id="selectTaskInfoByTaskId" resultMap="taskInfoResultMap">
+        SELECT
+        <include refid="main_column"/>
+        FROM task_info where task_id=#{taskId};
+    </select>
+
+    <update id="updateTaskUnDistWeight">
+        update task_info set undist_weight=#{unDistWeight} where task_id=#{taskId}
+    </update>
+
 </mapper>

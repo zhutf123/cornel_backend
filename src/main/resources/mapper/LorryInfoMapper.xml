@@ -21,6 +21,8 @@
         <result column="ext_info" property="extInfo"/>
         <result column="create_time" property="createTime"/>
         <result column="operate_time" property="operateTime"/>
+        <result column="default_flag" property="defaultFlag"/>
+
     </resultMap>
 
     <sql id="main_column">
@@ -40,7 +42,8 @@
         status,
         ext_info,
         create_time,
-        operate_time
+        operate_time,
+        default_flag
     </sql>
 
     <update id="update" parameterType="com.demai.cornel.model.LorryInfo">
@@ -62,6 +65,7 @@
             <if test="extInfo != null">ext_info = #{extInfo},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="default_flag != null">default_flag = #{defaultFlag},</if>
         </trim>
         where id = #{id}
     </update>
@@ -85,6 +89,8 @@
             <if test="extInfo != null">ext_info ,</if>
             <if test="createTime != null">create_time ,</if>
             <if test="operateTime != null">operate_time ,</if>
+            <if test="defaultFlag != null">default_flag ,</if>
+
         </trim>
         )values(
         <trim suffixOverrides=",">
@@ -104,6 +110,8 @@
             <if test="extInfo != null">#{extInfo} ,</if>
             <if test="createTime != null">#{createTime} ,</if>
             <if test="operateTime != null">#{operateTime} ,</if>
+            <if test="defaultFlag != null">#{defaultFlag} ,</if>
+
         </trim>
         )
     </insert>

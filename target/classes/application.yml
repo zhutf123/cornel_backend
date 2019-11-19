@@ -47,4 +47,17 @@ mybatis:
   config-location: 'classpath:mybatis-config.xml'
   mapper-locations: 'classpath:mapper/*.xml'
 
+xxl:
+ job:
+  admin:
+   addresses: http://182.92.1.233:9528
+  accessToken: ''
+  executor:
+   appname: cornel
+   ip: 182.92.1.233
+   port: 9999
+   logpath: '/home/www/cornel_web/logs/'
+   logretentiondays: 10
+
+
 

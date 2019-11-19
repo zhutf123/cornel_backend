@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.auth.dao.AclDao">
+    <select id="selectAclsByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT acl_code FROM user_acl_info where user_id=#{userId} and status=1
+        UNION
+        SELECT acl_code FROM role_info WHERE role_id in (select role_id FROM user_role_info where user_id=#{userId} and user_role_info.status=1 ) and status=1;
+    </select>
+
+    <select id="selectAclsByUrl" parameterType="java.lang.String" resultType="java.lang.String">
+        select code from acl_info where url=#{url} and status=1;
+    </select>
+
+</mapper>

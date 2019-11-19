@@ -2,6 +2,8 @@
 DROP TABLE IF EXISTS "user_info";
 CREATE TABLE "user_info" (
 "id" serial PRIMARY KEY,
+"user_id" varchar(50),
+"open_id" varchar(50)[],
 "name" varchar(40),
 "gender" varchar(10),
 "birthday" varchar(20),
@@ -28,6 +30,8 @@ CREATE TABLE "user_info" (
 )
 WITH (OIDS=FALSE)
 ;
+COMMENT ON COLUMN "user_info"."user_id" IS '用户ID,具有唯一性';
+COMMENT ON COLUMN "user_info"."open_id" IS 'openid,存在一个用户对应多个openID';
 COMMENT ON COLUMN "user_info"."name" IS '姓名';
 COMMENT ON COLUMN "user_info"."gender" IS '性别';
 COMMENT ON COLUMN "user_info"."car_type" IS '证件类型';
@@ -45,7 +49,7 @@ COMMENT ON COLUMN "user_info"."urgent_name_f" IS '紧急联系人1姓名';
 COMMENT ON COLUMN "user_info"."urgent_mobile_f" IS '紧急联系人1电话';
 COMMENT ON COLUMN "user_info"."urgent_name_s" IS '紧急联系人2姓名';
 COMMENT ON COLUMN "user_info"."urgent_mobile_s" IS '紧急联系人2电话';
-COMMENT ON COLUMN "user_info"."status" IS '状态 1:有效  2无效';
+COMMENT ON COLUMN "user_info"."status" IS '状态 1:有效  2无效 3接单中';
 COMMENT ON COLUMN "user_info"."ext_info" IS '扩展信息';
 COMMENT ON COLUMN "user_info"."last_login_time" IS '最后登录时间';
 
@@ -83,7 +87,8 @@ CREATE TABLE "lorry_info" (
 "status" integer default 1,
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),
-"operate_time" timestamptz(6) default now()
+"operate_time" timestamptz(6) default now(),
+"default_flag" integer default 0,
 )
 WITH (OIDS=FALSE)
 ;
@@ -100,6 +105,7 @@ COMMENT ON COLUMN "lorry_info"."frame_number" IS '车架号';
 COMMENT ON COLUMN "lorry_info"."id_type" IS '车主证件类型';
 COMMENT ON COLUMN "lorry_info"."id_card" IS '车主证件号';
 COMMENT ON COLUMN "lorry_info"."status" IS '状态 1:有效  2无效';
+COMMENT ON COLUMN "lorry_info"."default_flag" IS '默认车辆标志位 1表明该车辆是该名车主的默认车辆，0表示其他';
 
 
 订单信息
@@ -111,9 +117,10 @@ COMMENT ON COLUMN "lorry_info"."status" IS '状态 1:有效  2无效';
 DROP TABLE IF EXISTS "order_info";
 CREATE TABLE "order_info" (
 "id" serial PRIMARY KEY,
-"task_id" integer,
+"task_id" varchar(40),
+"order_id" varchar(40),
 "lorry_id" integer,
-"user_id" integer,
+"user_id" varchar(40),
 "distance" numeric(10,2),
 "unit" varchar(40),
 "carry_weight" numeric(10,2),
@@ -142,6 +149,7 @@ WITH (OIDS=FALSE)
 ;
 
 COMMENT ON COLUMN "order_info"."task_id" IS '任务编号';
+COMMENT ON COLUMN "order_info"."order_id" IS '订单ID';
 COMMENT ON COLUMN "order_info"."distance" IS '距离';
 COMMENT ON COLUMN "order_info"."lorry_id" IS '车辆id';
 COMMENT ON COLUMN "order_info"."user_id" IS '用户id';
@@ -176,10 +184,12 @@ DROP TABLE IF EXISTS "task_info";
 CREATE TABLE "task_info" (
 "id" serial PRIMARY KEY,
 "title" varchar(256),
+"task_id" varchar(40),
 "product" varchar(128),
 "weight" numeric(10,2),
 "unit" varchar(40),
 "unaccept_weight" numeric(10,2),
+"undist_weight" numeric(10,2),
 "start_time" timestamptz(6),
 "end_time" timestamptz(6),
 "unit_cost_time" timestamptz(6),
@@ -204,6 +214,8 @@ COMMENT ON COLUMN "task_info"."product" IS '产品名称';
 COMMENT ON COLUMN "task_info"."weight" IS '重量';
 COMMENT ON COLUMN "task_info"."unit" IS '单位';
 COMMENT ON COLUMN "task_info"."unaccept_weight" IS '未接单量';
+COMMENT ON COLUMN "task_info"."undist_weight" IS '未派发量';
+
 COMMENT ON COLUMN "task_info"."start_time" IS '订单开始时间';
 COMMENT ON COLUMN "task_info"."end_time" IS '订单结束时间';
 COMMENT ON COLUMN "task_info"."unit_cost_time" IS '单位任务耗时';
@@ -248,7 +260,7 @@ COMMENT ON COLUMN "lorry_gis_info"."status" IS '1 有效 2 无效';
 DROP TABLE IF EXISTS "order_operation_log";
 CREATE TABLE "order_operation_log" (
 "id" serial PRIMARY KEY,
-"order_id" integer,
+"order_id" varchar(40),
 "mark" text,
 "operator" integer,
 "status" integer default 1,
@@ -291,8 +303,10 @@ DROP TABLE IF EXISTS "role_info";
 CREATE TABLE "role_info" (
 "id" serial PRIMARY KEY,
 "name" varchar(40),
+"role_id" varchar(40),
 "status" integer default 1,
 "ext_info" hstore,
+"acl_code" varchar(40),
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now()
 )
@@ -300,13 +314,15 @@ WITH (OIDS=FALSE)
 ;
 COMMENT ON COLUMN "role_info"."name" IS '角色名称';
 COMMENT ON COLUMN "role_info"."status" IS '1 有效  2 无效';
+COMMENT ON COLUMN "role_info"."acl_code" IS '角色对应的权限';
+COMMENT ON COLUMN "role_info"."role_id" IS '角色id';
 
 
 DROP TABLE IF EXISTS "user_role_info";
 CREATE TABLE "user_role_info" (
 "id" serial PRIMARY KEY,
 "user_id" integer,
-"role_id" integer,
+"role_id" varchar(40),
 "status" integer default 1,
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),
@@ -322,8 +338,8 @@ COMMENT ON COLUMN "user_role_info"."status" IS '1 有效  2 无效';
 DROP TABLE IF EXISTS "user_acl_info";
 CREATE TABLE "user_acl_info" (
 "id" serial PRIMARY KEY,
-"user_id" integer,
-"acl_id" integer,
+"user_id" varchar(40),
+"acl_code" varchar(40),
 "status" integer default 1,
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),
@@ -335,3 +351,38 @@ COMMENT ON COLUMN "user_acl_info"."user_id" IS '用户id';
 COMMENT ON COLUMN "user_acl_info"."acl_id" IS '权限id';
 COMMENT ON COLUMN "user_acl_info"."status" IS '1 有效  2 无效';
 
+create table notify_info
+(
+  id serial not null,
+  user_id varchar40,
+  task_id varchar(40) not null,
+  job_no int,
+  job_status int default 0,
+  operation_time json,
+  create_time timestamptz(6) default now(),
+  expire_time timestamptz(6) default now(),
+  order_id varchar(40)
+);
+
+comment on table notify_info is '发送通知信息表';
+
+comment on column notify_info.user_id is '车主的userID';
+
+comment on column notify_info.id is '自增ID';
+
+comment on column notify_info.task_id is '任务ID';
+
+comment on column notify_info.job_no is '批次号';
+
+comment on column notify_info.job_status is '发布任务的表示
+0 待接单
+1 接单
+2 拒绝接单
+3 接单后取消
+4 超时未接单
+5 接单后超时未去接受任务';
+
+comment on column notify_info.operation_time is '操作时间';
+comment on column notify_info.create_time is '下发短信时间';
+comment on column notify_info.expire_time is '过期时间';
+comment on column notify_info.order_id is '对应的订单ID。只有司机接单时才会生成这个订单ID';

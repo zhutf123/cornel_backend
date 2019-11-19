@@ -5,7 +5,7 @@
     <resultMap type="com.demai.cornel.model.UserAclInfo" id="userAclInfoResultMap">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
-        <result column="acl_id" property="aclId"/>
+        <result column="acl_code" property="aclCode"/>
         <result column="status" property="status"/>
         <result column="ext_info" property="extInfo"/>
         <result column="create_time" property="createTime"/>
@@ -15,7 +15,7 @@
     <sql id="main_column">
         id,
         user_id,
-        acl_id,
+        acl_code,
         status,
         ext_info,
         create_time,
@@ -26,7 +26,7 @@
         update user_acl_info
         <trim prefix="set" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
-            <if test="aclId != null">acl_id = #{aclId},</if>
+            <if test="aclCode != null">aclCode = #{aclCode},</if>
             <if test="status != null">status = #{status},</if>
             <if test="extInfo != null">ext_info = #{extInfo},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
@@ -39,7 +39,7 @@
         insert into user_acl_info(
         <trim suffixOverrides=",">
             <if test="userId != null">user_id ,</if>
-            <if test="aclId != null">acl_id ,</if>
+            <if test="aclCode != null">acl_code ,</if>
             <if test="status != null">status ,</if>
             <if test="extInfo != null">ext_info ,</if>
             <if test="createTime != null">create_time ,</if>
@@ -48,7 +48,7 @@
         )values(
         <trim suffixOverrides=",">
             <if test="userId != null">#{userId} ,</if>
-            <if test="aclId != null">#{aclId} ,</if>
+            <if test="aclCode != null">#{aclCode} ,</if>
             <if test="status != null">#{status} ,</if>
             <if test="extInfo != null">#{extInfo} ,</if>
             <if test="createTime != null">#{createTime} ,</if>

@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 public class UserRoleInfo implements Serializable {
     private static final long serialVersionUID = -6717916328374105120L;
     private Long id;
-    private Long userId;
-    private Long roleId;
+    private String userId;
+    private String roleId;
     private Integer status;
     private Map<String, String> extInfo;
     private Date createTime;
