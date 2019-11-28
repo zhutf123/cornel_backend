@@ -28,6 +28,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-native-epoll:linux-x86_64:4.1.31.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.31.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.31.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-native-unix-common:4.1.31.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.31.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.31.Final" level="project" />
     <orderEntry type="library" name="Maven: com.xuxueli:xxl-job-core:1.9.2" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-server:9.4.14.v20181114" level="project" />
@@ -79,11 +85,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.21.0-GA" level="project" />
     <orderEntry type="library" name="Maven: org.redisson:redisson:3.11.5" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.31.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.31.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.31.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.31.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.31.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-resolver-dns:4.1.31.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec-dns:4.1.31.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-handler:4.1.31.Final" level="project" />

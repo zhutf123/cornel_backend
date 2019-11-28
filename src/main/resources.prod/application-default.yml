@@ -39,8 +39,8 @@ caching:
     appSecret: 80dc07ef341d0c59314d935378075068
 
 ali-config:
-    accessKeyId: LTAI4FrsE2fex1MYUNFFYBKG
-    accessSecret: hfkMjTSyoZhGqksvk3fq4QUNw0zOqo
+    accessKeyId: LTAI4FjjDZfU5McHXiDEH2Uk
+    accessSecret: 1C6KdK5kBZurVkFTSqp8wPE2mvJpBB
     loginValidcodeId: SMS_176539582
 
 datasources:
