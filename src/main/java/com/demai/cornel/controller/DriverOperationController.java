@@ -36,14 +36,17 @@ public class DriverOperationController {
     @RequestMapping(value = "/task-list", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult getTaskList(@RequestBody String param) {
-        if (Strings.isNullOrEmpty(param)){
+        if (Strings.isNullOrEmpty(param)) {
             return JsonResult.error("param illegal");
         }
         JSONObject receivedParam = JSON.parseObject(param);
         Integer pgSize = (Integer) receivedParam.get("pgSize");
         Integer curId = (Integer) receivedParam.get("curId");
         if (pgSize == null) pgSize = 20;
+        if (curId <= 0) {
+            curId = null;
+        }
         String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        return JsonResult.success(taskServiceImp.getDistTaskList(curUser,curId,pgSize));
+        return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
     }
 }
