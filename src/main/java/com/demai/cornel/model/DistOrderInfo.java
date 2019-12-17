@@ -3,6 +3,7 @@ package com.demai.cornel.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -23,4 +24,6 @@ public class DistOrderInfo implements Serializable {
     private Date expireTime;
     private String orderId;
     private String mobile;
+    private BigDecimal distWeight;
+
 }

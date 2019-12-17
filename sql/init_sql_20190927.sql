@@ -217,7 +217,6 @@ COMMENT ON COLUMN "task_info"."weight" IS '重量';
 COMMENT ON COLUMN "task_info"."unit" IS '单位';
 COMMENT ON COLUMN "task_info"."unaccept_weight" IS '未接单量';
 COMMENT ON COLUMN "task_info"."undist_weight" IS '未派发量';
-
 COMMENT ON COLUMN "task_info"."start_time" IS '订单开始时间';
 COMMENT ON COLUMN "task_info"."end_time" IS '订单结束时间';
 COMMENT ON COLUMN "task_info"."unit_cost_time" IS '单位任务耗时';
@@ -238,7 +237,7 @@ COMMENT ON COLUMN "task_info"."load_time_unit" IS '单位装载时间，装载�
 create table sub_task
 (
 	id serial not null,
-	taskId varchar(40),
+	task_id varchar(40),
 	start_time timestamp,
 	end_time timestamp,
 	lorry_num int,
@@ -401,6 +400,7 @@ create table dist_order_info
   expire_time timestamptz(6) default now(),
   order_id varchar(40),
   mobile varchar(40),
+  dist_weight numeric(10,2)
 );
 
 comment on table dist_order_info is '发送通知信息表';
@@ -427,7 +427,7 @@ comment on column dist_order_info.create_time is '下发短信时间';
 comment on column dist_order_info.expire_time is '过期时间';
 comment on column dist_order_info.order_id is '对应的订单ID。只有司机接单时才会生成这个订单ID';
 comment on column dist_order_info.mobile is '派单短信的下发';
-
+comment on column dist_order_info.dist_weight is '派单的重量';
 
 
 

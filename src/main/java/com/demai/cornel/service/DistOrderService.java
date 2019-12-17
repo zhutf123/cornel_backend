@@ -96,7 +96,8 @@ public class DistOrderService {
         DistOrderReturnModel distOrderReturnModel = new DistOrderReturnModel();
         distOrderReturnModel.setTaskTotalUnDistWeight(taskInfo.getUndistWeight());
         distOrderReturnModel.setDistNum(0);
-        List<UserDistOrderModel> sortOrderByCarryWeight = orderModels.stream().sorted((o1, o2) -> o2.getCarryWeight().compareTo(o1.getCarryWeight())).collect(Collectors.toList());
+        List<UserDistOrderModel> sortOrderByCarryWeight = orderModels.stream()
+                .sorted((o1, o2) -> o2.getCarryWeight().compareTo(o1.getCarryWeight())).collect(Collectors.toList());
         sortOrderByCarryWeight.stream().forEach(x -> {
             try {
                 BigDecimal distWeight = distOrder(x, taskInfo);
@@ -156,6 +157,7 @@ public class DistOrderService {
             return null;
         }
         BigDecimal curDistWeight;
+        //派发货物的重量与车载重
         if (taskUnDistWeight.compareTo(userDistOrderModel.getCarryWeight()) != 1) {
             curDistWeight = taskUnDistWeight;
         } else {
@@ -192,7 +194,6 @@ public class DistOrderService {
         if(CollectionUtils.isEmpty(expireNotify)){
             return;
         }
-
         return;
     }
 
