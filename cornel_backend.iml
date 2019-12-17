@@ -16,7 +16,7 @@
       <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -184,5 +184,10 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.restdocs:spring-restdocs-mockmvc:2.0.3.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.restdocs:spring-restdocs-core:2.0.3.RELEASE" level="project" />
+  </component>
+  <component name="copyright">
+    <Base>
+      <setting name="state" value="2" />
+    </Base>
   </component>
 </module>
