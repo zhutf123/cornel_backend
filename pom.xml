@@ -34,7 +34,7 @@
         <mysql.connector.java.version>5.1.36</mysql.connector.java.version>
         <vs.rate.client.api.version>2.3.17</vs.rate.client.api.version>
         <aliyun.java.sdk.version>4.0.3</aliyun.java.sdk.version>
-        <xxl.job.core>2.1.2</xxl.job.core>
+        <xxl.job.core>1.9.2</xxl.job.core>
     </properties>
 
     <repositories>
