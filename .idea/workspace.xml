@@ -5,7 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/cornel_backend_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/cornel_backend_war_exploded.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cornel_backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/cornel_backend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -413,7 +413,7 @@
       <workItem from="1574192278260" duration="2704000" />
       <workItem from="1574242944512" duration="1133000" />
       <workItem from="1574318948743" duration="1791000" />
-      <workItem from="1576550928231" duration="2087000" />
+      <workItem from="1576550928231" duration="2376000" />
     </task>
     <task id="LOCAL-00001" summary="update sql,add notify_info table">
       <created>1572922995294</created>
