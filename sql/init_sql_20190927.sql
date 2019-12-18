@@ -203,6 +203,8 @@ CREATE TABLE "task_info" (
 "level" integer,
 "status" integer default 1,
 "ext_info" hstore,
+"load_lorry_unit" integer,
+"load_time_unit" integer,
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now()
 )
@@ -215,7 +217,6 @@ COMMENT ON COLUMN "task_info"."weight" IS '重量';
 COMMENT ON COLUMN "task_info"."unit" IS '单位';
 COMMENT ON COLUMN "task_info"."unaccept_weight" IS '未接单量';
 COMMENT ON COLUMN "task_info"."undist_weight" IS '未派发量';
-
 COMMENT ON COLUMN "task_info"."start_time" IS '订单开始时间';
 COMMENT ON COLUMN "task_info"."end_time" IS '订单结束时间';
 COMMENT ON COLUMN "task_info"."unit_cost_time" IS '单位任务耗时';
@@ -227,6 +228,41 @@ COMMENT ON COLUMN "task_info"."estimate_price" IS '预期收益';
 COMMENT ON COLUMN "task_info"."level" IS '任务级别';
 COMMENT ON COLUMN "task_info"."status" IS '状态';
 COMMENT ON COLUMN "task_info"."ext_info" IS '扩展信息';
+COMMENT ON COLUMN "task_info"."load_lorry_unit" IS '单位装载车辆数,如可同时装载两量车';
+COMMENT ON COLUMN "task_info"."load_time_unit" IS '单位装载时间，装载一顿耗时';
+
+
+ 拆分子任务的信息
+
+create table sub_task
+(
+	id serial not null,
+	task_id varchar(40),
+	start_time timestamp,
+	end_time timestamp,
+	lorry_num int,
+	status int default 1,
+	undist_num int,
+	sub_task_id varchar(40)
+);
+
+comment on column sub_task.id is '自增ID';
+
+comment on column sub_task.taskId is '主任务ID';
+
+comment on column sub_task.start_time is '起始时间';
+
+comment on column sub_task.end_time is '截止时间';
+
+comment on column sub_task.lorry_num is '该时间段可接受几辆车';
+
+comment on column sub_task.status is '1有效0无效';
+
+comment on column sub_task.undist_num is '未派发数量';
+
+comment on column sub_task.sub_task_id is '拆分子任务的ID';
+
+
 
 
 定位信息
@@ -351,30 +387,34 @@ COMMENT ON COLUMN "user_acl_info"."user_id" IS '用户id';
 COMMENT ON COLUMN "user_acl_info"."acl_id" IS '权限id';
 COMMENT ON COLUMN "user_acl_info"."status" IS '1 有效  2 无效';
 
-create table notify_info
+create table dist_order_info
 (
   id serial not null,
-  user_id varchar40,
+  dist_id varchar(40),
+  user_id varchar(40),
   task_id varchar(40) not null,
   job_no int,
   job_status int default 0,
   operation_time json,
   create_time timestamptz(6) default now(),
   expire_time timestamptz(6) default now(),
-  order_id varchar(40)
+  order_id varchar(40),
+  mobile varchar(40),
+  dist_weight numeric(10,2)
 );
 
-comment on table notify_info is '发送通知信息表';
+comment on table dist_order_info is '发送通知信息表';
+comment on column dist_order_info.dist_id is '派单ID';
 
-comment on column notify_info.user_id is '车主的userID';
+comment on column dist_order_info.user_id is '车主的userID';
 
-comment on column notify_info.id is '自增ID';
+comment on column dist_order_info.id is '自增ID';
 
-comment on column notify_info.task_id is '任务ID';
+comment on column dist_order_info.task_id is '任务ID';
 
-comment on column notify_info.job_no is '批次号';
+comment on column dist_order_info.job_no is '批次号';
 
-comment on column notify_info.job_status is '发布任务的表示
+comment on column dist_order_info.job_status is '发布任务的表示
 0 待接单
 1 接单
 2 拒绝接单
@@ -382,7 +422,13 @@ comment on column notify_info.job_status is '发布任务的表示
 4 超时未接单
 5 接单后超时未去接受任务';
 
-comment on column notify_info.operation_time is '操作时间';
-comment on column notify_info.create_time is '下发短信时间';
-comment on column notify_info.expire_time is '过期时间';
-comment on column notify_info.order_id is '对应的订单ID。只有司机接单时才会生成这个订单ID';
+comment on column dist_order_info.operation_time is '操作时间';
+comment on column dist_order_info.create_time is '下发短信时间';
+comment on column dist_order_info.expire_time is '过期时间';
+comment on column dist_order_info.order_id is '对应的订单ID。只有司机接单时才会生成这个订单ID';
+comment on column dist_order_info.mobile is '派单短信的下发';
+comment on column dist_order_info.dist_weight is '派单的重量';
+
+
+
+
