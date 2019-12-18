@@ -88,7 +88,7 @@ CREATE TABLE "lorry_info" (
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now(),
-"default_flag" integer default 0,
+"default_flag" integer default 0
 )
 WITH (OIDS=FALSE)
 ;
@@ -195,8 +195,8 @@ CREATE TABLE "task_info" (
 "unit_cost_time" timestamptz(6),
 "dep" varchar(40),
 "arr" varchar(40),
---"dep_gis" geometry,
---"arr_gis" geometry,
+-- "dep_gis" geometry,
+-- "arr_gis" geometry,
 "distance" numeric(10,2),
 "unit_price" numeric(10,2),
 "estimate_price" numeric(10,2),
@@ -206,7 +206,8 @@ CREATE TABLE "task_info" (
 "load_lorry_unit" integer,
 "load_time_unit" integer,
 "create_time" timestamptz(6) default now(),
-"operate_time" timestamptz(6) default now()
+"operate_time" timestamptz(6) default now(),
+"subtask_time" json
 )
 WITH (OIDS=FALSE)
 ;
@@ -230,6 +231,14 @@ COMMENT ON COLUMN "task_info"."status" IS '状态';
 COMMENT ON COLUMN "task_info"."ext_info" IS '扩展信息';
 COMMENT ON COLUMN "task_info"."load_lorry_unit" IS '单位装载车辆数,如可同时装载两量车';
 COMMENT ON COLUMN "task_info"."load_time_unit" IS '单位装载时间，装载一顿耗时';
+COMMENT ON COLUMN "task_info"."operation_detail" IS '单位装载时间，装载一顿耗时';
+COMMENT ON COLUMN "task_info"."subtask_time" IS '子订单时间安排    [{
+	"time": "2019-09-12 12:00-14:00",
+	"num": 2
+}, {
+	"time": "2019-09-13 12:00-14:00",
+	"num": 2
+}]'
 
 
  拆分子任务的信息

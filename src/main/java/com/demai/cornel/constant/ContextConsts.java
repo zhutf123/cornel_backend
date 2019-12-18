@@ -7,7 +7,7 @@ package com.demai.cornel.constant;
  */
 public class ContextConsts {
     //todo 这儿的cookie的名字待定
-    public static final String  COOKIE_CKEY_NAME = "ckey";
+    public static final String COOKIE_CKEY_NAME = "ckey";
 
     public static final String MDC_URI = "mdc_uri";
 
@@ -17,5 +17,5 @@ public class ContextConsts {
 
     public static final String MDC_START_TIME = "mdc_start_time";
 
-
+    public static final Integer LORRY_OVER_WEIGHT_FACTOR = 4; //货车超重系数
 }

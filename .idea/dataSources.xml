@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="cornel_product@150.242.184.16" uuid="4d1ae43c-1168-477d-9baa-7b1e979d62e2">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://150.242.184.16:5432/cornel_product</jdbc-url>
-    </data-source>
     <data-source source="LOCAL" name="cornel_product@150.242.184.16 [2]" uuid="84797534-2e2f-4c88-a4f4-1dce7bbb6499">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>

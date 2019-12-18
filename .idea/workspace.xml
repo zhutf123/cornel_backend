@@ -7,35 +7,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20dd90b0-3167-44dd-b373-3167314da2fe" name="Default Changelist" comment="">
-<<<<<<< HEAD
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/TaskInfoReq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/util/JacksonUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/task/TaskSaveVO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ScheduleJobConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ScheduleJobConfig.java" afterDir="false" />
-=======
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/MeetingSignInController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/SubTaskDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/DistTaskOrderReq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/SubTaskInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/ITaskService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/SubTaskInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/cornel_backend_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/cornel_backend_war_exploded.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cornel_backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/cornel_backend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sql/init_sql_20190927.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/init_sql_20190927.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ContextConsts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ContextConsts.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DriverOperationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DriverOperationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/DistOrderInfoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/DistOrderInfoDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/DistOrderInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/DistOrderInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/DistOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/DistOrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/LorryInfoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/LorryInfoDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/DistTaskOrderReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/DistTaskOrderReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/TaskInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/TaskInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/ITaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/ITaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources.beta/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources.beta/application-default.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/auth.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/auth.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources.beta/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources.beta/logback-spring.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/DistOrderInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/DistOrderInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/cornel/dao/TaskServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cornel/dao/TaskServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
->>>>>>> 31c1b3e965cd3298b955613d11d61c88901a6a3e
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/LorryInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/LorryInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/TaskInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/TaskInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cornel/dao/TaskInfoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cornel/dao/TaskInfoTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -106,7 +97,7 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="task_info: table" type="69fad909:PgImplModel$LocalTable" />
+        <item name="lorry_info: table" type="69fad909:PgImplModel$LocalTable" />
       </path>
     </expand>
     <select />
@@ -122,84 +113,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DriverOperationController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="35" column="30" lean-forward="true" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/interceptor/CookieInterceptor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/CookieAuthUtils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/holder/UserHolder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="9" column="23" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/service/ITaskService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="11" column="29" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/service/TaskService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/JsonResult.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="90" column="29" selection-start-line="90" selection-start-column="29" selection-end-line="90" selection-end-column="29" />
-              <folding>
-                <element signature="e#2195#2196#0" expanded="true" />
-                <element signature="e#2256#2257#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+            <state relative-caret-position="594">
+              <caret line="68" column="20" selection-start-line="68" selection-start-column="20" selection-end-line="68" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -208,10 +123,88 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/MeetingSignInController.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+            <state relative-caret-position="594">
+              <caret line="96" column="1" selection-start-line="96" selection-start-column="1" selection-end-line="96" selection-end-column="1" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/model/LorryInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/src.zip!/java/math/BigDecimal.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="284">
+              <caret line="2625" column="15" selection-start-line="2625" selection-start-column="15" selection-end-line="2625" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/task/TaskSaveVO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="305">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ConfigProperties.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ContextConsts.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/LorryInfoDao.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="25" column="43" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/LorryInfoMapper.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="628">
+              <caret line="153" column="19" lean-forward="true" selection-start-line="153" selection-start-column="19" selection-end-line="153" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.4.6/mybatis-3.4.6.jar!/org/apache/ibatis/builder/xml/mybatis-3-mapper.dtd">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="262">
+              <caret line="240" selection-start-line="240" selection-end-line="241" />
             </state>
           </provider>
         </entry>
@@ -233,6 +226,16 @@
       <find>com.demai.cornel.service.impl.TaskServiceImp</find>
       <find>wheredist_order_info</find>
       <find>xxl</find>
+      <find>operation_time</find>
+      <find>json</find>
+      <find>punish</find>
+      <find>Error resolving class. Cause: org.apache.ibatis.type.TypeException: Could not resolve type alias</find>
+      <find>com.demai.cornel.databaseHandler.JsonListTypeHandler</find>
+      <find>JsonTypeHandler</find>
+      <find>TypeHandler</find>
+      <find>javaType</find>
+      <find>typeHandler</find>
+      <find>task</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -243,8 +246,19 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/resources.beta/application-default.yml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/DistOrderInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapper/UserInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/demai/cornel/util/JacksonUtils.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cornel/dao/TaskInfoTest.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapper/TaskInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/ITaskService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/TaskInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/TaskInfoReq.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapper/LorryInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/LorryInfoDao.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ContextConsts.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/task/TaskSaveVO.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DriverOperationController.java" />
       </list>
     </option>
@@ -293,6 +307,11 @@
       <select />
     </treeState>
   </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1680" />
+    <option name="height" value="958" />
+  </component>
   <component name="ProjectId" id="1TqeufEcJEqpAx6yuzRgVpRYmwI" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -301,8 +320,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -348,7 +367,25 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="cornel" type="462c0819:PsiDirectoryNode" />
-              <item name="interceptor" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cornel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cornel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cornel" type="462c0819:PsiDirectoryNode" />
+              <item name="constant" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cornel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cornel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cornel" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cornel_backend" type="b2602c69:ProjectViewProjectNode" />
@@ -374,6 +411,35 @@
               <item name="cornel_backend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cornel" type="462c0819:PsiDirectoryNode" />
+              <item name="vo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cornel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cornel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cornel" type="462c0819:PsiDirectoryNode" />
+              <item name="vo" type="462c0819:PsiDirectoryNode" />
+              <item name="task" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cornel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cornel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cornel" type="462c0819:PsiDirectoryNode" />
+              <item name="vo" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cornel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cornel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -381,14 +447,38 @@
               <item name="cornel_backend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources.dev" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="mapper" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cornel_backend" type="b2602c69:ProjectViewProjectNode" />
               <item name="cornel_backend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources.prod" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cornel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cornel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cornel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cornel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cornel" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cornel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cornel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cornel" type="462c0819:PsiDirectoryNode" />
+              <item name="dao" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -398,8 +488,6 @@
   </component>
   <component name="PropertiesComponent">
     <property name="FullScreen" value="false" />
-    <property name="OverrideImplement.combined" value="true" />
-    <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -410,14 +498,14 @@
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/mapper" />
-    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.demai.cornel.controller" />
       <recent name="com.demai.cornel.util" />
+      <recent name="com.demai.cornel.controller" />
       <recent name="com.demai.cornel.interceptor" />
       <recent name="com.demai.cornel.job" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/mapper" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -432,7 +520,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Tomcat 8.0.5">
+  <component name="RunManager" selected="JUnit.TaskInfoTest.insertTask">
     <configuration default="true" type="AndroidRunConfigurationType">
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -566,6 +654,24 @@
       <setting name="depsClasspath" value="false" />
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2" />
+    </configuration>
+    <configuration name="TaskInfoTest.insertTask" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="cornel_backend" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cornel.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cornel.dao" />
+      <option name="MAIN_CLASS_NAME" value="cornel.dao.TaskInfoTest" />
+      <option name="METHOD_NAME" value="insertTask" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TaskServiceTest.testDistOrder" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="cornel_backend" />
@@ -778,9 +884,11 @@
       <item itemvalue="JUnit.TaskServiceTest.testDistOrderByPlatNum" />
       <item itemvalue="JUnit.UserInfoTest.selectUsers" />
       <item itemvalue="Tomcat Server.Tomcat 8.0.5" />
+      <item itemvalue="JUnit.TaskInfoTest.insertTask" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TaskInfoTest.insertTask" />
         <item itemvalue="Application.GenRandomCodeUtil" />
       </list>
     </recent_temporary>
@@ -819,6 +927,7 @@
       <workItem from="1576646306563" duration="1755000" />
       <workItem from="1576650148973" duration="1023000" />
       <workItem from="1576651193953" duration="2208000" />
+      <workItem from="1576655759132" duration="10932000" />
     </task>
     <task id="LOCAL-00001" summary="update sql,add notify_info table">
       <created>1572922995294</created>
@@ -838,45 +947,45 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="TaskServiceTest_testDistOrderByPlatNum - 2019.11.07 at 21h 30m 40s.xml">
-      <configuration name="TaskServiceTest.testDistOrderByPlatNum" configurationId="JUnit" />
+    <history-entry file="TaskInfoTest_insertTask - 2019.12.18 at 17h 10m 57s.xml">
+      <configuration name="TaskInfoTest.insertTask" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TaskServiceTest_testDistOrderByPlatNum - 2019.11.07 at 21h 31m 55s.xml">
-      <configuration name="TaskServiceTest.testDistOrderByPlatNum" configurationId="JUnit" />
+    <history-entry file="TaskInfoTest_insertTask - 2019.12.18 at 17h 19m 55s.xml">
+      <configuration name="TaskInfoTest.insertTask" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TaskServiceTest_testDistOrderByPlatNum - 2019.11.07 at 21h 35m 47s.xml">
-      <configuration name="TaskServiceTest.testDistOrderByPlatNum" configurationId="JUnit" />
+    <history-entry file="TaskInfoTest_insertTask - 2019.12.18 at 17h 37m 29s.xml">
+      <configuration name="TaskInfoTest.insertTask" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TaskServiceTest_testDistOrderByPlatNum - 2019.11.07 at 21h 36m 04s.xml">
-      <configuration name="TaskServiceTest.testDistOrderByPlatNum" configurationId="JUnit" />
+    <history-entry file="TaskInfoTest_insertTask - 2019.12.18 at 17h 38m 53s.xml">
+      <configuration name="TaskInfoTest.insertTask" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TaskServiceTest_testGetTaskList - 2019.12.17 at 16h 32m 19s.xml">
-      <configuration name="TaskServiceTest.testGetTaskList" configurationId="JUnit" />
+    <history-entry file="TaskInfoTest_insertTask - 2019.12.18 at 17h 46m 48s.xml">
+      <configuration name="TaskInfoTest.insertTask" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TaskServiceTest_testGetTaskList - 2019.12.17 at 16h 34m 32s.xml">
-      <configuration name="TaskServiceTest.testGetTaskList" configurationId="JUnit" />
+    <history-entry file="TaskInfoTest_insertTask - 2019.12.18 at 17h 47m 39s.xml">
+      <configuration name="TaskInfoTest.insertTask" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TaskServiceTest_testGetTaskList - 2019.12.17 at 16h 36m 56s.xml">
-      <configuration name="TaskServiceTest.testGetTaskList" configurationId="JUnit" />
+    <history-entry file="TaskInfoTest_insertTask - 2019.12.18 at 17h 53m 54s.xml">
+      <configuration name="TaskInfoTest.insertTask" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TaskServiceTest_testGetTaskList - 2019.12.17 at 16h 39m 16s.xml">
-      <configuration name="TaskServiceTest.testGetTaskList" configurationId="JUnit" />
+    <history-entry file="TaskInfoTest_insertTask - 2019.12.18 at 17h 58m 11s.xml">
+      <configuration name="TaskInfoTest.insertTask" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TaskServiceTest_testGetTaskList - 2019.12.17 at 16h 40m 49s.xml">
-      <configuration name="TaskServiceTest.testGetTaskList" configurationId="JUnit" />
+    <history-entry file="TaskInfoTest_insertTask - 2019.12.18 at 17h 59m 15s.xml">
+      <configuration name="TaskInfoTest.insertTask" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TaskServiceTest_testGetTaskList - 2019.12.17 at 16h 43m 54s.xml">
-      <configuration name="TaskServiceTest.testGetTaskList" configurationId="JUnit" />
+    <history-entry file="TaskInfoTest_insertTask - 2019.12.18 at 19h 28m 54s.xml">
+      <configuration name="TaskInfoTest.insertTask" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2832000" />
+    <option name="totallyTimeSpent" value="13764000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="958" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2002442" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20573871" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="DB Browser" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -888,8 +997,8 @@
       <window_info id="Image Layers" order="9" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32842106" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32794458" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.18013857" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.9491917" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.063510396" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -916,9 +1025,9 @@
       <window_info anchor="right" id="Palette" order="4" />
       <window_info anchor="right" id="Maven Projects" order="5" weight="0.32995737" />
       <window_info anchor="right" id="IDEtalk" order="6" />
-      <window_info anchor="right" id="Database" order="7" weight="0.32417583" />
+      <window_info anchor="right" id="Database" order="7" weight="0.13125764" />
       <window_info anchor="right" x="1466" y="100" width="1720" height="880" id="Documentation" order="8" type="FLOATING" />
-      <window_info active="true" anchor="right" id="Maven" order="9" visible="true" weight="0.32967034" />
+      <window_info anchor="right" id="Maven" order="9" weight="0.32967034" />
       <window_info anchor="right" id="Capture Analysis" order="10" />
       <window_info anchor="right" id="BPMNPalette" order="11" />
       <window_info anchor="right" id="leetcode" order="12" side_tool="true" />
@@ -1015,13 +1124,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/cornel/dao/TaskInfoTest.java</url>
-          <line>29</line>
+          <line>35</line>
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/cornel/dao/TaskInfoTest.java</url>
-          <line>30</line>
+          <line>36</line>
           <properties />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
@@ -1122,24 +1231,30 @@
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DriverOperationController.java</url>
-          <line>41</line>
+          <url>file://$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java</url>
+          <line>35</line>
           <properties />
-          <option name="timeStamp" value="27" />
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DriverOperationController.java</url>
-          <line>42</line>
+          <url>file://$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java</url>
+          <line>36</line>
           <properties />
-          <option name="timeStamp" value="28" />
+          <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DriverOperationController.java</url>
-          <line>44</line>
+          <url>file://$PROJECT_DIR$/src/test/java/cornel/dao/TaskInfoTest.java</url>
+          <line>60</line>
           <properties />
-          <option name="timeStamp" value="29" />
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/cornel/dao/TaskInfoTest.java</url>
+          <line>61</line>
+          <properties />
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/DistOrderInfoDao.java</url>
           <line>24</line>
           <properties class="com.demai.cornel.dao.DistOrderInfoDao" method="getDistOrderListByUserID" />
@@ -1162,125 +1277,123 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sql/init_sql_20190927.sql">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/UserInfoDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4947">
-          <caret line="97" selection-start-line="97" selection-end-line="97" />
+        <state relative-caret-position="68">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/xuxueli/xxl-job-core/1.9.2/xxl-job-core-1.9.2.jar!/com/xxl/job/core/thread/JobLogFileCleanThread.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="71" selection-start-line="71" selection-end-line="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/model/DistTaskOrderReq.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/job/DosomethingJob.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="69" column="18" lean-forward="true" selection-start-line="69" selection-start-column="18" selection-end-line="69" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://84797534-2e2f-4c88-a4f4-1dce7bbb6499/database/cornel_product/schema/public/table/task_info">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://84797534-2e2f-4c88-a4f4-1dce7bbb6499/database/cornel_product/schema/public/table/dist_order_info">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-          <column-attributes>
-            <column name="operation_time" languageId="JSON" />
-            <column name="ctid" enabled="false" />
-          </column-attributes>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources.prod/application-default.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources.dev/application-default.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="47" column="17" selection-start-line="47" selection-start-column="17" selection-end-line="47" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/SubTaskDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources.dev/qconfig.profile">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/AclInfoMapper.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/SubTaskInfoMapper.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/AclMapper.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12">
-          <caret line="4" column="55" selection-start-line="4" selection-start-column="55" selection-end-line="4" selection-end-column="55" />
+        <state relative-caret-position="306">
+          <caret line="18" column="53" selection-start-line="18" selection-start-column="53" selection-end-line="18" selection-end-column="53" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/model/SubTaskInfo.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-test/5.1.4.RELEASE/spring-test-5.1.4.RELEASE.jar!/org/springframework/test/context/junit4/SpringJUnit4ClassRunner.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="125" selection-start-line="125" selection-end-line="125" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar!/com/google/gson/JsonObject.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <caret line="15" column="11" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application-default.yml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/StringUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-228" />
+        <state relative-caret-position="153">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/ObjectUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar!/com/google/gson/Gson.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-868">
+          <caret line="79" column="11" selection-start-line="79" selection-start-column="11" selection-end-line="79" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/alibaba/fastjson/1.2.51/fastjson-1.2.51.jar!/com/alibaba/fastjson/JSON.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="609" column="18" selection-start-line="609" selection-start-column="18" selection-end-line="609" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/databaseHandler/JsonTypeHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/DistOrderInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="16" lean-forward="true" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/model/UserInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/UserInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="39">
+          <caret line="5" column="46" lean-forward="true" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/json/JsonUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="189" column="24" selection-start-line="189" selection-start-column="24" selection-end-line="189" selection-end-column="24" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/runners/ParentRunner.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
+        <state relative-caret-position="174">
           <caret line="205" selection-start-line="205" selection-end-line="205" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-test/5.1.4.RELEASE/spring-test-5.1.4.RELEASE.jar!/org/springframework/test/context/junit4/statements/RunAfterTestMethodCallbacks.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
+        <state relative-caret-position="354">
           <caret line="34" selection-start-line="34" selection-end-line="34" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-test/5.1.4.RELEASE/spring-test-5.1.4.RELEASE.jar!/org/springframework/test/context/junit4/statements/RunAfterTestExecutionCallbacks.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
+        <state relative-caret-position="354">
           <caret line="34" selection-start-line="34" selection-end-line="34" />
         </state>
       </provider>
@@ -1292,63 +1405,133 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/DistOrderInfoMapper.xml">
+    <entry file="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.9.6/jackson-databind-2.9.6.jar!/com/fasterxml/jackson/databind/ObjectMapper.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="86" column="33" selection-start-line="86" selection-start-column="33" selection-end-line="86" selection-end-column="33" />
+        <state relative-caret-position="270">
+          <caret line="1136" column="17" selection-start-line="1136" selection-start-column="17" selection-end-line="1136" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/DistOrderInfoDao.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/TaskInfoMapper.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="24" column="27" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
+        <state relative-caret-position="755">
+          <caret line="85" column="12" selection-start-line="85" selection-start-column="12" selection-end-line="85" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ContextConsts.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/TaskInfoDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
+        <state relative-caret-position="187">
+          <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/CookieUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="24" column="25" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
+    <entry file="das://84797534-2e2f-4c88-a4f4-1dce7bbb6499/database/cornel_product/schema/public/table/task_info">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+          <column-attributes>
+            <column name="subtask_time" languageId="JSON" />
+          </column-attributes>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources.beta/application-default.yml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/databaseHandler/JsonListTypeHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="107" column="41" lean-forward="true" selection-start-line="107" selection-start-column="41" selection-end-line="107" selection-end-column="41" />
+        <state relative-caret-position="170">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/cornel/dao/TaskServiceTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/JacksonUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="579">
-          <caret line="50" column="51" selection-start-line="50" selection-start-column="51" selection-end-line="50" selection-end-column="51" />
+        <state relative-caret-position="187">
+          <caret line="54" selection-start-line="54" selection-end-line="54" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/MeetingSignInController.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/cornel/dao/TaskInfoTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        <state relative-caret-position="17">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/databaseHandler/ArraySetTypeHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="110" column="19" selection-start-line="110" selection-start-column="19" selection-end-line="110" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://84797534-2e2f-4c88-a4f4-1dce7bbb6499/database/cornel_product/schema/public/table/lorry_info">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/23.0/guava-23.0.jar!/com/google/common/base/Preconditions.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="317" column="24" selection-start-line="317" selection-start-column="24" selection-end-line="317" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/user/UserLoginParam.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/UserLoginController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-145">
+          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/json/JsonResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/user/UserLoginResp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/user/UserLoginSendMsgParam.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/JsonResult.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="90" column="29" selection-start-line="90" selection-start-column="29" selection-end-line="90" selection-end-column="29" />
+        <state relative-caret-position="-416">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#2195#2196#0" expanded="true" />
             <element signature="e#2256#2257#0" expanded="true" />
           </folding>
@@ -1357,60 +1540,121 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/service/ITaskService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="11" column="29" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/service/TaskService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/holder/UserHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="23" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/util/CookieAuthUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+        <state relative-caret-position="238">
+          <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/interceptor/CookieInterceptor.java">
+    <entry file="file://$PROJECT_DIR$/sql/init_sql_20190927.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+        <state relative-caret-position="580">
+          <caret line="249" column="25" lean-forward="true" selection-start-line="249" selection-start-column="25" selection-end-line="249" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/src.zip!/java/util/Collections.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+        <state relative-caret-position="262">
+          <caret line="4497" column="28" selection-start-line="4497" selection-start-column="28" selection-end-line="4497" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/model/TaskInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="59" column="37" selection-start-line="59" selection-start-column="37" selection-end-line="59" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/model/TaskInfoReq.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="48" column="36" selection-start-line="48" selection-start-column="36" selection-end-line="48" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.4.6/mybatis-3.4.6.jar!/org/apache/ibatis/builder/xml/mybatis-3-mapper.dtd">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="240" selection-start-line="240" selection-end-line="241" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/LorryInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="628">
+          <caret line="153" column="19" lean-forward="true" selection-start-line="153" selection-start-column="19" selection-end-line="153" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/LorryInfoDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="25" column="43" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ContextConsts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ConfigProperties.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/model/LorryInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/src.zip!/java/math/BigDecimal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="2625" column="15" selection-start-line="2625" selection-start-column="15" selection-end-line="2625" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/task/TaskSaveVO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="96" column="1" selection-start-line="96" selection-start-column="1" selection-end-line="96" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DriverOperationController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="35" column="30" lean-forward="true" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="39" />
+        <state relative-caret-position="594">
+          <caret line="68" column="20" selection-start-line="68" selection-start-column="20" selection-end-line="68" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

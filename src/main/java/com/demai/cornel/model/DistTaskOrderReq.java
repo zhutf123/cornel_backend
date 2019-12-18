@@ -26,6 +26,7 @@ public class DistTaskOrderReq {
     private String unitPrice;
     private String unitWeight;
     private BigDecimal income;
-    private Integer status;
+    private Integer taskStatus;
+    private Integer orderStatus;
 
 }
