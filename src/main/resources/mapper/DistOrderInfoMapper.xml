@@ -84,25 +84,25 @@
     </select>
     <select id="getDistOrderListByUserID" resultType="com.demai.cornel.model.DistTaskOrderReq">
         SELECT
-        dist_order_info.id as id,
+        task_info.id as id,
         task_info.task_id as taskId,
         task_info.title as title,
         task_info.dep as dep,
-        task_info.arr as ass,
-        dist_order_info.create_time as startTime,
-        dist_order_info.expire_time as endTime,
+        task_info.arr as arr,
+        task_info.create_time as startTime,
+        task_info.end_time as endTime,
         task_info.distance as distance,
         task_info.unit_price as price,
-        dist_order_info.job_status as status,
-        dist_order_info.dist_weight as weight
-        FROM dist_order_info inner join task_info on dist_order_info.task_id = task_info.task_id where dist_order_info.user_id = #{userId}
+        task_info.status as taskStatus,
+        order_info.status as orderStatus
+        FROM task_info left join order_info on task_info.task_id = order_info.task_id where order_info.user_id = #{userId}
         <if test="curId != null">
-            and dist_order_info.id  <![CDATA[<]]> #{curId}
+            and task_info.id  <![CDATA[<]]> #{curId}
         </if>
         <if test="curId == null">
-            and dist_order_info.id  <![CDATA[<=]]> (select max(id) from dist_order_info limit 1)
+            and task_info.id  <![CDATA[<=]]> (select max(id) from task_info limit 1)
         </if>
-        order by dist_order_info.id desc limit #{pgSize};
+        order by task_info.id desc limit #{pgSize};
     </select>
 
 </mapper>

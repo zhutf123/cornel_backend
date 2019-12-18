@@ -26,24 +26,24 @@
     </resultMap>
 
     <sql id="main_column">
-        id,
-        lorry_type,
-        company,
-        weight,
-        carry_weight,
-        length,
-        width,
-        buy_time,
-        mileage,
-        plate_number,
-        frame_number,
-        id_type,
-        id_card,
-        status,
-        ext_info,
-        create_time,
-        operate_time,
-        default_flag
+        lorry_info.id,
+        lorry_info.lorry_type,
+        lorry_info.company,
+        lorry_info.weight,
+        lorry_info.carry_weight,
+        lorry_info.length,
+        lorry_info.width,
+        lorry_info.buy_time,
+        lorry_info.mileage,
+        lorry_info.plate_number,
+        lorry_info.frame_number,
+        lorry_info.id_type,
+        lorry_info.id_card,
+        lorry_info.status,
+        lorry_info.ext_info,
+        lorry_info.create_time,
+        lorry_info.operate_time,
+        lorry_info.default_flag
     </sql>
 
     <update id="update" parameterType="com.demai.cornel.model.LorryInfo">
@@ -115,4 +115,42 @@
         </trim>
         )
     </insert>
+    <select id="getDefaultLorryByUserId" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info inner join user_info on user_info.id_type=lorry_info.id_type and
+        user_info.id_card=lorry_info.id_card
+        where lorry_info.status=1 and user_info.user_id=#{userId} and lorry_info.default_flag=1;
+    </select>
+    <select id="getAvailableLorryByUserId" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info inner join user_info on user_info.id_type=lorry_info.id_type and
+        user_info.id_card=lorry_info.id_card
+        where lorry_info.status!=0 and user_info.user_id=#{userId} order by lorry_info.weight desc limit 1;
+    </select>
+    <select id="getAllLorryByUserId" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info inner join user_info on user_info.id_type=lorry_info.id_type and
+        user_info.id_card=lorry_info.id_card
+        where lorry_info.status!=0 and user_info.user_id=#{userId};
+    </select>
+    <select id="getAllLorrySimpleInfoByUserId" resultType="com.demai.cornel.model.TaskInfoReq$LorryInfoBean">
+        select
+        id as lorryId,
+        plate_number as plateNumber,
+        carry_weight as carryWeight,
+        default_flag as defaultSelect,
+        status as carStatus
+        from lorry_info inner join user_info on user_info.id_type=lorry_info.id_type and
+        user_info.id_card=lorry_info.id_card
+        where lorry_info.status!=0 and user_info.user_id=#{userId};
+    </select>
+    <select id="getLorryByLorryID" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info
+        where id=#{lorryId}
+    </select>
 </mapper>

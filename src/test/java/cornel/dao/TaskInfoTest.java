@@ -1,7 +1,11 @@
 package cornel.dao;
 
+import com.alibaba.fastjson.JSON;
 import com.demai.cornel.dao.TaskInfoDao;
 import com.demai.cornel.model.TaskInfo;
+import com.demai.cornel.util.JacksonUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import cornel.BaseTest;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +16,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -42,6 +48,18 @@ public class TaskInfoTest extends BaseTest {
         taskInfo.setDistance(new BigDecimal(600));
         taskInfo.setUnitPrice(new BigDecimal(5.6));
         taskInfo.setLevel(1);
+        List<TaskInfo.SubTaskTime> subTaskTimes = new ArrayList<>();
+        TaskInfo.SubTaskTime subTaskTime = new TaskInfo.SubTaskTime();
+        subTaskTime.setTime("2019-08-29 12:00-14:00");
+        subTaskTime.setCount(1);
+        TaskInfo.SubTaskTime subTaskTime2 = new TaskInfo.SubTaskTime();
+        subTaskTime2.setTime("2019-08-29 14:00-16:00");
+        subTaskTime2.setCount(1);
+        subTaskTimes.add(subTaskTime2);
+        subTaskTimes.add(subTaskTime);
+
+        taskInfo.setSubTaskTime(subTaskTimes);
+        taskInfo.setSubTaskTimeString(JacksonUtils.obj2String(subTaskTimes));
         taskInfoDao.save(taskInfo);
     }
 }

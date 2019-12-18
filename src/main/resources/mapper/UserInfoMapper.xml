@@ -33,7 +33,6 @@
         <result column="last_login_time" property="lastLoginTime"/>
         <result column="create_time" property="createTime"/>
         <result column="operate_time" property="operateTime"/>
-        <result column="with" property="with"/>
     </resultMap>
 
     <sql id="main_column">

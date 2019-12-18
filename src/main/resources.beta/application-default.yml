@@ -1,4 +1,4 @@
-debug: true
+debug: false
 
 #redis 集群模式
 spring:

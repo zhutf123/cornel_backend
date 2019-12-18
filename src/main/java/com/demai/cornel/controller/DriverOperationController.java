@@ -6,12 +6,13 @@ package com.demai.cornel.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.holder.UserHolder;
-import com.demai.cornel.service.TaskService;
+import com.demai.cornel.model.TaskInfo;
+import com.demai.cornel.model.TaskInfoReq;
 import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.vo.JsonResult;
-import com.demai.cornel.vo.user.UserLoginResp;
-import com.demai.cornel.vo.user.UserLoginSendMsgParam;
+import com.demai.cornel.vo.task.TaskSaveVO;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -48,5 +49,24 @@ public class DriverOperationController {
         }
         String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
         return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
+    }
+
+    @RequestMapping(value = "/info.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult getTaskInfo(@RequestBody String taskId) {
+        Preconditions.checkNotNull(taskId);
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+        TaskInfoReq taskInfoReq = taskServiceImp.getTaskInfo(curUser, taskId);
+        if (taskInfoReq == null) {
+            JsonResult.error("error re");
+        }
+        return JsonResult.success(taskInfoReq);
+    }
+    @RequestMapping(value = "/save.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult saveTask(@RequestBody TaskSaveVO taskSaveVO) {
+        Preconditions.checkNotNull(taskSaveVO);
+        return null;
+
     }
 }

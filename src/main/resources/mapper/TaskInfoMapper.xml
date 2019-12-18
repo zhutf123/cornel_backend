@@ -23,6 +23,7 @@
         <result column="ext_info" property="extInfo"/>
         <result column="create_time" property="createTime"/>
         <result column="operate_time" property="operateTime"/>
+        <result column="subtask_time" property="subTaskTimeString"/>
     </resultMap>
 
     <sql id="main_column">
@@ -48,7 +49,8 @@
         status,
         ext_info,
         create_time,
-        operate_time
+        operate_time,
+        subtask_time
     </sql>
 
     <update id="update" parameterType="com.demai.cornel.model.TaskInfo">
@@ -74,6 +76,9 @@
             <if test="extInfo != null">ext_info = #{extInfo},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="subTaskTimeString != null">subtask_time = #{subTaskTimeString},</if>
+
         </trim>
         where id = #{id}
     </update>
@@ -102,6 +107,7 @@
             <if test="extInfo != null">ext_info ,</if>
             <if test="createTime != null">create_time ,</if>
             <if test="operateTime != null">operate_time ,</if>
+            <if test="subTaskTimeString != null">subtask_time,</if>
         </trim>
         )values(
         <trim suffixOverrides=",">
@@ -125,6 +131,8 @@
             <if test="extInfo != null">#{extInfo} ,</if>
             <if test="createTime != null">#{createTime} ,</if>
             <if test="operateTime != null">#{operateTime} ,</if>
+            <if test="subTaskTimeString != null">#{subTaskTimeString} ,</if>
+
         </trim>
         )
     </insert>
