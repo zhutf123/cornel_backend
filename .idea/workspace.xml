@@ -7,7 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20dd90b0-3167-44dd-b373-3167314da2fe" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/SupplierCornController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DeliveryCornController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/util/GenerateCodeUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -128,8 +129,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.demai.cornel.controller" />
       <recent name="com.demai.cornel.util" />
+      <recent name="com.demai.cornel.controller" />
       <recent name="com.demai.cornel.interceptor" />
       <recent name="com.demai.cornel.job" />
     </key>
