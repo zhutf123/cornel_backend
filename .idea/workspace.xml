@@ -7,9 +7,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20dd90b0-3167-44dd-b373-3167314da2fe" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DeliveryCornController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/util/GenerateCodeUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/DeliveryTaskService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/SupplierTaskService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/OrderListReq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/delivery/DeliveryTaskListResp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/supplier/SupplierTaskListResp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/init_sql_20190927.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/init_sql_20190927.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DeliveryCornController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DeliveryCornController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/SupplierCornController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/SupplierCornController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/TaskInfoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/TaskInfoDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/OrderInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/OrderInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/TaskInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/TaskInfoMapper.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -125,10 +134,11 @@
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="EclipseFormatter" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.demai.cornel.vo.supplier" />
       <recent name="com.demai.cornel.util" />
       <recent name="com.demai.cornel.controller" />
       <recent name="com.demai.cornel.interceptor" />
@@ -150,7 +160,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Tomcat 9">
+  <component name="RunManager" selected="Application.OrderInfo">
     <configuration default="true" type="AndroidRunConfigurationType">
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -221,6 +231,32 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="OrderInfo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.demai.cornel.model.OrderInfo" />
+      <module name="cornel_backend" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.demai.cornel.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.demai.cornel.controller.test" />
+      <module name="cornel_backend" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.demai.cornel.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="FlashRunConfigurationType">
       <option name="BCName" value="" />
       <option name="IOSSimulatorDevice" value="" />
@@ -285,24 +321,6 @@
       <setting name="depsClasspath" value="false" />
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2" />
-    </configuration>
-    <configuration name="TaskServiceTest.testDistOrder" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="cornel_backend" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="cornel.dao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="cornel.dao" />
-      <option name="MAIN_CLASS_NAME" value="cornel.dao.TaskServiceTest" />
-      <option name="METHOD_NAME" value="testDistOrder" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration name="TaskServiceTest.testDistOrderByPlatNum" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="cornel_backend" />
@@ -493,13 +511,16 @@
     <list>
       <item itemvalue="Application.GenRandomCodeUtil" />
       <item itemvalue="JUnit.TaskServiceTest.testGetTaskList" />
-      <item itemvalue="JUnit.TaskServiceTest.testDistOrder" />
       <item itemvalue="JUnit.TaskServiceTest.testDistOrderByPlatNum" />
       <item itemvalue="JUnit.UserInfoTest.selectUsers" />
       <item itemvalue="Tomcat Server.Tomcat 9" />
+      <item itemvalue="Application.test" />
+      <item itemvalue="Application.OrderInfo" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.OrderInfo" />
+        <item itemvalue="Application.test" />
         <item itemvalue="Application.GenRandomCodeUtil" />
       </list>
     </recent_temporary>

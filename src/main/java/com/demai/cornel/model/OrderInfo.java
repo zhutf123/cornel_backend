@@ -3,14 +3,16 @@
  */
 package com.demai.cornel.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.List;
 import java.util.Map;
+
+import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Create By zhutf 19-10-6 下午1:10
@@ -53,5 +55,40 @@ public class OrderInfo implements Serializable {
     private Map<String, String> extInfo;
     private Date createTime;
     private Date operateTime;
+
+    public static enum STATUS_ENUE {
+
+        ORDER_INIT(1L, "待收粮"),
+        ORDER_CANCEL(1L << 1,"取消订单"),
+        ORDER_ARRIVE_DEP(1L << 2, "到达装货点"),
+        ORDER_SHIPMENT(1L << 3, "装货中"),
+        ORDER_SHIPMENT_OVER(1L << 4, "装货完成"),
+
+        ORDER_ROUTING((1L << 8)+(1L << 4), "运粮中"),
+        ORDER_ARRIVE_ARR((1L << 9)+(1L << 4) , "已送达"),
+        ORDER_DELIVERY((1L << 10)+(1L << 4), "卸粮中"),
+        ORDER_DELIVERY_OVER((1L << 11)+(1L << 4), "卸粮完成--司机确认"),
+        
+        ORDER_SUCCESS((1L << 12)+(1L << 4) , "订单完成"),
+        ORDER_CUSTOMER((1L << 13)+(1L << 4) , "订单人工处理") ;
+
+        private long value;
+        private String expr;
+
+        private STATUS_ENUE(long value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        public long getValue() {
+            return value;
+        }
+        public String getExpr() {
+            return expr;
+        }
+
+
+    }
+
 
 }

@@ -186,6 +186,7 @@ CREATE TABLE "task_info" (
 "title" varchar(256),
 "task_id" varchar(40),
 "product" varchar(128),
+"supplier_id" varchar(40),
 "weight" numeric(10,2),
 "unit" varchar(40),
 "unaccept_weight" numeric(10,2),
@@ -214,6 +215,7 @@ WITH (OIDS=FALSE)
 
 COMMENT ON COLUMN "task_info"."title" IS '标题';
 COMMENT ON COLUMN "task_info"."product" IS '产品名称';
+COMMENT ON COLUMN "task_info"."supplier_id" IS '货源方user_id';
 COMMENT ON COLUMN "task_info"."weight" IS '重量';
 COMMENT ON COLUMN "task_info"."unit" IS '单位';
 COMMENT ON COLUMN "task_info"."unaccept_weight" IS '未接单量';

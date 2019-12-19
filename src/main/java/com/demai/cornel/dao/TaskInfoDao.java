@@ -7,6 +7,7 @@ import com.demai.cornel.model.TaskInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Create By zhutf 19-10-6 下午1:18
@@ -20,5 +21,6 @@ public interface TaskInfoDao {
 
     public void updateTaskUnDistWeight(@Param("unDistWeight") BigDecimal bigDecimal, @Param("taskId") String taskId);
 
+    public List<Object> getTaskOrderListByStatus(@Param("userId") String userId,@Param("taskId") Long status);
 
 }

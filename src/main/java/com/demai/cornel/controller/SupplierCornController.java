@@ -3,10 +3,18 @@
  */
 package com.demai.cornel.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.service.SupplierTaskService;
+import com.demai.cornel.util.StringUtil;
+import com.demai.cornel.vo.OrderListReq;
+import com.demai.cornel.vo.supplier.SupplierTaskListResp;
+import com.google.common.base.Preconditions;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,28 +39,40 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SupplierCornController {
     @Resource
-    private TaskServiceImp taskServiceImp;
+    private SupplierTaskService supplierTaskService;
 
     /**
      * 烘干塔列表
+     * 
      * @param param
      * @return
      */
     @RequestMapping(value = "/shipment-list", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult shipmentList(@RequestBody String param) {
-        if (Strings.isNullOrEmpty(param)) {
-            return JsonResult.error("param illegal");
+    public JsonResult shipmentList(@RequestBody OrderListReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            if (StringUtils.isBlank(curUser)) {
+                log.error("烘干塔获取任务订单信息失败 用户信息为空");
+                return JsonResult.successStatus(ResponseStatusEnum.NO_USER);
+            }
+            if (param.getStatus() == null) {
+                log.error("烘干塔获取任务订单信息失败 查询订单状态为空:{}", curUser);
+                return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+            }
+            if(log.isDebugEnabled()){
+                log.debug("烘干塔查询人物订单列表 user:{} status:{}",curUser,param.getStatus());
+            }
+
+            List<SupplierTaskListResp> result = supplierTaskService.getTaskOrderListByStatus(curUser,
+                    param.getStatus());
+
+            return JsonResult.success(result);
+
+        } catch (Exception e) {
+            log.error("烘干塔获取任务订单信息失败:{}", e);
         }
-        JSONObject receivedParam = JSON.parseObject(param);
-        Integer pgSize = (Integer) receivedParam.get("pgSize");
-        Integer curId = (Integer) receivedParam.get("curId");
-        if (pgSize == null) pgSize = 20;
-        if (curId <= 0) {
-            curId = null;
-        }
-        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 
 
@@ -64,18 +84,7 @@ public class SupplierCornController {
     @RequestMapping(value = "/shipment", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult shipmentConfirm(@RequestBody String param) {
-        if (Strings.isNullOrEmpty(param)) {
-            return JsonResult.error("param illegal");
-        }
-        JSONObject receivedParam = JSON.parseObject(param);
-        Integer pgSize = (Integer) receivedParam.get("pgSize");
-        Integer curId = (Integer) receivedParam.get("curId");
-        if (pgSize == null) pgSize = 20;
-        if (curId <= 0) {
-            curId = null;
-        }
-        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
+        return null;
     }
 
     /**
@@ -86,17 +95,6 @@ public class SupplierCornController {
     @RequestMapping(value = "/shipment-over", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult shipmentOver(@RequestBody String param) {
-        if (Strings.isNullOrEmpty(param)) {
-            return JsonResult.error("param illegal");
-        }
-        JSONObject receivedParam = JSON.parseObject(param);
-        Integer pgSize = (Integer) receivedParam.get("pgSize");
-        Integer curId = (Integer) receivedParam.get("curId");
-        if (pgSize == null) pgSize = 20;
-        if (curId <= 0) {
-            curId = null;
-        }
-        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
+        return null;
     }
 }

@@ -147,4 +147,8 @@
         update task_info set undist_weight=#{unDistWeight} where task_id=#{taskId}
     </update>
 
+    <select id="getTaskOrderListByStatus" parameterType="map" resultMap="taskInfoResultMap">
+        
+    </select>
+
 </mapper>

@@ -7,6 +7,12 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import com.demai.cornel.model.OrderInfo;
+import com.demai.cornel.model.TaskInfoReq;
+import com.demai.cornel.service.DeliveryTaskService;
+import com.demai.cornel.vo.OrderListReq;
+import com.google.common.base.Joiner;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DeliveryCornController {
     @Resource
-    private TaskServiceImp taskServiceImp;
+    private DeliveryTaskService deliveryTaskService;
 
     /**
      * 接货人列表
@@ -40,19 +46,20 @@ public class DeliveryCornController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult deliveryList(@RequestBody String param) {
-        if (Strings.isNullOrEmpty(param)) {
-            return JsonResult.error("param illegal");
-        }
-        JSONObject receivedParam = JSON.parseObject(param);
-        Integer pgSize = (Integer) receivedParam.get("pgSize");
-        Integer curId = (Integer) receivedParam.get("curId");
-        if (pgSize == null) pgSize = 20;
-        if (curId <= 0) {
-            curId = null;
-        }
+    public JsonResult deliveryList(@RequestBody OrderListReq param) {
+
         String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
+        //TaskInfoReq taskInfoReq = deliveryTaskService.getTaskInfo(curUser, taskId);
+
+//        Integer pgSize = (Integer) receivedParam.get("pgSize");
+//        Integer curId = (Integer) receivedParam.get("curId");
+//        if (pgSize == null) pgSize = 20;
+//        if (curId <= 0) {
+//            curId = null;
+//        }
+//        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+//        return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
+        return null;
     }
 
 
@@ -64,18 +71,7 @@ public class DeliveryCornController {
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult deliveryConfirm(@RequestBody String param) {
-        if (Strings.isNullOrEmpty(param)) {
-            return JsonResult.error("param illegal");
-        }
-        JSONObject receivedParam = JSON.parseObject(param);
-        Integer pgSize = (Integer) receivedParam.get("pgSize");
-        Integer curId = (Integer) receivedParam.get("curId");
-        if (pgSize == null) pgSize = 20;
-        if (curId <= 0) {
-            curId = null;
-        }
-        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
+        return null;
     }
 
     /**
@@ -86,17 +82,6 @@ public class DeliveryCornController {
     @RequestMapping(value = "/over", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult deliveryOver(@RequestBody String param) {
-        if (Strings.isNullOrEmpty(param)) {
-            return JsonResult.error("param illegal");
-        }
-        JSONObject receivedParam = JSON.parseObject(param);
-        Integer pgSize = (Integer) receivedParam.get("pgSize");
-        Integer curId = (Integer) receivedParam.get("curId");
-        if (pgSize == null) pgSize = 20;
-        if (curId <= 0) {
-            curId = null;
-        }
-        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
+        return null;
     }
 }
