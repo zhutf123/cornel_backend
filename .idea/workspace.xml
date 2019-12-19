@@ -7,18 +7,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20dd90b0-3167-44dd-b373-3167314da2fe" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/DeliveryTaskService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/SupplierTaskService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/OrderListReq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/delivery/DeliveryTaskListResp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/supplier/SupplierTaskListResp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/init_sql_20190927.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/init_sql_20190927.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DeliveryCornController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DeliveryCornController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/SupplierCornController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/SupplierCornController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/TaskInfoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/TaskInfoDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/datasource/RedisConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/datasource/RedisConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/OrderInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/OrderInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/TaskInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/TaskInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources.beta/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources.beta/application-default.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources.dev/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources.dev/application-default.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources.prod/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources.prod/application-default.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-default.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application-default.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -160,7 +156,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.OrderInfo">
+  <component name="RunManager" selected="Tomcat Server.Tomcat 9">
     <configuration default="true" type="AndroidRunConfigurationType">
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />

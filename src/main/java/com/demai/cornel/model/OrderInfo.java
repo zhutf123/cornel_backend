@@ -61,16 +61,17 @@ public class OrderInfo implements Serializable {
         ORDER_INIT(1L, "待收粮"),
         ORDER_CANCEL(1L << 1,"取消订单"),
         ORDER_ARRIVE_DEP(1L << 2, "到达装货点"),
-        ORDER_SHIPMENT(1L << 3, "装货中"),
-        ORDER_SHIPMENT_OVER(1L << 4, "装货完成"),
-
-        ORDER_ROUTING((1L << 8)+(1L << 4), "运粮中"),
-        ORDER_ARRIVE_ARR((1L << 9)+(1L << 4) , "已送达"),
-        ORDER_DELIVERY((1L << 10)+(1L << 4), "卸粮中"),
-        ORDER_DELIVERY_OVER((1L << 11)+(1L << 4), "卸粮完成--司机确认"),
+        SUPPLIER_CONFIRM_SHIPMENT(1L << 3, "烘干塔开始装货"),
+        ORDER_SHIPMENT(1L << 4, "司机确认-装货中"),
+        ORDER_SHIPMENT_OVER(1L << 5, "烘干塔-装货完成"),
         
-        ORDER_SUCCESS((1L << 12)+(1L << 4) , "订单完成"),
-        ORDER_CUSTOMER((1L << 13)+(1L << 4) , "订单人工处理") ;
+        ORDER_ROUTING((1L << 8)+(1L << 5), "司机确认装货完成-运粮中"),
+        ORDER_ARRIVE_ARR((1L << 9)+(1L << 5) , "已送达"),
+        ORDER_DELIVERY((1L << 10)+(1L << 5), "卸粮中"),
+        ORDER_DELIVERY_OVER((1L << 11)+(1L << 5), "司机确认-卸粮完成"),
+        
+        ORDER_SUCCESS((1L << 12)+(1L << 5) , "订单完成"),
+        ORDER_CUSTOMER((1L << 13)+(1L << 5) , "订单人工处理") ;
 
         private long value;
         private String expr;
