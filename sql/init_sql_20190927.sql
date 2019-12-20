@@ -121,6 +121,7 @@ CREATE TABLE "order_info" (
 "order_id" varchar(40),
 "lorry_id" integer,
 "user_id" varchar(40),
+"supplier_id" varchar(40),
 "distance" numeric(10,2),
 "unit" varchar(40),
 "carry_weight" numeric(10,2),
@@ -152,7 +153,8 @@ COMMENT ON COLUMN "order_info"."task_id" IS '任务编号';
 COMMENT ON COLUMN "order_info"."order_id" IS '订单ID';
 COMMENT ON COLUMN "order_info"."distance" IS '距离';
 COMMENT ON COLUMN "order_info"."lorry_id" IS '车辆id';
-COMMENT ON COLUMN "order_info"."user_id" IS '用户id';
+COMMENT ON COLUMN "order_info"."supplier_id" IS '用户id';
+COMMENT ON COLUMN "order_info"."user_id" IS '货物提供方id';
 COMMENT ON COLUMN "order_info"."unit" IS '运送单位';
 COMMENT ON COLUMN "order_info"."carry_weight" IS '运送重量';
 COMMENT ON COLUMN "order_info"."order_weight" IS '清单重量';

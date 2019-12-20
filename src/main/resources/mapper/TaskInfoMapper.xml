@@ -6,6 +6,7 @@
         <id column="id" property="id"/>
         <result column="title" property="title"/>
         <result column="product" property="product"/>
+        <result column="supplier_id" property="supplierId"/>
         <result column="weight" property="weight"/>
         <result column="task_id" property="taskId"/>
         <result column="unaccept_weight" property="unacceptWeight"/>
@@ -30,6 +31,7 @@
         id,
         title,
         task_id,
+        supplier_id,
         product,
         weight,
         unit,
@@ -59,6 +61,7 @@
             <if test="title != null">title = #{title},</if>
             <if test="taskId != null">task_id = #{taskId},</if>
             <if test="product != null">product = #{product},</if>
+            <if test="supplierId != null">supplier_id = #{supplierId},</if>
             <if test="weight != null">weight = #{weight},</if>
             <if test="unit != null">unit = #{unit},</if>
             <if test="unacceptWeight != null">unaccept_weight = #{unacceptWeight},</if>
@@ -89,6 +92,7 @@
             <if test="title != null">title ,</if>
             <if test="taskId != null">task_id ,</if>
             <if test="product != null">product ,</if>
+            <if test="supplierId != null">supplier_id ,</if>
             <if test="weight != null">weight ,</if>
             <if test="unit != null">unit ,</if>
             <if test="unacceptWeight != null">unaccept_weight ,</if>
@@ -114,6 +118,7 @@
             <if test="title != null">#{title} ,</if>
             <if test="taskId != null">#{taskId},</if>
             <if test="product != null">#{product} ,</if>
+            <if test="supplierId != null">#{supplierId} ,</if>
             <if test="weight != null">#{weight} ,</if>
             <if test="unit != null">#{unit} ,</if>
             <if test="unacceptWeight != null">#{unacceptWeight} ,</if>
@@ -148,7 +153,10 @@
     </update>
 
     <select id="getTaskOrderListByStatus" parameterType="map" resultMap="taskInfoResultMap">
-        
+        SELECT
+        <include refid="main_column"/>
+        FROM task_info where supplier_id=#{supplierId}
+        and status=#{status}
     </select>
 
 </mapper>

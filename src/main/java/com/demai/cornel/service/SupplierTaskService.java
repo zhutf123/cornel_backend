@@ -3,6 +3,7 @@
  */
 package com.demai.cornel.service;
 
+import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.dao.TaskInfoDao;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,8 @@ public class SupplierTaskService {
 
     @Resource
     private TaskInfoDao taskInfoDao;
+    @Resource
+    private OrderInfoDao orderInfoDao;
 
     /**
      * 根据用户烘干塔用户id 订单状态查询任务订单
@@ -28,6 +31,8 @@ public class SupplierTaskService {
      * @param status
      */
     public List<SupplierTaskListResp> getTaskOrderListByStatus(String userId,Long status){
+        orderInfoDao.
+
 
         taskInfoDao.getTaskOrderListByStatus(userId,status);
 
