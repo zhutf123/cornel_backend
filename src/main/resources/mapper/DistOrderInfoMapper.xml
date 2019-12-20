@@ -93,6 +93,7 @@
         task_info.create_time as startTime,
         task_info.end_time as endTime,
         task_info.distance as distance,
+        task_info.unit_distance as unitDistance,
         task_info.unit_price as price,
         task_info.status as taskStatus,
         order_info.status as orderStatus

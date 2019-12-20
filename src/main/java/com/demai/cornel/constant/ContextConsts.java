@@ -1,5 +1,7 @@
 package com.demai.cornel.constant;
 
+import java.math.BigDecimal;
+
 /**
  * Created by binz.zhang on 2018/12/28.
  * <p>
@@ -18,4 +20,7 @@ public class ContextConsts {
     public static final String MDC_START_TIME = "mdc_start_time";
 
     public static final Integer LORRY_OVER_WEIGHT_FACTOR = 4; //货车超重系数
+
+
+    public static final BigDecimal MIN_CARRY_WEIGHT = new BigDecimal(30);
 }

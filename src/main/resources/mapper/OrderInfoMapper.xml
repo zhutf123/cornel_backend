@@ -176,15 +176,18 @@
         o.task_id as taskId,
         t.title as title,
         t.dep as dep,
-        o.
         t.arr as arr,
         t.start_time as startValidDate,
         t.end_time as endValidDate,
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
+        o.order_weight as orderWeight,
         o.verify_code as verifyCode,
-        o.receive_time as startTime
+        t.distance as distance,
+        t.unit as price,
+        o.receive_time as startTime,
+        o.status as status
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status=#{orderType}
         <if test="orderId == null">
@@ -196,7 +199,7 @@
         order by o.id desc limit #{pgSize};
     </select>
 
-    <select id="getOrderInfoByTaskUser" resultType="com.demai.cornel.vo.task.GetOrderListResp">
+    <select id="getOrderInfoByUserAndOrderId" resultType="com.demai.cornel.vo.order.GetOrderInfoResp">
         SELECT
         o.order_id as orderId,
         o.task_id as taskId,
@@ -208,8 +211,12 @@
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
+        o.order_weight as orderWeight,
         o.verify_code as verifyCode,
-        o.receive_time as startTime
+        t.distance as distance,
+        t.unit as price,
+        o.receive_time as startTime,
+        o.status as status
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status=#{orderType}
         <if test="orderId == null">
@@ -219,6 +226,15 @@
             and o.id  <![CDATA[<]]> (select o.id from order_info where o.order_id=#{orderId})
         </if>
         order by o.id desc limit #{pgSize};
+    </select>
+    <update id="updateOrderStatus">
+        update order_info set status=#{status} where order_id=#{orderId} and user_id=#{userId};
+    </update>
+    <select id="getOrderStatusAndVerCodeByOrderId" resultType="com.demai.cornel.vo.task.ArriveDepDriverResp">
+        select
+        order_info.status as status,
+        order_info.verify_code as verCode
+        from order_info where order_id=#{orderId};
     </select>
 
 </mapper>

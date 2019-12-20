@@ -58,12 +58,13 @@ public class GetOrderListResp {
     private String serviceMobile;
     private BigDecimal distance;
     private String orderWeight;
-    private int unitPrice;
-    private String unit;
-    private String priceUnit;
+    private int price;
+    private String unitPrice = "元";
+    private String unitWeight = "吨";
+    private String unitDistance = "km";
+
     private String startTime;
     private int status;
-    private String unitDistance;
 
 
     public static enum CODE_ENUE implements IEmus {

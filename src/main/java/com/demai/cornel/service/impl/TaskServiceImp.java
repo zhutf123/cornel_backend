@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @Slf4j
-public class TaskServiceImp implements ITaskService {
+public class TaskServiceImp  {
     @Resource
     private DistOrderInfoDao distOrderInfoDao;
     @Resource
@@ -52,9 +52,14 @@ public class TaskServiceImp implements ITaskService {
     private static final String TASK_REST_WEIGHT_FORMAT = "REST:task:%s";
     private static final String TASK_ERROR_WEIGHT_FORMAT = "CONTINUE:task";
 
-    @Override
+    /**
+     * 司机侧查询task 列表
+     * @param userId
+     * @param curId
+     * @param pgsize
+     * @return
+     */
     public List<DistTaskOrderReq> getDistTaskList(String userId, Integer curId, Integer pgsize) {
-        //Preconditions.checkNotNull(userId);
         LorryInfo lorryInfo = lorryInfoDao.getDefaultLorryByUserId(userId);
         if (lorryInfo == null) {
             lorryInfo = lorryInfoDao.getAvailableLorryByUserId(userId);
@@ -65,16 +70,24 @@ public class TaskServiceImp implements ITaskService {
             return Collections.emptyList();
         }
         distTaskOrderReqs.stream().forEach(x -> {
-            if (x.getUnitDistance() == null) x.setUnitDistance("km");
-            if (x.getUnitPrice() == null) x.setUnitPrice("元");
-            if (x.getUnitWeight() == null) x.setUnitWeight("吨");
             x.setIncome(x.getPrice().multiply(estimatedWeight));
-            if(x.getOrderStatus()==null) x.setOrderStatus((long) 0);
+            if (x.getOrderStatus() != null) {
+                x.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_CANCEL.getValue());
+            } else if (!x.getTaskStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue()) || getUnweightByTaskId(x.getTaskId()).compareTo(ContextConsts.MIN_CARRY_WEIGHT) == -1) {
+                x.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue());
+            } else {
+                x.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_INIT.getValue());
+            }
         });
         return distTaskOrderReqs;
     }
 
-    @Override
+    /**
+     * 司机侧获取task info
+     * @param userId
+     * @param taskId
+     * @return
+     */
     public TaskInfoReq getTaskInfo(String userId, String taskId) {
         Preconditions.checkNotNull(userId);
         Preconditions.checkNotNull(taskId);
@@ -92,98 +105,14 @@ public class TaskServiceImp implements ITaskService {
         return taskInfoReq;
     }
 
-    @Override
-    public JsonResult saveTask(TaskSaveVO taskSaveVO) {
 
-        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()), "1", 2, TimeUnit.SECONDS);
-        if (null == lock || !lock) {
-            return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.ORDER_FAIL);
-        }
-        TaskSaveResp taskSaveRep = new TaskSaveResp();
-
-        TaskInfo taskInfo = taskInfoDao.selectTaskInfoByTaskId(taskSaveVO.getTaskId());
-        String redisWeight = stringRedisTemplate.opsForValue().get(String.format(TASK_REST_WEIGHT_FORMAT, taskSaveVO.getTaskId()));
-        BigDecimal restWeight = null;
-        if (Strings.isNullOrEmpty(redisWeight)) {
-            stringRedisTemplate.opsForValue().set(String.format(TASK_REST_WEIGHT_FORMAT, taskSaveVO.getTaskId()), taskInfo.getUnacceptWeight().toString(), 2, TimeUnit.HOURS);
-            restWeight = new BigDecimal(stringRedisTemplate.opsForValue().get(String.format(TASK_REST_WEIGHT_FORMAT, taskSaveVO.getTaskId())));
-        }else {
-            restWeight = new BigDecimal(redisWeight);
-        }
-        if (restWeight == null) {
-            stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
-            return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.TASK_CODE_ERROR);
-        }
-        if (restWeight.compareTo(taskSaveVO.getCarryWeight()) == -1) {
-            stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
-            taskSaveRep.setStatus(TaskSaveResp.CODE_ENUE.WEIGHT_ERROR.getValue());
-            taskSaveRep.setRestWeight(restWeight);
-            return JsonResult.success(taskSaveRep);
-        }
-        restWeight = restWeight.subtract(taskSaveVO.getCarryWeight());
-        stringRedisTemplate.opsForValue().set(String.format(TASK_REST_WEIGHT_FORMAT, taskSaveVO.getTaskId()), restWeight.toString(), 2, TimeUnit.HOURS);
-        stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
-
-        LorryInfo lorryInfo = lorryInfoDao.getLorryByLorryID(taskSaveVO.getLarryId());
-
-        // 车辆是否有效
-        if (lorryInfo == null || !lorryInfo.getStatus().equals(1)) {
-            stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()), taskSaveVO.getCarryWeight().toString());
-            return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.MSG_CODE_ERROR);
-        }
-        // 提交重量超过限定的最大载重
-        BigDecimal maxCarryWeight = new BigDecimal(String.valueOf(ContextConsts.LORRY_OVER_WEIGHT_FACTOR));
-        if (taskSaveVO.getCarryWeight().compareTo(lorryInfo.getCarryWeight().multiply(maxCarryWeight)) == 1) {
-            stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()), taskSaveVO.getCarryWeight().toString());
-            taskSaveRep.setStatus(TaskSaveResp.CODE_ENUE.WEIGHT_ERROR.getValue());
-            taskSaveRep.setRestWeight(maxCarryWeight);
-            return JsonResult.success(taskSaveRep);
-        }
-        // 提交的重量大于订单剩余的重量
-        if (restWeight.compareTo(taskSaveVO.getCarryWeight()) == -1) {
-            stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()), taskSaveVO.getCarryWeight().toString());
-            taskSaveRep.setStatus(TaskSaveResp.CODE_ENUE.WEIGHT_ERROR.getValue());
-            taskSaveRep.setRestWeight(restWeight);
-            return JsonResult.success(taskSaveRep);
-        }
-        OrderInfo orderInfo = new OrderInfo();
-        try {
-            if (taskInfoDao.updateTaskUnDistWeight(taskSaveVO.getCarryWeight(), taskSaveVO.getTaskId()) != 1) {
-                stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()), taskSaveVO.getCarryWeight().toString());
-                return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.NETWORK_ERROR);
-            }
-            //todo 这一块的定义再想想
-            orderInfo.setTaskId(taskSaveVO.getTaskId());
-            orderInfo.setUserId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME));
-            orderInfo.setLorryId(lorryInfo.getId());
-            orderInfo.setDistance(taskInfo.getDistance());
-            orderInfo.setUnit(taskInfo.getUnit());
-            orderInfo.setSendOutUserId(taskInfo.getSendOutUserId());
-            orderInfo.setReceiverUserId(taskInfo.getReceiverUserId());
-            orderInfo.setCarryWeight(taskSaveVO.getCarryWeight());
-            orderInfo.setAcceptTime(new Date(System.currentTimeMillis()));
-            orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue());
-            orderInfo.setReceiveCode(GenerateCodeUtils.generateRandomCode(4));
-            orderInfo.setSendOutCode(GenerateCodeUtils.generateRandomCode(4));
-            if (orderInfoDao.save(orderInfo) != 1) {
-                log.error("save the order into db fail order info is [{}]", JacksonUtils.obj2String(orderInfo));
-                stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()), taskSaveVO.getCarryWeight().toString());
-                return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.NETWORK_ERROR);
-            }
-        } catch (Exception e) {
-            log.error("save the order error order info is [{}]", JacksonUtils.obj2String(orderInfo), e);
-            stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()), taskSaveVO.getCarryWeight().toString());
-            return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.NETWORK_ERROR);
-        }
-        taskSaveRep.setStatus(TaskSaveResp.CODE_ENUE.SUCCESS.getValue());
-        return JsonResult.success(taskSaveRep);
-    }
-
-    @Override
-    public List<GetOrderListResp> getOrderList(GetOrderListReq getOrderListReq, String userId) {
-        if (getOrderListReq == null || getOrderListReq.getOrderTyp() == null || Strings.isNullOrEmpty(userId)) {
-            return null;
-        }
-        return orderInfoDao.getOrderInfoByOrderTypeAndUserId(userId,getOrderListReq.getOrderTyp(),getOrderListReq.getOrderId(),getOrderListReq.getPgSize());
+    /**
+     * 查询盯订单的剩余未接单重量
+     *
+     * @return
+     */
+    public BigDecimal getUnweightByTaskId(String taskId) {
+        String restWeight = stringRedisTemplate.opsForValue().get(String.format(TASK_REST_WEIGHT_FORMAT, taskId));
+        return (Strings.isNullOrEmpty(restWeight)) ? taskInfoDao.getTaskUnacceptWeight(taskId) : new BigDecimal(restWeight);
     }
 }

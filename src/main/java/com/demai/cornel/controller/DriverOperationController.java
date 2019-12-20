@@ -5,13 +5,17 @@ package com.demai.cornel.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.holder.UserHolder;
+import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.model.TaskInfoReq;
+import com.demai.cornel.service.OrderService;
 import com.demai.cornel.service.UserLoginService;
 import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.task.ArriveDepDriverResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
 import com.demai.cornel.vo.task.TaskSaveVO;
@@ -39,7 +43,13 @@ public class DriverOperationController {
     @Resource
     private UserLoginService userLoginService;
 
-    @RequestMapping(value = "/task-list", method = RequestMethod.POST)
+    @Resource
+    private OrderInfoDao orderInfoDao;
+
+    @Resource
+    private OrderService orderService;
+
+    @RequestMapping(value = "/task-list.json", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult getTaskList(@RequestBody String param) {
         if (Strings.isNullOrEmpty(param)) {
@@ -72,8 +82,7 @@ public class DriverOperationController {
     @ResponseBody
     public JsonResult saveTask(@RequestBody TaskSaveVO taskSaveVO) {
         Preconditions.checkNotNull(taskSaveVO);
-        return null;
-
+        return orderService.saveOrder(taskSaveVO);
     }
 
     @RequestMapping(value = "/order-list.json", method = RequestMethod.POST)
@@ -83,7 +92,7 @@ public class DriverOperationController {
         if (Strings.isNullOrEmpty(getOrderListReq.getOrderId()) || getOrderListReq.getOrderTyp() == null) {
             return JsonResult.successStatus(GetOrderListResp.CODE_ENUE.PARAM_ERROR);
         }
-        if(userLoginService.checkUserValidity(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME))==null){
+        if (userLoginService.checkUserValidity(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)) == null) {
             return JsonResult.successStatus(GetOrderListResp.CODE_ENUE.PARAM_ERROR);
         }
         return null;
@@ -93,8 +102,23 @@ public class DriverOperationController {
     @RequestMapping(value = "/order-info.json", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult getOrderInfo(@RequestBody String orderId) {
-        Preconditions.checkNotNull(orderId);
+        return JsonResult.success(orderInfoDao.getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId));
+    }
 
-        return null;
+
+    @RequestMapping(value = "/arrive-dep.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult arriveDep(@RequestBody String orderId) {
+
+        long arriveStatus = OrderInfo.STATUS_ENUE.ORDER_ARRIVE_DEP.getValue();
+        ArriveDepDriverResp arriveDepDriverResp = new ArriveDepDriverResp();
+        arriveDepDriverResp.setOrderId(orderId);
+        if (orderInfoDao.updateOrderStatus(orderId, arriveStatus, UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)) != 1) {
+            arriveDepDriverResp.setSuccess(false);
+            return JsonResult.success(arriveDepDriverResp);
+        }
+        arriveDepDriverResp = orderInfoDao.getOrderStatusAndVerCodeByOrderId(orderId);
+        arriveDepDriverResp.setSuccess(true);
+        return JsonResult.success(arriveDepDriverResp);
     }
 }

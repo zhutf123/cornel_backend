@@ -4,6 +4,8 @@
 package com.demai.cornel.dao;
 
 import com.demai.cornel.model.OrderInfo;
+import com.demai.cornel.vo.order.GetOrderInfoResp;
+import com.demai.cornel.vo.task.ArriveDepDriverResp;
 import com.demai.cornel.vo.task.GetOrderListResp;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,10 +23,14 @@ public interface OrderInfoDao {
 
     //public List<OrderInfo> getOrderInfoByTaskUser(OrderInfo orderInfo);
 
-    List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId")String userId, @Param("orderType")Integer orderType,
-                                                            @Param("orderId")String orderId,@Param("pgSize")Integer pgSize);
+    List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId") String userId, @Param("orderType") Integer orderType,
+                                                            @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
 
-    List<GetOrderListResp> getOrderInfoByTaskUser(@Param("userId")String userId, @Param("orderType")Integer orderType,
-            @Param("orderId")String orderId,@Param("pgSize")Integer pgSize);
+    GetOrderInfoResp getOrderInfoByUserAndOrderId(@Param("userId") String userId, @Param("orderId") String orderId);
 
+
+    int updateOrderStatus(@Param("orderId") String orderId, @Param("status") long status, @Param("userId") String userId);
+
+
+    ArriveDepDriverResp getOrderStatusAndVerCodeByOrderId(@Param("orderId") String orderId);
 }
