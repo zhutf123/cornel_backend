@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
@@ -23,9 +24,9 @@ import lombok.NoArgsConstructor;
 public class OrderInfo implements Serializable {
     private static final long serialVersionUID = 5140939699074828658L;
     private Long id;
-    private Long taskId;
+    private String taskId;
     private Long lorryId;
-    private Long userId;
+    private String userId;
 
     private BigDecimal distance;
 
@@ -45,10 +46,10 @@ public class OrderInfo implements Serializable {
     private Date estimateFinishTime;
     private Date finishTime;
     private String sendOutCode;
-    private Integer sendOutUserId;
+    private Set<String> sendOutUserId;
     private String receiveCode;
-    private Integer receiverUserId;
-    private Integer status;
+    private Set<String> receiverUserId;
+    private long status;
     private String unexpect;
     private Date cancelTime;
     private String cancelReason;

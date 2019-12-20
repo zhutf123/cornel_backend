@@ -4,6 +4,10 @@
 package com.demai.cornel.dao;
 
 import com.demai.cornel.model.OrderInfo;
+import com.demai.cornel.vo.task.GetOrderListResp;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -15,5 +19,8 @@ public interface OrderInfoDao {
 
     public void save(OrderInfo orderInfo);
 
-    public List<OrderInfo> getOrderInfoByTaskUser(OrderInfo orderInfo);
+    //public List<OrderInfo> getOrderInfoByTaskUser(OrderInfo orderInfo);
+
+    List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId")String userId, @Param("orderType")Integer orderType,
+                                                            @Param("orderId")String orderId,@Param("pgSize")Integer pgSize);
 }

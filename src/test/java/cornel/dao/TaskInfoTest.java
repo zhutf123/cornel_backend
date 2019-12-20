@@ -58,7 +58,7 @@ public class TaskInfoTest extends BaseTest {
         subTaskTimes.add(subTaskTime2);
         subTaskTimes.add(subTaskTime);
 
-        taskInfo.setSubTaskTime(subTaskTimes);
+        //taskInfo.setSubTaskTime(subTaskTimes);
         taskInfo.setSubTaskTimeString(JacksonUtils.obj2String(subTaskTimes));
         taskInfoDao.save(taskInfo);
     }

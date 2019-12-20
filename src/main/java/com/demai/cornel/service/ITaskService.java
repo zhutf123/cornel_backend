@@ -4,6 +4,8 @@ import com.demai.cornel.model.DistOrderInfo;
 import com.demai.cornel.model.DistTaskOrderReq;
 import com.demai.cornel.model.TaskInfoReq;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.task.GetOrderListReq;
+import com.demai.cornel.vo.task.GetOrderListResp;
 import com.demai.cornel.vo.task.TaskSaveVO;
 
 import java.util.List;
@@ -30,4 +32,14 @@ public interface ITaskService {
      * @param taskSaveVO
      */
     JsonResult saveTask(TaskSaveVO taskSaveVO);
+
+    /**
+     * 司机侧获取订单列表 分页拉取
+     *
+     * @param getOrderListReq
+     * @param userId
+     * @return
+     */
+
+    List<GetOrderListResp> getOrderList(GetOrderListReq getOrderListReq, String userId);
 }

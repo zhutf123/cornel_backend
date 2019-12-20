@@ -31,7 +31,7 @@ public class SupplierTaskService {
      * @param status
      */
     public List<SupplierTaskListResp> getTaskOrderListByStatus(String userId,Long status){
-        orderInfoDao
+//        orderInfoDao
 
 
         taskInfoDao.getTaskOrderListByStatus(userId,status);

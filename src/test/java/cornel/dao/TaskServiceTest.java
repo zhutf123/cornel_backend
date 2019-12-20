@@ -1,13 +1,18 @@
 package cornel.dao;
 
 import com.demai.cornel.model.DistTaskOrderReq;
+import com.demai.cornel.model.TaskInfoReq;
 import com.demai.cornel.service.DistOrderService;
 import com.demai.cornel.service.TaskService;
 import com.demai.cornel.service.impl.TaskServiceImp;
+import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.vo.task.GetOrderListReq;
+import com.demai.cornel.vo.task.TaskSaveVO;
 import cornel.BaseTest;
 import org.junit.Test;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +27,7 @@ public class TaskServiceTest extends BaseTest {
 
     @Resource
     private TaskServiceImp taskServiceImp;
+
 
 
 
@@ -48,7 +54,28 @@ public class TaskServiceTest extends BaseTest {
 
     @Test
     public void testGetTaskList(){
-        List<DistTaskOrderReq>as =  taskServiceImp.getDistTaskList("binz.zhang",null,1);
+        List<DistTaskOrderReq>as =  taskServiceImp.getDistTaskList("bin.zhang",null,1);
+        System.out.println(JacksonUtils.obj2String(as));
+    }
+
+    @Test
+    public void testSaveTaskInfo(){
+        TaskSaveVO taskInfoReq = new TaskSaveVO();
+        taskInfoReq.setCarryWeight(new BigDecimal(100));
+        taskInfoReq.setLarryId(1);
+        taskInfoReq.setTaskId("169073d2-4c45-402f-a905-1f455f273ef6");
+        taskInfoReq.setSelectTime("2019-08-29 12:00-14:00");
+        taskServiceImp.saveTask(taskInfoReq);
+    }
+
+    @Test
+    public void testGetOrderList(){
+        GetOrderListReq getOrderListReq = new GetOrderListReq();
+        getOrderListReq.setOrderId("123");
+        getOrderListReq.setOrderTyp(1);
+        getOrderListReq.setPgSize(10);
+        taskServiceImp.getOrderList(getOrderListReq,"binz.zhang");
         System.out.println("ok");
     }
+
 }

@@ -135,16 +135,18 @@ CREATE TABLE "order_info" (
 "estimate_finish_time" timestamptz(6),
 "finish_time" timestamptz(6),
 "send_out_code" varchar(10),
-"send_out_user_id" integer,
+"send_out_user_id" varchar(40) [],
 "receive_code" varchar(10),
-"receiver_user_id" integer,
+"receiver_user_id" varchar(40) [],
 "status" integer default 1,
 "unexpect" text,
 "cancel_time" timestamptz(6),
 "cancel_reason" text,
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),
-"operate_time" timestamptz(6) default now()
+"operate_time" timestamptz(6) default now(),
+"verifyCode" varchar(100),
+"receive_time" varchar (40)
 )
 WITH (OIDS=FALSE)
 ;
@@ -175,6 +177,9 @@ COMMENT ON COLUMN "order_info"."cancel_time" IS '取消时间';
 COMMENT ON COLUMN "order_info"."cancel_reason" IS '取消原因';
 COMMENT ON COLUMN "order_info"."ext_info" IS '扩展信息';
 COMMENT ON COLUMN "order_info"."status" IS '状态 1:有效  2无效';
+COMMENT ON COLUMN "order_info"."send_out_user_id" IS '出货人列表';
+COMMENT ON COLUMN "order_info"."verify_code" IS '出货验证码';
+COMMENT ON COLUMN "order_info"."receive_time" IS '接货时间';
 
 
 任务信息
@@ -201,6 +206,8 @@ CREATE TABLE "task_info" (
 -- "dep_gis" geometry,
 -- "arr_gis" geometry,
 "distance" numeric(10,2),
+"unit_distance" varchar (10),
+
 "unit_price" numeric(10,2),
 "estimate_price" numeric(10,2),
 "level" integer,
@@ -210,7 +217,8 @@ CREATE TABLE "task_info" (
 "load_time_unit" integer,
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now(),
-"subtask_time" json
+"subtask_time" json,
+"receiver_user_id" varchar(50)[]
 )
 WITH (OIDS=FALSE)
 ;
@@ -228,6 +236,8 @@ COMMENT ON COLUMN "task_info"."unit_cost_time" IS '单位任务耗时';
 COMMENT ON COLUMN "task_info"."dep" IS '出发地';
 COMMENT ON COLUMN "task_info"."arr" IS '到达地';
 COMMENT ON COLUMN "task_info"."distance" IS '距离';
+COMMENT ON COLUMN "task_info"."unit_distance" IS '距离单位km';
+
 COMMENT ON COLUMN "task_info"."unit_price" IS '单位价格';
 COMMENT ON COLUMN "task_info"."estimate_price" IS '预期收益';
 COMMENT ON COLUMN "task_info"."level" IS '任务级别';
@@ -236,7 +246,7 @@ COMMENT ON COLUMN "task_info"."ext_info" IS '扩展信息';
 COMMENT ON COLUMN "task_info"."load_lorry_unit" IS '单位装载车辆数,如可同时装载两量车';
 COMMENT ON COLUMN "task_info"."load_time_unit" IS '单位装载时间，装载一顿耗时';
 COMMENT ON COLUMN "task_info"."operation_detail" IS '单位装载时间，装载一顿耗时';
-COMMENT ON COLUMN "task_info"."subtask_time" IS '子订单时间安排    [{
+COMMENT ON COLUMN "task_info"."subtask_time" IS '出货时间安排    [{
 	"time": "2019-09-12 12:00-14:00",
 	"num": 2
 }, {
@@ -244,6 +254,7 @@ COMMENT ON COLUMN "task_info"."subtask_time" IS '子订单时间安排    [{
 	"num": 2
 }]'
 
+COMMENT ON COLUMN "task_info"."consignee_userid" IS '接货人ID';
 
  拆分子任务的信息
 
