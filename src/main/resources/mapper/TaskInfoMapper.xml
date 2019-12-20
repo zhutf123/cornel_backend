@@ -16,6 +16,7 @@
         <result column="dep" property="dep"/>
         <result column="arr" property="arr"/>
         <result column="distance" property="distance"/>
+        <result column="unit_distance" property="unitDistance"/>
         <result column="unit_price" property="unitPrice"/>
         <result column="estimate_price" property="estimatePrice"/>
         <result column="level" property="level"/>
@@ -24,6 +25,10 @@
         <result column="create_time" property="createTime"/>
         <result column="operate_time" property="operateTime"/>
         <result column="subtask_time" property="subTaskTimeString"/>
+        <result column="receiver_user_id" property="receiverUserId" jdbcType="ARRAY"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="send_out_user_id" property="sendOutUserId" jdbcType="ARRAY"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
     </resultMap>
 
     <sql id="main_column">
@@ -43,6 +48,7 @@
         --dep_gis,
         --arr_gis,
         distance,
+        unit_distance,
         unit_price,
         estimate_price,
         level,
@@ -50,7 +56,9 @@
         ext_info,
         create_time,
         operate_time,
-        subtask_time
+        subtask_time,
+        receiver_user_id,
+        send_out_user_id
     </sql>
 
     <update id="update" parameterType="com.demai.cornel.model.TaskInfo">
@@ -78,6 +86,9 @@
             <if test="operateTime != null">operate_time = #{operateTime},</if>
             <if test="operateTime != null">operate_time = #{operateTime},</if>
             <if test="subTaskTimeString != null">subtask_time = #{subTaskTimeString},</if>
+            <if test="sendOutUserId != null">send_out_user_id = #{sendOutUserId},</if>
+            <if test="receiverUserId != null">receiver_user_id = #{receiverUserId},</if>
+            <if test="unitDistance != null">unit_distance = #{unitDistance},</if>
 
         </trim>
         where id = #{id}
@@ -108,6 +119,10 @@
             <if test="createTime != null">create_time ,</if>
             <if test="operateTime != null">operate_time ,</if>
             <if test="subTaskTimeString != null">subtask_time,</if>
+            <if test="sendOutUserId != null">send_out_user_id,</if>
+            <if test="receiverUserId != null">receiver_user_id,</if>
+            <if test="unitDistance != null">unit_distance,</if>
+
         </trim>
         )values(
         <trim suffixOverrides=",">
@@ -132,7 +147,9 @@
             <if test="createTime != null">#{createTime} ,</if>
             <if test="operateTime != null">#{operateTime} ,</if>
             <if test="subTaskTimeString != null">#{subTaskTimeString} ,</if>
-
+            <if test="sendOutUserId != null">#{sendOutUserId jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,</if>
+            <if test="receiverUserId != null">#{receiverUserId jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,</if>
+            <if test="unitDistance != null">#{unitDistance},</if>
         </trim>
         )
     </insert>

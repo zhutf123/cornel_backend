@@ -9,6 +9,7 @@ import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.util.GenRandomCodeUtil;
 import com.demai.cornel.util.StringUtil;
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 
@@ -119,6 +120,13 @@ public class UserLoginService {
      */
     public UserInfo getUserInfoByPhone(String phone) {
         return userInfoDao.getUserInfoByPhone(phone);
+    }
+
+    public UserInfo checkUserValidity(String userId){
+        if(Strings.isNullOrEmpty(userId)){
+            return null;
+        }
+        return userInfoDao.getUserInfoByUserId(userId);
     }
 
 }

@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author binz.zhang
@@ -46,7 +47,7 @@ public class TaskInfoReq {
     private String unitWeight;
     private int status;
     private List<LorryInfoBean> lorryInfo;
-    private HashMap<String,Integer> starttime;
+    private Map<String,Integer> starttime;
 
     public TaskInfoReq(TaskInfo taskInfo) {
         this.taskId = taskInfo.getTaskId();
@@ -58,6 +59,9 @@ public class TaskInfoReq {
         this.distance = taskInfo.getDistance();
         this.price = taskInfo.getUnitPrice();
         this.status = taskInfo.getStatus();
+    }
+
+    public TaskInfoReq() {
     }
 
     @Data

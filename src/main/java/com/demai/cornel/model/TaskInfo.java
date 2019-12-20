@@ -3,7 +3,11 @@
  */
 package com.demai.cornel.model;
 
+import com.alibaba.fastjson.JSON;
+import com.demai.cornel.util.JacksonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,10 +17,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -48,6 +49,8 @@ public class TaskInfo implements Serializable {
 
     private BigDecimal distance;
 
+    private String unitDistance;
+
     private BigDecimal unitPrice;
 
     private BigDecimal estimatePrice;
@@ -57,20 +60,20 @@ public class TaskInfo implements Serializable {
     private Map<String, String> extInfo;
     private Date createTime;
     private Date operateTime;
-    private HashMap<String, Integer> subTaskTime;
+    private Map<String, Integer> subTaskTime;
     private String subTaskTimeString;
-
+    private Set<String> receiverUserId;
+    private Set<String> sendOutUserId;
 
     public void setSubTaskTimeString(String subTaskTimeString) {
-        ObjectMapper objmapper = new ObjectMapper();
-        try {
-            List<SubTaskTime> list = objmapper.readValue(subTaskTimeString, List.class);//将json字符串转化成list
-            this.subTaskTime = (list == null)? (HashMap<String, Integer>) Collections.EMPTY_MAP
-                    :(HashMap<String, Integer>) list.stream().collect(Collectors.toMap(SubTaskTime::getTime, SubTaskTime::getCount));
+        if (Strings.isNullOrEmpty(subTaskTimeString)) {
             this.subTaskTimeString = subTaskTimeString;
-        } catch (IOException e) {
-           log.error("task transform error ",e);
+            this.subTaskTime = (HashMap<String, Integer>) Collections.EMPTY_MAP;
         }
+        List<SubTaskTime> list = JSON.parseArray(subTaskTimeString, SubTaskTime.class);//将json字符串转化成list
+        this.subTaskTime = (list == null) ? (HashMap<String, Integer>) Collections.EMPTY_MAP
+                : list.stream().collect(Collectors.toMap(SubTaskTime::getTime, SubTaskTime::getCount));
+        this.subTaskTimeString = subTaskTimeString;
     }
 
 
@@ -80,4 +83,5 @@ public class TaskInfo implements Serializable {
         private Integer count;
 
     }
+
 }

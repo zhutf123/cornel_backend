@@ -19,7 +19,7 @@ public interface TaskInfoDao {
 
     public TaskInfo selectTaskInfoByTaskId(@Param("taskId") String taskId);
 
-    public void updateTaskUnDistWeight(@Param("unDistWeight") BigDecimal bigDecimal, @Param("taskId") String taskId);
+    public int updateTaskUnDistWeight(@Param("unDistWeight") BigDecimal bigDecimal, @Param("taskId") String taskId);
 
     public List<Object> getTaskOrderListByStatus(@Param("userId") String userId,@Param("taskId") Long status);
 

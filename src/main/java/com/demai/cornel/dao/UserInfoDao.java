@@ -17,10 +17,12 @@ public interface UserInfoDao {
 
     List<UserInfo> getUsersInfoByPhones(@Param("phones") Set<String> phones);
 
-    List<UserDistOrderModel> getUserDefaultLorryByTels (@Param("phones") Set<String> phones);
+    List<UserDistOrderModel> getUserDefaultLorryByTels(@Param("phones") Set<String> phones);
 
-    int updateUserOpenIdByUid(@Param("openIds")Set<String> openIds,@Param("userId")Long userId);
+    int updateUserOpenIdByUid(@Param("openIds") Set<String> openIds, @Param("userId") Long userId);
 
-    List<UserDistOrderModel> getUsersLorryInfoByPlateNumber (@Param("platNumbers") Set<String> platNumber);
+    List<UserDistOrderModel> getUsersLorryInfoByPlateNumber(@Param("platNumbers") Set<String> platNumber);
+
+    UserInfo getUserInfoByUserId(@Param("userId") String userId);
 
 }

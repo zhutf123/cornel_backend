@@ -8,9 +8,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.model.TaskInfoReq;
+import com.demai.cornel.service.UserLoginService;
 import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.task.GetOrderListReq;
+import com.demai.cornel.vo.task.GetOrderListResp;
 import com.demai.cornel.vo.task.TaskSaveVO;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -33,6 +36,8 @@ import java.util.Optional;
 public class DriverOperationController {
     @Resource
     private TaskServiceImp taskServiceImp;
+    @Resource
+    private UserLoginService userLoginService;
 
     @RequestMapping(value = "/task-list", method = RequestMethod.POST)
     @ResponseBody
@@ -62,10 +67,27 @@ public class DriverOperationController {
         }
         return JsonResult.success(taskInfoReq);
     }
+
     @RequestMapping(value = "/save.json", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult saveTask(@RequestBody TaskSaveVO taskSaveVO) {
         Preconditions.checkNotNull(taskSaveVO);
+        return null;
+
+    }
+
+    @RequestMapping(value = "/order-list.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult getOrderList(@RequestBody GetOrderListReq getOrderListReq) {
+        Preconditions.checkNotNull(getOrderListReq);
+        if (Strings.isNullOrEmpty(getOrderListReq.getOrderId()) || getOrderListReq.getOrderTyp() == null) {
+            return JsonResult.successStatus(GetOrderListResp.CODE_ENUE.PARAM_ERROR);
+        }
+        if(userLoginService.checkUserValidity(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME))==null){
+            return JsonResult.successStatus(GetOrderListResp.CODE_ENUE.PARAM_ERROR);
+        }
+
+
         return null;
 
     }
