@@ -23,4 +23,8 @@ public interface OrderInfoDao {
 
     List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId")String userId, @Param("orderType")Integer orderType,
                                                             @Param("orderId")String orderId,@Param("pgSize")Integer pgSize);
+
+    List<GetOrderListResp> getOrderInfoByTaskUser(@Param("userId")String userId, @Param("orderType")Integer orderType,
+            @Param("orderId")String orderId,@Param("pgSize")Integer pgSize);
+
 }

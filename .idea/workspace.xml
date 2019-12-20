@@ -7,30 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20dd90b0-3167-44dd-b373-3167314da2fe" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/task/GetOrderListReq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/task/GetOrderListResp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/task/TaskSaveResp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/init_sql_20190927.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/init_sql_20190927.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DriverOperationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/controller/DriverOperationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/OrderInfoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/OrderInfoDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/TaskInfoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/TaskInfoDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/UserInfoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/dao/UserInfoDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/OrderInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/OrderInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/TaskInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/TaskInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/TaskInfoReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/model/TaskInfoReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/ITaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/ITaskService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/SupplierTaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/SupplierTaskService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/UserLoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/UserLoginService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/impl/TaskServiceImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/task/TaskSaveVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/vo/task/TaskSaveVO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/OrderInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/OrderInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/TaskInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/TaskInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/cornel/dao/TaskInfoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cornel/dao/TaskInfoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/cornel/dao/TaskServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cornel/dao/TaskServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application-default.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/application-default.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
