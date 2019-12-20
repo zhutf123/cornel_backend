@@ -26,7 +26,8 @@ public class DistTaskOrderReq {
     private String unitPrice;
     private String unitWeight;
     private BigDecimal income;
-    private Integer taskStatus;
-    private Integer orderStatus;
+    private Long taskStatus;
+    private Long orderStatus;  //司机对这个单子的状态 0 未接单 1 已接单 2 无法接单
+
 
 }

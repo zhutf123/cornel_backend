@@ -78,7 +78,7 @@ public class TaskInfoReq {
         private int lorryId;
         private String plateNumber;
         private String carryWeight;
-        private String OverCarryWight;
+        private String overCarryWight;
         private String unitWeight;
         private boolean defaultSelect;
         private Integer carStatus;

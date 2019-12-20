@@ -86,9 +86,15 @@ public class DriverOperationController {
         if(userLoginService.checkUserValidity(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME))==null){
             return JsonResult.successStatus(GetOrderListResp.CODE_ENUE.PARAM_ERROR);
         }
+        return null;
+    }
 
+
+    @RequestMapping(value = "/order-info.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult getOrderInfo(@RequestBody String orderId) {
+        Preconditions.checkNotNull(orderId);
 
         return null;
-
     }
 }

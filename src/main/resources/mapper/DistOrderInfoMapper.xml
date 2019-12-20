@@ -89,18 +89,19 @@
         task_info.title as title,
         task_info.dep as dep,
         task_info.arr as arr,
+        task_info.weight as weight,
         task_info.create_time as startTime,
         task_info.end_time as endTime,
         task_info.distance as distance,
         task_info.unit_price as price,
         task_info.status as taskStatus,
         order_info.status as orderStatus
-        FROM task_info left join order_info on task_info.task_id = order_info.task_id where order_info.user_id = #{userId}
+        FROM task_info left join order_info on task_info.task_id = order_info.task_id and order_info.user_id=#{userId} where
         <if test="curId != null">
-            and task_info.id  <![CDATA[<]]> #{curId}
+             task_info.id  <![CDATA[<]]> #{curId}
         </if>
         <if test="curId == null">
-            and task_info.id  <![CDATA[<=]]> (select max(id) from task_info limit 1)
+             task_info.id  <![CDATA[<=]]> (select max(id) from task_info limit 1)
         </if>
         order by task_info.id desc limit #{pgSize};
     </select>

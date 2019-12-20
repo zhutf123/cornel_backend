@@ -53,7 +53,7 @@ public class GetOrderListResp {
     private int lorryId;
     private String plateNumber;
     private BigDecimal carryWeight;
-    private BigDecimal OverCarryWight;
+    private BigDecimal overCarryWight;
     private String verifyCode;
     private String serviceMobile;
     private BigDecimal distance;

@@ -17,7 +17,7 @@ import java.util.List;
 public interface OrderInfoDao {
     public void update(OrderInfo orderInfo);
 
-    public void save(OrderInfo orderInfo);
+    public int save(OrderInfo orderInfo);
 
     //public List<OrderInfo> getOrderInfoByTaskUser(OrderInfo orderInfo);
 

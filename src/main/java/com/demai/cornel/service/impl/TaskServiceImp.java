@@ -54,7 +54,7 @@ public class TaskServiceImp implements ITaskService {
 
     @Override
     public List<DistTaskOrderReq> getDistTaskList(String userId, Integer curId, Integer pgsize) {
-        Preconditions.checkNotNull(userId);
+        //Preconditions.checkNotNull(userId);
         LorryInfo lorryInfo = lorryInfoDao.getDefaultLorryByUserId(userId);
         if (lorryInfo == null) {
             lorryInfo = lorryInfoDao.getAvailableLorryByUserId(userId);
@@ -69,6 +69,7 @@ public class TaskServiceImp implements ITaskService {
             if (x.getUnitPrice() == null) x.setUnitPrice("元");
             if (x.getUnitWeight() == null) x.setUnitWeight("吨");
             x.setIncome(x.getPrice().multiply(estimatedWeight));
+            if(x.getOrderStatus()==null) x.setOrderStatus((long) 0);
         });
         return distTaskOrderReqs;
     }
@@ -106,6 +107,8 @@ public class TaskServiceImp implements ITaskService {
         if (Strings.isNullOrEmpty(redisWeight)) {
             stringRedisTemplate.opsForValue().set(String.format(TASK_REST_WEIGHT_FORMAT, taskSaveVO.getTaskId()), taskInfo.getUnacceptWeight().toString(), 2, TimeUnit.HOURS);
             restWeight = new BigDecimal(stringRedisTemplate.opsForValue().get(String.format(TASK_REST_WEIGHT_FORMAT, taskSaveVO.getTaskId())));
+        }else {
+            restWeight = new BigDecimal(redisWeight);
         }
         if (restWeight == null) {
             stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));

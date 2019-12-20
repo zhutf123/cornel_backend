@@ -57,7 +57,7 @@ public class TaskInfo implements Serializable {
     private BigDecimal estimatePrice;
 
     private Integer level;
-    private Integer status;
+    private Long status;
     private Map<String, String> extInfo;
     private Date createTime;
     private Date operateTime;

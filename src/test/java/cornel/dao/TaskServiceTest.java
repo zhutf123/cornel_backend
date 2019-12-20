@@ -54,7 +54,7 @@ public class TaskServiceTest extends BaseTest {
 
     @Test
     public void testGetTaskList(){
-        List<DistTaskOrderReq>as =  taskServiceImp.getDistTaskList("bin.zhang",null,1);
+        List<DistTaskOrderReq>as =  taskServiceImp.getDistTaskList("bin.zhang",null,3);
         System.out.println(JacksonUtils.obj2String(as));
     }
 
