@@ -11,8 +11,10 @@ import javax.annotation.Resource;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.service.DeliveryTaskService;
 import com.demai.cornel.util.json.JsonUtil;
+import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
+import com.demai.cornel.vo.task.GetOrderListResp;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,6 +62,32 @@ public class DeliveryCornController {
 
         } catch (Exception e) {
             log.error("接货人查询任务订单信息失败:{}", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+
+    /**
+     * 接货人查看订单详情
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/order-info.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult orderInfo(@RequestBody GetOrderInfoReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            if (param == null) {
+                log.error("烘干塔获取任务订单信息失败 :{}", curUser);
+                return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+            }
+            GetOrderListResp result = deliveryTaskService.getTaskOrderInfoByOrderIdOrVerifyCode(curUser, param);
+            if (log.isDebugEnabled()) {
+                log.debug("烘干塔查询任务订单列表 user:{} result:{}", curUser, JsonUtil.toJson(result));
+            }
+            return JsonResult.success(result);
+        } catch (Exception e) {
+            log.error("烘干塔根据订单id查询订单信息失败！", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }

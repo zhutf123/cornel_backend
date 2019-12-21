@@ -58,7 +58,7 @@ public class SupplierTaskListResp {
     /***
      *订单信息
      */
-    private List<DeliveryTaskListResp.DaileryTaskOrderInfo> orderInfo;
+    private List<DeliveryTaskListResp.DeliveryTaskOrderInfo> orderInfo;
 
     public static enum STATUS_ENUE implements IEmus {
         NO_USER(-1, "用户不存在，请先注册"),

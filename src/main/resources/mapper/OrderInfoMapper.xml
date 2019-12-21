@@ -311,15 +311,23 @@
         o.verify_code as verifyCode,
         o.receive_time as startTime
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
-        o.supplier_id=#{supplierId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
+        1=1
         <if test="orderId == null">
-            and o.id  <![CDATA[<=]]> (select o.id from order_info where o.supplier_id=#{supplierId} and
-            o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
+            and o.order_id=#{orderId}
         </if>
-        <if test="orderId!=null">
-            and o.id  <![CDATA[<]]> (select o.id from order_info where o.order_id=#{orderId})
+
+        <if test="verifyCode!=null">
+            <if test="role=='supplier'">
+                and o.send_out_code=#{verifyCode}
+                and o.supplier_id=#{supplierId}
+            </if>
+            
+            <if test="role=='delivery'">
+                and o.receive_code=#{verifyCode}
+                and o.delivery_id=#{supplierId}
+            </if>
         </if>
-        order by o.id desc limit #{pgSize};
+        
     </select>
 
 

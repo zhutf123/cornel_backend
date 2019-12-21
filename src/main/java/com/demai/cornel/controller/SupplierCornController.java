@@ -16,8 +16,11 @@ import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
+import com.demai.cornel.vo.order.OperationOrderResp;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
+import com.demai.cornel.vo.task.GetOrderListResp;
+import groovy.transform.Undefined;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,6 +59,7 @@ public class SupplierCornController {
                 log.error("烘干塔获取任务订单信息失败 查询订单状态为空:{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }
+            
             if (log.isDebugEnabled()) {
                 log.debug("烘干塔查询任务订单列表 user:{} status:{}", curUser, param);
             }
@@ -86,7 +90,7 @@ public class SupplierCornController {
                 log.error("烘干塔获取任务订单信息失败 :{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }
-            SupplierTaskListResp result = supplierTaskService.getTaskOrderInfoByOrderIdOrVerifyCode(curUser, param);
+            GetOrderListResp result = supplierTaskService.getTaskOrderInfoByOrderIdOrVerifyCode(curUser, param);
             if (log.isDebugEnabled()) {
                 log.debug("烘干塔查询任务订单列表 user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
@@ -97,22 +101,26 @@ public class SupplierCornController {
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 
-
     /**
      * 烘干塔开始装货
-     * 
-     * @param param
+     *
+     * @param orderId
      * @return
      */
     @RequestMapping(value = "/shipment.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult shipmentConfirm(@RequestBody String param) {
-        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        if (param.getOrderTyp() == null) {
-            log.error("烘干塔获取任务订单信息失败 查询订单状态为空:{}", curUser);
-            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    public JsonResult shipmentStart(@RequestBody String orderId) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            OperationOrderResp result = supplierTaskService.shipmentStart(curUser, orderId);
+            if (log.isDebugEnabled()) {
+                log.debug("烘干塔开始装货 user:{} result:{}", curUser, JsonUtil.toJson(result));
+            }
+            return JsonResult.success(result);
+        }catch (Exception e){
+            log.error("烘干塔开始装货异常！{}", e);
         }
-        return null;
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 
     /**

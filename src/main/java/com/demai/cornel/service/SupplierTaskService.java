@@ -4,25 +4,25 @@
 package com.demai.cornel.service;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
-import com.demai.cornel.vo.order.GetOrderInfoReq;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.demai.cornel.model.OrderInfo;
+import com.demai.cornel.vo.order.OperationOrderResp;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.demai.cornel.dao.OrderInfoDao;
-import com.demai.cornel.dao.TaskInfoDao;
+import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
+import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,13 +45,13 @@ public class SupplierTaskService {
     public Collection<SupplierTaskListResp> getTaskOrderListByStatus(String supplierId, GetOrderListReq param) {
         List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderTyp(),
                 param.getOrderId(), param.getPgSize());
-        if (CollectionUtils.isEmpty(orderListResp)){
+        if (CollectionUtils.isEmpty(orderListResp)) {
             return null;
         }
         Map<String, SupplierTaskListResp> taskOrderInfo = Maps.newHashMap();
         orderListResp.stream().forEach(order -> {
             if (taskOrderInfo.keySet().contains(order.getTaskId())) {
-                buildTaskOrderInfo(taskOrderInfo.get(order.getTaskId()),order);
+                buildTaskOrderInfo(taskOrderInfo.get(order.getTaskId()), order);
             } else {
                 taskOrderInfo.put(order.getTaskId(), buildTaskOrderInfo(null, order));
             }
@@ -66,7 +66,7 @@ public class SupplierTaskService {
      * @return
      */
     private SupplierTaskListResp buildTaskOrderInfo(SupplierTaskListResp resp, GetOrderListResp order) {
-        DeliveryTaskListResp.DaileryTaskOrderInfo orderInfo = new DeliveryTaskListResp.DaileryTaskOrderInfo();
+        DeliveryTaskListResp.DeliveryTaskOrderInfo orderInfo = new DeliveryTaskListResp.DeliveryTaskOrderInfo();
         BeanUtils.copyProperties(order, orderInfo);
         if (resp != null) {
             resp.getOrderInfo().add(orderInfo);
@@ -78,7 +78,6 @@ public class SupplierTaskService {
         return resp;
     }
 
-
     /**
      * 根据用户烘干塔用户id 订单状态查询任务订单
      *
@@ -86,21 +85,21 @@ public class SupplierTaskService {
      * @param param
      */
     public GetOrderListResp getTaskOrderInfoByOrderIdOrVerifyCode(String supplierId, GetOrderInfoReq param) {
-        GetOrderListResp orderListResp = orderInfoDao.getOrderInfoByOrderIdOrVerifyCode(supplierId,
+        return orderInfoDao.getOrderInfoByOrderIdOrVerifyCode("supplier", supplierId,
                 param.getOrderId(), param.getVerifyCode());
-        if (orderListResp == null) {
-            return null;
-        }
-        Map<String, SupplierTaskListResp> taskOrderInfo = Maps.newHashMap();
-        orderListResp.stream().forEach(order -> {
-            if (taskOrderInfo.keySet().contains(order.getTaskId())) {
-                buildTaskOrderInfo(taskOrderInfo.get(order.getTaskId()),order);
-            } else {
-                taskOrderInfo.put(order.getTaskId(), buildTaskOrderInfo(null, order));
-            }
-        });
-        return taskOrderInfo.values();
     }
 
+    /**
+     * 烘干塔开始装货
+     * @param supplierId
+     * @param orderId
+     * @return
+     */
+    public OperationOrderResp shipmentStart(String supplierId, String orderId) {
+        OrderInfo orderInfo = new OrderInfo();
+//        orderInfoDao.
+
+        return null;
+    }
 
 }

@@ -5,6 +5,7 @@ package com.demai.cornel.service;
 
 import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
+import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
@@ -70,5 +71,16 @@ public class DeliveryTaskService {
             resp.setOrderInfo(Lists.newArrayList(orderInfo));
         }
         return resp;
+    }
+
+    /**
+     * 根据用户烘干塔用户id 订单状态查询任务订单
+     *
+     * @param deliveryId
+     * @param param
+     */
+    public GetOrderListResp getTaskOrderInfoByOrderIdOrVerifyCode(String deliveryId, GetOrderInfoReq param) {
+        return orderInfoDao.getOrderInfoByOrderIdOrVerifyCode("delivery", deliveryId, param.getOrderId(),
+                param.getVerifyCode());
     }
 }

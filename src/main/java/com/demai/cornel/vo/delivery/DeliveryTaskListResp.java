@@ -59,10 +59,10 @@ public class DeliveryTaskListResp {
     /***
      *订单信息
      */
-    private DaileryTaskOrderInfo orderInfo;
+    private DeliveryTaskOrderInfo orderInfo;
 
     @Data
-    public static class DaileryTaskOrderInfo implements Serializable {
+    public static class DeliveryTaskOrderInfo implements Serializable {
         private String orderId;
         private String startValidDate;
         private String endValidDate;
