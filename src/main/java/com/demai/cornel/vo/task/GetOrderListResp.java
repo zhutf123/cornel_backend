@@ -51,7 +51,7 @@ public class GetOrderListResp {
     private String startValidDate;
     private String endValidDate;
     private List<String> supplierMobile;
-    private int lorryId;
+    private Integer lorryId;
     private String plateNumber;
     private BigDecimal carryWeight;
     private BigDecimal overCarryWight;
@@ -59,7 +59,7 @@ public class GetOrderListResp {
     private String serviceMobile;
     private BigDecimal distance;
     private String orderWeight;
-    private int unitWeightPrice;
+    private BigDecimal unitWeightPrice;
     private String unitPrice = "元";
     private String unitWeight = "吨";
     private String unitDistance = "km";

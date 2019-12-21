@@ -127,16 +127,22 @@ public class OrderService {
             orderInfo.setTaskId(taskSaveVO.getTaskId());
             orderInfo.setUserId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME));
             orderInfo.setLorryId(lorryInfo.getId());
-            orderInfo.setSupplierId(taskInfo.getSupplierId());
+
             orderInfo.setDistance(taskInfo.getDistance());
-            orderInfo.setUnit(taskInfo.getUnit());
+            orderInfo.setUnitDistance(taskInfo.getUnitDistance());
+            orderInfo.setCarryWeight(lorryInfo.getCarryWeight());
+            orderInfo.setOrderWeight(taskSaveVO.getCarryWeight());
+            orderInfo.setUnitWeight(taskInfo.getUnitWeight());
+
             orderInfo.setSendOutUserId(taskInfo.getSendOutUserId());
             orderInfo.setReceiverUserId(taskInfo.getReceiverUserId());
-            orderInfo.setCarryWeight(taskSaveVO.getCarryWeight());
-            orderInfo.setAcceptTime(new Date(System.currentTimeMillis()));
-            orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue());
             orderInfo.setReceiveCode(GenerateCodeUtils.generateRandomCode(4));
             orderInfo.setSendOutCode(GenerateCodeUtils.generateRandomCode(4));
+
+            orderInfo.setAcceptTime(new Date(System.currentTimeMillis()));
+            orderInfo.setStartTime(taskInfo.getStartTime());
+
+            orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue());
             if (orderInfoDao.save(orderInfo) != 1) {
                 log.error("save the order into db fail order info is [{}]", JacksonUtils.obj2String(orderInfo));
                 stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()), taskSaveVO.getCarryWeight().toString());

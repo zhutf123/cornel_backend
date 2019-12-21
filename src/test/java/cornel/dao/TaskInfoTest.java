@@ -37,7 +37,7 @@ public class TaskInfoTest extends BaseTest {
         taskInfo.setTaskId(UUID.randomUUID().toString());
         taskInfo.setProduct("大米");
         taskInfo.setWeight(new BigDecimal(2000));
-        taskInfo.setUnit("KG");
+        taskInfo.setUnitWeight("KG");
         taskInfo.setUnacceptWeight(new BigDecimal(2000));
         String s = "2019-11-08 23:59:59";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -36,6 +36,7 @@
         <result column="ext_info" property="extInfo"/>
         <result column="create_time" property="createTime"/>
         <result column="operate_time" property="operateTime"/>
+        <result column="receive_time" property="receiveTime"/>
     </resultMap>
 
     <sql id="main_column">
@@ -68,7 +69,8 @@
         cancel_reason,
         ext_info,
         create_time,
-        operate_time
+        operate_time,
+        receive_time
     </sql>
 
     <update id="update" parameterType="com.demai.cornel.model.OrderInfo">
@@ -103,6 +105,7 @@
             <if test="extInfo != null">ext_info = #{extInfo},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="receiveTime != null">receiveTime = #{operateTime},</if>
         </trim>
         where id = #{id}
     </update>
@@ -140,6 +143,8 @@
             <if test="extInfo != null">ext_info ,</if>
             <if test="createTime != null">create_time ,</if>
             <if test="operateTime != null">operate_time ,</if>
+            <if test="receiveTime != null">receive_time ,</if>
+
         </trim>
         )values(
         <trim suffixOverrides=",">
@@ -178,6 +183,8 @@
             <if test="extInfo != null">#{extInfo} ,</if>
             <if test="createTime != null">#{createTime} ,</if>
             <if test="operateTime != null">#{operateTime} ,</if>
+            <if test="receiveTime != null">#{receiveTime} ,</if>
+
         </trim>
         )
     </insert>
@@ -190,7 +197,6 @@
         t.arr as arr,
         t.start_time as startValidDate,
         t.end_time as endValidDate,
-        o.supplier_id as
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
@@ -227,7 +233,7 @@
         o.order_weight as orderWeight,
         o.verify_code as verifyCode,
         t.distance as distance,
-        t.unit as unitWeightPrice,
+        t.unit_weight as unitWeightPrice,
         o.receive_time as startTime,
         o.status as status
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where

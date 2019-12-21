@@ -123,8 +123,6 @@ CREATE TABLE "order_info" (
 "order_id" varchar(40),
 "lorry_id" integer,
 "user_id" varchar(40),
-"supplier_id" varchar(40),
-"delivery_id" varchar(40),
 "distance" numeric(10,2),
 "unit_distance" varchar(40),,
 "unit_weight" varchar(40),
@@ -159,9 +157,7 @@ COMMENT ON COLUMN "order_info"."task_id" IS '任务编号';
 COMMENT ON COLUMN "order_info"."order_id" IS '订单ID';
 COMMENT ON COLUMN "order_info"."lorry_id" IS '车辆id';
 COMMENT ON COLUMN "order_info"."user_id" IS '货物提供方id';
-COMMENT ON COLUMN "order_info"."supplier_id" IS '用户id';
 COMMENT ON COLUMN "order_info"."user_id" IS '货物提供方id';
-COMMENT ON COLUMN "order_info"."delivery_id" IS '收货人id';
 COMMENT ON COLUMN "order_info"."unit" IS '运送单位';
 COMMENT ON COLUMN "order_info"."distance" IS '距离';
 COMMENT ON COLUMN "order_info"."unit_distance" IS '距离单位';
@@ -201,8 +197,6 @@ CREATE TABLE "task_info" (
 "title" varchar(256),
 "task_id" varchar(40),
 "product" varchar(128),
-"supplier_id" varchar(40),
-"delivery_id" varchar(40),
 "weight" numeric(10,2),
 "unit" varchar(40),
 "unaccept_weight" numeric(10,2),
