@@ -53,13 +53,15 @@ public class OrderInfo implements Serializable {
     private Set<String> sendOutUserId;
     private String receiveCode;
     private Set<String> receiverUserId;
-    private long status;
+    private Long status;
     private String unexpect;
     private Date cancelTime;
     private String cancelReason;
     private Map<String, String> extInfo;
     private Date createTime;
     private Date operateTime;
+
+    private Long oldStatus;
 
     public static enum STATUS_ENUE {
 

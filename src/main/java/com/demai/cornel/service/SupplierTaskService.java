@@ -3,22 +3,25 @@
  */
 package com.demai.cornel.service;
 
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.demai.cornel.model.OrderInfo;
-import com.demai.cornel.vo.order.OperationOrderReq;
-import com.demai.cornel.vo.order.OperationOrderResp;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.demai.cornel.dao.OrderInfoDao;
+import com.demai.cornel.model.OrderInfo;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
+import com.demai.cornel.vo.order.OperationOrderReq;
+import com.demai.cornel.vo.order.OperationOrderResp;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
@@ -92,15 +95,27 @@ public class SupplierTaskService {
 
     /**
      * 烘干塔开始装货
+     * 
      * @param supplierId
      * @param orderId
      * @return
      */
     public OperationOrderResp shipmentStart(String supplierId, String orderId) {
         OrderInfo orderInfo = new OrderInfo();
-//        orderInfoDao.
-
-        return null;
+        orderInfo.setOrderId(orderId);
+        orderInfo.setSupplierId(supplierId);
+        orderInfo.setStatus(OrderInfo.STATUS_ENUE.SUPPLIER_CONFIRM_SHIPMENT.getValue());
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_ARRIVE_DEP.getValue());
+        int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
+        if (log.isDebugEnabled()) {
+            log.debug("supplier start shipment update order num is zero");
+        }
+        if (num == 0) {
+            return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
+                    .success(Boolean.FALSE).orderId(orderId).orderStatus(orderInfo.getStatus()).build();
+        }
+        return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
+                .orderId(orderId).orderStatus(orderInfo.getStatus()).build();
     }
 
 
@@ -112,9 +127,21 @@ public class SupplierTaskService {
      */
     public OperationOrderResp shipmentOver(String supplierId, OperationOrderReq param) {
         OrderInfo orderInfo = new OrderInfo();
-        //        orderInfoDao.
-
-        return null;
+        orderInfo.setOrderId(param.getOrderId());
+        orderInfo.setSupplierId(supplierId);
+        orderInfo.setCarryWeight(new BigDecimal(param.getRealWeight()));
+        orderInfo.setStatus(OrderInfo.STATUS_ENUE.SUPPLIER_CONFIRM_SHIPMENT.getValue());
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
+        int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
+        if (log.isDebugEnabled()) {
+            log.debug("supplier shipment over update order num is zero");
+        }
+        if (num == 0) {
+            return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
+                    .success(Boolean.FALSE).orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
+        }
+        return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
+                .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
     }
 
 }

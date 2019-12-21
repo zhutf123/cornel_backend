@@ -5,6 +5,7 @@ package com.demai.cornel.service;
 
 import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.model.OrderInfo;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.order.OperationOrderReq;
@@ -20,7 +21,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -96,9 +99,20 @@ public class DeliveryTaskService {
      */
     public OperationOrderResp deliveryStart(String supplierId, String orderId) {
         OrderInfo orderInfo = new OrderInfo();
-        //        orderInfoDao.
-
-        return null;
+        orderInfo.setOrderId(orderId);
+        orderInfo.setSupplierId(supplierId);
+        orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY.getValue());
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_ARRIVE_ARR.getValue());
+        int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
+        if (log.isDebugEnabled()) {
+            log.debug("supplier start shipment update order num is zero");
+        }
+        if (num == 0) {
+            return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
+                    .success(Boolean.FALSE).orderId(orderId).orderStatus(orderInfo.getStatus()).build();
+        }
+        return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
+                .orderId(orderId).orderStatus(orderInfo.getStatus()).build();
     }
 
 
@@ -110,8 +124,20 @@ public class DeliveryTaskService {
      */
     public OperationOrderResp deliveryOver(String supplierId, OperationOrderReq param) {
         OrderInfo orderInfo = new OrderInfo();
-        //        orderInfoDao.
-
-        return null;
+        orderInfo.setOrderId(param.getOrderId());
+        orderInfo.setSupplierId(supplierId);
+        orderInfo.setSuccWeight(new BigDecimal(param.getRealWeight()));
+        orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY_OVER.getValue());
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_DRIVER_CONFIRM_OVER.getValue());
+        int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
+        if (log.isDebugEnabled()) {
+            log.debug("supplier shipment over update order num is zero");
+        }
+        if (num == 0) {
+            return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
+                    .success(Boolean.FALSE).orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
+        }
+        return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
+                .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).realWeight(orderInfo.getSuccWeight().longValue()).build();
     }
 }

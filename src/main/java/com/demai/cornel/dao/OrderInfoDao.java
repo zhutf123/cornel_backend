@@ -3,23 +3,24 @@
  */
 package com.demai.cornel.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.vo.order.GetOrderInfoResp;
 import com.demai.cornel.vo.task.ArriveDepDriverResp;
 import com.demai.cornel.vo.task.GetOrderListResp;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
-
-import java.util.List;
 
 /**
  * Create By zhutf 19-10-6 下午1:20
  */
 public interface OrderInfoDao {
-    public void update(OrderInfo orderInfo);
+    int update(OrderInfo orderInfo);
 
-    public int save(OrderInfo orderInfo);
+    int save(OrderInfo orderInfo);
+
+    int updateShipmentStatusByOldStatus(OrderInfo orderInfo);
 
     List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId")String userId, @Param("orderType")Long orderType,
                                                             @Param("orderId")String orderId,@Param("pgSize")Integer pgSize);
