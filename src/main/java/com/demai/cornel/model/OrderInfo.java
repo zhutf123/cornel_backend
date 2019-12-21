@@ -28,6 +28,7 @@ public class OrderInfo implements Serializable {
     private Long lorryId;
     private String userId;
     private String supplierId;
+    private String deliveryId;
 
     private BigDecimal distance;
 

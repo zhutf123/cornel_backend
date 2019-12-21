@@ -8,6 +8,7 @@
         <result column="task_id" property="taskId"/>
         <result column="lorry_id" property="lorryId"/>
         <result column="supplier_id" property="supplierId"/>
+        <result column="delivery_id" property="deliveryId"/>
         <result column="user_id" property="userId"/>
         <result column="distance" property="distance"/>
         <result column="unit" property="unit"/>
@@ -42,6 +43,7 @@
         lorry_id,
         user_id,
         supplier_id,
+        delivery_id,
         distance,
         unit,
         carry_weight,
@@ -74,6 +76,7 @@
             <if test="lorryId != null">lorry_id = #{lorryId},</if>
             <if test="userId != null">user_id = #{userId},</if>
             <if test="supplierId != null">supplier_id = #{supplierId},</if>
+            <if test="deliveryId != null">delivery_id = #{deliveryId},</if>
             <if test="distance != null">distance = #{distance},</if>
             <if test="unit != null">unit = #{unit},</if>
             <if test="carryWeight != null">carry_weight = #{carryWeight},</if>
@@ -108,6 +111,7 @@
             <if test="lorryId != null">lorry_id ,</if>
             <if test="userId != null">user_id ,</if>
             <if test="supplierId != null">supplier_id ,</if>
+            <if test="deliveryId != null">delivery_id ,</if>
             <if test="distance != null">distance ,</if>
             <if test="unit != null">unit ,</if>
             <if test="carryWeight != null">carry_weight ,</if>
@@ -138,6 +142,7 @@
             <if test="lorryId != null">#{lorryId} ,</if>
             <if test="userId != null">#{userId} ,</if>
             <if test="supplierId != null">#{supplierId} ,</if>
+            <if test="deliveryId != null">#{deliveryId} ,</if>
             <if test="distance != null">#{distance} ,</if>
             <if test="unit != null">#{unit} ,</if>
             <if test="carryWeight != null">#{carryWeight} ,</if>
@@ -186,9 +191,9 @@
         o.verify_code as verifyCode,
         o.receive_time as startTime
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
-        o.user_id=#{userId} and o.status=#{orderType}
+        o.user_id=#{userId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} )
         <if test="orderId == null">
-            and o.id  <![CDATA[<=]]> (select o.id from order_info where o.user_id=#{userId} and o.status=#{orderType})
+            and o.id  <![CDATA[<=]]> (select o.id from order_info where o.user_id=#{userId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null">
             and o.id  <![CDATA[<]]> (select o.id from order_info where o.order_id=#{orderId})
@@ -196,7 +201,7 @@
         order by o.id desc limit #{pgSize};
     </select>
 
-    <select id="getOrderInfoByTaskUser" resultType="com.demai.cornel.vo.task.GetOrderListResp">
+    <select id="getOrderInfoBySupplier" resultType="com.demai.cornel.vo.task.GetOrderListResp">
         SELECT
         o.order_id as orderId,
         o.task_id as taskId,
@@ -211,13 +216,39 @@
         o.verify_code as verifyCode,
         o.receive_time as startTime
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
-        o.user_id=#{userId} and o.status=#{orderType}
+        o.supplier_id=#{supplierId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         <if test="orderId == null">
-            and o.id  <![CDATA[<=]]> (select o.id from order_info where o.user_id=#{userId} and o.status=#{orderType})
+            and o.id  <![CDATA[<=]]> (select o.id from order_info where o.supplier_id=#{supplierId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null">
             and o.id  <![CDATA[<]]> (select o.id from order_info where o.order_id=#{orderId})
         </if>
         order by o.id desc limit #{pgSize};
     </select>
+
+    <select id="getOrderInfoByTaskByDelivery" resultType="com.demai.cornel.vo.task.GetOrderListResp">
+        SELECT
+        o.order_id as orderId,
+        o.task_id as taskId,
+        t.title as title,
+        t.dep as dep,
+        t.arr as arr,
+        t.start_time as startValidDate,
+        t.end_time as endValidDate,
+        l.id as lorryId,
+        l.plate_number as plateNumber,
+        l.carry_weight as carryWeight,
+        o.verify_code as verifyCode,
+        o.receive_time as startTime
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
+        o.delivery_id=#{supplierId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
+        <if test="orderId == null">
+            and o.id  <![CDATA[<=]]> (select o.id from order_info where o.delivery_id=#{supplierId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
+        </if>
+        <if test="orderId!=null">
+            and o.id  <![CDATA[<]]> (select o.id from order_info where o.order_id=#{orderId})
+        </if>
+        order by o.id desc limit #{pgSize};
+    </select>
+
 </mapper>

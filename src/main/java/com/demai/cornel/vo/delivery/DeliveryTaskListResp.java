@@ -69,7 +69,7 @@ public class DeliveryTaskListResp {
         private String mobile;
         private String startTime;
         private Integer status;
-        private TaskInfoReq lorryInfo;
+        private TaskInfoReq.LorryInfoBean lorryInfo;
     }
 
     public static enum STATUS_ENUE implements IEmus {

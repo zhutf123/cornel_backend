@@ -34,6 +34,7 @@ public class TaskInfo implements Serializable {
     private String taskId;
     private String product;
     private String supplierId;
+    private String deliveryId;
 
     private BigDecimal weight;
 

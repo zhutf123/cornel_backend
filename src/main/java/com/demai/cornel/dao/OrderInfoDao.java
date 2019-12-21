@@ -19,12 +19,14 @@ public interface OrderInfoDao {
 
     public void save(OrderInfo orderInfo);
 
-    //public List<OrderInfo> getOrderInfoByTaskUser(OrderInfo orderInfo);
-
-    List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId")String userId, @Param("orderType")Integer orderType,
+    List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId")String userId, @Param("orderType")Long orderType,
                                                             @Param("orderId")String orderId,@Param("pgSize")Integer pgSize);
 
-    List<GetOrderListResp> getOrderInfoByTaskUser(@Param("userId")String userId, @Param("orderType")Integer orderType,
-            @Param("orderId")String orderId,@Param("pgSize")Integer pgSize);
+    List<GetOrderListResp> getOrderInfoBySupplier(@Param("supplierId") String supplierId,
+            @Param("orderType") Long orderType, @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
+
+
+    List<GetOrderListResp> getOrderInfoByTaskByDelivery(@Param("supplierId") String supplierId,
+            @Param("orderType") Long orderType, @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
 
 }
