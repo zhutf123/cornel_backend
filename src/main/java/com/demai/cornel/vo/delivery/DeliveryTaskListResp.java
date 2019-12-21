@@ -59,17 +59,17 @@ public class DeliveryTaskListResp {
     /***
      *订单信息
      */
-    private DaileryTaskOrderInfo orderInfo;
+    private DeliveryTaskOrderInfo orderInfo;
 
     @Data
-    public static class DaileryTaskOrderInfo implements Serializable {
+    public static class DeliveryTaskOrderInfo implements Serializable {
         private String orderId;
         private String startValidDate;
         private String endValidDate;
         private String mobile;
         private String startTime;
         private Integer status;
-        private TaskInfoReq lorryInfo;
+        private TaskInfoReq.LorryInfoBean lorryInfo;
     }
 
     public static enum STATUS_ENUE implements IEmus {

@@ -7,6 +7,8 @@ import com.demai.cornel.dmEnum.IEmus;
 import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Create By tfzhu  2019/12/19  7:36 AM
  */
@@ -56,7 +58,7 @@ public class SupplierTaskListResp {
     /***
      *订单信息
      */
-    private DeliveryTaskListResp.DaileryTaskOrderInfo orderInfo;
+    private List<DeliveryTaskListResp.DeliveryTaskOrderInfo> orderInfo;
 
     public static enum STATUS_ENUE implements IEmus {
         NO_USER(-1, "用户不存在，请先注册"),

@@ -29,7 +29,7 @@ public class GetOrderListResp {
      * lorryId : 123123
      * plateNumber : 黑A123456
      * carryWeight : 30
-     * OverCarryWight : 120
+     * overCarryWight : 120
      * verifyCode : 5555
      * serviceMobile : 010-123456789
      * distance : 500.0

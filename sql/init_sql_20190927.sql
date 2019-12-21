@@ -124,6 +124,7 @@ CREATE TABLE "order_info" (
 "lorry_id" integer,
 "user_id" varchar(40),
 "supplier_id" varchar(40),
+"delivery_id" varchar(40),
 "distance" numeric(10,2),
 "unit_distance" varchar(40),,
 "unit_weight" varchar(40),
@@ -159,10 +160,13 @@ COMMENT ON COLUMN "order_info"."order_id" IS '订单ID';
 COMMENT ON COLUMN "order_info"."lorry_id" IS '车辆id';
 COMMENT ON COLUMN "order_info"."user_id" IS '货物提供方id';
 COMMENT ON COLUMN "order_info"."supplier_id" IS '用户id';
+COMMENT ON COLUMN "order_info"."user_id" IS '货物提供方id';
+COMMENT ON COLUMN "order_info"."delivery_id" IS '收货人id';
+COMMENT ON COLUMN "order_info"."unit" IS '运送单位';
 COMMENT ON COLUMN "order_info"."distance" IS '距离';
 COMMENT ON COLUMN "order_info"."unit_distance" IS '距离单位';
 COMMENT ON COLUMN "order_info"."carry_weight" IS '运送重量';
-COMMENT ON COLUMN "order_info"."order_weight" IS '清单重量';
+COMMENT ON COLUMN "order_info"."order_weight" IS '订单重量';
 COMMENT ON COLUMN "order_info"."succ_weight" IS '送达重量';
 COMMENT ON COLUMN "order_info"."overweight" IS '是否超重';
 COMMENT ON COLUMN "order_info"."unit_weight" IS '运送单位';
@@ -198,6 +202,7 @@ CREATE TABLE "task_info" (
 "task_id" varchar(40),
 "product" varchar(128),
 "supplier_id" varchar(40),
+"delivery_id" varchar(40),
 "weight" numeric(10,2),
 "unit" varchar(40),
 "unaccept_weight" numeric(10,2),
@@ -230,6 +235,7 @@ WITH (OIDS=FALSE)
 COMMENT ON COLUMN "task_info"."title" IS '标题';
 COMMENT ON COLUMN "task_info"."product" IS '产品名称';
 COMMENT ON COLUMN "task_info"."supplier_id" IS '货源方user_id';
+COMMENT ON COLUMN "task_info"."delivery_id" IS '收货方user_id';
 COMMENT ON COLUMN "task_info"."weight" IS '重量';
 COMMENT ON COLUMN "task_info"."unit" IS '单位';
 COMMENT ON COLUMN "task_info"."unaccept_weight" IS '未接单量';

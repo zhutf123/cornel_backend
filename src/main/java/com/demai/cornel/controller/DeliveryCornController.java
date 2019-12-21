@@ -3,29 +3,28 @@
  */
 package com.demai.cornel.controller;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import com.demai.cornel.model.OrderInfo;
-import com.demai.cornel.model.TaskInfoReq;
+import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.service.DeliveryTaskService;
-import com.demai.cornel.vo.OrderListReq;
-import com.google.common.base.Joiner;
-import org.springframework.beans.BeanUtils;
+import com.demai.cornel.util.json.JsonUtil;
+import com.demai.cornel.vo.order.GetOrderInfoReq;
+import com.demai.cornel.vo.order.OperationOrderReq;
+import com.demai.cornel.vo.supplier.SupplierTaskListResp;
+import com.demai.cornel.vo.task.GetOrderListReq;
+import com.demai.cornel.vo.task.GetOrderListResp;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.holder.UserHolder;
-import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.vo.JsonResult;
-import com.google.common.base.Strings;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,22 +43,54 @@ public class DeliveryCornController {
      * @param param
      * @return
      */
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/list.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult deliveryList(@RequestBody OrderListReq param) {
+    public JsonResult deliveryList(@RequestBody GetOrderListReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            if (param.getOrderTyp() == null) {
+                log.error("接货人获取任务订单信息失败 查询订单状态为空:{}", curUser);
+                return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("接货人查询任务订单列表 user:{} status:{}", curUser, param);
+            }
+            Collection<SupplierTaskListResp> result = deliveryTaskService.getTaskOrderListByStatus(curUser, param);
+            if (log.isDebugEnabled()) {
+                log.debug("接货人查询任务订单列表 user:{} result:{}", curUser, JsonUtil.toJson(result));
+            }
+            return JsonResult.success(result);
 
-        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        //TaskInfoReq taskInfoReq = deliveryTaskService.getTaskInfo(curUser, taskId);
+        } catch (Exception e) {
+            log.error("接货人查询任务订单信息失败:{}", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
 
-//        Integer pgSize = (Integer) receivedParam.get("pgSize");
-//        Integer curId = (Integer) receivedParam.get("curId");
-//        if (pgSize == null) pgSize = 20;
-//        if (curId <= 0) {
-//            curId = null;
-//        }
-//        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-//        return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
-        return null;
+    /**
+     * 接货人查看订单详情
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/order-info.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult orderInfo(@RequestBody GetOrderInfoReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            if (param == null) {
+                log.error("烘干塔获取任务订单信息失败 :{}", curUser);
+                return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+            }
+            GetOrderListResp result = deliveryTaskService.getTaskOrderInfoByOrderIdOrVerifyCode(curUser, param);
+            if (log.isDebugEnabled()) {
+                log.debug("烘干塔查询任务订单列表 user:{} result:{}", curUser, JsonUtil.toJson(result));
+            }
+            return JsonResult.success(result);
+        } catch (Exception e) {
+            log.error("烘干塔根据订单id查询订单信息失败！", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 
 
@@ -68,7 +99,7 @@ public class DeliveryCornController {
      * @param param
      * @return
      */
-    @RequestMapping(value = "/confirm", method = RequestMethod.POST)
+    @RequestMapping(value = "/confirm.json", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult deliveryConfirm(@RequestBody String param) {
         return null;
@@ -79,9 +110,9 @@ public class DeliveryCornController {
      * @param param
      * @return
      */
-    @RequestMapping(value = "/over", method = RequestMethod.POST)
+    @RequestMapping(value = "/over.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult deliveryOver(@RequestBody String param) {
+    public JsonResult deliveryOver(@RequestBody OperationOrderReq param) {
         return null;
     }
 }
