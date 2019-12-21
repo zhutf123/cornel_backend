@@ -1,5 +1,6 @@
 package com.demai.cornel.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.apache.kafka.common.protocol.types.Field;
 
@@ -20,13 +21,38 @@ public class DistTaskOrderReq {
     private Date startTime;
     private Date endTime;
     private BigDecimal distance;
-    private String unitDistance;
+    private String unitDistance = "km";
     private BigDecimal price;
     private BigDecimal weight;
-    private String unitPrice;
-    private String unitWeight;
+    private String unitPrice = "元";
+    private String unitWeight = "吨";
     private BigDecimal income;
-    private Integer taskStatus;
-    private Integer orderStatus;
+    private Long taskStatus;
+    @JsonIgnore
+    private Long orderStatus;  //司机对这个单子的状态 0 未接单 1 已接单 2 无法接单
 
+
+    public static enum STATUS_ENUE {
+
+        TASK_INIT(0, "未接单"),
+        TASK_CANCEL(1, "已接单"),
+        TASK_REVIEW_SUCCESS(2, "已闭仓");
+        private Integer value;
+        private String expr;
+
+        private STATUS_ENUE(Integer value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        public long getValue() {
+            return value;
+        }
+
+        public String getExpr() {
+            return expr;
+        }
+
+
+    }
 }

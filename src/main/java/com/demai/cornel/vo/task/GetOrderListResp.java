@@ -28,7 +28,7 @@ public class GetOrderListResp {
      * lorryId : 123123
      * plateNumber : 黑A123456
      * carryWeight : 30
-     * OverCarryWight : 120
+     * overCarryWight : 120
      * verifyCode : 5555
      * serviceMobile : 010-123456789
      * distance : 500.0
@@ -53,17 +53,18 @@ public class GetOrderListResp {
     private int lorryId;
     private String plateNumber;
     private BigDecimal carryWeight;
-    private BigDecimal OverCarryWight;
+    private BigDecimal overCarryWight;
     private String verifyCode;
     private String serviceMobile;
     private BigDecimal distance;
     private String orderWeight;
-    private int unitPrice;
-    private String unit;
-    private String priceUnit;
+    private int price;
+    private String unitPrice = "元";
+    private String unitWeight = "吨";
+    private String unitDistance = "km";
+
     private String startTime;
     private int status;
-    private String unitDistance;
 
 
     public static enum CODE_ENUE implements IEmus {

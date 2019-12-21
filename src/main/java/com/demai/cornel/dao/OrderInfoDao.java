@@ -4,6 +4,8 @@
 package com.demai.cornel.dao;
 
 import com.demai.cornel.model.OrderInfo;
+import com.demai.cornel.vo.order.GetOrderInfoResp;
+import com.demai.cornel.vo.task.ArriveDepDriverResp;
 import com.demai.cornel.vo.task.GetOrderListResp;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,16 +19,28 @@ import java.util.List;
 public interface OrderInfoDao {
     public void update(OrderInfo orderInfo);
 
-    public void save(OrderInfo orderInfo);
+    public int save(OrderInfo orderInfo);
 
     List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId")String userId, @Param("orderType")Long orderType,
                                                             @Param("orderId")String orderId,@Param("pgSize")Integer pgSize);
 
-    List<GetOrderListResp> getOrderInfoBySupplier(@Param("supplierId") String supplierId,
-            @Param("orderType") Long orderType, @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
-
+    List<GetOrderListResp> getOrderInfoBySupplier(@Param("supplierId") String supplierId, @Param("orderType")Long orderType,
+            @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
 
     List<GetOrderListResp> getOrderInfoByTaskByDelivery(@Param("supplierId") String supplierId,
             @Param("orderType") Long orderType, @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
 
+    GetOrderListResp getOrderInfoByOrderIdOrVerifyCode(@Param("supplierId") String supplierId,
+             @Param("orderId") String orderId, @Param("verifyCode")String verifyCode);
+
+    List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId") String userId, @Param("orderType") Integer orderType,
+                                                            @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
+
+    GetOrderInfoResp getOrderInfoByUserAndOrderId(@Param("userId") String userId, @Param("orderId") String orderId);
+
+
+    int updateOrderStatus(@Param("orderId") String orderId, @Param("status") long status, @Param("userId") String userId);
+
+
+    ArriveDepDriverResp getOrderStatusAndVerCodeByOrderId(@Param("orderId") String orderId);
 }

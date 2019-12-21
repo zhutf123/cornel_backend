@@ -15,6 +15,7 @@ import com.demai.cornel.service.SupplierTaskService;
 import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.json.JsonUtil;
+import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import org.apache.commons.lang3.StringUtils;
@@ -73,22 +74,26 @@ public class SupplierCornController {
     /**
      * 烘干塔查看订单详情
      *
-     * @param orderId
+     * @param param
      * @return
      */
     @RequestMapping(value = "/order-info.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult orderInfo(@RequestBody String orderId) { 
-        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        if (StringUtil.isEmpty(orderId)) {
-            log.error("烘干塔获取任务订单信息失败 :{}", curUser);
-            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    public JsonResult orderInfo(@RequestBody GetOrderInfoReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            if (param == null) {
+                log.error("烘干塔获取任务订单信息失败 :{}", curUser);
+                return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+            }
+            SupplierTaskListResp result = supplierTaskService.getTaskOrderInfoByOrderIdOrVerifyCode(curUser, param);
+            if (log.isDebugEnabled()) {
+                log.debug("烘干塔查询任务订单列表 user:{} result:{}", curUser, JsonUtil.toJson(result));
+            }
+            return JsonResult.success(result);
+        } catch (Exception e) {
+            log.error("烘干塔根据订单id查询订单信息失败！", e);
         }
-        SupplierTaskListResp result = supplierTaskService.getTaskOrderInfoByOrderId(curUser, orderId);
-        if (log.isDebugEnabled()) {
-            log.debug("烘干塔查询任务订单列表 user:{} result:{}", curUser, JsonUtil.toJson(result));
-        }
-        return JsonResult.success(result);
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 

@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
+import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections.CollectionUtils;
@@ -84,10 +85,10 @@ public class SupplierTaskService {
      * @param supplierId
      * @param param
      */
-    public Collection<SupplierTaskListResp> getTaskOrderInfoByOrderId(String supplierId, GetOrderListReq param) {
-        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderTyp(),
-                param.getOrderId(), param.getPgSize());
-        if (CollectionUtils.isEmpty(orderListResp)){
+    public GetOrderListResp getTaskOrderInfoByOrderIdOrVerifyCode(String supplierId, GetOrderInfoReq param) {
+        GetOrderListResp orderListResp = orderInfoDao.getOrderInfoByOrderIdOrVerifyCode(supplierId,
+                param.getOrderId(), param.getVerifyCode());
+        if (orderListResp == null) {
             return null;
         }
         Map<String, SupplierTaskListResp> taskOrderInfo = Maps.newHashMap();

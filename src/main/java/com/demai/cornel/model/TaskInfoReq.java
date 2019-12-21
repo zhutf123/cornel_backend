@@ -45,7 +45,7 @@ public class TaskInfoReq {
     private BigDecimal price;
     private String unitPrice;
     private String unitWeight;
-    private int status;
+    private Long status;
     private List<LorryInfoBean> lorryInfo;
     private Map<String,Integer> starttime;
 
@@ -78,7 +78,7 @@ public class TaskInfoReq {
         private int lorryId;
         private String plateNumber;
         private String carryWeight;
-        private String OverCarryWight;
+        private String overCarryWight;
         private String unitWeight;
         private boolean defaultSelect;
         private Integer carStatus;

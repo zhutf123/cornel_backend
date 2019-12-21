@@ -157,8 +157,14 @@
             <if test="createTime != null">#{createTime} ,</if>
             <if test="operateTime != null">#{operateTime} ,</if>
             <if test="subTaskTimeString != null">#{subTaskTimeString} ,</if>
-            <if test="sendOutUserId != null">#{sendOutUserId jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,</if>
-            <if test="receiverUserId != null">#{receiverUserId jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,</if>
+            <if test="sendOutUserId != null">
+                #{sendOutUserId jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+                ,
+            </if>
+            <if test="receiverUserId != null">
+                #{receiverUserId jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+                ,
+            </if>
             <if test="unitDistance != null">#{unitDistance},</if>
         </trim>
         )
@@ -179,6 +185,9 @@
         <include refid="main_column"/>
         FROM task_info where supplier_id=#{supplierId}
         and status=#{status}
+    </select>
+    <select id="getTaskUnacceptWeight" resultType="java.math.BigDecimal">
+        select unaccept_weight from task_info where task_id=#{taskId};
     </select>
 
 </mapper>
