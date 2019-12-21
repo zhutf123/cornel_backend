@@ -101,6 +101,7 @@ public class DeliveryTaskService {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId(orderId);
         orderInfo.setSupplierId(supplierId);
+        orderInfo.setReceiveTime(DateFormatUtils.formatDateTime(new Date()));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_ARRIVE_ARR.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
@@ -109,10 +110,13 @@ public class DeliveryTaskService {
         }
         if (num == 0) {
             return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
-                    .success(Boolean.FALSE).orderId(orderId).orderStatus(orderInfo.getStatus()).build();
+                    .success(Boolean.FALSE)
+                    .opResult(OperationOrderResp.DELIVERY_RESP_STATUS_ENUE.OPERATION_ERROR.getValue()).orderId(orderId)
+                    .orderStatus(orderInfo.getStatus()).build();
         }
         return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
-                .orderId(orderId).orderStatus(orderInfo.getStatus()).build();
+                .orderId(orderId).opResult(OperationOrderResp.DELIVERY_RESP_STATUS_ENUE.SUCCESS.getValue())
+                .orderStatus(orderInfo.getStatus()).build();
     }
 
 
@@ -135,9 +139,11 @@ public class DeliveryTaskService {
         }
         if (num == 0) {
             return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
-                    .success(Boolean.FALSE).orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
+                    .success(Boolean.FALSE).orderId(param.getOrderId()).orderStatus(orderInfo.getStatus())
+                    .opResult(OperationOrderResp.DELIVERY_RESP_STATUS_ENUE.OPERATION_ERROR.getValue()).build();
         }
         return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
-                .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).realWeight(orderInfo.getSuccWeight().longValue()).build();
+                .opResult(OperationOrderResp.DELIVERY_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
+                .orderStatus(orderInfo.getStatus()).realWeight(orderInfo.getSuccWeight().longValue()).build();
     }
 }

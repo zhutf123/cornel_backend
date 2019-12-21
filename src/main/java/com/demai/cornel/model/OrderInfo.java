@@ -3,17 +3,15 @@
  */
 package com.demai.cornel.model;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Create By zhutf 19-10-6 下午1:10

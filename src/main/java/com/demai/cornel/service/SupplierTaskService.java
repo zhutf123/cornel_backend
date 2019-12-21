@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.demai.cornel.util.DateUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -112,10 +113,12 @@ public class SupplierTaskService {
         }
         if (num == 0) {
             return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
+                    .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
                     .success(Boolean.FALSE).orderId(orderId).orderStatus(orderInfo.getStatus()).build();
         }
         return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
-                .orderId(orderId).orderStatus(orderInfo.getStatus()).build();
+                .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(orderId)
+                .orderStatus(orderInfo.getStatus()).build();
     }
 
 
@@ -130,6 +133,7 @@ public class SupplierTaskService {
         orderInfo.setOrderId(param.getOrderId());
         orderInfo.setSupplierId(supplierId);
         orderInfo.setCarryWeight(new BigDecimal(param.getRealWeight()));
+        orderInfo.setSendOutTime(new java.sql.Date(DateUtils.now().getTime()));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.SUPPLIER_CONFIRM_SHIPMENT.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
@@ -138,10 +142,13 @@ public class SupplierTaskService {
         }
         if (num == 0) {
             return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
-                    .success(Boolean.FALSE).orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
+                    .success(Boolean.FALSE)
+                    .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
+                    .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
         }
         return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
-                .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
+                .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
+                .realWeight(orderInfo.getCarryWeight().longValue()).orderStatus(orderInfo.getStatus()).build();
     }
 
 }
