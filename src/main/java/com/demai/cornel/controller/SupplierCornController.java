@@ -16,6 +16,7 @@ import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
+import com.demai.cornel.vo.order.OperationOrderReq;
 import com.demai.cornel.vo.order.OperationOrderResp;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
@@ -131,7 +132,17 @@ public class SupplierCornController {
      */
     @RequestMapping(value = "/shipment-over.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult shipmentOver(@RequestBody String param) {
-        return null;
+    public JsonResult shipmentOver(@RequestBody OperationOrderReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            OperationOrderResp result = supplierTaskService.shipmentOver(curUser, param);
+            if (log.isDebugEnabled()) {
+                log.debug("烘干塔装货完成 user:{} result:{}", curUser, JsonUtil.toJson(result));
+            }
+            return JsonResult.success(result);
+        }catch (Exception e){
+            log.error("烘干塔装货完成异常！{}", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 }

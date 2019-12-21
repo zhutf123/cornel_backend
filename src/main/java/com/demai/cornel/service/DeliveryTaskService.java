@@ -4,8 +4,11 @@
 package com.demai.cornel.service;
 
 import com.demai.cornel.dao.OrderInfoDao;
+import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
+import com.demai.cornel.vo.order.OperationOrderReq;
+import com.demai.cornel.vo.order.OperationOrderResp;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
@@ -82,5 +85,33 @@ public class DeliveryTaskService {
     public GetOrderListResp getTaskOrderInfoByOrderIdOrVerifyCode(String deliveryId, GetOrderInfoReq param) {
         return orderInfoDao.getOrderInfoByOrderIdOrVerifyCode("delivery", deliveryId, param.getOrderId(),
                 param.getVerifyCode());
+    }
+
+
+    /**
+     * 接货人开始装货
+     * @param supplierId
+     * @param orderId
+     * @return
+     */
+    public OperationOrderResp deliveryStart(String supplierId, String orderId) {
+        OrderInfo orderInfo = new OrderInfo();
+        //        orderInfoDao.
+
+        return null;
+    }
+
+
+    /**
+     * 接货人装货完成
+     * @param supplierId
+     * @param param
+     * @return
+     */
+    public OperationOrderResp deliveryOver(String supplierId, OperationOrderReq param) {
+        OrderInfo orderInfo = new OrderInfo();
+        //        orderInfoDao.
+
+        return null;
     }
 }

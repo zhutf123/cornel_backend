@@ -12,6 +12,7 @@ import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.service.DeliveryTaskService;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
+import com.demai.cornel.vo.order.OperationOrderReq;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
@@ -111,7 +112,7 @@ public class DeliveryCornController {
      */
     @RequestMapping(value = "/over.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult deliveryOver(@RequestBody String param) {
+    public JsonResult deliveryOver(@RequestBody OperationOrderReq param) {
         return null;
     }
 }

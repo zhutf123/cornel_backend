@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.demai.cornel.model.OrderInfo;
+import com.demai.cornel.vo.order.OperationOrderReq;
 import com.demai.cornel.vo.order.OperationOrderResp;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
@@ -98,6 +99,20 @@ public class SupplierTaskService {
     public OperationOrderResp shipmentStart(String supplierId, String orderId) {
         OrderInfo orderInfo = new OrderInfo();
 //        orderInfoDao.
+
+        return null;
+    }
+
+
+    /**
+     * 烘干塔装货完成
+     * @param supplierId
+     * @param param
+     * @return
+     */
+    public OperationOrderResp shipmentOver(String supplierId, OperationOrderReq param) {
+        OrderInfo orderInfo = new OrderInfo();
+        //        orderInfoDao.
 
         return null;
     }
