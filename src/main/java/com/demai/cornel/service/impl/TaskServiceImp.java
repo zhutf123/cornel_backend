@@ -31,11 +31,11 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @Author binz.zhang
- * @Date: 2019-12-17    12:02
+ * @Date: 2019-12-17 12:02
  */
 @Service
 @Slf4j
-public class TaskServiceImp  {
+public class TaskServiceImp {
     @Resource
     private DistOrderInfoDao distOrderInfoDao;
     @Resource
@@ -54,6 +54,7 @@ public class TaskServiceImp  {
 
     /**
      * 司机侧查询task 列表
+     * 
      * @param userId
      * @param curId
      * @param pgsize
@@ -70,10 +71,11 @@ public class TaskServiceImp  {
             return Collections.emptyList();
         }
         distTaskOrderReqs.stream().forEach(x -> {
-            x.setIncome(x.getPrice().multiply(estimatedWeight));
+            x.setIncome(x.getUnitWeightPrice().multiply(estimatedWeight));
             if (x.getOrderStatus() != null) {
                 x.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_CANCEL.getValue());
-            } else if (!x.getTaskStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue()) || getUnweightByTaskId(x.getTaskId()).compareTo(ContextConsts.MIN_CARRY_WEIGHT) == -1) {
+            } else if (!x.getTaskStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue())
+                    || getUnweightByTaskId(x.getTaskId()).compareTo(ContextConsts.MIN_CARRY_WEIGHT) == -1) {
                 x.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue());
             } else {
                 x.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_INIT.getValue());
@@ -84,6 +86,7 @@ public class TaskServiceImp  {
 
     /**
      * 司机侧获取task info
+     * 
      * @param userId
      * @param taskId
      * @return
@@ -105,7 +108,6 @@ public class TaskServiceImp  {
         return taskInfoReq;
     }
 
-
     /**
      * 查询盯订单的剩余未接单重量
      *
@@ -113,6 +115,7 @@ public class TaskServiceImp  {
      */
     public BigDecimal getUnweightByTaskId(String taskId) {
         String restWeight = stringRedisTemplate.opsForValue().get(String.format(TASK_REST_WEIGHT_FORMAT, taskId));
-        return (Strings.isNullOrEmpty(restWeight)) ? taskInfoDao.getTaskUnacceptWeight(taskId) : new BigDecimal(restWeight);
+        return (Strings.isNullOrEmpty(restWeight)) ? taskInfoDao.getTaskUnacceptWeight(taskId)
+                : new BigDecimal(restWeight);
     }
 }

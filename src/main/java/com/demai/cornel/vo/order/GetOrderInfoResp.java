@@ -56,7 +56,7 @@ public class GetOrderInfoResp {
     private String serviceMobile;
     private BigDecimal distance;
     private BigDecimal orderWeight;
-    private BigDecimal price;
+    private BigDecimal unitWeightPrice;
     private String unitWeight="吨";
     private String unitPrice="元";
     private String unitDistance="KM";

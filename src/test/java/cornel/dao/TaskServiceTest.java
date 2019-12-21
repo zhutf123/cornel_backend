@@ -65,7 +65,7 @@ public class TaskServiceTest extends BaseTest {
         taskInfoReq.setLarryId(1);
         taskInfoReq.setTaskId("169073d2-4c45-402f-a905-1f455f273ef6");
         taskInfoReq.setSelectTime("2019-08-29 12:00-14:00");
-        taskServiceImp.saveTask(taskInfoReq);
+       // taskServiceImp(taskInfoReq);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class TaskServiceTest extends BaseTest {
         getOrderListReq.setOrderId("123");
         getOrderListReq.setOrderTyp(1);
         getOrderListReq.setPgSize(10);
-        taskServiceImp.getOrderList(getOrderListReq,"binz.zhang");
+       // taskServiceImp.getOrderList(getOrderListReq,"binz.zhang");
         System.out.println("ok");
     }
 

@@ -31,6 +31,5 @@ public interface OrderInfoDao {
 
     int updateOrderStatus(@Param("orderId") String orderId, @Param("status") long status, @Param("userId") String userId);
 
-
     ArriveDepDriverResp getOrderStatusAndVerCodeByOrderId(@Param("orderId") String orderId);
 }

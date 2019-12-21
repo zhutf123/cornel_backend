@@ -22,7 +22,7 @@ public class DistTaskOrderReq {
     private Date endTime;
     private BigDecimal distance;
     private String unitDistance = "km";
-    private BigDecimal price;
+    private BigDecimal unitWeightPrice;
     private BigDecimal weight;
     private String unitPrice = "元";
     private String unitWeight = "吨";

@@ -12,6 +12,7 @@ import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.GenerateCodeUtils;
+import com.demai.cornel.util.IDUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.task.GetOrderListReq;
@@ -122,9 +123,11 @@ public class OrderService {
                 return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.NETWORK_ERROR);
             }
             //todo 这一块的定义再想想
+            orderInfo.setOrderId(IDUtils.getUUID());
             orderInfo.setTaskId(taskSaveVO.getTaskId());
             orderInfo.setUserId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME));
             orderInfo.setLorryId(lorryInfo.getId());
+            orderInfo.setSupplierId(taskInfo.getSupplierId());
             orderInfo.setDistance(taskInfo.getDistance());
             orderInfo.setUnit(taskInfo.getUnit());
             orderInfo.setSendOutUserId(taskInfo.getSendOutUserId());

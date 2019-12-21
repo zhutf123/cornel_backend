@@ -38,6 +38,6 @@ public class LorryInfo implements Serializable {
     private Date createTime;
     private Date operateTime;
     private Integer defaultFlag;
-
+    private String unitWeight;
 
 }

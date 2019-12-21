@@ -88,7 +88,8 @@ CREATE TABLE "lorry_info" (
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now(),
-"default_flag" integer default 0
+"default_flag" integer default 0,
+"unit_weight" varchar (10)
 )
 WITH (OIDS=FALSE)
 ;
@@ -106,6 +107,7 @@ COMMENT ON COLUMN "lorry_info"."id_type" IS '车主证件类型';
 COMMENT ON COLUMN "lorry_info"."id_card" IS '车主证件号';
 COMMENT ON COLUMN "lorry_info"."status" IS '状态 1:有效  2无效';
 COMMENT ON COLUMN "lorry_info"."default_flag" IS '默认车辆标志位 1表明该车辆是该名车主的默认车辆，0表示其他';
+COMMENT ON COLUMN "lorry_info"."unit_weight" IS '车辆载重单位';
 
 
 订单信息
@@ -123,7 +125,8 @@ CREATE TABLE "order_info" (
 "user_id" varchar(40),
 "supplier_id" varchar(40),
 "distance" numeric(10,2),
-"unit" varchar(40),
+"unit_distance" varchar(40),,
+"unit_weight" varchar(40),
 "carry_weight" numeric(10,2),
 "order_weight" numeric(10,2),
 "succ_weight" numeric(10,2),
@@ -145,7 +148,7 @@ CREATE TABLE "order_info" (
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now(),
-"verifyCode" varchar(100),
+"verify_code" varchar(100),
 "receive_time" varchar (40)
 )
 WITH (OIDS=FALSE)
@@ -153,15 +156,16 @@ WITH (OIDS=FALSE)
 
 COMMENT ON COLUMN "order_info"."task_id" IS '任务编号';
 COMMENT ON COLUMN "order_info"."order_id" IS '订单ID';
-COMMENT ON COLUMN "order_info"."distance" IS '距离';
 COMMENT ON COLUMN "order_info"."lorry_id" IS '车辆id';
-COMMENT ON COLUMN "order_info"."supplier_id" IS '用户id';
 COMMENT ON COLUMN "order_info"."user_id" IS '货物提供方id';
-COMMENT ON COLUMN "order_info"."unit" IS '运送单位';
+COMMENT ON COLUMN "order_info"."supplier_id" IS '用户id';
+COMMENT ON COLUMN "order_info"."distance" IS '距离';
+COMMENT ON COLUMN "order_info"."unit_distance" IS '距离单位';
 COMMENT ON COLUMN "order_info"."carry_weight" IS '运送重量';
 COMMENT ON COLUMN "order_info"."order_weight" IS '清单重量';
 COMMENT ON COLUMN "order_info"."succ_weight" IS '送达重量';
 COMMENT ON COLUMN "order_info"."overweight" IS '是否超重';
+COMMENT ON COLUMN "order_info"."unit_weight" IS '运送单位';
 COMMENT ON COLUMN "order_info"."accept_time" IS '接单时间';
 COMMENT ON COLUMN "order_info"."start_time" IS '开始时间';
 COMMENT ON COLUMN "order_info"."must_finish_time" IS '要求送达时间';
@@ -207,8 +211,7 @@ CREATE TABLE "task_info" (
 -- "arr_gis" geometry,
 "distance" numeric(10,2),
 "unit_distance" varchar (10),
-
-"unit_price" numeric(10,2),
+"unit_weight_price" numeric(10,2),
 "estimate_price" numeric(10,2),
 "level" integer,
 "status" integer default 1,
@@ -218,7 +221,8 @@ CREATE TABLE "task_info" (
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now(),
 "subtask_time" json,
-"receiver_user_id" varchar(50)[]
+"receiver_user_id" varchar(50)[],
+"unit_price" varchar(10)
 )
 WITH (OIDS=FALSE)
 ;
@@ -238,7 +242,7 @@ COMMENT ON COLUMN "task_info"."arr" IS '到达地';
 COMMENT ON COLUMN "task_info"."distance" IS '距离';
 COMMENT ON COLUMN "task_info"."unit_distance" IS '距离单位km';
 
-COMMENT ON COLUMN "task_info"."unit_price" IS '单位价格';
+COMMENT ON COLUMN "task_info"."unit_weight_price" IS '单位重量价格';
 COMMENT ON COLUMN "task_info"."estimate_price" IS '预期收益';
 COMMENT ON COLUMN "task_info"."level" IS '任务级别';
 COMMENT ON COLUMN "task_info"."status" IS '状态';
@@ -255,6 +259,7 @@ COMMENT ON COLUMN "task_info"."subtask_time" IS '出货时间安排    [{
 }]'
 
 COMMENT ON COLUMN "task_info"."consignee_userid" IS '接货人ID';
+COMMENT ON COLUMN "task_info"."unit_price" IS '价格单位';
 
  拆分子任务的信息
 

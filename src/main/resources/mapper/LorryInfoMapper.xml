@@ -22,6 +22,7 @@
         <result column="create_time" property="createTime"/>
         <result column="operate_time" property="operateTime"/>
         <result column="default_flag" property="defaultFlag"/>
+        <result column="unit_weight" property="unitWeight"/>
 
     </resultMap>
 
@@ -43,7 +44,8 @@
         lorry_info.ext_info,
         lorry_info.create_time,
         lorry_info.operate_time,
-        lorry_info.default_flag
+        lorry_info.default_flag,
+        lorry_info.unit_weight
     </sql>
 
     <update id="update" parameterType="com.demai.cornel.model.LorryInfo">
@@ -66,6 +68,8 @@
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="operateTime != null">operate_time = #{operateTime},</if>
             <if test="default_flag != null">default_flag = #{defaultFlag},</if>
+            <if test="unitWeight != null">unit_weight = #{unitWeight},</if>
+
         </trim>
         where id = #{id}
     </update>
@@ -90,6 +94,7 @@
             <if test="createTime != null">create_time ,</if>
             <if test="operateTime != null">operate_time ,</if>
             <if test="defaultFlag != null">default_flag ,</if>
+            <if test="unitWeight != null">unit_weight ,</if>
 
         </trim>
         )values(
@@ -111,6 +116,7 @@
             <if test="createTime != null">#{createTime} ,</if>
             <if test="operateTime != null">#{operateTime} ,</if>
             <if test="defaultFlag != null">#{defaultFlag} ,</if>
+            <if test="unitWeight != null">#{unitWeight},</if>
 
         </trim>
         )
@@ -138,11 +144,12 @@
     </select>
     <select id="getAllLorrySimpleInfoByUserId" resultType="com.demai.cornel.model.TaskInfoReq$LorryInfoBean">
         select
-        id as lorryId,
-        plate_number as plateNumber,
-        carry_weight as carryWeight,
-        default_flag as defaultSelect,
-        status as carStatus
+        lorry_info.id as lorryId,
+        lorry_info.plate_number as plateNumber,
+        lorry_info.carry_weight as carryWeight,
+        lorry_info.default_flag as defaultSelect,
+        lorry_info.unit_weight as unitWeight,
+        lorry_info.status as carStatus
         from lorry_info inner join user_info on user_info.id_type=lorry_info.id_type and
         user_info.id_card=lorry_info.id_card
         where lorry_info.status!=0 and user_info.user_id=#{userId};

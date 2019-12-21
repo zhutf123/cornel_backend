@@ -5,6 +5,7 @@ import com.demai.cornel.vo.user.UserLoginResp;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @Author binz.zhang
@@ -49,7 +50,7 @@ public class GetOrderListResp {
     private String arrGis;
     private String startValidDate;
     private String endValidDate;
-    private String supplierMobile;
+    private List<String> supplierMobile;
     private int lorryId;
     private String plateNumber;
     private BigDecimal carryWeight;
@@ -58,7 +59,7 @@ public class GetOrderListResp {
     private String serviceMobile;
     private BigDecimal distance;
     private String orderWeight;
-    private int price;
+    private int unitWeightPrice;
     private String unitPrice = "元";
     private String unitWeight = "吨";
     private String unitDistance = "km";

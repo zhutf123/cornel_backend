@@ -3,14 +3,14 @@
 
 <mapper namespace="com.demai.cornel.dao.SubTaskDao">
     <resultMap type="com.demai.cornel.model.SubTaskInfo" id="subTaskResultMap">
-        <id column="id" property="id" />
-        <result column="task_id" property="taskId" />
-        <result column="start_time" property="startTime" />
-        <result column="end_time" property="endTime" />
-        <result column="lorry_num" property="lorryNum" />
-        <result column="status" property="status" />
-        <result column="undist_num" property="undistNum" />
-        <result column="sub_task_id" property="subTaskId" />
+        <id column="id" property="id"/>
+        <result column="task_id" property="taskId"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="lorry_num" property="lorryNum"/>
+        <result column="status" property="status"/>
+        <result column="undist_num" property="undistNum"/>
+        <result column="sub_task_id" property="subTaskId"/>
     </resultMap>
 
     <sql id="main_column">
@@ -27,37 +27,37 @@
     <update id="update" parameterType="com.demai.cornel.model.SubTaskInfo">
         update sub_task
         <trim prefix="set" suffixOverrides=",">
-            <if test="taskId != null"> task_id = #{taskId},</if>
-            <if test="startTime != null"> start_time = #{startTime},</if>
-            <if test="endTime != null"> end_time = #{endTime},</if>
-            <if test="lorryNum != null"> lorry_num = #{lorryNum},</if>
-            <if test="status != null"> status = #{status},</if>
-            <if test="undistNum != null"> undist_num = #{undistNum},</if>
-            <if test="subTaskId != null"> sub_task_id = #{subTaskId},</if>
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="lorryNum != null">lorry_num = #{lorryNum},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="undistNum != null">undist_num = #{undistNum},</if>
+            <if test="subTaskId != null">sub_task_id = #{subTaskId},</if>
         </trim>
         where id = #{id}
     </update>
 
-    <insert id="save" parameterType="com.demai.cornel.model.SubTaskInfo" useGeneratedKeys="true" keyProperty="id" >
+    <insert id="save" parameterType="com.demai.cornel.model.SubTaskInfo" useGeneratedKeys="true" keyProperty="id">
         insert into sub_task(
         <trim suffixOverrides=",">
-            <if test="taskId != null"> task_id ,</if>
-            <if test="startTime != null"> start_time ,</if>
-            <if test="endTime != null"> end_time ,</if>
-            <if test="lorryNum != null"> lorry_num ,</if>
-            <if test="status != null"> status ,</if>
-            <if test="undistNum != null"> undist_num ,</if>
-            <if test="subTaskId != null"> sub_task_id ,</if>
+            <if test="taskId != null">task_id ,</if>
+            <if test="startTime != null">start_time ,</if>
+            <if test="endTime != null">end_time ,</if>
+            <if test="lorryNum != null">lorry_num ,</if>
+            <if test="status != null">status ,</if>
+            <if test="undistNum != null">undist_num ,</if>
+            <if test="subTaskId != null">sub_task_id ,</if>
         </trim>
         )values(
         <trim suffixOverrides=",">
-            <if test="taskId != null"> #{taskid} ,</if>
-            <if test="startTime != null"> #{startTime} ,</if>
-            <if test="endTime != null"> #{endTime} ,</if>
-            <if test="lorryNum != null"> #{lorryNum} ,</if>
-            <if test="status != null"> #{status} ,</if>
-            <if test="undistNum != null"> #{undistNum} ,</if>
-            <if test="subTaskId != null"> #{subTaskId} ,</if>
+            <if test="taskId != null">#{taskid} ,</if>
+            <if test="startTime != null">#{startTime} ,</if>
+            <if test="endTime != null">#{endTime} ,</if>
+            <if test="lorryNum != null">#{lorryNum} ,</if>
+            <if test="status != null">#{status} ,</if>
+            <if test="undistNum != null">#{undistNum} ,</if>
+            <if test="subTaskId != null">#{subTaskId} ,</if>
         </trim>
         )
     </insert>

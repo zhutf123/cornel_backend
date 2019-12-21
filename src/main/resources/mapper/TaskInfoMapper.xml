@@ -18,6 +18,7 @@
         <result column="arr" property="arr"/>
         <result column="distance" property="distance"/>
         <result column="unit_distance" property="unitDistance"/>
+        <result column="unit_weight_price" property="unitWeightPrice"/>
         <result column="unit_price" property="unitPrice"/>
         <result column="estimate_price" property="estimatePrice"/>
         <result column="level" property="level"/>
@@ -60,7 +61,8 @@
         operate_time,
         subtask_time,
         receiver_user_id,
-        send_out_user_id
+        send_out_user_id,
+        unit_weight_price
     </sql>
 
     <update id="update" parameterType="com.demai.cornel.model.TaskInfo">
@@ -92,6 +94,7 @@
             <if test="sendOutUserId != null">send_out_user_id = #{sendOutUserId},</if>
             <if test="receiverUserId != null">receiver_user_id = #{receiverUserId},</if>
             <if test="unitDistance != null">unit_distance = #{unitDistance},</if>
+            <if test="unitWeightPrice != null">unit_weight_price = #{unitWeightPrice},</if>
 
         </trim>
         where id = #{id}
@@ -115,7 +118,7 @@
             <if test="dep != null">dep ,</if>
             <if test="arr != null">arr ,</if>
             <if test="distance != null">distance ,</if>
-            <if test="unitPrice != null">unit_price ,</if>
+            <if test="unitPrice != null">unit_weight_price ,</if>
             <if test="estimatePrice != null">estimate_price ,</if>
             <if test="level != null">level ,</if>
             <if test="status != null">status ,</if>
@@ -126,6 +129,7 @@
             <if test="sendOutUserId != null">send_out_user_id,</if>
             <if test="receiverUserId != null">receiver_user_id,</if>
             <if test="unitDistance != null">unit_distance,</if>
+            <if test="unitWeightPrice != null">unit_weight_price,</if>
 
         </trim>
         )values(
@@ -161,6 +165,8 @@
                 ,
             </if>
             <if test="unitDistance != null">#{unitDistance},</if>
+            <if test="unitWeightPrice != null">#{unitWeightPrice},</if>
+
         </trim>
         )
     </insert>

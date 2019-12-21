@@ -59,7 +59,7 @@ public class DriverOperationController {
         Integer pgSize = (Integer) receivedParam.get("pgSize");
         Integer curId = (Integer) receivedParam.get("curId");
         if (pgSize == null) pgSize = 20;
-        if (curId <= 0) {
+        if (curId==null || curId <= 0) {
             curId = null;
         }
         String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
@@ -68,8 +68,10 @@ public class DriverOperationController {
 
     @RequestMapping(value = "/info.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult getTaskInfo(@RequestBody String taskId) {
-        Preconditions.checkNotNull(taskId);
+    public JsonResult getTaskInfo(@RequestBody String taskIdParam) {
+        Preconditions.checkNotNull(taskIdParam);
+        JSONObject receivedParam = JSON.parseObject(taskIdParam);
+        String taskId = (String) receivedParam.get("taskId");
         String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
         TaskInfoReq taskInfoReq = taskServiceImp.getTaskInfo(curUser, taskId);
         if (taskInfoReq == null) {
@@ -101,7 +103,10 @@ public class DriverOperationController {
 
     @RequestMapping(value = "/order-info.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult getOrderInfo(@RequestBody String orderId) {
+    public JsonResult getOrderInfo(@RequestBody String orderIdParam) {
+        Preconditions.checkNotNull(orderIdParam);
+        JSONObject receivedParam = JSON.parseObject(orderIdParam);
+        String orderId = (String) receivedParam.get("orderId");
         return JsonResult.success(orderInfoDao.getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId));
     }
 

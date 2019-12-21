@@ -46,7 +46,7 @@ public class TaskInfoTest extends BaseTest {
         taskInfo.setDep("大连");
         taskInfo.setArr("连云港");
         taskInfo.setDistance(new BigDecimal(600));
-        taskInfo.setUnitPrice(new BigDecimal(5.6));
+        //taskInfo.setUnitPrice(new BigDecimal(5.6));
         taskInfo.setLevel(1);
         List<TaskInfo.SubTaskTime> subTaskTimes = new ArrayList<>();
         TaskInfo.SubTaskTime subTaskTime = new TaskInfo.SubTaskTime();

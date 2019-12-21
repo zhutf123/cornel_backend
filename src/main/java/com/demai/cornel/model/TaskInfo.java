@@ -52,7 +52,7 @@ public class TaskInfo implements Serializable {
 
     private String unitDistance;
 
-    private BigDecimal unitPrice;
+    private BigDecimal unitWeightPrice;
 
     private BigDecimal estimatePrice;
 
@@ -65,19 +65,19 @@ public class TaskInfo implements Serializable {
     private String subTaskTimeString;
     private Set<String> receiverUserId;
     private Set<String> sendOutUserId;
+    private String unitPrice;
 
     public static enum STATUS_ENUE {
 
-        TASK_INIT(1L, "添加任务"),
-        TASK_CANCEL(1L << 1, "取消任务"),
-        TASK_REVIEW_SUCCESS(1L << 2, "审核通过"),
-        TASK_REVIEW_DENY(1L << 3, "审核拒绝"),
+        TASK_INIT(1L, "添加任务"), TASK_CANCEL(1L << 1, "取消任务"), TASK_REVIEW_SUCCESS(1L << 2,
+                "审核通过"), TASK_REVIEW_DENY(1L << 3, "审核拒绝"),
 
         TASK_ING(1L << 4, "任务进行中"),
 
         TASK_OVER(1L << 5, "任务完成"),
 
         TASK_CUSTOMER((1L << 6), "订单人工处理");
+
         private long value;
         private String expr;
 
@@ -94,21 +94,18 @@ public class TaskInfo implements Serializable {
             return expr;
         }
 
-
     }
-
 
     public void setSubTaskTimeString(String subTaskTimeString) {
         if (Strings.isNullOrEmpty(subTaskTimeString)) {
             this.subTaskTimeString = subTaskTimeString;
             this.subTaskTime = (HashMap<String, Integer>) Collections.EMPTY_MAP;
         }
-        List<SubTaskTime> list = JSON.parseArray(subTaskTimeString, SubTaskTime.class);//将json字符串转化成list
+        List<SubTaskTime> list = JSON.parseArray(subTaskTimeString, SubTaskTime.class);// 将json字符串转化成list
         this.subTaskTime = (list == null) ? (HashMap<String, Integer>) Collections.EMPTY_MAP
                 : list.stream().collect(Collectors.toMap(SubTaskTime::getTime, SubTaskTime::getCount));
         this.subTaskTimeString = subTaskTimeString;
     }
-
 
     @Data
     public static class SubTaskTime {
