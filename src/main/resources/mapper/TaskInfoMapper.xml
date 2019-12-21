@@ -6,9 +6,8 @@
         <id column="id" property="id"/>
         <result column="title" property="title"/>
         <result column="product" property="product"/>
-        <result column="supplier_id" property="supplierId"/>
-        <result column="delivery_id" property="deliveryId"/>
         <result column="weight" property="weight"/>
+        <result column="unit_weight" property="unitWeight"/>
         <result column="task_id" property="taskId"/>
         <result column="unaccept_weight" property="unacceptWeight"/>
         <result column="undist_weight" property="undistWeight"/>
@@ -38,11 +37,9 @@
         id,
         title,
         task_id,
-        supplier_id,
-        delivery_id,
         product,
         weight,
-        unit,
+        unit_weight,
         unaccept_weight,
         undist_weight,
         start_time,
@@ -73,10 +70,8 @@
             <if test="title != null">title = #{title},</if>
             <if test="taskId != null">task_id = #{taskId},</if>
             <if test="product != null">product = #{product},</if>
-            <if test="supplierId != null">supplier_id = #{supplierId},</if>
-            <if test="deliveryId != null">delivery_id = #{deliveryId},</if>
             <if test="weight != null">weight = #{weight},</if>
-            <if test="unit != null">unit = #{unit},</if>
+            <if test="unitWeight != null">unit_weight = #{unitWeight},</if>
             <if test="unacceptWeight != null">unaccept_weight = #{unacceptWeight},</if>
             <if test="undistWeight != null">undist_weight = #{undistWeight},</if>
             <if test="startTime != null">start_time = #{startTime},</if>
@@ -109,10 +104,8 @@
             <if test="title != null">title ,</if>
             <if test="taskId != null">task_id ,</if>
             <if test="product != null">product ,</if>
-            <if test="supplierId != null">supplier_id ,</if>
-            <if test="deliveryId != null">delivery_id ,</if>
             <if test="weight != null">weight ,</if>
-            <if test="unit != null">unit ,</if>
+            <if test="unitWeight != null">unit_weight ,</if>
             <if test="unacceptWeight != null">unaccept_weight ,</if>
             <if test="undistWeight != null">undist_weight ,</if>
 
@@ -141,10 +134,8 @@
             <if test="title != null">#{title} ,</if>
             <if test="taskId != null">#{taskId},</if>
             <if test="product != null">#{product} ,</if>
-            <if test="supplierId != null">#{supplierId} ,</if>
-            <if test="deliveryId != null">#{deliveryId} ,</if>
             <if test="weight != null">#{weight} ,</if>
-            <if test="unit != null">#{unit} ,</if>
+            <if test="unitWeight != null">#{unitWeight} ,</if>
             <if test="unacceptWeight != null">#{unacceptWeight} ,</if>
             <if test="undistWeight != null">#{undistWeight} ,</if>
             <if test="startTime != null">#{startTime} ,</if>

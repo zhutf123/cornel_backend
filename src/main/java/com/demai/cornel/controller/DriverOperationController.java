@@ -34,41 +34,33 @@ import java.util.Optional;
 /**
  * Create By zhutf  19-11-10  上午9:33
  */
-@Controller
-@RequestMapping("/driver")
-@Slf4j
-public class DriverOperationController {
-    @Resource
-    private TaskServiceImp taskServiceImp;
-    @Resource
-    private UserLoginService userLoginService;
+@Controller @RequestMapping("/driver") @Slf4j public class DriverOperationController {
+    @Resource private TaskServiceImp taskServiceImp;
+    @Resource private UserLoginService userLoginService;
 
-    @Resource
-    private OrderInfoDao orderInfoDao;
+    @Resource private OrderInfoDao orderInfoDao;
 
-    @Resource
-    private OrderService orderService;
+    @Resource private OrderService orderService;
 
-    @RequestMapping(value = "/task-list.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult getTaskList(@RequestBody String param) {
+    @RequestMapping(value = "/task-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult getTaskList(
+            @RequestBody String param) {
         if (Strings.isNullOrEmpty(param)) {
             return JsonResult.error("param illegal");
         }
         JSONObject receivedParam = JSON.parseObject(param);
         Integer pgSize = (Integer) receivedParam.get("pgSize");
         Integer curId = (Integer) receivedParam.get("curId");
-        if (pgSize == null) pgSize = 20;
-        if (curId==null || curId <= 0) {
+        if (pgSize == null)
+            pgSize = 20;
+        if (curId != null && curId <= 0) {
             curId = null;
         }
         String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
         return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
     }
 
-    @RequestMapping(value = "/info.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult getTaskInfo(@RequestBody String taskIdParam) {
+    @RequestMapping(value = "/info.json", method = RequestMethod.POST) @ResponseBody public JsonResult getTaskInfo(
+            @RequestBody String taskIdParam) {
         Preconditions.checkNotNull(taskIdParam);
         JSONObject receivedParam = JSON.parseObject(taskIdParam);
         String taskId = (String) receivedParam.get("taskId");
@@ -80,16 +72,14 @@ public class DriverOperationController {
         return JsonResult.success(taskInfoReq);
     }
 
-    @RequestMapping(value = "/save.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult saveTask(@RequestBody TaskSaveVO taskSaveVO) {
+    @RequestMapping(value = "/save.json", method = RequestMethod.POST) @ResponseBody public JsonResult saveTask(
+            @RequestBody TaskSaveVO taskSaveVO) {
         Preconditions.checkNotNull(taskSaveVO);
         return orderService.saveOrder(taskSaveVO);
     }
 
-    @RequestMapping(value = "/order-list.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult getOrderList(@RequestBody GetOrderListReq getOrderListReq) {
+    @RequestMapping(value = "/order-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult getOrderList(
+            @RequestBody GetOrderListReq getOrderListReq) {
         Preconditions.checkNotNull(getOrderListReq);
         if (Strings.isNullOrEmpty(getOrderListReq.getOrderId()) || getOrderListReq.getOrderTyp() == null) {
             return JsonResult.successStatus(GetOrderListResp.CODE_ENUE.PARAM_ERROR);
@@ -100,25 +90,23 @@ public class DriverOperationController {
         return null;
     }
 
-
-    @RequestMapping(value = "/order-info.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult getOrderInfo(@RequestBody String orderIdParam) {
+    @RequestMapping(value = "/order-info.json", method = RequestMethod.POST) @ResponseBody public JsonResult getOrderInfo(
+            @RequestBody String orderIdParam) {
         Preconditions.checkNotNull(orderIdParam);
         JSONObject receivedParam = JSON.parseObject(orderIdParam);
         String orderId = (String) receivedParam.get("orderId");
-        return JsonResult.success(orderInfoDao.getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId));
+        return JsonResult.success(
+                orderInfoDao.getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId));
     }
 
-
-    @RequestMapping(value = "/arrive-dep.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult arriveDep(@RequestBody String orderId) {
+    @RequestMapping(value = "/arrive-dep.json", method = RequestMethod.POST) @ResponseBody public JsonResult arriveDep(
+            @RequestBody String orderId) {
 
         long arriveStatus = OrderInfo.STATUS_ENUE.ORDER_ARRIVE_DEP.getValue();
         ArriveDepDriverResp arriveDepDriverResp = new ArriveDepDriverResp();
         arriveDepDriverResp.setOrderId(orderId);
-        if (orderInfoDao.updateOrderStatus(orderId, arriveStatus, UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)) != 1) {
+        if (orderInfoDao.updateOrderStatus(orderId, arriveStatus, UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME))
+                != 1) {
             arriveDepDriverResp.setSuccess(false);
             return JsonResult.success(arriveDepDriverResp);
         }

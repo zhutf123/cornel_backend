@@ -18,10 +18,7 @@ import lombok.NoArgsConstructor;
 /**
  * Create By zhutf 19-10-6 下午1:10
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class OrderInfo implements Serializable {
+@Data @NoArgsConstructor @AllArgsConstructor public class OrderInfo implements Serializable {
     private static final long serialVersionUID = 5140939699074828658L;
     private Long id;
     private String orderId;
@@ -60,6 +57,7 @@ public class OrderInfo implements Serializable {
     private Map<String, String> extInfo;
     private Date createTime;
     private Date operateTime;
+    private String receiveTime;
 
     private Long oldStatus;
 
@@ -67,8 +65,7 @@ public class OrderInfo implements Serializable {
 
         ORDER_INIT(1L, "待收粮"), ORDER_CANCEL(1L << 1, "取消订单"), ORDER_ARRIVE_DEP(1L << 2,
                 "到达装货点"), SUPPLIER_CONFIRM_SHIPMENT(1L << 3, "烘干塔开始装货"), ORDER_SHIPMENT(1L << 4,
-                        "司机确认-装货完成"), ORDER_SHIPMENT_OVER(1L << 5,
-                                "烘干塔-装货信息录入确认"), ORDER_ROUTING((1L << 6), "司机确认装货完成-运粮中"),
+                "司机确认-装货完成"), ORDER_SHIPMENT_OVER(1L << 5, "烘干塔-装货信息录入确认"), ORDER_ROUTING((1L << 6), "司机确认装货完成-运粮中"),
 
         ORDER_ARRIVE_ARR((1L << 9) + (1L << 6), "已送达"),
 

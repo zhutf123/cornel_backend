@@ -55,7 +55,7 @@ public class TaskInfoReq {
         this.status = taskInfo.getStatus();
         this.unitPrice = taskInfo.getUnitPrice();
         this.unitDistance = taskInfo.getUnitDistance();
-        this.unitWeight = taskInfo.getUnit();
+        this.unitWeight = taskInfo.getUnitWeight();
     }
 
     public TaskInfoReq() {

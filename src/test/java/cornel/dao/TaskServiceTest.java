@@ -72,7 +72,7 @@ public class TaskServiceTest extends BaseTest {
     public void testGetOrderList(){
         GetOrderListReq getOrderListReq = new GetOrderListReq();
         getOrderListReq.setOrderId("123");
-        getOrderListReq.setOrderTyp(1);
+       // getOrderListReq.setOrderTyp(1);
         getOrderListReq.setPgSize(10);
        // taskServiceImp.getOrderList(getOrderListReq,"binz.zhang");
         System.out.println("ok");
