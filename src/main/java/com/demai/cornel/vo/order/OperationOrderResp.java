@@ -24,6 +24,6 @@ public class OperationOrderResp implements Serializable {
      */
     private String opOverTime;
 
-    private Long carryWeight;
+    private Long realWeight;
 
 }
