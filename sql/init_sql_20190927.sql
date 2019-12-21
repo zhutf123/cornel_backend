@@ -161,7 +161,7 @@ COMMENT ON COLUMN "order_info"."user_id" IS '货物提供方id';
 COMMENT ON COLUMN "order_info"."delivery_id" IS '收货人id';
 COMMENT ON COLUMN "order_info"."unit" IS '运送单位';
 COMMENT ON COLUMN "order_info"."carry_weight" IS '运送重量';
-COMMENT ON COLUMN "order_info"."order_weight" IS '清单重量';
+COMMENT ON COLUMN "order_info"."order_weight" IS '订单重量';
 COMMENT ON COLUMN "order_info"."succ_weight" IS '送达重量';
 COMMENT ON COLUMN "order_info"."overweight" IS '是否超重';
 COMMENT ON COLUMN "order_info"."accept_time" IS '接单时间';

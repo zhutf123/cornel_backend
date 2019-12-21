@@ -3,10 +3,9 @@
  */
 package com.demai.cornel.vo.order;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import lombok.Data;
-
 import java.io.Serializable;
+
+import lombok.Data;
 
 /**
  * Create By tfzhu 2019/12/21 5:04 PM
@@ -16,4 +15,15 @@ public class OperationOrderResp implements Serializable {
     private Boolean success;
     private String orderId;
     private Long orderStatus;
+    /***
+     * 出货完成时 0 成功 1:司机
+     */
+    private Long opResult;
+    /***
+     * 操作完成时间
+     */
+    private String opOverTime;
+
+    private Long carryWeight;
+
 }
