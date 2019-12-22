@@ -210,11 +210,11 @@
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} )
         <if test="orderId == null or orderId=='' ">
-            and o.id  <![CDATA[<=]]> (select o.id from order_info where o.user_id=#{userId} and o.status=(o.status
+            and o.id  <![CDATA[<=]]> (select id from order_info where user_id=#{userId} and status=(o.status
             <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId !='' ">
-            and o.id  <![CDATA[<]]> (select o.id from order_info where o.order_id=#{orderId})
+            and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})
         </if>
         order by o.id desc limit #{pgSize};
     </select>
@@ -240,11 +240,11 @@
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         <if test="orderId == null or orderId==''">
-            and o.id  <![CDATA[<=]]> (select o.id from order_info where o.user_id=#{userId} and
+            and o.id  <![CDATA[<=]]> (select id from order_info where user_id=#{userId} and
             o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId!=''">
-            and o.id  <![CDATA[<]]> (select o.id from order_info where o.order_id=#{orderId})
+            and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})
         </if>
         order by o.id desc limit #{pgSize};
     </select>
@@ -271,11 +271,11 @@
         <![CDATA[ o.delivery_id @> #{deliverId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}] ]]>
         and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         <if test="orderId == null or orderId==''">
-            and o.id  <![CDATA[<=]]> (select o.id from order_info where o.delivery_id=#{supplierId} and
+            and o.id  <![CDATA[<=]]> (select id from order_info where delivery_id=#{supplierId} and
             o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId!=''">
-            and o.id  <![CDATA[<]]> (select o.id from order_info where o.order_id=#{orderId})
+            and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})
         </if>
         order by o.id desc limit #{pgSize};
     </select>
@@ -312,11 +312,11 @@
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         <if test="orderId == null or orderId==''">
-            and o.id  <![CDATA[<=]]> (select o.id from order_info where <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and
+            and o.id  <![CDATA[<=]]> (select id from order_info where <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and
             o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId!=''">
-            and o.id  <![CDATA[<]]> (select o.id from order_info where o.order_id=#{orderId})
+            and o.id  <![CDATA[<]]> (select id from order_info where o.order_id=#{orderId})
         </if>
         order by o.id desc limit #{pgSize};
     </select>
