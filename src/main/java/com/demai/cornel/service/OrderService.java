@@ -46,11 +46,11 @@ import java.util.concurrent.TimeUnit;
     private static final String ORDER_LOCK_FORMAT = "lock:task:%s";
 
     public List<GetOrderListResp> getOrderList(GetOrderListReq getOrderListReq, String userId) {
-        if (getOrderListReq == null || getOrderListReq.getOrderTyp() == null || Strings.isNullOrEmpty(userId)) {
+        if (getOrderListReq == null || getOrderListReq.getOrderType() == null || Strings.isNullOrEmpty(userId)) {
             return null;
         }
         return orderInfoDao
-                .getOrderInfoByOrderTypeAndUserId(userId, getOrderListReq.getOrderTyp(), getOrderListReq.getOrderId(),
+                .getOrderInfoByOrderTypeAndUserId(userId, getOrderListReq.getOrderType(), getOrderListReq.getOrderId(),
                         getOrderListReq.getPgSize());
     }
 

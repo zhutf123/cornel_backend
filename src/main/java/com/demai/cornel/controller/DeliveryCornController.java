@@ -50,7 +50,7 @@ public class DeliveryCornController {
     public JsonResult deliveryList(@RequestBody GetOrderListReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-            if (param.getOrderTyp() == null) {
+            if (param.getOrderType() == null) {
                 log.error("delivery task list query task list is null:{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }
@@ -79,7 +79,7 @@ public class DeliveryCornController {
             @RequestBody GetOrderListReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-            if (param.getOrderTyp() == null) {
+            if (param.getOrderType() == null) {
                 log.error("delivery task list query task list is null:{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }

@@ -72,7 +72,7 @@ import java.util.Optional;
     @RequestMapping(value = "/order-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult getOrderList(
             @RequestBody GetOrderListReq getOrderListReq) {
         Preconditions.checkNotNull(getOrderListReq);
-        if (Strings.isNullOrEmpty(getOrderListReq.getOrderId()) || getOrderListReq.getOrderTyp() == null) {
+        if (Strings.isNullOrEmpty(getOrderListReq.getOrderId()) || getOrderListReq.getOrderType() == null) {
             return JsonResult.successStatus(GetOrderListResp.CODE_ENUE.PARAM_ERROR);
         }
         if (userLoginService.checkUserValidity(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)) == null) {

@@ -56,7 +56,7 @@ public class SupplierCornController {
     public JsonResult shipmentList(@RequestBody GetOrderListReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-            if (param.getOrderTyp() == null) {
+            if (param.getOrderType() == null) {
                 log.error("supplier task order list param error:{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }
@@ -87,7 +87,7 @@ public class SupplierCornController {
                 log.debug("supplier task order shipment-listV2 param:{}", JsonUtil.toJson(param));
             }
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-            if (param.getOrderTyp() == null) {
+            if (param.getOrderType() == null) {
                 log.error("supplier task order list param error:{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }

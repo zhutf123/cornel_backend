@@ -48,7 +48,7 @@ public class SupplierTaskService {
      * @param param
      */
     public Collection<SupplierTaskListResp> getTaskOrderListByStatus(String supplierId, GetOrderListReq param) {
-        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderTyp(),
+        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderType(),
                 param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
             log.info("supplier query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
@@ -72,7 +72,7 @@ public class SupplierTaskService {
      * @param param
      */
     public List<GetOrderListResp> getTaskOrderListByStatusV2(String supplierId, GetOrderListReq param) {
-        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderTyp(),
+        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderType(),
                 param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
             log.info("supplier query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
