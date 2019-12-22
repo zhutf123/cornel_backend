@@ -171,8 +171,8 @@ public class SupplierTaskService {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId(param.getOrderId());
         orderInfo.setUserId(userId);
-        orderInfo.setStatus(OrderInfo.STATUS_ENUE.SUPPLIER_CONFIRM_SHIPMENT.getValue());
-        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
+        orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.SUPPLIER_CONFIRM_SHIPMENT.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         if (log.isDebugEnabled()) {
             log.debug("supplier shipment over update order num is zero");
@@ -183,6 +183,7 @@ public class SupplierTaskService {
                     .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
                     .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
         }
+        orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
         return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
                 .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
                 .realWeight(orderInfo.getCarryWeight().longValue()).orderStatus(orderInfo.getStatus()).build();
@@ -202,8 +203,8 @@ public class SupplierTaskService {
         orderInfo.setSendOutUserId(sendOutId);
         orderInfo.setCarryWeight(new BigDecimal(param.getRealWeight()));
         orderInfo.setSendOutTime(new java.sql.Date(DateUtils.now().getTime()));
-        orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
-        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT_OVER.getValue());
+        orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT_OVER.getValue());
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         if (log.isDebugEnabled()) {
             log.debug("supplier shipment over update order num is zero");
@@ -214,6 +215,7 @@ public class SupplierTaskService {
                     .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
                     .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
         }
+        orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
         return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
                 .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
                 .realWeight(orderInfo.getCarryWeight().longValue()).orderStatus(orderInfo.getStatus()).build();

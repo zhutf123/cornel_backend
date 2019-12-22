@@ -135,15 +135,15 @@ public class SupplierCornController {
     /**
      * 烘干塔开始装货
      *
-     * @param orderId
+     * @param param
      * @return
      */
     @RequestMapping(value = "/shipment.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult shipmentStart(@RequestBody String orderId) {
+    public JsonResult shipmentStart(@RequestBody GetOrderInfoReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-            OperationOrderResp result = supplierTaskService.shipmentStart(curUser, orderId);
+            OperationOrderResp result = supplierTaskService.shipmentStart(curUser, param.getOrderId());
             if (log.isDebugEnabled()) {
                 log.debug("supplier task order shipment start user:{} result:{}", curUser, JsonUtil.toJson(result));
             }

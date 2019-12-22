@@ -139,6 +139,7 @@ import java.util.*;
                     .opResult(OperationOrderResp.DELIVERY_RESP_STATUS_ENUE.OPERATION_ERROR.getValue()).orderId(orderId)
                     .orderStatus(orderInfo.getStatus()).build();
         }
+        orderInfo = orderInfoDao.getOrderInfoByOrderId(orderId);
         return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
                 .orderId(orderId).opResult(OperationOrderResp.DELIVERY_RESP_STATUS_ENUE.SUCCESS.getValue())
                 .orderStatus(orderInfo.getStatus()).build();
@@ -169,6 +170,7 @@ import java.util.*;
                     .success(Boolean.FALSE).orderId(param.getOrderId()).orderStatus(orderInfo.getStatus())
                     .opResult(OperationOrderResp.DELIVERY_RESP_STATUS_ENUE.OPERATION_ERROR.getValue()).build();
         }
+        orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
         return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
                 .opResult(OperationOrderResp.DELIVERY_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
                 .orderStatus(orderInfo.getStatus()).realWeight(orderInfo.getSuccWeight().longValue()).build();
