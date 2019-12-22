@@ -4,10 +4,7 @@
 package com.demai.cornel.service;
 
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 
@@ -131,7 +128,9 @@ public class SupplierTaskService {
     public OperationOrderResp shipmentStart(String supplierId, String orderId) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId(orderId);
-        orderInfo.setSupplierId(supplierId);
+        Set<String> sendOutId = new HashSet<>(1);
+        sendOutId.add(supplierId);
+        orderInfo.setSendOutUserId(sendOutId);
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.SUPPLIER_CONFIRM_SHIPMENT.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_ARRIVE_DEP.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
@@ -184,7 +183,9 @@ public class SupplierTaskService {
     public OperationOrderResp shipmentOver(String supplierId, OperationOrderReq param) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId(param.getOrderId());
-        orderInfo.setSupplierId(supplierId);
+        Set<String> sendOutId = new HashSet<>(1);
+        sendOutId.add(supplierId);
+        orderInfo.setSendOutUserId(sendOutId);
         orderInfo.setCarryWeight(new BigDecimal(param.getRealWeight()));
         orderInfo.setSendOutTime(new java.sql.Date(DateUtils.now().getTime()));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());

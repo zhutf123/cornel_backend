@@ -177,7 +177,7 @@ public class DistOrderService {
         userDistOrderModel.setDistWeigth(curDistWeight);
         distOrderInfoDao.save(distOrderInfo);
         taskInfo.setUndistWeight(taskUnDistWeight.subtract(curDistWeight));
-        taskInfoDao.updateTaskUnDistWeight(taskInfo.getUndistWeight(), taskInfo.getTaskId());
+       // taskInfoDao.updateTaskUnDistWeight(taskInfo.getUndistWeight(), taskInfo.getTaskId());
         if (!sendDistOrder(taskInfo, userDistOrderModel).equals(0)) {
             throw new RuntimeException("send msg error");
         }

@@ -24,22 +24,16 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Create By tfzhu  2019/12/19  8:07 AM
  * 接货人服务接口
  */
-@Service
-@Slf4j
-public class DeliveryTaskService {
+@Service @Slf4j public class DeliveryTaskService {
 
-    @Resource
-    private OrderInfoDao orderInfoDao;
-    
+    @Resource private OrderInfoDao orderInfoDao;
+
     /**
      * 根据用户烘干塔用户id 订单状态查询任务订单
      *
@@ -47,16 +41,16 @@ public class DeliveryTaskService {
      * @param param
      */
     public Collection<SupplierTaskListResp> getTaskOrderListByStatus(String supplierId, GetOrderListReq param) {
-        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoByTaskByDelivery(supplierId, param.getOrderTyp(),
-                param.getOrderId(), param.getPgSize());
-        if (CollectionUtils.isEmpty(orderListResp)){
-            log.info("delivery query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
+        List<GetOrderListResp> orderListResp = orderInfoDao
+                .getOrderInfoByTaskByDelivery(supplierId, param.getOrderTyp(), param.getOrderId(), param.getPgSize());
+        if (CollectionUtils.isEmpty(orderListResp)) {
+            log.info("delivery query order list is empty supplierId:{} param:{}", supplierId, JsonUtil.toJson(param));
             return null;
         }
         Map<String, SupplierTaskListResp> taskOrderInfo = Maps.newHashMap();
         orderListResp.stream().forEach(order -> {
             if (taskOrderInfo.keySet().contains(order.getTaskId())) {
-                buildTaskOrderInfo(taskOrderInfo.get(order.getTaskId()),order);
+                buildTaskOrderInfo(taskOrderInfo.get(order.getTaskId()), order);
             } else {
                 taskOrderInfo.put(order.getTaskId(), buildTaskOrderInfo(null, order));
             }
@@ -71,10 +65,10 @@ public class DeliveryTaskService {
      * @param param
      */
     public List<GetOrderListResp> getTaskOrderListByStatusV2(String supplierId, GetOrderListReq param) {
-        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoByTaskByDelivery(supplierId, param.getOrderTyp(),
-                param.getOrderId(), param.getPgSize());
-        if (CollectionUtils.isEmpty(orderListResp)){
-            log.info("delivery query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
+        List<GetOrderListResp> orderListResp = orderInfoDao
+                .getOrderInfoByTaskByDelivery(supplierId, param.getOrderTyp(), param.getOrderId(), param.getPgSize());
+        if (CollectionUtils.isEmpty(orderListResp)) {
+            log.info("delivery query order list is empty supplierId:{} param:{}", supplierId, JsonUtil.toJson(param));
             return null;
         }
 
@@ -107,13 +101,13 @@ public class DeliveryTaskService {
      * @param param
      */
     public GetOrderListResp getTaskOrderInfoByOrderIdOrVerifyCode(String deliveryId, GetOrderInfoReq param) {
-        return orderInfoDao.getOrderInfoByOrderIdOrVerifyCode("delivery", deliveryId, param.getOrderId(),
-                param.getVerifyCode());
+        return orderInfoDao
+                .getOrderInfoByOrderIdOrVerifyCode("delivery", deliveryId, param.getOrderId(), param.getVerifyCode());
     }
-
 
     /**
      * 接货人开始装货
+     *
      * @param supplierId
      * @param orderId
      * @return
@@ -121,7 +115,9 @@ public class DeliveryTaskService {
     public OperationOrderResp deliveryStart(String supplierId, String orderId) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId(orderId);
-        orderInfo.setSupplierId(supplierId);
+        Set<String> sendOutId = new HashSet<>();
+        sendOutId.add(supplierId);
+        orderInfo.setSendOutUserId(sendOutId);
         orderInfo.setReceiveTime(DateFormatUtils.formatDateTime(new Date()));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_ARRIVE_ARR.getValue());
@@ -140,9 +136,9 @@ public class DeliveryTaskService {
                 .orderStatus(orderInfo.getStatus()).build();
     }
 
-
     /**
      * 接货人装货完成
+     *
      * @param supplierId
      * @param param
      * @return
@@ -150,7 +146,9 @@ public class DeliveryTaskService {
     public OperationOrderResp deliveryOver(String supplierId, OperationOrderReq param) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId(param.getOrderId());
-        orderInfo.setSupplierId(supplierId);
+        Set<String> sendOutId = new HashSet<>(1);
+        sendOutId.add(supplierId);
+        orderInfo.setSendOutUserId(sendOutId);
         orderInfo.setSuccWeight(new BigDecimal(param.getRealWeight()));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY_OVER.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_DRIVER_CONFIRM_OVER.getValue());
