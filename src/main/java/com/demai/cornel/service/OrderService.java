@@ -87,7 +87,7 @@ import java.util.concurrent.TimeUnit;
             stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
             taskSaveRep.setStatus(1);
             taskSaveRep.setRestWeight(taskInfo.getUndistWeight());
-            return JsonResult.successStatus(TaskSaveResp.INNER_CODE_ENUE.WEIGHT_ERROR.getValue());
+            return JsonResult.success(taskSaveRep);
         }
         // 校验task-- 校验时间段是否可选
         if (checkTaskStatus.equals(3)) {
