@@ -89,9 +89,13 @@
             <if test="estimateFinishTime != null">estimate_finish_time = #{estimateFinishTime},</if>
             <if test="finishTime != null">finish_time = #{finishTime},</if>
             <if test="sendOutCode != null">send_out_code = #{sendOutCode},</if>
-            <if test="sendOutUserId != null">send_out_user_id = #{sendOutUserId},</if>
+            <if test="sendOutUserId != null">send_out_user_id =
+                #{sendOutUserId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
             <if test="receiveCode != null">receive_code = #{receiveCode},</if>
-            <if test="receiverUserId != null">receiver_user_id = #{receiverUserId},</if>
+            <if test="receiverUserId != null">receiver_user_id =
+                #{receiverUserId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
             <if test="status != null">status = #{status},</if>
             <if test="unexpect != null">unexpect = #{unexpect},</if>
             <if test="cancelTime != null">cancel_time = #{cancelTime},</if>
@@ -192,23 +196,24 @@
         o.order_id as orderId,
         o.task_id as taskId,
         o.status as orderStatus,
+        o.receive_time as startTime,
+        o.status as orderStatus,
+        o.order_weight as orderWeight,
+        o.receive_code as verifyCode,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
         t.start_time as startValidDate,
         t.end_time as endValidDate,
-        l.id as lorryId,
-        l.plate_number as plateNumber,
-        l.carry_weight as carryWeight,
-        o.order_weight as orderWeight,
-        o.receive_code as verifyCode,
         t.distance as distance,
         t.unit_distance as unitDistance,
         t.unit_weight_price as unitWeightPrice,
-        o.receive_time as startTime,
-        o.status as orderStatus
+        l.id as lorryId,
+        l.plate_number as plateNumber,
+        l.carry_weight as carryWeight
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} )
+        and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId=='' ">
             and o.id  <![CDATA[<=]]> (select id from order_info where user_id=#{userId} and status=(o.status
             <![CDATA[ & ]]> #{orderType} ))
@@ -224,21 +229,22 @@
         o.order_id as orderId,
         o.task_id as taskId,
         o.status as orderStatus,
+        o.order_weight as orderWeight,
+        o.receive_code as verifyCode,
+        o.receive_time as startTime,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
         t.start_time as startValidDate,
         t.end_time as endValidDate,
-        l.id as lorryId,
-        l.plate_number as plateNumber,
-        l.carry_weight as carryWeight,
-        o.order_weight as orderWeight,
-        o.receive_code as verifyCode,
         t.distance as distance,
         t.unit_weight as unitWeightPrice,
-        o.receive_time as startTime
+        l.id as lorryId,
+        l.plate_number as plateNumber,
+        l.carry_weight as carryWeight
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
+        and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId==''">
             and o.id  <![CDATA[<=]]> (select id from order_info where user_id=#{userId} and
             o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
@@ -255,6 +261,8 @@
         o.task_id as taskId,
         o.status as orderStatus,
         o.order_weight as orderWeight,
+        o.verify_code as verifyCode,
+        o.receive_time as startTime,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
@@ -264,12 +272,11 @@
         t.unit_weight as unitWeight,
         l.id as lorryId,
         l.plate_number as plateNumber,
-        l.carry_weight as carryWeight,
-        o.receive_code as verifyCode,
-        o.receive_time as startTime
+        l.carry_weight as carryWeight
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         <![CDATA[ o.delivery_id @> #{deliverId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}] ]]>
         and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
+        and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId==''">
             and o.id  <![CDATA[<=]]> (select id from order_info where delivery_id=#{supplierId} and
             o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
@@ -297,6 +304,8 @@
         o.task_id as taskId,
         o.status as orderStatus,
         o.order_weight as orderWeight,
+        o.receive_code as verifyCode,
+        o.receive_time as startTime,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
@@ -306,11 +315,10 @@
         t.unit_weight as unitWeight,
         l.id as lorryId,
         l.plate_number as plateNumber,
-        l.carry_weight as carryWeight,
-        o.receive_code as verifyCode,
-        o.receive_time as startTime
+        l.carry_weight as carryWeight
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
+        and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId==''">
             and o.id  <![CDATA[<=]]> (select id from order_info where <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and
             o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
@@ -327,6 +335,8 @@
         o.task_id as taskId,
         o.status as orderStatus,
         o.order_weight as orderWeight,
+        o.receive_code as verifyCode,
+        o.receive_time as startTime,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
@@ -336,9 +346,7 @@
         t.unit_weight as unitWeight,
         l.id as lorryId,
         l.plate_number as plateNumber,
-        l.carry_weight as carryWeight,
-        o.receive_code as verifyCode,
-        o.receive_time as startTime
+        l.carry_weight as carryWeight
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         1=1
         <if test="orderId == null">
@@ -359,7 +367,6 @@
 
     </select>
     <delete id="deleteOrder">
-
         delete from order_info where order_id=#{orderId};
     </delete>
     <select id="getOrderInfoByOrderId" resultMap="orderInfoResultMap">

@@ -81,7 +81,9 @@
             <if test="idType != null">id_type = #{idType},</if>
             <if test="idCard != null">id_card = #{idCard},</if>
             <if test="termValidity != null">term_validity = #{termValidity},</if>
-            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="mobile != null">mobile =
+                #{mobile,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
             <if test="lorry != null">lorry = #{lorry},</if>
             <if test="orderNums != null">order_nums = #{orderNums},</if>
             <if test="score != null">score = #{score},</if>
