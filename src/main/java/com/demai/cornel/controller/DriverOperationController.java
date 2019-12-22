@@ -69,9 +69,7 @@ import java.util.Optional;
             @RequestBody GetOrderListReq getOrderListReq) {
         Preconditions.checkNotNull(getOrderListReq);
         if ( getOrderListReq.getOrderType() == null) {
-            return JsonResult.successStatus(GetOrderListResp.CODE_ENUE.PARAM_ERROR);
-        }
-        if (userLoginService.checkUserValidity(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)) == null) {
+            log.warn("order list api param is null");
             return JsonResult.successStatus(GetOrderListResp.CODE_ENUE.PARAM_ERROR);
         }
         return JsonResult.success(orderService.getOrderList(getOrderListReq,UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)));
