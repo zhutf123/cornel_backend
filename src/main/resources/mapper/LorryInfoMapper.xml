@@ -160,4 +160,8 @@
         from lorry_info
         where id=#{lorryId}
     </select>
+    <update id="updateLorryStatus">
+
+        update lorry_info set status=#{status} where id=#{lorryId};
+    </update>
 </mapper>

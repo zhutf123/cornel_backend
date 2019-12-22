@@ -16,7 +16,8 @@ import java.util.Set;
 /**
  * Create By zhutf 19-10-6 下午1:10
  */
-@Data @NoArgsConstructor @AllArgsConstructor public class OrderInfo implements Serializable {
+@Data @NoArgsConstructor @AllArgsConstructor
+public class OrderInfo implements Serializable {
     private static final long serialVersionUID = 5140939699074828658L;
     private Long id;
     private String orderId;

@@ -100,18 +100,27 @@ import java.util.Optional;
     }
 
     @RequestMapping(value = "/arrive-dep.json", method = RequestMethod.POST) @ResponseBody public JsonResult arriveDep(
-            @RequestBody String orderId) {
+            @RequestBody String orderIdParam) {
+        Preconditions.checkNotNull(orderIdParam);
+        JSONObject receivedParam = JSON.parseObject(orderIdParam);
+        String orderId = (String) receivedParam.get("orderId");
+        return JsonResult.success(orderService.driverArriveDep(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME),orderId));
+    }
+    @RequestMapping(value = "/confirm-stockOut.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult confirmStockOut(
+            @RequestBody String orderIdParam) {
+        Preconditions.checkNotNull(orderIdParam);
+        JSONObject receivedParam = JSON.parseObject(orderIdParam);
+        String orderId = (String) receivedParam.get("orderId");
+        return JsonResult.success(orderService.confirmStockOut(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME),orderId));
+    }
 
-        long arriveStatus = OrderInfo.STATUS_ENUE.ORDER_ARRIVE_DEP.getValue();
-        ArriveDepDriverResp arriveDepDriverResp = new ArriveDepDriverResp();
-        arriveDepDriverResp.setOrderId(orderId);
-        if (orderInfoDao.updateOrderStatus(orderId, arriveStatus, UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME))
-                != 1) {
-            arriveDepDriverResp.setSuccess(false);
-            return JsonResult.success(arriveDepDriverResp);
-        }
-        arriveDepDriverResp = orderInfoDao.getOrderStatusAndVerCodeByOrderId(orderId);
-        arriveDepDriverResp.setSuccess(true);
-        return JsonResult.success(arriveDepDriverResp);
+    @RequestMapping(value = "/arrive-arr.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult arriveArr(
+            @RequestBody String orderIdParam) {
+        Preconditions.checkNotNull(orderIdParam);
+        JSONObject receivedParam = JSON.parseObject(orderIdParam);
+        String orderId = (String) receivedParam.get("orderId");
+        return JsonResult.success(orderService.arriveArr(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME),orderId));
     }
 }

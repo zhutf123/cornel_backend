@@ -69,14 +69,14 @@ public class TaskInfo implements Serializable {
 
     public static enum STATUS_ENUE {
 
-        TASK_INIT(1L, "添加任务"), TASK_CANCEL(1L << 1, "取消任务"), TASK_REVIEW_SUCCESS(1L << 2,
-                "审核通过"), TASK_REVIEW_DENY(1L << 3, "审核拒绝"),
+        TASK_INIT(1L, "添加任务"), TASK_CANCEL(1L << 1, "取消任务"), TASK_REVIEW_DENY(
+                1L << 3, "审核拒绝"),
 
         TASK_ING(1L << 4, "任务进行中"),
 
         TASK_OVER(1L << 5, "任务完成"),
 
-        TASK_CUSTOMER((1L << 6), "订单人工处理");
+        TASK_CUSTOMER((1L << 6), "任务异常-人工处理");
 
         private long value;
         private String expr;

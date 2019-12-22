@@ -3,6 +3,7 @@
  */
 package com.demai.cornel.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -18,29 +19,43 @@ import com.demai.cornel.vo.task.GetOrderListResp;
 public interface OrderInfoDao {
     int update(OrderInfo orderInfo);
 
+    /**
+     * 物理删除订单信息 慎用
+     *
+     * @param orderId
+     */
+    void deleteOrder(@Param("orderId") String orderId);
+
     int save(OrderInfo orderInfo);
 
     int updateShipmentStatusByOldStatus(OrderInfo orderInfo);
 
-    List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId")String userId, @Param("orderType")Long orderType,
-                                                            @Param("orderId")String orderId,@Param("pgSize")Integer pgSize);
+    List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId") String userId,
+            @Param("orderType") Long orderType, @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
 
-    List<GetOrderListResp> getOrderInfoBySupplier(@Param("supplierId") String supplierId, @Param("orderType")Long orderType,
-            @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
+    List<GetOrderListResp> getOrderInfoBySupplier(@Param("supplierId") String supplierId,
+            @Param("orderType") Long orderType, @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
 
     List<GetOrderListResp> getOrderInfoByTaskByDelivery(@Param("supplierId") String supplierId,
             @Param("orderType") Long orderType, @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
 
-    GetOrderListResp getOrderInfoByOrderIdOrVerifyCode(@Param("role") String role, @Param("supplierId") String supplierId,
-            @Param("orderId") String orderId, @Param("verifyCode") String verifyCode);
+    GetOrderListResp getOrderInfoByOrderIdOrVerifyCode(@Param("role") String role,
+            @Param("supplierId") String supplierId, @Param("orderId") String orderId,
+            @Param("verifyCode") String verifyCode);
 
-    List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId") String userId, @Param("orderType") Integer orderType,
-                                                            @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
+    List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId") String userId,
+            @Param("orderType") Integer orderType, @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
 
     GetOrderInfoResp getOrderInfoByUserAndOrderId(@Param("userId") String userId, @Param("orderId") String orderId);
 
-
-    int updateOrderStatus(@Param("orderId") String orderId, @Param("status") long status, @Param("userId") String userId);
+    int updateOrderStatus(@Param("orderId") String orderId, @Param("status") long status,
+            @Param("userId") String userId);
 
     ArriveDepDriverResp getOrderStatusAndVerCodeByOrderId(@Param("orderId") String orderId);
+
+    OrderInfo getOrderInfoByOrderId(@Param("orderId") String orderId);
+
+    String getDriverUserId(@Param("orderId") String orderId);
+
+    int updateStatusAndSendOutTime(@Param("orderId") String orderId, @Param("sendOutTime") Date sendOutTime,@Param("status")long status);
 }

@@ -15,10 +15,7 @@ import java.util.Map;
 /**
  * Create By zhutf 19-10-6 下午1:04
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class LorryInfo implements Serializable {
+@Data @NoArgsConstructor @AllArgsConstructor public class LorryInfo implements Serializable {
     private static final long serialVersionUID = -2319454798286728301L;
     private Long id;
     private String lorryType;
@@ -40,4 +37,25 @@ public class LorryInfo implements Serializable {
     private Integer defaultFlag;
     private String unitWeight;
 
+    public static enum STATUS_ENUE {
+
+        USEING(1, "使用中"), IDLE(2, "可调度"), INVALID(3, "车辆无效-已解绑-已删除");
+
+        private Integer value;
+        private String expr;
+
+        private STATUS_ENUE(Integer value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+
+        public String getExpr() {
+            return expr;
+        }
+
+    }
 }

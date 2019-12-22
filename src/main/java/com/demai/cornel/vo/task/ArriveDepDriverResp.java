@@ -20,6 +20,6 @@ public class ArriveDepDriverResp {
     private boolean success;
     private Long status;
     private String verCode;
-
+    private String pickUpCode;
 
 }

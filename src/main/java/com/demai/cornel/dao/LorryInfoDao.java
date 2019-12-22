@@ -26,5 +26,6 @@ public interface LorryInfoDao {
     public List<TaskInfoReq.LorryInfoBean> getAllLorrySimpleInfoByUserId(@Param("userId") String userId);
 
     LorryInfo getLorryByLorryID(@Param("lorryId")int lorryID);
+    public void updateLorryStatus(@Param("lorryId")Integer lorryID,@Param("status")Integer status);
 
 }

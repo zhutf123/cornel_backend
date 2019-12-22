@@ -15,10 +15,9 @@ import com.demai.cornel.util.GenerateCodeUtils;
 import com.demai.cornel.util.IDUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.JsonResult;
-import com.demai.cornel.vo.task.GetOrderListReq;
-import com.demai.cornel.vo.task.GetOrderListResp;
-import com.demai.cornel.vo.task.TaskSaveResp;
-import com.demai.cornel.vo.task.TaskSaveVO;
+import com.demai.cornel.vo.order.ArriveArrResp;
+import com.demai.cornel.vo.order.OperationOrderResp;
+import com.demai.cornel.vo.task.*;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -27,6 +26,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -43,12 +44,6 @@ import java.util.concurrent.TimeUnit;
     @Resource private OrderInfoDao orderInfoDao;
     @Resource private TaskServiceImp taskServiceImp;
     private static final String ORDER_LOCK_FORMAT = "lock:task:%s";
-    private static final String ORDER_PENDING_FORMAT = "lock:task:pending:%s";
-    private static final String ORDER_SUCC_FORMAT = "lock:task:success:%s";
-    private static final String ORDER_FAIL_FORMAT = "lock:task:fail:%s";
-
-    private static final String TASK_REST_WEIGHT_FORMAT = "REST:task:%s";
-    private static final String TASK_ERROR_WEIGHT_FORMAT = "CONTINUE:task";
 
     public List<GetOrderListResp> getOrderList(GetOrderListReq getOrderListReq, String userId) {
         if (getOrderListReq == null || getOrderListReq.getOrderTyp() == null || Strings.isNullOrEmpty(userId)) {
@@ -71,70 +66,49 @@ import java.util.concurrent.TimeUnit;
                 .setIfAbsent(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()), "1", 5, TimeUnit.SECONDS);
 
         if (null == lock || !lock) {
-            return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.ORDER_FAIL);
+            return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.ORDER_FAIL.getValue());
         }
         TaskSaveResp taskSaveRep = new TaskSaveResp();
-
         TaskInfo taskInfo = taskInfoDao.selectTaskInfoByTaskId(taskSaveVO.getTaskId());
-        BigDecimal restWeight = taskServiceImp.getUnweightByTaskId(taskSaveVO.getTaskId());
-        if (restWeight == null) {
+        // 校验task-- 0 可以接单 ;;  1 task 无效 或已经完成了;; 2 任务剩余重量小于提交接单的重量;;  3 该时间段不可选了
+        Integer checkTaskStatus = checkTaskAvailable(taskInfo, taskSaveVO);
+        // 校验task-- 订单失效
+        if (checkTaskStatus.equals(1)) {
             stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
-            return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.TASK_CODE_ERROR);
+            return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.TASK_CODE_ERROR.getValue());
         }
-        if (restWeight.compareTo(taskSaveVO.getCarryWeight()) == -1) {
+        // 校验task-- 剩余重量小于提交重量
+        if (checkTaskStatus.equals(2)) {
             stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
-            taskSaveRep.setStatus(TaskSaveResp.CODE_ENUE.WEIGHT_ERROR.getValue());
-            taskSaveRep.setRestWeight(restWeight);
-            return JsonResult.success(taskSaveRep);
+            taskSaveRep.setStatus(1);
+            taskSaveRep.setRestWeight(taskInfo.getUndistWeight());
+            return JsonResult.successStatus(TaskSaveResp.INNER_CODE_ENUE.WEIGHT_ERROR.getValue());
         }
-        restWeight = restWeight.subtract(taskSaveVO.getCarryWeight());
-        stringRedisTemplate.opsForValue()
-                .set(String.format(TASK_REST_WEIGHT_FORMAT, taskSaveVO.getTaskId()), restWeight.toString(), 2,
-                        TimeUnit.HOURS);
+        // 校验task-- 校验时间段是否可选
+        if (checkTaskStatus.equals(3)) {
+            stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
+            taskSaveRep.setStatus(2);
+            taskSaveRep.setSelectTime(getAvailableSelectTime(taskInfo));
+            return JsonResult.success(TaskSaveResp.INNER_CODE_ENUE.ORDER_ERROR.getValue());
+        }
         LorryInfo lorryInfo = lorryInfoDao.getLorryByLorryID(taskSaveVO.getLarryId());
-
-        // 车辆是否有效
-        if (lorryInfo == null || !lorryInfo.getStatus().equals(1)) {
-            stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()),
-                    taskSaveVO.getCarryWeight().toString());
+        // 校验车辆信息 0 可接 1 车辆无效 2 提交载重大于车辆最大能承载的重量
+        Integer checkLorryStatus = checkTaskAvailableLorry(lorryInfo, taskSaveVO);
+        // 校验车辆-- 车辆状态不可调度
+        if (checkLorryStatus.equals(1)) {
             stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
-            return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.MSG_CODE_ERROR);
+            return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.MSG_CODE_ERROR.getValue());
         }
-        // 提交重量超过限定的最大载重
-        BigDecimal maxCarryWeight = new BigDecimal(String.valueOf(ContextConsts.LORRY_OVER_WEIGHT_FACTOR));
-        if (taskSaveVO.getCarryWeight().compareTo(lorryInfo.getCarryWeight().multiply(maxCarryWeight)) == 1) {
-            stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()),
-                    taskSaveVO.getCarryWeight().toString());
+        // 校验车辆-- 车辆载重小于提交重量
+        if (checkLorryStatus.equals(2)) {
             stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
-            taskSaveRep.setStatus(TaskSaveResp.CODE_ENUE.WEIGHT_ERROR.getValue());
-            taskSaveRep.setRestWeight(maxCarryWeight);
-            return JsonResult.success(taskSaveRep);
-        }
-        // 提交的重量大于订单剩余的重量
-        if (restWeight.compareTo(taskSaveVO.getCarryWeight()) == -1) {
-            stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()),
-                    taskSaveVO.getCarryWeight().toString());
-            taskSaveRep.setStatus(TaskSaveResp.CODE_ENUE.WEIGHT_ERROR.getValue());
-            taskSaveRep.setRestWeight(restWeight);
-            return JsonResult.success(taskSaveRep);
-        }
-        // 提交的接货时间 无效
-        Integer receiveTimeCount = taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime());
-        if (Strings.isNullOrEmpty(taskSaveVO.getSelectTime()) || receiveTimeCount == null
-                || receiveTimeCount.compareTo(0) <= 0) {
-            stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()),
-                    taskSaveVO.getCarryWeight().toString());
-            taskSaveRep.setStatus(TaskSaveResp.CODE_ENUE.ORDER_ERROR.getValue());
-            return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.OPENID_ERROR);
+            taskSaveRep.setStatus(1);
+            taskSaveRep.setRestWeight(
+                    new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR).multiply(lorryInfo.getCarryWeight()));
+            return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.MSG_CODE_ERROR.getValue());
         }
         OrderInfo orderInfo = new OrderInfo();
         try {
-            if (taskInfoDao.updateTaskUnDistWeight(taskSaveVO.getCarryWeight(), taskSaveVO.getTaskId()) != 1) {
-                stringRedisTemplate.opsForList()
-                        .leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()),
-                                taskSaveVO.getCarryWeight().toString());
-                return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.NETWORK_ERROR);
-            }
             //todo 这一块的定义再想想
             orderInfo.setOrderId(IDUtils.getUUID());
             orderInfo.setTaskId(taskSaveVO.getTaskId());
@@ -159,20 +133,119 @@ import java.util.concurrent.TimeUnit;
 
             if (orderInfoDao.save(orderInfo) != 1) {
                 log.error("save the order into db fail order info is [{}]", JacksonUtils.obj2String(orderInfo));
-                stringRedisTemplate.opsForList()
-                        .leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()),
-                                taskSaveVO.getCarryWeight().toString());
                 stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
-                return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.NETWORK_ERROR);
+                return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.NETWORK_ERROR.getValue());
             }
+
+            Integer count = taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()) - 1;
+            taskInfo.getSubTaskTime().put(taskSaveVO.getSelectTime(), count);
+            if (taskInfoDao.updateTaskUnDistWeightAndSelectTime(taskSaveVO.getCarryWeight(), taskSaveVO.getTaskId(),
+                    JacksonUtils.obj2String(taskInfo.getSubTaskTime())) != 1) {
+                stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
+                orderInfoDao.deleteOrder(orderInfo.getOrderId());
+                return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.NETWORK_ERROR.getValue());
+            }
+            lorryInfoDao.updateLorryStatus(taskSaveVO.getLarryId(), LorryInfo.STATUS_ENUE.USEING.getValue());
         } catch (Exception e) {
             log.error("save the order error order info is [{}]", JacksonUtils.obj2String(orderInfo), e);
-            stringRedisTemplate.opsForList().leftPush(String.format(TASK_ERROR_WEIGHT_FORMAT, taskSaveVO.getTaskId()),
-                    taskSaveVO.getCarryWeight().toString());
-            return JsonResult.successStatus(TaskSaveVO.CODE_ENUE.NETWORK_ERROR);
+            stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
+            return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.NETWORK_ERROR.getValue());
         }
         taskSaveRep.setStatus(TaskSaveResp.CODE_ENUE.SUCCESS.getValue());
         return JsonResult.success(taskSaveRep);
     }
 
+    /**
+     * 校验是否可以接单 0 可以接单 ;;  1 task 无效 或已经完成了;; 2 任务剩余重量小于提交接单的重量;;  3 该时间段不可选了
+     *
+     * @param taskInfo
+     * @param taskSaveVO
+     * @return
+     */
+    private Integer checkTaskAvailable(TaskInfo taskInfo, TaskSaveVO taskSaveVO) {
+        if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING)) {
+            return 2;
+        }
+        if (taskInfo.getUndistWeight().compareTo(taskSaveVO.getCarryWeight()) == -1) {
+            return 1;
+        }
+        if (taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()).compareTo(0) != 1) {
+            return 3;
+        }
+        return 0;
+    }
+
+    private HashMap<String, Integer> getAvailableSelectTime(TaskInfo taskInfo) {
+        HashMap<String, Integer> availableTime = new HashMap<>();
+        taskInfo.getSubTaskTime().keySet().forEach(x -> {
+            if (taskInfo.getSubTaskTime().get(x) > 0) {
+                availableTime.put(x, taskInfo.getSubTaskTime().get(x));
+            }
+        });
+        return availableTime;
+    }
+
+    /**
+     * 校验该车辆能否接当前这个单子
+     *
+     * @param lorryInfo
+     * @return 0 可接 1 车辆无效 2 提交载重大于车辆最大能承载的重量
+     */
+    private Integer checkTaskAvailableLorry(LorryInfo lorryInfo, TaskSaveVO taskSaveVO) {
+        if (lorryInfo == null || !lorryInfo.getStatus().equals(LorryInfo.STATUS_ENUE.IDLE.getValue())) {
+            return 1;
+        }
+        BigDecimal maxCarryWeight = new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR)
+                .multiply(lorryInfo.getCarryWeight());
+        if (-1 == maxCarryWeight.compareTo(taskSaveVO.getCarryWeight())) {
+            return 2;
+        }
+        return 0;
+    }
+
+    public ArriveDepDriverResp driverArriveDep(String userId, String orderId) {
+
+        ArriveDepDriverResp arriveDepDriverResp = new ArriveDepDriverResp();
+        arriveDepDriverResp.setOrderId(orderId);
+        if (Strings.isNullOrEmpty(userId) || Strings.isNullOrEmpty(orderId)) {
+            arriveDepDriverResp.setSuccess(false);
+            return arriveDepDriverResp;
+        }
+        long arriveStatus = OrderInfo.STATUS_ENUE.ORDER_ARRIVE_DEP.getValue();
+        if (!orderInfoDao.getDriverUserId(orderId).equals(userId)) {
+            arriveDepDriverResp.setSuccess(false);
+            return arriveDepDriverResp;
+        }
+        if (orderInfoDao.updateOrderStatus(orderId, arriveStatus, UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME))
+                != 1) {
+            arriveDepDriverResp.setSuccess(false);
+            return arriveDepDriverResp;
+        }
+        OrderInfo orderInfo = orderInfoDao.getOrderInfoByOrderId(orderId);
+        arriveDepDriverResp.setSuccess(true);
+        arriveDepDriverResp.setPickUpCode(orderInfo.getSendOutCode());
+        return arriveDepDriverResp;
+    }
+
+    public OperationOrderResp confirmStockOut(String userId, String orderId) {
+        OperationOrderResp operationOrderResp = new OperationOrderResp();
+        if (Strings.isNullOrEmpty(userId) || Strings.isNullOrEmpty(orderId)) {
+            operationOrderResp.setSuccess(false);
+            return operationOrderResp;
+        }
+        long arriveStatus = OrderInfo.STATUS_ENUE.ORDER_ROUTING.getValue();
+        Date curDate = new Date(System.currentTimeMillis());
+        orderInfoDao.updateStatusAndSendOutTime(orderId, curDate, arriveStatus);
+        SimpleDateFormat sft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        operationOrderResp.setOpOverTime(sft.format(curDate).toString());
+        operationOrderResp.setOrderStatus(arriveStatus);
+        return operationOrderResp;
+    }
+
+    public ArriveArrResp arriveArr(String userId, String orderId) {
+        long status = OrderInfo.STATUS_ENUE.ORDER_ARRIVE_ARR.getValue();
+        orderInfoDao.updateOrderStatus(orderId, status, userId);
+        return ArriveArrResp.builder().
+                orderId(orderId).status(status).build();
+    }
 }

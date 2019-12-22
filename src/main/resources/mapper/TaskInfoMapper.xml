@@ -173,8 +173,8 @@
         FROM task_info where task_id=#{taskId};
     </select>
 
-    <update id="updateTaskUnDistWeight">
-        update task_info set undist_weight=#{unDistWeight} where task_id=#{taskId}
+    <update id="updateTaskUnDistWeightAndSelectTime">
+        update task_info set undist_weight=#{unDistWeight},subtask_time=#{selectTime} where task_id=#{taskId}
     </update>
 
     <select id="getTaskOrderListByStatus" parameterType="map" resultMap="taskInfoResultMap">
