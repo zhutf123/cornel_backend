@@ -118,8 +118,9 @@
         <if test="sendOutTime != null">,send_out_time=#{sendOutTime} </if>
 
         where order_id = #{orderId} and
-        status=#{oldStatus} and
-        supplier_id=#{supplierId}
+        status=#{oldStatus}
+        <if test="supplierId != null">and supplier_id = #{supplierId}</if>
+        <if test="userId != null">and user_id = #{userId}</if>
     </update>
 
     <insert id="save" parameterType="com.demai.cornel.model.OrderInfo" useGeneratedKeys="true" keyProperty="id">

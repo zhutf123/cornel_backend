@@ -6,15 +6,20 @@ package com.demai.cornel.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.dao.OrderInfoDao;
+import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.model.TaskInfoReq;
 import com.demai.cornel.service.OrderService;
+import com.demai.cornel.service.SupplierTaskService;
 import com.demai.cornel.service.UserLoginService;
 import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.order.OperationOrderReq;
+import com.demai.cornel.vo.order.OperationOrderResp;
 import com.demai.cornel.vo.task.ArriveDepDriverResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
@@ -41,6 +46,7 @@ import java.util.Optional;
     @Resource private OrderInfoDao orderInfoDao;
 
     @Resource private OrderService orderService;
+    @Resource private SupplierTaskService supplierTaskService;
 
     @RequestMapping(value = "/task-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult getTaskList(
             @RequestBody String param) {
@@ -113,5 +119,27 @@ import java.util.Optional;
         arriveDepDriverResp = orderInfoDao.getOrderStatusAndVerCodeByOrderId(orderId);
         arriveDepDriverResp.setSuccess(true);
         return JsonResult.success(arriveDepDriverResp);
+    }
+
+    /**
+     * 烘干塔装货完成
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/shipment.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult shipment(@RequestBody OperationOrderReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            OperationOrderResp result = supplierTaskService.driverShipmentOver(curUser, param);
+            if (log.isDebugEnabled()) {
+                log.debug("driver shipment over user:{} result:{}", curUser, JsonUtil.toJson(result));
+            }
+            return JsonResult.success(result);
+        }catch (Exception e){
+            log.error("driver shipment over exception！{}", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 }
