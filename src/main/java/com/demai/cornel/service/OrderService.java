@@ -164,11 +164,11 @@ import java.util.concurrent.TimeUnit;
      * @return
      */
     private Integer checkTaskAvailable(TaskInfo taskInfo, TaskSaveVO taskSaveVO) {
-        if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING)) {
-            return 2;
+        if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue())) {
+            return 1;
         }
         if (taskInfo.getUndistWeight().compareTo(taskSaveVO.getCarryWeight()) == -1) {
-            return 1;
+            return 2;
         }
         if (taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()).compareTo(0) != 1) {
             return 3;
