@@ -191,6 +191,7 @@
         SELECT
         o.order_id as orderId,
         o.task_id as taskId,
+        o.status as orderStatus,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
@@ -222,6 +223,7 @@
         SELECT
         o.order_id as orderId,
         o.task_id as taskId,
+        o.status as orderStatus,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
@@ -234,8 +236,7 @@
         o.receive_code as verifyCode,
         t.distance as distance,
         t.unit_weight as unitWeightPrice,
-        o.receive_time as startTime,
-        o.status as status
+        o.receive_time as startTime
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         <if test="orderId == null or orderId==''">
@@ -252,11 +253,15 @@
         SELECT
         o.order_id as orderId,
         o.task_id as taskId,
+        o.status as orderStatus,
+        o.order_weight as orderWeight,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
         t.start_time as startValidDate,
-        t.end_time as endValidDate,
+        t.unit_weight_price as unitWeightPrice,
+        t.unit_price as unitPrice,
+        t.unit_weight as unitWeight,
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
@@ -290,11 +295,15 @@
         SELECT
         o.order_id as orderId,
         o.task_id as taskId,
+        o.status as orderStatus,
+        o.order_weight as orderWeight,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
         t.start_time as startValidDate,
-        t.end_time as endValidDate,
+        t.unit_weight_price as unitWeightPrice,
+        t.unit_price as unitPrice,
+        t.unit_weight as unitWeight,
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
@@ -316,11 +325,15 @@
         SELECT
         o.order_id as orderId,
         o.task_id as taskId,
+        o.status as orderStatus,
+        o.order_weight as orderWeight,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
         t.start_time as startValidDate,
-        t.end_time as endValidDate,
+        t.unit_weight_price as unitWeightPrice,
+        t.unit_price as unitPrice,
+        t.unit_weight as unitWeight,
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
