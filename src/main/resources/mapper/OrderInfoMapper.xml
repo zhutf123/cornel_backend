@@ -295,7 +295,7 @@
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
-        o.user_id=#{userId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
+        o.user_id=#{userId}
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId==''">
             and o.id  <![CDATA[<=]]> (select max(id) from order_info where user_id=#{userId} and
