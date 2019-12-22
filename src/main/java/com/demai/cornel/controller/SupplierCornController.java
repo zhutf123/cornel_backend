@@ -57,21 +57,18 @@ public class SupplierCornController {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             if (param.getOrderTyp() == null) {
-                log.error("烘干塔获取任务订单信息失败 查询订单状态为空:{}", curUser);
+                log.error("supplier task order list param error:{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }
             
-            if (log.isDebugEnabled()) {
-                log.debug("烘干塔查询任务订单列表 user:{} status:{}", curUser, param);
-            }
             Collection<SupplierTaskListResp> result = supplierTaskService.getTaskOrderListByStatus(curUser, param);
             if (log.isDebugEnabled()) {
-                log.debug("烘干塔查询任务订单列表 user:{} result:{}", curUser, JsonUtil.toJson(result));
+                log.debug("supplier task order list user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
             return JsonResult.success(result);
 
         } catch (Exception e) {
-            log.error("烘干塔获取任务订单信息失败:{}", e);
+            log.error("supplier task order list exception:{}", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
@@ -88,16 +85,16 @@ public class SupplierCornController {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             if (param == null) {
-                log.error("烘干塔获取任务订单信息失败 :{}", curUser);
+                log.error("supplier task order info param error :{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }
             GetOrderListResp result = supplierTaskService.getTaskOrderInfoByOrderIdOrVerifyCode(curUser, param);
             if (log.isDebugEnabled()) {
-                log.debug("烘干塔查询任务订单列表 user:{} result:{}", curUser, JsonUtil.toJson(result));
+                log.debug("supplier task order info user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
             return JsonResult.success(result);
         } catch (Exception e) {
-            log.error("烘干塔根据订单id查询订单信息失败！", e);
+            log.error("supplier task order info exception！", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
@@ -115,11 +112,11 @@ public class SupplierCornController {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             OperationOrderResp result = supplierTaskService.shipmentStart(curUser, orderId);
             if (log.isDebugEnabled()) {
-                log.debug("烘干塔开始装货 user:{} result:{}", curUser, JsonUtil.toJson(result));
+                log.debug("supplier task order shipment start user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
             return JsonResult.success(result);
         }catch (Exception e){
-            log.error("烘干塔开始装货异常！{}", e);
+            log.error("supplier task order shipment start exception！{}", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
@@ -137,11 +134,11 @@ public class SupplierCornController {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             OperationOrderResp result = supplierTaskService.shipmentOver(curUser, param);
             if (log.isDebugEnabled()) {
-                log.debug("烘干塔装货完成 user:{} result:{}", curUser, JsonUtil.toJson(result));
+                log.debug("supplier task order shipment over user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
             return JsonResult.success(result);
         }catch (Exception e){
-            log.error("烘干塔装货完成异常！{}", e);
+            log.error("supplier task order shipment over exception！{}", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }

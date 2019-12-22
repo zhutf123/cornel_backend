@@ -3,23 +3,20 @@
  */
 package com.demai.cornel.model;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Create By zhutf 19-10-6 下午1:10
  */
-@Data @NoArgsConstructor @AllArgsConstructor
-public class OrderInfo implements Serializable {
+@Data @NoArgsConstructor @AllArgsConstructor public class OrderInfo implements Serializable {
     private static final long serialVersionUID = 5140939699074828658L;
     private Long id;
     private String orderId;
@@ -51,7 +48,7 @@ public class OrderInfo implements Serializable {
     private Set<String> sendOutUserId;
     private String receiveCode;
     private Set<String> receiverUserId;
-    private long status;
+    private Long status;
     private String unexpect;
     private Date cancelTime;
     private String cancelReason;
@@ -60,9 +57,7 @@ public class OrderInfo implements Serializable {
     private Date operateTime;
     private String receiveTime;
 
-    public Set<String> getSendOutUserId() {
-        return sendOutUserId;
-    }
+    private Long oldStatus;
 
     public static enum STATUS_ENUE {
 

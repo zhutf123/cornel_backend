@@ -110,6 +110,18 @@
         where id = #{id}
     </update>
 
+    <update id="updateShipmentStatusByOldStatus" parameterType="com.demai.cornel.model.OrderInfo">
+        update order_info
+        set status=#{status}
+        <if test="carryWeight != null">,carry_weight=#{carryWeight} </if>
+        <if test="receiveTime != null">,receive_time=#{receiveTime} </if>
+        <if test="sendOutTime != null">,send_out_time=#{sendOutTime} </if>
+
+        where order_id = #{orderId} and
+        status=#{oldStatus} and
+        supplier_id=#{supplierId}
+    </update>
+
     <insert id="save" parameterType="com.demai.cornel.model.OrderInfo" useGeneratedKeys="true" keyProperty="id">
         insert into order_info(
         <trim suffixOverrides=",">
