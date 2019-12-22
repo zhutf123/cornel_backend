@@ -114,7 +114,9 @@ public class SupplierCornController {
     public JsonResult orderInfo(@RequestBody GetOrderInfoReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-            if (param == null) {
+            if (param == null || (StringUtil.isEmpty(param.getOrderId()) && StringUtil.isEmpty(param.getVerifyCode()))
+                    || ("null".equalsIgnoreCase(param.getOrderId())) && "null"
+                    .equalsIgnoreCase(param.getVerifyCode())) {
                 log.error("supplier task order info param error :{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }

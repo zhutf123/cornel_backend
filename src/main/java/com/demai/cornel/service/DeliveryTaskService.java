@@ -102,7 +102,7 @@ import java.util.*;
      */
     public GetOrderListResp getTaskOrderInfoByOrderIdOrVerifyCode(String deliveryId, GetOrderInfoReq param) {
         GetOrderListResp result = orderInfoDao
-                .getOrderInfoByOrderIdOrVerifyCode("delivery", deliveryId, param.getOrderId(), param.getVerifyCode());
+                .getOrderInfoByOrderIdOrVerifyCode("delivery", deliveryId, param.getOrderId(), param.getVerifyCode().toUpperCase());
         if (result == null) {
             result = new GetOrderListResp();
         }

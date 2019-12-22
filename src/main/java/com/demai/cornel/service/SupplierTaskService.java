@@ -115,7 +115,7 @@ public class SupplierTaskService {
      */
     public GetOrderListResp getTaskOrderInfoByOrderIdOrVerifyCode(String supplierId, GetOrderInfoReq param) {
         GetOrderListResp result = orderInfoDao
-                .getOrderInfoByOrderIdOrVerifyCode("supplier", supplierId, param.getOrderId(), param.getVerifyCode());
+                .getOrderInfoByOrderIdOrVerifyCode("supplier", supplierId, param.getOrderId(), param.getVerifyCode().toUpperCase());
         if (result == null) {
             result = new GetOrderListResp();
         }

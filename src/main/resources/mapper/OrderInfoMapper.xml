@@ -362,11 +362,11 @@
         left join user_info u on o.user_id=u.user_id
         where
         1=1
-        <if test="orderId == null">
+        <if test="orderId == null AND orderId='' and orderId='null'">
             and o.order_id=#{orderId}
         </if>
 
-        <if test="verifyCode!=null">
+        <if test="verifyCode!=null AND verifyCode='' and verifyCode='null'">
             <if test="role=='supplier'">
                 and o.send_out_code=#{verifyCode}
                 and <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]>

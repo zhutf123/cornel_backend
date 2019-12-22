@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.service.DeliveryTaskService;
+import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.order.OperationOrderReq;
@@ -109,7 +110,9 @@ public class DeliveryCornController {
     public JsonResult orderInfo(@RequestBody GetOrderInfoReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-            if (param == null) {
+            if (param == null || (StringUtil.isEmpty(param.getOrderId()) && StringUtil.isEmpty(param.getVerifyCode()))
+                    || ("null".equalsIgnoreCase(param.getOrderId())) && "null"
+                    .equalsIgnoreCase(param.getVerifyCode())) {
                 log.error("delivery task order info user:{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }
