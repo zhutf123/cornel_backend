@@ -41,7 +41,7 @@ public class TaskInfoReq {
 
     private Long status;
     private List<LorryInfoBean> lorryInfo;
-    private Map<String, Integer> starttime;
+    private Map<String, Integer> startTime;
 
     public TaskInfoReq(TaskInfo taskInfo) {
         this.taskId = taskInfo.getTaskId();
