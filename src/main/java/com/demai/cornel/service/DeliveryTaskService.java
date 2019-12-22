@@ -68,6 +68,7 @@ public class DeliveryTaskService {
      */
     private SupplierTaskListResp buildTaskOrderInfo(SupplierTaskListResp resp, GetOrderListResp order) {
         DeliveryTaskListResp.DeliveryTaskOrderInfo orderInfo = new DeliveryTaskListResp.DeliveryTaskOrderInfo();
+
         BeanUtils.copyProperties(order, orderInfo);
         if (resp != null) {
             resp.getOrderInfo().add(orderInfo);
