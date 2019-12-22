@@ -65,24 +65,9 @@ import java.util.Optional;
         return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
     }
 
-    @RequestMapping(value = "/info.json", method = RequestMethod.POST) @ResponseBody public JsonResult getTaskInfo(
-            @RequestBody String taskIdParam) {
-        Preconditions.checkNotNull(taskIdParam);
-        JSONObject receivedParam = JSON.parseObject(taskIdParam);
-        String taskId = (String) receivedParam.get("taskId");
-        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        TaskInfoReq taskInfoReq = taskServiceImp.getTaskInfo(curUser, taskId);
-        if (taskInfoReq == null) {
-            JsonResult.error("error re");
-        }
-        return JsonResult.success(taskInfoReq);
-    }
 
-    @RequestMapping(value = "/save.json", method = RequestMethod.POST) @ResponseBody public JsonResult saveTask(
-            @RequestBody TaskSaveVO taskSaveVO) {
-        Preconditions.checkNotNull(taskSaveVO);
-        return orderService.saveOrder(taskSaveVO);
-    }
+
+
 
     @RequestMapping(value = "/order-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult getOrderList(
             @RequestBody GetOrderListReq getOrderListReq) {
