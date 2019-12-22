@@ -387,7 +387,7 @@
         select user_id from order_info where order_id=#{orderId};
     </select>
     <update id="updateStatusAndSendOutTime">
-        update order_info set status=#{status} and send_out_time=#{sendOutTime} where order_id=#{orderId};
+        update order_info set status=#{status},send_out_time=#{sendOutTime} where order_id=#{orderId};
     </update>
 
 
