@@ -46,7 +46,7 @@
         lorry_info.create_time,
         lorry_info.operate_time,
         lorry_info.default_flag,
-        lorry_info.unit_weight
+        lorry_info.unit_weight,
         lorry_info.over_carry_weight
     </sql>
 
