@@ -127,7 +127,7 @@ import java.util.*;
         Set<String> sendOutId = new HashSet<>();
         sendOutId.add(supplierId);
         orderInfo.setSendOutUserId(sendOutId);
-        orderInfo.setReceiveTime(DateFormatUtils.formatDateTime(new Date()));
+        orderInfo.setDeliveryReceiveTime(new java.sql.Date(DateUtils.now().getTime()));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_ARRIVE_ARR.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);

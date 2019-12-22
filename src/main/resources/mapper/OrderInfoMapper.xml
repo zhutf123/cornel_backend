@@ -35,7 +35,25 @@
         <result column="create_time" property="createTime"/>
         <result column="operate_time" property="operateTime"/>
         <result column="receive_time" property="receiveTime"/>
+        <result column="delivery_receive_time" property="deliveryReceiveTime"/>
     </resultMap>
+
+
+    /**烘干塔出货重量*/
+    private String carryWeight;
+    /**烘干塔出货时间*/
+    private BigDecimal sendOutTime;
+
+    /**接货人收获重量*/
+    private String succWeight;
+    /**接货人收获时间*/
+    private BigDecimal deliveryReceiveTime;
+
+
+    o.delivery_receive_time,
+    o.carry_weight,
+    o.send_out_time,
+    o.succ_weight,
 
     <resultMap id="listRespMapper" type="com.demai.cornel.vo.task.GetOrderListResp">
         <result column="order_id" property="orderId"/>
@@ -44,6 +62,12 @@
         <result column="order_weight" property="orderWeight"/>
         <result column="receive_code" property="verifyCode"/>
         <result column="receive_time" property="startTime"/>
+
+        <result column="delivery_receive_time" property="deliveryReceiveTime"/>
+        <result column="order_carry_weight" property="orderCarryWeight"/>
+        <result column="send_out_time" property="sendOutTime"/>
+        <result column="succ_weight" property="succWeight"/>
+        
         <result column="title" property="title"/>
         <result column="dep" property="dep"/>
         <result column="arr" property="arr"/>
@@ -60,6 +84,7 @@
         <result column="driver_name" property="driverName"/>
         <result column="driver_mobile" property="driverMobile" jdbcType="ARRAY"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="delivery_receive_time" property="deliveryReceiveTime"/>
     </resultMap>
 
     <sql id="main_column">
@@ -91,7 +116,8 @@
         ext_info,
         create_time,
         operate_time,
-        receive_time
+        receive_time,
+        delivery_receive_time
     </sql>
 
     <sql id="listResp_column">
@@ -101,6 +127,10 @@
         o.order_weight,
         o.receive_code,
         o.receive_time,
+        o.delivery_receive_time,
+        o.carry_weight as order_carry_weight,
+        o.send_out_time,
+        o.succ_weight,
         t.title,
         t.dep,
         t.arr,
@@ -153,7 +183,8 @@
             <if test="extInfo != null">ext_info = #{extInfo},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="operateTime != null">operate_time = #{operateTime},</if>
-            <if test="receiveTime != null">receiveTime = #{operateTime},</if>
+            <if test="receiveTime != null">receive_time = #{receiveTime},</if>
+            <if test="deliveryReceiveTime != null">delivery_receive_time = #{deliveryReceiveTime},</if>
         </trim>
         where id = #{id}
     </update>
@@ -164,6 +195,7 @@
         <if test="carryWeight != null">,carry_weight=#{carryWeight}</if>
         <if test="receiveTime != null">,receive_time=#{receiveTime}</if>
         <if test="sendOutTime != null">,send_out_time=#{sendOutTime}</if>
+        <if test="deliveryReceiveTime != null">,delivery_receive_time=#{deliveryReceiveTime}</if>
 
         where order_id = #{orderId} and
         status=#{oldStatus}
@@ -212,6 +244,7 @@
             <if test="createTime != null">create_time ,</if>
             <if test="operateTime != null">operate_time ,</if>
             <if test="receiveTime != null">receive_time ,</if>
+            <if test="deliveryReceiveTime != null">delivery_receive_time ,</if>
 
         </trim>
         )values(
@@ -249,6 +282,8 @@
             <if test="createTime != null">#{createTime} ,</if>
             <if test="operateTime != null">#{operateTime} ,</if>
             <if test="receiveTime != null">#{receiveTime} ,</if>
+            <if test="receiveTime != null">#{receiveTime} ,</if>
+            <if test="deliveryReceiveTime != null">#{deliveryReceiveTime} ,</if>
 
         </trim>
         )
