@@ -41,13 +41,10 @@ import java.util.concurrent.TimeUnit;
  * @Date: 2019-12-20    20:31
  */
 @Slf4j @Service public class OrderService {
-    @Resource private DistOrderInfoDao distOrderInfoDao;
     @Resource private LorryInfoDao lorryInfoDao;
-
     @Resource private TaskInfoDao taskInfoDao;
     @Resource private StringRedisTemplate stringRedisTemplate;
     @Resource private OrderInfoDao orderInfoDao;
-    @Resource private TaskServiceImp taskServiceImp;
     private static final String ORDER_LOCK_FORMAT = "lock:task:%s";
 
     public List<GetOrderListResp> getOrderList(GetOrderListReq getOrderListReq, String userId) {
@@ -87,7 +84,7 @@ import java.util.concurrent.TimeUnit;
             stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
             taskSaveRep.setStatus(1);
             taskSaveRep.setRestWeight(taskInfo.getUndistWeight());
-            return JsonResult.successStatus(TaskSaveResp.INNER_CODE_ENUE.WEIGHT_ERROR.getValue());
+            return JsonResult.success(taskSaveRep);
         }
         // 校验task-- 校验时间段是否可选
         if (checkTaskStatus.equals(3)) {
@@ -108,8 +105,7 @@ import java.util.concurrent.TimeUnit;
         if (checkLorryStatus.equals(2)) {
             stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
             taskSaveRep.setStatus(1);
-            taskSaveRep.setRestWeight(
-                    new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR).multiply(lorryInfo.getCarryWeight()));
+            taskSaveRep.setRestWeight(lorryInfo.getOverCarryWeight());
             return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.MSG_CODE_ERROR.getValue());
         }
         OrderInfo orderInfo = new OrderInfo();
@@ -144,7 +140,7 @@ import java.util.concurrent.TimeUnit;
 
             Integer count = taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()) - 1;
             taskInfo.getSubTaskTime().put(taskSaveVO.getSelectTime(), count);
-            List<TaskInfoReq.StartTime>  startTimes = buildStartTime(taskInfo.getSubTaskTime());
+            List<TaskInfoReq.StartTime> startTimes = buildStartTime(taskInfo.getSubTaskTime());
             if (taskInfoDao.updateTaskUnDistWeightAndSelectTime(taskSaveVO.getCarryWeight(), taskSaveVO.getTaskId(),
                     JacksonUtils.obj2String(startTimes)) != 1) {
                 stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
@@ -203,7 +199,7 @@ import java.util.concurrent.TimeUnit;
         if (lorryInfo == null || !lorryInfo.getStatus().equals(LorryInfo.STATUS_ENUE.IDLE.getValue())) {
             return 1;
         }
-        BigDecimal maxCarryWeight = new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR)
+        BigDecimal maxCarryWeight = lorryInfo.getOverCarryWeight()
                 .multiply(lorryInfo.getCarryWeight());
         if (-1 == maxCarryWeight.compareTo(taskSaveVO.getCarryWeight())) {
             return 2;
@@ -260,8 +256,6 @@ import java.util.concurrent.TimeUnit;
     public GetOrderInfoResp driverGetTaskInfo(String orderId) {
         GetOrderInfoResp getOrderInfoResp = orderInfoDao
                 .getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId);
-        getOrderInfoResp.setOverCarryWight(
-                getOrderInfoResp.getCarryWeight().multiply(new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR)));
         return getOrderInfoResp;
 
     }

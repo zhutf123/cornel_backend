@@ -36,6 +36,7 @@ import java.util.Map;
     private Date operateTime;
     private Integer defaultFlag;
     private String unitWeight;
+    private BigDecimal overCarryWeight;
 
     public static enum STATUS_ENUE {
 

@@ -263,6 +263,7 @@
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight
+        l.over_carry_weight as overCarryWight
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
@@ -290,26 +291,20 @@
         t.start_time as startValidDate,
         t.end_time as endValidDate,
         t.distance as distance,
-        t.unit_weight as unitWeightPrice,
+        t.unit_weight_price as unitWeightPrice,
         l.id as lorryId,
         l.plate_number as plateNumber,
-        l.carry_weight as carryWeight
+        l.carry_weight as carryWeight,
+        l.over_carry_weight as overCarryWight
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
-        o.user_id=#{userId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
+        o.user_id=#{userId}
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
-        <if test="orderId == null or orderId==''">
-            and o.id  <![CDATA[<=]]> (select max(id) from order_info where user_id=#{userId} and
-            o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
-        </if>
-        <if test="orderId!=null and orderId!=''">
-            and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})
-        </if>
-        order by o.id desc limit #{pgSize};
+        and o.order_id=#{orderId};
     </select>
 
     <select id="getOrderInfoByTaskByDelivery" resultMap="listRespMapper">
         SELECT
-         <include refid="listResp_column"/>
+        <include refid="listResp_column"/>
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id
         left join user_info u on o.user_id=u.user_id
         where
@@ -337,7 +332,7 @@
         from order_info where order_id=#{orderId};
     </select>
 
-    <select id="getOrderInfoBySupplier"  resultMap="listRespMapper">
+    <select id="getOrderInfoBySupplier" resultMap="listRespMapper">
         SELECT
         <include refid="listResp_column"/>
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id
@@ -346,7 +341,8 @@
         <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId==''">
-            and o.id  <![CDATA[<=]]> (select max(id) from order_info where <![CDATA[ send_out_user_id @> array[#{supplierId}] ]]> and
+            and o.id  <![CDATA[<=]]> (select max(id) from order_info where
+            <![CDATA[ send_out_user_id @> array[#{supplierId}] ]]> and
             status=(status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId!=''">
@@ -355,7 +351,7 @@
         order by o.id desc limit #{pgSize};
     </select>
 
-    <select id="getOrderInfoByOrderIdOrVerifyCode"  resultMap="listRespMapper">
+    <select id="getOrderInfoByOrderIdOrVerifyCode" resultMap="listRespMapper">
         SELECT
         <include refid="listResp_column"/>
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id

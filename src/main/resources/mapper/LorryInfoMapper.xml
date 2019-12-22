@@ -23,6 +23,7 @@
         <result column="operate_time" property="operateTime"/>
         <result column="default_flag" property="defaultFlag"/>
         <result column="unit_weight" property="unitWeight"/>
+        <result column="over_carry_weight" property="overCarryWeight"/>
 
     </resultMap>
 
@@ -46,6 +47,7 @@
         lorry_info.operate_time,
         lorry_info.default_flag,
         lorry_info.unit_weight
+        lorry_info.over_carry_weight
     </sql>
 
     <update id="update" parameterType="com.demai.cornel.model.LorryInfo">
@@ -149,6 +151,7 @@
         lorry_info.carry_weight as carryWeight,
         lorry_info.default_flag as defaultSelect,
         lorry_info.unit_weight as unitWeight,
+        lorry_info.over_carry_weight as overCarryWight,
         lorry_info.status as carStatus
         from lorry_info inner join user_info on user_info.id_type=lorry_info.id_type and
         user_info.id_card=lorry_info.id_card

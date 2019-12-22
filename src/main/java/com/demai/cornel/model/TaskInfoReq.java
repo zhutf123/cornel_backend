@@ -75,12 +75,6 @@ import java.util.Map;
         private boolean defaultSelect;
         private Integer carStatus;
 
-        public void setCarryWeight(BigDecimal carryWeight) {
-            this.carryWeight = carryWeight;
-            if (carryWeight!= null) {
-                this.overCarryWight = this.carryWeight.multiply(new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR));
-            }
-        }
     }
 
     @Data

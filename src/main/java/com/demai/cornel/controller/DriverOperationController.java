@@ -65,10 +65,6 @@ import java.util.Optional;
         return JsonResult.success(taskServiceImp.getDistTaskList(curUser, curId, pgSize));
     }
 
-
-
-
-
     @RequestMapping(value = "/order-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult getOrderList(
             @RequestBody GetOrderListReq getOrderListReq) {
         Preconditions.checkNotNull(getOrderListReq);
