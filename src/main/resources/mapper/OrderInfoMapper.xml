@@ -290,7 +290,7 @@
         t.start_time as startValidDate,
         t.end_time as endValidDate,
         t.distance as distance,
-        t.unit_weight as unitWeightPrice,
+        t.unit_weight_price as unitWeightPrice,
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight
