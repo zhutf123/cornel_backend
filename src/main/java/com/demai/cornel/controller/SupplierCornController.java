@@ -119,6 +119,7 @@ public class SupplierCornController {
             if (log.isDebugEnabled()) {
                 log.debug("supplier task order info user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
+            
             return JsonResult.success(result);
         } catch (Exception e) {
             log.error("supplier task order info exception！", e);

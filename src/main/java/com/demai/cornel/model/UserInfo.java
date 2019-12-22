@@ -52,7 +52,11 @@ public class UserInfo implements Serializable {
      * 出去权限 用户的角色
      */
     public static enum ROLE_ENUE implements IEmus {
-        DRIVER(0, "司机"), ADMIN(1, "后台人员"), OPERATOR(2, "操作员"), WAREHOUSE(3, "仓库管理员");
+        DRIVER(1, "司机"),
+        SUPPLIER(2, "烘干塔"),
+        DELIVERY(3, "港口"),
+        ADMIN(4, "系统管理员"),
+        OPERATOR(5, "操作员");
 
         private int value;
         private String expr;
