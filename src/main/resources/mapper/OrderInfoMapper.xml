@@ -297,7 +297,7 @@
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId}
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
-        where o.order_id=#{orderId};
+        and o.order_id=#{orderId};
     </select>
 
     <select id="getOrderInfoByTaskByDelivery" resultMap="listRespMapper">
