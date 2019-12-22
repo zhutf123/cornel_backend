@@ -7,6 +7,7 @@ import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.DateUtils;
+import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
@@ -102,7 +103,10 @@ import java.util.*;
      */
     public GetOrderListResp getTaskOrderInfoByOrderIdOrVerifyCode(String deliveryId, GetOrderInfoReq param) {
         GetOrderListResp result = orderInfoDao
-                .getOrderInfoByOrderIdOrVerifyCode("delivery", deliveryId, param.getOrderId(), param.getVerifyCode());
+                .getOrderInfoByOrderIdOrVerifyCode("delivery", deliveryId, param.getOrderId(),
+                        StringUtil.isNotEmpty(param.getVerifyCode()) ?
+                                param.getVerifyCode().toUpperCase() :
+                                param.getVerifyCode());
         if (result == null) {
             result = new GetOrderListResp();
         }
