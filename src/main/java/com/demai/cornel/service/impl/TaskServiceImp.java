@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -104,7 +105,14 @@ public class TaskServiceImp {
         }
         TaskInfoReq taskInfoReq = new TaskInfoReq(taskInfo);
         taskInfoReq.setLorryInfo(lorryInfos);
-        taskInfoReq.setStartTime(taskInfo.getSubTaskTime());
+        List<TaskInfoReq.StartTime> startTimes = new ArrayList<>(taskInfo.getSubTaskTime().size());
+        if(taskInfo.getSubTaskTime()!=null){
+            taskInfo.getSubTaskTime().keySet().forEach(x->{
+                startTimes.add(TaskInfoReq.StartTime.builder().time(x).count(taskInfo.getSubTaskTime().get(x)).build());
+
+            });
+        }
+        taskInfoReq.setStartTime(startTimes);
         return taskInfoReq;
     }
 

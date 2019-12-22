@@ -16,6 +16,7 @@ import com.demai.cornel.util.IDUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.order.ArriveArrResp;
+import com.demai.cornel.vo.order.GetOrderInfoResp;
 import com.demai.cornel.vo.order.OperationOrderResp;
 import com.demai.cornel.vo.task.*;
 import com.google.common.base.Strings;
@@ -248,4 +249,14 @@ import java.util.concurrent.TimeUnit;
         return ArriveArrResp.builder().
                 orderId(orderId).status(status).build();
     }
+
+    public GetOrderInfoResp driverGetTaskInfo(String orderId) {
+        GetOrderInfoResp getOrderInfoResp = orderInfoDao
+                .getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId);
+        getOrderInfoResp.setOverCarryWight(
+                getOrderInfoResp.getCarryWeight().multiply(new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR)));
+        return getOrderInfoResp;
+
+    }
+
 }

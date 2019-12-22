@@ -86,8 +86,7 @@ import java.util.Optional;
         Preconditions.checkNotNull(orderIdParam);
         JSONObject receivedParam = JSON.parseObject(orderIdParam);
         String orderId = (String) receivedParam.get("orderId");
-        return JsonResult.success(
-                orderInfoDao.getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId));
+        return JsonResult.success(orderService.driverGetTaskInfo(orderId));
     }
 
     @RequestMapping(value = "/arrive-dep.json", method = RequestMethod.POST) @ResponseBody public JsonResult arriveDep(
