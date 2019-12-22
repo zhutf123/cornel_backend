@@ -69,6 +69,7 @@ public class TaskServiceImp {
         BigDecimal estimatedWeight = (lorryInfo == null) ? new BigDecimal(50) : lorryInfo.getCarryWeight();
         List<DistTaskOrderReq> distTaskOrderReqs = distOrderInfoDao.getDistOrderListByUserID(userId, curId, pgsize);
         if (distTaskOrderReqs == null) {
+            log.debug("get dist order info is null");
             return Collections.emptyList();
         }
         distTaskOrderReqs.stream().forEach(x -> {

@@ -227,6 +227,7 @@ import java.util.concurrent.TimeUnit;
         }
         OrderInfo orderInfo = orderInfoDao.getOrderInfoByOrderId(orderId);
         arriveDepDriverResp.setSuccess(true);
+        arriveDepDriverResp.setStatus(arriveStatus);
         arriveDepDriverResp.setPickUpCode(orderInfo.getSendOutCode());
         return arriveDepDriverResp;
     }
