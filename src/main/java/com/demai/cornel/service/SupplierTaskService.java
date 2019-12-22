@@ -122,6 +122,11 @@ public class SupplierTaskService {
                                 param.getVerifyCode());
         if (result == null) {
             result = new GetOrderListResp();
+        } else {
+            if (result.getOrderStatus().compareTo(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue()) == 0
+                    && DateUtils.checkStartTimeBeforeNow(result.getStartTime())) {
+                result.setOrderStatusDesc(GetOrderListResp.STATUS_DESC_ENUE.DELAY.getValue());
+            }
         }
         return result;
     }
