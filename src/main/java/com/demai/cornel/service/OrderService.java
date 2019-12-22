@@ -9,6 +9,7 @@ import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.LorryInfo;
 import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.model.TaskInfo;
+import com.demai.cornel.model.TaskInfoReq;
 import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.GenerateCodeUtils;
@@ -20,6 +21,7 @@ import com.demai.cornel.vo.order.GetOrderInfoResp;
 import com.demai.cornel.vo.order.OperationOrderResp;
 import com.demai.cornel.vo.task.*;
 import com.google.common.base.Strings;
+import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -28,8 +30,10 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -90,7 +94,7 @@ import java.util.concurrent.TimeUnit;
             stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
             taskSaveRep.setStatus(2);
             taskSaveRep.setSelectTime(getAvailableSelectTime(taskInfo));
-            return JsonResult.success(TaskSaveResp.INNER_CODE_ENUE.ORDER_ERROR.getValue());
+            return JsonResult.success(taskSaveRep);
         }
         LorryInfo lorryInfo = lorryInfoDao.getLorryByLorryID(taskSaveVO.getLarryId());
         // 校验车辆信息 0 可接 1 车辆无效 2 提交载重大于车辆最大能承载的重量
@@ -140,8 +144,9 @@ import java.util.concurrent.TimeUnit;
 
             Integer count = taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()) - 1;
             taskInfo.getSubTaskTime().put(taskSaveVO.getSelectTime(), count);
+            List<TaskInfoReq.StartTime>  startTimes = buildStartTime(taskInfo.getSubTaskTime());
             if (taskInfoDao.updateTaskUnDistWeightAndSelectTime(taskSaveVO.getCarryWeight(), taskSaveVO.getTaskId(),
-                    JacksonUtils.obj2String(taskInfo.getSubTaskTime())) != 1) {
+                    JacksonUtils.obj2String(startTimes)) != 1) {
                 stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
                 orderInfoDao.deleteOrder(orderInfo.getOrderId());
                 return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.NETWORK_ERROR.getValue());
@@ -171,7 +176,8 @@ import java.util.concurrent.TimeUnit;
         if (taskInfo.getUndistWeight().compareTo(taskSaveVO.getCarryWeight()) == -1) {
             return 2;
         }
-        if (taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()).compareTo(0) != 1) {
+        if (taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()) == null
+                || taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()).compareTo(0) != 1) {
             return 3;
         }
         return 0;
@@ -258,6 +264,19 @@ import java.util.concurrent.TimeUnit;
                 getOrderInfoResp.getCarryWeight().multiply(new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR)));
         return getOrderInfoResp;
 
+    }
+
+    List<TaskInfoReq.StartTime> buildStartTime(Map<String, Integer> stringIntegerHashMap) {
+        List<TaskInfoReq.StartTime> startTimes = new ArrayList<>();
+        if (stringIntegerHashMap == null) {
+            return startTimes;
+        }
+        stringIntegerHashMap.keySet().forEach(x -> {
+            TaskInfoReq.StartTime startTime = TaskInfoReq.StartTime.builder().time(x).count(stringIntegerHashMap.get(x))
+                    .build();
+            startTimes.add(startTime);
+        });
+        return startTimes;
     }
 
 }

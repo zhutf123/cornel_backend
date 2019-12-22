@@ -200,7 +200,7 @@
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
         o.order_weight as orderWeight,
-        o.verify_code as verifyCode,
+        o.receive_code as verifyCode,
         t.distance as distance,
         t.unit_distance as unitDistance,
         t.unit_weight_price as unitWeightPrice,
@@ -231,7 +231,7 @@
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
         o.order_weight as orderWeight,
-        o.verify_code as verifyCode,
+        o.receive_code as verifyCode,
         t.distance as distance,
         t.unit_weight as unitWeightPrice,
         o.receive_time as startTime,
@@ -260,7 +260,7 @@
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
-        o.verify_code as verifyCode,
+        o.receive_code as verifyCode,
         o.receive_time as startTime
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         <![CDATA[ o.delivery_id @> #{deliverId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}] ]]>
@@ -282,7 +282,7 @@
     <select id="getOrderStatusAndVerCodeByOrderId" resultType="com.demai.cornel.vo.task.ArriveDepDriverResp">
         select
         order_info.status as status,
-        order_info.verify_code as verCode
+        order_info.receive_code as verCode
         from order_info where order_id=#{orderId};
     </select>
 
@@ -298,7 +298,7 @@
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
-        o.verify_code as verifyCode,
+        o.receive_code as verifyCode,
         o.receive_time as startTime
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
@@ -324,7 +324,7 @@
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
-        o.verify_code as verifyCode,
+        o.receive_code as verifyCode,
         o.receive_time as startTime
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         1=1
