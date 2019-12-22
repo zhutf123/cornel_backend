@@ -1,6 +1,7 @@
 package com.demai.cornel.model;
 
 import com.demai.cornel.constant.ContextConsts;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -13,8 +14,7 @@ import java.util.Map;
  * @Author binz.zhang
  * @Date: 2019-12-18 15:42
  */
-@Data
-public class TaskInfoReq {
+@Data public class TaskInfoReq {
 
     /**
      * taskId : 12312 title : 黑龙江丰收农场一级玉米 dep : 黑龙江省鹤岗市xxxx arr : 青岛琅琊码头 depGis : 116.40,39.90 arrGis : 104.07,30.67
@@ -41,7 +41,7 @@ public class TaskInfoReq {
 
     private Long status;
     private List<LorryInfoBean> lorryInfo;
-    private Map<String, Integer> startTime;
+    private List<StartTime> startTime;
 
     public TaskInfoReq(TaskInfo taskInfo) {
         this.taskId = taskInfo.getTaskId();
@@ -61,8 +61,7 @@ public class TaskInfoReq {
     public TaskInfoReq() {
     }
 
-    @Data
-    public static class LorryInfoBean {
+    @Data public static class LorryInfoBean {
         /**
          * lorryId : 123123 plateNumber : 黑A123456 carryWeight : 30 OverCarryWight : 120 unitWeight : 吨 defaultSelect :
          * false
@@ -76,13 +75,25 @@ public class TaskInfoReq {
         private boolean defaultSelect;
         private Integer carStatus;
 
-
         public void setCarryWeight(BigDecimal carryWeight) {
             this.carryWeight = carryWeight;
-            if(this.carryWeight!=null){
+            if (this.carryWeight != null) {
                 this.overCarryWight = this.carryWeight.multiply(new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR));
             }
         }
+    }
+
+    @Data
+    @Builder
+    public static class StartTime {
+        /**
+         * lorryId : 123123 plateNumber : 黑A123456 carryWeight : 30 OverCarryWight : 120 unitWeight : 吨 defaultSelect :
+         * false
+         */
+
+        private String time;
+        private Integer count;
+
     }
 
 }
