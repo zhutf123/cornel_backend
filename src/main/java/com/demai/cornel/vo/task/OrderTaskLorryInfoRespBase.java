@@ -7,7 +7,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Create By tfzhu  2019/12/22  3:15 PM
@@ -33,6 +33,6 @@ public class OrderTaskLorryInfoRespBase extends  OrderAndTaskRespBase implements
 
     private String driverName;
 
-    private List<String> driverMobile;
+    private Set<String> driverMobile;
 
 }
