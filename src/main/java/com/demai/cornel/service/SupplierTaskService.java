@@ -9,6 +9,7 @@ import java.util.*;
 import javax.annotation.Resource;
 
 import com.demai.cornel.util.DateUtils;
+import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.task.OrderAndTaskRespBase;
 import com.google.common.base.Joiner;
@@ -115,7 +116,10 @@ public class SupplierTaskService {
      */
     public GetOrderListResp getTaskOrderInfoByOrderIdOrVerifyCode(String supplierId, GetOrderInfoReq param) {
         GetOrderListResp result = orderInfoDao
-                .getOrderInfoByOrderIdOrVerifyCode("supplier", supplierId, param.getOrderId(), param.getVerifyCode().toUpperCase());
+                .getOrderInfoByOrderIdOrVerifyCode("supplier", supplierId, param.getOrderId(),
+                        StringUtil.isNotEmpty(param.getVerifyCode()) ?
+                                param.getVerifyCode().toUpperCase() :
+                                param.getVerifyCode());
         if (result == null) {
             result = new GetOrderListResp();
         }
