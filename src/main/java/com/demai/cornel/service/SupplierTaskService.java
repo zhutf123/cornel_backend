@@ -203,8 +203,8 @@ public class SupplierTaskService {
         orderInfo.setSendOutUserId(sendOutId);
         orderInfo.setCarryWeight(new BigDecimal(param.getRealWeight()));
         orderInfo.setSendOutTime(new java.sql.Date(DateUtils.now().getTime()));
-        orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
-        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT_OVER.getValue());
+        orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT_OVER.getValue());
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         if (log.isDebugEnabled()) {
             log.debug("supplier shipment over update order num is zero");
