@@ -261,19 +261,26 @@
         o.task_id as taskId,
         o.status as orderStatus,
         o.order_weight as orderWeight,
-        o.verify_code as verifyCode,
+        o.receive_code as verifyCode,
         o.receive_time as startTime,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
         t.start_time as startValidDate,
+        t.end_time as endValidDate,
         t.unit_weight_price as unitWeightPrice,
         t.unit_price as unitPrice,
         t.unit_weight as unitWeight,
+        t.distance,
         l.id as lorryId,
         l.plate_number as plateNumber,
-        l.carry_weight as carryWeight
-        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
+        l.carry_weight as carryWeight,
+        l.over_carry_weight as overCarryWight,
+        u.name as driverName,
+        u.mobile as driverMobile
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id
+        left join user_info u on o.user_id=u.user_id
+        where
         <![CDATA[ o.delivery_id @> #{deliverId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}] ]]>
         and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
@@ -310,13 +317,20 @@
         t.dep as dep,
         t.arr as arr,
         t.start_time as startValidDate,
+        t.end_time as endValidDate,
         t.unit_weight_price as unitWeightPrice,
         t.unit_price as unitPrice,
         t.unit_weight as unitWeight,
+        t.distance,
         l.id as lorryId,
         l.plate_number as plateNumber,
-        l.carry_weight as carryWeight
-        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
+        l.carry_weight as carryWeight,
+        l.over_carry_weight as overCarryWight,
+        u.name as driverName,
+        u.mobile as driverMobile
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id
+        left join user_info u on o.user_id=u.user_id
+        where
         <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId==''">
@@ -341,13 +355,20 @@
         t.dep as dep,
         t.arr as arr,
         t.start_time as startValidDate,
+        t.end_time as endValidDate,
         t.unit_weight_price as unitWeightPrice,
         t.unit_price as unitPrice,
         t.unit_weight as unitWeight,
+        t.distance,
         l.id as lorryId,
         l.plate_number as plateNumber,
-        l.carry_weight as carryWeight
-        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
+        l.carry_weight as carryWeight,
+        l.over_carry_weight as overCarryWight,
+        u.name as driverName,
+        u.mobile as driverMobile
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id
+        left join user_info u on o.user_id=u.user_id
+        where
         1=1
         <if test="orderId == null">
             and o.order_id=#{orderId}

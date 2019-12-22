@@ -30,4 +30,8 @@ public class OrderTaskLorryInfoRespBase extends  OrderAndTaskRespBase implements
      */
     private BigDecimal overCarryWight;
 
+    private String driverName;
+
+    private String driverMobile;
+
 }

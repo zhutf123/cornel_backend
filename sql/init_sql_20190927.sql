@@ -76,6 +76,7 @@ CREATE TABLE "lorry_info" (
 "company" varchar(40),
 "weight" numeric(10,2),
 "carry_weight" numeric(10,2),
+"over_carry_weight" numeric(10,2),
 "length" numeric(10,2),
 "width" numeric(10,2),
 "buy_time" timestamptz(6) default now(),
@@ -97,6 +98,7 @@ COMMENT ON COLUMN "lorry_info"."lorry_type" IS '车型';
 COMMENT ON COLUMN "lorry_info"."company" IS '品牌';
 COMMENT ON COLUMN "lorry_info"."weight" IS '车重';
 COMMENT ON COLUMN "lorry_info"."carry_weight" IS '载重';
+COMMENT ON COLUMN "lorry_info"."over_carry_weight" IS '超载载重';
 COMMENT ON COLUMN "lorry_info"."length" IS '长度';
 COMMENT ON COLUMN "lorry_info"."width" IS '宽度';
 COMMENT ON COLUMN "lorry_info"."buy_time" IS '购置日期';
