@@ -130,15 +130,15 @@ public class DeliveryCornController {
 
     /**
      * 接货人确认 开始卸货
-     * @param orderId
+     * @param param
      * @return
      */
     @RequestMapping(value = "/confirm.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult deliveryConfirm(@RequestBody String orderId) {
+    public JsonResult deliveryConfirm(@RequestBody GetOrderInfoReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-            OperationOrderResp result = deliveryTaskService.deliveryStart(curUser, orderId);
+            OperationOrderResp result = deliveryTaskService.deliveryStart(curUser, param.getOrderId());
             if (log.isDebugEnabled()) {
                 log.debug("delivery task start user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
