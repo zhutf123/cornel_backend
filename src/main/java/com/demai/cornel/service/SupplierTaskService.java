@@ -13,6 +13,8 @@ import javax.annotation.Resource;
 
 import com.demai.cornel.util.DateUtils;
 import com.demai.cornel.util.json.JsonUtil;
+import com.demai.cornel.vo.task.OrderAndTaskRespBase;
+import com.google.common.base.Joiner;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -79,6 +81,13 @@ public class SupplierTaskService {
             log.info("supplier query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
             return null;
         }
+        orderListResp.stream().forEach(order ->{
+            order.setOrderStatusDesc(GetOrderListResp.STATUS_DESC_ENUE.NORMAL.getValue());
+            if (order.getOrderStatus().compareTo(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue()) == 0
+                    && DateUtils.checkStartTimeBeforeNow(order.getStartTime())) {
+                order.setOrderStatusDesc(GetOrderListResp.STATUS_DESC_ENUE.DELAY.getValue());
+            }
+        });
         return orderListResp;
     }
 

@@ -37,9 +37,8 @@ public class GetOrderListResp extends OrderTaskLorryInfoRespBase {
      * unit : 吨
      * priceUnit : 元
      * startTime : 2019-11-07 12:00-13:00
-     * status : 2
+     * orderStatus : 2
      */
-    private int status;
 
     public static enum CODE_ENUE implements IEmus {
         NO_USER(-1, "用户不存在，请先注册"),

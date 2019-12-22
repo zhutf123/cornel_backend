@@ -6,6 +6,7 @@ package com.demai.cornel.service;
 import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.util.DateFormatUtils;
+import com.demai.cornel.util.DateUtils;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
@@ -38,6 +39,7 @@ public class DeliveryTaskService {
 
     @Resource
     private OrderInfoDao orderInfoDao;
+    
     /**
      * 根据用户烘干塔用户id 订单状态查询任务订单
      *
@@ -75,6 +77,7 @@ public class DeliveryTaskService {
             log.info("delivery query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
             return null;
         }
+
         return orderListResp;
     }
 
@@ -86,7 +89,6 @@ public class DeliveryTaskService {
      */
     private SupplierTaskListResp buildTaskOrderInfo(SupplierTaskListResp resp, GetOrderListResp order) {
         DeliveryTaskListResp.DeliveryTaskOrderInfo orderInfo = new DeliveryTaskListResp.DeliveryTaskOrderInfo();
-
         BeanUtils.copyProperties(order, orderInfo);
         if (resp != null) {
             resp.getOrderInfo().add(orderInfo);
