@@ -24,7 +24,8 @@ import java.util.HashMap;
     private int status;
     private String orderId;
     private BigDecimal restWeight;
-    private String weightUnit="吨";
+    private String weightUnit = "吨";
+    private String verCode;
     private HashMap<String, Integer> selectTime;
 
     public static enum CODE_ENUE implements IEmus {
@@ -58,7 +59,6 @@ import java.util.HashMap;
         }
 
     }
-
 
     public static enum INNER_CODE_ENUE implements IEmus {
         SUCCESS(0, "抢单成功"), WEIGHT_ERROR(1, "抢单失败-修改抢单重量"), ORDER_ERROR(2, "抢单失败-修改接单时间");

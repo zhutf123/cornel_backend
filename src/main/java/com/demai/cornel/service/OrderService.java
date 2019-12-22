@@ -153,6 +153,7 @@ import java.util.concurrent.TimeUnit;
             return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.NETWORK_ERROR.getValue());
         }
         taskSaveRep.setStatus(TaskSaveResp.CODE_ENUE.SUCCESS.getValue());
+        taskSaveRep.setVerCode(orderInfo.getReceiveCode());
         return JsonResult.success(taskSaveRep);
     }
 
