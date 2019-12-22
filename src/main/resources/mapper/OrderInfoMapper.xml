@@ -168,7 +168,12 @@
         where order_id = #{orderId} and
         status=#{oldStatus}
         <if test="sendOutUserId!=null">
-            and <![CDATA[ send_out_user_id @> #{sendOutUserId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>
+            and
+            <![CDATA[ send_out_user_id @> #{sendOutUserId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>
+        </if>
+        <if test="receiverUserId!=null">
+            and
+            <![CDATA[ receiver_user_id @> #{receiverUserId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>
         </if>
         <if test="userId!=null">
             and user_id=#{userId}
