@@ -205,7 +205,7 @@
         t.unit_distance as unitDistance,
         t.unit_weight_price as unitWeightPrice,
         o.receive_time as startTime,
-        o.status as status
+        o.status as orderStatus
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} )
         <if test="orderId == null or orderId=='' ">
