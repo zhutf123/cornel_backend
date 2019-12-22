@@ -171,8 +171,8 @@ public class SupplierTaskService {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId(param.getOrderId());
         orderInfo.setUserId(userId);
-        orderInfo.setStatus(OrderInfo.STATUS_ENUE.SUPPLIER_CONFIRM_SHIPMENT.getValue());
-        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
+        orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.SUPPLIER_CONFIRM_SHIPMENT.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         if (log.isDebugEnabled()) {
             log.debug("supplier shipment over update order num is zero");
