@@ -104,7 +104,7 @@ public class TaskServiceImp {
         }
         TaskInfoReq taskInfoReq = new TaskInfoReq(taskInfo);
         taskInfoReq.setLorryInfo(lorryInfos);
-        taskInfoReq.setStarttime(taskInfo.getSubTaskTime());
+        taskInfoReq.setStartTime(taskInfo.getSubTaskTime());
         return taskInfoReq;
     }
 
