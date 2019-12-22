@@ -4,7 +4,7 @@ debug: false
 spring:
   redis:
     cluster:
-      nodes: 182.92.1.233:6379,182.92.1.233:6380
+      nodes: 192.168.0.107:6379,192.168.0.107:6380,192.168.0.107:6381
       max-redirects: 5
       password: cornel00147258
       timeout: 5
