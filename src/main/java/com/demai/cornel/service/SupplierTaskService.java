@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.demai.cornel.util.DateUtils;
+import com.demai.cornel.util.json.JsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,7 @@ public class SupplierTaskService {
         List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderTyp(),
                 param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
+            log.info("supplier query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
             return null;
         }
         Map<String, SupplierTaskListResp> taskOrderInfo = Maps.newHashMap();
@@ -62,6 +64,22 @@ public class SupplierTaskService {
             }
         });
         return taskOrderInfo.values();
+    }
+
+    /**
+     * 根据用户烘干塔用户id 订单状态查询任务订单
+     *
+     * @param supplierId
+     * @param param
+     */
+    public List<GetOrderListResp> getTaskOrderListByStatusV2(String supplierId, GetOrderListReq param) {
+        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderTyp(),
+                param.getOrderId(), param.getPgSize());
+        if (CollectionUtils.isEmpty(orderListResp)) {
+            log.info("supplier query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
+            return null;
+        }
+        return orderListResp;
     }
 
     /***

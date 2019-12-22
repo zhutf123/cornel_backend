@@ -4,6 +4,7 @@
 package com.demai.cornel.controller;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -57,6 +58,35 @@ public class DeliveryCornController {
                 log.debug("delivery task list user:{} status:{}", curUser, param);
             }
             Collection<SupplierTaskListResp> result = deliveryTaskService.getTaskOrderListByStatus(curUser, param);
+            if (log.isDebugEnabled()) {
+                log.debug("delivery task list user:{} result:{}", curUser, JsonUtil.toJson(result));
+            }
+            return JsonResult.success(result);
+
+        } catch (Exception e) {
+            log.error("delivery task list exception:{}", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+
+    /**
+     * 接货人列表
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/listV2.json", method = RequestMethod.POST) @ResponseBody public JsonResult deliveryListV2(
+            @RequestBody GetOrderListReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            if (param.getOrderTyp() == null) {
+                log.error("delivery task list query task list is null:{}", curUser);
+                return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("delivery task list user:{} status:{}", curUser, param);
+            }
+            List<GetOrderListResp> result = deliveryTaskService.getTaskOrderListByStatusV2(curUser, param);
             if (log.isDebugEnabled()) {
                 log.debug("delivery task list user:{} result:{}", curUser, JsonUtil.toJson(result));
             }

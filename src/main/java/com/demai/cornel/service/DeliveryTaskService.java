@@ -6,6 +6,7 @@ package com.demai.cornel.service;
 import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.util.DateFormatUtils;
+import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.order.OperationOrderReq;
@@ -47,6 +48,7 @@ public class DeliveryTaskService {
         List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoByTaskByDelivery(supplierId, param.getOrderTyp(),
                 param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)){
+            log.info("delivery query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
             return null;
         }
         Map<String, SupplierTaskListResp> taskOrderInfo = Maps.newHashMap();
@@ -58,6 +60,22 @@ public class DeliveryTaskService {
             }
         });
         return taskOrderInfo.values();
+    }
+
+    /**
+     * 根据用户烘干塔用户id 订单状态查询任务订单
+     *
+     * @param supplierId
+     * @param param
+     */
+    public List<GetOrderListResp> getTaskOrderListByStatusV2(String supplierId, GetOrderListReq param) {
+        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoByTaskByDelivery(supplierId, param.getOrderTyp(),
+                param.getOrderId(), param.getPgSize());
+        if (CollectionUtils.isEmpty(orderListResp)){
+            log.info("delivery query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
+            return null;
+        }
+        return orderListResp;
     }
 
     /***
