@@ -11,6 +11,7 @@ import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.model.TaskInfoReq;
+import com.demai.cornel.service.DeliveryTaskService;
 import com.demai.cornel.service.OrderService;
 import com.demai.cornel.service.SupplierTaskService;
 import com.demai.cornel.service.UserLoginService;
@@ -47,6 +48,7 @@ import java.util.Optional;
 
     @Resource private OrderService orderService;
     @Resource private SupplierTaskService supplierTaskService;
+    @Resource private DeliveryTaskService deliveryTaskService;
 
     @RequestMapping(value = "/task-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult getTaskList(
             @RequestBody String param) {
@@ -120,6 +122,29 @@ import java.util.Optional;
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             OperationOrderResp result = supplierTaskService.driverShipmentOver(curUser, param);
+            if (log.isDebugEnabled()) {
+                log.debug("driver shipment over user:{} result:{}", curUser, JsonUtil.toJson(result));
+            }
+            return JsonResult.success(result);
+        }catch (Exception e){
+            log.error("driver shipment over exception！{}", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+
+    
+    /**
+     * 接货人接获完成
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/confirm-delivery.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult confirmDelivery(@RequestBody OperationOrderReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            OperationOrderResp result = deliveryTaskService.driverConfirmDelivery(curUser, param);
             if (log.isDebugEnabled()) {
                 log.debug("driver shipment over user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
