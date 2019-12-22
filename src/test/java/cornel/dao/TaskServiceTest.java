@@ -3,6 +3,7 @@ package cornel.dao;
 import com.demai.cornel.model.DistTaskOrderReq;
 import com.demai.cornel.model.TaskInfoReq;
 import com.demai.cornel.service.DistOrderService;
+import com.demai.cornel.service.OrderService;
 import com.demai.cornel.service.TaskService;
 import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.JacksonUtils;
@@ -22,59 +23,49 @@ import java.util.Set;
  * @Date: 2019-11-07    17:59
  */
 public class TaskServiceTest extends BaseTest {
-    @Resource
-    private DistOrderService distOrderService;
+    @Resource private DistOrderService distOrderService;
 
-    @Resource
-    private TaskServiceImp taskServiceImp;
+    @Resource private TaskServiceImp taskServiceImp;
 
+    @Resource private OrderService orderService;
 
-
-
-    @Test
-    public void testDistOrder(){
+    @Test public void testDistOrder() {
         Set<String> phones = new HashSet<>();
         phones.add("13551151842");
         phones.add("13551151845");
         phones.add("13551151846");
         String taskId = "8011ec4d-5517-4d5a-b71b-0d011c11cb8f";
-        distOrderService.distOrderByTels(phones,taskId);
+        distOrderService.distOrderByTels(phones, taskId);
     }
 
-
-    @Test
-    public void testDistOrderByPlatNum(){
+    @Test public void testDistOrderByPlatNum() {
         Set<String> phones = new HashSet<>();
         phones.add("京A123454");
         phones.add("京A123451");
         String taskId = "8011ec4d-5517-4d5a-b71b-0d011c11cb8f";
-        distOrderService.distOrderByPlateNumber(phones,taskId);
+        distOrderService.distOrderByPlateNumber(phones, taskId);
     }
 
-
-    @Test
-    public void testGetTaskList(){
-        List<DistTaskOrderReq>as =  taskServiceImp.getDistTaskList("bin.zhang",null,3);
+    @Test public void testGetTaskList() {
+        List<DistTaskOrderReq> as = taskServiceImp.getDistTaskList("bin.zhang", null, 3);
         System.out.println(JacksonUtils.obj2String(as));
     }
 
-    @Test
-    public void testSaveTaskInfo(){
+    @Test public void testSaveTaskInfo() {
         TaskSaveVO taskInfoReq = new TaskSaveVO();
         taskInfoReq.setCarryWeight(new BigDecimal(100));
         taskInfoReq.setLarryId(1);
         taskInfoReq.setTaskId("169073d2-4c45-402f-a905-1f455f273ef6");
         taskInfoReq.setSelectTime("2019-08-29 12:00-14:00");
-       // taskServiceImp(taskInfoReq);
+        orderService.saveOrder(taskInfoReq);
     }
 
-    @Test
-    public void testGetOrderList(){
+    @Test public void testGetOrderList() {
         GetOrderListReq getOrderListReq = new GetOrderListReq();
         getOrderListReq.setOrderId("123");
-       // getOrderListReq.setOrderTyp(1);
+        // getOrderListReq.setOrderTyp(1);
         getOrderListReq.setPgSize(10);
-       // taskServiceImp.getOrderList(getOrderListReq,"binz.zhang");
+        // taskServiceImp.getOrderList(getOrderListReq,"binz.zhang");
         System.out.println("ok");
     }
 
