@@ -42,7 +42,7 @@ import java.util.*;
      */
     public Collection<SupplierTaskListResp> getTaskOrderListByStatus(String deliveryId, GetOrderListReq param) {
         List<GetOrderListResp> orderListResp = orderInfoDao
-                .getOrderInfoByTaskByDelivery(deliveryId, param.getOrderTyp(), param.getOrderId(), param.getPgSize());
+                .getOrderInfoByTaskByDelivery(deliveryId, param.getOrderType(), param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
             log.info("delivery query order list is empty deliveryId:{} param:{}", deliveryId, JsonUtil.toJson(param));
             return null;
@@ -66,7 +66,7 @@ import java.util.*;
      */
     public List<GetOrderListResp> getTaskOrderListByStatusV2(String deliveryId, GetOrderListReq param) {
         List<GetOrderListResp> orderListResp = orderInfoDao
-                .getOrderInfoByTaskByDelivery(deliveryId, param.getOrderTyp(), param.getOrderId(), param.getPgSize());
+                .getOrderInfoByTaskByDelivery(deliveryId, param.getOrderType(), param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
             log.info("delivery query order list is empty supplierId:{} param:{}", deliveryId, JsonUtil.toJson(param));
             return Lists.newArrayList();
