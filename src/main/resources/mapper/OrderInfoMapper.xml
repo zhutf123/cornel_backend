@@ -262,7 +262,7 @@
         t.unit_weight_price as unitWeightPrice,
         l.id as lorryId,
         l.plate_number as plateNumber,
-        l.carry_weight as carryWeight
+        l.carry_weight as carryWeight,
         l.over_carry_weight as overCarryWight
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} )
