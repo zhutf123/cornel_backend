@@ -123,6 +123,7 @@
     <insert id="save" parameterType="com.demai.cornel.model.OrderInfo" useGeneratedKeys="true" keyProperty="id">
         insert into order_info(
         <trim suffixOverrides=",">
+            <if test="orderId != null">order_id ,</if>
             <if test="taskId != null">task_id ,</if>
             <if test="lorryId != null">lorry_id ,</if>
             <if test="userId != null">user_id ,</if>
@@ -155,6 +156,7 @@
         </trim>
         )values(
         <trim suffixOverrides=",">
+            <if test="orderId != null">#{orderId} ,</if>
             <if test="taskId != null">#{taskId} ,</if>
             <if test="lorryId != null">#{lorryId} ,</if>
             <if test="userId != null">#{userId} ,</if>
