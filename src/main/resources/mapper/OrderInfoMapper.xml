@@ -167,7 +167,7 @@
 
         where order_id = #{orderId} and
         status=#{oldStatus} and
-        <![CDATA[ send_out_user_id @> #{sendOutUserId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}] ]]>
+        <![CDATA[ send_out_user_id @> #{sendOutUserId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>
     </update>
 
     <insert id="save" parameterType="com.demai.cornel.model.OrderInfo" useGeneratedKeys="true" keyProperty="id">
