@@ -37,14 +37,14 @@ import java.util.*;
     /**
      * 根据用户烘干塔用户id 订单状态查询任务订单
      *
-     * @param supplierId
+     * @param deliveryId
      * @param param
      */
-    public Collection<SupplierTaskListResp> getTaskOrderListByStatus(String supplierId, GetOrderListReq param) {
+    public Collection<SupplierTaskListResp> getTaskOrderListByStatus(String deliveryId, GetOrderListReq param) {
         List<GetOrderListResp> orderListResp = orderInfoDao
-                .getOrderInfoByTaskByDelivery(supplierId, param.getOrderTyp(), param.getOrderId(), param.getPgSize());
+                .getOrderInfoByTaskByDelivery(deliveryId, param.getOrderTyp(), param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
-            log.info("delivery query order list is empty supplierId:{} param:{}", supplierId, JsonUtil.toJson(param));
+            log.info("delivery query order list is empty deliveryId:{} param:{}", deliveryId, JsonUtil.toJson(param));
             return null;
         }
         Map<String, SupplierTaskListResp> taskOrderInfo = Maps.newHashMap();
@@ -61,14 +61,14 @@ import java.util.*;
     /**
      * 根据用户烘干塔用户id 订单状态查询任务订单
      *
-     * @param supplierId
+     * @param deliveryId
      * @param param
      */
-    public List<GetOrderListResp> getTaskOrderListByStatusV2(String supplierId, GetOrderListReq param) {
+    public List<GetOrderListResp> getTaskOrderListByStatusV2(String deliveryId, GetOrderListReq param) {
         List<GetOrderListResp> orderListResp = orderInfoDao
-                .getOrderInfoByTaskByDelivery(supplierId, param.getOrderTyp(), param.getOrderId(), param.getPgSize());
+                .getOrderInfoByTaskByDelivery(deliveryId, param.getOrderTyp(), param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
-            log.info("delivery query order list is empty supplierId:{} param:{}", supplierId, JsonUtil.toJson(param));
+            log.info("delivery query order list is empty supplierId:{} param:{}", deliveryId, JsonUtil.toJson(param));
             return null;
         }
 
