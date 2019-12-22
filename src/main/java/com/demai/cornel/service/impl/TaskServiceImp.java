@@ -98,10 +98,12 @@ public class TaskServiceImp {
         Preconditions.checkNotNull(taskId);
         List<TaskInfoReq.LorryInfoBean> lorryInfos = lorryInfoDao.getAllLorrySimpleInfoByUserId(userId);
         if (lorryInfos == null) {
+            log.warn("getTaskInfo>> get lorry info null ");
             lorryInfos = Collections.EMPTY_LIST;
         }
         TaskInfo taskInfo = taskInfoDao.selectTaskInfoByTaskId(taskId);
         if (taskInfo == null) {
+            log.warn("getTaskInfo>> get task info null task id is [{taskId}]");
             return null;
         }
         TaskInfoReq taskInfoReq = new TaskInfoReq(taskInfo);
