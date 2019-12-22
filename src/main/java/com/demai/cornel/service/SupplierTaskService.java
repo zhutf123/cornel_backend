@@ -12,6 +12,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.demai.cornel.util.DateUtils;
+import com.demai.cornel.util.json.JsonUtil;
+import com.demai.cornel.vo.task.OrderAndTaskRespBase;
+import com.google.common.base.Joiner;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -51,6 +54,7 @@ public class SupplierTaskService {
         List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderTyp(),
                 param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
+            log.info("supplier query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
             return null;
         }
         Map<String, SupplierTaskListResp> taskOrderInfo = Maps.newHashMap();
@@ -62,6 +66,29 @@ public class SupplierTaskService {
             }
         });
         return taskOrderInfo.values();
+    }
+
+    /**
+     * 根据用户烘干塔用户id 订单状态查询任务订单
+     *
+     * @param supplierId
+     * @param param
+     */
+    public List<GetOrderListResp> getTaskOrderListByStatusV2(String supplierId, GetOrderListReq param) {
+        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderTyp(),
+                param.getOrderId(), param.getPgSize());
+        if (CollectionUtils.isEmpty(orderListResp)) {
+            log.info("supplier query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
+            return null;
+        }
+        orderListResp.stream().forEach(order ->{
+            order.setOrderStatusDesc(GetOrderListResp.STATUS_DESC_ENUE.NORMAL.getValue());
+            if (order.getOrderStatus().compareTo(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue()) == 0
+                    && DateUtils.checkStartTimeBeforeNow(order.getStartTime())) {
+                order.setOrderStatusDesc(GetOrderListResp.STATUS_DESC_ENUE.DELAY.getValue());
+            }
+        });
+        return orderListResp;
     }
 
     /***
@@ -121,6 +148,32 @@ public class SupplierTaskService {
                 .orderStatus(orderInfo.getStatus()).build();
     }
 
+    /**
+     * 司机确认装货完成  烘干塔开始录入出货信息
+     * @param userId
+     * @param param
+     * @return
+     */
+    public OperationOrderResp driverShipmentOver(String userId, OperationOrderReq param) {
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setOrderId(param.getOrderId());
+        orderInfo.setUserId(userId);
+        orderInfo.setStatus(OrderInfo.STATUS_ENUE.SUPPLIER_CONFIRM_SHIPMENT.getValue());
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
+        int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
+        if (log.isDebugEnabled()) {
+            log.debug("supplier shipment over update order num is zero");
+        }
+        if (num == 0) {
+            return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
+                    .success(Boolean.FALSE)
+                    .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
+                    .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
+        }
+        return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
+                .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
+                .realWeight(orderInfo.getCarryWeight().longValue()).orderStatus(orderInfo.getStatus()).build();
+    }
 
     /**
      * 烘干塔装货完成
@@ -134,8 +187,8 @@ public class SupplierTaskService {
         orderInfo.setSupplierId(supplierId);
         orderInfo.setCarryWeight(new BigDecimal(param.getRealWeight()));
         orderInfo.setSendOutTime(new java.sql.Date(DateUtils.now().getTime()));
-        orderInfo.setStatus(OrderInfo.STATUS_ENUE.SUPPLIER_CONFIRM_SHIPMENT.getValue());
-        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
+        orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT_OVER.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         if (log.isDebugEnabled()) {
             log.debug("supplier shipment over update order num is zero");

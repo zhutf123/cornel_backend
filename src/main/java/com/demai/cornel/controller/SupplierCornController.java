@@ -73,6 +73,33 @@ public class SupplierCornController {
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 
+
+    /**
+     * 烘干塔列表
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/shipment-listV2.json", method = RequestMethod.POST) @ResponseBody public JsonResult shipmentListV2(
+            @RequestBody GetOrderListReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            if (param.getOrderTyp() == null) {
+                log.error("supplier task order list param error:{}", curUser);
+                return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+            }
+
+            List<GetOrderListResp> result = supplierTaskService.getTaskOrderListByStatusV2(curUser, param);
+            if (log.isDebugEnabled()) {
+                log.debug("supplier task order list user:{} result:{}", curUser, JsonUtil.toJson(result));
+            }
+            return JsonResult.success(result);
+        } catch (Exception e) {
+            log.error("supplier task order list exception:{}", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+
     /**
      * 烘干塔查看订单详情
      *

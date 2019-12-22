@@ -12,8 +12,7 @@ import java.util.List;
  * @Date: 2019-12-19    21:28
  */
 @Data
-public class GetOrderListResp {
-
+public class GetOrderListResp extends OrderTaskLorryInfoRespBase {
 
     /**
      * orderId : 1231232
@@ -38,35 +37,8 @@ public class GetOrderListResp {
      * unit : 吨
      * priceUnit : 元
      * startTime : 2019-11-07 12:00-13:00
-     * status : 2
+     * orderStatus : 2
      */
-
-    private String orderId;
-    private String taskId;
-    private String title;
-    private String dep;
-    private String arr;
-    private String depGis;
-    private String arrGis;
-    private String startValidDate;
-    private String endValidDate;
-    private List<String> supplierMobile;
-    private Integer lorryId;
-    private String plateNumber;
-    private BigDecimal carryWeight;
-    private BigDecimal overCarryWight;
-    private String verifyCode;
-    private String serviceMobile;
-    private BigDecimal distance;
-    private String orderWeight;
-    private BigDecimal unitWeightPrice;
-    private String unitPrice = "元";
-    private String unitWeight = "吨";
-    private String unitDistance = "km";
-
-    private String startTime;
-    private int status;
-
 
     public static enum CODE_ENUE implements IEmus {
         NO_USER(-1, "用户不存在，请先注册"),

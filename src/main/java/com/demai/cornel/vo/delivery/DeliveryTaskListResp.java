@@ -5,6 +5,7 @@ package com.demai.cornel.vo.delivery;
 
 import com.demai.cornel.dmEnum.IEmus;
 import com.demai.cornel.model.TaskInfoReq;
+import com.demai.cornel.vo.task.TaskInfoRespBase;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,49 +14,8 @@ import java.io.Serializable;
  * Create By tfzhu  2019/12/19  7:36 AM
  */
 @Data
-public class DeliveryTaskListResp {
-
-    /***
-     * 任务id
-     */
-    private String taskId;
-    /***
-     *任务标题
-     */
-    private String title;
-    /***
-     *出发地
-     */
-    private String dep;
-    /***
-     *目的地
-     */
-    private String arr;
-    /***
-     *出发地经纬度
-     */
-    private String depGis;
-    /***
-     *目的地经纬度
-     */
-    private String arrGis;
-    /***
-     *行程距离
-     */
-    private Double distance;
-    /***
-     *单位价格  50priceUnit/unit   50元/吨
-     */
-    private Double unitPrice;
-    /***
-     *货品单位
-     */
-    private String unit;
-    /***
-     *价格单位  元
-     */
-    private String priceUnit;
-
+public class DeliveryTaskListResp extends TaskInfoRespBase implements Serializable {
+    
     /***
      *订单信息
      */

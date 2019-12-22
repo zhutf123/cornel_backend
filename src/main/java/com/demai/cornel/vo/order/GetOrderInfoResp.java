@@ -1,7 +1,9 @@
 package com.demai.cornel.vo.order;
 
+import com.demai.cornel.vo.task.OrderTaskLorryInfoRespBase;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -10,7 +12,7 @@ import java.math.BigDecimal;
  * 司机侧获取订单info
  */
 @Data
-public class GetOrderInfoResp {
+public class GetOrderInfoResp extends OrderTaskLorryInfoRespBase implements Serializable {
 
     /**
      * orderId : 123123
@@ -38,29 +40,4 @@ public class GetOrderInfoResp {
      * startTime : 2019-11-07 12:00-13:00
      * status : 0
      */
-    private String orderId;
-    private String taskId;
-    private String title;
-    private String dep;
-    private String arr;
-    private String depGis;
-    private String arrGis;
-    private String startValidDate;
-    private String endValidDate;
-    private String supplierMobile;
-    private int lorryId;
-    private String plateNumber;
-    private String carryWeight;
-    private String overCarryWight;
-    private String verifyCode;
-    private String serviceMobile;
-    private BigDecimal distance;
-    private BigDecimal orderWeight;
-    private BigDecimal unitWeightPrice;
-    private String unitWeight="吨";
-    private String unitPrice="元";
-    private String unitDistance="KM";
-    private String startTime;
-    private int status;
-
 }
