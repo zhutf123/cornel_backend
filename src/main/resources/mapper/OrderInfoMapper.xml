@@ -267,7 +267,7 @@
         o.user_id=#{userId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId=='' ">
-            and o.id  <![CDATA[<=]]> (select id from order_info where user_id=#{userId} and status=(status
+            and o.id  <![CDATA[<=]]> (select max(id) from order_info where user_id=#{userId} and status=(status
             <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId !='' ">
@@ -298,7 +298,7 @@
         o.user_id=#{userId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId==''">
-            and o.id  <![CDATA[<=]]> (select id from order_info where user_id=#{userId} and
+            and o.id  <![CDATA[<=]]> (select max(id) from order_info where user_id=#{userId} and
             o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId!=''">
@@ -317,7 +317,7 @@
         and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId==''">
-            and o.id  <![CDATA[<=]]> (select id from order_info where delivery_id=#{supplierId} and
+            and o.id  <![CDATA[<=]]> (select max(id) from order_info where delivery_id=#{supplierId} and
             status=(status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId!=''">
@@ -346,7 +346,7 @@
         <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId==''">
-            and o.id  <![CDATA[<=]]> (select id from order_info where <![CDATA[ send_out_user_id @> array[#{supplierId}] ]]> and
+            and o.id  <![CDATA[<=]]> (select max(id) from order_info where <![CDATA[ send_out_user_id @> array[#{supplierId}] ]]> and
             status=(status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId!=''">
