@@ -276,7 +276,7 @@
         order by o.id desc limit #{pgSize};
     </select>
 
-    <select id="getOrderInfoByUserAndOrderId" resultMap="com.demai.cornel.vo.order.GetOrderInfoResp">
+    <select id="getOrderInfoByUserAndOrderId" resultType="com.demai.cornel.vo.order.GetOrderInfoResp">
         SELECT
         o.order_id as orderId,
         o.task_id as taskId,
