@@ -244,6 +244,8 @@ import java.util.concurrent.TimeUnit;
         orderInfoDao.updateStatusAndSendOutTime(orderId, curDate, arriveStatus);
         SimpleDateFormat sft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         operationOrderResp.setOrderId(orderId);
+        operationOrderResp.setOpResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue());
+
         operationOrderResp.setOpOverTime(sft.format(curDate).toString());
         operationOrderResp.setOrderStatus(arriveStatus);
         return operationOrderResp;
