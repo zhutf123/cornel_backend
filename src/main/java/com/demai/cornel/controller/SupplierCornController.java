@@ -83,6 +83,9 @@ public class SupplierCornController {
     @RequestMapping(value = "/shipment-listV2.json", method = RequestMethod.POST) @ResponseBody public JsonResult shipmentListV2(
             @RequestBody GetOrderListReq param) {
         try {
+            if (log.isDebugEnabled()) {
+                log.debug("supplier task order shipment-listV2 param:{}", JsonUtil.toJson(param));
+            }
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             if (param.getOrderTyp() == null) {
                 log.error("supplier task order list param error:{}", curUser);
