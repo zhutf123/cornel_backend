@@ -86,7 +86,7 @@ public class SupplierCornController {
             if (log.isDebugEnabled()) {
                 log.debug("supplier task order shipment-listV2 param:{}", JsonUtil.toJson(param));
             }
-            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            String curUser = "hubin.hu"; //Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             if (param.getOrderType() == null) {
                 log.error("supplier task order list param error:{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
