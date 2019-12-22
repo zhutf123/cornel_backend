@@ -69,7 +69,7 @@ import java.util.*;
                 .getOrderInfoByTaskByDelivery(deliveryId, param.getOrderTyp(), param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
             log.info("delivery query order list is empty supplierId:{} param:{}", deliveryId, JsonUtil.toJson(param));
-            return null;
+            return Lists.newArrayList();
         }
 
         return orderListResp;
@@ -101,8 +101,12 @@ import java.util.*;
      * @param param
      */
     public GetOrderListResp getTaskOrderInfoByOrderIdOrVerifyCode(String deliveryId, GetOrderInfoReq param) {
-        return orderInfoDao
+        GetOrderListResp result = orderInfoDao
                 .getOrderInfoByOrderIdOrVerifyCode("delivery", deliveryId, param.getOrderId(), param.getVerifyCode());
+        if (result == null) {
+            result = new GetOrderListResp();
+        }
+        return result;
     }
 
     /**

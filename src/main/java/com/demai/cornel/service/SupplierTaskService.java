@@ -76,7 +76,7 @@ public class SupplierTaskService {
                 param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
             log.info("supplier query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
-            return null;
+            return Lists.newArrayList();
         }
         orderListResp.stream().forEach(order ->{
             order.setOrderStatusDesc(GetOrderListResp.STATUS_DESC_ENUE.NORMAL.getValue());
@@ -114,9 +114,14 @@ public class SupplierTaskService {
      * @param param
      */
     public GetOrderListResp getTaskOrderInfoByOrderIdOrVerifyCode(String supplierId, GetOrderInfoReq param) {
-        return orderInfoDao.getOrderInfoByOrderIdOrVerifyCode("supplier", supplierId,
-                param.getOrderId(), param.getVerifyCode());
+        GetOrderListResp result = orderInfoDao
+                .getOrderInfoByOrderIdOrVerifyCode("supplier", supplierId, param.getOrderId(), param.getVerifyCode());
+        if (result == null) {
+            result = new GetOrderListResp();
+        }
+        return result;
     }
+
 
     /**
      * 烘干塔开始装货
