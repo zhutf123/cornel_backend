@@ -215,7 +215,7 @@
         o.user_id=#{userId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId=='' ">
-            and o.id  <![CDATA[<=]]> (select id from order_info where user_id=#{userId} and status=(o.status
+            and o.id  <![CDATA[<=]]> (select id from order_info where user_id=#{userId} and status=(status
             <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId !='' ">
@@ -279,7 +279,7 @@
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId==''">
             and o.id  <![CDATA[<=]]> (select id from order_info where delivery_id=#{supplierId} and
-            o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
+            status=(status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId!=''">
             and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})
@@ -320,11 +320,11 @@
         <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null or orderId==''">
-            and o.id  <![CDATA[<=]]> (select id from order_info where <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and
-            o.status=(o.status <![CDATA[ & ]]> #{orderType} ))
+            and o.id  <![CDATA[<=]]> (select id from order_info where <![CDATA[ send_out_user_id @> array[#{supplierId}] ]]> and
+            status=(status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId!=''">
-            and o.id  <![CDATA[<]]> (select id from order_info where o.order_id=#{orderId})
+            and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})
         </if>
         order by o.id desc limit #{pgSize};
     </select>
