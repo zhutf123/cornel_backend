@@ -267,7 +267,7 @@
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status=(o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
-        <if test="orderId == null or orderId=='' or orderId=='null'">
+        <if test="orderId == null and orderId=='' and orderId=='null'">
             and o.id  <![CDATA[<=]]> (select max(id) from order_info where user_id=#{userId} and status=(status
             <![CDATA[ & ]]> #{orderType} ))
         </if>
@@ -311,7 +311,7 @@
         <![CDATA[ o.delivery_id @> #{deliverId,jdbcType=ARRAY,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}] ]]>
         and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
-        <if test="orderId == null or orderId=='' or orderId=='null'">
+        <if test="orderId != null and orderId!='' and orderId!='null'">
             and o.id  <![CDATA[<=]]> (select max(id) from order_info where delivery_id=#{supplierId} and
             status=(status <![CDATA[ & ]]> #{orderType} ))
         </if>
@@ -340,7 +340,7 @@
         where
         <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
-        <if test="orderId == null or orderId=='' or orderId=='null'">
+        <if test="orderId != null and orderId!='' and orderId!='null'">
             and o.id  <![CDATA[<=]]> (select max(id) from order_info where
             <![CDATA[ send_out_user_id @> array[#{supplierId}] ]]> and
             status=(status <![CDATA[ & ]]> #{orderType} ))
@@ -358,7 +358,7 @@
         left join user_info u on o.user_id=u.user_id
         where
         1=1
-        <if test="orderId != null or orderId!='' or orderId!='null'">
+        <if test="orderId != null and orderId!='' and orderId!='null'">
             and o.order_id=#{orderId}
         </if>
 
