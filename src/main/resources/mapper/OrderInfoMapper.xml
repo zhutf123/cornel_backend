@@ -362,7 +362,7 @@
             and o.order_id=#{orderId}
         </if>
 
-        <if test="verifyCode!=null AND verifyCode!='' and verifyCode!='null'">
+        <if test="verifyCode!=null and verifyCode!='' and verifyCode!='null'">
             <if test="role=='supplier'">
                 and o.send_out_code=#{verifyCode}
                 and <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]>
