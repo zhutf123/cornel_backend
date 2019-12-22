@@ -226,6 +226,7 @@ import java.util.concurrent.TimeUnit;
             return arriveDepDriverResp;
         }
         OrderInfo orderInfo = orderInfoDao.getOrderInfoByOrderId(orderId);
+        arriveDepDriverResp.setOrderId(orderId);
         arriveDepDriverResp.setSuccess(true);
         arriveDepDriverResp.setStatus(arriveStatus);
         arriveDepDriverResp.setPickUpCode(orderInfo.getSendOutCode());
@@ -242,6 +243,7 @@ import java.util.concurrent.TimeUnit;
         Date curDate = new Date(System.currentTimeMillis());
         orderInfoDao.updateStatusAndSendOutTime(orderId, curDate, arriveStatus);
         SimpleDateFormat sft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        operationOrderResp.setOrderId(orderId);
         operationOrderResp.setOpOverTime(sft.format(curDate).toString());
         operationOrderResp.setOrderStatus(arriveStatus);
         return operationOrderResp;
