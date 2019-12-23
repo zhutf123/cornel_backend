@@ -38,23 +38,6 @@
         <result column="delivery_receive_time" property="deliveryReceiveTime"/>
     </resultMap>
 
-
-    /**烘干塔出货重量*/
-    private String carryWeight;
-    /**烘干塔出货时间*/
-    private BigDecimal sendOutTime;
-
-    /**接货人收获重量*/
-    private String succWeight;
-    /**接货人收获时间*/
-    private BigDecimal deliveryReceiveTime;
-
-
-    o.delivery_receive_time,
-    o.carry_weight,
-    o.send_out_time,
-    o.succ_weight,
-
     <resultMap id="listRespMapper" type="com.demai.cornel.vo.task.GetOrderListResp">
         <result column="order_id" property="orderId"/>
         <result column="task_id" property="taskId"/>
