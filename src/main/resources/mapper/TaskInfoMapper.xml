@@ -27,9 +27,9 @@
         <result column="create_time" property="createTime"/>
         <result column="operate_time" property="operateTime"/>
         <result column="subtask_time" property="subTaskTimeString"/>
-        <result column="receiver_user_id" property="receiverUserId" jdbcType="ARRAY"
+        <result column="receiver_user_id" property="receiverUserId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
-        <result column="send_out_user_id" property="sendOutUserId" jdbcType="ARRAY"
+        <result column="send_out_user_id" property="sendOutUserId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
     </resultMap>
 
@@ -90,10 +90,10 @@
             <if test="operateTime != null">operate_time = #{operateTime},</if>
             <if test="subTaskTimeString != null">subtask_time = #{subTaskTimeString},</if>
             <if test="sendOutUserId != null">send_out_user_id =
-                #{sendOutUserId,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+                #{sendOutUserId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="receiverUserId != null">receiver_user_id =
-                #{receiverUserId,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+                #{receiverUserId,jdbcType=ARRAY, javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="unitDistance != null">unit_distance = #{unitDistance},</if>
             <if test="unitWeightPrice != null">unit_weight_price = #{unitWeightPrice},</if>
@@ -157,11 +157,11 @@
             <if test="operateTime != null">#{operateTime} ,</if>
             <if test="subTaskTimeString != null">#{subTaskTimeString} ,</if>
             <if test="sendOutUserId != null">
-                #{sendOutUserId,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+                #{sendOutUserId,jdbcType=ARRAY, javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
                 ,
             </if>
             <if test="receiverUserId != null">
-                #{receiverUserId,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+                #{receiverUserId,jdbcType=ARRAY, javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
                 ,
             </if>
             <if test="unitDistance != null">#{unitDistance},</if>

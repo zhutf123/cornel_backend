@@ -3,37 +3,30 @@
  */
 package com.demai.cornel.controller;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-
-import javax.annotation.Resource;
-
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
-import com.demai.cornel.service.DistOrderService;
+import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.service.SupplierTaskService;
-import com.demai.cornel.service.impl.TaskServiceImp;
+import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.json.JsonUtil;
+import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.order.OperationOrderReq;
 import com.demai.cornel.vo.order.OperationOrderResp;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
-import groovy.transform.Undefined;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.demai.cornel.holder.UserHolder;
-import com.demai.cornel.util.CookieAuthUtils;
-import com.demai.cornel.vo.JsonResult;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Create By zhutf 19-11-10 上午9:33
