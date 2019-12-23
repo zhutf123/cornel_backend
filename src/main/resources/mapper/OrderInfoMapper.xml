@@ -265,7 +265,6 @@
             <if test="createTime != null">#{createTime} ,</if>
             <if test="operateTime != null">#{operateTime} ,</if>
             <if test="receiveTime != null">#{receiveTime} ,</if>
-            <if test="receiveTime != null">#{receiveTime} ,</if>
             <if test="deliveryReceiveTime != null">#{deliveryReceiveTime} ,</if>
 
         </trim>
