@@ -28,8 +28,9 @@ public class OperationOrderResp implements Serializable {
     private Integer opResult;
     /***
      * 操作完成时间
+     *
      */
-    private String opOverTime;
+    private String sendOutTime;
 
     private Long realWeight;
 

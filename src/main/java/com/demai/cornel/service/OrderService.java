@@ -241,7 +241,7 @@ import java.util.concurrent.TimeUnit;
         operationOrderResp.setOrderId(orderId);
         operationOrderResp.setOpResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue());
 
-        operationOrderResp.setOpOverTime(sft.format(curDate).toString());
+        operationOrderResp.setSendOutTime(sft.format(curDate).toString());
         operationOrderResp.setOrderStatus(arriveStatus);
         return operationOrderResp;
     }
@@ -259,7 +259,6 @@ import java.util.concurrent.TimeUnit;
         List<String> supplierTel = userInfoDao.getUserTelByUserId(getOrderInfoResp.getSupplierId());
         getOrderInfoResp.setSupplierMobile(supplierTel);
         return getOrderInfoResp;
-
     }
 
     List<TaskInfoReq.StartTime> buildStartTime(Map<String, Integer> stringIntegerHashMap) {

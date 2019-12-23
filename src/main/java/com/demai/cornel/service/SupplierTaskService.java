@@ -152,11 +152,11 @@ public class SupplierTaskService {
             log.debug("supplier start shipment update order num is zero");
         }
         if (num == 0) {
-            return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
+            return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
                     .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
                     .success(Boolean.FALSE).orderId(orderId).orderStatus(orderInfo.getStatus()).build();
         }
-        return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
+        return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
                 .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(orderId)
                 .orderStatus(orderInfo.getStatus()).build();
     }
@@ -178,13 +178,13 @@ public class SupplierTaskService {
             log.debug("supplier shipment over update order num is zero");
         }
         if (num == 0) {
-            return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
+            return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
                     .success(Boolean.FALSE)
                     .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
                     .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
         }
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
-        return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
+        return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
                 .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
                 .realWeight(orderInfo.getCarryWeight().longValue()).orderStatus(orderInfo.getStatus()).build();
     }
@@ -210,13 +210,13 @@ public class SupplierTaskService {
             log.debug("supplier shipment over update order num is zero");
         }
         if (num == 0) {
-            return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date()))
+            return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
                     .success(Boolean.FALSE)
                     .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
                     .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
         }
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
-        return OperationOrderResp.builder().opOverTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
+        return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
                 .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
                 .realWeight(orderInfo.getCarryWeight().longValue()).orderStatus(orderInfo.getStatus()).build();
     }
