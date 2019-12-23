@@ -50,7 +50,7 @@
         <result column="order_carry_weight" property="orderCarryWeight"/>
         <result column="send_out_time" property="sendOutTime"/>
         <result column="succ_weight" property="succWeight"/>
-        
+
         <result column="title" property="title"/>
         <result column="dep" property="dep"/>
         <result column="arr" property="arr"/>
@@ -265,7 +265,6 @@
             <if test="createTime != null">#{createTime} ,</if>
             <if test="operateTime != null">#{operateTime} ,</if>
             <if test="receiveTime != null">#{receiveTime} ,</if>
-            <if test="receiveTime != null">#{receiveTime} ,</if>
             <if test="deliveryReceiveTime != null">#{deliveryReceiveTime} ,</if>
 
         </trim>
@@ -323,8 +322,9 @@
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
-        l.over_carry_weight as overCarryWight
-        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
+        l.over_carry_weight as overCarryWight,
+        u.name as driverName
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id  left join user_info u on o.user_id=u.user_id where
         o.user_id=#{userId}
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         and o.order_id=#{orderId};

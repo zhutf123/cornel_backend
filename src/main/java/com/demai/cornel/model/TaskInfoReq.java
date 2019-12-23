@@ -38,7 +38,7 @@ import java.util.Map;
     private String unitPrice;
     private String unitWeight;
     private String unitDistance;
-
+    private String driverName;
     private Long status;
     private List<LorryInfoBean> lorryInfo;
     private List<StartTime> startTime;
@@ -77,9 +77,7 @@ import java.util.Map;
 
     }
 
-    @Data
-    @Builder
-    public static class StartTime {
+    @Data @Builder public static class StartTime {
         /**
          * lorryId : 123123 plateNumber : 黑A123456 carryWeight : 30 OverCarryWight : 120 unitWeight : 吨 defaultSelect :
          * false

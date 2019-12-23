@@ -1,10 +1,7 @@
 package com.demai.cornel.service;
 
 import com.demai.cornel.constant.ContextConsts;
-import com.demai.cornel.dao.DistOrderInfoDao;
-import com.demai.cornel.dao.LorryInfoDao;
-import com.demai.cornel.dao.OrderInfoDao;
-import com.demai.cornel.dao.TaskInfoDao;
+import com.demai.cornel.dao.*;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.LorryInfo;
 import com.demai.cornel.model.OrderInfo;
@@ -46,6 +43,7 @@ import java.util.concurrent.TimeUnit;
     @Resource private StringRedisTemplate stringRedisTemplate;
     @Resource private OrderInfoDao orderInfoDao;
     private static final String ORDER_LOCK_FORMAT = "lock:task:%s";
+    @Resource UserInfoDao userInfoDao;
 
     public List<GetOrderListResp> getOrderList(GetOrderListReq getOrderListReq, String userId) {
         if (getOrderListReq == null || getOrderListReq.getOrderType() == null || Strings.isNullOrEmpty(userId)) {
@@ -71,6 +69,7 @@ import java.util.concurrent.TimeUnit;
             return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.ORDER_FAIL.getValue());
         }
         TaskSaveResp taskSaveRep = new TaskSaveResp();
+        taskSaveRep.setDriverName(userInfoDao.getUserNameByUserId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)));
         TaskInfo taskInfo = taskInfoDao.selectTaskInfoByTaskId(taskSaveVO.getTaskId());
         // 校验task-- 0 可以接单 ;;  1 task 无效 或已经完成了;; 2 任务剩余重量小于提交接单的重量;;  3 该时间段不可选了
         Integer checkTaskStatus = checkTaskAvailable(taskInfo, taskSaveVO);
@@ -199,8 +198,7 @@ import java.util.concurrent.TimeUnit;
         if (lorryInfo == null || !lorryInfo.getStatus().equals(LorryInfo.STATUS_ENUE.IDLE.getValue())) {
             return 1;
         }
-        BigDecimal maxCarryWeight = lorryInfo.getOverCarryWeight()
-                .multiply(lorryInfo.getCarryWeight());
+        BigDecimal maxCarryWeight = lorryInfo.getOverCarryWeight().multiply(lorryInfo.getCarryWeight());
         if (-1 == maxCarryWeight.compareTo(taskSaveVO.getCarryWeight())) {
             return 2;
         }

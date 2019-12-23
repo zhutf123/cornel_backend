@@ -1,10 +1,8 @@
 package com.demai.cornel.service.impl;
 
+import com.demai.cornel.auth.service.IUserService;
 import com.demai.cornel.constant.ContextConsts;
-import com.demai.cornel.dao.DistOrderInfoDao;
-import com.demai.cornel.dao.LorryInfoDao;
-import com.demai.cornel.dao.OrderInfoDao;
-import com.demai.cornel.dao.TaskInfoDao;
+import com.demai.cornel.dao.*;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.*;
 import com.demai.cornel.service.ITaskService;
@@ -34,28 +32,21 @@ import java.util.concurrent.TimeUnit;
  * @Author binz.zhang
  * @Date: 2019-12-17 12:02
  */
-@Service
-@Slf4j
-public class TaskServiceImp {
-    @Resource
-    private DistOrderInfoDao distOrderInfoDao;
-    @Resource
-    private LorryInfoDao lorryInfoDao;
+@Service @Slf4j public class TaskServiceImp {
+    @Resource private DistOrderInfoDao distOrderInfoDao;
+    @Resource private LorryInfoDao lorryInfoDao;
 
-    @Resource
-    private TaskInfoDao taskInfoDao;
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
-    @Resource
-    private OrderInfoDao orderInfoDao;
-
+    @Resource private TaskInfoDao taskInfoDao;
+    @Resource private StringRedisTemplate stringRedisTemplate;
+    @Resource private OrderInfoDao orderInfoDao;
+    @Resource private UserInfoDao userInfoDao;
     private static final String ORDER_LOCK_FORMAT = "lock:task:%s";
     private static final String TASK_REST_WEIGHT_FORMAT = "REST:task:%s";
     private static final String TASK_ERROR_WEIGHT_FORMAT = "CONTINUE:task";
 
     /**
      * 司机侧查询task 列表
-     * 
+     *
      * @param userId
      * @param curId
      * @param pgsize
@@ -88,7 +79,7 @@ public class TaskServiceImp {
 
     /**
      * 司机侧获取task info
-     * 
+     *
      * @param userId
      * @param taskId
      * @return
@@ -107,10 +98,11 @@ public class TaskServiceImp {
             return null;
         }
         TaskInfoReq taskInfoReq = new TaskInfoReq(taskInfo);
+        taskInfoReq.setDriverName(userInfoDao.getUserNameByUserId(userId));
         taskInfoReq.setLorryInfo(lorryInfos);
         List<TaskInfoReq.StartTime> startTimes = new ArrayList<>(taskInfo.getSubTaskTime().size());
-        if(taskInfo.getSubTaskTime()!=null){
-            taskInfo.getSubTaskTime().keySet().forEach(x->{
+        if (taskInfo.getSubTaskTime() != null) {
+            taskInfo.getSubTaskTime().keySet().forEach(x -> {
                 startTimes.add(TaskInfoReq.StartTime.builder().time(x).count(taskInfo.getSubTaskTime().get(x)).build());
 
             });
@@ -126,7 +118,8 @@ public class TaskServiceImp {
      */
     public BigDecimal getUnweightByTaskId(String taskId) {
         String restWeight = stringRedisTemplate.opsForValue().get(String.format(TASK_REST_WEIGHT_FORMAT, taskId));
-        return (Strings.isNullOrEmpty(restWeight)) ? taskInfoDao.getTaskUnacceptWeight(taskId)
-                : new BigDecimal(restWeight);
+        return (Strings.isNullOrEmpty(restWeight)) ?
+                taskInfoDao.getTaskUnacceptWeight(taskId) :
+                new BigDecimal(restWeight);
     }
 }
