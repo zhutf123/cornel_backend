@@ -97,7 +97,7 @@ datasources:
   dm-master:
     driverClassName: org.postgresql.Driver
     jdbcUrl: jdbc:postgresql://39.105.218.56:7654/cornel_beta
-    username: postgres
+    username: cornel_beta
     password: a9e43160-7d34-4a9d-8120-f605b111ce59
     maximumPoolSize: 5
     idleTimeout: 600000
