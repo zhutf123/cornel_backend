@@ -55,7 +55,7 @@ public class TaskServiceTest extends BaseTest {
         TaskSaveVO taskInfoReq = new TaskSaveVO();
         taskInfoReq.setCarryWeight(new BigDecimal(100));
         taskInfoReq.setLarryId(1);
-        taskInfoReq.setTaskId("169073d2-4c45-402f-a905-1f455f273ef6");
+        taskInfoReq.setTaskId("8011ec4d-5517-4d5a-b71b-0d011c11cb8f");
         taskInfoReq.setSelectTime("2019-08-29 12:00-14:00");
         orderService.saveOrder(taskInfoReq);
     }

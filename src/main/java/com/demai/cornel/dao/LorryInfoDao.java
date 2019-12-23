@@ -17,10 +17,18 @@ public interface LorryInfoDao {
 
     public void save(LorryInfo lorryInfo);
 
-
+    /**
+     * 查询当前用户的默认车辆并且还处于绑定状态的车辆信息，
+     * @param userId
+     * @return
+     */
     public LorryInfo getDefaultLorryByUserId(@Param("userId") String userId);
 
-
+    /**
+     * 查询当前用户的默认车辆并且还处于绑定状态的车辆信息，
+     * @param userId
+     * @return
+     */
     public LorryInfo getAvailableLorryByUserId(@Param("userId") String userId);
 
     public List<TaskInfoReq.LorryInfoBean> getAllLorrySimpleInfoByUserId(@Param("userId") String userId);

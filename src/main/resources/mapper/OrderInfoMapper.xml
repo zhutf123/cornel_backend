@@ -310,6 +310,7 @@
         o.task_id as taskId,
         o.status as orderStatus,
         o.order_weight as orderWeight,
+        o.carry_weight as orderCarryWeight,
         o.receive_code as verifyCode,
         o.receive_time as startTime,
         t.title as title,
@@ -419,7 +420,7 @@
     </update>
 
     <select id="getOrderIdInnerTask" resultType="java.lang.String">
-        select order_id from order_info where task_id=#{taskId} and user_id=#{userId} and status not in in(2,4160);
+        select order_id from order_info where task_id=#{taskId} and user_id=#{userId} and status not in in (2,4160);
     </select>
 
 
