@@ -96,9 +96,9 @@ caching:
 datasources:
   dm-master:
     driverClassName: org.postgresql.Driver
-    jdbcUrl: jdbc:postgresql://150.242.184.16:7654/cornel_product
+    jdbcUrl: 'jdbc:postgresql://192.168.0.103:7654/cornel_beta'
     username: postgres
-    password: cornel*..123
+    password: a9e43160-7d34-4a9d-8120-f605b111ce59
     maximumPoolSize: 5
     idleTimeout: 600000
     maxLifetime: 1800000
