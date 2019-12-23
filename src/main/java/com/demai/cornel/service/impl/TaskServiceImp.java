@@ -111,7 +111,7 @@ import java.util.concurrent.TimeUnit;
         taskInfoReq.setStartTime(startTimes);
         DriverTaskResp driverTaskResp = new DriverTaskResp();
         BeanUtils.copyProperties(taskInfoReq,driverTaskResp);
-        if(taskInfo.getUndistWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT)<0 || startTimes.size()<=0){
+        if(taskInfo.getUnacceptWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT)<0 || startTimes.size()<=0){
             driverTaskResp.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue());
             return driverTaskResp;
         }
