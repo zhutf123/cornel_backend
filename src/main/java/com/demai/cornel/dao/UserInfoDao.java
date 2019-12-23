@@ -14,7 +14,6 @@ public interface UserInfoDao {
 
     public UserInfo getUserInfoByPhone(@Param("phone") String phone);
 
-
     List<UserInfo> getUsersInfoByPhones(@Param("phones") Set<String> phones);
 
     List<UserDistOrderModel> getUserDefaultLorryByTels(@Param("phones") Set<String> phones);
@@ -24,5 +23,7 @@ public interface UserInfoDao {
     List<UserDistOrderModel> getUsersLorryInfoByPlateNumber(@Param("platNumbers") Set<String> platNumber);
 
     UserInfo getUserInfoByUserId(@Param("userId") String userId);
+
+    String getUserNameByUserId(@Param("userID") String userId);
 
 }

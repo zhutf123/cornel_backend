@@ -216,5 +216,8 @@
         <include refid="main_column"/>
         from user_info where user_id=#{userId} and status=1;
     </select>
+    <select id="getUserNameByUserId" resultType="java.lang.String">
+        select * from user_info where user_id=#{userID};
+    </select>
 
 </mapper>

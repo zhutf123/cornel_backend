@@ -11,8 +11,7 @@ import java.sql.Date;
  * @Author binz.zhang
  * @Date: 2019-12-17    15:42
  */
-@Data
-public class DistTaskOrderReq {
+@Data public class DistTaskOrderReq {
     private Long id;
     private String taskId;
     private String title;
@@ -28,15 +27,12 @@ public class DistTaskOrderReq {
     private String unitWeight = "吨";
     private BigDecimal income;
     private Long taskStatus;
-    @JsonIgnore
-    private Long orderStatus;  //司机对这个单子的状态 0 未接单 1 已接单 2 无法接单
-
+    private String driverName;
+    @JsonIgnore private Long orderStatus;  //司机对这个单子的状态 0 未接单 1 已接单 2 无法接单
 
     public static enum STATUS_ENUE {
 
-        TASK_INIT(0, "未接单"),
-        TASK_CANCEL(1, "已接单"),
-        TASK_REVIEW_SUCCESS(2, "已闭仓");
+        TASK_INIT(0, "未接单"), TASK_CANCEL(1, "已接单"), TASK_REVIEW_SUCCESS(2, "已闭仓");
         private Integer value;
         private String expr;
 
@@ -52,7 +48,6 @@ public class DistTaskOrderReq {
         public String getExpr() {
             return expr;
         }
-
 
     }
 }

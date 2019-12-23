@@ -27,6 +27,7 @@ import java.util.HashMap;
     private String weightUnit = "吨";
     private String verCode;
     private HashMap<String, Integer> selectTime;
+    private String driverName;
 
     public static enum CODE_ENUE implements IEmus {
         NO_USER(-1, "用户不存在，请先注册"), SUCCESS(0, "请求成功"), ORDER_FAIL(7, "抢单失败"), NETWORK_ERROR(1,
