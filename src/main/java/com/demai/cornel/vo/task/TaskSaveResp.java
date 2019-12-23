@@ -3,7 +3,9 @@ package com.demai.cornel.vo.task;
 import com.demai.cornel.dmEnum.IEmus;
 import com.demai.cornel.util.BigDecimalUtil;
 import com.demai.cornel.vo.user.UserLoginResp;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -12,7 +14,10 @@ import java.util.HashMap;
  * @Author binz.zhang
  * @Date: 2019-12-20    14:48
  */
-@Data public class TaskSaveResp {
+
+@Data
+@NoArgsConstructor
+public class TaskSaveResp {
 
     /**
      * status : 0
