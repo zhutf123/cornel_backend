@@ -49,7 +49,7 @@ public interface OrderInfoDao {
     GetOrderInfoResp getOrderInfoByUserAndOrderId(@Param("userId") String userId, @Param("orderId") String orderId);
 
     int updateOrderStatus(@Param("orderId") String orderId, @Param("status") long status,
-            @Param("userId") String userId);
+            @Param("userId") String userId,@Param("oldStatus")long oldStatus);
 
     ArriveDepDriverResp getOrderStatusAndVerCodeByOrderId(@Param("orderId") String orderId);
 
@@ -58,7 +58,12 @@ public interface OrderInfoDao {
     String getDriverUserId(@Param("orderId") String orderId);
 
     int updateStatusAndSendOutTime(@Param("orderId") String orderId, @Param("sendOutTime") Date sendOutTime,
-            @Param("status") long status);
+            @Param("status") long status,@Param("oldStatus")long oldStatus);
 
-    List<String> getOrderIdInnerTask(@Param("taskId") String taskId, @Param("userId") String userId);
+    List<String> getRuningOrderIdInnerTask(@Param("taskId") String taskId, @Param("userId") String userId);
+
+
+    String getSendOutCode(@Param("orderID")String orderId);
+
+    String getReceiveCode(@Param("orderID")String orderId);
 }

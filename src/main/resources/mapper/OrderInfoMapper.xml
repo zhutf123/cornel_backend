@@ -288,6 +288,7 @@
         t.distance as distance,
         t.unit_distance as unitDistance,
         t.unit_weight_price as unitWeightPrice,
+        t.supplier_id as supplierId,
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
@@ -356,7 +357,7 @@
     </select>
 
     <update id="updateOrderStatus">
-        update order_info set status=#{status} where order_id=#{orderId} and user_id=#{userId};
+        update order_info set status=#{status} where order_id=#{orderId} and user_id=#{userId} and status=#{oldStatus};
     </update>
 
     <select id="getOrderStatusAndVerCodeByOrderId" resultType="com.demai.cornel.vo.task.ArriveDepDriverResp">
@@ -421,12 +422,17 @@
         select user_id from order_info where order_id=#{orderId};
     </select>
     <update id="updateStatusAndSendOutTime">
-        update order_info set status=#{status},send_out_time=#{sendOutTime} where order_id=#{orderId};
+        update order_info set status=#{status},send_out_time=#{sendOutTime} where order_id=#{orderId} and status=#{oldStatus};
     </update>
 
-    <select id="getOrderIdInnerTask" resultType="java.lang.String">
+    <select id="getRuningOrderIdInnerTask" resultType="java.lang.String">
         select order_id from order_info where task_id=#{taskId} and user_id=#{userId} and status not in in (2,4160);
     </select>
-
+    <select id="getSendOutCode" resultType="java.lang.String">
+        select send_out_code from order_info where order_id=#{orderID}
+    </select>
+    <select id="getReceiveCode" resultType="java.lang.String">
+        select receive_code from order_info where order_id=#{orderID}
+    </select>
 
 </mapper>

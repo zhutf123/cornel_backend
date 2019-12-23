@@ -110,13 +110,15 @@ import java.util.concurrent.TimeUnit;
         }
         taskInfoReq.setStartTime(startTimes);
         DriverTaskResp driverTaskResp = new DriverTaskResp();
-        BeanUtils.copyProperties(taskInfoReq,driverTaskResp);
-        if(taskInfo.getUnacceptWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT)<0 || startTimes.size()<=0){
+        BeanUtils.copyProperties(taskInfoReq, driverTaskResp);
+        // 货物重量小于最低接货量，无可选接货时间；task任务不在进行中 taskStatus设置为闭仓
+        if (taskInfo.getUndistWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT) < 0 || startTimes.size() <= 0
+                || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING)) {
             driverTaskResp.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue());
             return driverTaskResp;
         }
-        List<String> recOrder = orderInfoDao.getOrderIdInnerTask(taskId,userId);
-        if(recOrder!=null && recOrder.size()>0){
+        List<String> recOrder = orderInfoDao.getRuningOrderIdInnerTask(taskId, userId);
+        if (recOrder != null && recOrder.size() > 0) {
             driverTaskResp.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_CANCEL.getValue());
             return driverTaskResp;
         }
