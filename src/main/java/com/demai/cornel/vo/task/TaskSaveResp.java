@@ -16,7 +16,6 @@ import java.util.HashMap;
  */
 
 @Data
-@Builder
 @NoArgsConstructor
 public class TaskSaveResp {
 
