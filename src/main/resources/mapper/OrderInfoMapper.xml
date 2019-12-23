@@ -279,6 +279,7 @@
         o.status as orderStatus,
         o.order_weight as orderWeight,
         o.receive_code as verifyCode,
+        o.carry_weight as orderCarryWeight,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
