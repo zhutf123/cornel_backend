@@ -10,21 +10,28 @@ import java.math.BigDecimal;
 /**
  * Create By tfzhu  2019/12/22  3:15 PM
  */
-@Data
-public class OrderAndTaskRespBase extends  TaskInfoRespBase {
+@Data public class OrderAndTaskRespBase extends TaskInfoRespBase {
     private String verifyCode;
     private String serviceMobile;
     private String orderWeight;
     private String startTime;
 
-    /**烘干塔出货重量*/
+    /**
+     * 烘干塔出货重量
+     */
     private BigDecimal orderCarryWeight;
-    /**烘干塔出货时间*/
+    /**
+     * 烘干塔出货时间
+     */
     private String sendOutTime;
 
-    /**接货人收获重量*/
+    /**
+     * 接货人收获重量
+     */
     private BigDecimal succWeight;
-    /**接货人收获时间*/
+    /**
+     * 接货人收获时间
+     */
     private String deliveryReceiveTime;
 
     private Long orderStatus;
@@ -34,12 +41,11 @@ public class OrderAndTaskRespBase extends  TaskInfoRespBase {
     private String unitPrice = "元";
     private String unitWeight = "吨";
     private String unitDistance = "km";
-
+    private String supplierId;
 
     public static enum STATUS_DESC_ENUE {
 
-        NORMAL(0, "正常"),
-        DELAY(1, "延迟");
+        NORMAL(0, "正常"), DELAY(1, "延迟");
 
         private Integer value;
         private String expr;
@@ -58,10 +64,5 @@ public class OrderAndTaskRespBase extends  TaskInfoRespBase {
         }
 
     }
-
-
-    
-
-
 
 }

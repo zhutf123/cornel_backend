@@ -27,10 +27,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -259,6 +256,8 @@ import java.util.concurrent.TimeUnit;
     public GetOrderInfoResp driverGetTaskInfo(String orderId) {
         GetOrderInfoResp getOrderInfoResp = orderInfoDao
                 .getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId);
+        List<String> supplierTel = userInfoDao.getUserTelByUserId(getOrderInfoResp.getSupplierId());
+        getOrderInfoResp.setSupplierMobile(supplierTel);
         return getOrderInfoResp;
 
     }
