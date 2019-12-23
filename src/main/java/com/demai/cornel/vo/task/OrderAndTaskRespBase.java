@@ -18,14 +18,14 @@ public class OrderAndTaskRespBase extends  TaskInfoRespBase {
     private String startTime;
 
     /**烘干塔出货重量*/
-    private String orderCarryWeight;
+    private BigDecimal orderCarryWeight;
     /**烘干塔出货时间*/
-    private BigDecimal sendOutTime;
+    private String sendOutTime;
 
     /**接货人收获重量*/
-    private String succWeight;
+    private BigDecimal succWeight;
     /**接货人收获时间*/
-    private BigDecimal deliveryReceiveTime;
+    private String deliveryReceiveTime;
 
     private Long orderStatus;
     private Integer orderStatusDesc;
