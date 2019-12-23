@@ -265,7 +265,7 @@ import java.util.concurrent.TimeUnit;
     public ArriveArrResp arriveArr(String userId, String orderId) {
         long status = OrderInfo.STATUS_ENUE.ORDER_ARRIVE_ARR.getValue();
         orderInfoDao.updateOrderStatus(orderId, status, userId,OrderInfo.STATUS_ENUE.ORDER_ROUTING.getValue());
-        String receiveCode = orderInfoDao.getSendOutCode(orderId);
+        String receiveCode = orderInfoDao.getReceiveCode(orderId);
         return ArriveArrResp.builder().
                 orderId(orderId).orderStatus(status).verCode(receiveCode).build();
     }
