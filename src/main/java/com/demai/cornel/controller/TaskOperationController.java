@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.holder.UserHolder;
+import com.demai.cornel.model.DriverTaskResp;
 import com.demai.cornel.model.TaskInfoReq;
 import com.demai.cornel.service.OrderService;
 import com.demai.cornel.service.SupplierTaskService;
@@ -46,11 +47,11 @@ public class TaskOperationController {
         JSONObject receivedParam = JSON.parseObject(taskIdParam);
         String taskId = (String) receivedParam.get("taskId");
         String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-        TaskInfoReq taskInfoReq = taskServiceImp.getTaskInfo(curUser, taskId);
-        if (taskInfoReq == null) {
-            JsonResult.error("error re");
+        DriverTaskResp driverTaskResp = taskServiceImp.getTaskInfo(curUser, taskId);
+        if (driverTaskResp == null) {
+            JsonResult.error("driver get info error driverTaskResp is null");
         }
-        return JsonResult.success(taskInfoReq);
+        return JsonResult.success(driverTaskResp);
     }
 
     @RequestMapping(value = "/save.json", method = RequestMethod.POST) @ResponseBody public JsonResult saveTask(

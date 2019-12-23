@@ -17,6 +17,7 @@ import com.demai.cornel.vo.task.TaskSaveVO;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -84,7 +85,7 @@ import java.util.concurrent.TimeUnit;
      * @param taskId
      * @return
      */
-    public TaskInfoReq getTaskInfo(String userId, String taskId) {
+    public DriverTaskResp getTaskInfo(String userId, String taskId) {
         Preconditions.checkNotNull(userId);
         Preconditions.checkNotNull(taskId);
         List<TaskInfoReq.LorryInfoBean> lorryInfos = lorryInfoDao.getAllLorrySimpleInfoByUserId(userId);
@@ -108,7 +109,19 @@ import java.util.concurrent.TimeUnit;
             });
         }
         taskInfoReq.setStartTime(startTimes);
-        return taskInfoReq;
+        DriverTaskResp driverTaskResp = new DriverTaskResp();
+        BeanUtils.copyProperties(taskInfoReq,driverTaskResp);
+        if(taskInfo.getUndistWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT)<0 || startTimes.size()<=0){
+            driverTaskResp.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue());
+            return driverTaskResp;
+        }
+        List<String> recOrder = orderInfoDao.getOrderIdInnerTask(taskId,userId);
+        if(recOrder!=null && recOrder.size()>0){
+            driverTaskResp.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_CANCEL.getValue());
+            return driverTaskResp;
+        }
+        driverTaskResp.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_INIT.getValue());
+        return driverTaskResp;
     }
 
     /**

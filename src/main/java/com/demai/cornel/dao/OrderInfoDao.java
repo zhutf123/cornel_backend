@@ -57,5 +57,8 @@ public interface OrderInfoDao {
 
     String getDriverUserId(@Param("orderId") String orderId);
 
-    int updateStatusAndSendOutTime(@Param("orderId") String orderId, @Param("sendOutTime") Date sendOutTime,@Param("status")long status);
+    int updateStatusAndSendOutTime(@Param("orderId") String orderId, @Param("sendOutTime") Date sendOutTime,
+            @Param("status") long status);
+
+    List<String> getOrderIdInnerTask(@Param("taskId") String taskId, @Param("userId") String userId);
 }
