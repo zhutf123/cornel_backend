@@ -36,6 +36,7 @@
         <result column="operate_time" property="operateTime"/>
         <result column="receive_time" property="receiveTime"/>
         <result column="delivery_receive_time" property="deliveryReceiveTime"/>
+        <result column="let_out_time" property="letOutTime"/>
     </resultMap>
 
     <resultMap id="listRespMapper" type="com.demai.cornel.vo.task.GetOrderListResp">
@@ -70,6 +71,8 @@
         <result column="driver_mobile" property="driverMobile" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="delivery_receive_time" property="deliveryReceiveTime"/>
+        <result column="let_out_time" property="letOutTime"/>
+
     </resultMap>
 
     <sql id="main_column">
@@ -102,7 +105,8 @@
         create_time,
         operate_time,
         receive_time,
-        delivery_receive_time
+        delivery_receive_time,
+        let_out_time
     </sql>
 
     <sql id="listResp_column">
@@ -116,6 +120,7 @@
         o.carry_weight as order_carry_weight,
         o.send_out_time,
         o.succ_weight,
+        o.let_out_time,
         t.title,
         t.dep,
         t.arr,
@@ -172,6 +177,7 @@
             <if test="operateTime != null">operate_time = #{operateTime},</if>
             <if test="receiveTime != null">receive_time = #{receiveTime},</if>
             <if test="deliveryReceiveTime != null">delivery_receive_time = #{deliveryReceiveTime},</if>
+            <if test="letOutTime != null">let_out_time = #{letOutTime},</if>
         </trim>
         where id = #{id}
     </update>
@@ -183,7 +189,9 @@
         <if test="receiveTime != null">,receive_time=#{receiveTime}</if>
         <if test="sendOutTime != null">,send_out_time=#{sendOutTime}</if>
         <if test="deliveryReceiveTime != null">,delivery_receive_time=#{deliveryReceiveTime}</if>
-
+        <if test="succWeight != null">,succ_weight=#{succWeight}</if>
+        <if test="letOutTime != null">,let_out_time=#{letOutTime}</if>
+        <if test="finishTime != null">,finish_time=#{finishTime}</if>
         where order_id = #{orderId} and
         status=#{oldStatus}
         <if test="sendOutUserId!=null">
@@ -232,6 +240,7 @@
             <if test="operateTime != null">operate_time ,</if>
             <if test="receiveTime != null">receive_time ,</if>
             <if test="deliveryReceiveTime != null">delivery_receive_time ,</if>
+            <if test="letOutTime != null">let_out_time ,</if>
 
         </trim>
         )values(
@@ -270,6 +279,7 @@
             <if test="operateTime != null">#{operateTime} ,</if>
             <if test="receiveTime != null">#{receiveTime} ,</if>
             <if test="deliveryReceiveTime != null">#{deliveryReceiveTime} ,</if>
+            <if test="letOutTime != null">#{letOutTime} ,</if>
 
         </trim>
         )
@@ -284,6 +294,8 @@
         o.order_weight as orderWeight,
         o.receive_code as verifyCode,
         o.carry_weight as orderCarryWeight,
+        o.let_out_time as letOutTime,
+        o.succ_weight as succWeight,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
@@ -324,6 +336,7 @@
         o.succ_weight as succWeight,
         o.send_out_time as sendOutTime,
         o.delivery_receive_time as deliveryReceiveTime,
+        O.let_out_time as letOutTime,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
@@ -351,7 +364,7 @@
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id
         left join user_info u on o.user_id=u.user_id
         where
-        <![CDATA[ o.delivery_id @> #{deliverId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}] ]]>
+        <![CDATA[ o.receiver_user_id @>array[#{deliverId}] ]]>
         and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId != null and orderId!='' and orderId!='null'">
@@ -413,7 +426,7 @@
 
             <if test="role=='delivery'">
                 and o.receive_code=#{verifyCode}
-                and <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]>
+                and <![CDATA[ o.receiver_user_id @> array[#{supplierId}] ]]>
             </if>
         </if>
 

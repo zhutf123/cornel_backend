@@ -8,10 +8,7 @@ import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.model.TaskInfoReq;
 import com.demai.cornel.service.impl.TaskServiceImp;
-import com.demai.cornel.util.CookieAuthUtils;
-import com.demai.cornel.util.GenerateCodeUtils;
-import com.demai.cornel.util.IDUtils;
-import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.*;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.order.ArriveArrResp;
 import com.demai.cornel.vo.order.GetOrderInfoResp;
@@ -218,6 +215,13 @@ import java.util.concurrent.TimeUnit;
         return 0;
     }
 
+    /**
+     * 司机抵达烘干塔
+     *
+     * @param userId
+     * @param orderId
+     * @return
+     */
     public ArriveDepDriverResp driverArriveDep(String userId, String orderId) {
 
         ArriveDepDriverResp arriveDepDriverResp = new ArriveDepDriverResp();
@@ -231,8 +235,13 @@ import java.util.concurrent.TimeUnit;
             arriveDepDriverResp.setSuccess(false);
             return arriveDepDriverResp;
         }
-        if (orderInfoDao.updateOrderStatus(orderId, arriveStatus, userId,OrderInfo.STATUS_ENUE.ORDER_INIT.getValue())
-                != 1) {
+
+        OrderInfo orderInfoUpdate = new OrderInfo();
+        orderInfoUpdate.setStatus(arriveStatus);
+        orderInfoUpdate.setOrderId(orderId);
+        orderInfoUpdate.setUserId(userId);
+        orderInfoUpdate.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue());
+        if (orderInfoDao.updateShipmentStatusByOldStatus(orderInfoUpdate) != 1) {
             arriveDepDriverResp.setSuccess(false);
             return arriveDepDriverResp;
         }
@@ -244,6 +253,13 @@ import java.util.concurrent.TimeUnit;
         return arriveDepDriverResp;
     }
 
+    /**
+     * 司机确认从烘干塔出库
+     *
+     * @param userId
+     * @param orderId
+     * @return
+     */
     public OperationOrderResp confirmStockOut(String userId, String orderId) {
         OperationOrderResp operationOrderResp = new OperationOrderResp();
         if (Strings.isNullOrEmpty(userId) || Strings.isNullOrEmpty(orderId)) {
@@ -252,7 +268,15 @@ import java.util.concurrent.TimeUnit;
         }
         long arriveStatus = OrderInfo.STATUS_ENUE.ORDER_ROUTING.getValue();
         Date curDate = new Date(System.currentTimeMillis());
-        orderInfoDao.updateStatusAndSendOutTime(orderId, curDate, arriveStatus,OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
+
+        OrderInfo orderInfoUpdate = new OrderInfo();
+        orderInfoUpdate.setOrderId(orderId);
+        orderInfoUpdate.setUserId(userId);
+        orderInfoUpdate.setStatus(arriveStatus);
+        orderInfoUpdate.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT_OVER.getValue());
+
+        orderInfoDao.updateShipmentStatusByOldStatus(orderInfoUpdate);
+
         SimpleDateFormat sft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         operationOrderResp.setOrderId(orderId);
         operationOrderResp.setOpResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue());
@@ -262,12 +286,40 @@ import java.util.concurrent.TimeUnit;
         return operationOrderResp;
     }
 
+    /**
+     * 司机侧确认到达港口
+     *
+     * @param userId
+     * @param orderId
+     * @return
+     */
     public ArriveArrResp arriveArr(String userId, String orderId) {
         long status = OrderInfo.STATUS_ENUE.ORDER_ARRIVE_ARR.getValue();
-        orderInfoDao.updateOrderStatus(orderId, status, userId,OrderInfo.STATUS_ENUE.ORDER_ROUTING.getValue());
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_ROUTING.getValue());
+        orderInfo.setStatus(status);
+        orderInfo.setOrderId(orderId);
+        orderInfo.setUserId(userId);
+        orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         String receiveCode = orderInfoDao.getReceiveCode(orderId);
         return ArriveArrResp.builder().
                 orderId(orderId).orderStatus(status).verCode(receiveCode).build();
+    }
+
+    public OperationOrderResp driverConfrimTaskOver(String orderId, String userId) {
+        long status = OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue();
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setUserId(userId);
+        orderInfo.setOrderId(orderId);
+        orderInfo.setStatus(status);
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY_OVER.getValue());
+        orderInfo.setFinishTime(new Date((System.currentTimeMillis())));
+        int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
+        if (num == 0) {
+            return OperationOrderResp.builder().opResult(1).build();
+        }
+        return OperationOrderResp.builder().opResult(0).orderStatus(OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue())
+                .orderId(orderId).build();
     }
 
     public GetOrderInfoResp driverGetTaskInfo(String orderId) {
@@ -290,5 +342,11 @@ import java.util.concurrent.TimeUnit;
         });
         return startTimes;
     }
+
+    public static void main(String[] args) {
+        Date da = new Date(DateUtils.now().getTime());
+        System.out.println(da);
+    }
+
 
 }

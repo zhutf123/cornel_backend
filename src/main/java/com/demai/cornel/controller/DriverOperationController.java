@@ -85,6 +85,11 @@ import java.util.Optional;
         return JsonResult.success(orderService.driverGetTaskInfo(orderId));
     }
 
+    /**
+     * 司机抵达烘干塔
+     * @param orderIdParam
+     * @return
+     */
     @RequestMapping(value = "/arrive-dep.json", method = RequestMethod.POST) @ResponseBody public JsonResult arriveDep(
             @RequestBody String orderIdParam) {
         Preconditions.checkNotNull(orderIdParam);
@@ -92,6 +97,12 @@ import java.util.Optional;
         String orderId = (String) receivedParam.get("orderId");
         return JsonResult.success(orderService.driverArriveDep(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME),orderId));
     }
+
+    /**
+     * 司机确认从烘干塔出货
+     * @param orderIdParam
+     * @return
+     */
     @RequestMapping(value = "/confirm-stockOut.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult confirmStockOut(
             @RequestBody String orderIdParam) {
@@ -101,6 +112,11 @@ import java.util.Optional;
         return JsonResult.success(orderService.confirmStockOut(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME),orderId));
     }
 
+    /**
+     * 到达港口
+     * @param orderIdParam
+     * @return
+     */
     @RequestMapping(value = "/arrive-arr.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult arriveArr(
             @RequestBody String orderIdParam) {
@@ -111,7 +127,7 @@ import java.util.Optional;
     }
 
     /**
-     * 烘干塔装货完成
+     * 司机确认烘干塔装货完成
      *
      * @param param
      * @return
@@ -148,6 +164,26 @@ import java.util.Optional;
             if (log.isDebugEnabled()) {
                 log.debug("driver shipment over user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
+            return JsonResult.success(result);
+        }catch (Exception e){
+            log.error("driver shipment over exception！{}", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+
+
+    /**
+     * 司机确认整个订单完成
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/confirm-fin-order.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult confirmFinishOrder(@RequestBody OperationOrderReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            OperationOrderResp result = orderService.driverConfrimTaskOver(param.getOrderId(),curUser);;
             return JsonResult.success(result);
         }catch (Exception e){
             log.error("driver shipment over exception！{}", e);

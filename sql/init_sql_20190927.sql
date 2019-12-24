@@ -151,7 +151,8 @@ CREATE TABLE "order_info" (
 "operate_time" timestamptz(6) default now(),
 "verify_code" varchar(100),
 "receive_time" varchar (40),
-"delivery_receive_time" timestamptz(6)
+"delivery_receive_time" timestamptz(6),
+"let_out_time" timestamptz(6)
 )
 WITH (OIDS=FALSE)
 ;
@@ -188,6 +189,7 @@ COMMENT ON COLUMN "order_info"."send_out_user_id" IS '出货人列表';
 COMMENT ON COLUMN "order_info"."verify_code" IS '出货验证码';
 COMMENT ON COLUMN "order_info"."receive_time" IS '司机到货物提供方接货时间';
 COMMENT ON COLUMN "order_info"."delivery_receive_time" IS '接货人操作接货接货时间';
+COMMENT ON COLUMN "order_info"."let_out_time" IS '卸货完成时间';
 
 
 
