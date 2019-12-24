@@ -170,4 +170,24 @@ import java.util.Optional;
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
+
+
+    /**
+     * 司机确认整个订单完成
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/confirm-fin-order.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult confirmFinishOrder(@RequestBody OperationOrderReq param) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            OperationOrderResp result = orderService.driverConfrimTaskOver(param.getOrderId(),curUser);;
+            return JsonResult.success(result);
+        }catch (Exception e){
+            log.error("driver shipment over exception！{}", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
 }

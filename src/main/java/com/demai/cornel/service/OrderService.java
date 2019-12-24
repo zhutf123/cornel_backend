@@ -309,6 +309,21 @@ import java.util.concurrent.TimeUnit;
                 orderId(orderId).orderStatus(status).verCode(receiveCode).build();
     }
 
+    public OperationOrderResp driverConfrimTaskOver(String orderId, String userId) {
+        long status = OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue();
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setUserId(userId);
+        orderInfo.setOrderId(orderId);
+        orderInfo.setStatus(status);
+        orderInfo.setFinishTime(new Date((System.currentTimeMillis())));
+        int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
+        if (num == 0) {
+            return OperationOrderResp.builder().opResult(0).orderStatus(OrderInfo.STATUS_ENUE.ORDER_CUSTOMER.getValue())
+                    .orderId(orderId).build();
+        }
+        return OperationOrderResp.builder().opResult(1).build();
+    }
+
     public GetOrderInfoResp driverGetTaskInfo(String orderId) {
         GetOrderInfoResp getOrderInfoResp = orderInfoDao
                 .getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId);

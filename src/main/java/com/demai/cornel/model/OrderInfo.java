@@ -16,8 +16,7 @@ import java.util.Set;
 /**
  * Create By zhutf 19-10-6 下午1:10
  */
-@Data @NoArgsConstructor @AllArgsConstructor
-public class OrderInfo implements Serializable {
+@Data @NoArgsConstructor @AllArgsConstructor public class OrderInfo implements Serializable {
     private static final long serialVersionUID = 5140939699074828658L;
     private Long id;
     private String orderId;
@@ -72,7 +71,8 @@ public class OrderInfo implements Serializable {
         ORDER_DELIVERY((1L << 10) + (1L << 6), "卸粮中"), ORDER_DRIVER_CONFIRM_OVER((1L << 11) + (1L << 6),
                 "司机确认-卸粮完成"), ORDER_DELIVERY_OVER((1L << 12) + (1L << 6), "接货人-卸粮信息录入确认"),
 
-        ORDER_SUCCESS((1L << 13) + (1L << 6), "司机确认卸粮完成-订单完成"), ORDER_CUSTOMER((1L << 14) + (1L << 6), "订单人工处理");
+        ORDER_SUCCESS((1L << 13) + (1L << 6), "司机确认卸粮完成-订单完成"), ORDER_FINISH((1L << 14), "订单完成"), ORDER_CONSTUM(
+                (1L << 15), "订单人工处理");
 
         private long value;
         private String expr;
@@ -90,6 +90,11 @@ public class OrderInfo implements Serializable {
             return expr;
         }
 
+    }
+
+    public static void main(String[] args) {
+        Date date = new Date(System.currentTimeMillis());
+        System.out.println(date);
     }
 
 }
