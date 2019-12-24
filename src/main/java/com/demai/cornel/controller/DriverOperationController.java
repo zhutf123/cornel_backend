@@ -98,6 +98,11 @@ import java.util.Optional;
         return JsonResult.success(orderService.driverArriveDep(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME),orderId));
     }
 
+    /**
+     * 司机确认从烘干塔出货
+     * @param orderIdParam
+     * @return
+     */
     @RequestMapping(value = "/confirm-stockOut.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult confirmStockOut(
             @RequestBody String orderIdParam) {
@@ -107,6 +112,11 @@ import java.util.Optional;
         return JsonResult.success(orderService.confirmStockOut(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME),orderId));
     }
 
+    /**
+     * 到达港口
+     * @param orderIdParam
+     * @return
+     */
     @RequestMapping(value = "/arrive-arr.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult arriveArr(
             @RequestBody String orderIdParam) {

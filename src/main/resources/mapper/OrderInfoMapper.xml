@@ -179,7 +179,7 @@
         <if test="receiveTime != null">,receive_time=#{receiveTime}</if>
         <if test="sendOutTime != null">,send_out_time=#{sendOutTime}</if>
         <if test="deliveryReceiveTime != null">,delivery_receive_time=#{deliveryReceiveTime}</if>
-
+        <if test="succWeight != null">,succ_weight=#{succWeight}</if>
         where order_id = #{orderId} and
         status=#{oldStatus}
         <if test="sendOutUserId!=null">
