@@ -59,6 +59,8 @@ public class OrderInfo implements Serializable {
 
     private Long oldStatus;
 
+    private Date letOutTime; //卸货完成时间
+
     public static enum STATUS_ENUE {
 
         ORDER_INIT(1L, "待收粮"), ORDER_CANCEL(1L << 1, "取消订单"), ORDER_ARRIVE_DEP(1L << 2,

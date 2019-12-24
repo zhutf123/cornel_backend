@@ -6,6 +6,7 @@ package com.demai.cornel.vo.task;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 
 /**
  * Create By tfzhu  2019/12/22  3:15 PM
@@ -42,6 +43,7 @@ import java.math.BigDecimal;
     private String unitWeight = "吨";
     private String unitDistance = "km";
     private String supplierId;
+    private Date letOutTime;
 
     public static enum STATUS_DESC_ENUE {
 
