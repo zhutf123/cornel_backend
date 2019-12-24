@@ -126,7 +126,7 @@ CREATE TABLE "order_info" (
 "lorry_id" integer,
 "user_id" varchar(40),
 "distance" numeric(10,2),
-"unit_distance" varchar(40),,
+"unit_distance" varchar(40),
 "unit_weight" varchar(40),
 "carry_weight" numeric(10,2),
 "order_weight" numeric(10,2),
@@ -259,13 +259,7 @@ COMMENT ON COLUMN "task_info"."ext_info" IS '扩展信息';
 COMMENT ON COLUMN "task_info"."load_lorry_unit" IS '单位装载车辆数,如可同时装载两量车';
 COMMENT ON COLUMN "task_info"."load_time_unit" IS '单位装载时间，装载一顿耗时';
 COMMENT ON COLUMN "task_info"."operation_detail" IS '单位装载时间，装载一顿耗时';
-COMMENT ON COLUMN "task_info"."subtask_time" IS '出货时间安排    [{
-	"time": "2019-09-12 12:00-14:00",
-	"num": 2
-}, {
-	"time": "2019-09-13 12:00-14:00",
-	"num": 2
-}]'
+COMMENT ON COLUMN "task_info"."subtask_time" IS '出货时间安排    [{"time": "2019-09-12 12:00-14:00","num": 2}, {"time": "2019-09-13 12:00-14:00","num": 2}]';
 
 COMMENT ON COLUMN "task_info"."consignee_userid" IS '接货人ID';
 COMMENT ON COLUMN "task_info"."unit_price" IS '价格单位';
@@ -313,7 +307,7 @@ CREATE TABLE "lorry_gis_info" (
 "order_id" integer,
 "lorry_id" integer,
 "user_id" integer,
---"gis" geometry,
+"gis" geometry,
 "status" integer default 1,
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),
@@ -356,9 +350,9 @@ DROP TABLE IF EXISTS "acl_info";
 CREATE TABLE "acl_info" (
 "id" serial PRIMARY KEY,
 "name" varchar(40),
-"code" varchar(40)
+"code" varchar(40),
 "url" varchar(256),
-"module" integer
+"module" integer,
 "status" integer default 1,
 "ext_info" hstore,
 "create_time" timestamptz(6) default now(),
