@@ -122,7 +122,7 @@ import java.util.concurrent.TimeUnit;
     }
 
     Long checkTaskStatus(TaskInfo taskInfo, String userID) {
-        if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING)
+        if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue())
                 || taskInfo.getUndistWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT) < 0
                 || taskInfo.getSubTaskTime().size() < 0) {
             return DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue();
