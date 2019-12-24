@@ -252,7 +252,9 @@ import java.util.concurrent.TimeUnit;
         }
         long arriveStatus = OrderInfo.STATUS_ENUE.ORDER_ROUTING.getValue();
         Date curDate = new Date(System.currentTimeMillis());
+
         orderInfoDao.updateStatusAndSendOutTime(orderId, curDate, arriveStatus,OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
+
         SimpleDateFormat sft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         operationOrderResp.setOrderId(orderId);
         operationOrderResp.setOpResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue());

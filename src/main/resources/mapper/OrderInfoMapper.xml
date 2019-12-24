@@ -343,7 +343,7 @@
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id
         left join user_info u on o.user_id=u.user_id
         where
-        <![CDATA[ o.delivery_id @> #{deliverId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}] ]]>
+        <![CDATA[ o.delivery_id @>array[#{deliverId}] ]]>
         and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId != null and orderId!='' and orderId!='null'">
