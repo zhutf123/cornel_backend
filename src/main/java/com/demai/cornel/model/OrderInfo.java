@@ -56,6 +56,7 @@ public class OrderInfo implements Serializable {
     private Date operateTime;
     private String receiveTime;
     private Date deliveryReceiveTime;
+    private Date letOutTime;
 
     private Long oldStatus;
 
