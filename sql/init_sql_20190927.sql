@@ -211,8 +211,8 @@ CREATE TABLE "task_info" (
 "unit_cost_time" timestamptz(6),
 "dep" varchar(40),
 "arr" varchar(40),
--- "dep_gis" geometry,
--- "arr_gis" geometry,
+"dep_gis" geometry,
+"arr_gis" geometry,
 "distance" numeric(10,2),
 "unit_distance" varchar (10),
 "unit_weight_price" numeric(10,2),
@@ -231,10 +231,12 @@ CREATE TABLE "task_info" (
 WITH (OIDS=FALSE)
 ;
 
+--经纬图查询按照str返回
+--select ST_AsText(dep_gis) from task_info limit 1;
+--update task_info set dep_gis=point(116.456011,40.14013)::geometry
+
 COMMENT ON COLUMN "task_info"."title" IS '标题';
 COMMENT ON COLUMN "task_info"."product" IS '产品名称';
-COMMENT ON COLUMN "task_info"."supplier_id" IS '货源方user_id';
-COMMENT ON COLUMN "task_info"."delivery_id" IS '收货方user_id';
 COMMENT ON COLUMN "task_info"."weight" IS '重量';
 COMMENT ON COLUMN "task_info"."unit" IS '单位';
 COMMENT ON COLUMN "task_info"."unaccept_weight" IS '未接单量';

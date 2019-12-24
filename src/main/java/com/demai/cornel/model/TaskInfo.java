@@ -47,6 +47,8 @@ public class TaskInfo implements Serializable {
     private Date unitCostTime;
     private String dep;
     private String arr;
+    private String depGis;
+    private String arrGis;
 
     private BigDecimal distance;
 

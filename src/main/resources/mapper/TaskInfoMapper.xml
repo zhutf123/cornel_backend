@@ -16,6 +16,8 @@
         <result column="unit_cost_time" property="unitCostTime"/>
         <result column="dep" property="dep"/>
         <result column="arr" property="arr"/>
+        <result column="dep_gis" property="depGis"/>
+        <result column="arr_gis" property="arrGis"/>
         <result column="distance" property="distance"/>
         <result column="unit_distance" property="unitDistance"/>
         <result column="unit_weight_price" property="unitWeightPrice"/>
@@ -47,8 +49,8 @@
         unit_cost_time,
         dep,
         arr,
-        --dep_gis,
-        --arr_gis,
+        dep_gis,
+        arr_gis,
         distance,
         unit_distance,
         unit_price,
@@ -79,6 +81,8 @@
             <if test="unitCostTime != null">unit_cost_time = #{unitCostTime},</if>
             <if test="dep != null">dep = #{dep},</if>
             <if test="arr != null">arr = #{arr},</if>
+            <if test="depGis != null">dep_gis = point(#{depGis}),</if>
+            <if test="arrGis != null">arr_gis = point(#{arrGis}),</if>
             <if test="distance != null">distance = #{distance},</if>
             <if test="unitPrice != null">unit_price = #{unitPrice},</if>
             <if test="estimatePrice != null">estimate_price = #{estimatePrice},</if>
@@ -118,6 +122,8 @@
             <if test="unitCostTime != null">unit_cost_time ,</if>
             <if test="dep != null">dep ,</if>
             <if test="arr != null">arr ,</if>
+            <if test="depGis != null">dep_gis ,</if>
+            <if test="arrGis != null">arr_gis ,</if>
             <if test="distance != null">distance ,</if>
             <if test="unitPrice != null">unit_weight_price ,</if>
             <if test="estimatePrice != null">estimate_price ,</if>
@@ -147,6 +153,8 @@
             <if test="unitCostTime != null">#{unitCostTime} ,</if>
             <if test="dep != null">#{dep} ,</if>
             <if test="arr != null">#{arr} ,</if>
+            <if test="depGis != null">point(#{depGis}) ,</if>
+            <if test="arrGis != null">point(#{arrGis}) ,</if>
             <if test="distance != null">#{distance} ,</if>
             <if test="unitPrice != null">#{unitPrice} ,</if>
             <if test="estimatePrice != null">#{estimatePrice} ,</if>
