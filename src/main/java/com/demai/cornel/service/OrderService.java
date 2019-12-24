@@ -218,6 +218,13 @@ import java.util.concurrent.TimeUnit;
         return 0;
     }
 
+    /**
+     * 司机抵达烘干塔
+     *
+     * @param userId
+     * @param orderId
+     * @return
+     */
     public ArriveDepDriverResp driverArriveDep(String userId, String orderId) {
 
         ArriveDepDriverResp arriveDepDriverResp = new ArriveDepDriverResp();
@@ -231,8 +238,13 @@ import java.util.concurrent.TimeUnit;
             arriveDepDriverResp.setSuccess(false);
             return arriveDepDriverResp;
         }
-        if (orderInfoDao.updateOrderStatus(orderId, arriveStatus, userId,OrderInfo.STATUS_ENUE.ORDER_INIT.getValue())
-                != 1) {
+
+        OrderInfo orderInfoUpdate = new OrderInfo();
+        orderInfoUpdate.setStatus(arriveStatus);
+        orderInfoUpdate.setOrderId(orderId);
+        orderInfoUpdate.setUserId(userId);
+        orderInfoUpdate.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue());
+        if (orderInfoDao.updateShipmentStatusByOldStatus(orderInfoUpdate) != 1) {
             arriveDepDriverResp.setSuccess(false);
             return arriveDepDriverResp;
         }
@@ -244,6 +256,13 @@ import java.util.concurrent.TimeUnit;
         return arriveDepDriverResp;
     }
 
+    /**
+     * 司机确认从烘干塔出库
+     *
+     * @param userId
+     * @param orderId
+     * @return
+     */
     public OperationOrderResp confirmStockOut(String userId, String orderId) {
         OperationOrderResp operationOrderResp = new OperationOrderResp();
         if (Strings.isNullOrEmpty(userId) || Strings.isNullOrEmpty(orderId)) {
@@ -253,7 +272,13 @@ import java.util.concurrent.TimeUnit;
         long arriveStatus = OrderInfo.STATUS_ENUE.ORDER_ROUTING.getValue();
         Date curDate = new Date(System.currentTimeMillis());
 
-        orderInfoDao.updateStatusAndSendOutTime(orderId, curDate, arriveStatus,OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
+        OrderInfo orderInfoUpdate = new OrderInfo();
+        orderInfoUpdate.setOrderId(orderId);
+        orderInfoUpdate.setUserId(userId);
+        orderInfoUpdate.setStatus(arriveStatus);
+        orderInfoUpdate.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT_OVER.getValue());
+
+        orderInfoDao.updateShipmentStatusByOldStatus(orderInfoUpdate);
 
         SimpleDateFormat sft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         operationOrderResp.setOrderId(orderId);
@@ -264,9 +289,21 @@ import java.util.concurrent.TimeUnit;
         return operationOrderResp;
     }
 
+    /**
+     * 司机侧确认到达港口
+     *
+     * @param userId
+     * @param orderId
+     * @return
+     */
     public ArriveArrResp arriveArr(String userId, String orderId) {
         long status = OrderInfo.STATUS_ENUE.ORDER_ARRIVE_ARR.getValue();
-        orderInfoDao.updateOrderStatus(orderId, status, userId,OrderInfo.STATUS_ENUE.ORDER_ROUTING.getValue());
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_ROUTING.getValue());
+        orderInfo.setStatus(status);
+        orderInfo.setOrderId(orderId);
+        orderInfo.setUserId(userId);
+        orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         String receiveCode = orderInfoDao.getReceiveCode(orderId);
         return ArriveArrResp.builder().
                 orderId(orderId).orderStatus(status).verCode(receiveCode).build();

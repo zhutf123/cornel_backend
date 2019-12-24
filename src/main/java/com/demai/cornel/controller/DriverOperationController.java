@@ -85,6 +85,11 @@ import java.util.Optional;
         return JsonResult.success(orderService.driverGetTaskInfo(orderId));
     }
 
+    /**
+     * 司机抵达烘干塔
+     * @param orderIdParam
+     * @return
+     */
     @RequestMapping(value = "/arrive-dep.json", method = RequestMethod.POST) @ResponseBody public JsonResult arriveDep(
             @RequestBody String orderIdParam) {
         Preconditions.checkNotNull(orderIdParam);
@@ -92,6 +97,7 @@ import java.util.Optional;
         String orderId = (String) receivedParam.get("orderId");
         return JsonResult.success(orderService.driverArriveDep(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME),orderId));
     }
+
     @RequestMapping(value = "/confirm-stockOut.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult confirmStockOut(
             @RequestBody String orderIdParam) {
@@ -111,7 +117,7 @@ import java.util.Optional;
     }
 
     /**
-     * 烘干塔装货完成
+     * 司机确认烘干塔装货完成
      *
      * @param param
      * @return
