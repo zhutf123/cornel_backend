@@ -321,7 +321,7 @@ import java.util.concurrent.TimeUnit;
         if (num == 0) {
             return OperationOrderResp.builder().opResult(1).build();
         }
-        return OperationOrderResp.builder().opResult(0).orderStatus(OrderInfo.STATUS_ENUE.ORDER_FINISH.getValue())
+        return OperationOrderResp.builder().opResult(0).orderStatus(OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue())
                 .orderId(orderId).build();
     }
 
