@@ -343,10 +343,5 @@ import java.util.concurrent.TimeUnit;
         return startTimes;
     }
 
-    public static void main(String[] args) {
-        Date da = new Date(DateUtils.now().getTime());
-        System.out.println(da);
-    }
-
 
 }
