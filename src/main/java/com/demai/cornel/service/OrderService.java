@@ -315,13 +315,14 @@ import java.util.concurrent.TimeUnit;
         orderInfo.setUserId(userId);
         orderInfo.setOrderId(orderId);
         orderInfo.setStatus(status);
+        orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY_OVER.getValue());
         orderInfo.setFinishTime(new Date((System.currentTimeMillis())));
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         if (num == 0) {
-            return OperationOrderResp.builder().opResult(0).orderStatus(OrderInfo.STATUS_ENUE.ORDER_FINISH.getValue())
-                    .orderId(orderId).build();
+            return OperationOrderResp.builder().opResult(1).build();
         }
-        return OperationOrderResp.builder().opResult(1).build();
+        return OperationOrderResp.builder().opResult(0).orderStatus(OrderInfo.STATUS_ENUE.ORDER_FINISH.getValue())
+                .orderId(orderId).build();
     }
 
     public GetOrderInfoResp driverGetTaskInfo(String orderId) {
