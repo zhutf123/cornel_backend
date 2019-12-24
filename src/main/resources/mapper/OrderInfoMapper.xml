@@ -447,7 +447,7 @@
     </update>
 
     <select id="getRuningOrderIdInnerTask" resultType="java.lang.String">
-        select order_id from order_info where task_id=#{taskId} and user_id=#{userId} and status not in (2,4160);
+        select order_id from order_info where task_id=#{taskId} and user_id=#{userId} and status not in (1,1<![CDATA[<<]]>13);
     </select>
     <select id="getSendOutCode" resultType="java.lang.String">
         select send_out_code from order_info where order_id=#{orderID}
