@@ -651,5 +651,23 @@
                 <env.profile.name>beta</env.profile.name>
             </properties>
         </profile>
+
+        <profile>
+            <id>dev</id>
+            <properties>
+                <deploy.type>dev</deploy.type>
+                <deploy.group>dev</deploy.group>
+                <env.profile.name>dev</env.profile.name>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <properties>
+                <deploy.type>prod</deploy.type>
+                <deploy.group>prod</deploy.group>
+                <env.profile.name>prod</env.profile.name>
+            </properties>
+        </profile>
     </profiles>
 </project>
