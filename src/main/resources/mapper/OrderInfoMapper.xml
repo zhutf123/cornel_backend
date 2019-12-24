@@ -312,11 +312,11 @@
         l.carry_weight as carryWeight,
         l.over_carry_weight as overCarryWight
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
-        o.user_id=#{userId} and (o.status= (o.status <![CDATA[ & ]]> #{orderType} ) and o.status <![CDATA[ >= ]]> #{orderType})
+        o.user_id=#{userId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null and orderId=='' and orderId=='null'">
             and o.id  <![CDATA[<=]]> (select max(id) from order_info where user_id=#{userId} and
-            (status=(status <![CDATA[ & ]]> #{orderType} ) and status <![CDATA[ >= ]]> #{orderType} ))
+            status=(status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId !='' and orderId!='null'">
             and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})
@@ -369,7 +369,7 @@
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId != null and orderId!='' and orderId!='null'">
             and o.id  <![CDATA[<=]]> (select max(id) from order_info where delivery_id=#{supplierId} and
-            (status=(status <![CDATA[ & ]]> #{orderType} ) and status <![CDATA[ >= ]]> #{orderType} ))
+            status=(status <![CDATA[ & ]]> #{orderType} ))
         </if>
         <if test="orderId!=null and orderId!='' and orderId!='null'">
             and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})
@@ -394,12 +394,12 @@
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id
         left join user_info u on o.user_id=u.user_id
         where
-        <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and (o.status= (o.status <![CDATA[ & ]]> #{orderType} ) and o.status <![CDATA[ >= ]]> #{orderType})
+        <![CDATA[ o.send_out_user_id @> array[#{supplierId}] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId != null and orderId!='' and orderId!='null'">
             and o.id  <![CDATA[<=]]> (select max(id) from order_info where
             <![CDATA[ send_out_user_id @> array[#{supplierId}] ]]> and
-            (status=(status <![CDATA[ & ]]> #{orderType} ) and status <![CDATA[ >= ]]> #{orderType})
+            status=(status <![CDATA[ & ]]> #{orderType} )
         </if>
         <if test="orderId!=null and orderId!='' and orderId!='null'">
             and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})

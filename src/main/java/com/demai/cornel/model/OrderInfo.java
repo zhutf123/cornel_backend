@@ -69,14 +69,13 @@ public class OrderInfo implements Serializable {
         ORDER_SHIPMENT_OVER(1L << 5, "烘干塔-装货信息录入确认"),
         ORDER_ROUTING((1L << 6), "司机确认装货完成-运粮中"),
 
-        ORDER_ARRIVE_ARR((1L << 9) + (1L << 6), "已送达"),
-
-        ORDER_DELIVERY((1L << 10) + (1L << 6), "卸粮中"),
-        ORDER_DRIVER_CONFIRM_OVER((1L << 11) + (1L << 6),"司机确认-卸粮完成"),
-        ORDER_DELIVERY_OVER((1L << 11) + (1L << 6), "接货人-卸粮信息录入确认"),
-
-        ORDER_SUCCESS((1L << 12) + (1L << 6), "司机确认卸粮完成-订单完成"),
-        ORDER_CUSTOMER((1L << 13) + (1L << 6), "订单人工处理");
+        ORDER_ARRIVE_ARR((1L << 9), "已送达"),
+        ORDER_DELIVERY((1L << 10), "卸粮中"),
+        ORDER_DRIVER_CONFIRM_OVER((1L << 11) ,"司机确认-卸粮完成"),
+        ORDER_DELIVERY_OVER((1L << 12) , "接货人-卸粮信息录入确认"),
+                
+        ORDER_SUCCESS((1L << 13) , "司机确认卸粮完成-订单完成"),
+        ORDER_CUSTOMER((1L << 14) , "订单人工处理");
 
         private long value;
         private String expr;
