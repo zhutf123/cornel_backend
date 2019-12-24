@@ -66,14 +66,7 @@ import java.util.concurrent.TimeUnit;
         }
         distTaskOrderReqs.stream().forEach(x -> {
             x.setIncome(x.getUnitWeightPrice().multiply(estimatedWeight));
-            if (x.getOrderStatus() != null) {
-                x.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_CANCEL.getValue());
-            } else if (!x.getTaskStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue())
-                    || getUnweightByTaskId(x.getTaskId()).compareTo(ContextConsts.MIN_CARRY_WEIGHT) == -1) {
-                x.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue());
-            } else {
-                x.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_INIT.getValue());
-            }
+            x.setTaskStatus(checkTaskStatus(x, userId));
         });
         return distTaskOrderReqs;
     }
@@ -112,17 +105,7 @@ import java.util.concurrent.TimeUnit;
         DriverTaskResp driverTaskResp = new DriverTaskResp();
         BeanUtils.copyProperties(taskInfoReq, driverTaskResp);
         // 货物重量小于最低接货量，无可选接货时间；task任务不在进行中 taskStatus设置为闭仓
-        if (taskInfo.getUndistWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT) < 0 || startTimes.size() <= 0
-                || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING)) {
-            driverTaskResp.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue());
-            return driverTaskResp;
-        }
-        List<String> recOrder = orderInfoDao.getRuningOrderIdInnerTask(taskId, userId);
-        if (recOrder != null && recOrder.size() > 0) {
-            driverTaskResp.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_CANCEL.getValue());
-            return driverTaskResp;
-        }
-        driverTaskResp.setTaskStatus(DistTaskOrderReq.STATUS_ENUE.TASK_INIT.getValue());
+        driverTaskResp.setTaskStatus(checkTaskStatus(taskInfo, userId));
         return driverTaskResp;
     }
 
@@ -136,5 +119,23 @@ import java.util.concurrent.TimeUnit;
         return (Strings.isNullOrEmpty(restWeight)) ?
                 taskInfoDao.getTaskUnacceptWeight(taskId) :
                 new BigDecimal(restWeight);
+    }
+
+    Long checkTaskStatus(TaskInfo taskInfo, String userID) {
+        if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue())
+                || taskInfo.getUndistWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT) < 0
+                || taskInfo.getSubTaskTime().size() < 0) {
+            return DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue();
+        }
+        List<String> runingOrder = orderInfoDao.getRuningOrderIdInnerTask(taskInfo.getTaskId(), userID);
+        if (runingOrder != null && runingOrder.size() > 0) {
+            return DistTaskOrderReq.STATUS_ENUE.TASK_CANCEL.getValue();
+        }
+        return DistTaskOrderReq.STATUS_ENUE.TASK_INIT.getValue();
+    }
+
+    Long checkTaskStatus(DistTaskOrderReq taskInfoRe, String userID) {
+        TaskInfo taskInfo = taskInfoDao.selectTaskInfoByTaskId(taskInfoRe.getTaskId());
+        return checkTaskStatus(taskInfo, userID);
     }
 }
