@@ -136,6 +136,6 @@ import java.util.concurrent.TimeUnit;
 
     Long checkTaskStatus(DistTaskOrderReq taskInfoRe, String userID) {
         TaskInfo taskInfo = taskInfoDao.selectTaskInfoByTaskId(taskInfoRe.getTaskId());
-        return checkTaskStatus(taskInfoRe, userID);
+        return checkTaskStatus(taskInfo, userID);
     }
 }
