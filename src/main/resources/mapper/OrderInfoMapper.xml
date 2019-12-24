@@ -347,6 +347,8 @@
         t.distance as distance,
         t.unit_weight_price as unitWeightPrice,
         t.supplier_id as supplierId,
+        ST_AsText(dep_gis) AS depGis,
+        ST_AsText(arr_gis) as arrGis,
         l.id as lorryId,
         l.plate_number as plateNumber,
         l.carry_weight as carryWeight,
