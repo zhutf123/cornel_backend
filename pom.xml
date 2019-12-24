@@ -647,7 +647,7 @@
             <id>beta</id>
             <properties>
                 <deploy.type>beta</deploy.type>
-                <deploy.group>beta</deploy.group>
+                <deploy.group></deploy.group>
                 <env.profile.name>beta</env.profile.name>
             </properties>
         </profile>
@@ -656,7 +656,7 @@
             <id>dev</id>
             <properties>
                 <deploy.type>dev</deploy.type>
-                <deploy.group>dev</deploy.group>
+                <deploy.group></deploy.group>
                 <env.profile.name>dev</env.profile.name>
             </properties>
         </profile>
@@ -665,7 +665,7 @@
             <id>prod</id>
             <properties>
                 <deploy.type>prod</deploy.type>
-                <deploy.group>prod</deploy.group>
+                <deploy.group></deploy.group>
                 <env.profile.name>prod</env.profile.name>
             </properties>
         </profile>
