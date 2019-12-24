@@ -8,10 +8,7 @@ import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.model.TaskInfoReq;
 import com.demai.cornel.service.impl.TaskServiceImp;
-import com.demai.cornel.util.CookieAuthUtils;
-import com.demai.cornel.util.GenerateCodeUtils;
-import com.demai.cornel.util.IDUtils;
-import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.*;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.order.ArriveArrResp;
 import com.demai.cornel.vo.order.GetOrderInfoResp;
@@ -345,5 +342,11 @@ import java.util.concurrent.TimeUnit;
         });
         return startTimes;
     }
+
+    public static void main(String[] args) {
+        Date da = new Date(DateUtils.now().getTime());
+        System.out.println(da);
+    }
+
 
 }
