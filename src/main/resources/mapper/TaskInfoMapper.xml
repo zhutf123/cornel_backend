@@ -50,7 +50,7 @@
         dep,
         arr,
         ST_AsText(dep_gis) as depGis,
-        ST_AsText(arr_gis) arrGis,
+        ST_AsText(arr_gis) as arrGis,
         distance,
         unit_distance,
         unit_price,
