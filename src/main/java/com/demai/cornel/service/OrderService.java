@@ -318,7 +318,7 @@ import java.util.concurrent.TimeUnit;
         orderInfo.setFinishTime(new Date((System.currentTimeMillis())));
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         if (num == 0) {
-            return OperationOrderResp.builder().opResult(0).orderStatus(OrderInfo.STATUS_ENUE.ORDER_CUSTOMER.getValue())
+            return OperationOrderResp.builder().opResult(0).orderStatus(OrderInfo.STATUS_ENUE.ORDER_FINISH.getValue())
                     .orderId(orderId).build();
         }
         return OperationOrderResp.builder().opResult(1).build();
