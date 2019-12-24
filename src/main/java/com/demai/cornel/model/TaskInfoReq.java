@@ -48,6 +48,8 @@ import java.util.Map;
         this.title = taskInfo.getTitle();
         this.dep = taskInfo.getDep();
         this.arr = taskInfo.getArr();
+        this.depGis = taskInfo.getDepGis();
+        this.arrGis = taskInfo.getArrGis();
         this.startValidDate = taskInfo.getStartTime();
         this.endValidDate = taskInfo.getEndTime();
         this.distance = taskInfo.getDistance();
