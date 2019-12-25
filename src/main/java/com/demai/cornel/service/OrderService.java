@@ -190,7 +190,7 @@ import java.util.concurrent.TimeUnit;
         return 0;
     }
 
-    private HashMap<String, Integer> getAvailableSelectTime(TaskInfo taskInfo) {
+    public HashMap<String, Integer> getAvailableSelectTime(TaskInfo taskInfo) {
         HashMap<String, Integer> availableTime = new HashMap<>();
         taskInfo.getSubTaskTime().keySet().forEach(x -> {
             if (taskInfo.getSubTaskTime().get(x) > 0) {

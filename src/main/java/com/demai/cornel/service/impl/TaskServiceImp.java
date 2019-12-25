@@ -4,6 +4,7 @@ import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dao.*;
 import com.demai.cornel.model.*;
 import com.demai.cornel.service.ITaskService;
+import com.demai.cornel.service.OrderService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.GenerateCodeUtils;
 import com.demai.cornel.util.JacksonUtils;
@@ -41,6 +42,7 @@ import java.util.List;
     @Resource private StringRedisTemplate stringRedisTemplate;
     @Resource private OrderInfoDao orderInfoDao;
     @Resource private UserInfoDao userInfoDao;
+    @Resource private OrderService orderService;
     private static final String ORDER_LOCK_FORMAT = "lock:task:%s";
     private static final String TASK_REST_WEIGHT_FORMAT = "REST:task:%s";
     private static final String TASK_ERROR_WEIGHT_FORMAT = "CONTINUE:task";
@@ -134,7 +136,7 @@ import java.util.List;
     Long checkTaskStatus(TaskInfo taskInfo, String userID) {
         if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue())
                 || taskInfo.getUndistWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT) < 0
-                || taskInfo.getSubTaskTime().size() < 0) {
+                || orderService.getAvailableSelectTime(taskInfo).size() < 0) {
             log.info("check task id [{}] status  is 2 ",taskInfo.getTaskId());
             return DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue();
         }
