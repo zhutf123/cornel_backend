@@ -25,7 +25,7 @@ import static com.demai.cornel.util.CookieAuthUtils.KEY_USER_NAME;
  * 获取用户信息
  */
 @Slf4j
-@CustomInterceptor(order = 2, addPathPatterns = {"/**"})
+@CustomInterceptor(order = 2, addPathPatterns = {"/**"}, excludePathPatterns={"/check.jsp"})
 public class CookieInterceptor implements HandlerInterceptor {
 
 
