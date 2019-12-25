@@ -28,11 +28,12 @@ import java.sql.Date;
     private BigDecimal income;
     private Long taskStatus;
     private String driverName;
+    private BigDecimal restWeight;
     @JsonIgnore private Long orderStatus;  //司机对这个单子的状态 0 未接单 1 已接单 2 无法接单
 
     public static enum STATUS_ENUE {
 
-        TASK_INIT(0, "未接单"), TASK_CANCEL(1, "已接单"), TASK_REVIEW_SUCCESS(2, "已闭仓");
+        TASK_INIT(0, "未接单"), ACCEPT(1, "已接单"), TASK_REVIEW_SUCCESS(2, "已闭仓");
         private Integer value;
         private String expr;
 

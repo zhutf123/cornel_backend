@@ -1,9 +1,7 @@
 package com.demai.cornel.service.impl;
 
-import com.demai.cornel.auth.service.IUserService;
 import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dao.*;
-import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.*;
 import com.demai.cornel.service.ITaskService;
 import com.demai.cornel.util.CookieAuthUtils;
@@ -24,11 +22,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @Author binz.zhang
@@ -105,11 +101,8 @@ import java.util.concurrent.TimeUnit;
         taskInfoReq.setStartTime(startTimes);
         DriverTaskResp driverTaskResp = new DriverTaskResp();
         BeanUtils.copyProperties(taskInfoReq, driverTaskResp);
-        // 货物重量小于最低接货量，无可选接货时间；task任务不在进行中 taskStatus设置为闭仓
+        // 校验当前用户对task的状态
         driverTaskResp.setTaskStatus(checkTaskStatus(taskInfo, userId));
-        if (log.isDebugEnabled()){
-            log.debug("query task info :{}", JsonUtil.toJson(driverTaskResp));
-        }
         return driverTaskResp;
     }
 
@@ -125,6 +118,12 @@ import java.util.concurrent.TimeUnit;
                 new BigDecimal(restWeight);
     }
 
+    /**
+     * 校验当前用户对task的状态         TASK_INIT(0, "未接单"), ACCEPT(1, "已接单"), TASK_REVIEW_SUCCESS(2, "已闭仓");
+     * @param taskInfo
+     * @param userID
+     * @return
+     */
     Long checkTaskStatus(TaskInfo taskInfo, String userID) {
         if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue())
                 || taskInfo.getUndistWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT) < 0
@@ -133,7 +132,7 @@ import java.util.concurrent.TimeUnit;
         }
         List<String> runingOrder = orderInfoDao.getRuningOrderIdInnerTask(taskInfo.getTaskId(), userID);
         if (runingOrder != null && runingOrder.size() > 0) {
-            return DistTaskOrderReq.STATUS_ENUE.TASK_CANCEL.getValue();
+            return DistTaskOrderReq.STATUS_ENUE.ACCEPT.getValue();
         }
         return DistTaskOrderReq.STATUS_ENUE.TASK_INIT.getValue();
     }
