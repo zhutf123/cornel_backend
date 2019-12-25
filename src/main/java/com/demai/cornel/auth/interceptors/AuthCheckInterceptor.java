@@ -37,25 +37,26 @@ public class AuthCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String url = request.getRequestURI();
-        HandlerMethod method = (HandlerMethod) handler;
-        Map<String, String[]> params = request.getParameterMap();
-        String userId = UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME);
-
-        log.info("usern [{}] ,query path :{} ,params:{}",userId,url, JsonUtil.toJson(params));
-        if(url.equalsIgnoreCase("/user/sendCode.json") || url.equalsIgnoreCase("/user/login.json")){
-            return true;
-        }
-        UserInfo userInfo = userInfoDao.getUserInfoByUserId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME));
-        if(userInfo==null){
-            return false;
-        }
-        Authority methodAnnotation = method.getMethodAnnotation(Authority.class);
-        if (methodAnnotation == null) {
-            log.info("url [{}] No permission authentication required ", url);
-            return true;
-        }
-        return urlAclService.checkUserUrlAcls(userId, url);
+//        String url = request.getRequestURI();
+//        HandlerMethod method = (HandlerMethod) handler;
+//        Map<String, String[]> params = request.getParameterMap();
+//        String userId = UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME);
+//
+//        log.info("usern [{}] ,query path :{} ,params:{}",userId,url, JsonUtil.toJson(params));
+//        if(url.equalsIgnoreCase("/user/sendCode.json") || url.equalsIgnoreCase("/user/login.json")){
+//            return true;
+//        }
+//        UserInfo userInfo = userInfoDao.getUserInfoByUserId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME));
+//        if(userInfo==null){
+//            return false;
+//        }
+//        Authority methodAnnotation = method.getMethodAnnotation(Authority.class);
+//        if (methodAnnotation == null) {
+//            log.info("url [{}] No permission authentication required ", url);
+//            return true;
+//        }
+//        return urlAclService.checkUserUrlAcls(userId, url);
+        return true;
     }
 
 
