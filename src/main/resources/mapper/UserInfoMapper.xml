@@ -187,10 +187,6 @@
        SELECT u.user_id as userId,u.name as userName,u.id_type as idType,u.id_card as idCard,l.carry_weight as carryWeight ,l.plate_number as plateNumber
        FROM user_info as  u inner join lorry_info as l on u.id_card=l.id_card and u.id_type=l.id_type where l.status=1 and l.default_flag=1
        and u.status=1 and <![CDATA[ u.mobile && #{phones,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
-
-
-
-
         ]]>
     </select>
 
