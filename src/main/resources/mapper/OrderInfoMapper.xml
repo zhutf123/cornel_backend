@@ -45,7 +45,7 @@
         <result column="status" property="orderStatus"/>
         <result column="order_weight" property="orderWeight"/>
         <result column="receive_code" property="verifyCode"/>
-        <result column="receive_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="receive_time" property="startTime"/>
 
         <result column="delivery_receive_time" property="deliveryReceiveTime"/>
         <result column="order_carry_weight" property="orderCarryWeight"/>
@@ -192,7 +192,7 @@
         <if test="succWeight != null">,succ_weight=#{succWeight}</if>
         <if test="letOutTime != null">,let_out_time=#{letOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}</if>
         <if test="finishTime != null">,finish_time=#{finishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}</if>
-        where order_id = #{orderId} and,
+        where order_id = #{orderId} and
         status=#{oldStatus}
         <if test="sendOutUserId!=null">
             and
