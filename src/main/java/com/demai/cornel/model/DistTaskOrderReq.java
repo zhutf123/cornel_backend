@@ -1,5 +1,6 @@
 package com.demai.cornel.model;
 
+import com.demai.cornel.util.DateUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.apache.kafka.common.protocol.types.Field;
@@ -18,8 +19,8 @@ import java.sql.Timestamp;
     private String title;
     private String dep;
     private String arr;
-    private String startTime;
-    private String endTime;
+    private Date startTime;
+    private Date endTime;
     private BigDecimal distance;
     private String unitDistance = "km";
     private BigDecimal unitWeightPrice;
@@ -31,7 +32,9 @@ import java.sql.Timestamp;
     private String driverName;
     private BigDecimal restWeight;
     private BigDecimal undistWeight;
+
     @JsonIgnore private Long orderStatus;  //司机对这个单子的状态 0 未接单 1 已接单 2 无法接单
+
 
     public static enum STATUS_ENUE {
 
