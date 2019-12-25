@@ -127,7 +127,7 @@ import java.util.*;
         orderInfo.setOrderId(orderId);
         Set<String> sendOutId = new HashSet<>();
         sendOutId.add(supplierId);
-        orderInfo.setSendOutUserId(sendOutId);
+        orderInfo.setReceiverUserId(sendOutId);
         orderInfo.setDeliveryReceiveTime(DateFormatUtils.formatDateTime(new java.sql.Date(System.currentTimeMillis())));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_ARRIVE_ARR.getValue());
