@@ -136,7 +136,7 @@ import java.util.List;
     Long checkTaskStatus(TaskInfo taskInfo, String userID) {
         if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue())
                 || taskInfo.getUndistWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT) < 0
-                || orderService.getAvailableSelectTime(taskInfo).size() < 0) {
+                || orderService.getAvailableSelectTime(taskInfo).size() <= 0) {
             log.info("check task id [{}] status  is 2 ",taskInfo.getTaskId());
             return DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue();
         }
