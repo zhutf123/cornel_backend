@@ -264,11 +264,11 @@
             <if test="finishTime != null">#{finishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
             <if test="sendOutCode != null">#{sendOutCode} ,</if>
             <if test="sendOutUserId != null">
-                #{sendOutUserId, jdbcType=ARRAY, javaType=java.lang.String, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+                #{sendOutUserId, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="receiveCode != null">#{receiveCode} ,</if>
             <if test="receiverUserId != null">
-                #{receiverUserId, jdbcType=ARRAY, javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+                #{receiverUserId, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="status != null">#{status} ,</if>
             <if test="unexpect != null">#{unexpect} ,</if>
