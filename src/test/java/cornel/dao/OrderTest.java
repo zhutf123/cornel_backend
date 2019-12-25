@@ -5,6 +5,7 @@ import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.vo.task.GetOrderListResp;
 import cornel.BaseTest;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -28,16 +29,7 @@ public class OrderTest extends BaseTest {
     @Resource private OrderInfoDao orderInfoDao;
 
     @Test public void insertTask() throws ParseException {
-        OrderInfo orderInfo = new OrderInfo();
-        orderInfo.setOrderId("12345678909876543");
-        orderInfo.setFinishTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
-        orderInfo.setCreateTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
-        orderInfo.setOperateTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
-        orderInfo.setReceiveTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
-        orderInfo.setSendOutTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
-        orderInfoDao.save(orderInfo);
-
-        OrderInfo orderInfo1 = orderInfoDao.getOrderInfoByOrderId("12345678909876543");
-        System.out.println(JacksonUtils.obj2String(orderInfo1));
+        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier("hubin.hu", 1L,null,10);
+       System.out.println("ok");
     }
 }
