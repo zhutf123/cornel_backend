@@ -30,6 +30,7 @@ import java.sql.Timestamp;
     private Long taskStatus;
     private String driverName;
     private BigDecimal restWeight;
+    private BigDecimal undistWeight;
     @JsonIgnore private Long orderStatus;  //司机对这个单子的状态 0 未接单 1 已接单 2 无法接单
 
     public static enum STATUS_ENUE {

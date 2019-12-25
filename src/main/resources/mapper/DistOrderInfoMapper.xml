@@ -110,7 +110,7 @@
         task_info.unit_price as unitPrice,
         task_info.status as taskStatus,
         task_info.subtask_time as recvTime,
-        task_info.undist_weight as unitWeightPrice,
+        task_info.undist_weight as undistWeight,
         order_info.status as orderStatus
         FROM task_info left join order_info on task_info.task_id = order_info.task_id and order_info.user_id=#{userId}
         where
