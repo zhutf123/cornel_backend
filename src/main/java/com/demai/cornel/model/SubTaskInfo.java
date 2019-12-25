@@ -3,6 +3,7 @@ package com.demai.cornel.model;
 import lombok.Data;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * @Author binz.zhang
@@ -13,8 +14,8 @@ public class SubTaskInfo {
     private static final long serialVersionUID = -6914169130042746224L;
     private Long id ;
     private String taskId ;
-    private Date startTime ;
-    private Date endTime ;
+    private Timestamp startTime ;
+    private Timestamp endTime ;
     private Integer lorryNum ;
     private Integer status ;
     private Integer undistNum ;

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Map;
 
 /**
@@ -24,7 +25,7 @@ import java.util.Map;
     private BigDecimal carryWeight;
     private BigDecimal length;
     private BigDecimal width;
-    private Date buyTime;
+    private Timestamp buyTime;
     private BigDecimal mileage;
     private String plateNumber;
     private String frameNumber;
@@ -32,8 +33,8 @@ import java.util.Map;
     private String idCard;
     private Integer status;
     private Map<String, String> extInfo;
-    private Date createTime;
-    private Date operateTime;
+    private Timestamp createTime;
+    private Timestamp operateTime;
     private Integer defaultFlag;
     private String unitWeight;
     private BigDecimal overCarryWeight;

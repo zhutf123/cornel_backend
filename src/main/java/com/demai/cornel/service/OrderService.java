@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -134,7 +135,7 @@ import java.util.concurrent.TimeUnit;
             orderInfo.setReceiveCode(GenerateCodeUtils.generateRandomCode(4));
             orderInfo.setSendOutCode(GenerateCodeUtils.generateRandomCode(4));
 
-            orderInfo.setAcceptTime(new Date(System.currentTimeMillis()));
+            orderInfo.setAcceptTime(new Timestamp(System.currentTimeMillis()));
             orderInfo.setStartTime(taskInfo.getStartTime());
             orderInfo.setReceiveTime(taskSaveVO.getSelectTime());
             orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue());
@@ -313,7 +314,7 @@ import java.util.concurrent.TimeUnit;
         orderInfo.setOrderId(orderId);
         orderInfo.setStatus(status);
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY_OVER.getValue());
-        orderInfo.setFinishTime(new Date((System.currentTimeMillis())));
+        orderInfo.setFinishTime(new Timestamp(System.currentTimeMillis()));
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         if (num == 0) {
             return OperationOrderResp.builder().opResult(1).build();

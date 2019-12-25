@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,26 +38,26 @@ public class OrderInfo implements Serializable {
     private Integer overweight;
     private String unitWeight;
 
-    private Date acceptTime;
-    private Date startTime;
-    private Date mustFinishTime;
-    private Date sendOutTime;
-    private Date estimateFinishTime;
-    private Date finishTime;
+    private Timestamp acceptTime;
+    private Timestamp startTime;
+    private Timestamp mustFinishTime;
+    private Timestamp sendOutTime;
+    private Timestamp estimateFinishTime;
+    private Timestamp finishTime;
     private String sendOutCode;
     private Set<String> sendOutUserId;
     private String receiveCode;
     private Set<String> receiverUserId;
     private Long status;
     private String unexpect;
-    private Date cancelTime;
+    private Timestamp cancelTime;
     private String cancelReason;
     private Map<String, String> extInfo;
-    private Date createTime;
-    private Date operateTime;
+    private Timestamp createTime;
+    private Timestamp operateTime;
     private String receiveTime;
-    private Date deliveryReceiveTime;
-    private Date letOutTime;
+    private Timestamp deliveryReceiveTime;
+    private Timestamp letOutTime;
 
     private Long oldStatus;
 

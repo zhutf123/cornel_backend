@@ -6,6 +6,7 @@ package com.demai.cornel.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class LorryGisInfo implements Serializable {
     // private geometry --gis ;
     private Integer status;
     private Map<String, String> extInfo;
-    private Date createTime;
-    private Date operateTime;
+    private Timestamp createTime;
+    private Timestamp operateTime;
 
 }

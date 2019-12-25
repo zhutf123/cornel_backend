@@ -8,6 +8,7 @@ import org.junit.Test;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -31,7 +32,7 @@ public class LorryInfoTest extends BaseTest {
         String s = "2019-11-08 11:59:59";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         java.util.Date d1 = sdf.parse(s);
-        lorryInfo.setBuyTime(new Date(d1.getTime()));
+        lorryInfo.setBuyTime(new Timestamp(d1.getTime()));
         lorryInfo.setMileage(new BigDecimal(30));
         lorryInfo.setPlateNumber("京A123459");
         //lorryInfo.setIdType(1);

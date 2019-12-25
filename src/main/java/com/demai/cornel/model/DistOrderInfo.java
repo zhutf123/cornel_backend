@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -19,9 +20,9 @@ public class DistOrderInfo implements Serializable {
     private String userId;
     private Integer jobNo;
     private Integer jobStatus;
-    private Date operationTime;
-    private Date createTime;
-    private Date expireTime;
+    private Timestamp operationTime;
+    private Timestamp createTime;
+    private Timestamp expireTime;
     private String orderId;
     private String mobile;
     private BigDecimal distWeight;

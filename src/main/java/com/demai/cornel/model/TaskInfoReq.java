@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +32,8 @@ import java.util.Map;
     private String arr;
     private String depGis;
     private String arrGis;
-    private Date startValidDate;
-    private Date endValidDate;
+    private Timestamp startValidDate;
+    private Timestamp endValidDate;
     private BigDecimal distance;
     private BigDecimal unitWeightPrice;
     private String unitPrice;

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -127,7 +128,7 @@ import java.util.*;
         Set<String> sendOutId = new HashSet<>();
         sendOutId.add(supplierId);
         orderInfo.setSendOutUserId(sendOutId);
-        orderInfo.setDeliveryReceiveTime(new java.sql.Date(DateUtils.now().getTime()));
+        orderInfo.setDeliveryReceiveTime(new Timestamp(System.currentTimeMillis()));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_ARRIVE_ARR.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
@@ -160,7 +161,7 @@ import java.util.*;
         orderInfo.setSuccWeight(new BigDecimal(param.getRealWeight()));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY_OVER.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_DRIVER_CONFIRM_OVER.getValue());
-        orderInfo.setLetOutTime(new java.sql.Date((System.currentTimeMillis())));
+        orderInfo.setLetOutTime(new Timestamp(System.currentTimeMillis()));
 
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         if (log.isDebugEnabled()) {

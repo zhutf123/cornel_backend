@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -167,8 +168,8 @@ public class DistOrderService {
         DistOrderInfo distOrderInfo = new DistOrderInfo();
         Date curTime = new Date(System.currentTimeMillis());
         distOrderInfo.setUserId(userDistOrderModel.getUserId());
-        distOrderInfo.setCreateTime(curTime);
-        distOrderInfo.setExpireTime(new Date(curTime.getTime() + NOTIFY_EXPIRE_TIME * 60 * 60 * 10000));
+        distOrderInfo.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        //distOrderInfo.setExpireTime(new Timestamp(System.currentTimeMillis()) + NOTIFY_EXPIRE_TIME * 60 * 60 * 10000));
         distOrderInfo.setTaskId(taskInfo.getTaskId());
         distOrderInfo.setMobile(userDistOrderModel.getMobile());
         distOrderInfo.setDistId(UUID.randomUUID().toString());

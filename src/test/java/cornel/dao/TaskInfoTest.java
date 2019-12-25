@@ -14,6 +14,7 @@ import org.junit.Test;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class TaskInfoTest extends BaseTest {
         String s = "2019-11-08 23:59:59";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         java.util.Date d1 = sdf.parse(s);
-        taskInfo.setEndTime(new Date(d1.getTime()));
+        taskInfo.setEndTime(new Timestamp(d1.getTime()));
         taskInfo.setDep("大连");
         taskInfo.setArr("连云港");
         taskInfo.setDistance(new BigDecimal(600));

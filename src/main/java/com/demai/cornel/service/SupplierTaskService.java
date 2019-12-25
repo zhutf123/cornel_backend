@@ -4,6 +4,7 @@
 package com.demai.cornel.service;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.*;
 
 import javax.annotation.Resource;
@@ -202,7 +203,7 @@ public class SupplierTaskService {
         sendOutId.add(supplierId);
         orderInfo.setSendOutUserId(sendOutId);
         orderInfo.setCarryWeight(new BigDecimal(param.getRealWeight()));
-        orderInfo.setSendOutTime(new java.sql.Date(DateUtils.now().getTime()));
+        orderInfo.setSendOutTime(new Timestamp(System.currentTimeMillis()));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT_OVER.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);

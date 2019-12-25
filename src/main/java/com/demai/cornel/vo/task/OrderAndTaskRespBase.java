@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Create By tfzhu  2019/12/22  3:15 PM
@@ -43,7 +44,7 @@ import java.sql.Date;
     private String unitWeight = "吨";
     private String unitDistance = "km";
     private String supplierId;
-    private Date letOutTime;
+    private Timestamp letOutTime;
 
     public static enum STATUS_DESC_ENUE {
 

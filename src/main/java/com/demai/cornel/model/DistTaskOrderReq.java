@@ -6,6 +6,7 @@ import org.apache.kafka.common.protocol.types.Field;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * @Author binz.zhang
@@ -17,8 +18,8 @@ import java.sql.Date;
     private String title;
     private String dep;
     private String arr;
-    private Date startTime;
-    private Date endTime;
+    private Timestamp startTime;
+    private Timestamp endTime;
     private BigDecimal distance;
     private String unitDistance = "km";
     private BigDecimal unitWeightPrice;

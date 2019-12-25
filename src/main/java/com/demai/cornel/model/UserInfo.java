@@ -3,6 +3,7 @@ package com.demai.cornel.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,9 +41,9 @@ public class UserInfo implements Serializable {
     private String urgentMobileS;
     private Integer status;
     private Map<String, String> extInfo;
-    private Date lastLoginTime;
-    private Date createTime;
-    private Date operateTime;
+    private Timestamp lastLoginTime;
+    private Timestamp createTime;
+    private Timestamp operateTime;
 
     public Set<String> getMobile() {
         return mobile;

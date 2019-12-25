@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,9 +43,9 @@ public class TaskInfo implements Serializable {
     private BigDecimal unacceptWeight;
     private BigDecimal undistWeight;
 
-    private Date startTime;
-    private Date endTime;
-    private Date unitCostTime;
+    private Timestamp startTime;
+    private Timestamp endTime;
+    private Timestamp unitCostTime;
     private String dep;
     private String arr;
     private String depGis;
