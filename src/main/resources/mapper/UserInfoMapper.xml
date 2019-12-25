@@ -207,7 +207,7 @@
         and l.status=1 and u.status=1;
     </select>
 
-    <update id="updateUserOpenIdByUid">
+    <update id="updateUserOpenIdByUid" parameterType="map">
         update user_info set open_id= #{openIds,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
         where id=#{userId}
     </update>
