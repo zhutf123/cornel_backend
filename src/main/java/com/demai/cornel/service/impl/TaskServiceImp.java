@@ -64,6 +64,7 @@ import java.util.List;
         }
         distTaskOrderReqs.stream().forEach(x -> {
             x.setIncome(x.getUnitWeightPrice().multiply(estimatedWeight));
+            x.setRestWeight(x.getUnitWeightPrice());
             x.setTaskStatus(checkTaskStatus(x, userId));
         });
         return distTaskOrderReqs;
