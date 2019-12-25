@@ -43,7 +43,7 @@ public class AuthCheckInterceptor implements HandlerInterceptor {
         String userId = UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME);
 
         log.info("usern [{}] ,query path :{} ,params:{}",userId,url, JsonUtil.toJson(params));
-        if(url.equalsIgnoreCase("/user/sendCode") || url.equalsIgnoreCase("/user/login")){
+        if(url.equalsIgnoreCase("/user/sendCode.json") || url.equalsIgnoreCase("/user/login.json")){
             return true;
         }
         UserInfo userInfo = userInfoDao.getUserInfoByUserId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME));

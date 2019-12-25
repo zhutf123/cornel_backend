@@ -43,9 +43,9 @@ public class TaskInfo implements Serializable {
     private BigDecimal unacceptWeight;
     private BigDecimal undistWeight;
 
-    private Timestamp startTime;
-    private Timestamp endTime;
-    private Timestamp unitCostTime;
+    private String startTime;
+    private String endTime;
+    private String unitCostTime;
     private String dep;
     private String arr;
     private String depGis;

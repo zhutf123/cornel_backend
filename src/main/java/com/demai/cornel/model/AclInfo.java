@@ -27,7 +27,7 @@ public class AclInfo implements Serializable {
     private Integer module;
     private Integer status;
     private Map<String, String> extInfo;
-    private Date createTime;
-    private Date operateTime;
+    private String createTime;
+    private String operateTime;
 
 }

@@ -28,7 +28,7 @@ public class LorryGisInfo implements Serializable {
     // private geometry --gis ;
     private Integer status;
     private Map<String, String> extInfo;
-    private Timestamp createTime;
-    private Timestamp operateTime;
+    private String createTime;
+    private String operateTime;
 
 }

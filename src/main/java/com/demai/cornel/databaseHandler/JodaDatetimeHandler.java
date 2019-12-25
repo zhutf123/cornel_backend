@@ -8,43 +8,41 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
 import org.joda.time.DateTime;
 
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.text.SimpleDateFormat;
 
 /**
  * Create By zhutf  19-10-6  下午4:44
  */
 @MappedJdbcTypes(JdbcType.TIMESTAMP)
-public class JodaDatetimeHandler extends BaseTypeHandler<DateTime> {
+public class JodaDatetimeHandler extends BaseTypeHandler<String> {
     @Override
-    public void setNonNullParameter(PreparedStatement preparedStatement, int i, DateTime dateTime, JdbcType jdbcType) throws SQLException {
-        if (dateTime != null){
-            preparedStatement.setObject(i, new Timestamp(dateTime.getMillis()));
+    public void setNonNullParameter(PreparedStatement preparedStatement, int i, String date, JdbcType jdbcType) throws SQLException {
+        if (date != null){
+            preparedStatement.setObject(i, Timestamp.valueOf(date));
         }
     }
 
+
     @Override
-    public DateTime getNullableResult(ResultSet resultSet, String columnName) throws SQLException {
+    public String getNullableResult(ResultSet resultSet, String columnName) throws SQLException {
         Timestamp timestamp = resultSet.getTimestamp(columnName);
         if (timestamp == null) {
             return null;
         }
-        return  new DateTime(timestamp.getTime());
+        return  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
     }
 
-    @Override public DateTime getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+    @Override public String getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         return null;
     }
 
     @Override
-    public DateTime getNullableResult(CallableStatement callableStatement, int columnIndex) throws SQLException {
+    public String getNullableResult(CallableStatement callableStatement, int columnIndex) throws SQLException {
         Timestamp timestamp = callableStatement.getTimestamp(columnIndex);
         if (timestamp == null) {
             return null;
         }
-        return new DateTime(timestamp.getTime());
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
     }
 }

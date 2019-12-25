@@ -2,6 +2,7 @@ package cornel.dao;
 
 import com.demai.cornel.dao.LorryInfoDao;
 import com.demai.cornel.model.LorryInfo;
+import com.demai.cornel.util.DateFormatUtils;
 import cornel.BaseTest;
 import org.junit.Test;
 
@@ -32,7 +33,7 @@ public class LorryInfoTest extends BaseTest {
         String s = "2019-11-08 11:59:59";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         java.util.Date d1 = sdf.parse(s);
-        lorryInfo.setBuyTime(new Timestamp(d1.getTime()));
+        lorryInfo.setBuyTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
         lorryInfo.setMileage(new BigDecimal(30));
         lorryInfo.setPlateNumber("京A123459");
         //lorryInfo.setIdType(1);

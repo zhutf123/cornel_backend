@@ -14,8 +14,8 @@ public class SubTaskInfo {
     private static final long serialVersionUID = -6914169130042746224L;
     private Long id ;
     private String taskId ;
-    private Timestamp startTime ;
-    private Timestamp endTime ;
+    private String startTime ;
+    private String endTime ;
     private Integer lorryNum ;
     private Integer status ;
     private Integer undistNum ;

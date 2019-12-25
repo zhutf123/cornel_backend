@@ -4,6 +4,7 @@ import com.demai.cornel.dao.DistOrderInfoDao;
 import com.demai.cornel.dao.TaskInfoDao;
 import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.model.*;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.vo.JsonResult;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -168,7 +169,7 @@ public class DistOrderService {
         DistOrderInfo distOrderInfo = new DistOrderInfo();
         Date curTime = new Date(System.currentTimeMillis());
         distOrderInfo.setUserId(userDistOrderModel.getUserId());
-        distOrderInfo.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        distOrderInfo.setCreateTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
         //distOrderInfo.setExpireTime(new Timestamp(System.currentTimeMillis()) + NOTIFY_EXPIRE_TIME * 60 * 60 * 10000));
         distOrderInfo.setTaskId(taskInfo.getTaskId());
         distOrderInfo.setMobile(userDistOrderModel.getMobile());

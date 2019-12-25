@@ -11,8 +11,8 @@
         <result column="task_id" property="taskId"/>
         <result column="unaccept_weight" property="unacceptWeight"/>
         <result column="undist_weight" property="undistWeight"/>
-        <result column="start_time" property="startTime"/>
-        <result column="end_time" property="endTime"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="unit_cost_time" property="unitCostTime"/>
         <result column="dep" property="dep"/>
         <result column="arr" property="arr"/>
@@ -26,8 +26,8 @@
         <result column="level" property="level"/>
         <result column="status" property="status"/>
         <result column="ext_info" property="extInfo"/>
-        <result column="create_time" property="createTime"/>
-        <result column="operate_time" property="operateTime"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="subtask_time" property="subTaskTimeString"/>
         <result column="receiver_user_id" property="receiverUserId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
@@ -76,8 +76,8 @@
             <if test="unitWeight != null">unit_weight = #{unitWeight},</if>
             <if test="unacceptWeight != null">unaccept_weight = #{unacceptWeight},</if>
             <if test="undistWeight != null">undist_weight = #{undistWeight},</if>
-            <if test="startTime != null">start_time = #{startTime},</if>
-            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="startTime != null">start_time = #{startTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="endTime != null">end_time = #{endTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
             <if test="unitCostTime != null">unit_cost_time = #{unitCostTime},</if>
             <if test="dep != null">dep = #{dep},</if>
             <if test="arr != null">arr = #{arr},</if>
@@ -89,9 +89,9 @@
             <if test="level != null">level = #{level},</if>
             <if test="status != null">status = #{status},</if>
             <if test="extInfo != null">ext_info = #{extInfo},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="operateTime != null">operate_time = #{operateTime},</if>
-            <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
             <if test="subTaskTimeString != null">subtask_time = #{subTaskTimeString},</if>
             <if test="sendOutUserId != null">send_out_user_id =
                 #{sendOutUserId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
@@ -148,8 +148,8 @@
             <if test="unitWeight != null">#{unitWeight} ,</if>
             <if test="unacceptWeight != null">#{unacceptWeight} ,</if>
             <if test="undistWeight != null">#{undistWeight} ,</if>
-            <if test="startTime != null">#{startTime} ,</if>
-            <if test="endTime != null">#{endTime} ,</if>
+            <if test="startTime != null">#{startTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="endTime != null">#{endTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
             <if test="unitCostTime != null">#{unitCostTime} ,</if>
             <if test="dep != null">#{dep} ,</if>
             <if test="arr != null">#{arr} ,</if>
@@ -161,8 +161,8 @@
             <if test="level != null">#{level} ,</if>
             <if test="status != null">#{status} ,</if>
             <if test="extInfo != null">#{extInfo} ,</if>
-            <if test="createTime != null">#{createTime} ,</if>
-            <if test="operateTime != null">#{operateTime} ,</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="operateTime != null">#{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
             <if test="subTaskTimeString != null">#{subTaskTimeString} ,</if>
             <if test="sendOutUserId != null">
                 #{sendOutUserId,jdbcType=ARRAY, javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}

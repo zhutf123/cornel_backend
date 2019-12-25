@@ -38,26 +38,26 @@ public class OrderInfo implements Serializable {
     private Integer overweight;
     private String unitWeight;
 
-    private Timestamp acceptTime;
-    private Timestamp startTime;
-    private Timestamp mustFinishTime;
-    private Timestamp sendOutTime;
-    private Timestamp estimateFinishTime;
-    private Timestamp finishTime;
+    private String acceptTime;
+    private String startTime;
+    private String mustFinishTime;
+    private String sendOutTime;
+    private String estimateFinishTime;
+    private String finishTime;
     private String sendOutCode;
     private Set<String> sendOutUserId;
     private String receiveCode;
     private Set<String> receiverUserId;
     private Long status;
     private String unexpect;
-    private Timestamp cancelTime;
+    private String cancelTime;
     private String cancelReason;
     private Map<String, String> extInfo;
-    private Timestamp createTime;
-    private Timestamp operateTime;
+    private String createTime;
+    private String operateTime;
     private String receiveTime;
-    private Timestamp deliveryReceiveTime;
-    private Timestamp letOutTime;
+    private String deliveryReceiveTime;
+    private String letOutTime;
 
     private Long oldStatus;
 

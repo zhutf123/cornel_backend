@@ -3,8 +3,10 @@ package cornel.dao;
 import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.model.TaskInfo;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.JacksonUtils;
 import cornel.BaseTest;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import javax.annotation.Resource;
@@ -23,16 +25,19 @@ import java.util.UUID;
  */
 public class OrderTest extends BaseTest {
 
-    @Resource
-    private OrderInfoDao orderInfoDao;
+    @Resource private OrderInfoDao orderInfoDao;
 
-    @Test
-    public void insertTask() throws ParseException {
+    @Test public void insertTask() throws ParseException {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId("12345678909876543");
-        orderInfo.setFinishTime(new Timestamp(System.currentTimeMillis()));
-        orderInfo.setSendOutTime(new Timestamp(System.currentTimeMillis()));
+        orderInfo.setFinishTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
+        orderInfo.setCreateTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
+        orderInfo.setOperateTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
+        orderInfo.setReceiveTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
+        orderInfo.setSendOutTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
         orderInfoDao.save(orderInfo);
-        System.out.println("ok");
+
+        OrderInfo orderInfo1 = orderInfoDao.getOrderInfoByOrderId("12345678909876543");
+        System.out.println(JacksonUtils.obj2String(orderInfo1));
     }
 }

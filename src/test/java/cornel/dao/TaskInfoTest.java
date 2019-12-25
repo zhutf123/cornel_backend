@@ -3,6 +3,7 @@ package cornel.dao;
 import com.alibaba.fastjson.JSON;
 import com.demai.cornel.dao.TaskInfoDao;
 import com.demai.cornel.model.TaskInfo;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -43,7 +44,7 @@ public class TaskInfoTest extends BaseTest {
         String s = "2019-11-08 23:59:59";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         java.util.Date d1 = sdf.parse(s);
-        taskInfo.setEndTime(new Timestamp(d1.getTime()));
+        taskInfo.setEndTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
         taskInfo.setDep("大连");
         taskInfo.setArr("连云港");
         taskInfo.setDistance(new BigDecimal(600));
@@ -62,6 +63,7 @@ public class TaskInfoTest extends BaseTest {
         //taskInfo.setSubTaskTime(subTaskTimes);
         taskInfo.setSubTaskTimeString(JacksonUtils.obj2String(subTaskTimes));
         taskInfoDao.save(taskInfo);
+        taskInfoDao.getTaskUnacceptWeight(taskInfo.getTaskId());
     }
 
 }

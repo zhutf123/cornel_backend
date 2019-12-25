@@ -26,7 +26,7 @@ public class RoleInfo implements Serializable {
     private String aclCode;
     private Integer status;
     private Map<String, String> extInfo;
-    private Timestamp createTime;
-    private Timestamp operateTime;
+    private String createTime;
+    private String operateTime;
 
 }

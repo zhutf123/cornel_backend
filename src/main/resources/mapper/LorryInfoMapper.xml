@@ -19,8 +19,11 @@
         <result column="id_card" property="idCard"/>
         <result column="status" property="status"/>
         <result column="ext_info" property="extInfo"/>
-        <result column="create_time" property="createTime"/>
-        <result column="operate_time" property="operateTime"/>
+        <result column="create_time" property="createTime"
+                jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+
+        <result column="operate_time" property="operateTime"
+                jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="default_flag" property="defaultFlag"/>
         <result column="unit_weight" property="unitWeight"/>
         <result column="over_carry_weight" property="overCarryWeight"/>
@@ -67,8 +70,8 @@
             <if test="idCard != null">id_card = #{idCard},</if>
             <if test="status != null">status = #{status},</if>
             <if test="extInfo != null">ext_info = #{extInfo},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
             <if test="default_flag != null">default_flag = #{defaultFlag},</if>
             <if test="unitWeight != null">unit_weight = #{unitWeight},</if>
 
@@ -115,8 +118,8 @@
             <if test="idCard != null">#{idCard} ,</if>
             <if test="status != null">#{status} ,</if>
             <if test="extInfo != null">#{extInfo} ,</if>
-            <if test="createTime != null">#{createTime} ,</if>
-            <if test="operateTime != null">#{operateTime} ,</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="operateTime != null">#{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
             <if test="defaultFlag != null">#{defaultFlag} ,</if>
             <if test="unitWeight != null">#{unitWeight},</if>
 

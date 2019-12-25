@@ -65,6 +65,7 @@ import java.util.concurrent.TimeUnit;
                 .setIfAbsent(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()), "1", 5, TimeUnit.SECONDS);
 
         if (null == lock || !lock) {
+            log.info("save order fail due to task lock task id is [{}]",taskSaveVO.getTaskId());
             return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.ORDER_FAIL.getValue());
         }
         TaskSaveResp taskSaveRep = new TaskSaveResp();
@@ -135,8 +136,8 @@ import java.util.concurrent.TimeUnit;
             orderInfo.setReceiveCode(GenerateCodeUtils.generateRandomCode(4));
             orderInfo.setSendOutCode(GenerateCodeUtils.generateRandomCode(4));
 
-            orderInfo.setAcceptTime(new Timestamp(System.currentTimeMillis()));
-            orderInfo.setStartTime(taskInfo.getStartTime());
+            orderInfo.setAcceptTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
+            orderInfo.setStartTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
             orderInfo.setReceiveTime(taskSaveVO.getSelectTime());
             orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue());
 
@@ -314,11 +315,14 @@ import java.util.concurrent.TimeUnit;
         orderInfo.setOrderId(orderId);
         orderInfo.setStatus(status);
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY_OVER.getValue());
-        orderInfo.setFinishTime(new Timestamp(System.currentTimeMillis()));
+        orderInfo.setFinishTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         if (num == 0) {
             return OperationOrderResp.builder().opResult(1).build();
         }
+        OrderInfo orderInfoCurr = orderInfoDao.getOrderInfoByOrderId(orderId);
+        lorryInfoDao.updateLorryStatus(orderInfoCurr.getLorryId().intValue(),LorryInfo.STATUS_ENUE.IDLE.getValue());
+        log.info("release car status car id is [{}] status is [{}]",orderInfoCurr.getLorryId(),LorryInfo.STATUS_ENUE.IDLE.getValue());
         return OperationOrderResp.builder().opResult(0).orderStatus(OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue())
                 .orderId(orderId).build();
     }

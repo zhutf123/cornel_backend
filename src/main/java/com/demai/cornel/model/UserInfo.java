@@ -41,9 +41,9 @@ public class UserInfo implements Serializable {
     private String urgentMobileS;
     private Integer status;
     private Map<String, String> extInfo;
-    private Timestamp lastLoginTime;
-    private Timestamp createTime;
-    private Timestamp operateTime;
+    private String lastLoginTime;
+    private String createTime;
+    private String operateTime;
 
     public Set<String> getMobile() {
         return mobile;

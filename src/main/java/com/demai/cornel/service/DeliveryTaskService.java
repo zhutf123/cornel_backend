@@ -128,7 +128,7 @@ import java.util.*;
         Set<String> sendOutId = new HashSet<>();
         sendOutId.add(supplierId);
         orderInfo.setSendOutUserId(sendOutId);
-        orderInfo.setDeliveryReceiveTime(new Timestamp(System.currentTimeMillis()));
+        orderInfo.setDeliveryReceiveTime(DateFormatUtils.formatDateTime(new java.sql.Date(System.currentTimeMillis())));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_ARRIVE_ARR.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
@@ -161,19 +161,19 @@ import java.util.*;
         orderInfo.setSuccWeight(new BigDecimal(param.getRealWeight()));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY_OVER.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_DRIVER_CONFIRM_OVER.getValue());
-        orderInfo.setLetOutTime(new Timestamp(System.currentTimeMillis()));
+        orderInfo.setLetOutTime(DateFormatUtils.formatDateTime(new java.sql.Date(System.currentTimeMillis())));
 
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);
         if (log.isDebugEnabled()) {
             log.debug("supplier shipment over update order num is zero");
         }
         if (num == 0) {
-            return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(orderInfo.getLetOutTime()))
+            return OperationOrderResp.builder().sendOutTime(orderInfo.getLetOutTime())
                     .success(Boolean.FALSE).orderId(param.getOrderId()).orderStatus(orderInfo.getStatus())
                     .opResult(OperationOrderResp.DELIVERY_RESP_STATUS_ENUE.OPERATION_ERROR.getValue()).build();
         }
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
-        return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(orderInfo.getLetOutTime())).success(Boolean.TRUE)
+        return OperationOrderResp.builder().sendOutTime(orderInfo.getLetOutTime()).success(Boolean.TRUE)
                 .opResult(OperationOrderResp.DELIVERY_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
                 .orderStatus(orderInfo.getStatus()).realWeight(orderInfo.getSuccWeight().longValue()).build();
     }

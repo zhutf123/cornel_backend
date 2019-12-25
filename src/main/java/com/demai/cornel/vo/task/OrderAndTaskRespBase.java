@@ -44,7 +44,7 @@ import java.sql.Timestamp;
     private String unitWeight = "吨";
     private String unitDistance = "km";
     private String supplierId;
-    private Timestamp letOutTime;
+    private String letOutTime;
 
     public static enum STATUS_DESC_ENUE {
 

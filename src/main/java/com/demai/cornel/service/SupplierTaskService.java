@@ -203,7 +203,7 @@ public class SupplierTaskService {
         sendOutId.add(supplierId);
         orderInfo.setSendOutUserId(sendOutId);
         orderInfo.setCarryWeight(new BigDecimal(param.getRealWeight()));
-        orderInfo.setSendOutTime(new Timestamp(System.currentTimeMillis()));
+        orderInfo.setSendOutTime(DateFormatUtils.formatDateTime(new java.sql.Date(System.currentTimeMillis())));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT_OVER.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
         int num = orderInfoDao.updateShipmentStatusByOldStatus(orderInfo);

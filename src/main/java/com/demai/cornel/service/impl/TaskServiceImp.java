@@ -53,12 +53,13 @@ import java.util.List;
     public List<DistTaskOrderReq> getDistTaskList(String userId, Integer curId, Integer pgsize) {
         LorryInfo lorryInfo = lorryInfoDao.getDefaultLorryByUserId(userId);
         if (lorryInfo == null) {
+            log.warn("get default lorry result is null user id is [{}]",userId);
             lorryInfo = lorryInfoDao.getAvailableLorryByUserId(userId);
         }
         BigDecimal estimatedWeight = (lorryInfo == null) ? new BigDecimal(50) : lorryInfo.getCarryWeight();
         List<DistTaskOrderReq> distTaskOrderReqs = distOrderInfoDao.getDistOrderListByUserID(userId, curId, pgsize);
         if (distTaskOrderReqs == null) {
-            log.debug("get dist order info is null");
+            log.debug("get dist order info is null,user id is [{}]",userId);
             return Collections.emptyList();
         }
         distTaskOrderReqs.stream().forEach(x -> {
@@ -128,12 +129,15 @@ import java.util.List;
         if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue())
                 || taskInfo.getUndistWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT) < 0
                 || taskInfo.getSubTaskTime().size() < 0) {
+            log.info("check task id [{}] status  is 2 ",taskInfo.getTaskId());
             return DistTaskOrderReq.STATUS_ENUE.TASK_REVIEW_SUCCESS.getValue();
         }
-        List<String> runingOrder = orderInfoDao.getRuningOrderIdInnerTask(taskInfo.getTaskId(), userID);
-        if (runingOrder != null && runingOrder.size() > 0) {
+        List<String> runningOrder = orderInfoDao.getRuningOrderIdInnerTask(taskInfo.getTaskId(), userID);
+        if (runningOrder != null && runningOrder.size() > 0) {
+            log.info("check task id [{}] user id is [{}] status is 1 ",taskInfo.getTaskId(),userID);
             return DistTaskOrderReq.STATUS_ENUE.ACCEPT.getValue();
         }
+        log.info("check task id [{}] user id is [{}] status is 0",taskInfo.getTaskId(),userID);
         return DistTaskOrderReq.STATUS_ENUE.TASK_INIT.getValue();
     }
 

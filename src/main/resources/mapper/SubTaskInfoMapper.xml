@@ -5,8 +5,8 @@
     <resultMap type="com.demai.cornel.model.SubTaskInfo" id="subTaskResultMap">
         <id column="id" property="id"/>
         <result column="task_id" property="taskId"/>
-        <result column="start_time" property="startTime"/>
-        <result column="end_time" property="endTime"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="lorry_num" property="lorryNum"/>
         <result column="status" property="status"/>
         <result column="undist_num" property="undistNum"/>
@@ -28,8 +28,8 @@
         update sub_task
         <trim prefix="set" suffixOverrides=",">
             <if test="taskId != null">task_id = #{taskId},</if>
-            <if test="startTime != null">start_time = #{startTime},</if>
-            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="startTime != null">start_time = #{startTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="endTime != null">end_time = #{endTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
             <if test="lorryNum != null">lorry_num = #{lorryNum},</if>
             <if test="status != null">status = #{status},</if>
             <if test="undistNum != null">undist_num = #{undistNum},</if>
@@ -52,8 +52,8 @@
         )values(
         <trim suffixOverrides=",">
             <if test="taskId != null">#{taskid} ,</if>
-            <if test="startTime != null">#{startTime} ,</if>
-            <if test="endTime != null">#{endTime} ,</if>
+            <if test="startTime != null">#{startTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="endTime != null">#{endTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
             <if test="lorryNum != null">#{lorryNum} ,</if>
             <if test="status != null">#{status} ,</if>
             <if test="undistNum != null">#{undistNum} ,</if>

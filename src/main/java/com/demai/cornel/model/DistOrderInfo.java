@@ -20,9 +20,9 @@ public class DistOrderInfo implements Serializable {
     private String userId;
     private Integer jobNo;
     private Integer jobStatus;
-    private Timestamp operationTime;
-    private Timestamp createTime;
-    private Timestamp expireTime;
+    private String operationTime;
+    private String createTime;
+    private String expireTime;
     private String orderId;
     private String mobile;
     private BigDecimal distWeight;
