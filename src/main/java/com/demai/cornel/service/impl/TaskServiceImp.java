@@ -9,6 +9,7 @@ import com.demai.cornel.service.ITaskService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.GenerateCodeUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
@@ -106,6 +107,9 @@ import java.util.concurrent.TimeUnit;
         BeanUtils.copyProperties(taskInfoReq, driverTaskResp);
         // 货物重量小于最低接货量，无可选接货时间；task任务不在进行中 taskStatus设置为闭仓
         driverTaskResp.setTaskStatus(checkTaskStatus(taskInfo, userId));
+        if (log.isDebugEnabled()){
+            log.debug("query task info :{}", JsonUtil.toJson(driverTaskResp));
+        }
         return driverTaskResp;
     }
 
