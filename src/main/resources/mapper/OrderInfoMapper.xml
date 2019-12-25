@@ -45,7 +45,7 @@
         <result column="status" property="orderStatus"/>
         <result column="order_weight" property="orderWeight"/>
         <result column="receive_code" property="verifyCode"/>
-        <result column="receive_time" property="startTime"/>
+        <result column="receive_time" property="startTime" />
 
         <result column="delivery_receive_time" property="deliveryReceiveTime"/>
         <result column="order_carry_weight" property="orderCarryWeight"/>
@@ -277,7 +277,7 @@
             <if test="extInfo != null">#{extInfo} ,</if>
             <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
             <if test="operateTime != null">#{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
-            <if test="receiveTime != null">#{receiveTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="receiveTime != null">#{receiveTime} ,</if>
             <if test="deliveryReceiveTime != null">#{deliveryReceiveTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
             <if test="letOutTime != null">#{letOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
 
