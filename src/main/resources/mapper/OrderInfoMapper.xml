@@ -23,10 +23,10 @@
         <result column="finish_time" property="finishTime"/>
         <result column="send_out_code" property="sendOutCode"/>
         <result column="send_out_user_id" property="sendOutUserId" jdbcType="ARRAY" javaType="java.util.Set"
-                typeHandler="com.demai.cornel.databaseHandler.ArraySetTypeHandler"/>
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="receive_code" property="receiveCode"/>
         <result column="receiver_user_id" property="receiverUserId" jdbcType="ARRAY" javaType="java.util.Set"
-                typeHandler="com.demai.cornel.databaseHandler.ArraySetTypeHandler"/>
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="status" property="status"/>
         <result column="unexpect" property="unexpect"/>
         <result column="cancel_time" property="cancelTime"/>
@@ -69,7 +69,7 @@
         <result column="over_carry_weight" property="overCarryWight"/>
         <result column="driver_name" property="driverName"/>
         <result column="driver_mobile" property="driverMobile" jdbcType="ARRAY" javaType="java.util.Set"
-                typeHandler="com.demai.cornel.databaseHandler.ArraySetTypeHandler"/>
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="delivery_receive_time" property="deliveryReceiveTime"/>
         <result column="let_out_time" property="letOutTime"/>
 
@@ -162,11 +162,11 @@
             <if test="finishTime != null">finish_time = #{finishTime},</if>
             <if test="sendOutCode != null">send_out_code = #{sendOutCode},</if>
             <if test="sendOutUserId != null">send_out_user_id =
-                #{sendOutUserId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArraySetTypeHandler},
+                #{sendOutUserId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="receiveCode != null">receive_code = #{receiveCode},</if>
             <if test="receiverUserId != null">receiver_user_id =
-                #{receiverUserId,jdbcType=ARRAY, javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArraySetTypeHandler},
+                #{receiverUserId,jdbcType=ARRAY, javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="status != null">status = #{status},</if>
             <if test="unexpect != null">unexpect = #{unexpect},</if>
@@ -196,11 +196,11 @@
         status=#{oldStatus}
         <if test="sendOutUserId!=null">
             and
-            <![CDATA[ send_out_user_id @> #{sendOutUserId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArraySetTypeHandler} ]]>
+            <![CDATA[ send_out_user_id @> #{sendOutUserId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>
         </if>
         <if test="receiverUserId!=null">
             and
-            <![CDATA[ receiver_user_id @> #{receiverUserId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArraySetTypeHandler} ]]>
+            <![CDATA[ receiver_user_id @> #{receiverUserId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>
         </if>
         <if test="userId!=null">
             and user_id=#{userId}
@@ -264,11 +264,11 @@
             <if test="finishTime != null">#{finishTime} ,</if>
             <if test="sendOutCode != null">#{sendOutCode} ,</if>
             <if test="sendOutUserId != null">
-                #{sendOutUserId, jdbcType=ARRAY, javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArraySetTypeHandler},
+                #{sendOutUserId, jdbcType=ARRAY, javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="receiveCode != null">#{receiveCode} ,</if>
             <if test="receiverUserId != null">
-                #{receiverUserId, jdbcType=ARRAY, javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArraySetTypeHandler},
+                #{receiverUserId, jdbcType=ARRAY, javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="status != null">#{status} ,</if>
             <if test="unexpect != null">#{unexpect} ,</if>

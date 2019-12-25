@@ -8,7 +8,7 @@
         <result column="name" property="name"/>
         <result column="user_id" property="userId"/>
         <result column="open_id" property="openId" jdbcType="ARRAY" javaType="java.util.Set"
-                typeHandler="com.demai.cornel.databaseHandler.ArraySetTypeHandler"/>
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="gender" property="gender"/>
         <result column="role" property="role"/>
         <result column="birthday" property="birthday"/>
@@ -18,7 +18,7 @@
         <result column="id_card" property="idCard"/>
         <result column="term_validity" property="termValidity"/>
         <result column="mobile" property="mobile" jdbcType="ARRAY" javaType="java.util.Set"
-                typeHandler="com.demai.cornel.databaseHandler.ArraySetTypeHandler"/>
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="lorry" property="lorry"/>
         <result column="order_nums" property="orderNums"/>
         <result column="score" property="score"/>
@@ -71,7 +71,7 @@
             <if test="name != null">name = #{name},</if>
             <if test="userId != null">user_id = #{userId},</if>
             <if test="openId != null">open_id =
-                #{openId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArraySetTypeHandler},
+                #{openId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="role != null">role = #{role},</if>
             <if test="gender != null">gender = #{gender},</if>
@@ -82,7 +82,7 @@
             <if test="idCard != null">id_card = #{idCard},</if>
             <if test="termValidity != null">term_validity = #{termValidity},</if>
             <if test="mobile != null">mobile =
-                #{mobile,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArraySetTypeHandler},
+                #{mobile,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="lorry != null">lorry = #{lorry},</if>
             <if test="orderNums != null">order_nums = #{orderNums},</if>
@@ -137,7 +137,7 @@
             <if test="name != null">#{name} ,</if>
             <if test="userId != null">#{userId} ,</if>
             <if test="openId != null">
-                #{openId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArraySetTypeHandler} ,
+                #{openId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,
             </if>
             <if test="gender != null">#{gender} ,</if>
             <if test="role != null">#{role} ,</if>
@@ -148,7 +148,7 @@
             <if test="idCard != null">#{idCard} ,</if>
             <if test="termValidity != null">#{termValidity} ,</if>
             <if test="mobile != null">
-                #{mobile,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArraySetTypeHandler},
+                #{mobile,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="lorry != null">#{lorry} ,</if>
             <if test="orderNums != null">#{orderNums} ,</if>
@@ -180,13 +180,13 @@
         <include refid="main_column"/>
         from user_info
         where status=1 and
-        <![CDATA[ mobile && #{phones,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArraySetTypeHandler} ]]>
+        <![CDATA[ mobile && #{phones,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>
         ;
     </select>
     <select id="getUserDefaultLorryByTels" resultType="com.demai.cornel.model.UserDistOrderModel">
        SELECT u.user_id as userId,u.name as userName,u.id_type as idType,u.id_card as idCard,l.carry_weight as carryWeight ,l.plate_number as plateNumber
        FROM user_info as  u inner join lorry_info as l on u.id_card=l.id_card and u.id_type=l.id_type where l.status=1 and l.default_flag=1
-       and u.status=1 and <![CDATA[ u.mobile && #{phones,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArraySetTypeHandler}
+       and u.status=1 and <![CDATA[ u.mobile && #{phones,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
         ]]>
     </select>
 
@@ -204,7 +204,7 @@
     </select>
 
     <update id="updateUserOpenIdByUid">
-        update user_info set open_id= #{openIds,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArraySetTypeHandler}
+        update user_info set open_id= #{openIds,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
         where id=#{userId}
     </update>
     <select id="getUserInfoByUserId" resultMap="userInfoResultMap">
