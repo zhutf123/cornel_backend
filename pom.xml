@@ -531,12 +531,12 @@
         <dependency>
             <groupId>org.springframework.restdocs</groupId>
             <artifactId>spring-restdocs-mockmvc</artifactId>
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>javax.servlet-api</artifactId>-->
-<!--                    <groupId>javax.servlet</groupId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
+            <exclusions>
+                <exclusion>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+            </exclusions>
             <scope>test</scope>
         </dependency>
     </dependencies>
