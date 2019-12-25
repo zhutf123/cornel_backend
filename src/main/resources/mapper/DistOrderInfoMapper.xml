@@ -96,23 +96,22 @@
     </select>
     <select id="getDistOrderListByUserID" resultType="com.demai.cornel.model.DistTaskOrderReq">
         SELECT
-        task_info.id as id,
-        task_info.task_id as taskId,
-        task_info.title as title,
-        task_info.dep as dep,
-        task_info.arr as arr,
-        task_info.weight as weight,
-        task_info.create_time as startTime,
-        task_info.end_time as endTime,
-        task_info.distance as distance,
-        task_info.unit_distance as unitDistance,
-        task_info.unit_weight_price as unitWeightPrice,
-        task_info.unit_price as unitPrice,
-        task_info.status as taskStatus,
-        task_info.subtask_time as recvTime,
-        task_info.undist_weight as undistWeight,
-        order_info.status as orderStatus
-        FROM task_info left join order_info on task_info.task_id = order_info.task_id and order_info.user_id=#{userId}
+        id as id,
+        task_id as taskId,
+        title as title,
+        dep as dep,
+        arr as arr,
+        weight as weight,
+        create_time as startTime,
+        end_time as endTime,
+        distance as distance,
+        unit_distance as unitDistance,
+        unit_weight_price as unitWeightPrice,
+        unit_price as unitPrice,
+        status as taskStatus,
+        subtask_time as recvTime,
+        undist_weight as undistWeight
+        FROM task_info
         where
         <if test="curId != null">
             task_info.id  <![CDATA[<]]> #{curId}

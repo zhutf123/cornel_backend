@@ -22,6 +22,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -62,10 +65,12 @@ import java.util.List;
             log.debug("get dist order info is null,user id is [{}]",userId);
             return Collections.emptyList();
         }
+
         distTaskOrderReqs.stream().forEach(x -> {
             x.setIncome(x.getUndistWeight().multiply(estimatedWeight));
             x.setRestWeight(x.getUndistWeight());
             x.setTaskStatus(checkTaskStatus(x, userId));
+
         });
         return distTaskOrderReqs;
     }
@@ -145,5 +150,18 @@ import java.util.List;
     Long checkTaskStatus(DistTaskOrderReq taskInfoRe, String userID) {
         TaskInfo taskInfo = taskInfoDao.selectTaskInfoByTaskId(taskInfoRe.getTaskId());
         return checkTaskStatus(taskInfo, userID);
+    }
+
+    String formatTime(Timestamp date){
+        try {
+            if (date == null) {
+                return null;
+            }
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return simpleDateFormat.format(new Date(date.getTime()));
+        }catch (Exception e){
+
+            return null;
+        }
     }
 }
