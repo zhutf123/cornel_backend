@@ -145,7 +145,7 @@ import java.util.concurrent.TimeUnit;
             taskInfo.getSubTaskTime().put(taskSaveVO.getSelectTime(), count);
             List<TaskInfoReq.StartTime> startTimes = buildStartTime(taskInfo.getSubTaskTime());
             // 减小task 库存
-            if (taskInfoDao.updateTaskUnDistWeightAndSelectTime(taskSaveVO.getCarryWeight(), taskSaveVO.getTaskId(),
+            if (taskInfoDao.updateTaskUnDistWeightAndSelectTime(taskInfo.getUndistWeight().subtract(taskSaveVO.getCarryWeight()), taskSaveVO.getTaskId(),
                     JacksonUtils.obj2String(startTimes)) != 1) {
                 log.error("update task un dist weight error task id is [{}]", taskSaveVO.getTaskId());
                 stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
