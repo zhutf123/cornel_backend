@@ -192,7 +192,7 @@
         <if test="succWeight != null">,succ_weight=#{succWeight}</if>
         <if test="letOutTime != null">,let_out_time=#{letOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}</if>
         <if test="finishTime != null">,finish_time=#{finishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}</if>
-        where order_id = #{orderId} and,
+        where order_id = #{orderId} and
         status=#{oldStatus}
         <if test="sendOutUserId!=null">
             and
