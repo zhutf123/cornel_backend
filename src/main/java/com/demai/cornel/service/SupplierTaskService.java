@@ -214,6 +214,7 @@ public class SupplierTaskService {
             return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
                     .success(Boolean.FALSE)
                     .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
+                    .realWeight(0L)
                     .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
         }
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
