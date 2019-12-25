@@ -41,7 +41,7 @@ public class UserLoginController {
      * @param phone 手机号
      * @return
      */
-    @RequestMapping(value = "/sendCode", method = RequestMethod.POST)
+    @RequestMapping(value = "/sendCode.json", method = RequestMethod.POST)
     @ResponseBody
 //    @AccessControl(value = "60_3")
     public JsonResult userLoginSendCode(@RequestBody UserLoginSendMsgParam phone) {
@@ -57,7 +57,7 @@ public class UserLoginController {
      *
      * @return
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "/login.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     @ResponseBody
     public JsonResult doUserLogin(@RequestBody UserLoginParam param, HttpServletResponse response) {
         try {
