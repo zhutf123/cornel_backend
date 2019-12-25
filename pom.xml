@@ -645,37 +645,38 @@
     </build>
 
     <profiles>
+    </profiles>
         <!--
         注意事项：
         1.本地开发勾选dev环境 2.将env.profile.name改为【开发环境名】，即可和其余发布的机器组成一个组
         -->
-        <profile>
-            <id>beta</id>
-            <properties>
-                <deploy.type>beta</deploy.type>
-                <deploy.group></deploy.group>
-                <env.profile.name>beta</env.profile.name>
-            </properties>
-        </profile>
+<!--        <profile>-->
+<!--            <id>beta</id>-->
+<!--            <properties>-->
+<!--                <deploy.type>beta</deploy.type>-->
+<!--                <deploy.group></deploy.group>-->
+<!--                <env.profile.name>beta</env.profile.name>-->
+<!--            </properties>-->
+<!--        </profile>-->
 
-        <profile>
-            <id>dev</id>
-            <properties>
-                <deploy.type>dev</deploy.type>
-                <deploy.group></deploy.group>
-                <env.profile.name>dev</env.profile.name>
-            </properties>
-        </profile>
+<!--        <profile>-->
+<!--            <id>dev</id>-->
+<!--            <properties>-->
+<!--                <deploy.type>dev</deploy.type>-->
+<!--                <deploy.group></deploy.group>-->
+<!--                <env.profile.name>dev</env.profile.name>-->
+<!--            </properties>-->
+<!--        </profile>-->
 
-        <profile>
-            <id>prod</id>
-            <properties>
-                <deploy.type>prod</deploy.type>
-                <deploy.group></deploy.group>
-                <env.profile.name>prod</env.profile.name>
-            </properties>
-        </profile>
-    </profiles>
+<!--        <profile>-->
+<!--            <id>prod</id>-->
+<!--            <properties>-->
+<!--                <deploy.type>prod</deploy.type>-->
+<!--                <deploy.group></deploy.group>-->
+<!--                <env.profile.name>prod</env.profile.name>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--    </profiles>-->
 
 
 
