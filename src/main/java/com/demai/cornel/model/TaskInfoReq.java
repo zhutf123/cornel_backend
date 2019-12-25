@@ -1,15 +1,10 @@
 package com.demai.cornel.model;
 
-import com.demai.cornel.constant.ContextConsts;
 import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author binz.zhang

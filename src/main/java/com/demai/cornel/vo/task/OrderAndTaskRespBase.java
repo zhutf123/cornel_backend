@@ -6,7 +6,6 @@ package com.demai.cornel.vo.task;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
