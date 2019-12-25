@@ -62,8 +62,8 @@ public class TaskInfo implements Serializable {
     private Integer level;
     private Long status;
     private Map<String, String> extInfo;
-    private Date createTime;
-    private Date operateTime;
+    private String createTime;
+    private String operateTime;
     private Map<String, Integer> subTaskTime;
     private String subTaskTimeString;
     private Set<String> receiverUserId;
