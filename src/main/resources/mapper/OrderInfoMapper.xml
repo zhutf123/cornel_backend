@@ -180,7 +180,7 @@
     <sql id="listRespOrderId_driver">
         o.order_id,
         o.task_id,
-        o.status as orderStatus,
+        o.status as order_status,
         o.order_weight,
         o.carry_weight as order_carry_weight,
         o.receive_code as receive_code,
