@@ -76,7 +76,6 @@
         <result column="delivery_receive_time" property="deliveryReceiveTime"/>
         <result column="let_out_time" property="letOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="service_mobile" property="serviceMobile"/>
-        <result column="order_status" property="orderStatus"/>
 
     </resultMap>
 
@@ -182,7 +181,7 @@
     <sql id="listRespOrderId_driver">
         o.order_id,
         o.task_id,
-        o.status as order_status,
+        o.status,
         o.order_weight,
         o.carry_weight as order_carry_weight,
         o.receive_code as receive_code,
