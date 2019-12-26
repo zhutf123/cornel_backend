@@ -46,10 +46,10 @@ public class UserLoginService {
 
     public UserLoginResp doLogin(UserLoginParam param) {
         // valid msg code
-        if (!checkLoginMsgCode(param.getPhone(), param.getMsgCode())) {
-            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
-                    UserLoginResp.CODE_ENUE.MSG_CODE_ERROR.getValue());
-        }
+//        if (!checkLoginMsgCode(param.getPhone(), param.getMsgCode())) {
+//            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
+//                    UserLoginResp.CODE_ENUE.MSG_CODE_ERROR.getValue());
+//        }
 
         UserInfo userInfo = userInfoDao.getUserInfoByPhone(param.getPhone());
         if (userInfo == null) {
