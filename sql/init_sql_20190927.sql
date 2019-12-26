@@ -26,7 +26,10 @@ CREATE TABLE "user_info" (
 "ext_info" hstore,
 "last_login_time" timestamptz(6) default now(),
 "create_time" timestamptz(6) default now(),
-"operate_time" timestamptz(6) default now()
+"operate_time" timestamptz(6) default now(),
+"user_id" varchar(64),
+"open_id" varchar(100[],
+"role" integer default 1,
 )
 WITH (OIDS=FALSE)
 ;
@@ -52,6 +55,9 @@ COMMENT ON COLUMN "user_info"."urgent_mobile_s" IS '紧急联系人2电话';
 COMMENT ON COLUMN "user_info"."status" IS '状态 1:有效  2无效 3接单中';
 COMMENT ON COLUMN "user_info"."ext_info" IS '扩展信息';
 COMMENT ON COLUMN "user_info"."last_login_time" IS '最后登录时间';
+COMMENT ON COLUMN "user_info"."user_id" IS 'userid';
+COMMENT ON COLUMN "user_info"."open_id" IS 'openid ';
+COMMENT ON COLUMN "user_info"."role" IS '角色 1司机；2烘干塔；3 接货人 ';
 
 
 司机信息
@@ -90,7 +96,8 @@ CREATE TABLE "lorry_info" (
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now(),
 "default_flag" integer default 0,
-"unit_weight" varchar (10)
+"unit_weight" varchar (10),
+"over_carry_weight" numeric(10,2),
 )
 WITH (OIDS=FALSE)
 ;
@@ -110,6 +117,7 @@ COMMENT ON COLUMN "lorry_info"."id_card" IS '车主证件号';
 COMMENT ON COLUMN "lorry_info"."status" IS '状态 1:有效  2无效';
 COMMENT ON COLUMN "lorry_info"."default_flag" IS '默认车辆标志位 1表明该车辆是该名车主的默认车辆，0表示其他';
 COMMENT ON COLUMN "lorry_info"."unit_weight" IS '车辆载重单位';
+COMMENT ON COLUMN "lorry_info"."over_carry_weight" IS '最大超重重量';
 
 
 订单信息
