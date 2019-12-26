@@ -208,7 +208,8 @@ CREATE TABLE "task_info" (
 "subtask_time" json,
 "receiver_user_id" varchar(50)[],
 "unit_price" varchar(10),
-"unit_weight" varchar (20)
+"unit_weight" varchar (20),
+"service_mobile" varchar (20)
 )
 WITH (OIDS=FALSE)
 ;
@@ -240,6 +241,7 @@ COMMENT ON COLUMN "task_info"."subtask_time" IS '出货时间安排    [{"time":
 
 COMMENT ON COLUMN "task_info"."consignee_userid" IS '接货人ID';
 COMMENT ON COLUMN "task_info"."unit_price" IS '价格单位';
+COMMENT ON COLUMN "task_info"."service_mobile" IS '客服电话';
 
 
 create table sub_task

@@ -108,6 +108,7 @@
         unit_distance as unitDistance,
         unit_weight_price as unitWeightPrice,
         unit_price as unitPrice,
+        unit_weight as unitWeight,
         status as taskStatus,
         subtask_time as recvTime,
         undist_weight as undistWeight

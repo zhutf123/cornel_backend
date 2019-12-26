@@ -67,7 +67,10 @@ public class TaskSaveResp {
     }
 
     public static enum INNER_CODE_ENUE implements IEmus {
-        SUCCESS(0, "抢单成功"), WEIGHT_ERROR(1, "抢单失败-修改抢单重量"), ORDER_ERROR(2, "抢单失败-修改接单时间");
+        SUCCESS(0, "抢单成功"),
+        WEIGHT_ERROR(1, "抢单失败-修改抢单重量"),
+        ORDER_ERROR(2, "抢单失败-修改接单时间"),
+        ORDER_WEIGHT_ERROR(3, "抢单失败-提交重量小于最低重量");
 
         private int value;
         private String expr;

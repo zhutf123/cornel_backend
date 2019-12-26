@@ -86,7 +86,7 @@ import java.util.concurrent.TimeUnit;
             log.debug("save order fail due to task reset weight [{}] less than order weight [{}]",
                     taskInfo.getUndistWeight().toString(), taskSaveVO.getCarryWeight().toString());
             stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
-            taskSaveRep.setStatus(1);
+            taskSaveRep.setStatus(TaskSaveResp.INNER_CODE_ENUE.WEIGHT_ERROR.getValue());
             taskSaveRep.setRestWeight(taskInfo.getUndistWeight());
             return JsonResult.success(taskSaveRep);
         }
@@ -94,9 +94,17 @@ import java.util.concurrent.TimeUnit;
         if (checkTaskStatus.equals(3)) {
             log.debug("save order fail due to select time not selectable");
             stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
-            taskSaveRep.setStatus(2);
+            taskSaveRep.setStatus(TaskSaveResp.INNER_CODE_ENUE.ORDER_ERROR.getValue());
             taskSaveRep.setSelectTime(getAvailableSelectTime(taskInfo));
             return JsonResult.success(taskSaveRep);
+        }
+        // 提交重量小于最低接货重量
+        if (checkTaskStatus.equals(4)) {
+            log.debug("save order fail due to select time not selectable");
+            stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
+            taskSaveRep.setStatus(TaskSaveResp.INNER_CODE_ENUE.ORDER_WEIGHT_ERROR.getValue());
+            taskSaveRep.setRestWeight(ContextConsts.MIN_CARRY_WEIGHT);
+            return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.ORDER_FAIL.getValue());
         }
         LorryInfo lorryInfo = lorryInfoDao.getLorryByLorryID(taskSaveVO.getLarryId());
 
@@ -170,7 +178,7 @@ import java.util.concurrent.TimeUnit;
     }
 
     /**
-     * 校验是否可以接单 0 可以接单 ;;  1 task 无效 或已经完成了;; 2 任务剩余重量小于提交接单的重量;;  3 该时间段不可选了
+     * 校验是否可以接单 0 可以接单 ;;  1 task 无效 或已经完成了;; 2 任务剩余重量小于提交接单的重量;;  3 该时间段不可选了 4提交重量小于最低接货重量
      *
      * @param taskInfo
      * @param taskSaveVO
@@ -180,12 +188,15 @@ import java.util.concurrent.TimeUnit;
         if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue())) {
             return 1;
         }
-        if (taskInfo.getUndistWeight().compareTo(taskSaveVO.getCarryWeight()) == -1) {
+        if (taskInfo.getUndistWeight().compareTo(taskSaveVO.getCarryWeight()) == -1 ) {
             return 2;
         }
         if (taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()) == null
                 || taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()).compareTo(0) != 1) {
             return 3;
+        }
+        if(taskSaveVO.getCarryWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT)<0){
+            return 4;
         }
         return 0;
     }

@@ -44,7 +44,6 @@ import java.sql.Timestamp;
     private String unitDistance = "km";
     private String supplierId;
     private String letOutTime;
-
     public static enum STATUS_DESC_ENUE {
 
         NORMAL(0, "正常"), DELAY(1, "延迟");
