@@ -39,9 +39,9 @@ import java.sql.Timestamp;
     private Integer orderStatusDesc;
 
     private BigDecimal unitWeightPrice;
-    private String unitPrice = "元";
-    private String unitWeight = "吨";
-    private String unitDistance = "km";
+    private String unitPrice;
+    private String unitWeight ;
+    private String unitDistance;
     private String supplierId;
     private String letOutTime;
     public static enum STATUS_DESC_ENUE {
