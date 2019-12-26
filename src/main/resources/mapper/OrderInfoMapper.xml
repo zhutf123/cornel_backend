@@ -65,6 +65,7 @@
         <result column="unit_price" property="unitPrice"/>
         <result column="unit_weight" property="unitWeight"/>
         <result column="distance" property="distance"/>
+        <result column="unit_distance" property="unitDistance"/>
         <result column="lorry_id" property="lorryId"/>
         <result column="plate_number" property="plateNumber"/>
         <result column="carry_weight" property="carryWeight"/>
@@ -135,6 +136,7 @@
         t.unit_price,
         t.unit_weight,
         t.distance,
+        t.unit_distance,
         ST_AsText(t.dep_gis) as dep_gis,
         ST_AsText(t.arr_gis) as arr_gis,
         l.id as lorry_id,
@@ -159,12 +161,12 @@
         t.title ,
         t.dep,
         t.arr,
+        t.unit_distance,
         ST_AsText(t.dep_gis) as dep_gis,
         ST_AsText(t.arr_gis) as arr_gis,
         t.start_time,
         t.end_time ,
         t.distance,
-        t.unit_distance,
         t.unit_weight_price,
         t.unit_weight,
         t.unit_price,
