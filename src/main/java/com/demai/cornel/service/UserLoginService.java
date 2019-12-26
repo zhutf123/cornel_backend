@@ -53,8 +53,12 @@ public class UserLoginService {
 
         UserInfo userInfo = userInfoDao.getUserInfoByPhone(param.getPhone());
         if (userInfo == null) {
+
             return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
-                    UserLoginResp.CODE_ENUE.NO_USER.getValue());
+                    UserLoginResp.CODE_ENUE.OPENID_ERROR.getValue());
+
+//            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
+//                   UserLoginResp.CODE_ENUE.NO_USER.getValue());
         }
 
         WechatCode2SessionResp resp = weChatService.getOpenId(param.getJscode());
@@ -82,10 +86,15 @@ public class UserLoginService {
      */
     public Integer sendLoginCodeMsg(String phone) {
         UserInfo userInfo = getUserInfoByPhone(phone);
+        Integer validCode = GenRandomCodeUtil.genRandomCode(6);
         if (userInfo == null) {
+
+            sendMsgService.sendLoginValid(phone, validCode);
+
+
             return ResponseStatusEnum.NO_USER.getValue();
         }
-        Integer validCode = GenRandomCodeUtil.genRandomCode(6);
+
         stringRedisTemplate.opsForValue().set(Joiner.on("_").join(phone, "loginValid"), String.valueOf(validCode), 300,
                 TimeUnit.SECONDS);
         Integer sendResult = sendMsgService.sendLoginValid(phone, validCode);
