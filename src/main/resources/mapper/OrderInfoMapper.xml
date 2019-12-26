@@ -284,33 +284,33 @@
         </trim>
         )
     </insert>
-    <select id="getOrderInfoByOrderTypeAndUserId" resultType="com.demai.cornel.vo.task.GetOrderListResp">
+    <select id="getOrderInfoByOrderTypeAndUserId" resultMap="listRespMapper">
         SELECT
-        o.order_id as orderId,
-        o.task_id as taskId,
-        o.status as orderStatus,
-        o.receive_time as startTime,
-        o.status as orderStatus,
-        o.order_weight as orderWeight,
-        o.receive_code as verifyCode,
-        o.carry_weight as orderCarryWeight,
-        o.let_out_time as letOutTime,
-        o.succ_weight as succWeight,
-        t.title as title,
-        t.dep as dep,
-        t.arr as arr,
-        ST_AsText(t.dep_gis) as depGis,
-        ST_AsText(t.arr_gis) as arrGis,
-        t.start_time as startValidDate,
-        t.end_time as endValidDate,
-        t.distance as distance,
-        t.unit_distance as unitDistance,
-        t.unit_weight_price as unitWeightPrice,
-        t.supplier_id as supplierId,
-        l.id as lorryId,
-        l.plate_number as plateNumber,
-        l.carry_weight as carryWeight,
-        l.over_carry_weight as overCarryWight
+<!--        o.order_id as orderId,-->
+<!--        o.task_id as taskId,-->
+<!--        o.status as orderStatus,-->
+<!--        o.receive_time as startTime,-->
+<!--        o.status as orderStatus,-->
+<!--        o.order_weight as orderWeight,-->
+<!--        o.receive_code as verifyCode,-->
+<!--        o.carry_weight as orderCarryWeight,-->
+<!--        o.let_out_time as letOutTime,-->
+<!--        o.succ_weight as succWeight,-->
+<!--        t.title as title,-->
+<!--        t.dep as dep,-->
+<!--        t.arr as arr,-->
+<!--        ST_AsText(t.dep_gis) as depGis,-->
+<!--        ST_AsText(t.arr_gis) as arrGis,-->
+<!--        t.start_time as startValidDate,-->
+<!--        t.end_time as endValidDate,-->
+<!--        t.distance as distance,-->
+<!--        t.unit_distance as unitDistance,-->
+<!--        t.unit_weight_price as unitWeightPrice,-->
+<!--        t.supplier_id as supplierId,-->
+<!--        l.id as lorryId,-->
+<!--        l.plate_number as plateNumber,-->
+<!--        l.carry_weight as carryWeight,-->
+<!--        l.over_carry_weight as overCarryWight-->
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)

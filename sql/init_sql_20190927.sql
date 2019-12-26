@@ -56,20 +56,6 @@ COMMENT ON COLUMN "user_info"."last_login_time" IS '最后登录时间';
 COMMENT ON COLUMN "user_info"."role" IS '1 司机,2 烘干塔 3 港口 4 系统管理员  5 操作员';
 
 
-司机信息
-   姓名  性别  生日  证件类型  证件号  驾驶证证件有效期  联系电话[]  常用车辆信息[]  接单数量  积分  运送总里程  处罚情况{}
-   紧急联系人1姓名  紧急联系人1电话  紧急联系人2姓名  紧急联系人2电话  司机状态
-
-"valid" boolean,
-"valid_number" varchar(6),
-"open_id" varchar(128)
-
-
-车辆基础信息
-  车型  品牌  自重  载重  长度  宽度 状态
-
-车辆信息
-   车型id  购置日期  当前行驶里程  车牌  车架号  车主证件号  车主证件类型  车辆状态
 
 DROP TABLE IF EXISTS "lorry_info";
 CREATE TABLE "lorry_info" (
@@ -92,8 +78,7 @@ CREATE TABLE "lorry_info" (
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now(),
 "default_flag" integer default 0,
-"unit_weight" varchar (10),
-"over_carry_weight" numeric(10,2),
+"unit_weight" varchar (10)
 )
 WITH (OIDS=FALSE)
 ;
@@ -113,13 +98,8 @@ COMMENT ON COLUMN "lorry_info"."id_card" IS '车主证件号';
 COMMENT ON COLUMN "lorry_info"."status" IS '状态 1:有效  2无效';
 COMMENT ON COLUMN "lorry_info"."default_flag" IS '默认车辆标志位 1表明该车辆是该名车主的默认车辆，0表示其他';
 COMMENT ON COLUMN "lorry_info"."unit_weight" IS '车辆载重单位';
-COMMENT ON COLUMN "lorry_info"."over_carry_weight" IS '最大超重重量';
 
 
-订单信息
-   任务id 车辆id  司机id  是否超载  运送重量  送达重量  抢单时间  任务开始时间  要求送达时间  出货时间
-   预计送达时间  送达时间 司机出货码  仓库收货码 订单状态  意外情况说明
-   取消时间  取消原因
 
 
 DROP TABLE IF EXISTS "order_info";
@@ -197,11 +177,6 @@ COMMENT ON COLUMN "order_info"."let_out_time" IS '卸货完成时间';
 
 
 
-任务信息
-  任务id  任务标题  货品名称  任务总重量  未被领取的任务重量  任务开始时间  任务结束时间  拆分任务执行时长
-  出发地名称  送达地名称  出发地gps  送达地gps  里程信息
-  货品单价  平均收益  紧急级别  任务状态
-
 DROP TABLE IF EXISTS "task_info";
 CREATE TABLE "task_info" (
 "id" serial PRIMARY KEY,
@@ -232,14 +207,12 @@ CREATE TABLE "task_info" (
 "operate_time" timestamptz(6) default now(),
 "subtask_time" json,
 "receiver_user_id" varchar(50)[],
-"unit_price" varchar(10)
+"unit_price" varchar(10),
+"unit_weight" varchar (20)
 )
 WITH (OIDS=FALSE)
 ;
 
---经纬图查询按照str返回
---select ST_AsText(dep_gis) from task_info limit 1;
---update task_info set dep_gis=point(116.456011,40.14013)::geometry
 
 COMMENT ON COLUMN "task_info"."title" IS '标题';
 COMMENT ON COLUMN "task_info"."product" IS '产品名称';
@@ -268,7 +241,6 @@ COMMENT ON COLUMN "task_info"."subtask_time" IS '出货时间安排    [{"time":
 COMMENT ON COLUMN "task_info"."consignee_userid" IS '接货人ID';
 COMMENT ON COLUMN "task_info"."unit_price" IS '价格单位';
 
- 拆分子任务的信息
 
 create table sub_task
 (
@@ -301,9 +273,6 @@ comment on column sub_task.sub_task_id is '拆分子任务的ID';
 
 
 
-定位信息
-  车辆id  司机id gis信息  gis更新时间
-
 
 DROP TABLE IF EXISTS "lorry_gis_info";
 CREATE TABLE "lorry_gis_info" (
@@ -327,7 +296,6 @@ COMMENT ON COLUMN "lorry_gis_info"."user_id" IS '用户id';
 COMMENT ON COLUMN "lorry_gis_info"."status" IS '1 有效 2 无效';
 
 
-订单操作记录
 
 DROP TABLE IF EXISTS "order_operation_log";
 CREATE TABLE "order_operation_log" (
@@ -348,7 +316,6 @@ COMMENT ON COLUMN "order_operation_log"."operator" IS '操作人id';
 COMMENT ON COLUMN "order_operation_log"."status" IS '1 有效  2 无效';
 
 
-权限表 角色表   用户角色 用户权限表
 
 DROP TABLE IF EXISTS "acl_info";
 CREATE TABLE "acl_info" (
@@ -422,6 +389,10 @@ WITH (OIDS=FALSE)
 COMMENT ON COLUMN "user_acl_info"."user_id" IS '用户id';
 COMMENT ON COLUMN "user_acl_info"."acl_id" IS '权限id';
 COMMENT ON COLUMN "user_acl_info"."status" IS '1 有效  2 无效';
+
+
+
+
 
 create table dist_order_info
 (
