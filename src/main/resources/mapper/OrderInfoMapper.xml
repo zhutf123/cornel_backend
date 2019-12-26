@@ -202,6 +202,7 @@
         t.supplier_id,
         t.unit_price,
         t.unit_weight,
+        t.unit_distance,
         l.id as lorry_id,
         l.plate_number,
         l.carry_weight,
