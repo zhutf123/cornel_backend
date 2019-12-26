@@ -72,8 +72,10 @@
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="delivery_receive_time" property="deliveryReceiveTime"/>
         <result column="let_out_time" property="letOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
-
+        <result column="service_mobile" property="serviceMobile"/>
     </resultMap>
+
+
 
     <sql id="main_column">
         id,
@@ -121,6 +123,7 @@
         o.send_out_time,
         o.succ_weight,
         o.let_out_time,
+        t.service_mobile,
         t.title,
         t.dep,
         t.arr,
@@ -139,8 +142,64 @@
         u.name as driver_name,
         u.mobile as driver_mobile
     </sql>
+    <sql id="listResp_driver">
+        o.order_id as orderId,
+        o.task_id as taskId,
+        o.status as orderStatus,
+        o.receive_time as startTime,
+        o.status as orderStatus,
+        o.order_weight as orderWeight,
+        o.receive_code as verifyCode,
+        o.carry_weight as orderCarryWeight,
+        o.let_out_time as letOutTime,
+        o.succ_weight as succWeight,
+        t.service_mobile as serviceMobile
+        t.title as title,
+        t.dep as dep,
+        t.arr as arr,
+        ST_AsText(t.dep_gis) as depGis,
+        ST_AsText(t.arr_gis) as arrGis,
+        t.start_time as startValidDate,
+        t.end_time as endValidDate,
+        t.distance as distance,
+        t.unit_distance as unitDistance,
+        t.unit_weight_price as unitWeightPrice,
+        t.supplier_id as supplierId,
+        l.id as lorryId,
+        l.plate_number as plateNumber,
+        l.carry_weight as carryWeight,
+        l.over_carry_weight as overCarryWigh
+    </sql>
 
-
+    <sql id="listRespOrderId_driver">
+        o.order_id as orderId,
+        o.task_id as taskId,
+        o.status as orderStatus,
+        o.order_weight as orderWeight,
+        o.carry_weight as orderCarryWeight,
+        o.receive_code as verifyCode,
+        o.receive_time as startTime,
+        o.succ_weight as succWeight,
+        o.send_out_time as sendOutTime,
+        o.delivery_receive_time as deliveryReceiveTime,
+        o.let_out_time as letOutTime,
+        t.service_mobile as serviceMobile,
+        t.title as title,
+        t.dep as dep,
+        t.arr as arr,
+        ST_AsText(t.dep_gis) as depGis,
+        ST_AsText(t.arr_gis) as arrGis,
+        t.start_time as startValidDate,
+        t.end_time as endValidDate,
+        t.distance as distance,
+        t.unit_weight_price as unitWeightPrice,
+        t.supplier_id as supplierId,
+        l.id as lorryId,
+        l.plate_number as plateNumber,
+        l.carry_weight as carryWeight,
+        l.over_carry_weight as overCarryWight,
+        u.name as driverName
+    </sql>
     <update id="update" parameterType="com.demai.cornel.model.OrderInfo">
         update order_info
         <trim prefix="set" suffixOverrides=",">
@@ -286,31 +345,7 @@
     </insert>
     <select id="getOrderInfoByOrderTypeAndUserId" resultMap="listRespMapper">
         SELECT
-<!--        o.order_id as orderId,-->
-<!--        o.task_id as taskId,-->
-<!--        o.status as orderStatus,-->
-<!--        o.receive_time as startTime,-->
-<!--        o.status as orderStatus,-->
-<!--        o.order_weight as orderWeight,-->
-<!--        o.receive_code as verifyCode,-->
-<!--        o.carry_weight as orderCarryWeight,-->
-<!--        o.let_out_time as letOutTime,-->
-<!--        o.succ_weight as succWeight,-->
-<!--        t.title as title,-->
-<!--        t.dep as dep,-->
-<!--        t.arr as arr,-->
-<!--        ST_AsText(t.dep_gis) as depGis,-->
-<!--        ST_AsText(t.arr_gis) as arrGis,-->
-<!--        t.start_time as startValidDate,-->
-<!--        t.end_time as endValidDate,-->
-<!--        t.distance as distance,-->
-<!--        t.unit_distance as unitDistance,-->
-<!--        t.unit_weight_price as unitWeightPrice,-->
-<!--        t.supplier_id as supplierId,-->
-<!--        l.id as lorryId,-->
-<!--        l.plate_number as plateNumber,-->
-<!--        l.carry_weight as carryWeight,-->
-<!--        l.over_carry_weight as overCarryWight-->
+        <include refid="listResp_driver"></include>
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
         o.user_id=#{userId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
@@ -324,34 +359,9 @@
         order by o.id desc limit #{pgSize};
     </select>
 
-    <select id="getOrderInfoByUserAndOrderId" resultType="com.demai.cornel.vo.order.GetOrderInfoResp">
+    <select id="getOrderInfoByUserAndOrderId" resultMap="listRespMapper">
         SELECT
-        o.order_id as orderId,
-        o.task_id as taskId,
-        o.status as orderStatus,
-        o.order_weight as orderWeight,
-        o.carry_weight as orderCarryWeight,
-        o.receive_code as verifyCode,
-        o.receive_time as startTime,
-        o.succ_weight as succWeight,
-        o.send_out_time as sendOutTime,
-        o.delivery_receive_time as deliveryReceiveTime,
-        O.let_out_time as letOutTime,
-        t.title as title,
-        t.dep as dep,
-        t.arr as arr,
-        ST_AsText(t.dep_gis) as depGis,
-        ST_AsText(t.arr_gis) as arrGis,
-        t.start_time as startValidDate,
-        t.end_time as endValidDate,
-        t.distance as distance,
-        t.unit_weight_price as unitWeightPrice,
-        t.supplier_id as supplierId,
-        l.id as lorryId,
-        l.plate_number as plateNumber,
-        l.carry_weight as carryWeight,
-        l.over_carry_weight as overCarryWight,
-        u.name as driverName
+       <include refid="listRespOrderId_driver"/>
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id  left join user_info u on o.user_id=u.user_id where
         o.user_id=#{userId}
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
@@ -396,15 +406,10 @@
         where
         <![CDATA[ o.send_out_user_id @> array[#{supplierId}]::varchar[] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
-        <if test="orderId != null and orderId!='' and orderId!='null'">
-            and o.id  <![CDATA[<=]]> (select max(id) from order_info where
-            <![CDATA[ send_out_user_id @> array[#{supplierId}] ]]> and
-            status=(status <![CDATA[ & ]]> #{orderType} )
-        </if>
         <if test="orderId!=null and orderId!='' and orderId!='null'">
             and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})
         </if>
-        order by o.id desc limit #{pgSize};
+        order by o.id desc limit #{pgSize}
     </select>
 
     <select id="getOrderInfoByOrderIdOrVerifyCode" resultMap="listRespMapper">

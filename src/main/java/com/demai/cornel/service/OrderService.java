@@ -338,8 +338,8 @@ import java.util.concurrent.TimeUnit;
                 .orderId(orderId).build();
     }
 
-    public GetOrderInfoResp driverGetTaskInfo(String orderId) {
-        GetOrderInfoResp getOrderInfoResp = orderInfoDao
+    public GetOrderListResp driverGetTaskInfo(String orderId) {
+        GetOrderListResp getOrderInfoResp = orderInfoDao
                 .getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId);
         List<String> supplierTel = userInfoDao.getUserTelByUserId(getOrderInfoResp.getSupplierId());
         getOrderInfoResp.setSupplierMobile(supplierTel);

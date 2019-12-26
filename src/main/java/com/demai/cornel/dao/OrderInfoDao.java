@@ -43,10 +43,8 @@ public interface OrderInfoDao {
             @Param("supplierId") String supplierId, @Param("orderId") String orderId,
             @Param("verifyCode") String verifyCode);
 
-    List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId") String userId,
-            @Param("orderType") Integer orderType, @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
 
-    GetOrderInfoResp getOrderInfoByUserAndOrderId(@Param("userId") String userId, @Param("orderId") String orderId);
+    GetOrderListResp getOrderInfoByUserAndOrderId(@Param("userId") String userId, @Param("orderId") String orderId);
 
     int updateOrderStatus(@Param("orderId") String orderId, @Param("status") long status,
             @Param("userId") String userId,@Param("oldStatus")long oldStatus);
