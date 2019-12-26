@@ -46,26 +46,21 @@ public class UserLoginService {
 
     public UserLoginResp doLogin(UserLoginParam param) {
         // valid msg code
-//        if (!checkLoginMsgCode(param.getPhone(), param.getMsgCode())) {
-//            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
-//                    UserLoginResp.CODE_ENUE.MSG_CODE_ERROR.getValue());
-//        }
+        if (!checkLoginMsgCode(param.getPhone(), param.getMsgCode())) {
+            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
+                    UserLoginResp.CODE_ENUE.MSG_CODE_ERROR.getValue());
+        }
 
         UserInfo userInfo = userInfoDao.getUserInfoByPhone(param.getPhone());
         if (userInfo == null) {
-
-            return new UserLoginResp("ocXz25dJXF109cDvq5UqcXlb7QoI", "hubin.hu_tt", 1,
-                    UserLoginResp.CODE_ENUE.SUCCESS.getValue());
-
-//            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
-//                   UserLoginResp.CODE_ENUE.NO_USER.getValue());
+            return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
+                   UserLoginResp.CODE_ENUE.NO_USER.getValue());
         }
 
         WechatCode2SessionResp resp = weChatService.getOpenId(param.getJscode());
         if (log.isDebugEnabled()) {
             log.debug("get openid by js code result:{}", JsonUtil.toJson(resp));
         }
-
         if (resp != null && StringUtil.isNotBlank(resp.getOpenid())) {
             Set<String> openIds = userInfo.getOpenId();
             if (CollectionUtils.isEmpty(openIds)){
@@ -89,9 +84,8 @@ public class UserLoginService {
         Integer validCode = GenRandomCodeUtil.genRandomCode(6);
         if (userInfo == null) {
             sendMsgService.sendLoginValid(phone, validCode);
-            return ResponseStatusEnum.SUCCESS.getValue();
+            return ResponseStatusEnum.NO_USER.getValue();
         }
-
         stringRedisTemplate.opsForValue().set(Joiner.on("_").join(phone, "loginValid"), String.valueOf(validCode), 300,
                 TimeUnit.SECONDS);
         Integer sendResult = sendMsgService.sendLoginValid(phone, validCode);
