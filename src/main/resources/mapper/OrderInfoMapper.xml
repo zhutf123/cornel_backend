@@ -153,7 +153,7 @@
         o.carry_weight as orderCarryWeight,
         o.let_out_time as letOutTime,
         o.succ_weight as succWeight,
-        t.service_mobile as serviceMobile
+        t.service_mobile as serviceMobile,
         t.title as title,
         t.dep as dep,
         t.arr as arr,
