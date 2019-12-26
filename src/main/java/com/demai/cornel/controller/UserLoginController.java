@@ -43,7 +43,7 @@ public class UserLoginController {
      */
     @RequestMapping(value = "/sendCode.json", method = RequestMethod.POST)
     @ResponseBody
-    @AccessControl(value = "60_3")
+    //@AccessControl(value = "60_3")
     public JsonResult userLoginSendCode(@RequestBody UserLoginSendMsgParam phone) {
         try {
             return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(phone.getPhone()));
