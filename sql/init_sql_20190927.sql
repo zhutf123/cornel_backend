@@ -27,9 +27,7 @@ CREATE TABLE "user_info" (
 "last_login_time" timestamptz(6) default now(),
 "create_time" timestamptz(6) default now(),
 "operate_time" timestamptz(6) default now(),
-"user_id" varchar(64),
-"open_id" varchar(100[],
-"role" integer default 1,
+"role" integer
 )
 WITH (OIDS=FALSE)
 ;
@@ -55,9 +53,7 @@ COMMENT ON COLUMN "user_info"."urgent_mobile_s" IS '紧急联系人2电话';
 COMMENT ON COLUMN "user_info"."status" IS '状态 1:有效  2无效 3接单中';
 COMMENT ON COLUMN "user_info"."ext_info" IS '扩展信息';
 COMMENT ON COLUMN "user_info"."last_login_time" IS '最后登录时间';
-COMMENT ON COLUMN "user_info"."user_id" IS 'userid';
-COMMENT ON COLUMN "user_info"."open_id" IS 'openid ';
-COMMENT ON COLUMN "user_info"."role" IS '角色 1司机；2烘干塔；3 接货人 ';
+COMMENT ON COLUMN "user_info"."role" IS '1 司机,2 烘干塔 3 港口 4 系统管理员  5 操作员';
 
 
 司机信息
