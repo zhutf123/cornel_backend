@@ -166,6 +166,7 @@
         t.distance,
         t.unit_distance,
         t.unit_weight_price,
+        t.unit_weight,
         t.supplier_id ,
         l.id as lorry_id,
         l.plate_number,
