@@ -83,7 +83,6 @@ public class UserLoginService {
         UserInfo userInfo = getUserInfoByPhone(phone);
         Integer validCode = GenRandomCodeUtil.genRandomCode(6);
         if (userInfo == null) {
-            sendMsgService.sendLoginValid(phone, validCode);
             return ResponseStatusEnum.NO_USER.getValue();
         }
         stringRedisTemplate.opsForValue().set(Joiner.on("_").join(phone, "loginValid"), String.valueOf(validCode), 300,
