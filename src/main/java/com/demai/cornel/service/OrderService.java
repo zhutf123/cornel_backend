@@ -195,9 +195,9 @@ import java.util.concurrent.TimeUnit;
                 || taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()).compareTo(0) != 1) {
             return 3;
         }
-        if(taskSaveVO.getCarryWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT)<0){
-            return 4;
-        }
+//        if(taskSaveVO.getCarryWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT)<0){
+//            return 4;
+//        }
         return 0;
     }
 
