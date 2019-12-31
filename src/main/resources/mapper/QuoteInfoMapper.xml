@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.dao.QuoteInfoDao">
+    <resultMap id="BaseResultMap" type="com.demai.cornel.model.QuoteInfo">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="commodity_id" jdbcType="INTEGER" property="commodityId"/>
+        <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="shipment_time" jdbcType="TIMESTAMP" property="shipmentTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="desc" jdbcType="VARCHAR" property="desc"/>
+        <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime"/>
+        <result column="system_flag" jdbcType="INTEGER" property="systemFlag"/>
+        <result column="bargain_status" jdbcType="INTEGER" property="bargainStatus"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, commodity_id, quote, unit_price, shipment_weight, unit_weight, shipment_time,
+        create_time, status, desc, expire_time, system_flag, bargain_status, user_id,
+        location,user_name,quote_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from quote_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from quote_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.demai.cornel.model.QuoteInfo">
+        <!--@mbg.generated-->
+        insert into quote_info (id, commodity_id, quote,
+        unit_price, shipment_weight, unit_weight,
+        shipment_time, create_time, "status",
+        desc, expire_time, system_flag,
+        bargain_status, user_id, location,user_name,quote_id
+        )
+        values (#{id,jdbcType=INTEGER}, #{commodityId,jdbcType=INTEGER}, #{quote,jdbcType=NUMERIC},
+        #{unitPrice,jdbcType=VARCHAR}, #{shipmentWeight,jdbcType=NUMERIC}, #{unitWeight,jdbcType=VARCHAR},
+        #{shipmentTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+        #{desc,jdbcType=VARCHAR}, #{expireTime,jdbcType=TIMESTAMP}, #{systemFlag,jdbcType=INTEGER},
+        #{bargainStatus,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR},
+        #{location,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{quoteId,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.demai.cornel.model.QuoteInfo">
+        <!--@mbg.generated-->
+        insert into quote_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="commodityId != null">
+                commodity_id,
+            </if>
+            <if test="quote != null">
+                quote,
+            </if>
+            <if test="unitPrice != null">
+                unit_price,
+            </if>
+            <if test="shipmentWeight != null">
+                shipment_weight,
+            </if>
+            <if test="unitWeight != null">
+                unit_weight,
+            </if>
+            <if test="shipmentTime != null">
+                shipment_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="desc != null">
+                des,
+            </if>
+            <if test="expireTime != null">
+                expire_time,
+            </if>
+            <if test="systemFlag != null">
+                system_flag,
+            </if>
+            <if test="bargainStatus != null">
+                bargain_status,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="quoteId != null">
+                quote_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="commodityId != null">
+                #{commodityId,jdbcType=INTEGER},
+            </if>
+            <if test="quote != null">
+                #{quote,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="shipmentWeight != null">
+                #{shipmentWeight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="shipmentTime != null">
+                #{shipmentTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="desc != null">
+                #{desc,jdbcType=VARCHAR},
+            </if>
+            <if test="expireTime != null">
+                #{expireTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="systemFlag != null">
+                #{systemFlag,jdbcType=INTEGER},
+            </if>
+            <if test="bargainStatus != null">
+                #{bargainStatus,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="quoteId != null">
+                #{quoteId,jdbcType=DECIMAL} ,
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.model.QuoteInfo">
+        <!--@mbg.generated-->
+        update quote_info
+        <set>
+            <if test="commodityId != null">
+                commodity_id = #{commodityId,jdbcType=INTEGER},
+            </if>
+            <if test="quote != null">
+                quote = #{quote,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                unit_price = #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="shipmentWeight != null">
+                shipment_weight = #{shipmentWeight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                unit_weight = #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="shipmentTime != null">
+                shipment_time = #{shipmentTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="desc != null">
+                desc = #{desc,jdbcType=VARCHAR},
+            </if>
+            <if test="expireTime != null">
+                expire_time = #{expireTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="systemFlag != null">
+                system_flag = #{systemFlag,jdbcType=INTEGER},
+            </if>
+            <if test="bargainStatus != null">
+                bargain_status = #{bargainStatus,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                location = #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                quote_id = #{quoteId,jdbcType=VARCHAR} ,
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.demai.cornel.model.QuoteInfo">
+        <!--@mbg.generated-->
+        update quote_info
+        set commodity_id = #{commodityId,jdbcType=INTEGER},
+        quote = #{quote,jdbcType=NUMERIC},
+        unit_price = #{unitPrice,jdbcType=VARCHAR},
+        shipment_weight = #{shipmentWeight,jdbcType=NUMERIC},
+        unit_weight = #{unitWeight,jdbcType=VARCHAR},
+        shipment_time = #{shipmentTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        status = #{status,jdbcType=INTEGER},
+        desc = #{desc,jdbcType=VARCHAR},
+        expire_time = #{expireTime,jdbcType=TIMESTAMP},
+        system_flag = #{systemFlag,jdbcType=INTEGER},
+        bargain_status = #{bargainStatus,jdbcType=INTEGER},
+        user_id = #{userId,jdbcType=VARCHAR},
+        location = #{location,jdbcType=VARCHAR},
+        user_name = #{userId,jdbcType=VARCHAR},
+        quote_id = #{quoteId,jdbcType=VARCHAR} ,
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
