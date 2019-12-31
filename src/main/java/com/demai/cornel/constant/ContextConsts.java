@@ -23,4 +23,5 @@ public class ContextConsts {
 
 
     public static final BigDecimal MIN_CARRY_WEIGHT = new BigDecimal(30);
+    public static final BigDecimal MIN_SHIPMENT_WEIGHT = new BigDecimal(30);
 }

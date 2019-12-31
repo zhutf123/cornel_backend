@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.CommodityDao">
+
+    <resultMap type="com.demai.cornel.model.Commodity" id="commodityMapper">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"  javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="commodity_id" property="commodityId"/>
+        <result column="status" property="status"/>
+        <result column="system_flag" property="systemFlag"/>
+        <result column="bind_user_id" property="bindUserId"/>
+
+    </resultMap>
+
+    <sql id="main_column">
+        id,
+        name,
+        commodity_properties,
+        commodity_id,
+        status,
+        system_flag,
+        bind_user_id
+    </sql>
+
+
+    <insert id="save" parameterType="com.demai.cornel.model.Commodity" useGeneratedKeys="true" keyProperty="id">
+        insert into commodity_list(
+        <trim suffixOverrides=",">
+            <if test="id != null">id ,</if>
+            <if test="name != null">name ,</if>
+            <if test="commodityProperties != null">commodity_properties,</if>
+            <if test="commodityId != null">commodity_id,</if>
+            <if test="status != null">status ,</if>
+            <if test="systemFlag != null">system_flag ,</if>
+            <if test="bindUserId != null">bind_user_id,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="id != null">#{id} ,</if>
+            <if test="name != null">#{name} ,</if>
+            <if test="commodityProperties != null">#{commodityProperties,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler} ,</if>
+            <if test="commodityId != null">#{commodityId} ,</if>
+            <if test="status != null">#{status}</if>
+            <if test="systemFlag != null">#{systemFlag} ,</if>
+            <if test="bindUserId != null">#{bindUserId},</if>
+        </trim>
+        )
+    </insert>
+    <select id="getCommdityList" resultMap="commodityMapper">
+        select
+        <include refid="main_column"/>
+        from commodity_list where status=1 and (system_flag=1 or ((system_flag=0 and bind_user_id=#{userId})))
+        order by id desc;
+    </select>
+
+</mapper>

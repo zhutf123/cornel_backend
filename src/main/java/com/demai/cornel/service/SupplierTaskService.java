@@ -4,23 +4,23 @@
 package com.demai.cornel.service;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.*;
 
 import javax.annotation.Resource;
 
-import com.demai.cornel.util.DateUtils;
-import com.demai.cornel.util.StringUtil;
+import com.demai.cornel.dao.DryTowerDao;
+import com.demai.cornel.holder.UserHolder;
+import com.demai.cornel.model.DryTower;
+import com.demai.cornel.util.*;
 import com.demai.cornel.util.json.JsonUtil;
-import com.demai.cornel.vo.task.OrderAndTaskRespBase;
-import com.google.common.base.Joiner;
+import com.demai.cornel.vo.supplier.SupplierRegisterReq;
+import com.google.common.base.Strings;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.model.OrderInfo;
-import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.vo.delivery.DeliveryTaskListResp;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.order.OperationOrderReq;
@@ -36,24 +36,23 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Create By tfzhu 2019/12/19 8:08 AM 烘干塔服务接口
  */
-@Service
-@Slf4j
-public class SupplierTaskService {
+@Service @Slf4j public class SupplierTaskService {
 
-    @Resource
-    private OrderInfoDao orderInfoDao;
+    @Resource private OrderInfoDao orderInfoDao;
+
+    @Resource private DryTowerDao dryTowerDao;
 
     /**
      * 根据用户烘干塔用户id 订单状态查询任务订单
-     * 
+     *
      * @param supplierId
      * @param param
      */
     public Collection<SupplierTaskListResp> getTaskOrderListByStatus(String supplierId, GetOrderListReq param) {
-        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderType(),
-                param.getOrderId(), param.getPgSize());
+        List<GetOrderListResp> orderListResp = orderInfoDao
+                .getOrderInfoBySupplier(supplierId, param.getOrderType(), param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
-            log.info("supplier query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
+            log.info("supplier query order list is empty supplierId:{} param:{}", supplierId, JsonUtil.toJson(param));
             return null;
         }
         Map<String, SupplierTaskListResp> taskOrderInfo = Maps.newHashMap();
@@ -74,16 +73,16 @@ public class SupplierTaskService {
      * @param param
      */
     public List<GetOrderListResp> getTaskOrderListByStatusV2(String supplierId, GetOrderListReq param) {
-        List<GetOrderListResp> orderListResp = orderInfoDao.getOrderInfoBySupplier(supplierId, param.getOrderType(),
-                param.getOrderId(), param.getPgSize());
+        List<GetOrderListResp> orderListResp = orderInfoDao
+                .getOrderInfoBySupplier(supplierId, param.getOrderType(), param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
-            log.info("supplier query order list is empty supplierId:{} param:{}",supplierId, JsonUtil.toJson(param));
+            log.info("supplier query order list is empty supplierId:{} param:{}", supplierId, JsonUtil.toJson(param));
             return Lists.newArrayList();
         }
-        orderListResp.stream().forEach(order ->{
+        orderListResp.stream().forEach(order -> {
             order.setOrderStatusDesc(GetOrderListResp.STATUS_DESC_ENUE.NORMAL.getValue());
-            if (order.getOrderStatus().compareTo(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue()) == 0
-                    && DateUtils.checkStartTimeBeforeNow(order.getStartTime())) {
+            if (order.getOrderStatus().compareTo(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue()) == 0 && DateUtils
+                    .checkStartTimeBeforeNow(order.getStartTime())) {
                 order.setOrderStatusDesc(GetOrderListResp.STATUS_DESC_ENUE.DELAY.getValue());
             }
         });
@@ -92,7 +91,7 @@ public class SupplierTaskService {
 
     /***
      * 根据查询的订单构建烘干塔返回的数据
-     * 
+     *
      * @param order 数据库返回的订单信息
      * @return
      */
@@ -124,18 +123,17 @@ public class SupplierTaskService {
         if (result == null) {
             result = new GetOrderListResp();
         } else {
-            if (result.getOrderStatus().compareTo(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue()) == 0
-                    && DateUtils.checkStartTimeBeforeNow(result.getStartTime())) {
+            if (result.getOrderStatus().compareTo(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue()) == 0 && DateUtils
+                    .checkStartTimeBeforeNow(result.getStartTime())) {
                 result.setOrderStatusDesc(GetOrderListResp.STATUS_DESC_ENUE.DELAY.getValue());
             }
         }
         return result;
     }
 
-
     /**
      * 烘干塔开始装货
-     * 
+     *
      * @param supplierId
      * @param orderId
      * @return
@@ -157,13 +155,14 @@ public class SupplierTaskService {
                     .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
                     .success(Boolean.FALSE).orderId(orderId).orderStatus(orderInfo.getStatus()).build();
         }
-        return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
-                .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(orderId)
-                .orderStatus(orderInfo.getStatus()).build();
+        return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
+                .success(Boolean.TRUE).opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue())
+                .orderId(orderId).orderStatus(orderInfo.getStatus()).build();
     }
 
     /**
      * 司机确认装货完成  烘干塔开始录入出货信息
+     *
      * @param userId
      * @param param
      * @return
@@ -185,13 +184,15 @@ public class SupplierTaskService {
                     .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
         }
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
-        return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
-                .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
-                .realWeight(orderInfo.getCarryWeight().longValue()).orderStatus(orderInfo.getStatus()).build();
+        return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
+                .success(Boolean.TRUE).opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue())
+                .orderId(param.getOrderId()).realWeight(orderInfo.getCarryWeight().longValue())
+                .orderStatus(orderInfo.getStatus()).build();
     }
 
     /**
      * 烘干塔装货完成
+     *
      * @param supplierId
      * @param param
      * @return
@@ -213,14 +214,60 @@ public class SupplierTaskService {
         if (num == 0) {
             return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
                     .success(Boolean.FALSE)
-                    .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
-                    .realWeight(0L)
+                    .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue()).realWeight(0L)
                     .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
         }
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
-        return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
-                .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
-                .realWeight(orderInfo.getCarryWeight().longValue()).orderStatus(orderInfo.getStatus()).build();
+        return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
+                .success(Boolean.TRUE).opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue())
+                .orderId(param.getOrderId()).realWeight(orderInfo.getCarryWeight().longValue())
+                .orderStatus(orderInfo.getStatus()).build();
+    }
+
+    /**
+     * 烘干塔注册
+     *
+     * @param dryTower
+     * @return
+     */
+    public DryTower.REGISTER_STATUS dryTowerRegister(SupplierRegisterReq dryTower) {
+        try {
+            log.debug("dry tower register info is [{}]", JacksonUtils.obj2String(dryTower));
+            String curUser = UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME);
+            dryTower.setBindUserId(curUser);
+            if (!checkDryTowerParam(dryTower)) {
+                return DryTower.REGISTER_STATUS.PARAM_ERROR;
+            }
+            dryTower.getTowerInfos().stream().forEach(x -> {
+                DryTower dryTowerInsert = new DryTower();
+                BeanUtils.copyProperties(dryTower, dryTowerInsert);
+                BeanUtils.copyProperties(x, dryTowerInsert);
+                dryTowerDao.insertSelective(dryTowerInsert);
+            });
+
+        } catch (Exception e) {
+            log.error("dry tower register fail ", e);
+            return DryTower.REGISTER_STATUS.SERVICE_ERROR;
+        }
+        return DryTower.REGISTER_STATUS.SUCCESS;
+    }
+
+    /**
+     * 校验烘干塔参数
+     * todo 其他校验细节还需讨论
+     *
+     * @param dryTower
+     * @return
+     */
+    private boolean checkDryTowerParam(SupplierRegisterReq dryTower) {
+        if (dryTower == null) {
+            return false;
+        }
+        if (Strings.isNullOrEmpty(dryTower.getContactsName()) || Strings.isNullOrEmpty(dryTower.getContactMobile())
+                || CollectionUtils.isEmpty(dryTower.getTowerInfos())) {
+            return false;
+        }
+        return true;
     }
 
 }

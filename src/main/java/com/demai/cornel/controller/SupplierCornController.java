@@ -5,6 +5,7 @@ package com.demai.cornel.controller;
 
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
+import com.demai.cornel.model.DryTower;
 import com.demai.cornel.service.SupplierTaskService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.StringUtil;
@@ -13,9 +14,11 @@ import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.order.OperationOrderReq;
 import com.demai.cornel.vo.order.OperationOrderResp;
+import com.demai.cornel.vo.supplier.SupplierRegisterReq;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -168,4 +171,20 @@ public class SupplierCornController {
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
+
+    /**
+     * 烘干塔注册接口
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/register.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult shipmentRegister(@RequestBody SupplierRegisterReq param) {
+        Preconditions.checkNotNull(param);
+        DryTower.REGISTER_STATUS register_status = supplierTaskService.dryTowerRegister(param);
+        return JsonResult.successStatus(register_status);
+    }
+
+
+
 }

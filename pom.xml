@@ -35,6 +35,8 @@
         <vs.rate.client.api.version>2.3.17</vs.rate.client.api.version>
         <aliyun.java.sdk.version>4.0.3</aliyun.java.sdk.version>
         <xxl.job.core>2.1.2</xxl.job.core>
+        <httpclient.version>4.5.1</httpclient.version>
+        <httpcore.version>4.4.3</httpcore.version>
     </properties>
 
     <repositories>
@@ -533,6 +535,22 @@
             <artifactId>spring-restdocs-mockmvc</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpcore</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>${httpcore.version}</version>
+        </dependency>
     </dependencies>
 
     <distributionManagement>
@@ -667,6 +685,14 @@
                 <deploy.type>prod</deploy.type>
                 <deploy.group></deploy.group>
                 <env.profile.name>prod</env.profile.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>local</id>
+            <properties>
+                <deploy.type>local</deploy.type>
+                <deploy.group></deploy.group>
+                <env.profile.name>local</env.profile.name>
             </properties>
         </profile>
     </profiles>

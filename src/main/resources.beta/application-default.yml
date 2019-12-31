@@ -113,3 +113,5 @@ xxl:
       port: 9999
       logpath: '/home/www/cornel_web/logs/'
       logretentiondays: 10
+baidu:
+  ak: 1EBYcarYLWPnnpUbrX4SUxQwtLSjgvF0

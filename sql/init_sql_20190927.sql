@@ -439,5 +439,61 @@ comment on column dist_order_info.mobile is '派单短信的下发';
 comment on column dist_order_info.dist_weight is '派单的重量';
 
 
+-- 商品总类表
+create table commodity_list
+(
+    id                   serial not null,
+    name                 varchar(200),
+    commodity_properties hstore,
+    commodity_id         varchar(40),
+    status               integer default 1,
+    system_flag          integer,
+    bind_user_id         varchar(20)
+);
+comment on table commodity_list is '商品种类';
+comment on column commodity_list.name is '商品名称 一级玉米';
+comment on column commodity_list.commodity_properties is '商品属性';
+comment on column commodity_list.commodity_id is '商品ID';
+comment on column commodity_list.status is '有效标志位 1有效  0 无效';
+comment on column commodity_list.system_flag is '1 系统商品；0 是用户自定义商品';
+comment on column commodity_list.bind_user_id is '绑定这个报价的提出用户userID';
+
+
+-- 烘干塔信息
+create table dry_tower
+(
+    id  serial not null primary key,
+    company         varchar(200),
+    contacts_name   varchar(20),
+    contact_mobile  varchar(20),
+    commodity_id    varchar(40)[],
+    location        varchar(200),
+    area            numeric(10, 2),
+    shipment_weight numeric(10, 2),
+    create_time     timestamp default now(),
+    status          integer   default 1,
+    capacity_store  numeric(10, 2),
+    load_lorry_num  integer,
+    load_lorry_cost numeric(5, 2),
+    bind_user_id    varchar(40),
+    user_id_card    varchar(20)
+);
+
+comment on table dry_tower is '烘干塔信息';
+comment on column dry_tower.id is '自增ID';
+comment on column dry_tower.company is '公司名称';
+comment on column dry_tower.contacts_name is '联系人';
+comment on column dry_tower.contact_mobile is '手机号';
+comment on column dry_tower.commodity_id is '主营品种';
+comment on column dry_tower.location is '位置';
+comment on column dry_tower.area is '占地大小';
+comment on column dry_tower.shipment_weight is '出货量';
+comment on column dry_tower.create_time is '创建时间';
+comment on column dry_tower.status is '状态 1 正在使用中 0 失效';
+comment on column dry_tower.capacity_store is '库存能力';
+comment on column dry_tower.load_lorry_num is '同时装载车次';
+comment on column dry_tower.load_lorry_cost is '装载一车耗时';
+comment on column dry_tower.bind_user_id is '绑定人';
+comment on column dry_tower.user_id_card is '联系人身份证号';
 
 
