@@ -497,3 +497,67 @@ comment on column dry_tower.bind_user_id is '绑定人';
 comment on column dry_tower.user_id_card is '联系人身份证号';
 
 
+-- 报价表
+-- auto-generated definition
+create table quote_info
+(
+    id              serial not null
+        constraint quote_table_pk
+            primary key,
+    commodity_id    integer,
+    quote           numeric(10, 2),
+    unit_price      varchar(10),
+    shipment_weight numeric(10, 2),
+    unit_weight     varchar(10),
+    shipment_time   timestamp,
+    create_time     timestamp,
+    status          integer default 1,
+    "desc"          varchar(200),
+    expire_time     timestamp(6),
+    system_flag     integer,
+    bargain_status  integer,
+    user_id         varchar(50),
+    location        varchar(200),
+    user_name       varchar(20),
+    quote_id        varchar(50)
+);
+
+comment on table quote_info is '报价表格';
+
+comment on column quote_info.id is '自增ID';
+
+comment on column quote_info.commodity_id is '商品ID';
+
+comment on column quote_info.quote is '报价金额';
+
+comment on column quote_info.unit_price is '金额单位';
+
+comment on column quote_info.shipment_weight is '出货量';
+
+comment on column quote_info.unit_weight is '出货重量单位';
+
+comment on column quote_info.shipment_time is '出仓时间';
+
+comment on column quote_info.create_time is '报价生成时间';
+
+comment on column quote_info.status is '报价的状态 1 有效 0 无效';
+
+comment on column quote_info."desc" is '描述';
+
+comment on column quote_info.expire_time is '过期时间';
+
+comment on column quote_info.system_flag is '是否是系统报价，1 是系统报价 0 是用户自定义的报价';
+
+comment on column quote_info.bargain_status is '是否接受议价 0 不接受议价 1接受议价';
+
+comment on column quote_info.user_id is '报价人';
+
+comment on column quote_info.location is '出仓位置';
+
+comment on column quote_info.user_name is '用户名';
+
+comment on column quote_info.quote_id is '报价ID';
+
+alter table quote_info
+    owner to postgres;
+

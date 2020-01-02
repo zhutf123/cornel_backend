@@ -9,8 +9,11 @@ import com.demai.cornel.model.QuoteInfo;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.vo.quota.GerQuoteListResp;
+import com.demai.cornel.vo.quota.GetQuoteListReq;
 import com.demai.cornel.vo.quota.OfferQuoteReq;
 import com.demai.cornel.vo.quota.OfferQuoteResp;
+import com.demai.cornel.vo.task.GetOrderListReq;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +40,11 @@ import java.util.regex.Pattern;
     @Resource private UserInfoDao userInfoDao;
     @Resource private DryTowerDao dryTowerDao;
 
+    /**
+     * 我要报价 不是从list 过来的 而是是我要报价的按钮
+     * @param offerQuoteReq
+     * @return
+     */
     public OfferQuoteResp offerQuote(OfferQuoteReq offerQuoteReq) {
         OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
         Preconditions.checkNotNull(offerQuoteReq);
@@ -70,6 +78,10 @@ import java.util.regex.Pattern;
         return offerQuoteResp;
     }
 
+    /**
+     * 点击“我要报价” 返给客户端
+     * @return
+     */
     public OfferQuoteReq clickQuoteRest(){
         String userId = CookieAuthUtils.getCurrentUser();
         String location = dryTowerDao.getLocationByUserId(userId);
@@ -77,6 +89,11 @@ import java.util.regex.Pattern;
 
     }
 
+
+    public GerQuoteListResp getSystemQuoteList(GetOrderListReq getOrderListReq){
+       // todo
+        return null;
+    }
 
 
 
