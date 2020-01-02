@@ -501,9 +501,7 @@ comment on column dry_tower.user_id_card is '联系人身份证号';
 -- auto-generated definition
 create table quote_info
 (
-    id              serial not null
-        constraint quote_table_pk
-            primary key,
+    id   serial not null primary key,
     commodity_id    integer,
     quote           numeric(10, 2),
     unit_price      varchar(10),
@@ -560,4 +558,28 @@ comment on column quote_info.quote_id is '报价ID';
 
 alter table quote_info
     owner to postgres;
+
+-- 系统报价表
+create table system_quote
+(
+	id serial not null primary key,
+	quote_id varchar(40),
+	commodity_id varchar(40),
+	quote numeric(10,2),
+	unit_price varchar(10),
+	create_time timestamp default now(),
+	update_time timestamp default now()
+);
+
+comment on table system_quote is '系统品种报价表';
+
+comment on column system_quote.id is '自增ID';
+
+comment on column system_quote.quote_id is '报价ID';
+
+comment on column system_quote.commodity_id is '商品ID';
+
+comment on column system_quote.quote is '价格';
+
+comment on column system_quote.unit_price is '价格单位  元/吨';
 

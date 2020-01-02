@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.dao.SystemQuoteDao">
+  <resultMap id="BaseResultMap" type="com.demai.cornel.model.SystemQuote">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="quote_id" jdbcType="VARCHAR" property="quoteId" />
+    <result column="commodity_id" jdbcType="VARCHAR" property="commodityId" />
+    <result column="quote" jdbcType="NUMERIC" property="quote" />
+    <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, quote_id, commodity_id, "quote", unit_price, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from system_quote
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from system_quote
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.demai.cornel.model.SystemQuote">
+    <!--@mbg.generated-->
+    insert into system_quote (id, quote_id, commodity_id, 
+      "quote", unit_price, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{quoteId,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, 
+      #{quote,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.demai.cornel.model.SystemQuote">
+    <!--@mbg.generated-->
+    insert into system_quote
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="quoteId != null">
+        quote_id,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="quote != null">
+        "quote",
+      </if>
+      <if test="unitPrice != null">
+        unit_price,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="quoteId != null">
+        #{quoteId,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="quote != null">
+        #{quote,jdbcType=NUMERIC},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.model.SystemQuote">
+    <!--@mbg.generated-->
+    update system_quote
+    <set>
+      <if test="quoteId != null">
+        quote_id = #{quoteId,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityId != null">
+        commodity_id = #{commodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="quote != null">
+        "quote" = #{quote,jdbcType=NUMERIC},
+      </if>
+      <if test="unitPrice != null">
+        unit_price = #{unitPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demai.cornel.model.SystemQuote">
+    <!--@mbg.generated-->
+    update system_quote
+    set quote_id = #{quoteId,jdbcType=VARCHAR},
+      commodity_id = #{commodityId,jdbcType=VARCHAR},
+      "quote" = #{quote,jdbcType=NUMERIC},
+      unit_price = #{unitPrice,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
