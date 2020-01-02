@@ -54,5 +54,10 @@
         from commodity_list where status=1 and (system_flag=1 or ((system_flag=0 and bind_user_id=#{userId})))
         order by id desc;
     </select>
+    <select id="getCommodityByCommodityId" resultMap="commodityMapper">
+        select
+        <include refid="main_column"/>
+        from commodity_list where commodity_id=#{commodityId} ;
+    </select>
 
 </mapper>

@@ -41,4 +41,6 @@ public class SystemQuote {
 
     private Timestamp updateTime;
 
+    private Integer status;
+
 }

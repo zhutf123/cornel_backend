@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
     @JsonIgnore private Map<String, String> commodityProperties;
     private List<Properties> properties;
 
-    @Data private static class Properties {
+    @Data public static class Properties {
         private String title;
         private String value;
 

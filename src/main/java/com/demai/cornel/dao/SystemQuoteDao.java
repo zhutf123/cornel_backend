@@ -1,11 +1,16 @@
 package com.demai.cornel.dao;
 
 import com.demai.cornel.model.SystemQuote;
+import com.demai.cornel.vo.quota.GerQuoteListResp;
+import com.demai.cornel.vo.quota.GetQuoteListReq;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
-* @Author binz.zhang
-* @Date: 2020-01-02    13:09
-*/
+ * @Author binz.zhang
+ * @Date: 2020-01-02    13:09
+ */
 public interface SystemQuoteDao {
     int deleteByPrimaryKey(Integer id);
 
@@ -18,4 +23,6 @@ public interface SystemQuoteDao {
     int updateByPrimaryKeySelective(SystemQuote record);
 
     int updateByPrimaryKey(SystemQuote record);
+
+    List<GerQuoteListResp> getSystemQuote(@Param("quoteId") String quoteId, @Param("pgSize") Integer pgSize);
 }

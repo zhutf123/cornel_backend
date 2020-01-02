@@ -3,6 +3,8 @@ package com.demai.cornel.dao;
 import com.demai.cornel.model.DryTower;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
 * @Author binz.zhang
 * @Date: 2019-12-30    15:23
@@ -22,4 +24,6 @@ public interface DryTowerDao {
 
     String getLocationByUserId(@Param("userID")String userId);
 
+
+    List<DryTower> selectDryTowerByUserId(@Param("userID")String userId);
 }

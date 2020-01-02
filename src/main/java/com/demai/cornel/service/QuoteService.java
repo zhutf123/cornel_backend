@@ -1,26 +1,23 @@
 package com.demai.cornel.service;
 
 import com.demai.cornel.constant.ContextConsts;
-import com.demai.cornel.dao.DryTowerDao;
-import com.demai.cornel.dao.QuoteInfoDao;
-import com.demai.cornel.dao.UserInfoDao;
+import com.demai.cornel.dao.*;
 import com.demai.cornel.holder.UserHolder;
-import com.demai.cornel.model.QuoteInfo;
-import com.demai.cornel.model.UserInfo;
+import com.demai.cornel.model.*;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
-import com.demai.cornel.vo.quota.GerQuoteListResp;
-import com.demai.cornel.vo.quota.GetQuoteListReq;
-import com.demai.cornel.vo.quota.OfferQuoteReq;
-import com.demai.cornel.vo.quota.OfferQuoteResp;
+import com.demai.cornel.vo.quota.*;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -35,13 +32,15 @@ import java.util.regex.Pattern;
  */
 @Service @Slf4j public class QuoteService {
 
-
     @Resource private QuoteInfoDao quoteInfoDao;
     @Resource private UserInfoDao userInfoDao;
     @Resource private DryTowerDao dryTowerDao;
+    @Resource private SystemQuoteDao systemQuoteDao;
+    @Resource private CommodityDao commodityDao;
 
     /**
      * 我要报价 不是从list 过来的 而是是我要报价的按钮
+     *
      * @param offerQuoteReq
      * @return
      */
@@ -55,8 +54,8 @@ import java.util.regex.Pattern;
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue());
             return offerQuoteResp;
         }
-        List<Date> dates = getIntervalDate(offerQuoteReq.getStartTime(),offerQuoteReq.getEndTime());
-        if(dates==null){
+        List<Date> dates = getIntervalDate(offerQuoteReq.getStartTime(), offerQuoteReq.getEndTime());
+        if (dates == null) {
             log.info("dry tower quote info fail due to shipment time illegal");
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue());
             return offerQuoteResp;
@@ -68,7 +67,7 @@ import java.util.regex.Pattern;
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_STATUS.REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
-        dates.stream().forEach(x->{
+        dates.stream().forEach(x -> {
             quoteInfo.setShipmentTime(new Timestamp(x.getTime()));
             quoteInfoDao.insertSelective(quoteInfo);
         });
@@ -80,27 +79,83 @@ import java.util.regex.Pattern;
 
     /**
      * 点击“我要报价” 返给客户端
+     *
      * @return
      */
-    public OfferQuoteReq clickQuoteRest(){
+    public OfferQuoteReq clickQuoteRest() {
         String userId = CookieAuthUtils.getCurrentUser();
         String location = dryTowerDao.getLocationByUserId(userId);
         return OfferQuoteReq.builder().location(location).shipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT).build();
 
     }
 
-
-    public GerQuoteListResp getSystemQuoteList(GetOrderListReq getOrderListReq){
-       // todo
-        return null;
+    /**
+     * 获取系统商品报价
+     *
+     * @param getQuoteListReq
+     * @return
+     */
+    public List<GerQuoteListResp> getSystemQuoteList(GetQuoteListReq getQuoteListReq) {
+        return systemQuoteDao.getSystemQuote(getQuoteListReq.getQuoteId(),
+                Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));
     }
 
-
-
     private boolean checkQuote(OfferQuoteReq offerQuoteReq) {
-        return offerQuoteReq != null && offerQuoteReq.getCommodityId()!=null
-                && !Strings.isNullOrEmpty(offerQuoteReq.getLocation()) && offerQuoteReq.getShipmentWeight() != null
+        return offerQuoteReq != null && offerQuoteReq.getCommodityId() != null && !Strings
+                .isNullOrEmpty(offerQuoteReq.getLocation()) && offerQuoteReq.getShipmentWeight() != null
                 && offerQuoteReq.getQuote() != null;
+    }
+
+    /**
+     * 获取议价的范围
+     *
+     * @param commodityId
+     * @return
+     */
+    public BargainRange getBargainRange(String commodityId) {
+        return BargainRange.builder().upper(5).down(5).build();
+    }
+
+    /**
+     * 从系统报价列表点击进去我要报价返给客户端补全信息
+     *
+     * @param userId
+     * @param commodityId
+     * @return
+     */
+    public ClickSystemQuoteResp getClickInfo(String userId, String commodityId) {
+        Preconditions.checkNotNull(userId);
+        Preconditions.checkNotNull(commodityId);
+        UserInfo userInfo = userInfoDao.getUserInfoByUserId(userId);
+        if (userInfo == null || !userInfo.getRole().equals(UserInfo.ROLE_ENUE.SUPPLIER.getValue())) {
+            return ClickSystemQuoteResp.builder().status(ClickSystemQuoteResp.STATUS_ENUE.USER_ERROR.getValue())
+                    .build();
+        }
+        List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByUserId(userId);
+        if (CollectionUtils.isEmpty(ownDryInfo)) {
+            return ClickSystemQuoteResp.builder().status(ClickSystemQuoteResp.STATUS_ENUE.DRY_TOWER_ERROR.getValue())
+                    .build();
+        }
+        Commodity commodity = commodityDao.getCommodityByCommodityId(commodityId);
+        if (commodity == null) {
+            return ClickSystemQuoteResp.builder().status(ClickSystemQuoteResp.STATUS_ENUE.COMMODITY_ERROR.getValue())
+                    .build();
+        }
+        ClickSystemQuoteResp clickSystemQuoteResp = new ClickSystemQuoteResp();
+        clickSystemQuoteResp.setUserName(userInfo.getName());
+        if (userInfo.getMobile() != null && userInfo.getMobile().size() >= 1) {
+            clickSystemQuoteResp.setMobile(userInfo.getMobile().iterator().next());
+        }
+        clickSystemQuoteResp.setCommodity(commodity);
+        clickSystemQuoteResp.setShipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT);
+        clickSystemQuoteResp.setUnitWeight("吨");
+        clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
+        List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>(ownDryInfo.size());
+        ownDryInfo.stream().forEach(x->{
+            dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getId()),x.getLocation()));
+        });
+        clickSystemQuoteResp.setDryTowerInfo(dryTowerInfo);
+        return clickSystemQuoteResp;
     }
 
     /**

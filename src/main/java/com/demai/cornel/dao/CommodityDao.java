@@ -13,4 +13,6 @@ public interface CommodityDao {
     List<Commodity> getCommdityList(@Param("userId")String userId);
 
     int save(Commodity commodity);
+
+    Commodity getCommodityByCommodityId(@Param("commodityId")String commodityId);
 }

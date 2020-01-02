@@ -1,6 +1,9 @@
 package com.demai.cornel.controller.quota;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.service.QuoteService;
+import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.quota.GetQuoteListReq;
 import com.demai.cornel.vo.quota.OfferQuoteReq;
@@ -22,7 +25,7 @@ import javax.annotation.Resource;
     @Resource private QuoteService quoteService;
 
     /**
-     * 烘干塔报价接口
+     * 烘干塔主动报价接口
      *
      * @param offerQuoteReq
      * @return
@@ -31,34 +34,77 @@ import javax.annotation.Resource;
             @RequestBody OfferQuoteReq offerQuoteReq) {
         return JsonResult.success(quoteService.offerQuote(offerQuoteReq));
     }
+
     /**
      * 烘干塔点击我要报价
      *
      * @param
      * @return
      */
-    @RequestMapping(value = "/click-quota.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult clickQuote() {
+    @RequestMapping(value = "/click-quota.json", method = RequestMethod.POST) @ResponseBody public JsonResult clickQuote() {
         return JsonResult.success(quoteService.clickQuoteRest());
     }
-    @RequestMapping(value = "/offer-commodity.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult offerQuoteList(@RequestBody OfferQuoteReq offerQuoteReq) {
+
+    /**
+     * 用户自定义商品
+     *
+     * @param offerQuoteReq
+     * @return
+     */
+    @RequestMapping(value = "/offer-commodity.json", method = RequestMethod.POST) @ResponseBody public JsonResult offerQuoteList(
+            @RequestBody OfferQuoteReq offerQuoteReq) {
         return JsonResult.success(quoteService.clickQuoteRest());
     }
 
     /**
      * 获取系统报价list
+     *
      * @param getQuoteListReq
      * @return
      */
-    @RequestMapping(value = "/system-quote.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult getSystemQuoteList(@RequestBody GetQuoteListReq getQuoteListReq) {
-        return JsonResult.success(quoteService.clickQuoteRest());
+    @RequestMapping(value = "/system-quote.json", method = RequestMethod.POST) @ResponseBody public JsonResult getSystemQuoteList(
+            @RequestBody GetQuoteListReq getQuoteListReq) {
+        return JsonResult.success(quoteService.getSystemQuoteList(getQuoteListReq));
+    }
+
+    /**
+     * 烘干塔接受系统报价的接口 todo
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/click-system-quote.json", method = RequestMethod.POST) @ResponseBody
+    public JsonResult clickOfferSystemQuote(@RequestBody String param) {
+        JSONObject receivedParam = JSON.parseObject(param);
+        String commodityId = (String) receivedParam.get("commodityId");
+        return JsonResult.success(quoteService.getClickInfo(CookieAuthUtils.getCurrentUser(),commodityId));
     }
 
 
+    /**
+     * 烘干塔接受系统报价的接口 todo
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/offer-system-quote.json", method = RequestMethod.POST) @ResponseBody public JsonResult offerSystemQuote(
+            @RequestBody String param) {
+        JSONObject receivedParam = JSON.parseObject(param);
+        String commodityId = (String) receivedParam.get("commodityId");
+        return null;
+    }
+
+    /**
+     * 烘干塔获取议价范围
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/bargain-range.json", method = RequestMethod.POST) @ResponseBody public JsonResult getBargainRange(
+            @RequestBody String param) {
+        JSONObject receivedParam = JSON.parseObject(param);
+        String commodityId = (String) receivedParam.get("commodityId");
+        return JsonResult.success(quoteService.getBargainRange(commodityId));
+    }
 
 }
