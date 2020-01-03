@@ -47,7 +47,6 @@ import java.util.regex.Pattern;
     public OfferQuoteResp offerQuote(OfferQuoteReq offerQuoteReq) {
         OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
         Preconditions.checkNotNull(offerQuoteReq);
-        System.out.println("okko");
         log.debug("dry tower quote info is [{}]", JacksonUtils.obj2String(offerQuoteReq));
         if (!checkQuote(offerQuoteReq)) {
             log.info("dry tower quote info fail due to param illegal");
@@ -64,7 +63,45 @@ import java.util.regex.Pattern;
         BeanUtils.copyProperties(offerQuoteReq, quoteInfo);
         String userId = CookieAuthUtils.getCurrentUser();
         quoteInfo.setUserId(userId);
+        quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.USER_DEFINE.getValue());
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
+        quoteInfo.setStatus(QuoteInfo.QUOTE_STATUS.REVIEW.getValue());
+        quoteInfo.setQuoteId(UUID.randomUUID().toString());
+        dates.stream().forEach(x -> {
+            quoteInfo.setShipmentTime(new Timestamp(x.getTime()));
+            quoteInfoDao.insertSelective(quoteInfo);
+        });
+        offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
+        offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
+        offerQuoteResp.setQuoteId(quoteInfo.getQuoteId());
+        return offerQuoteResp;
+    }
+
+    /**
+     * 我要报价 从list 点击进来的
+     * @param offerQuoteReq
+     * @return
+     */
+    public OfferQuoteResp offerSystemQuote(OfferQuoteReq offerQuoteReq) {
+        OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
+        Preconditions.checkNotNull(offerQuoteReq);
+        log.debug("dry tower quote info is [{}]", JacksonUtils.obj2String(offerQuoteReq));
+        if (!checkQuote(offerQuoteReq)) {
+            log.info("dry tower quote info fail due to param illegal");
+            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue());
+            return offerQuoteResp;
+        }
+        List<Date> dates = getIntervalDate(offerQuoteReq.getStartTime(), offerQuoteReq.getEndTime());
+        if (dates == null) {
+            log.info("dry tower quote info fail due to shipment time illegal");
+            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue());
+            return offerQuoteResp;
+        }
+        QuoteInfo quoteInfo = new QuoteInfo();
+        BeanUtils.copyProperties(offerQuoteReq, quoteInfo);
+        String userId = CookieAuthUtils.getCurrentUser();
+        quoteInfo.setUserId(userId);
+        quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM_STATUS.getValue());
         quoteInfo.setStatus(QuoteInfo.QUOTE_STATUS.REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
         dates.stream().forEach(x -> {
@@ -96,7 +133,7 @@ import java.util.regex.Pattern;
      * @return
      */
     public List<GerQuoteListResp> getSystemQuoteList(GetQuoteListReq getQuoteListReq) {
-        return systemQuoteDao.getSystemQuote(getQuoteListReq.getQuoteId(),
+        return systemQuoteDao.getNewSystemQuote(getQuoteListReq.getQuoteId(),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));
     }
 
@@ -113,7 +150,7 @@ import java.util.regex.Pattern;
      * @return
      */
     public BargainRange getBargainRange(String commodityId) {
-        return BargainRange.builder().upper(5).down(5).build();
+        return BargainRange.builder().upper("+5").down("-5").build();
     }
 
     /**
@@ -146,9 +183,11 @@ import java.util.regex.Pattern;
         if (userInfo.getMobile() != null && userInfo.getMobile().size() >= 1) {
             clickSystemQuoteResp.setMobile(userInfo.getMobile().iterator().next());
         }
+        SystemQuote systemQuote = systemQuoteDao.getSystemQuoteByCommodityId(commodityId);
         clickSystemQuoteResp.setCommodity(commodity);
         clickSystemQuoteResp.setShipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT);
         clickSystemQuoteResp.setUnitWeight("吨");
+        clickSystemQuoteResp.setQuote(systemQuote.getQuote());
         clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>(ownDryInfo.size());
         ownDryInfo.stream().forEach(x->{

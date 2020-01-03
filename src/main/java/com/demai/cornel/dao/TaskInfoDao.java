@@ -21,7 +21,7 @@ public interface TaskInfoDao {
 
     public int updateTaskUnDistWeightAndSelectTime(@Param("unDistWeight") BigDecimal bigDecimal, @Param("taskId") String taskId,@Param("selectTime")String selectTime);
 
-    public List<Object> getTaskOrderListByStatus(@Param("supplierId") String userId, @Param("taskId") Long status);
+    public List<Object> getTaskOrderListByStatus(@Param("towerId") String userId, @Param("taskId") Long status);
 
 
     BigDecimal getTaskUnacceptWeight(@Param("taskId") String taskId);

@@ -24,5 +24,8 @@ public interface SystemQuoteDao {
 
     int updateByPrimaryKey(SystemQuote record);
 
-    List<GerQuoteListResp> getSystemQuote(@Param("quoteId") String quoteId, @Param("pgSize") Integer pgSize);
+    List<GerQuoteListResp> getNewSystemQuote(@Param("quoteId") String quoteId, @Param("pgSize") Integer pgSize);
+
+
+    SystemQuote getSystemQuoteByCommodityId(@Param("commodityId")String commodityId);
 }

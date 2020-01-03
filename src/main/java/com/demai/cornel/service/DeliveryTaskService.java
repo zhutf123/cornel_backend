@@ -71,7 +71,7 @@ import java.util.*;
         List<GetOrderListResp> orderListResp = orderInfoDao
                 .getOrderInfoByTaskByDelivery(deliveryId, param.getOrderType(), param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
-            log.info("delivery query order list is empty supplierId:{} param:{}", deliveryId, JsonUtil.toJson(param));
+            log.info("delivery query order list is empty towerId:{} param:{}", deliveryId, JsonUtil.toJson(param));
             return Lists.newArrayList();
         }
 

@@ -150,7 +150,7 @@
 
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <select id="getSystemQuote" resultMap="listRespMapper">
+    <select id="getNewSystemQuote" resultMap="listRespMapper">
         select
         <include refid="list_Resp"/>
         from system_quote s inner join commodity_list c on s.commodity_id=c.commodity_id where s.status=1
@@ -164,4 +164,10 @@
         </if>
         order by s.update_time desc limit #{pgSize};
     </select>
+    <select id="getSystemQuoteByCommodityId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from system_quote where commodity_id=#{commodityId} and status=1 order by id desc limit 1;
+    </select>
+
 </mapper>

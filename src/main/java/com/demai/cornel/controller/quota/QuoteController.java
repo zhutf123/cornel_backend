@@ -84,14 +84,12 @@ import javax.annotation.Resource;
     /**
      * 烘干塔接受系统报价的接口 todo
      *
-     * @param param
+     * @param offerQuoteReq
      * @return
      */
     @RequestMapping(value = "/offer-system-quote.json", method = RequestMethod.POST) @ResponseBody public JsonResult offerSystemQuote(
-            @RequestBody String param) {
-        JSONObject receivedParam = JSON.parseObject(param);
-        String commodityId = (String) receivedParam.get("commodityId");
-        return null;
+            @RequestBody OfferQuoteReq offerQuoteReq) {
+        return JsonResult.success(quoteService.offerSystemQuote(offerQuoteReq));
     }
 
     /**

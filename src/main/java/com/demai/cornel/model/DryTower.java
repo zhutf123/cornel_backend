@@ -13,6 +13,12 @@ import java.util.Set;
 */
 @Data
 public class DryTower {
+
+    /**
+     * 烘干塔ID
+     */
+    private String towerId;
+
     /**
     * 自增ID
     */

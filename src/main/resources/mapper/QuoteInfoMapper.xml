@@ -20,12 +20,14 @@
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+        <result column="tower_id" jdbcType="VARCHAR" property="towerId"/>
+
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, commodity_id, quote, unit_price, shipment_weight, unit_weight, shipment_time,
         create_time, status, desc, expire_time, system_flag, bargain_status, user_id,
-        location,user_name,quote_id
+        location,user_name,quote_id,tower_id
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -45,14 +47,14 @@
         unit_price, shipment_weight, unit_weight,
         shipment_time, create_time, "status",
         desc, expire_time, system_flag,
-        bargain_status, user_id, location,user_name,quote_id
+        bargain_status, user_id, location,user_name,quote_id,tower_id
         )
         values (#{id,jdbcType=INTEGER}, #{commodityId,jdbcType=INTEGER}, #{quote,jdbcType=NUMERIC},
         #{unitPrice,jdbcType=VARCHAR}, #{shipmentWeight,jdbcType=NUMERIC}, #{unitWeight,jdbcType=VARCHAR},
         #{shipmentTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
         #{desc,jdbcType=VARCHAR}, #{expireTime,jdbcType=TIMESTAMP}, #{systemFlag,jdbcType=INTEGER},
         #{bargainStatus,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR},
-        #{location,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{quoteId,jdbcType=VARCHAR}
+        #{location,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{quoteId,jdbcType=VARCHAR},#{towerId,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.demai.cornel.model.QuoteInfo">
@@ -110,6 +112,9 @@
             <if test="quoteId != null">
                 quote_id,
             </if>
+            <if test="towerId != null">
+                tower_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -162,6 +167,9 @@
             </if>
             <if test="quoteId != null">
                 #{quoteId,jdbcType=DECIMAL} ,
+            </if>
+            <if test="towerId != null">
+                #{towerId,jdbcType=VARCHAR} ,
             </if>
         </trim>
     </insert>
@@ -217,6 +225,9 @@
             <if test="userName != null">
                 quote_id = #{quoteId,jdbcType=VARCHAR} ,
             </if>
+            <if test="towerId != null">
+                tower_id = #{towerId,jdbcType=VARCHAR} ,
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -239,6 +250,8 @@
         location = #{location,jdbcType=VARCHAR},
         user_name = #{userId,jdbcType=VARCHAR},
         quote_id = #{quoteId,jdbcType=VARCHAR} ,
+        tower_id = #{towerId,jdbcType=VARCHAR} ,
+
         where id = #{id,jdbcType=INTEGER}
     </update>
 </mapper>

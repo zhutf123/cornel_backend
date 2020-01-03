@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 @Builder
 public class BargainRange {
-    private Integer upper; // +5元
-    private Integer down;// -5
+    private String upper; // +5元
+    private String down;// -5
 
 }

@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.demai.cornel.model.DryTower">
         <!--@mbg.generated-->
         <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="tower_id" jdbcType="VARCHAR" property="towerId"/>
         <result column="company" jdbcType="VARCHAR" property="company"/>
         <result column="contacts_name" jdbcType="VARCHAR" property="contactsName"/>
         <result column="contact_mobile" jdbcType="VARCHAR" property="contactMobile"/>
@@ -22,7 +23,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, company, contacts_name, contact_mobile, commodity_id, location, area, shipment_weight,
+        tower_id,id, company, contacts_name, contact_mobile, commodity_id, location, area, shipment_weight,
         create_time, "status", capacity_store, load_lorry_num, load_lorry_cost, bind_user_id,
         user_id_card
     </sql>
@@ -40,13 +41,13 @@
     </delete>
     <insert id="insert" parameterType="com.demai.cornel.model.DryTower">
         <!--@mbg.generated-->
-        insert into dry_tower (id, company, contacts_name,
+        insert into dry_tower (tower_id,id, company, contacts_name,
         contact_mobile, commodity_id, location,
         area, shipment_weight, create_time,
         status, capacity_store, load_lorry_num,
         load_lorry_cost, bind_user_id, user_id_card
         )
-        values (#{id,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR}, #{contactsName,jdbcType=VARCHAR},
+        values (#{towerId,jdbcType=VARCHAR},#{id,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR}, #{contactsName,jdbcType=VARCHAR},
         #{contactMobile,jdbcType=VARCHAR},
         #{commodityId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
         #{location,jdbcType=VARCHAR},
@@ -61,6 +62,9 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
+            </if>
+            <if test="towerId != null">
+                tower_id,
             </if>
             <if test="company != null">
                 company,
@@ -108,6 +112,9 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 #{id,jdbcType=INTEGER},
+            </if>
+            <if test="towerId != null">
+                #{towerId,jdbcType=VARCHAR},
             </if>
             <if test="company != null">
                 #{company,jdbcType=VARCHAR},
@@ -157,6 +164,9 @@
         <!--@mbg.generated-->
         update dry_tower
         <set>
+            <if test="towerId != null">
+                tower_id = #{towerId,jdbcType=VARCHAR},
+            </if>
             <if test="company != null">
                 company = #{company,jdbcType=VARCHAR},
             </if>
@@ -207,6 +217,7 @@
         <!--@mbg.generated-->
         update dry_tower
         set company = #{company,jdbcType=VARCHAR},
+        tower_id = #{towerId,jdbcType=VARCHAR},
         contacts_name = #{contactsName,jdbcType=VARCHAR},
         contact_mobile = #{contactMobile,jdbcType=VARCHAR},
         commodity_id =

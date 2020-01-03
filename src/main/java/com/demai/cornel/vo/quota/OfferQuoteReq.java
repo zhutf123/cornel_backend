@@ -14,7 +14,7 @@ import java.sql.Timestamp;
     /**
      * 主营品种ID
      **/
-    private Integer commodityId;
+    private String commodityId;
     /**
      * 报价金额
      **/
@@ -43,8 +43,19 @@ import java.sql.Timestamp;
      * 出货位置
      **/
     private String location;
+
+    /**
+     * 烘干塔ID
+     */
+    private String towerId;
+
     /**
      * 是否接受议价 1接受议价 0 不接受议价
      */
     private Integer bargainStatus;
+
+    /**
+     * 联系电话
+     */
+    private String mobile;
 }

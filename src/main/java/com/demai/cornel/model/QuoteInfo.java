@@ -94,6 +94,15 @@ import java.util.Date;
      * 出仓位置
      */
     private String location;
+    /**
+     * 出仓位置
+     */
+    private String towerId;
+
+    /**
+     * 联系电话
+     */
+    private String mobile;
 
     public static enum QUOTE_STATUS implements IEmus {
         CANCEL(-1, "取消"), REVIEW(1, "审核中"), REVIEW_PASS(2, "审核通过"), REVIEW_REFUSE(3, "审核拒绝");
@@ -116,4 +125,23 @@ import java.util.Date;
 
     }
 
+    public static enum SYSTEM_STATUS implements IEmus {
+        SYSTEM_STATUS(0, "系统报价"), USER_DEFINE(1, "用户自定义的报价");
+        private int value;
+        private String expr;
+
+        private SYSTEM_STATUS(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override public int getValue() {
+            return value;
+        }
+
+        @Override public String getExpr() {
+            return expr;
+        }
+
+    }
 }

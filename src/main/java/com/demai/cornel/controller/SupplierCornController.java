@@ -185,6 +185,14 @@ public class SupplierCornController {
         return JsonResult.successStatus(register_status);
     }
 
-
+    /**
+     * 获取指定人下面的烘干塔信息
+     * @return
+     */
+    @RequestMapping(value = "/get-tower.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult getDryTowerByUserId() {
+        return JsonResult.success(supplierTaskService.getTowerInfoByUserId(CookieAuthUtils.getCurrentUser()));
+    }
 
 }

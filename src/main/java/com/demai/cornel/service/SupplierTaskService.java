@@ -52,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
         List<GetOrderListResp> orderListResp = orderInfoDao
                 .getOrderInfoBySupplier(supplierId, param.getOrderType(), param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
-            log.info("supplier query order list is empty supplierId:{} param:{}", supplierId, JsonUtil.toJson(param));
+            log.info("supplier query order list is empty towerId:{} param:{}", supplierId, JsonUtil.toJson(param));
             return null;
         }
         Map<String, SupplierTaskListResp> taskOrderInfo = Maps.newHashMap();
@@ -76,7 +76,7 @@ import lombok.extern.slf4j.Slf4j;
         List<GetOrderListResp> orderListResp = orderInfoDao
                 .getOrderInfoBySupplier(supplierId, param.getOrderType(), param.getOrderId(), param.getPgSize());
         if (CollectionUtils.isEmpty(orderListResp)) {
-            log.info("supplier query order list is empty supplierId:{} param:{}", supplierId, JsonUtil.toJson(param));
+            log.info("supplier query order list is empty towerId:{} param:{}", supplierId, JsonUtil.toJson(param));
             return Lists.newArrayList();
         }
         orderListResp.stream().forEach(order -> {
@@ -240,6 +240,7 @@ import lombok.extern.slf4j.Slf4j;
             }
             dryTower.getTowerInfos().stream().forEach(x -> {
                 DryTower dryTowerInsert = new DryTower();
+                dryTowerInsert.setTowerId(UUID.randomUUID().toString());
                 BeanUtils.copyProperties(dryTower, dryTowerInsert);
                 BeanUtils.copyProperties(x, dryTowerInsert);
                 dryTowerDao.insertSelective(dryTowerInsert);
@@ -268,6 +269,15 @@ import lombok.extern.slf4j.Slf4j;
             return false;
         }
         return true;
+    }
+
+    /**
+     * 获取指定人下面的烘干塔列表
+     * @param userId
+     * @return
+     */
+   public List<DryTower> getTowerInfoByUserId(String userId){
+       return dryTowerDao.selectDryTowerByUserId(userId);
     }
 
 }
