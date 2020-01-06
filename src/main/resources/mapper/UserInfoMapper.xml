@@ -64,7 +64,6 @@
         create_time,
         operate_time
     </sql>
-
     <update id="update" parameterType="com.demai.cornel.model.UserInfo">
         update user_info
         <trim prefix="set" suffixOverrides=",">
@@ -215,8 +214,8 @@
     <select id="getUserNameByUserId" resultType="java.lang.String">
         select name from user_info where user_id=#{userID};
     </select>
-    <select id="getUserTelByUserId" resultType="java.lang.String">
-        select mobile from user_info where user_id=#{userId}
+    <select id="getUserTelByUserId" resultMap="userInfoResultMap">
+        select mobile  from user_info where user_id=#{userId}
     </select>
 
 </mapper>

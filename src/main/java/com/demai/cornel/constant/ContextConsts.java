@@ -19,6 +19,10 @@ public class ContextConsts {
 
     public static final String MDC_START_TIME = "mdc_start_time";
 
+    public static final String DEFAULT_UNIT_PRICE = "元";
+
+    public static final String DEFAULT_UNIT_WEIGHT = "吨";
+
     public static final Integer LORRY_OVER_WEIGHT_FACTOR = 4; //货车超重系数
 
 

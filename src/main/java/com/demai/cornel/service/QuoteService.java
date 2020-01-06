@@ -73,9 +73,9 @@ import java.util.regex.Pattern;
         String userId = CookieAuthUtils.getCurrentUser();
         quoteInfo.setLocation(dryTower.getLocation());
         if (Strings.isNullOrEmpty(offerQuoteReq.getMobile())) {
-            List<String> mobile = userInfoDao.getUserTelByUserId(CookieAuthUtils.getCurrentUser());
-            if (!CollectionUtils.isEmpty(mobile)) {
-                quoteInfo.setMobile(mobile.get(0));
+            UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
+            if (!CollectionUtils.isEmpty(userInfo.getMobile())) {
+                quoteInfo.setMobile(userInfo.getMobile().iterator().next());
             }
         }
         quoteInfo.setUserId(userId);
@@ -147,7 +147,10 @@ import java.util.regex.Pattern;
     public OfferQuoteReq clickQuoteRest() {
         String userId = CookieAuthUtils.getCurrentUser();
         String location = dryTowerDao.getLocationByUserId(userId);
-        return OfferQuoteReq.builder().location(location).shipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT).build();
+        return OfferQuoteReq.builder().location(location).
+                shipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT)
+                .unitPrice(ContextConsts.DEFAULT_UNIT_PRICE)
+                .unitWeight(ContextConsts.DEFAULT_UNIT_WEIGHT).build();
 
     }
 
