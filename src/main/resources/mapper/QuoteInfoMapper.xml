@@ -336,7 +336,7 @@
     <select id="getOwnerQuoteList" resultMap="get_quote_list">
         select
         <include refid="get_offer_list"/>
-        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and
+        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and q.status != -1 and
         q.system_flag=0
         <if test="quoteId != null and quoteId != ''">
             and q.id <![CDATA[<=]]> (select id from quote_info where quoteId=#{quoteId,jdbcType=VARCHAR} )
@@ -349,7 +349,7 @@
     <select id="getSystemOwnerQuoteList" resultMap="get_quote_list">
         select
         <include refid="get_offer_list"/>
-        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and
+        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and q.status != -1 and
         q.system_flag=1
         <if test="quoteId != null and quoteId != ''">
             and q.id <![CDATA[<=]]> (select id from quote_info where quoteId=#{quoteId,jdbcType=VARCHAR} )
