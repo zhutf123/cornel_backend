@@ -1,10 +1,13 @@
 package com.demai.cornel.vo.quota;
 
+import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.QuoteInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
+import javax.xml.ws.Service;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -73,6 +76,13 @@ import java.util.stream.Collectors;
      * 报价的状态 1 有效 0 无效
      */
     private Integer status;
+
+    private String serviceMobileList;
+
+    public void setServiceMobileList(String serviceMobileList) {
+        ServiceMobileConfig serviceMobileConfig = new ServiceMobileConfig();
+        this.serviceMobileList = serviceMobileList;
+    }
 
     public void setCommodityProperties(Map<String, String> commodityProperties) {
         this.commodityProperties = commodityProperties;
