@@ -30,7 +30,7 @@ public class JodaDatetimeHandler extends BaseTypeHandler<String> {
         if (timestamp == null) {
             return null;
         }
-        return  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
+        return  new SimpleDateFormat("yyyy-MM-dd").format(timestamp);
     }
 
     @Override public String getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
