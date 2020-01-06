@@ -9,22 +9,19 @@ import java.util.Date;
 
 /**
  * @Author binz.zhang
- * @Date: 2019-12-31    13:39
+ * @Date: 2020-01-06    11:58
  */
-@Data public class QuoteInfo {
+@Data
+public class QuoteInfo {
     /**
      * 自增ID
      */
     private Integer id;
-    /**
-     * 报价ID
-     */
-    private String quoteId;
 
     /**
      * 商品ID
      */
-    private Integer commodityId;
+    private String commodityId;
 
     /**
      * 报价金额
@@ -49,12 +46,12 @@ import java.util.Date;
     /**
      * 出仓时间
      */
-    private Timestamp shipmentTime;
+    private Timestamp startTime;
 
     /**
-     * 报价生成时间
+     * 更新时间
      */
-    private Timestamp createTime;
+    private Timestamp updateTime;
 
     /**
      * 报价的状态 1 有效 0 无效
@@ -65,11 +62,6 @@ import java.util.Date;
      * 描述
      */
     private String desc;
-
-    /**
-     * 过期时间
-     */
-    private Timestamp expireTime;
 
     /**
      * 是否是系统报价，1 是系统报价 0 是用户自定义的报价
@@ -85,17 +77,24 @@ import java.util.Date;
      * 报价人
      */
     private String userId;
-    /**
-     * 报价人
-     */
-    private String userName;
 
     /**
      * 出仓位置
      */
     private String location;
+
     /**
-     * 出仓位置
+     * 用户名
+     */
+    private String userName;
+
+    /**
+     * 报价ID
+     */
+    private String quoteId;
+
+    /**
+     * 烘干塔ID
      */
     private String towerId;
 
@@ -104,29 +103,13 @@ import java.util.Date;
      */
     private String mobile;
 
-    public static enum QUOTE_STATUS implements IEmus {
-        CANCEL(-1, "取消"), REVIEW(1, "审核中"), REVIEW_PASS(2, "审核通过"), REVIEW_REFUSE(3, "审核拒绝");
-
-        private int value;
-        private String expr;
-
-        private QUOTE_STATUS(int value, String expr) {
-            this.value = value;
-            this.expr = expr;
-        }
-
-        @Override public int getValue() {
-            return value;
-        }
-
-        @Override public String getExpr() {
-            return expr;
-        }
-
-    }
-
+    /**
+     * 结束时间
+     */
+    private Timestamp endTime;
     public static enum SYSTEM_STATUS implements IEmus {
-        SYSTEM_STATUS(0, "系统报价"), USER_DEFINE(1, "用户自定义的报价");
+        SYSTEM(1, "参数错误"), USER_DEFINE(0, "用户发起订单");
+
         private int value;
         private String expr;
 
@@ -144,4 +127,25 @@ import java.util.Date;
         }
 
     }
+    public static enum QUOTE_TATUS implements IEmus {
+        CANCEL(-1, "取消"), REVIEW(1, "审核中"),
+        REVIEW_PASS(2, "审核通过"), REVIEW_REFUSE(3, "审核拒绝");
+        private int value;
+        private String expr;
+
+        private QUOTE_TATUS(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override public int getValue() {
+            return value;
+        }
+
+        @Override public String getExpr() {
+            return expr;
+        }
+
+    }
+
 }

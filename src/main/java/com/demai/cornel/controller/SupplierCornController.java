@@ -3,6 +3,8 @@
  */
 package com.demai.cornel.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.DryTower;
@@ -19,6 +21,7 @@ import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -194,5 +197,42 @@ public class SupplierCornController {
     public JsonResult getDryTowerByUserId() {
         return JsonResult.success(supplierTaskService.getTowerInfoByUserId(CookieAuthUtils.getCurrentUser()));
     }
+
+    /**
+     * 根据烘干塔ID 获取烘干塔信息
+     * @param orderIdParam
+     * @return
+     */
+    @RequestMapping(value = "/tower-info.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult getDryTowerInfo(@RequestBody String orderIdParam) {
+        JSONObject receivedParam = JSON.parseObject(orderIdParam);
+        String towerId = (String) receivedParam.get("towerId");
+        return JsonResult.success(supplierTaskService.getTowerInfoByTowerId(towerId));
+    }
+
+    /**
+     * 更新烘干塔信息
+     * @param orderIdParam
+     * @return
+     */
+    @RequestMapping(value = "/edit-tower.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult updateTowerId(@RequestBody DryTower orderIdParam) {
+        return JsonResult.success(supplierTaskService.updateTowerInfo(orderIdParam));
+    }
+
+    /**
+     * 增加烘干塔
+     * @param orderIdParam
+     * @return
+     */
+    @RequestMapping(value = "/add-tower.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult addTower(@RequestBody DryTower orderIdParam) {
+        return JsonResult.success(supplierTaskService.adddTowerInfo(orderIdParam));
+    }
+
+
 
 }

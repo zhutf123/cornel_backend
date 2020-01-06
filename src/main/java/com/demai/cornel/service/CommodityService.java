@@ -4,6 +4,7 @@ import com.demai.cornel.dao.CommodityDao;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.vo.commodity.GetCommodityListResp;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.util.UUID;
 public class CommodityService {
     @Resource private CommodityDao commodityDao;
 
-    public List<Commodity> getAllCommodity(String userId) {
+    public List<GetCommodityListResp> getAllCommodity(String userId) {
         return commodityDao.getCommdityList(userId);
     }
 

@@ -1,6 +1,7 @@
 package com.demai.cornel.dao;
 
 import com.demai.cornel.model.Commodity;
+import com.demai.cornel.vo.commodity.GetCommodityListResp;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @Date: 2019-12-27    16:42
  */
 public interface CommodityDao {
-    List<Commodity> getCommdityList(@Param("userId")String userId);
+    List<GetCommodityListResp> getCommdityList(@Param("userId")String userId);
 
     int save(Commodity commodity);
 

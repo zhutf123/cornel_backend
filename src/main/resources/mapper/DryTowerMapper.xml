@@ -11,6 +11,8 @@
         <result column="commodity_id" property="commodityId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="location_area" jdbcType="VARCHAR" property="locationArea"/>
+        <result column="location_detail" jdbcType="VARCHAR" property="locationDetail"/>
         <result column="area" jdbcType="NUMERIC" property="area"/>
         <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -20,12 +22,14 @@
         <result column="load_lorry_cost" jdbcType="NUMERIC" property="loadLorryCost"/>
         <result column="bind_user_id" jdbcType="VARCHAR" property="bindUserId"/>
         <result column="user_id_card" jdbcType="VARCHAR" property="userIdCard"/>
+        <result column="default_flag" jdbcType="INTEGER" property="defaultFlag"/>
+
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         tower_id,id, company, contacts_name, contact_mobile, commodity_id, location, area, shipment_weight,
         create_time, "status", capacity_store, load_lorry_num, load_lorry_cost, bind_user_id,
-        user_id_card
+        user_id_card,default_flag,location_area,location_detail
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -45,15 +49,17 @@
         contact_mobile, commodity_id, location,
         area, shipment_weight, create_time,
         status, capacity_store, load_lorry_num,
-        load_lorry_cost, bind_user_id, user_id_card
+        load_lorry_cost, bind_user_id, user_id_card,default_flag,location_area,location_detail
         )
-        values (#{towerId,jdbcType=VARCHAR},#{id,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR}, #{contactsName,jdbcType=VARCHAR},
+        values (#{towerId,jdbcType=VARCHAR},#{id,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR},
+        #{contactsName,jdbcType=VARCHAR},
         #{contactMobile,jdbcType=VARCHAR},
         #{commodityId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
         #{location,jdbcType=VARCHAR},
         #{area,jdbcType=NUMERIC}, #{shipmentWeight,jdbcType=NUMERIC}, #{createTime,jdbcType=TIMESTAMP},
         #{status,jdbcType=INTEGER}, #{capacityStore,jdbcType=NUMERIC}, #{loadLorryNum,jdbcType=INTEGER},
-        #{loadLorryCost,jdbcType=NUMERIC}, #{bindUserId,jdbcType=VARCHAR}, #{userIdCard,jdbcType=VARCHAR}
+        #{loadLorryCost,jdbcType=NUMERIC}, #{bindUserId,jdbcType=VARCHAR},
+        #{userIdCard,jdbcType=VARCHAR},#{defaultFlag,jdbcType=INTEGER},#{locationArea,jdbcType=VARCHAR},#{locationDetail,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.demai.cornel.model.DryTower">
@@ -108,6 +114,15 @@
             <if test="userIdCard != null">
                 user_id_card,
             </if>
+            <if test="defaultFlag != null">
+                default_flag,
+            </if>
+            <if test="locationArea != null">
+                location_area,
+            </if>
+            <if test="locationDetail != null">
+                location_detail,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -157,6 +172,15 @@
             </if>
             <if test="userIdCard != null">
                 #{userIdCard,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultFlag != null">
+                #{defaultFlag,jdbcType=INTEGER} ,
+            </if>
+            <if test="locationArea != null">
+                #{locationArea,jdbcType=VARCHAR} ,
+            </if>
+            <if test="locationDetail != null">
+                #{locationDetail,jdbcType=VARCHAR} ,
             </if>
         </trim>
     </insert>
@@ -210,6 +234,15 @@
             <if test="userIdCard != null">
                 user_id_card = #{userIdCard,jdbcType=VARCHAR},
             </if>
+            <if test="defaultFlag != null">
+                default_flag = #{defaultFlag,jdbcType=INTEGER} ,
+            </if>
+            <if test="locationArea != null">
+                location_area=#{locationArea,jdbcType=VARCHAR} ,
+            </if>
+            <if test="locationDetail != null">
+                location_detail=#{locationDetail,jdbcType=VARCHAR} ,
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -231,7 +264,11 @@
         load_lorry_num = #{loadLorryNum,jdbcType=INTEGER},
         load_lorry_cost = #{loadLorryCost,jdbcType=NUMERIC},
         bind_user_id = #{bindUserId,jdbcType=VARCHAR},
-        user_id_card = #{userIdCard,jdbcType=VARCHAR}
+        user_id_card = #{userIdCard,jdbcType=VARCHAR},
+        default_flag = #{defaultFlag,jdbcType=INTEGER},
+        location_area = #{locationArea,jdbcType=VARCHAR},
+        location_detail = #{locationDetail,jdbcType=VARCHAR},
+
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="getLocationByUserId" resultType="java.lang.String">
@@ -242,4 +279,12 @@
         <include refid="Base_Column_List"/>
         from dry_tower where bind_user_id=#{userID} and status=1;
     </select>
+    <select id="selectByTowerId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dry_tower where tower_id=#{towerId,jdbcType=VARCHAR} ;
+    </select>
+    <delete id="updateTowerNonDefaultFlag">
+     update dry_tower set default_flag=0 where bind_user_id=#{userID} ;
+    </delete>
 </mapper>

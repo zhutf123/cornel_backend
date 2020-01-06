@@ -8,6 +8,7 @@ import com.demai.cornel.service.CommodityService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.commodity.CommodityResp;
+import com.demai.cornel.vo.commodity.GetCommodityListResp;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,7 @@ import java.util.Optional;
 
     @RequestMapping(value = "/commodity-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult getCommodityList() {
         String userId = UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME);
-        List<Commodity> commodityList = commodityService.getAllCommodity(userId);
+        List<GetCommodityListResp> commodityList = commodityService.getAllCommodity(userId);
         return JsonResult.success(commodityList);
     }
 

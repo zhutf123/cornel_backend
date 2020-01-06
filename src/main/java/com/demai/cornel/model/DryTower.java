@@ -48,6 +48,14 @@ public class DryTower {
     * 位置
     */
     private String location;
+    /**
+     * 位置 所在区域
+     */
+    private String locationArea;
+    /**
+     * 详细位置
+     */
+    private String locationDetail;
 
     /**
     * 占地大小
@@ -93,6 +101,11 @@ public class DryTower {
     * 联系人身份证号
     */
     private String userIdCard;
+
+    /**
+     * 默认标志位 1是默认烘干塔 0是非默认
+     */
+    private Integer defaultFlag;
 
     public static enum REGISTER_STATUS implements IEmus {
         SUCCESS(0, "注册成功"),

@@ -6,12 +6,27 @@
     <resultMap type="com.demai.cornel.model.Commodity" id="commodityMapper">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
-        <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"  javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
         <result column="commodity_id" property="commodityId"/>
         <result column="status" property="status"/>
         <result column="system_flag" property="systemFlag"/>
         <result column="bind_user_id" property="bindUserId"/>
+    </resultMap>
 
+    <resultMap type="com.demai.cornel.vo.commodity.GetCommodityListResp" id="commodityListMapper">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="commodity_id" property="commodityId"/>
+        <result column="status" property="status"/>
+        <result column="system_flag" property="systemFlag"/>
+        <result column="bind_user_id" property="bindUserId"/>
+        <result column="quote" property="quote"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="min_shipment_weight" property="shipmentWeight"/>
+        <result column="unit_weight" property="unitWeight"/>
     </resultMap>
 
     <sql id="main_column">
@@ -22,6 +37,19 @@
         status,
         system_flag,
         bind_user_id
+    </sql>
+    <sql id="commodity_list_column">
+        c.id,
+        c.name,
+        c.commodity_properties,
+        c.commodity_id,
+        c.status,
+        c.system_flag,
+        c.bind_user_id,
+        s.quote,
+        s.unit_price,
+        s.min_shipment_weight,
+        s.unit_weight
     </sql>
 
 
@@ -40,7 +68,10 @@
         <trim suffixOverrides=",">
             <if test="id != null">#{id} ,</if>
             <if test="name != null">#{name} ,</if>
-            <if test="commodityProperties != null">#{commodityProperties,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler} ,</if>
+            <if test="commodityProperties != null">
+                #{commodityProperties,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}
+                ,
+            </if>
             <if test="commodityId != null">#{commodityId} ,</if>
             <if test="status != null">#{status}</if>
             <if test="systemFlag != null">#{systemFlag} ,</if>
@@ -48,11 +79,11 @@
         </trim>
         )
     </insert>
-    <select id="getCommdityList" resultMap="commodityMapper">
+    <select id="getCommdityList" resultMap="commodityListMapper">
         select
-        <include refid="main_column"/>
-        from commodity_list where status=1 and (system_flag=1 or ((system_flag=0 and bind_user_id=#{userId})))
-        order by id desc;
+        <include refid="commodity_list_column"/>
+        from commodity_list c left join system_quote s on c.commodity_id=s.commodity_id where c.status=1 and (c.system_flag=1 or ((c.system_flag=0 and c.bind_user_id=#{userId}))) and s.status=1
+        order by c.id desc;
     </select>
     <select id="getCommodityByCommodityId" resultMap="commodityMapper">
         select

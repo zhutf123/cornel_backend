@@ -9,11 +9,14 @@ import java.util.*;
 import javax.annotation.Resource;
 
 import com.demai.cornel.dao.DryTowerDao;
+import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.DryTower;
+import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.*;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.supplier.SupplierRegisterReq;
+import com.demai.cornel.vo.tower.TowerOperaResp;
 import com.google.common.base.Strings;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
@@ -41,6 +44,9 @@ import lombok.extern.slf4j.Slf4j;
     @Resource private OrderInfoDao orderInfoDao;
 
     @Resource private DryTowerDao dryTowerDao;
+
+    @Resource private UserInfoDao userInfoDao;
+
 
     /**
      * 根据用户烘干塔用户id 订单状态查询任务订单
@@ -278,6 +284,70 @@ import lombok.extern.slf4j.Slf4j;
      */
    public List<DryTower> getTowerInfoByUserId(String userId){
        return dryTowerDao.selectDryTowerByUserId(userId);
+    }
+
+    /**
+     * 根据烘干塔ID 获取烘干塔信息
+     * @param towerId
+     * @return
+     */
+    public DryTower getTowerInfoByTowerId(String towerId){
+        return dryTowerDao.selectByTowerId(towerId);
+    }
+
+    /**
+     * 更新烘干塔信息
+     * @param dryTower
+     * @return
+     */
+    public TowerOperaResp updateTowerInfo(DryTower dryTower){
+        if(dryTower==null || Strings.isNullOrEmpty(dryTower.getTowerId())){
+            return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.PARAM_ERROR.getValue()).build();
+        }
+       if(dryTower.getDefaultFlag()!=null && dryTower.getDefaultFlag().equals(1)){
+           dryTowerDao.updateTowerNonDefaultFlag(CookieAuthUtils.getCurrentUser());
+       }
+       int rest =  dryTowerDao.updateByPrimaryKeySelective(dryTower);
+       if(rest==0){
+           return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.NO_TOWER.getValue()).build();
+       }
+       return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.SUCCESS.getValue())
+               .towerId(dryTower.getTowerId()).build();
+
+    }
+
+    /**
+     * 烘干塔侧增加新的烘干塔
+     * @param dryTower
+     * @return
+     */
+    public TowerOperaResp adddTowerInfo(DryTower dryTower){
+        if(dryTower==null || Strings.isNullOrEmpty(dryTower.getLocationArea()) ||Strings.isNullOrEmpty(dryTower.getLocationDetail()) ){
+            return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.PARAM_ERROR.getValue()).build();
+        }
+
+        dryTower.setTowerId(UUID.randomUUID().toString());
+        dryTower.setBindUserId(CookieAuthUtils.getCurrentUser());
+        UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
+        if(userInfo==null || userInfo.getRole()==null || !userInfo.getRole().equals(UserInfo.ROLE_ENUE.SUPPLIER.getValue())){
+            return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.AUTH_ERROR.getValue()).build();
+        }
+        dryTower.setUserIdCard(userInfo.getIdCard());
+        dryTower.setContactsName(userInfo.getName());
+        Set<String> mobiles = userInfo.getMobile();
+        if(mobiles!=null && mobiles.size()>0){
+            dryTower.setContactMobile(mobiles.iterator().next());
+        }
+        if(dryTower.getDefaultFlag()!=null && dryTower.getDefaultFlag().equals(1)){
+            dryTowerDao.updateTowerNonDefaultFlag(CookieAuthUtils.getCurrentUser());
+        }
+        int rest =  dryTowerDao.insertSelective(dryTower);
+        if(rest==0){
+            return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.NO_TOWER.getValue()).build();
+        }
+        return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.SUCCESS.getValue())
+                .towerId(dryTower.getTowerId()).build();
+
     }
 
 }

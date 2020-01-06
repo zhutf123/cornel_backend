@@ -1,10 +1,12 @@
 package com.demai.cornel.vo.quota;
 
 import com.demai.cornel.model.Commodity;
+import com.demai.cornel.model.QuoteInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,19 +14,65 @@ import java.util.stream.Collectors;
 
 /**
  * @Author binz.zhang
- * @Date: 2020-01-02    10:59
+ * @Date: 2020-01-06    14:32
  */
-@Data public class GerQuoteListResp {
-    private String quoteId; //报价ID
-    private String commodityId; // 商品ID
-    private BigDecimal quote;     //价格
-    private String unitPrice; //价格单位
-    private String unitWeight; //价格单位
-    private String commodityName;  //商品名称
-    private BigDecimal shipmentWeight;//最少出货量
+@Data public class GetOfferListResp {
+
+    /**
+     *
+     */
+
+    private String commodityId;
+    /**
+     * 商品名称
+     */
+    private String commodityName;
+    /**
+     * 商品属性
+     */
+    private List<Commodity.Properties> properties;
+
     @JsonIgnore private Map<String, String> commodityProperties;
 
-    private List<Commodity.Properties> properties; //商品属性
+    /**
+     * 报价ID
+     */
+    private String quoteId;
+
+    /**
+     * 报价金额
+     */
+    private BigDecimal quote;
+
+    /**
+     * 金额单位
+     */
+    private String unitPrice;
+
+    /**
+     * 出货量
+     */
+    private BigDecimal shipmentWeight;
+
+    /**
+     * 出货重量单位
+     */
+    private String unitWeight;
+
+    /**
+     * 出仓时间
+     */
+    private String startTime;
+
+    /**
+     * 更新时间
+     */
+    private String endTime;
+
+    /**
+     * 报价的状态 1 有效 0 无效
+     */
+    private Integer status;
 
     public void setCommodityProperties(Map<String, String> commodityProperties) {
         this.commodityProperties = commodityProperties;

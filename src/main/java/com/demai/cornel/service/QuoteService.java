@@ -6,6 +6,7 @@ import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.*;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.TimeStampUtil;
 import com.demai.cornel.vo.quota.*;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.google.common.base.Preconditions;
@@ -37,6 +38,7 @@ import java.util.regex.Pattern;
     @Resource private DryTowerDao dryTowerDao;
     @Resource private SystemQuoteDao systemQuoteDao;
     @Resource private CommodityDao commodityDao;
+    private static String TIME_FORMAT = "yyyy-MM-dd";
 
     /**
      * 我要报价 不是从list 过来的 而是是我要报价的按钮
@@ -53,24 +55,25 @@ import java.util.regex.Pattern;
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue());
             return offerQuoteResp;
         }
-        List<Date> dates = getIntervalDate(offerQuoteReq.getStartTime(), offerQuoteReq.getEndTime());
-        if (dates == null) {
-            log.info("dry tower quote info fail due to shipment time illegal");
-            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue());
+        DryTower dryTower = dryTowerDao.selectByTowerId(offerQuoteReq.getTowerId());
+        if (dryTower == null) {
+            log.info("dry tower quote info fail due to dry tower illegal");
+            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.DRY_TOWER_ERROR.getValue());
             return offerQuoteResp;
         }
         QuoteInfo quoteInfo = new QuoteInfo();
         BeanUtils.copyProperties(offerQuoteReq, quoteInfo);
         String userId = CookieAuthUtils.getCurrentUser();
+        quoteInfo.setLocation(dryTower.getLocation());
         quoteInfo.setUserId(userId);
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.USER_DEFINE.getValue());
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
-        quoteInfo.setStatus(QuoteInfo.QUOTE_STATUS.REVIEW.getValue());
+        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
-        dates.stream().forEach(x -> {
-            quoteInfo.setShipmentTime(new Timestamp(x.getTime()));
-            quoteInfoDao.insertSelective(quoteInfo);
-        });
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        quoteInfoDao.insertSelective(quoteInfo);
         offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
         offerQuoteResp.setQuoteId(quoteInfo.getQuoteId());
@@ -79,6 +82,7 @@ import java.util.regex.Pattern;
 
     /**
      * 我要报价 从list 点击进来的
+     *
      * @param offerQuoteReq
      * @return
      */
@@ -91,23 +95,25 @@ import java.util.regex.Pattern;
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue());
             return offerQuoteResp;
         }
-        List<Date> dates = getIntervalDate(offerQuoteReq.getStartTime(), offerQuoteReq.getEndTime());
-        if (dates == null) {
-            log.info("dry tower quote info fail due to shipment time illegal");
-            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue());
+        DryTower dryTower = dryTowerDao.selectByTowerId(offerQuoteReq.getTowerId());
+        if (dryTower == null) {
+            log.info("dry tower quote info fail due to dry tower illegal");
+            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.DRY_TOWER_ERROR.getValue());
             return offerQuoteResp;
         }
         QuoteInfo quoteInfo = new QuoteInfo();
         BeanUtils.copyProperties(offerQuoteReq, quoteInfo);
         String userId = CookieAuthUtils.getCurrentUser();
+        quoteInfo.setLocation(dryTower.getLocation());
         quoteInfo.setUserId(userId);
-        quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM_STATUS.getValue());
-        quoteInfo.setStatus(QuoteInfo.QUOTE_STATUS.REVIEW.getValue());
+        quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
+        quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
+        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
-        dates.stream().forEach(x -> {
-            quoteInfo.setShipmentTime(new Timestamp(x.getTime()));
-            quoteInfoDao.insertSelective(quoteInfo);
-        });
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        quoteInfoDao.insertSelective(quoteInfo);
         offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
         offerQuoteResp.setQuoteId(quoteInfo.getQuoteId());
@@ -139,7 +145,7 @@ import java.util.regex.Pattern;
 
     private boolean checkQuote(OfferQuoteReq offerQuoteReq) {
         return offerQuoteReq != null && offerQuoteReq.getCommodityId() != null && !Strings
-                .isNullOrEmpty(offerQuoteReq.getLocation()) && offerQuoteReq.getShipmentWeight() != null
+                .isNullOrEmpty(offerQuoteReq.getTowerId()) && offerQuoteReq.getShipmentWeight() != null
                 && offerQuoteReq.getQuote() != null;
     }
 
@@ -186,15 +192,36 @@ import java.util.regex.Pattern;
         SystemQuote systemQuote = systemQuoteDao.getSystemQuoteByCommodityId(commodityId);
         clickSystemQuoteResp.setCommodity(commodity);
         clickSystemQuoteResp.setShipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT);
-        clickSystemQuoteResp.setUnitWeight("吨");
+        clickSystemQuoteResp.setUnitWeight(systemQuote.getUnitWeight());
+        clickSystemQuoteResp.setUnitPrice(systemQuote.getUnitPrice());
         clickSystemQuoteResp.setQuote(systemQuote.getQuote());
         clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>(ownDryInfo.size());
-        ownDryInfo.stream().forEach(x->{
-            dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getId()),x.getLocation()));
+        ownDryInfo.stream().forEach(x -> {
+            dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getTowerId()), x.getLocation(),
+                    x.getLocationArea(), x.getLocationDetail()));
         });
         clickSystemQuoteResp.setDryTowerInfo(dryTowerInfo);
         return clickSystemQuoteResp;
+    }
+
+    public List<GetOfferListResp> getOfferListRespList(String quoteId, Integer pgSize) {
+        if (pgSize == null) {
+            pgSize = 10;
+        }
+        return quoteInfoDao.getOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
+    }
+
+    public List<GetOfferListResp> getSystemOfferListRespList(String quoteId, Integer pgSize) {
+        if (pgSize == null) {
+            pgSize = 10;
+        }
+        return quoteInfoDao.getSystemOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
+    }
+
+
+    public GetOfferInfoResp getOfferInfoResp(String quoteId) {
+        return quoteInfoDao.getQuoteInfoById(quoteId);
     }
 
     /**

@@ -7,40 +7,45 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
-* @Author binz.zhang
-* @Date: 2020-01-02    13:09
-*/
-@Data
-public class SystemQuote {
+ * @Author binz.zhang
+ * @Date: 2020-01-02    13:09
+ */
+@Data public class SystemQuote {
     /**
-    * 自增ID
-    */
+     * 自增ID
+     */
     private Integer id;
-
     /**
-    * 报价ID
-    */
+     * 报价ID
+     */
     private String quoteId;
-
     /**
-    * 商品ID
-    */
+     * 商品ID
+     */
     private String commodityId;
-
     /**
-    * 价格
-    */
+     * 价格
+     */
     private BigDecimal quote;
-
     /**
-    * 价格单位  元/吨
-    */
+     * 价格单位  元
+     */
     private String unitPrice;
-
+    /**
+     * 重量单位 吨
+     */
+    private String unitWeight;
+    /**
+     * 创建时间
+     */
     private Timestamp createTime;
-
+    /**
+     * 修改时间
+     */
     private Timestamp updateTime;
-
+    /**
+     * 状态
+     */
     private Integer status;
 
 }

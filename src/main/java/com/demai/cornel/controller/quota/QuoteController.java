@@ -73,13 +73,12 @@ import javax.annotation.Resource;
      * @param param
      * @return
      */
-    @RequestMapping(value = "/click-system-quote.json", method = RequestMethod.POST) @ResponseBody
-    public JsonResult clickOfferSystemQuote(@RequestBody String param) {
+    @RequestMapping(value = "/click-system-quote.json", method = RequestMethod.POST) @ResponseBody public JsonResult clickOfferSystemQuote(
+            @RequestBody String param) {
         JSONObject receivedParam = JSON.parseObject(param);
         String commodityId = (String) receivedParam.get("commodityId");
-        return JsonResult.success(quoteService.getClickInfo(CookieAuthUtils.getCurrentUser(),commodityId));
+        return JsonResult.success(quoteService.getClickInfo(CookieAuthUtils.getCurrentUser(), commodityId));
     }
-
 
     /**
      * 烘干塔接受系统报价的接口 todo
@@ -105,4 +104,44 @@ import javax.annotation.Resource;
         return JsonResult.success(quoteService.getBargainRange(commodityId));
     }
 
+    /**
+     * 获取我主动报价list
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/my-offer.json", method = RequestMethod.POST) @ResponseBody public JsonResult getOwerOfferList(
+            @RequestBody String param) {
+        JSONObject receivedParam = JSON.parseObject(param);
+        String quoteId = (String) receivedParam.get("quoteId");
+        Integer pgSize = (Integer) receivedParam.get("pgSize");
+        return JsonResult.success(quoteService.getOfferListRespList(quoteId, pgSize));
+    }
+
+    /**
+     * 获取被动报价list
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/my-system-offer.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult getOwerSystemOfferList(
+            @RequestBody String param) {
+        JSONObject receivedParam = JSON.parseObject(param);
+        String quoteId = (String) receivedParam.get("quoteId");
+        Integer pgSize = (Integer) receivedParam.get("pgSize");
+        return JsonResult.success(quoteService.getSystemOfferListRespList(quoteId, pgSize));
+    }
+
+    /**
+     * 获取报价详情
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/offer-info.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult getOfferInfo(
+            @RequestBody String param) {
+        JSONObject receivedParam = JSON.parseObject(param);
+        String quoteId = (String) receivedParam.get("quoteId");
+        return JsonResult.success(quoteService.getOfferInfoResp(quoteId));
+    }
 }

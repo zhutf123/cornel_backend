@@ -15,7 +15,7 @@ import lombok.Data;
     private Integer status;
 
     public static enum STATUS_ENUE implements IEmus {
-        PARAM_ERROR(-1, "参数错误"), SUCCESS(0, "请求成功"), SERVER_ERROR(1, "网络异常，请稍后重试");
+        PARAM_ERROR(-1, "参数错误"), SUCCESS(0, "请求成功"), SERVER_ERROR(1, "网络异常，请稍后重试"), DRY_TOWER_ERROR(2, "烘干塔无效");
 
         private int value;
         private String expr;

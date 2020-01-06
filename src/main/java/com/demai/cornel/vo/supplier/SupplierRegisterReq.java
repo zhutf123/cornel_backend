@@ -46,9 +46,17 @@ import java.util.Set;
         private Set<String> commodityId;
 
         /**
-         * 位置
+         * 总的位置
          */
         private String location;
+        /**
+         * 位置 所在区域
+         */
+        private String locationArea;
+        /**
+         * 详细位置
+         */
+        private String locationDetail;
 
         /**
          * 占地大小

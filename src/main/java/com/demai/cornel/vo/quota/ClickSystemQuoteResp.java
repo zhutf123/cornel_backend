@@ -15,25 +15,32 @@ import java.util.List;
  * @Author binz.zhang
  * @Date: 2020-01-02    14:34
  */
-@Data @Builder @AllArgsConstructor
-
-@NoArgsConstructor public class ClickSystemQuoteResp {
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class ClickSystemQuoteResp {
     private String userName;  //联系人名字
     private String mobile;    //手机号
     private Commodity commodity; //货品
     private BigDecimal shipmentWeight;  //出货量
     private BigDecimal quote;
     private String unitWeight; //出货量单位
+    private String unitPrice; //价格单位
     private Integer status;
     private List<DryTowerInfo> dryTowerInfo;
 
     @Data public static class DryTowerInfo {
         private String towerId;
         private String location;
+        private String locationArea;
+        private String locationDetail;
 
-        public DryTowerInfo(String towerId, String location) {
+        public DryTowerInfo(String towerId, String location,String locationArea,String locationDetail) {
             this.towerId = towerId;
             this.location = location;
+            this.locationArea = locationArea;
+            this.locationDetail = locationDetail;
         }
     }
 

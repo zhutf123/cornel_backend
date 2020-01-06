@@ -26,4 +26,11 @@ public interface DryTowerDao {
 
 
     List<DryTower> selectDryTowerByUserId(@Param("userID")String userId);
+
+
+    DryTower selectByTowerId(@Param("towerId")String towerId);
+
+    int updateTowerNonDefaultFlag(@Param("userID")String userId);
+
+
 }
