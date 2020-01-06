@@ -9,4 +9,5 @@ import lombok.Data;
 @Data public class GetOfferInfoResp extends GetOfferListResp {
     private String userName;
     private String mobile;
+    private String location;
 }

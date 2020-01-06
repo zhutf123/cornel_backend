@@ -57,6 +57,8 @@
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+
     </resultMap>
 
 
@@ -92,6 +94,7 @@
     q.status,
     q.user_name,
     q.mobile,
+    q.location
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
