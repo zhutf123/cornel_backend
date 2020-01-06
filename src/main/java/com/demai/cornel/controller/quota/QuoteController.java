@@ -7,6 +7,8 @@ import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.quota.GetQuoteListReq;
 import com.demai.cornel.vo.quota.OfferQuoteReq;
+import com.demai.cornel.vo.quota.SystemQuoteReq;
+import com.demai.cornel.vo.quota.UserDefineQuoteReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +33,7 @@ import javax.annotation.Resource;
      * @return
      */
     @RequestMapping(value = "/offer-quota.json", method = RequestMethod.POST) @ResponseBody public JsonResult offerQuota(
-            @RequestBody OfferQuoteReq offerQuoteReq) {
+            @RequestBody UserDefineQuoteReq offerQuoteReq) {
         return JsonResult.success(quoteService.offerQuote(offerQuoteReq));
     }
 
@@ -87,7 +89,7 @@ import javax.annotation.Resource;
      * @return
      */
     @RequestMapping(value = "/offer-system-quote.json", method = RequestMethod.POST) @ResponseBody public JsonResult offerSystemQuote(
-            @RequestBody OfferQuoteReq offerQuoteReq) {
+            @RequestBody SystemQuoteReq offerQuoteReq) {
         return JsonResult.success(quoteService.offerSystemQuote(offerQuoteReq));
     }
 

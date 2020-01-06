@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
     @Resource private DryTowerDao dryTowerDao;
     @Resource private SystemQuoteDao systemQuoteDao;
     @Resource private CommodityDao commodityDao;
+    @Resource private CommodityService commodityService;
     private static String TIME_FORMAT = "yyyy-MM-dd";
 
     /**
@@ -46,7 +47,7 @@ import java.util.regex.Pattern;
      * @param offerQuoteReq
      * @return
      */
-    public OfferQuoteResp offerQuote(OfferQuoteReq offerQuoteReq) {
+    public OfferQuoteResp offerQuote(UserDefineQuoteReq offerQuoteReq) {
         OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
         Preconditions.checkNotNull(offerQuoteReq);
         log.debug("dry tower quote info is [{}]", JacksonUtils.obj2String(offerQuoteReq));
@@ -61,12 +62,23 @@ import java.util.regex.Pattern;
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.DRY_TOWER_ERROR.getValue());
             return offerQuoteResp;
         }
+        // todo 这一块后续需要重新做，用户上传的自定义的商品 为-1 的时候表示是用户自定义的
+        if (offerQuoteReq.getCommodityId().equalsIgnoreCase("-1")) {
+            Commodity commodity = new Commodity();
+            commodity.setName(offerQuoteReq.getCommodityName());
+            offerQuoteReq.setCommodityId(commodityService.insertUserDefineCommodity(commodity));
+        }
         QuoteInfo quoteInfo = new QuoteInfo();
         BeanUtils.copyProperties(offerQuoteReq, quoteInfo);
         String userId = CookieAuthUtils.getCurrentUser();
         quoteInfo.setLocation(dryTower.getLocation());
+        if (Strings.isNullOrEmpty(offerQuoteReq.getMobile())) {
+            List<String> mobile = userInfoDao.getUserTelByUserId(CookieAuthUtils.getCurrentUser());
+            if (!CollectionUtils.isEmpty(mobile)) {
+                quoteInfo.setMobile(mobile.get(0));
+            }
+        }
         quoteInfo.setUserId(userId);
-        quoteInfo.setMobile(offerQuoteReq.getMobile());
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.USER_DEFINE.getValue());
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
@@ -87,7 +99,7 @@ import java.util.regex.Pattern;
      * @param offerQuoteReq
      * @return
      */
-    public OfferQuoteResp offerSystemQuote(OfferQuoteReq offerQuoteReq) {
+    public OfferQuoteResp offerSystemQuote(SystemQuoteReq offerQuoteReq) {
         OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
         Preconditions.checkNotNull(offerQuoteReq);
         log.debug("dry tower quote info is [{}]", JacksonUtils.obj2String(offerQuoteReq));
@@ -107,7 +119,12 @@ import java.util.regex.Pattern;
         String userId = CookieAuthUtils.getCurrentUser();
         quoteInfo.setLocation(dryTower.getLocation());
         quoteInfo.setUserId(userId);
-        quoteInfo.setMobile(offerQuoteReq.getMobile());
+        if (Strings.isNullOrEmpty(offerQuoteReq.getMobile())) {
+            List<String> mobile = userInfoDao.getUserTelByUserId(CookieAuthUtils.getCurrentUser());
+            if (!CollectionUtils.isEmpty(mobile)) {
+                quoteInfo.setMobile(mobile.get(0));
+            }
+        }
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());

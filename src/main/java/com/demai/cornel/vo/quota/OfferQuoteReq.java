@@ -1,7 +1,9 @@
 package com.demai.cornel.vo.quota;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -10,7 +12,10 @@ import java.sql.Timestamp;
  * @Author binz.zhang
  * @Date: 2019-12-31    13:46
  */
-@Data @Builder public class OfferQuoteReq {
+@Data @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class OfferQuoteReq {
     /**
      * 主营品种ID
      **/

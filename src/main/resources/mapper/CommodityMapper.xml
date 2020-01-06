@@ -69,7 +69,7 @@
             <if test="id != null">#{id} ,</if>
             <if test="name != null">#{name} ,</if>
             <if test="commodityProperties != null">
-                #{commodityProperties,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}
+                hstore(#{commodityProperties,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler})
                 ,
             </if>
             <if test="commodityId != null">#{commodityId} ,</if>
