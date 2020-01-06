@@ -72,6 +72,7 @@
     <sql id="get_offer_list">
     c.name as commodity_name,
     c.commodity_properties,
+    c.conmmodity_id,
     q.quote_id,
     q.quote,
     q.unit_price,
@@ -84,6 +85,7 @@
     <sql id="get_offer_info">
     c.name as commodity_name,
     c.commodity_properties,
+    c.conmmodity_id,
     q.quote_id,
     q.quote,
     q.unit_price,
