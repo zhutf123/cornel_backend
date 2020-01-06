@@ -214,7 +214,7 @@
     <select id="getUserNameByUserId" resultType="java.lang.String">
         select name from user_info where user_id=#{userID};
     </select>
-    <select id="getUserTelByUserId" resultMap="userInfoResultMap">
+    <select id="getUserTelByUserId" resultType="java.lang.String">
         select mobile  from user_info where user_id=#{userId}
     </select>
 
