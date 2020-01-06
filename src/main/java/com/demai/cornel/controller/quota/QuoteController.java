@@ -148,6 +148,6 @@ import javax.annotation.Resource;
     @ResponseBody public JsonResult cancleOffer(@RequestBody String param) {
         JSONObject receivedParam = JSON.parseObject(param);
         String quoteId = (String) receivedParam.get("quoteId");
-        return JsonResult.success(quoteService.getOfferInfoResp(quoteId));
+        return JsonResult.success(quoteService.cancleQuote(quoteId));
     }
 }
