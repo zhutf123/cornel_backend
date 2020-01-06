@@ -144,4 +144,10 @@ import javax.annotation.Resource;
         String quoteId = (String) receivedParam.get("quoteId");
         return JsonResult.success(quoteService.getOfferInfoResp(quoteId));
     }
+    @RequestMapping(value = "/cancle-offer.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult cancleOffer(@RequestBody String param) {
+        JSONObject receivedParam = JSON.parseObject(param);
+        String quoteId = (String) receivedParam.get("quoteId");
+        return JsonResult.success(quoteService.getOfferInfoResp(quoteId));
+    }
 }

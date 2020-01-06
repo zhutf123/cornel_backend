@@ -219,9 +219,21 @@ import java.util.regex.Pattern;
         return quoteInfoDao.getSystemOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
     }
 
-
     public GetOfferInfoResp getOfferInfoResp(String quoteId) {
         return quoteInfoDao.getQuoteInfoById(quoteId);
+    }
+
+    public OfferQuoteResp cancleQuote(String quoteId) {
+        int result = quoteInfoDao.updateStatusByQuoteIdAndUserId(quoteId, CookieAuthUtils.getCurrentUser(),
+                QuoteInfo.QUOTE_TATUS.CANCEL.getValue());
+        OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
+        offerQuoteResp.setQuoteId(quoteId);
+        if (result == 0) {
+            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SERVER_ERROR.getValue());
+            return offerQuoteResp;
+        }
+        offerQuoteResp.setQuoteStatus(QuoteInfo.QUOTE_TATUS.CANCEL.getValue());
+        return offerQuoteResp;
     }
 
     /**

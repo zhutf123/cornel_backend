@@ -363,5 +363,8 @@
         from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where
         q.quote_id=#{quoteId,jdbcType=VARCHAR} ;
     </select>
+    <delete id="updateStatusByQuoteIdAndUserId">
+      update quote_info set status=#{status} where quote_id=#{quoteId,jdbcType=VARCHAR} and  user_id=#{userId,jdbcType=VARCHAR} ;
+    </delete>
 
 </mapper>

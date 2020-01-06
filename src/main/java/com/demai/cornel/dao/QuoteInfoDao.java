@@ -30,4 +30,7 @@ public interface QuoteInfoDao {
 
 
     GetOfferInfoResp getQuoteInfoById(@Param("quoteId")String quoteId);
+
+
+    int updateStatusByQuoteIdAndUserId(@Param("quoteId")String quoteId,@Param("userId")String userId,@Param("status")int status);
 }

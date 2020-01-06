@@ -95,6 +95,7 @@ caching:
 
 datasources:
   dm-master:
+
     driverClassName: org.postgresql.Driver
     jdbcUrl: 'jdbc:postgresql://192.168.0.103:7654/cornel_beta'
     username: cornel_beta
