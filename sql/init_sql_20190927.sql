@@ -440,6 +440,7 @@ comment on column dist_order_info.dist_weight is '派单的重量';
 
 
 -- 商品总类表
+-- auto-generated definition
 create table commodity_list
 (
     id                   serial not null,
@@ -450,19 +451,31 @@ create table commodity_list
     system_flag          integer,
     bind_user_id         varchar(20)
 );
+
 comment on table commodity_list is '商品种类';
+
 comment on column commodity_list.name is '商品名称 一级玉米';
+
 comment on column commodity_list.commodity_properties is '商品属性';
+
 comment on column commodity_list.commodity_id is '商品ID';
+
 comment on column commodity_list.status is '有效标志位 1有效  0 无效';
+
 comment on column commodity_list.system_flag is '1 系统商品；0 是用户自定义商品';
+
 comment on column commodity_list.bind_user_id is '绑定这个报价的提出用户userID';
+
+alter table commodity_list
+    owner to postgres;
+
 
 
 -- 烘干塔信息
+-- auto-generated definition
 create table dry_tower
 (
-    id  serial not null primary key,
+    id    serial not null primary key,
     company         varchar(200),
     contacts_name   varchar(20),
     contact_mobile  varchar(20),
@@ -476,48 +489,82 @@ create table dry_tower
     load_lorry_num  integer,
     load_lorry_cost numeric(5, 2),
     bind_user_id    varchar(40),
-    user_id_card    varchar(20)
+    user_id_card    varchar(20),
+    tower_id        varchar(50),
+    default_flag    integer,
+    location_area   varchar(200),
+    location_detail varchar(200)
 );
 
 comment on table dry_tower is '烘干塔信息';
+
 comment on column dry_tower.id is '自增ID';
+
 comment on column dry_tower.company is '公司名称';
+
 comment on column dry_tower.contacts_name is '联系人';
+
 comment on column dry_tower.contact_mobile is '手机号';
+
 comment on column dry_tower.commodity_id is '主营品种';
+
 comment on column dry_tower.location is '位置';
+
 comment on column dry_tower.area is '占地大小';
+
 comment on column dry_tower.shipment_weight is '出货量';
+
 comment on column dry_tower.create_time is '创建时间';
+
 comment on column dry_tower.status is '状态 1 正在使用中 0 失效';
+
 comment on column dry_tower.capacity_store is '库存能力';
+
 comment on column dry_tower.load_lorry_num is '同时装载车次';
+
 comment on column dry_tower.load_lorry_cost is '装载一车耗时';
+
 comment on column dry_tower.bind_user_id is '绑定人';
+
 comment on column dry_tower.user_id_card is '联系人身份证号';
+
+comment on column dry_tower.tower_id is '烘干塔ID';
+
+comment on column dry_tower.default_flag is '默认标志位 1 是默认 0是非默认';
+
+comment on column dry_tower.location_area is '所在区域';
+
+comment on column dry_tower.location_detail is '详细地址';
+
+alter table dry_tower
+    owner to postgres;
+
 
 
 -- 报价表
 -- auto-generated definition
+-- auto-generated definition
 create table quote_info
 (
-    id   serial not null primary key,
-    commodity_id    integer,
+    id serial not null primary key,
+    commodity_id    varchar(40),
     quote           numeric(10, 2),
     unit_price      varchar(10),
     shipment_weight numeric(10, 2),
     unit_weight     varchar(10),
-    shipment_time   timestamp,
-    create_time     timestamp,
+    start_time      timestamp,
+    update_time     timestamp,
     status          integer default 1,
     "desc"          varchar(200),
-    expire_time     timestamp(6),
     system_flag     integer,
     bargain_status  integer,
     user_id         varchar(50),
     location        varchar(200),
     user_name       varchar(20),
-    quote_id        varchar(50)
+    quote_id        varchar(50),
+    tower_id        varchar(50),
+    mobile          varchar(20),
+    end_time        timestamp
 );
 
 comment on table quote_info is '报价表格';
@@ -534,15 +581,13 @@ comment on column quote_info.shipment_weight is '出货量';
 
 comment on column quote_info.unit_weight is '出货重量单位';
 
-comment on column quote_info.shipment_time is '出仓时间';
+comment on column quote_info.start_time is '出仓时间';
 
-comment on column quote_info.create_time is '报价生成时间';
+comment on column quote_info.update_time is '更新时间';
 
 comment on column quote_info.status is '报价的状态 1 有效 0 无效';
 
 comment on column quote_info."desc" is '描述';
-
-comment on column quote_info.expire_time is '过期时间';
 
 comment on column quote_info.system_flag is '是否是系统报价，1 是系统报价 0 是用户自定义的报价';
 
@@ -556,19 +601,31 @@ comment on column quote_info.user_name is '用户名';
 
 comment on column quote_info.quote_id is '报价ID';
 
+comment on column quote_info.tower_id is '烘干塔ID';
+
+comment on column quote_info.mobile is '联系电话';
+
+comment on column quote_info.end_time is '结束时间';
+
 alter table quote_info
     owner to postgres;
 
+
+
 -- 系统报价表
+-- auto-generated definition
 create table system_quote
 (
-	id serial not null primary key,
-	quote_id varchar(40),
-	commodity_id varchar(40),
-	quote numeric(10,2),
-	unit_price varchar(10),
-	create_time timestamp default now(),
-	update_time timestamp default now()
+    id   serial not null primary key,
+    quote_id            varchar(40),
+    commodity_id        varchar(40),
+    quote               numeric(10, 2),
+    unit_price          varchar(10),
+    create_time         timestamp default now(),
+    update_time         timestamp default now(),
+    status              integer   default 1,
+    unit_weight         varchar(10),
+    min_shipment_weight numeric(10, 2)
 );
 
 comment on table system_quote is '系统品种报价表';
@@ -582,4 +639,11 @@ comment on column system_quote.commodity_id is '商品ID';
 comment on column system_quote.quote is '价格';
 
 comment on column system_quote.unit_price is '价格单位  元/吨';
+
+comment on column system_quote.unit_weight is '重量单位';
+
+comment on column system_quote.min_shipment_weight is '最少出货量';
+
+alter table system_quote
+    owner to postgres;
 
