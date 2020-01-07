@@ -121,9 +121,9 @@ import java.util.regex.Pattern;
         quoteInfo.setLocation(dryTower.getLocation());
         quoteInfo.setUserId(userId);
         if (Strings.isNullOrEmpty(offerQuoteReq.getMobile())) {
-            List<String> mobile = userInfoDao.getUserTelByUserId(CookieAuthUtils.getCurrentUser());
-            if (!CollectionUtils.isEmpty(mobile)) {
-                quoteInfo.setMobile(mobile.get(0));
+            UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
+            if (!CollectionUtils.isEmpty(userInfo.getMobile())) {
+                quoteInfo.setMobile(userInfo.getMobile().iterator().next());
             }
         }
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());

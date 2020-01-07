@@ -7,7 +7,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Create By tfzhu  2019/12/22  12:08 PM
@@ -23,7 +23,8 @@ public class TaskInfoRespBase implements Serializable {
     private String arrGis;
     private String startValidDate;
     private String endValidDate;
-    private List<String> supplierMobile;
+    private String supplierMobile;
+    private Set<String> supplierMobileSet;
     private BigDecimal distance;
 
 }

@@ -74,7 +74,10 @@ import java.util.*;
             log.info("delivery query order list is empty towerId:{} param:{}", deliveryId, JsonUtil.toJson(param));
             return Lists.newArrayList();
         }
-
+        orderListResp.stream().filter(order -> CollectionUtils.isNotEmpty(order.getDriverMobileSet()))
+                .forEach(order -> {
+                    order.setDriverMobile(order.getDriverMobileSet().iterator().next());
+                });
         return orderListResp;
     }
 
@@ -111,6 +114,9 @@ import java.util.*;
                                 param.getVerifyCode());
         if (result == null) {
             result = new GetOrderListResp();
+        }
+        if (CollectionUtils.isNotEmpty(result.getDriverMobileSet())) {
+            result.setDriverMobile(result.getDriverMobileSet().iterator().next());
         }
         return result;
     }

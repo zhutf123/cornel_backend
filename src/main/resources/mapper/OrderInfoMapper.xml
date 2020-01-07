@@ -71,7 +71,7 @@
         <result column="carry_weight" property="carryWeight"/>
         <result column="over_carry_weight" property="overCarryWight"/>
         <result column="driver_name" property="driverName"/>
-        <result column="driver_mobile" property="driverMobile" jdbcType="ARRAY" javaType="java.util.Set"
+        <result column="driver_mobile" property="driverMobileSet" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="delivery_receive_time" property="deliveryReceiveTime"/>
         <result column="let_out_time" property="letOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
