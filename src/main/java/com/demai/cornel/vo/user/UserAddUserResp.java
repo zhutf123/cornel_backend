@@ -26,7 +26,9 @@ public class UserAddUserResp {
         NO_USER(-1, "用户不存在，请先注册"),
         SUCCESS(0, "请求成功"),
         NETWORK_ERROR(1, "网络异常，请稍后重试"),
-        PARAM_ERROR(2, "网络异常，请稍后重试");
+        TEL_ERROR(2, "手机号码不正确"),
+        IDCARD_ERROR(3, "身份证号码有误");
+
 
         private int value;
         private String expr;

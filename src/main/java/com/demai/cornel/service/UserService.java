@@ -30,7 +30,11 @@ import java.util.UUID;
         log.debug("update user info [{}]", JacksonUtils.obj2String(userAddReq));
         if(!Strings.isNullOrEmpty(userAddReq.getMobile()) && !PhoneUtil.isPhone(userAddReq.getMobile())){
             log.debug("update user fail due to tel illegal tel is [{}]",userAddReq.getMobile());
-            return UserAddUserResp.builder().status(UserAddUserResp.CODE_ENUE.PARAM_ERROR.getValue()).build();
+            return UserAddUserResp.builder().status(UserAddUserResp.CODE_ENUE.TEL_ERROR.getValue()).build();
+        }
+        if(!Strings.isNullOrEmpty(userAddReq.getIdCard()) && userAddReq.getIdCard().trim().length()!=18){
+            log.debug("update user fail due to idcard illegal idcard is [{}]",userAddReq.getIdCard());
+            return UserAddUserResp.builder().status(UserAddUserResp.CODE_ENUE.IDCARD_ERROR.getValue()).build();
         }
         UserInfo updateUserInfo = new UserInfo();
         UserInfo currentUserInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
