@@ -21,18 +21,64 @@
         <result column="dist_weight" property="distWeight"/>
     </resultMap>
 
+    <resultMap id="distTaskOrderReqMapper" type="com.demai.cornel.model.DistTaskOrderReq">
+        <id column="id" property="id"/>
+        <result column="task_id" property="taskId"/>
+        <result column="title" property="title"/>
+        <result column="dep" property="dep"/>
+        <result column="arr" property="arr"/>
+        <result column="weight" property="weight"/>
+        <result column="create_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+
+        <result column="distance" property="distance"/>
+        <result column="unit_distance" property="unitDistance"/>
+        <result column="unit_weight_price" property="unitWeightPrice"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="unit_weight" property="unitWeight"/>
+        <result column="status" property="taskStatus"/>
+        <result column="undist_weight" property="undistWeight"/>
+        <result column="receiver_mobile" property="receiverMobile"/>
+        <result column="supplier_mobile" property="supplierMobileSet"/>
+
+        
+
+    </resultMap>
+
     <sql id="main_column">
-	id,
-	task_id,
-	user_id,
-	job_no,
-	job_status,
-	operation_time,
-	create_time,
-	expire_time,
-	order_id,
-	dist_weight
-</sql>
+        id,
+        task_id,
+        user_id,
+        job_no,
+        job_status,
+        operation_time,
+        create_time,
+        expire_time,
+        order_id,
+        dist_weight
+    </sql>
+
+    <sql id="dist_task_order_req">
+        id,
+        task_id,
+        title,
+        dep,
+        arr,
+        weight,
+        create_time,
+        end_time,
+        distance,
+        unit_distance,
+        unit_weight_price,
+        unit_price,
+        unit_weight,
+        status,
+        undist_weight,
+        receiver_mobile,
+        supplier_mobile
+    </sql>
 
     <update id="update" parameterType="com.demai.cornel.model.DistOrderInfo">
         update dist_order_info
@@ -94,25 +140,9 @@
         <include refid="main_column"/>
         FROM dist_order_info where expire_time <![CDATA[ >= ]]> #{curTime};
     </select>
-    <select id="getDistOrderListByUserID" resultType="com.demai.cornel.model.DistTaskOrderReq">
+    <select id="getDistOrderListByUserID" resultMap="distTaskOrderReqMapper">
         SELECT
-        id as id,
-        task_id as taskId,
-        title as title,
-        dep as dep,
-        arr as arr,
-        weight as weight,
-        create_time as startTime,
-        end_time as endTime,
-        distance as distance,
-        unit_distance as unitDistance,
-        unit_weight_price as unitWeightPrice,
-        unit_price as unitPrice,
-        unit_weight as unitWeight,
-        status as taskStatus,
-        subtask_time as recvTime,
-        undist_weight as undistWeight
-        FROM task_info
+         <include refid="dist_task_order_req"/>
         where
         <if test="curId != null">
             task_info.id  <![CDATA[<]]> #{curId}

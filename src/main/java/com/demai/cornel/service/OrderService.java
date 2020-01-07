@@ -50,9 +50,11 @@ import java.util.concurrent.TimeUnit;
                 .getOrderInfoByOrderTypeAndUserId(userId, getOrderListReq.getOrderType(), getOrderListReq.getOrderId(),
                         getOrderListReq.getPgSize());
         getOrderListResps.stream().forEach(x -> {
-            UserInfo userInfo = userInfoDao.getUserInfoByUserId(x.getSupplierId());
-            if (CollectionUtils.isNotEmpty(userInfo.getMobile())){
-                x.setSupplierMobile(userInfo.getMobile().iterator().next());
+            if (CollectionUtils.isNotEmpty(x.getSupplierMobileSet())) {
+                x.setSupplierMobile(x.getSupplierMobileSet().iterator().next());
+            }
+            if (CollectionUtils.isNotEmpty(x.getReceiverMobileSet())) {
+                x.setReceiverMobile(x.getReceiverMobileSet().iterator().next());
             }
         });
         return getOrderListResps;
@@ -346,9 +348,12 @@ import java.util.concurrent.TimeUnit;
     public GetOrderListResp driverGetTaskInfo(String orderId) {
         GetOrderListResp getOrderInfoResp = orderInfoDao
                 .getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId);
-        UserInfo userInfo = userInfoDao.getUserInfoByUserId(getOrderInfoResp.getSupplierId());
-        if (CollectionUtils.isNotEmpty(userInfo.getMobile())) {
-            getOrderInfoResp.setSupplierMobile(userInfo.getMobile().iterator().next());
+
+        if (CollectionUtils.isNotEmpty(getOrderInfoResp.getSupplierMobileSet())) {
+            getOrderInfoResp.setSupplierMobile(getOrderInfoResp.getSupplierMobileSet().iterator().next());
+        }
+        if (CollectionUtils.isNotEmpty(getOrderInfoResp.getReceiverMobileSet())) {
+            getOrderInfoResp.setReceiverMobile(getOrderInfoResp.getReceiverMobileSet().iterator().next());
         }
         return getOrderInfoResp;
     }

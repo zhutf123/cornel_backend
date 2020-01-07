@@ -77,6 +77,11 @@
         <result column="let_out_time" property="letOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="service_mobile" property="serviceMobile"/>
 
+        <result column="receiver_mobile" property="receiverMobileSet" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="supplier_mobile" property="supplierMobileSet" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+
     </resultMap>
 
 
@@ -138,6 +143,8 @@
         t.unit_weight,
         t.distance,
         t.unit_distance,
+        t.receiver_mobile ,
+        t.supplier_mobile ,
         ST_AsText(t.dep_gis) as dep_gis,
         ST_AsText(t.arr_gis) as arr_gis,
         l.id as lorry_id,
@@ -172,6 +179,8 @@
         t.unit_weight,
         t.unit_price,
         t.supplier_id ,
+        t.receiver_mobile ,
+        t.supplier_mobile ,
         l.id as lorry_id,
         l.plate_number,
         l.carry_weight,
@@ -204,6 +213,8 @@
         t.unit_price,
         t.unit_weight,
         t.unit_distance,
+        t.receiver_mobile ,
+        t.supplier_mobile ,
         l.id as lorry_id,
         l.plate_number,
         l.carry_weight,

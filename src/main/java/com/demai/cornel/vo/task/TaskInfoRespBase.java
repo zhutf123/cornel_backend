@@ -27,4 +27,7 @@ public class TaskInfoRespBase implements Serializable {
     private Set<String> supplierMobileSet;
     private BigDecimal distance;
 
+    private String receiverMobile ;
+    private Set<String> receiverMobileSet;
+
 }
