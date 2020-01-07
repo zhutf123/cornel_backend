@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
+import com.demai.cornel.service.UserService;
+import com.demai.cornel.vo.user.UserAddReq;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +36,8 @@ public class UserLoginController {
 
     @Resource
     private UserLoginService userLoginService;
+    @Resource
+    private UserService userService;
 
     /***
      * 给用户手机号 发送短信验证码 需要补充逻辑 在n分钟内，发送x条的限制
@@ -75,6 +79,18 @@ public class UserLoginController {
             log.error("用户登录异常！", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+
+    @RequestMapping(value = "/update-user.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public JsonResult addUser(@RequestBody UserAddReq param) {
+        try {
+            Preconditions.checkNotNull(param);
+            return JsonResult.success(userService.updateUserInfo(param));
+        } catch (Exception e) {
+            log.error("用户登录异常！", e);
+        }
+        return JsonResult.success(ResponseStatusEnum.NETWORK_ERROR);
     }
 
 }

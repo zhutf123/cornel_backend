@@ -37,29 +37,24 @@ import java.util.Optional;
 /**
  * Create By zhutf 19-11-10 上午9:33
  */
-@Controller
-@RequestMapping("/supply")
-@Slf4j
-public class SupplierCornController {
-    @Resource
-    private SupplierTaskService supplierTaskService;
+@Controller @RequestMapping("/supply") @Slf4j public class SupplierCornController {
+    @Resource private SupplierTaskService supplierTaskService;
 
     /**
      * 烘干塔列表
-     * 
+     *
      * @param param
      * @return
      */
-    @RequestMapping(value = "/shipment-list.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult shipmentList(@RequestBody GetOrderListReq param) {
+    @RequestMapping(value = "/shipment-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult shipmentList(
+            @RequestBody GetOrderListReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             if (param.getOrderType() == null) {
                 log.error("supplier task order list param error:{}", curUser);
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }
-            
+
             Collection<SupplierTaskListResp> result = supplierTaskService.getTaskOrderListByStatus(curUser, param);
             if (log.isDebugEnabled()) {
                 log.debug("supplier task order list user:{} result:{}", curUser, JsonUtil.toJson(result));
@@ -71,7 +66,6 @@ public class SupplierCornController {
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
-
 
     /**
      * 烘干塔列表
@@ -108,9 +102,8 @@ public class SupplierCornController {
      * @param param
      * @return
      */
-    @RequestMapping(value = "/order-info.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult orderInfo(@RequestBody GetOrderInfoReq param) {
+    @RequestMapping(value = "/order-info.json", method = RequestMethod.POST) @ResponseBody public JsonResult orderInfo(
+            @RequestBody GetOrderInfoReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             if (param == null || (StringUtil.isEmpty(param.getOrderId()) && StringUtil.isEmpty(param.getVerifyCode()))
@@ -123,7 +116,7 @@ public class SupplierCornController {
             if (log.isDebugEnabled()) {
                 log.debug("supplier task order info user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
-            
+
             return JsonResult.success(result);
         } catch (Exception e) {
             log.error("supplier task order info exception！", e);
@@ -137,9 +130,8 @@ public class SupplierCornController {
      * @param param
      * @return
      */
-    @RequestMapping(value = "/shipment.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult shipmentStart(@RequestBody GetOrderInfoReq param) {
+    @RequestMapping(value = "/shipment.json", method = RequestMethod.POST) @ResponseBody public JsonResult shipmentStart(
+            @RequestBody GetOrderInfoReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             OperationOrderResp result = supplierTaskService.shipmentStart(curUser, param.getOrderId());
@@ -147,7 +139,7 @@ public class SupplierCornController {
                 log.debug("supplier task order shipment start user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
             return JsonResult.success(result);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("supplier task order shipment start exception！{}", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
@@ -155,13 +147,12 @@ public class SupplierCornController {
 
     /**
      * 烘干塔装货完成
-     * 
+     *
      * @param param
      * @return
      */
-    @RequestMapping(value = "/shipment-over.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult shipmentOver(@RequestBody OperationOrderReq param) {
+    @RequestMapping(value = "/shipment-over.json", method = RequestMethod.POST) @ResponseBody public JsonResult shipmentOver(
+            @RequestBody OperationOrderReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             OperationOrderResp result = supplierTaskService.shipmentOver(curUser, param);
@@ -169,7 +160,7 @@ public class SupplierCornController {
                 log.debug("supplier task order shipment over user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
             return JsonResult.success(result);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("supplier task order shipment over exception！{}", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
@@ -177,12 +168,12 @@ public class SupplierCornController {
 
     /**
      * 烘干塔注册接口
+     *
      * @param param
      * @return
      */
-    @RequestMapping(value = "/register.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult shipmentRegister(@RequestBody SupplierRegisterReq param) {
+    @RequestMapping(value = "/register.json", method = RequestMethod.POST) @ResponseBody public JsonResult shipmentRegister(
+            @RequestBody SupplierRegisterReq param) {
         Preconditions.checkNotNull(param);
         DryTower.REGISTER_STATUS register_status = supplierTaskService.dryTowerRegister(param);
         return JsonResult.successStatus(register_status);
@@ -190,22 +181,21 @@ public class SupplierCornController {
 
     /**
      * 获取指定人下面的烘干塔信息
+     *
      * @return
      */
-    @RequestMapping(value = "/get-tower.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult getDryTowerByUserId() {
+    @RequestMapping(value = "/get-tower.json", method = RequestMethod.POST) @ResponseBody public JsonResult getDryTowerByUserId() {
         return JsonResult.success(supplierTaskService.getTowerInfoByUserId(CookieAuthUtils.getCurrentUser()));
     }
 
     /**
      * 根据烘干塔ID 获取烘干塔信息
+     *
      * @param orderIdParam
      * @return
      */
-    @RequestMapping(value = "/tower-info.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult getDryTowerInfo(@RequestBody String orderIdParam) {
+    @RequestMapping(value = "/tower-info.json", method = RequestMethod.POST) @ResponseBody public JsonResult getDryTowerInfo(
+            @RequestBody String orderIdParam) {
         JSONObject receivedParam = JSON.parseObject(orderIdParam);
         String towerId = (String) receivedParam.get("towerId");
         return JsonResult.success(supplierTaskService.getTowerInfoByTowerId(towerId));
@@ -213,35 +203,34 @@ public class SupplierCornController {
 
     /**
      * 更新烘干塔信息
+     *
      * @param orderIdParam
      * @return
      */
-    @RequestMapping(value = "/edit-tower.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult updateTowerId(@RequestBody DryTower orderIdParam) {
+    @RequestMapping(value = "/edit-tower.json", method = RequestMethod.POST) @ResponseBody public JsonResult updateTowerId(
+            @RequestBody DryTower orderIdParam) {
         return JsonResult.success(supplierTaskService.updateTowerInfo(orderIdParam));
     }
 
     /**
      * 增加烘干塔
+     *
      * @param orderIdParam
      * @return
      */
-    @RequestMapping(value = "/add-tower.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult addTower(@RequestBody DryTower orderIdParam) {
+    @RequestMapping(value = "/add-tower.json", method = RequestMethod.POST) @ResponseBody public JsonResult addTower(
+            @RequestBody DryTower orderIdParam) {
         return JsonResult.success(supplierTaskService.adddTowerInfo(orderIdParam));
     }
 
-//    /**
-//     * 增加烘干塔
-//     * @param orderIdParam
-//     * @return
-//     */
-//    @RequestMapping(value = "/user-info.json", method = RequestMethod.POST)
-//    @ResponseBody
-//    public JsonResult addTower(@RequestBody DryTower orderIdParam) {
-//        return JsonResult.success(supplierTaskService.adddTowerInfo(orderIdParam));
-//    }
+    /**
+     * 烘干塔测点击我的获取个人信息
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/user-info.json", method = RequestMethod.POST) @ResponseBody public JsonResult addTower() {
+         return supplierTaskService.getSupplierInfo();
+    }
 
 }

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface UserInfoDao {
-    public void update(UserInfo userInfo);
+    public int update(UserInfo userInfo);
 
     public void save(UserInfo userInfo);
 

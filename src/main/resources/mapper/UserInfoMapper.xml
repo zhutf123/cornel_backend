@@ -98,7 +98,7 @@
             <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
             <if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
         </trim>
-        where id = #{id}
+        where user_id = #{userId,jdbcType=VARCHAR}
     </update>
 
     <insert id="save" parameterType="com.demai.cornel.model.UserInfo" useGeneratedKeys="true" keyProperty="id">

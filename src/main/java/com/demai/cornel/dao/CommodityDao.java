@@ -5,6 +5,7 @@ import com.demai.cornel.vo.commodity.GetCommodityListResp;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author binz.zhang
@@ -16,4 +17,7 @@ public interface CommodityDao {
     int save(Commodity commodity);
 
     Commodity getCommodityByCommodityId(@Param("commodityId")String commodityId);
+
+
+    List<Commodity> getCommodityByIds(@Param("commodityIds") Set<String> commodityId);
 }

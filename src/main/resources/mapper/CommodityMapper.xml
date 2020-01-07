@@ -90,5 +90,20 @@
         <include refid="main_column"/>
         from commodity_list where commodity_id=#{commodityId} ;
     </select>
+    <select id="getCommodityByIds" resultMap="commodityMapper">
+       select
+       <include refid="main_column"/>
+       from commodity_list where
+        <if test="commodityIds != null and commodityIds.size()>0">
+        commodity_id in
+        <foreach collection="commodityIds" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+        </if>
+        <if test="commodityIds == null and commodityIds.size()==0">
+         1 = 0
+        </if>
+
+    </select>
 
 </mapper>
