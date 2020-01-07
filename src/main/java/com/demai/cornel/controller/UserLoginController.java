@@ -93,4 +93,15 @@ public class UserLoginController {
         return JsonResult.success(ResponseStatusEnum.NETWORK_ERROR);
     }
 
+    @RequestMapping(value = "/get-user.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public JsonResult getUserInfo() {
+        try {
+            return JsonResult.success(userService.getUserInfoResp());
+        } catch (Exception e) {
+            log.error("用户登录异常！", e);
+        }
+        return JsonResult.success(ResponseStatusEnum.NETWORK_ERROR);
+    }
+
 }

@@ -4,6 +4,7 @@ import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.vo.user.SupplierGetUserInfoResp;
 import com.demai.cornel.vo.user.UserAddReq;
 import com.demai.cornel.vo.user.UserAddUserResp;
 import com.google.common.base.Strings;
@@ -50,6 +51,23 @@ import java.util.UUID;
         userAddUserResp.setStatus(UserAddUserResp.CODE_ENUE.SUCCESS.getValue());
         return userAddUserResp;
 
+    }
+
+    public SupplierGetUserInfoResp getUserInfoResp(){
+        UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
+        SupplierGetUserInfoResp supplierGetUserInfoResp = new SupplierGetUserInfoResp();
+        if(userInfo==null){
+            supplierGetUserInfoResp.setStatus(SupplierGetUserInfoResp.CODE_ENUE.NO_USER.getValue());
+            return supplierGetUserInfoResp;
+        }
+        supplierGetUserInfoResp.setUserId(userInfo.getUserId());
+        supplierGetUserInfoResp.setUserName(userInfo.getName());
+        supplierGetUserInfoResp.setIdCard(userInfo.getIdCard());
+        supplierGetUserInfoResp.setIdType(userInfo.getIdType());
+        if(userInfo.getMobile()!=null && userInfo.getMobile().size()>0){
+            supplierGetUserInfoResp.setMobile(userInfo.getMobile().iterator().next());
+        }
+        return supplierGetUserInfoResp;
     }
 
 }
