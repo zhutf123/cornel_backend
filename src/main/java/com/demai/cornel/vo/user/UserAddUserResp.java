@@ -1,13 +1,19 @@
 package com.demai.cornel.vo.user;
 
 import com.demai.cornel.dmEnum.IEmus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Author binz.zhang
  * @Date: 2020-01-07    13:56
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserAddUserResp {
     private String userId;
     private String userName;
@@ -19,7 +25,9 @@ public class UserAddUserResp {
     public static enum CODE_ENUE implements IEmus {
         NO_USER(-1, "用户不存在，请先注册"),
         SUCCESS(0, "请求成功"),
-        NETWORK_ERROR(1, "网络异常，请稍后重试");
+        NETWORK_ERROR(1, "网络异常，请稍后重试"),
+        PARAM_ERROR(2, "网络异常，请稍后重试");
+
         private int value;
         private String expr;
 

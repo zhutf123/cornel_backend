@@ -4,6 +4,7 @@ import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.PhoneUtil;
 import com.demai.cornel.vo.user.SupplierGetUserInfoResp;
 import com.demai.cornel.vo.user.UserAddReq;
 import com.demai.cornel.vo.user.UserAddUserResp;
@@ -27,12 +28,15 @@ import java.util.UUID;
     //todo 这一块更新需要补全
     public UserAddUserResp updateUserInfo(UserAddReq userAddReq) {
         log.debug("update user info [{}]", JacksonUtils.obj2String(userAddReq));
+        if(!Strings.isNullOrEmpty(userAddReq.getMobile()) && !PhoneUtil.isPhone(userAddReq.getMobile())){
+            log.debug("update user fail due to tel illegal tel is [{}]",userAddReq.getMobile());
+            return UserAddUserResp.builder().status(UserAddUserResp.CODE_ENUE.PARAM_ERROR.getValue()).build();
+        }
         UserInfo updateUserInfo = new UserInfo();
         UserInfo currentUserInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
         updateUserInfo.setName(userAddReq.getUserName());
         updateUserInfo.setIdType(1);
         updateUserInfo.setIdCard(userAddReq.getIdCard());
-        updateUserInfo.setRole(currentUserInfo.getRole());
         updateUserInfo.setUserId(CookieAuthUtils.getCurrentUser());
         if (currentUserInfo.getMobile() == null || currentUserInfo.getMobile().size() <= 0 || !currentUserInfo
                 .getMobile().contains(userAddReq.getMobile())) {
@@ -40,8 +44,6 @@ import java.util.UUID;
             updateUserInfo.setMobile(Sets.newHashSet(userAddReq.getMobile()));
         }
         int optRes = userInfoDao.update(updateUserInfo);
-
-
         UserAddUserResp userAddUserResp = new UserAddUserResp();
         BeanUtils.copyProperties(userAddReq, userAddUserResp);
         if (optRes == 0) {
