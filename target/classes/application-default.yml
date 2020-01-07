@@ -117,3 +117,5 @@ baidu:
   ak: 1EBYcarYLWPnnpUbrX4SUxQwtLSjgvF0
 service:
   mobileList: 13551151842,13551151842
+bannel:
+  download: https://beta.demeteria.com/banner/download.josn?key=img1.jpeg,https://beta.demeteria.com/banner/download.josn?key=img2.jpeg,https://beta.demeteria.com/banner/download.josn?key=img3.jpeg
