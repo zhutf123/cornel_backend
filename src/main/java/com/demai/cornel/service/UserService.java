@@ -33,13 +33,15 @@ import java.util.UUID;
         updateUserInfo.setIdType(1);
         updateUserInfo.setIdCard(userAddReq.getIdCard());
         updateUserInfo.setRole(currentUserInfo.getRole());
-
+        updateUserInfo.setUserId(CookieAuthUtils.getCurrentUser());
         if (currentUserInfo.getMobile() == null || currentUserInfo.getMobile().size() <= 0 || !currentUserInfo
                 .getMobile().contains(userAddReq.getMobile())) {
             log.debug("update user info reset mobile ");
             updateUserInfo.setMobile(Sets.newHashSet(userAddReq.getMobile()));
         }
         int optRes = userInfoDao.update(updateUserInfo);
+
+
         UserAddUserResp userAddUserResp = new UserAddUserResp();
         BeanUtils.copyProperties(userAddReq, userAddUserResp);
         if (optRes == 0) {
