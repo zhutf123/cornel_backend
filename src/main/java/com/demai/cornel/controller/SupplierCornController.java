@@ -16,6 +16,7 @@ import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.order.OperationOrderReq;
 import com.demai.cornel.vo.order.OperationOrderResp;
+import com.demai.cornel.vo.supplier.AddDryTowerReq;
 import com.demai.cornel.vo.supplier.SupplierRegisterReq;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
@@ -219,7 +220,7 @@ import java.util.Optional;
      * @return
      */
     @RequestMapping(value = "/add-tower.json", method = RequestMethod.POST) @ResponseBody public JsonResult addTower(
-            @RequestBody DryTower orderIdParam) {
+            @RequestBody AddDryTowerReq orderIdParam) {
         return JsonResult.success(supplierTaskService.adddTowerInfo(orderIdParam));
     }
 

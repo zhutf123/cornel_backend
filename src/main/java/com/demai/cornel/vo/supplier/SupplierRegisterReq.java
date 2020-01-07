@@ -45,6 +45,7 @@ import java.util.Set;
          */
         private Set<String> commodityId;
 
+        private String towerId;
         /**
          * 总的位置
          */
