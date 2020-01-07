@@ -1,5 +1,6 @@
 package com.demai.cornel.service;
 
+import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dao.*;
 import com.demai.cornel.holder.UserHolder;
@@ -231,14 +232,41 @@ import java.util.regex.Pattern;
         if (pgSize == null) {
             pgSize = 10;
         }
-        return quoteInfoDao.getOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
+        List<GetOfferListResp>  getOfferListResps = quoteInfoDao.getOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
+        if(getOfferListResps==null){
+            getOfferListResps = Collections.EMPTY_LIST;
+        }
+        String serviceMobile= "";
+        if(ServiceMobileConfig.serviceMobile!=null){
+            Random r = new Random();
+            serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
+        }
+        String finalServiceMobile = serviceMobile;
+        getOfferListResps.stream().forEach(x->{
+            x.setServiceMobile(finalServiceMobile);
+        });
+        return getOfferListResps;
     }
 
     public List<GetOfferListResp> getSystemOfferListRespList(String quoteId, Integer pgSize) {
         if (pgSize == null) {
             pgSize = 10;
         }
-        return quoteInfoDao.getSystemOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
+        List<GetOfferListResp>  getOfferListResps =  quoteInfoDao.getSystemOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
+        if(getOfferListResps==null){
+            getOfferListResps = Collections.EMPTY_LIST;
+        }
+        String serviceMobile= "";
+        if(ServiceMobileConfig.serviceMobile!=null){
+            Random r = new Random();
+            serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
+        }
+        String finalServiceMobile = serviceMobile;
+        getOfferListResps.stream().forEach(x->{
+           x.setServiceMobile(finalServiceMobile);
+        });
+       return getOfferListResps;
+
     }
 
     public GetOfferInfoResp getOfferInfoResp(String quoteId) {

@@ -77,12 +77,9 @@ import java.util.stream.Collectors;
      */
     private Integer status;
 
-    private String serviceMobileList;
+    private String serviceMobile;
 
-    public void setServiceMobileList(String serviceMobileList) {
-        ServiceMobileConfig serviceMobileConfig = new ServiceMobileConfig();
-        this.serviceMobileList = serviceMobileList;
-    }
+
 
     public void setCommodityProperties(Map<String, String> commodityProperties) {
         this.commodityProperties = commodityProperties;

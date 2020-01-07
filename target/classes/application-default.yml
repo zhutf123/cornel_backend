@@ -116,6 +116,4 @@ xxl:
 baidu:
   ak: 1EBYcarYLWPnnpUbrX4SUxQwtLSjgvF0
 service:
-  mobile:
-    - number: 13551151842
-    - number: 13439679679
+  mobileList: 13551151842,13551151842

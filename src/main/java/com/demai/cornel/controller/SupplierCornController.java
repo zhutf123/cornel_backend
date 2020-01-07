@@ -233,6 +233,15 @@ public class SupplierCornController {
         return JsonResult.success(supplierTaskService.adddTowerInfo(orderIdParam));
     }
 
-
+//    /**
+//     * 增加烘干塔
+//     * @param orderIdParam
+//     * @return
+//     */
+//    @RequestMapping(value = "/user-info.json", method = RequestMethod.POST)
+//    @ResponseBody
+//    public JsonResult addTower(@RequestBody DryTower orderIdParam) {
+//        return JsonResult.success(supplierTaskService.adddTowerInfo(orderIdParam));
+//    }
 
 }

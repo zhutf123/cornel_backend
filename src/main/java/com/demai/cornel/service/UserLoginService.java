@@ -48,13 +48,13 @@ public class UserLoginService {
         // valid msg code
         if (!checkLoginMsgCode(param.getPhone(), param.getMsgCode())) {
             return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
-                    UserLoginResp.CODE_ENUE.MSG_CODE_ERROR.getValue());
+                    UserLoginResp.CODE_ENUE.MSG_CODE_ERROR.getValue(),param.getPhone());
         }
 
         UserInfo userInfo = userInfoDao.getUserInfoByPhone(param.getPhone());
         if (userInfo == null) {
             return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
-                   UserLoginResp.CODE_ENUE.NO_USER.getValue());
+                   UserLoginResp.CODE_ENUE.NO_USER.getValue(),param.getPhone());
         }
 
         WechatCode2SessionResp resp = weChatService.getOpenId(param.getJscode());
@@ -68,10 +68,10 @@ public class UserLoginService {
             }
             userInfoDao.updateUserOpenIdByUid(openIds,userInfo.getId());
             return new UserLoginResp(resp.getOpenid(), userInfo.getUserId(), userInfo.getRole(),
-                    UserLoginResp.CODE_ENUE.SUCCESS.getValue());
+                    UserLoginResp.CODE_ENUE.SUCCESS.getValue(),param.getPhone());
         }
         return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, userInfo.getRole(),
-                UserLoginResp.CODE_ENUE.OPENID_ERROR.getValue());
+                UserLoginResp.CODE_ENUE.OPENID_ERROR.getValue(),param.getPhone());
     }
 
     /***

@@ -27,6 +27,11 @@ public class UserLoginResp implements Serializable {
     /** 用户code */
     private Integer code;
 
+    /**登录手机号**/
+    private String phone;
+
+
+
     public static enum CODE_ENUE implements IEmus {
         NO_USER(-1, "用户不存在，请先注册"),
         SUCCESS(0, "请求成功"),

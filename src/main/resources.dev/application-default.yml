@@ -70,3 +70,5 @@ datasources:
     maxLifetime: 1800000
 baidu:
   ak: 1EBYcarYLWPnnpUbrX4SUxQwtLSjgvF0
+service:
+  mobile: 13551151842,13551151842
