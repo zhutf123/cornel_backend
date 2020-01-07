@@ -10,6 +10,7 @@ import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.service.UserService;
+import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.user.UserAddReq;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,7 @@ public class UserLoginController {
     @AccessControl(value = "60_3")
     public JsonResult userLoginSendCode(@RequestBody UserLoginSendMsgParam phone) {
         try {
+            log.debug("send code access [{}]", JacksonUtils.obj2String(phone));
             return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(phone.getPhone()));
         } catch (Exception e) {
             log.error("用户发送短信异常！", e);
