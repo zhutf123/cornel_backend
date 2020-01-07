@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -33,6 +34,20 @@ public class SupplierInfoResp {
         private String locationArea;
         private String locationDetail;
         private String location;
+        private BigDecimal area;
+        private BigDecimal capacityStore;
+        /**
+         * 同时装载车次
+         */
+        private Integer loadLorryNum;
+
+        /**
+         * 装载一车耗时
+         */
+        private BigDecimal loadLorryCost;
+        private BigDecimal shipmentWeight;
+
+
     }
 
     public static enum CODE_ENUE implements IEmus {
