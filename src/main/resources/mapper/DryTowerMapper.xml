@@ -224,7 +224,7 @@
             </if>
 
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where tower_id = #{towerId,jdbcType=VARCHAR}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.demai.cornel.model.DryTower">
         <!--@mbg.generated-->

@@ -383,6 +383,9 @@ import lombok.extern.slf4j.Slf4j;
         dryTower.setBindUserId(CookieAuthUtils.getCurrentUser());
         dryTower.setTowerId(UUID.randomUUID().toString());
         dryTower.setContactUserId(Sets.newHashSet(CookieAuthUtils.getCurrentUser()));
+        if(addDryTowerReq.getDefaultFlag().equals(1)){
+            dryTowerDao.updateTowerNonDefaultFlag(CookieAuthUtils.getCurrentUser());
+        }
         dryTowerDao.insert(dryTower);
         return TowerOperaResp.builder().towerId(dryTower.getTowerId())
                 .status(TowerOperaResp.OPERATION_STATUS.SUCCESS.getValue()).build();
