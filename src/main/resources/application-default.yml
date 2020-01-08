@@ -4,7 +4,7 @@ debug: false
 spring:
   redis:
     cluster:
-      nodes: 150.242.184.16:6380,150.242.184.16:6381,150.242.184.16:6382
+      nodes: 192.168.0.107:6379,192.168.0.107:6380,192.168.0.107:6381
       max-redirects: 5
       password: cornel00147258
       timeout: 5
@@ -96,9 +96,9 @@ ali-config:
 datasources:
   dm-master:
     driverClassName: org.postgresql.Driver
-    jdbcUrl: jdbc:postgresql://150.242.184.16:7654/cornel_product
-    username: postgres
-    password: cornel*..123
+    jdbcUrl: 'jdbc:postgresql://192.168.0.107:5432/cornel_product'
+    username: cornel_prd
+    password: a9e43160-7d34-4a9d-8120-f605b111ce59
     maximumPoolSize: 5
     idleTimeout: 600000
     maxLifetime: 1800000

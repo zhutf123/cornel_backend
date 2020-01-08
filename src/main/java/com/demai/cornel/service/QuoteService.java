@@ -64,6 +64,10 @@ import java.util.regex.Pattern;
             return offerQuoteResp;
         }
         // todo 这一块后续需要重新做，用户上传的自定义的商品 为-1 的时候表示是用户自定义的
+        if (offerQuoteReq.getCommodityId().equalsIgnoreCase("-1") && Strings.isNullOrEmpty(offerQuoteReq.getCommodityName())) {
+            log.debug("offer quote fail due to commodity is empty");
+            return OfferQuoteResp.builder().status(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
         if (offerQuoteReq.getCommodityId().equalsIgnoreCase("-1")) {
             Commodity commodity = new Commodity();
             commodity.setName(offerQuoteReq.getCommodityName());

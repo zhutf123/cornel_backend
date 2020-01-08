@@ -664,8 +664,6 @@ comment on column agreement_info.adapt is '适用那些页面';
 
 comment on column agreement_info.agreement is '协议内容';
 
-alter table agreement_info
-    owner to postgres;
 
 
 
