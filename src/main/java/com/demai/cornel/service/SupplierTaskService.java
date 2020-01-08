@@ -23,7 +23,6 @@ import com.demai.cornel.vo.supplier.*;
 import com.demai.cornel.vo.tower.TowerOperaResp;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import com.hp.gagawa.java.elements.U;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -332,11 +331,11 @@ import lombok.extern.slf4j.Slf4j;
      * @param towerId
      * @return
      */
-    public GetTowerInfoResp getTowerInfoByTowerId(String towerId) {
+    public TowerInfoResp getTowerInfoByTowerId(String towerId) {
         DryTower dryTower = dryTowerDao.selectByTowerId(towerId);
-        GetTowerInfoResp getTowerInfoResp = new GetTowerInfoResp();
+        TowerInfoResp getTowerInfoResp = new TowerInfoResp();
         if (dryTower == null) {
-            getTowerInfoResp.setOptStatus(GetTowerInfoResp.REGISTER_STATUS.NO_RESULT.getValue());
+            getTowerInfoResp.setOptStatus(TowerInfoResp.REGISTER_STATUS.NO_RESULT.getValue());
             return getTowerInfoResp;
         }
         BeanUtils.copyProperties(dryTower, getTowerInfoResp);
@@ -345,7 +344,7 @@ import lombok.extern.slf4j.Slf4j;
             commodities = commodityDao.getCommodityByIds(dryTower.getCommodityId());
         }
         getTowerInfoResp.setCommoditys(commodities);
-        getTowerInfoResp.setOptStatus(GetTowerInfoResp.REGISTER_STATUS.SUCCESS.getValue());
+        getTowerInfoResp.setOptStatus(TowerInfoResp.REGISTER_STATUS.SUCCESS.getValue());
         return getTowerInfoResp;
 
     }
@@ -366,6 +365,7 @@ import lombok.extern.slf4j.Slf4j;
         }
         int rest = dryTowerDao.updateByPrimaryKeySelective(dryTower);
         if (rest == 0) {
+            log.info("update tower info error due to update db fail tower info is [{}]",JacksonUtils.obj2String(dryTower));
             return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.NO_TOWER.getValue()).build();
         }
         return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.SUCCESS.getValue())

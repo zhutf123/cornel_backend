@@ -24,7 +24,11 @@ public interface DryTowerDao {
 
     String getLocationByUserId(@Param("userID")String userId);
 
-
+    /**
+     * 获取指定人下面的烘干塔信息 排序方式默认烘干塔在前 后面按时间倒序排列
+     * @param userId
+     * @return
+     */
     List<DryTower> selectDryTowerByUserId(@Param("userID")String userId);
 
 
