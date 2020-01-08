@@ -270,7 +270,14 @@ import java.util.regex.Pattern;
     }
 
     public GetOfferInfoResp getOfferInfoResp(String quoteId) {
-        return quoteInfoDao.getQuoteInfoById(quoteId);
+        String serviceMobile = "";
+        if (ServiceMobileConfig.serviceMobile != null) {
+            Random r = new Random();
+            serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
+        }
+        GetOfferInfoResp getOfferInfoResp =  quoteInfoDao.getQuoteInfoById(quoteId);
+        getOfferInfoResp.setServiceMobile(serviceMobile);
+        return getOfferInfoResp;
     }
 
     public OfferQuoteResp cancleQuote(String quoteId) {
