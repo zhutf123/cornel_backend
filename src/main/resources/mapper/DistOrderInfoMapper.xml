@@ -28,12 +28,9 @@
         <result column="dep" property="dep"/>
         <result column="arr" property="arr"/>
         <result column="weight" property="weight"/>
-        <result column="create_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
-                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
-        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
-                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
-        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
-                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="create_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+
         <result column="distance" property="distance"/>
         <result column="unit_distance" property="unitDistance"/>
         <result column="unit_weight_price" property="unitWeightPrice"/>
@@ -144,7 +141,6 @@
     <select id="getDistOrderListByUserID" resultMap="distTaskOrderReqMapper">
         SELECT
          <include refid="dist_task_order_req"/>
-         from task_info
         where
         <if test="curId != null">
             task_info.id  <![CDATA[<]]> #{curId}
