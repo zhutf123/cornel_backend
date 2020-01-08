@@ -379,8 +379,7 @@ import lombok.extern.slf4j.Slf4j;
      */
     public TowerOperaResp adddTowerInfo(AddDryTowerReq addDryTowerReq) {
         if (addDryTowerReq == null || Strings.isNullOrEmpty(addDryTowerReq.getLocationArea()) || Strings
-                .isNullOrEmpty(addDryTowerReq.getLocationDetail()) || addDryTowerReq.getCommodityId() == null
-                || addDryTowerReq.getCommodityId().size() <= 0) {
+                .isNullOrEmpty(addDryTowerReq.getLocationDetail()) ) {
             log.debug("add dry tower error due tu tower info  error [{}]", JacksonUtils.obj2String(addDryTowerReq));
             return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.PARAM_ERROR.getValue()).build();
         }

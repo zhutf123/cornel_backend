@@ -216,9 +216,7 @@ import java.util.regex.Pattern;
         clickSystemQuoteResp.setQuote(systemQuote.getQuote());
         clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>();
-        if (CollectionUtils.isEmpty(ownDryInfo)) {
-            dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo());
-        } else {
+        if (!CollectionUtils.isEmpty(ownDryInfo)) {
             ownDryInfo.stream().forEach(x -> {
                 dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getTowerId()), x.getLocation(),
                         x.getLocationArea(), x.getLocationDetail()));
