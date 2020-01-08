@@ -164,7 +164,7 @@ import java.util.*;
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId(param.getOrderId());
         orderInfo.setReceiverUserId(Sets.newHashSet(supplierId));
-        orderInfo.setSuccWeight(new BigDecimal(param.getRealWeight()));
+        orderInfo.setSuccWeight(param.getRealWeight());
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_DELIVERY_OVER.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_DRIVER_CONFIRM_OVER.getValue());
         orderInfo.setLetOutTime(DateFormatUtils.formatDateTime(new java.sql.Date(System.currentTimeMillis())));
@@ -181,7 +181,7 @@ import java.util.*;
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
         return OperationOrderResp.builder().sendOutTime(orderInfo.getLetOutTime()).success(Boolean.TRUE)
                 .opResult(OperationOrderResp.DELIVERY_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
-                .orderStatus(orderInfo.getStatus()).realWeight(orderInfo.getSuccWeight().longValue()).build();
+                .orderStatus(orderInfo.getStatus()).realWeight(orderInfo.getSuccWeight()).build();
     }
 
 
@@ -210,6 +210,6 @@ import java.util.*;
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
         return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date())).success(Boolean.TRUE)
                 .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue()).orderId(param.getOrderId())
-                .realWeight(orderInfo.getCarryWeight().longValue()).orderStatus(orderInfo.getStatus()).build();
+                .realWeight(orderInfo.getCarryWeight()).orderStatus(orderInfo.getStatus()).build();
     }
 }

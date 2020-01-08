@@ -4,6 +4,7 @@
 package com.demai.cornel.vo.order;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import lombok.Data;
 
@@ -13,5 +14,5 @@ import lombok.Data;
 @Data
 public class OperationOrderReq implements Serializable {
     private String orderId;
-    private Long realWeight;
+    private BigDecimal realWeight;
 }

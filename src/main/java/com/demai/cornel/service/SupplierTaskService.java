@@ -202,7 +202,7 @@ import lombok.extern.slf4j.Slf4j;
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
         return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
                 .success(Boolean.TRUE).opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue())
-                .orderId(param.getOrderId()).realWeight(orderInfo.getCarryWeight().longValue())
+                .orderId(param.getOrderId()).realWeight(orderInfo.getCarryWeight())
                 .orderStatus(orderInfo.getStatus()).build();
     }
 
@@ -219,7 +219,7 @@ import lombok.extern.slf4j.Slf4j;
         Set<String> sendOutId = new HashSet<>(1);
         sendOutId.add(supplierId);
         orderInfo.setSendOutUserId(sendOutId);
-        orderInfo.setCarryWeight(new BigDecimal(param.getRealWeight()));
+        orderInfo.setCarryWeight(param.getRealWeight());
         orderInfo.setSendOutTime(DateFormatUtils.formatDateTime(new java.sql.Date(System.currentTimeMillis())));
         orderInfo.setStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT_OVER.getValue());
         orderInfo.setOldStatus(OrderInfo.STATUS_ENUE.ORDER_SHIPMENT.getValue());
@@ -230,13 +230,13 @@ import lombok.extern.slf4j.Slf4j;
         if (num == 0) {
             return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
                     .success(Boolean.FALSE)
-                    .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue()).realWeight(0L)
+                    .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue()).realWeight(new BigDecimal(0.0))
                     .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
         }
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
         return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
                 .success(Boolean.TRUE).opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue())
-                .orderId(param.getOrderId()).realWeight(orderInfo.getCarryWeight().longValue())
+                .orderId(param.getOrderId()).realWeight(orderInfo.getCarryWeight())
                 .orderStatus(orderInfo.getStatus()).build();
     }
 

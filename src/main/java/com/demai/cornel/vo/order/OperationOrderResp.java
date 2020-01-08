@@ -4,6 +4,7 @@
 package com.demai.cornel.vo.order;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +33,7 @@ public class OperationOrderResp implements Serializable {
      */
     private String sendOutTime;
 
-    private Long realWeight;
+    private BigDecimal realWeight;
 
 
     public static enum DELIVERY_RESP_STATUS_ENUE {
