@@ -32,7 +32,8 @@
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
-
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="distance" property="distance"/>
         <result column="unit_distance" property="unitDistance"/>
         <result column="unit_weight_price" property="unitWeightPrice"/>
