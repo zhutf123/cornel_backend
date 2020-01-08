@@ -149,8 +149,7 @@ import java.util.regex.Pattern;
         String userId = CookieAuthUtils.getCurrentUser();
         String location = dryTowerDao.getLocationByUserId(userId);
         return OfferQuoteReq.builder().location(location).
-                shipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT)
-                .unitPrice(ContextConsts.DEFAULT_UNIT_PRICE)
+                shipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT).unitPrice(ContextConsts.DEFAULT_UNIT_PRICE)
                 .unitWeight(ContextConsts.DEFAULT_UNIT_WEIGHT).build();
 
     }
@@ -198,10 +197,7 @@ import java.util.regex.Pattern;
                     .build();
         }
         List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByUserId(userId);
-        if (CollectionUtils.isEmpty(ownDryInfo)) {
-            return ClickSystemQuoteResp.builder().status(ClickSystemQuoteResp.STATUS_ENUE.DRY_TOWER_ERROR.getValue())
-                    .build();
-        }
+
         Commodity commodity = commodityDao.getCommodityByCommodityId(commodityId);
         if (commodity == null) {
             return ClickSystemQuoteResp.builder().status(ClickSystemQuoteResp.STATUS_ENUE.COMMODITY_ERROR.getValue())
@@ -219,11 +215,15 @@ import java.util.regex.Pattern;
         clickSystemQuoteResp.setUnitPrice(systemQuote.getUnitPrice());
         clickSystemQuoteResp.setQuote(systemQuote.getQuote());
         clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
-        List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>(ownDryInfo.size());
-        ownDryInfo.stream().forEach(x -> {
-            dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getTowerId()), x.getLocation(),
-                    x.getLocationArea(), x.getLocationDetail()));
-        });
+        List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>();
+        if (CollectionUtils.isEmpty(ownDryInfo)) {
+            dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo());
+        } else {
+            ownDryInfo.stream().forEach(x -> {
+                dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getTowerId()), x.getLocation(),
+                        x.getLocationArea(), x.getLocationDetail()));
+            });
+        }
         clickSystemQuoteResp.setDryTowerInfo(dryTowerInfo);
         return clickSystemQuoteResp;
     }
@@ -232,17 +232,18 @@ import java.util.regex.Pattern;
         if (pgSize == null) {
             pgSize = 10;
         }
-        List<GetOfferListResp>  getOfferListResps = quoteInfoDao.getOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
-        if(getOfferListResps==null){
+        List<GetOfferListResp> getOfferListResps = quoteInfoDao
+                .getOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
+        if (getOfferListResps == null) {
             getOfferListResps = Collections.EMPTY_LIST;
         }
-        String serviceMobile= "";
-        if(ServiceMobileConfig.serviceMobile!=null){
+        String serviceMobile = "";
+        if (ServiceMobileConfig.serviceMobile != null) {
             Random r = new Random();
             serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
         }
         String finalServiceMobile = serviceMobile;
-        getOfferListResps.stream().forEach(x->{
+        getOfferListResps.stream().forEach(x -> {
             x.setServiceMobile(finalServiceMobile);
         });
         return getOfferListResps;
@@ -252,20 +253,21 @@ import java.util.regex.Pattern;
         if (pgSize == null) {
             pgSize = 10;
         }
-        List<GetOfferListResp>  getOfferListResps =  quoteInfoDao.getSystemOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
-        if(getOfferListResps==null){
+        List<GetOfferListResp> getOfferListResps = quoteInfoDao
+                .getSystemOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
+        if (getOfferListResps == null) {
             getOfferListResps = Collections.EMPTY_LIST;
         }
-        String serviceMobile= "";
-        if(ServiceMobileConfig.serviceMobile!=null){
+        String serviceMobile = "";
+        if (ServiceMobileConfig.serviceMobile != null) {
             Random r = new Random();
             serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
         }
         String finalServiceMobile = serviceMobile;
-        getOfferListResps.stream().forEach(x->{
-           x.setServiceMobile(finalServiceMobile);
+        getOfferListResps.stream().forEach(x -> {
+            x.setServiceMobile(finalServiceMobile);
         });
-       return getOfferListResps;
+        return getOfferListResps;
 
     }
 
