@@ -32,9 +32,9 @@
         <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="cancel_reason" property="cancelReason"/>
         <result column="ext_info" property="extInfo"/>
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="create_time" property="createTime"   jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
-        <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="receive_time" property="receiveTime"/>
         <result column="delivery_receive_time" property="deliveryReceiveTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="let_out_time" property="letOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
     </resultMap>
