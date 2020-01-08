@@ -340,7 +340,10 @@ import lombok.extern.slf4j.Slf4j;
             return getTowerInfoResp;
         }
         BeanUtils.copyProperties(dryTower, getTowerInfoResp);
-        List<Commodity> commodities = commodityDao.getCommodityByIds(dryTower.getCommodityId());
+        List<Commodity> commodities = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(dryTower.getCommodityId())){
+            commodities = commodityDao.getCommodityByIds(dryTower.getCommodityId());
+        }
         getTowerInfoResp.setCommoditys(commodities);
         getTowerInfoResp.setOptStatus(GetTowerInfoResp.REGISTER_STATUS.SUCCESS.getValue());
         return getTowerInfoResp;
