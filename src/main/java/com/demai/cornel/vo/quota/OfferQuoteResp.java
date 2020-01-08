@@ -1,7 +1,10 @@
 package com.demai.cornel.vo.quota;
 
 import com.demai.cornel.dmEnum.IEmus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Author binz.zhang
@@ -9,7 +12,11 @@ import lombok.Data;
  * 报价返回model
  */
 
-@Data public class OfferQuoteResp {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class OfferQuoteResp {
     private String quoteId;
     private Integer quoteStatus;
     private Integer status;

@@ -444,16 +444,15 @@ comment on column dist_order_info.dist_weight is '派单的重量';
 
 
 -- 商品总类表
--- auto-generated definition
 create table commodity_list
 (
-    id                   serial not null,
+    id                   serial not null primary key,
     name                 varchar(200),
     commodity_properties hstore,
     commodity_id         varchar(40),
     status               integer default 1,
     system_flag          integer,
-    bind_user_id         varchar(20)
+    bind_user_id         varchar(50)
 );
 
 comment on table commodity_list is '商品种类';
@@ -470,8 +469,7 @@ comment on column commodity_list.system_flag is '1 系统商品；0 是用户自
 
 comment on column commodity_list.bind_user_id is '绑定这个报价的提出用户userID';
 
-alter table commodity_list
-    owner to postgres;
+
 
 
 
@@ -479,10 +477,8 @@ alter table commodity_list
 -- auto-generated definition
 create table dry_tower
 (
-    id    serial not null primary key,
+    id              serial not null primary key,
     company         varchar(200),
-    contacts_name   varchar(20),
-    contact_mobile  varchar(20),
     commodity_id    varchar(40)[],
     location        varchar(200),
     area            numeric(10, 2),
@@ -493,11 +489,14 @@ create table dry_tower
     load_lorry_num  integer,
     load_lorry_cost numeric(5, 2),
     bind_user_id    varchar(40),
-    user_id_card    varchar(20),
     tower_id        varchar(50),
     default_flag    integer,
     location_area   varchar(200),
-    location_detail varchar(200)
+    location_detail varchar(200),
+    contact_user_id varchar(40)[],
+    contacts_name   varchar(40),
+    contact_mobile  varchar(20),
+    user_id_card    varchar(50)
 );
 
 comment on table dry_tower is '烘干塔信息';
@@ -505,10 +504,6 @@ comment on table dry_tower is '烘干塔信息';
 comment on column dry_tower.id is '自增ID';
 
 comment on column dry_tower.company is '公司名称';
-
-comment on column dry_tower.contacts_name is '联系人';
-
-comment on column dry_tower.contact_mobile is '手机号';
 
 comment on column dry_tower.commodity_id is '主营品种';
 
@@ -530,8 +525,6 @@ comment on column dry_tower.load_lorry_cost is '装载一车耗时';
 
 comment on column dry_tower.bind_user_id is '绑定人';
 
-comment on column dry_tower.user_id_card is '联系人身份证号';
-
 comment on column dry_tower.tower_id is '烘干塔ID';
 
 comment on column dry_tower.default_flag is '默认标志位 1 是默认 0是非默认';
@@ -540,17 +533,14 @@ comment on column dry_tower.location_area is '所在区域';
 
 comment on column dry_tower.location_detail is '详细地址';
 
-alter table dry_tower
-    owner to postgres;
-
+comment on column dry_tower.contact_user_id is '烘干塔联系人，一个塔可以对应多个联系人';
 
 
 -- 报价表
 -- auto-generated definition
--- auto-generated definition
 create table quote_info
 (
-    id serial not null primary key,
+    id  serial not null primary key,
     commodity_id    varchar(40),
     quote           numeric(10, 2),
     unit_price      varchar(10),
@@ -564,10 +554,10 @@ create table quote_info
     bargain_status  integer,
     user_id         varchar(50),
     location        varchar(200),
-    user_name       varchar(20),
+    user_name       varchar(100),
     quote_id        varchar(50),
     tower_id        varchar(50),
-    mobile          varchar(20),
+    mobile          varchar(200),
     end_time        timestamp
 );
 
@@ -611,16 +601,12 @@ comment on column quote_info.mobile is '联系电话';
 
 comment on column quote_info.end_time is '结束时间';
 
-alter table quote_info
-    owner to postgres;
-
-
 
 -- 系统报价表
 -- auto-generated definition
 create table system_quote
 (
-    id   serial not null primary key,
+    id                  serial not null primary key,
     quote_id            varchar(40),
     commodity_id        varchar(40),
     quote               numeric(10, 2),
@@ -648,6 +634,36 @@ comment on column system_quote.unit_weight is '重量单位';
 
 comment on column system_quote.min_shipment_weight is '最少出货量';
 
-alter table system_quote
-    owner to postgres;
+create table agreement_info
+(
+    id             serial not null primary key,
+    agreement_id   varchar(50),
+    status         integer   default 1,
+    create_time    timestamp default now(),
+    update_time    timestamp,
+    agreement_name varchar(200),
+    adapt          varchar(40)[],
+    agreement      text
+);
+
+comment on table agreement_info is '协议表 各种协议';
+
+comment on column agreement_info.id is '自增ID';
+
+comment on column agreement_info.agreement_id is '协议ID';
+
+comment on column agreement_info.status is '状态位 0 无效 1有效';
+
+comment on column agreement_info.create_time is '创建时间';
+
+comment on column agreement_info.update_time is '更新时间';
+
+comment on column agreement_info.agreement_name is '协议名称';
+
+comment on column agreement_info.adapt is '适用那些页面';
+
+comment on column agreement_info.agreement is '协议内容';
+
+
+
 

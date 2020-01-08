@@ -64,6 +64,10 @@ import java.util.regex.Pattern;
             return offerQuoteResp;
         }
         // todo 这一块后续需要重新做，用户上传的自定义的商品 为-1 的时候表示是用户自定义的
+        if (offerQuoteReq.getCommodityId().equalsIgnoreCase("-1") && Strings.isNullOrEmpty(offerQuoteReq.getCommodityName())) {
+            log.debug("offer quote fail due to commodity is empty");
+            return OfferQuoteResp.builder().status(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
         if (offerQuoteReq.getCommodityId().equalsIgnoreCase("-1")) {
             Commodity commodity = new Commodity();
             commodity.setName(offerQuoteReq.getCommodityName());
@@ -149,8 +153,7 @@ import java.util.regex.Pattern;
         String userId = CookieAuthUtils.getCurrentUser();
         String location = dryTowerDao.getLocationByUserId(userId);
         return OfferQuoteReq.builder().location(location).
-                shipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT)
-                .unitPrice(ContextConsts.DEFAULT_UNIT_PRICE)
+                shipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT).unitPrice(ContextConsts.DEFAULT_UNIT_PRICE)
                 .unitWeight(ContextConsts.DEFAULT_UNIT_WEIGHT).build();
 
     }
@@ -198,10 +201,7 @@ import java.util.regex.Pattern;
                     .build();
         }
         List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByUserId(userId);
-        if (CollectionUtils.isEmpty(ownDryInfo)) {
-            return ClickSystemQuoteResp.builder().status(ClickSystemQuoteResp.STATUS_ENUE.DRY_TOWER_ERROR.getValue())
-                    .build();
-        }
+
         Commodity commodity = commodityDao.getCommodityByCommodityId(commodityId);
         if (commodity == null) {
             return ClickSystemQuoteResp.builder().status(ClickSystemQuoteResp.STATUS_ENUE.COMMODITY_ERROR.getValue())
@@ -219,11 +219,13 @@ import java.util.regex.Pattern;
         clickSystemQuoteResp.setUnitPrice(systemQuote.getUnitPrice());
         clickSystemQuoteResp.setQuote(systemQuote.getQuote());
         clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
-        List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>(ownDryInfo.size());
-        ownDryInfo.stream().forEach(x -> {
-            dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getTowerId()), x.getLocation(),
-                    x.getLocationArea(), x.getLocationDetail()));
-        });
+        List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(ownDryInfo)) {
+            ownDryInfo.stream().forEach(x -> {
+                dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getTowerId()), x.getLocation(),
+                        x.getLocationArea(), x.getLocationDetail()));
+            });
+        }
         clickSystemQuoteResp.setDryTowerInfo(dryTowerInfo);
         return clickSystemQuoteResp;
     }
@@ -232,17 +234,18 @@ import java.util.regex.Pattern;
         if (pgSize == null) {
             pgSize = 10;
         }
-        List<GetOfferListResp>  getOfferListResps = quoteInfoDao.getOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
-        if(getOfferListResps==null){
+        List<GetOfferListResp> getOfferListResps = quoteInfoDao
+                .getOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
+        if (getOfferListResps == null) {
             getOfferListResps = Collections.EMPTY_LIST;
         }
-        String serviceMobile= "";
-        if(ServiceMobileConfig.serviceMobile!=null){
+        String serviceMobile = "";
+        if (ServiceMobileConfig.serviceMobile != null) {
             Random r = new Random();
             serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
         }
         String finalServiceMobile = serviceMobile;
-        getOfferListResps.stream().forEach(x->{
+        getOfferListResps.stream().forEach(x -> {
             x.setServiceMobile(finalServiceMobile);
         });
         return getOfferListResps;
@@ -252,25 +255,33 @@ import java.util.regex.Pattern;
         if (pgSize == null) {
             pgSize = 10;
         }
-        List<GetOfferListResp>  getOfferListResps =  quoteInfoDao.getSystemOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
-        if(getOfferListResps==null){
+        List<GetOfferListResp> getOfferListResps = quoteInfoDao
+                .getSystemOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
+        if (getOfferListResps == null) {
             getOfferListResps = Collections.EMPTY_LIST;
         }
-        String serviceMobile= "";
-        if(ServiceMobileConfig.serviceMobile!=null){
+        String serviceMobile = "";
+        if (ServiceMobileConfig.serviceMobile != null) {
             Random r = new Random();
             serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
         }
         String finalServiceMobile = serviceMobile;
-        getOfferListResps.stream().forEach(x->{
-           x.setServiceMobile(finalServiceMobile);
+        getOfferListResps.stream().forEach(x -> {
+            x.setServiceMobile(finalServiceMobile);
         });
-       return getOfferListResps;
+        return getOfferListResps;
 
     }
 
     public GetOfferInfoResp getOfferInfoResp(String quoteId) {
-        return quoteInfoDao.getQuoteInfoById(quoteId);
+        String serviceMobile = "";
+        if (ServiceMobileConfig.serviceMobile != null) {
+            Random r = new Random();
+            serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
+        }
+        GetOfferInfoResp getOfferInfoResp =  quoteInfoDao.getQuoteInfoById(quoteId);
+        getOfferInfoResp.setServiceMobile(serviceMobile);
+        return getOfferInfoResp;
     }
 
     public OfferQuoteResp cancleQuote(String quoteId) {

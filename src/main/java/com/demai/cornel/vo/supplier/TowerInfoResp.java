@@ -14,7 +14,7 @@ import java.util.Set;
  * @Date: 2020-01-07    19:23
  */
 @Data
-public class GetTowerInfoResp {
+public class TowerInfoResp {
 
     /**
      * 烘干塔ID

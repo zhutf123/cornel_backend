@@ -42,6 +42,9 @@ public class ClickSystemQuoteResp {
             this.locationArea = locationArea;
             this.locationDetail = locationDetail;
         }
+
+        public DryTowerInfo() {
+        }
     }
 
     public static enum STATUS_ENUE implements IEmus {

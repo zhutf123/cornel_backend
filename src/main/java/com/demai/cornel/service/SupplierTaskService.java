@@ -23,7 +23,6 @@ import com.demai.cornel.vo.supplier.*;
 import com.demai.cornel.vo.tower.TowerOperaResp;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import com.hp.gagawa.java.elements.U;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -242,7 +241,7 @@ import lombok.extern.slf4j.Slf4j;
     }
 
     /**
-     * 烘干塔注册
+     * 烘干塔注册 增加烘干塔
      *
      * @param dryTower
      * @return
@@ -283,7 +282,7 @@ import lombok.extern.slf4j.Slf4j;
                 dryTowerInsert.setTowerId(UUID.randomUUID().toString());
                 BeanUtils.copyProperties(dryTower, dryTowerInsert);
                 BeanUtils.copyProperties(x, dryTowerInsert);
-                dryTowerInsert.setContactUserId(Sets.newHashSet(finalContactUserId));
+                dryTowerInsert.setContactUserId(Sets.newHashSet(finalContactUserId,CookieAuthUtils.getCurrentUser()));
                 dryTowerDao.insertSelective(dryTowerInsert);
             });
 
@@ -294,9 +293,13 @@ import lombok.extern.slf4j.Slf4j;
         return DryTower.REGISTER_STATUS.SUCCESS;
     }
 
+    public static void main(String[] args) {
+        Set<String> get = Sets.newHashSet("1","2","3","1");
+        System.out.println("ok");
+    }
     /**
      * 校验烘干塔参数
-     * todo 其他校验细节还需讨论
+     * todo 其他校验细节还需讨论 当前的校验是联系人跟联系方式不能为空
      *
      * @param dryTower
      * @return
@@ -328,17 +331,20 @@ import lombok.extern.slf4j.Slf4j;
      * @param towerId
      * @return
      */
-    public GetTowerInfoResp getTowerInfoByTowerId(String towerId) {
+    public TowerInfoResp getTowerInfoByTowerId(String towerId) {
         DryTower dryTower = dryTowerDao.selectByTowerId(towerId);
-        GetTowerInfoResp getTowerInfoResp = new GetTowerInfoResp();
+        TowerInfoResp getTowerInfoResp = new TowerInfoResp();
         if (dryTower == null) {
-            getTowerInfoResp.setOptStatus(GetTowerInfoResp.REGISTER_STATUS.NO_RESULT.getValue());
+            getTowerInfoResp.setOptStatus(TowerInfoResp.REGISTER_STATUS.NO_RESULT.getValue());
             return getTowerInfoResp;
         }
         BeanUtils.copyProperties(dryTower, getTowerInfoResp);
-        List<Commodity> commodities = commodityDao.getCommodityByIds(dryTower.getCommodityId());
+        List<Commodity> commodities = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(dryTower.getCommodityId())){
+            commodities = commodityDao.getCommodityByIds(dryTower.getCommodityId());
+        }
         getTowerInfoResp.setCommoditys(commodities);
-        getTowerInfoResp.setOptStatus(GetTowerInfoResp.REGISTER_STATUS.SUCCESS.getValue());
+        getTowerInfoResp.setOptStatus(TowerInfoResp.REGISTER_STATUS.SUCCESS.getValue());
         return getTowerInfoResp;
 
     }
@@ -350,6 +356,7 @@ import lombok.extern.slf4j.Slf4j;
      * @return
      */
     public TowerOperaResp updateTowerInfo(DryTower dryTower) {
+        log.info("edit tower info is [{}]",JacksonUtils.obj2String(dryTower));
         if (dryTower == null || Strings.isNullOrEmpty(dryTower.getTowerId())) {
             return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.PARAM_ERROR.getValue()).build();
         }
@@ -358,6 +365,7 @@ import lombok.extern.slf4j.Slf4j;
         }
         int rest = dryTowerDao.updateByPrimaryKeySelective(dryTower);
         if (rest == 0) {
+            log.info("update tower info error due to update db fail tower info is [{}]",JacksonUtils.obj2String(dryTower));
             return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.NO_TOWER.getValue()).build();
         }
         return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.SUCCESS.getValue())
@@ -374,8 +382,7 @@ import lombok.extern.slf4j.Slf4j;
      */
     public TowerOperaResp adddTowerInfo(AddDryTowerReq addDryTowerReq) {
         if (addDryTowerReq == null || Strings.isNullOrEmpty(addDryTowerReq.getLocationArea()) || Strings
-                .isNullOrEmpty(addDryTowerReq.getLocationDetail()) || addDryTowerReq.getCommodityId() == null
-                || addDryTowerReq.getCommodityId().size() <= 0) {
+                .isNullOrEmpty(addDryTowerReq.getLocationDetail()) ) {
             log.debug("add dry tower error due tu tower info  error [{}]", JacksonUtils.obj2String(addDryTowerReq));
             return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.PARAM_ERROR.getValue()).build();
         }
@@ -392,7 +399,7 @@ import lombok.extern.slf4j.Slf4j;
         if(addDryTowerReq.getDefaultFlag().equals(1)){
             dryTowerDao.updateTowerNonDefaultFlag(CookieAuthUtils.getCurrentUser());
         }
-        dryTowerDao.insert(dryTower);
+        dryTowerDao.insertSelective(dryTower);
         return TowerOperaResp.builder().towerId(dryTower.getTowerId())
                 .status(TowerOperaResp.OPERATION_STATUS.SUCCESS.getValue()).build();
     }
