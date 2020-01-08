@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.dao.AgreementInfoMapper">
+    <resultMap id="BaseResultMap" type="com.demai.cornel.model.AgreementInfo">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="agreement_id" jdbcType="VARCHAR" property="agreementId"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="agreement_name" jdbcType="VARCHAR" property="agreementName"/>
+        <result column="adapt"  property="adapt" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="agreement"  jdbcType="VARCHAR" property="agreement" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, agreement_id, "status", create_time, update_time, agreement_name, adapt, agreement
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from agreement_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from agreement_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.demai.cornel.model.AgreementInfo">
+        <!--@mbg.generated-->
+        insert into agreement_info (id, agreement_id, "status",
+        create_time, update_time, agreement_name,
+        adapt, agreement)
+        values (#{id,jdbcType=INTEGER}, #{agreementId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{agreementName,jdbcType=VARCHAR},
+        #{adapt,jdbcType=VARCHAR}, #{agreement,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.demai.cornel.model.AgreementInfo">
+        <!--@mbg.generated-->
+        insert into agreement_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="agreementId != null">
+                agreement_id,
+            </if>
+            <if test="status != null">
+                "status",
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="agreementName != null">
+                agreement_name,
+            </if>
+            <if test="adapt != null">
+                adapt,
+            </if>
+            <if test="agreement != null">
+                agreement,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="agreementId != null">
+                #{agreementId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="agreementName != null">
+                #{agreementName,jdbcType=VARCHAR},
+            </if>
+            <if test="adapt != null">
+                #{adapt,jdbcType=VARCHAR},
+            </if>
+            <if test="agreement != null">
+                #{agreement,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.model.AgreementInfo">
+        <!--@mbg.generated-->
+        update agreement_info
+        <set>
+            <if test="agreementId != null">
+                agreement_id = #{agreementId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                "status" = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="agreementName != null">
+                agreement_name = #{agreementName,jdbcType=VARCHAR},
+            </if>
+            <if test="adapt != null">
+                adapt = #{adapt,jdbcType=VARCHAR},
+            </if>
+            <if test="agreement != null">
+                agreement = #{agreement,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.demai.cornel.model.AgreementInfo">
+        <!--@mbg.generated-->
+        update agreement_info
+        set agreement_id = #{agreementId,jdbcType=VARCHAR},
+        "status" = #{status,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        agreement_name = #{agreementName,jdbcType=VARCHAR},
+        adapt = #{adapt,jdbcType=VARCHAR},
+        agreement = #{agreement,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByAdapt" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from agreement_info
+        where status=1 and <![CDATA[ adapt @> array[#{adapt}] ]]>
+        limit 1
+    </select>
+</mapper>
