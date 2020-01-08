@@ -59,15 +59,15 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <display-name>HystrixMetricsStreamServlet</display-name>
-        <servlet-name>HystrixMetricsStreamServlet</servlet-name>
-        <servlet-class>com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>HystrixMetricsStreamServlet</servlet-name>
-        <url-pattern>/hystrix.stream</url-pattern>
-    </servlet-mapping>
+<!--    <servlet>-->
+<!--        <display-name>HystrixMetricsStreamServlet</display-name>-->
+<!--        <servlet-name>HystrixMetricsStreamServlet</servlet-name>-->
+<!--        <servlet-class>com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>HystrixMetricsStreamServlet</servlet-name>-->
+<!--        <url-pattern>/hystrix.stream</url-pattern>-->
+<!--    </servlet-mapping>-->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
