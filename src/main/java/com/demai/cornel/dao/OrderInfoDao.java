@@ -33,7 +33,7 @@ public interface OrderInfoDao {
     List<GetOrderListResp> getOrderInfoByOrderTypeAndUserId(@Param("userId") String userId,
             @Param("orderType") Long orderType, @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
 
-    List<GetOrderListResp> getOrderInfoBySupplier(@Param("towerId") String supplierId,
+    List<GetOrderListResp> getOrderInfoBySupplier(@Param("supplierId") String supplierId,
             @Param("orderType") Long orderType, @Param("orderId") String orderId, @Param("pgSize") Integer pgSize);
 
     List<GetOrderListResp> getOrderInfoByTaskByDelivery(@Param("deliverId") String supplierId,
