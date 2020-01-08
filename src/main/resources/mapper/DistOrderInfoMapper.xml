@@ -141,6 +141,7 @@
     <select id="getDistOrderListByUserID" resultMap="distTaskOrderReqMapper">
         SELECT
          <include refid="dist_task_order_req"/>
+     from task_info
         where
         <if test="curId != null">
             task_info.id  <![CDATA[<]]> #{curId}
