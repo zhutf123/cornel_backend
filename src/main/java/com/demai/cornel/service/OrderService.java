@@ -7,6 +7,7 @@ import com.demai.cornel.model.LorryInfo;
 import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.model.TaskInfoReq;
+import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.service.impl.TaskServiceImp;
 import com.demai.cornel.util.*;
 import com.demai.cornel.vo.JsonResult;
@@ -17,6 +18,7 @@ import com.demai.cornel.vo.task.*;
 import com.google.common.base.Strings;
 import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +50,12 @@ import java.util.concurrent.TimeUnit;
                 .getOrderInfoByOrderTypeAndUserId(userId, getOrderListReq.getOrderType(), getOrderListReq.getOrderId(),
                         getOrderListReq.getPgSize());
         getOrderListResps.stream().forEach(x -> {
-            x.setSupplierMobile(userInfoDao.getUserTelByUserId(x.getSupplierId()));
+            if (CollectionUtils.isNotEmpty(x.getSupplierMobileSet())) {
+                x.setSupplierMobile(x.getSupplierMobileSet().iterator().next());
+            }
+            if (CollectionUtils.isNotEmpty(x.getReceiverMobileSet())) {
+                x.setReceiverMobile(x.getReceiverMobileSet().iterator().next());
+            }
         });
         return getOrderListResps;
     }
@@ -341,8 +348,13 @@ import java.util.concurrent.TimeUnit;
     public GetOrderListResp driverGetTaskInfo(String orderId) {
         GetOrderListResp getOrderInfoResp = orderInfoDao
                 .getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId);
-        List<String> supplierTel = userInfoDao.getUserTelByUserId(getOrderInfoResp.getSupplierId());
-        getOrderInfoResp.setSupplierMobile(supplierTel);
+
+        if (CollectionUtils.isNotEmpty(getOrderInfoResp.getSupplierMobileSet())) {
+            getOrderInfoResp.setSupplierMobile(getOrderInfoResp.getSupplierMobileSet().iterator().next());
+        }
+        if (CollectionUtils.isNotEmpty(getOrderInfoResp.getReceiverMobileSet())) {
+            getOrderInfoResp.setReceiverMobile(getOrderInfoResp.getReceiverMobileSet().iterator().next());
+        }
         return getOrderInfoResp;
     }
 

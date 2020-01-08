@@ -26,6 +26,4 @@ public interface UserInfoDao {
 
     String getUserNameByUserId(@Param("userID") String userId);
 
-    List<String> getUserTelByUserId(@Param("userId") String userID);
-
 }

@@ -33,6 +33,8 @@ public class OrderTaskLorryInfoRespBase extends  OrderAndTaskRespBase implements
 
     private String driverName;
 
-    private Set<String> driverMobile;
+    private String driverMobile;
+
+    private Set<String> driverMobileSet;
 
 }

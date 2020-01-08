@@ -96,6 +96,9 @@ import lombok.extern.slf4j.Slf4j;
                     .checkStartTimeBeforeNow(order.getStartTime())) {
                 order.setOrderStatusDesc(GetOrderListResp.STATUS_DESC_ENUE.DELAY.getValue());
             }
+            if (CollectionUtils.isNotEmpty(order.getDriverMobileSet())) {
+                order.setDriverMobile(order.getDriverMobileSet().iterator().next());
+            }
         });
         return orderListResp;
     }
@@ -137,6 +140,9 @@ import lombok.extern.slf4j.Slf4j;
             if (result.getOrderStatus().compareTo(OrderInfo.STATUS_ENUE.ORDER_INIT.getValue()) == 0 && DateUtils
                     .checkStartTimeBeforeNow(result.getStartTime())) {
                 result.setOrderStatusDesc(GetOrderListResp.STATUS_DESC_ENUE.DELAY.getValue());
+            }
+            if (CollectionUtils.isNotEmpty(result.getDriverMobileSet())) {
+                result.setDriverMobile(result.getDriverMobileSet().iterator().next());
             }
         }
         return result;

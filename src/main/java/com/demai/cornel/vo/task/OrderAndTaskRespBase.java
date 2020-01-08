@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Set;
 
 /**
  * Create By tfzhu  2019/12/22  3:15 PM
@@ -34,6 +35,9 @@ import java.sql.Timestamp;
      * 接货人收获时间
      */
     private String deliveryReceiveTime;
+
+    private String receiverMobile;
+    private Set<String> receiverMobileSet;
 
     private Long orderStatus;
     private Integer orderStatusDesc;

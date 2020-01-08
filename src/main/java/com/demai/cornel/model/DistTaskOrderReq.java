@@ -8,6 +8,7 @@ import org.apache.kafka.common.protocol.types.Field;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Set;
 
 /**
  * @Author binz.zhang
@@ -32,6 +33,10 @@ import java.sql.Timestamp;
     private String driverName;
     private BigDecimal restWeight;
     private BigDecimal undistWeight;
+    private Set<String> supplierMobileSet;
+    private Set<String> receiverMobileSet;
+    private String supplierMobile;
+    private String receiverMobile;
 
     @JsonIgnore private Long orderStatus;  //司机对这个单子的状态 0 未接单 1 已接单 2 无法接单
 

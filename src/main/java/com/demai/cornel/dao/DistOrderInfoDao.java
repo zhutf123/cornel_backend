@@ -19,8 +19,8 @@ public interface DistOrderInfoDao {
 
     Integer getTaskCurrJobNo(@Param("taskId") String taskId);
 
-
     List<DistOrderInfo> getExpireNotify(@Param("curTime") Date curTime);
 
-    List<DistTaskOrderReq> getDistOrderListByUserID(@Param("userId") String userId, @Param("curId") Integer ID, @Param("pgSize") Integer pgsize);
+    List<DistTaskOrderReq> getDistOrderListByUserID(@Param("userId") String userId, @Param("curId") Integer ID,
+            @Param("pgSize") Integer pgsize);
 }

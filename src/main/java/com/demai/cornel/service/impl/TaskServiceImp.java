@@ -17,6 +17,7 @@ import com.demai.cornel.vo.task.TaskSaveVO;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -72,7 +73,12 @@ import java.util.List;
             x.setIncome(x.getUndistWeight().multiply(estimatedWeight));
             x.setRestWeight(x.getUndistWeight());
             x.setTaskStatus(checkTaskStatus(x, userId));
-
+            if (CollectionUtils.isNotEmpty(x.getSupplierMobileSet())) {
+                x.setSupplierMobile(x.getSupplierMobileSet().iterator().next());
+            }
+            if (CollectionUtils.isNotEmpty(x.getReceiverMobileSet())) {
+                x.setReceiverMobile(x.getReceiverMobileSet().iterator().next());
+            }
         });
         return distTaskOrderReqs;
     }
