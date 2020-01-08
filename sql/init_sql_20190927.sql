@@ -634,5 +634,38 @@ comment on column system_quote.unit_weight is '重量单位';
 
 comment on column system_quote.min_shipment_weight is '最少出货量';
 
+create table agreement_info
+(
+    id             serial not null primary key,
+    agreement_id   varchar(50),
+    status         integer   default 1,
+    create_time    timestamp default now(),
+    update_time    timestamp,
+    agreement_name varchar(200),
+    adapt          varchar(40)[],
+    agreement      text
+);
+
+comment on table agreement_info is '协议表 各种协议';
+
+comment on column agreement_info.id is '自增ID';
+
+comment on column agreement_info.agreement_id is '协议ID';
+
+comment on column agreement_info.status is '状态位 0 无效 1有效';
+
+comment on column agreement_info.create_time is '创建时间';
+
+comment on column agreement_info.update_time is '更新时间';
+
+comment on column agreement_info.agreement_name is '协议名称';
+
+comment on column agreement_info.adapt is '适用那些页面';
+
+comment on column agreement_info.agreement is '协议内容';
+
+alter table agreement_info
+    owner to postgres;
+
 
 
