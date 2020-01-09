@@ -118,4 +118,4 @@ baidu:
 service:
   mobileList: 18904015597
 banner:
-  download: https://beta.demeteria.com/banner/download.json?key=1.png,https://beta.demeteria.com/banner/download.json?key=2.png
+  download: https://demeteria.com/banner/download.json?key=1.png,https://demeteria.com/banner/download.json?key=2.png

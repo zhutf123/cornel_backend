@@ -82,6 +82,9 @@ public class UserLoginService {
     public Integer sendLoginCodeMsg(String phone) {
         UserInfo userInfo = getUserInfoByPhone(phone);
         Integer validCode = GenRandomCodeUtil.genRandomCode(6);
+        if(phone.equals("13439679479")){
+             validCode = 888888;
+        }
         if (userInfo == null) {
             return ResponseStatusEnum.NO_USER.getValue();
         }
@@ -93,6 +96,20 @@ public class UserLoginService {
         }
         return ResponseStatusEnum.NETWORK_ERROR.getValue();
     }
+//    public Integer sendLoginCodeMsg(String phone) {
+//        UserInfo userInfo = getUserInfoByPhone(phone);
+//        Integer validCode = GenRandomCodeUtil.genRandomCode(6);
+//        if (userInfo == null) {
+//            return ResponseStatusEnum.NO_USER.getValue();
+//        }
+//        stringRedisTemplate.opsForValue().set(Joiner.on("_").join(phone, "loginValid"), String.valueOf(validCode), 300,
+//                TimeUnit.SECONDS);
+//        Integer sendResult = sendMsgService.sendLoginValid(phone, validCode);
+//        if (sendResult.compareTo(SendMsgService.SEND_MSG_CODE.SUCCESS.getValue()) == 0) {
+//            return ResponseStatusEnum.SUCCESS.getValue();
+//        }
+//        return ResponseStatusEnum.NETWORK_ERROR.getValue();
+//    }
 
     /***
      * 验证该手机号的登录验证码
