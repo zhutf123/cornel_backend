@@ -49,6 +49,9 @@ import java.util.concurrent.TimeUnit;
         List<GetOrderListResp> getOrderListResps = orderInfoDao
                 .getOrderInfoByOrderTypeAndUserId(userId, getOrderListReq.getOrderType(), getOrderListReq.getOrderId(),
                         getOrderListReq.getPgSize());
+        if (getOrderListReq == null) {
+            return Collections.EMPTY_LIST;
+        }
         getOrderListResps.stream().forEach(x -> {
             if (CollectionUtils.isNotEmpty(x.getSupplierMobileSet())) {
                 x.setSupplierMobile(x.getSupplierMobileSet().iterator().next());
@@ -72,7 +75,7 @@ import java.util.concurrent.TimeUnit;
                 .setIfAbsent(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()), "1", 5, TimeUnit.SECONDS);
 
         if (null == lock || !lock) {
-            log.info("save order fail due to task lock task id is [{}]",taskSaveVO.getTaskId());
+            log.info("save order fail due to task lock task id is [{}]", taskSaveVO.getTaskId());
             return JsonResult.successStatus(TaskSaveResp.CODE_ENUE.ORDER_FAIL.getValue());
         }
         TaskSaveResp taskSaveRep = new TaskSaveResp();
@@ -160,7 +163,8 @@ import java.util.concurrent.TimeUnit;
             taskInfo.getSubTaskTime().put(taskSaveVO.getSelectTime(), count);
             List<TaskInfoReq.StartTime> startTimes = buildStartTime(taskInfo.getSubTaskTime());
             // 减小task 库存
-            if (taskInfoDao.updateTaskUnDistWeightAndSelectTime(taskInfo.getUndistWeight().subtract(taskSaveVO.getCarryWeight()), taskSaveVO.getTaskId(),
+            if (taskInfoDao.updateTaskUnDistWeightAndSelectTime(
+                    taskInfo.getUndistWeight().subtract(taskSaveVO.getCarryWeight()), taskSaveVO.getTaskId(),
                     JacksonUtils.obj2String(startTimes)) != 1) {
                 log.error("update task un dist weight error task id is [{}]", taskSaveVO.getTaskId());
                 stringRedisTemplate.delete(String.format(ORDER_LOCK_FORMAT, taskSaveVO.getTaskId()));
@@ -195,16 +199,16 @@ import java.util.concurrent.TimeUnit;
         if (taskInfo == null || !taskInfo.getStatus().equals(TaskInfo.STATUS_ENUE.TASK_ING.getValue())) {
             return 1;
         }
-        if (taskInfo.getUndistWeight().compareTo(taskSaveVO.getCarryWeight()) == -1 ) {
+        if (taskInfo.getUndistWeight().compareTo(taskSaveVO.getCarryWeight()) == -1) {
             return 2;
         }
         if (taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()) == null
                 || taskInfo.getSubTaskTime().get(taskSaveVO.getSelectTime()).compareTo(0) != 1) {
             return 3;
         }
-//        if(taskSaveVO.getCarryWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT)<0){
-//            return 4;
-//        }
+        //        if(taskSaveVO.getCarryWeight().compareTo(ContextConsts.MIN_CARRY_WEIGHT)<0){
+        //            return 4;
+        //        }
         return 0;
     }
 
@@ -339,8 +343,9 @@ import java.util.concurrent.TimeUnit;
             return OperationOrderResp.builder().opResult(1).build();
         }
         OrderInfo orderInfoCurr = orderInfoDao.getOrderInfoByOrderId(orderId);
-        lorryInfoDao.updateLorryStatus(orderInfoCurr.getLorryId().intValue(),LorryInfo.STATUS_ENUE.IDLE.getValue());
-        log.info("release car status car id is [{}] status is [{}]",orderInfoCurr.getLorryId(),LorryInfo.STATUS_ENUE.IDLE.getValue());
+        lorryInfoDao.updateLorryStatus(orderInfoCurr.getLorryId().intValue(), LorryInfo.STATUS_ENUE.IDLE.getValue());
+        log.info("release car status car id is [{}] status is [{}]", orderInfoCurr.getLorryId(),
+                LorryInfo.STATUS_ENUE.IDLE.getValue());
         return OperationOrderResp.builder().opResult(0).orderStatus(OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue())
                 .orderId(orderId).build();
     }
@@ -348,7 +353,7 @@ import java.util.concurrent.TimeUnit;
     public GetOrderListResp driverGetTaskInfo(String orderId) {
         GetOrderListResp getOrderInfoResp = orderInfoDao
                 .getOrderInfoByUserAndOrderId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId);
-
+        //todo 校验为空
         if (CollectionUtils.isNotEmpty(getOrderInfoResp.getSupplierMobileSet())) {
             getOrderInfoResp.setSupplierMobile(getOrderInfoResp.getSupplierMobileSet().iterator().next());
         }
@@ -370,6 +375,5 @@ import java.util.concurrent.TimeUnit;
         });
         return startTimes;
     }
-
 
 }

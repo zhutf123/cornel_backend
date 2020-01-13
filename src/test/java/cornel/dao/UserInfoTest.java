@@ -1,6 +1,8 @@
 package cornel.dao;
 
+import com.demai.cornel.dao.AgreementInfoMapper;
 import com.demai.cornel.dao.UserInfoDao;
+import com.demai.cornel.model.AgreementInfo;
 import com.demai.cornel.model.UserDistOrderModel;
 import com.demai.cornel.model.UserInfo;
 import cornel.BaseTest;
@@ -15,7 +17,8 @@ public class UserInfoTest extends BaseTest {
 
     @Resource
     private UserInfoDao userInfoDao;
-
+    @Resource
+    private AgreementInfoMapper agreementInfoMapper;
 
     @Test
     public void insertUserInfo() {
@@ -46,11 +49,8 @@ public class UserInfoTest extends BaseTest {
 
     @Test
     public void selectUsers(){
-        Set<String>tels = new HashSet<>();
-        tels.add("13551151842");
-        tels.add("13551151843");
-        String [] so = tels.toArray(new String[0]);
-        List<UserDistOrderModel>userInfos = userInfoDao.getUsersLorryInfoByPlateNumber(tels);
+
+        AgreementInfo userInfos = agreementInfoMapper.selectByAdapt("202");
         System.out.println("ok");
     }
 }
