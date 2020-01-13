@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 
     public List<GetOrderListResp> getOrderList(GetOrderListReq getOrderListReq, String userId) {
         if (getOrderListReq == null || getOrderListReq.getOrderType() == null || Strings.isNullOrEmpty(userId)) {
-            return null;
+            return Collections.EMPTY_LIST;
         }
         List<GetOrderListResp> getOrderListResps = orderInfoDao
                 .getOrderInfoByOrderTypeAndUserId(userId, getOrderListReq.getOrderType(), getOrderListReq.getOrderId(),
