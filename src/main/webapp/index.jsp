@@ -44,27 +44,12 @@
 			<div class="row-nav">
 				<!-- 导航 -->
 				 <div class="header-nav">
-                    <ul class="row">
-                        <li class="col-md-6">
-                            <a href="/index">
-                                <span>首页</span>
-                            </a>
-                        </li>
-                        <li class="header-nav-item col-md-6">
-							<a href="/info">
-								<span>行业资讯</span>
-							</a>
-                        </li>
-                    </ul>
+                    
                 </div>
 
     <!--登录按钮-->
             <div class="login-button">
-                <div class="row">
-
-                        <span class="login-in col-md-6"><a href="/login">登录</a></span>
-                        <span class="login-free col-md-6"><a href="/register">注册</a></span>
-
+                <div class="row">                     
                 </div>
             </div>
 
@@ -76,7 +61,6 @@
     <img src="../static/img/index/internet.png__1920x570_q85_subsampling-2.jpg" alt="">
     <div>
         <p>北京得麦科技有限公司</p>
-        <a href="/login">查看详情</a>
     </div>
 
 </div>
@@ -92,7 +76,7 @@
     <div class="row">
 			<!-- right -->
 			<div class="chose-us-center-right news-images col-md-7" id="instanceImg">
-                <img src="/static/img/111/演播厅.jpg">
+                <img src="/static/img/111/ybt.jpg">
             </div>
 			<!-- left -->
 			<div class="news-left col-md-5" index="0" id="instanceBox">
@@ -236,7 +220,7 @@
 				<!-- 底部的税号 -->
 				<div class="footer-box-bottom">
 					<p>
-                                          京ICP备19054297号-1
+                        <a href="http://beian.miit.gov.cn">京ICP备19054297号-1</a>
 					</p>
 				</div>
 			</div>
