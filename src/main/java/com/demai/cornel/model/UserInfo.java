@@ -78,4 +78,28 @@ public class UserInfo implements Serializable {
         }
 
     }
+
+    public static enum USER_STATUS implements IEmus {
+        INVALID(0, "无效的"),
+        ENABLE(1, "使用中"),
+        PENDING(2, "待注册");
+        private int value;
+        private String expr;
+
+        private USER_STATUS(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+
+        @Override
+        public String getExpr() {
+            return expr;
+        }
+
+    }
 }

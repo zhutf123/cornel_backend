@@ -30,7 +30,16 @@ public class UserLoginResp implements Serializable {
     /**登录手机号**/
     private String phone;
 
+    /**  用户当前的状态 **/
+    private Integer userStatus;
 
+    public UserLoginResp(String openId, String userId, Integer role, Integer code, String phone) {
+        this.openId = openId;
+        this.userId = userId;
+        this.role = role;
+        this.code = code;
+        this.phone = phone;
+    }
 
     public static enum CODE_ENUE implements IEmus {
         NO_USER(-1, "用户不存在，请先注册"),
@@ -43,6 +52,38 @@ public class UserLoginResp implements Serializable {
         private String expr;
 
         private CODE_ENUE(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+
+        @Override
+        public String getExpr() {
+            return expr;
+        }
+
+        public static CODE_ENUE getByValue(Integer value) {
+            for (CODE_ENUE x : CODE_ENUE.values()) {
+                if (x.getValue() == value) {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+    }
+    public static enum USER_STATUS_ENUE implements IEmus {
+        REGISTERED(0, "已注册"),
+        UNREGISTERED(1, "未注册");
+
+        private int value;
+        private String expr;
+
+        private USER_STATUS_ENUE(int value, String expr) {
             this.value = value;
             this.expr = expr;
         }
