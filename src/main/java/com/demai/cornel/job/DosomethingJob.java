@@ -19,8 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 public class DosomethingJob {
     private static final Logger logger = LoggerFactory.getLogger(DosomethingJob.class);
 
-    @XxlJob(value = "dosomethingJob")
-    public void execute(String s) throws Exception {
-        logger.info("XXL-JOB Hello World===========");
-    }
+//    @XxlJob(value = "dosomethingJob")
+//    public void execute(String s) throws Exception {
+//        logger.info("XXL-JOB Hello World===========");
+//    }
 }
