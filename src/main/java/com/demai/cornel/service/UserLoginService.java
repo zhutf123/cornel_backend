@@ -105,7 +105,7 @@ public class UserLoginService {
                 }
                 userInfoDao.updateUserOpenIdByUid(openIds,userInfo.getId());
                 return new UserLoginResp(resp.getOpenid(), userInfo.getUserId(), userInfo.getRole(),
-                        UserLoginResp.CODE_ENUE.SUCCESS.getValue(),param.getPhone());
+                        UserLoginResp.CODE_ENUE.SUCCESS.getValue(),param.getPhone(),UserLoginResp.USER_STATUS_ENUE.REGISTERED.getValue());
             }
             return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, userInfo.getRole(),
                     UserLoginResp.CODE_ENUE.OPENID_ERROR.getValue(),param.getPhone(),UserLoginResp.USER_STATUS_ENUE.REGISTERED.getValue());
