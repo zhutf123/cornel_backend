@@ -15,8 +15,6 @@ import com.demai.cornel.dmEnum.IEmus;
  * Create By zhutf 19-10-31 下午11:50
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserLoginResp implements Serializable {
     /** 微信openId */
     private String openId;
@@ -39,6 +37,15 @@ public class UserLoginResp implements Serializable {
         this.role = role;
         this.code = code;
         this.phone = phone;
+    }
+
+    public UserLoginResp(String openId, String userId, Integer role, Integer code, String phone, Integer userStatus) {
+        this.openId = openId;
+        this.userId = userId;
+        this.role = role;
+        this.code = code;
+        this.phone = phone;
+        this.userStatus = userStatus;
     }
 
     public static enum CODE_ENUE implements IEmus {
