@@ -8,13 +8,15 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.UUID;
+import java.util.*;
 
 @Service @Slf4j public class UploadFileService {
     @Resource private ConfigProperties configProperties;
@@ -33,20 +35,28 @@ import java.util.UUID;
         }
     }
 
-    public boolean uploadFile(InputStream is, String name) throws IOException {
+    public boolean uploadFile(MultipartHttpServletRequest req) throws IOException {
         try {
-            File saveFile = new File(configProperties.uploadLocation + name);
-            log.info("upload the file {}", saveFile.toString());
-            FileUtils.copyInputStreamToFile(is, saveFile);
+            Iterator<String> a = req.getFileNames();//返回的数量与前端input数量相同, 返回的字符串即为前端input标签的name
+            HashMap<String, MultipartFile> files = new HashMap<>();
+            while (a.hasNext()) {
+                String name = a.next();
+                MultipartFile multipartFiles = req.getFile(name);//获取单个input标签上传的文件，可能为多个
+                files.put(name, multipartFiles);
+            }
+            if (files == null || files.isEmpty()) {
+                log.error("======>上传文件为空");
+                return false;
+            }
+            for (String fileName : files.keySet()) {
+                log.info("upload the file {}", fileName);
+                File saveFile = new File(configProperties.uploadLocation + fileName);
+                FileUtils.copyInputStreamToFile(files.get(fileName).getInputStream(), saveFile);
+            }
         } catch (Exception e) {
             log.error("save file fail ", e);
             return false;
-        } finally {
-            if (is != null) {
-                is.close();
-            }
         }
-
         return true;
     }
 

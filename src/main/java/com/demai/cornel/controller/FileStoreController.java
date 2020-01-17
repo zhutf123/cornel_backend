@@ -10,6 +10,7 @@ import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ import java.io.PrintWriter;
     @Resource private UploadFileService uploadFileService;
     @Resource private DownloadFileService downloadFileService;
 
-    @PostMapping("/upload") @ResponseBody public JsonResult upload(HttpServletRequest req, HttpServletResponse resp,
+    @PostMapping("/upload") @ResponseBody public JsonResult upload(MultipartHttpServletRequest req, HttpServletResponse resp,
             @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "name", required = true) String name, @RequestParam MultipartFile file) {
         log.info("upload the file the file name is:{}", name);
@@ -38,7 +39,7 @@ import java.io.PrintWriter;
         String fileKey = CookieAuthUtils.getCurrentUser() + "_" + key;
         try {
             InputStream si = file.getInputStream();
-            if (!uploadFileService.uploadFile(si, fileKey)) {
+            if (!uploadFileService.uploadFile(req)) {
                 JsonResult
                         .success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.SERVER_ERROR.getValue()).build());
             }
