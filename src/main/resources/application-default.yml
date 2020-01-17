@@ -126,5 +126,5 @@ service:
 banner:
   download: https://demeteria.com/banner/download.json?key=1.png,https://demeteria.com/banner/download.json?key=2.png
 upload:
-  location: /home/www/upload
+  location: /home/www/upload/
   downloadHost: https://beta.demeteria.com/
