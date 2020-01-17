@@ -31,7 +31,9 @@ import java.util.List;
     @Resource private UploadFileService uploadFileService;
     @Resource private DownloadFileService downloadFileService;
 
-    @PostMapping("/upload") @ResponseBody public JsonResult upload(@RequestParam("file") MultipartFile req, HttpServletResponse resp,
+    @PostMapping(value = "/upload", headers = ("content-type=multipart/*"))
+    @ResponseBody
+    public JsonResult upload(@RequestParam("file") MultipartFile req, HttpServletResponse resp,
             @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "name", required = true) String name) {
         log.info("upload the file the file name is:{}", name);

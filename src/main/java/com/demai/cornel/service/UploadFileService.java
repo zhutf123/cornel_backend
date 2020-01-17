@@ -1,6 +1,7 @@
 package com.demai.cornel.service;
 
 import com.demai.cornel.constant.ConfigProperties;
+import com.demai.cornel.util.json.JsonUtil;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.startup.ContextConfig;
@@ -41,11 +42,11 @@ import static com.demai.cornel.config.BannerConfig.downloadUrl;
 
     public List<String> uploadFile(MultipartFile files) throws IOException {
         try {
-            File saveFile = new File(configProperties.uploadLocation + UUID.randomUUID() + files.getName()
-                    .substring(files.getName().lastIndexOf(".")));
+            File saveFile = new File(configProperties.uploadLocation + UUID.randomUUID() + files.getOriginalFilename()
+                    .substring(files.getOriginalFilename().lastIndexOf(".")));
             FileUtils.copyInputStreamToFile(files.getInputStream(), saveFile);
             downloadUrl.add(downloadFileService.getDownloadUri(saveFile.getName()));
-
+            log.info("==={}", JsonUtil.toJson(downloadUrl));
 //            Iterator<String> a = req.getFileNames();//返回的数量与前端input数量相同, 返回的字符串即为前端input标签的name
 //            HashMap<String, MultipartFile> files = new HashMap<>();
 //            List<String> downloadUrl = new ArrayList<>();
