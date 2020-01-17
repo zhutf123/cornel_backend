@@ -8,6 +8,7 @@ import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.uploadfile.UploadResp;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -30,7 +31,7 @@ import java.util.List;
     @Resource private UploadFileService uploadFileService;
     @Resource private DownloadFileService downloadFileService;
 
-    @PostMapping("/upload") @ResponseBody public JsonResult upload(MultipartHttpServletRequest req, HttpServletResponse resp,
+    @PostMapping("/upload") @ResponseBody public JsonResult upload(@RequestParam("file") MultipartFile req, HttpServletResponse resp,
             @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "name", required = true) String name) {
         log.info("upload the file the file name is:{}", name);

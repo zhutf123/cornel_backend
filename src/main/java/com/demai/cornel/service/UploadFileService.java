@@ -38,26 +38,32 @@ import static com.demai.cornel.config.BannerConfig.downloadUrl;
         }
     }
 
-    public List<String> uploadFile(MultipartHttpServletRequest req) throws IOException {
+
+    public List<String> uploadFile(MultipartFile files) throws IOException {
         try {
-            Iterator<String> a = req.getFileNames();//返回的数量与前端input数量相同, 返回的字符串即为前端input标签的name
-            HashMap<String, MultipartFile> files = new HashMap<>();
-            List<String> downloadUrl = new ArrayList<>();
-            while (a.hasNext()) {
-                String name = a.next();
-                MultipartFile multipartFiles = req.getFile(name);//获取单个input标签上传的文件，可能为多个
-                files.put(name, multipartFiles);
-            }
-            if (files == null || files.isEmpty()) {
-                log.error("======>上传文件为空");
-                return null;
-            }
-            for (String fileName : files.keySet()) {
-                log.info("upload the file {}", fileName);
-                File saveFile = new File(configProperties.uploadLocation + fileName);
-                FileUtils.copyInputStreamToFile(files.get(fileName).getInputStream(), saveFile);
-                downloadUrl.add(downloadFileService.getDownloadUri(fileName));
-            }
+            File saveFile = new File(configProperties.uploadLocation + UUID.randomUUID() + files.getName()
+                    .substring(files.getName().lastIndexOf(".")));
+            FileUtils.copyInputStreamToFile(files.getInputStream(), saveFile);
+            downloadUrl.add(downloadFileService.getDownloadUri(saveFile.getName()));
+
+//            Iterator<String> a = req.getFileNames();//返回的数量与前端input数量相同, 返回的字符串即为前端input标签的name
+//            HashMap<String, MultipartFile> files = new HashMap<>();
+//            List<String> downloadUrl = new ArrayList<>();
+//            while (a.hasNext()) {
+//                String name = a.next();
+//                MultipartFile multipartFiles = req.getFile(name);//获取单个input标签上传的文件，可能为多个
+//                files.put(name, multipartFiles);
+//            }
+//            if (files == null || files.isEmpty()) {
+//                log.error("======>上传文件为空");
+//                return null;
+//            }
+//            for (String fileName : files.keySet()) {
+//                log.info("upload the file {}", fileName);
+//                File saveFile = new File(configProperties.uploadLocation + fileName);
+//                FileUtils.copyInputStreamToFile(files.get(fileName).getInputStream(), saveFile);
+//                downloadUrl.add(downloadFileService.getDownloadUri(fileName));
+//            }
         } catch (Exception e) {
             log.error("save file fail ", e);
             return null;
