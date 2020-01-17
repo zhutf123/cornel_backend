@@ -8,7 +8,6 @@ spring:
       max-redirects: 5
       password: cornel00147258
       timeout: 5
-
 jetcache:
   statIntervalMinutes: 1
   areaInCacheName: false
