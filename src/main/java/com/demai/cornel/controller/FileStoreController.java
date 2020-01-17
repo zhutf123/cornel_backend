@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author binz.zhang
@@ -36,10 +38,10 @@ import java.io.PrintWriter;
             log.error("upload file fail lack the name ");
             JsonResult.success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.PARAM_ERROR.getValue()).build());
         }
-        String fileKey = CookieAuthUtils.getCurrentUser() + "_" + key;
+        List<String> downloadUrl = new ArrayList<>();
         try {
-            InputStream si = file.getInputStream();
-            if (!uploadFileService.uploadFile(req)) {
+            downloadUrl = uploadFileService.uploadFile(req);
+            if (downloadUrl==null) {
                 JsonResult
                         .success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.SERVER_ERROR.getValue()).build());
             }
@@ -47,10 +49,8 @@ import java.io.PrintWriter;
             log.error("upload file fail due to ", e);
             JsonResult.success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.SERVER_ERROR.getValue()).build());
         }
-        String download = downloadFileService.getDownloadUri(fileKey);
-        log.info("return the download url is {}", download);
         return JsonResult.success(
-                UploadResp.builder().optResult(UploadResp.CODE_ENUE.SERVER_ERROR.getValue()).url(download).build());
+                UploadResp.builder().optResult(UploadResp.CODE_ENUE.SERVER_ERROR.getValue()).url(downloadUrl).build());
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET) @ResponseBody public void download(

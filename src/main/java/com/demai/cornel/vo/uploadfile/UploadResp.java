@@ -5,13 +5,15 @@ import com.demai.cornel.vo.user.UserLoginResp;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @Author binz.zhang
  * @Date: 2020-01-17    17:41
  */
 @Data @Builder public class UploadResp {
     private Integer optResult;
-    private String url;
+    private List<String> url;
     public static enum CODE_ENUE implements IEmus {
         SUCCESS(0, "请求成功"),
         PARAM_ERROR(1, "参数错误"),
