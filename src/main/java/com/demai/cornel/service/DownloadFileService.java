@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 @Service
-@PropertySource("classpath:application.properties")
 public class DownloadFileService {
     @Resource
     private ConfigProperties configProperties;
