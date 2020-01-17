@@ -32,7 +32,7 @@ import java.util.List;
 
     @PostMapping("/upload") @ResponseBody public JsonResult upload(MultipartHttpServletRequest req, HttpServletResponse resp,
             @RequestParam(value = "key", required = false) String key,
-            @RequestParam(value = "name", required = true) String name, @RequestParam MultipartFile file) {
+            @RequestParam(value = "name", required = true) String name) {
         log.info("upload the file the file name is:{}", name);
         if (Strings.isNullOrEmpty(key) || Strings.isNullOrEmpty(name)) {
             log.error("upload file fail lack the name ");
