@@ -5,6 +5,7 @@ import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.dmEnum.IdTypeEnum;
 import com.demai.cornel.model.*;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.delivery.GetDriverCarCornInfoResp;
 import com.demai.cornel.vo.delivery.GetDriverCornInfoResp;
 import com.google.common.base.Strings;
@@ -54,6 +55,7 @@ import java.util.List;
 
         List<CarCornInfo> carCornInfos = Lists.newArrayList();
         for (LorryInfo lorryInfo:lorryInfos) {
+            log.debug("lorry if is [{}]", JacksonUtils.obj2String(lorryInfo));
             CarCornInfo carCornInfo = new CarCornInfo();
             BeanUtils.copyProperties(lorryInfo, carCornInfo);
             carCornInfos.add(carCornInfo);
