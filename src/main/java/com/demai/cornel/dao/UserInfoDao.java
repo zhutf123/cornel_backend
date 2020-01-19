@@ -1,5 +1,6 @@
 package com.demai.cornel.dao;
 
+import com.demai.cornel.model.DriverCornInfo;
 import com.demai.cornel.model.UserDistOrderModel;
 import com.demai.cornel.model.UserInfo;
 import org.apache.ibatis.annotations.Param;
@@ -25,5 +26,6 @@ public interface UserInfoDao {
     UserInfo getUserInfoByUserId(@Param("userId") String userId);
 
     String getUserNameByUserId(@Param("userID") String userId);
+
 
 }

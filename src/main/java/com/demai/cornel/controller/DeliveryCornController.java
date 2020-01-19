@@ -9,8 +9,13 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.model.CarCornInfo;
+import com.demai.cornel.model.DriverCornInfo;
 import com.demai.cornel.service.DeliveryTaskService;
+import com.demai.cornel.service.DriverCornService;
 import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
@@ -19,6 +24,8 @@ import com.demai.cornel.vo.order.OperationOrderResp;
 import com.demai.cornel.vo.supplier.SupplierTaskListResp;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.task.GetOrderListResp;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +47,8 @@ import lombok.extern.slf4j.Slf4j;
 public class DeliveryCornController {
     @Resource
     private DeliveryTaskService deliveryTaskService;
-
+    @Resource
+    private DriverCornService driverCornService;
     /**
      * 接货人列表
      * @param param
@@ -169,4 +177,63 @@ public class DeliveryCornController {
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
+
+    /**
+     * 司机侧 "我的" 获取司机关键信息
+     * @return
+     */
+    @RequestMapping(value = "/user-info.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult deliveryInfo() {
+        return JsonResult.success(driverCornService.getUserCornInfo());
+    }
+
+    /**
+     * 司机侧 "我的" 获取司机 车辆信息list
+     * @return
+     */
+    @RequestMapping(value = "/car-list.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult deliveryList() {
+        return JsonResult.success(driverCornService.getCarCornInfoList());
+    }
+
+    /**
+     * 司机测 获取车辆的关键信息
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/car-info.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult deliveryCarInfo(@RequestBody String param) {
+        if (Strings.isNullOrEmpty(param)) {
+            return JsonResult.error("param illegal");
+        }
+        JSONObject receivedParam = JSON.parseObject(param);
+        String lorryId = (String) receivedParam.get("lorryId");
+        return JsonResult.success(driverCornService.getCarCornInfo(lorryId));
+    }
+    /**
+     * 司机测 编辑车辆的关键信息
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/edit-carinfo.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult deliveryUpdateCarInfo(@RequestBody CarCornInfo carCornInfo) {
+        Preconditions.checkNotNull(carCornInfo);
+        return JsonResult.success(driverCornService.updateCarCornInfo(carCornInfo));
+    }
+    /**
+     * 司机测 编辑个人的关键信息
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/edit-carinfo.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult deliveryUpdateDriverInfo(@RequestBody DriverCornInfo driverCornInfo) {
+        Preconditions.checkNotNull(driverCornInfo);
+        return JsonResult.success(driverCornService.updateUserCornInfo(driverCornInfo));
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.demai.cornel.service;
 
 import com.demai.cornel.config.CarLiceTypeConfig;
+import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dao.CarTypeInfoDao;
 import com.demai.cornel.dao.ImgInfoDao;
 import com.demai.cornel.dao.LorryInfoDao;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.lang.ref.PhantomReference;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,6 +62,7 @@ import java.util.UUID;
             return driverCpllUserInfoResp;
         }
         UserInfo userInfo = new UserInfo();
+        userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
         userInfo.setUserId(CookieAuthUtils.getCurrentUser());
         BeanUtils.copyProperties(driverCpllUserInfoReq, userInfo);
         int res = userInfoDao.update(userInfo);
@@ -112,6 +115,7 @@ import java.util.UUID;
         lorryInfo.setLorryId(UUID.randomUUID().toString());
         lorryInfo.setUserId(userInfo.getUserId());
         lorryInfo.setLorryId(UUID.randomUUID().toString());
+        lorryInfo.setOverCarryWeight(lorryInfo.getCarryWeight().multiply(new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR)));
         int res = lorryInfoDao.save(lorryInfo);
         if (res == 0) {
             log.debug("add car info error due to inser lorry info into db error");

@@ -3,6 +3,7 @@
  */
 package com.demai.cornel.dao;
 
+import com.demai.cornel.model.CarCornInfo;
 import com.demai.cornel.model.LorryInfo;
 import com.demai.cornel.model.TaskInfoReq;
 import org.apache.ibatis.annotations.Param;
@@ -19,6 +20,7 @@ public interface LorryInfoDao {
 
     /**
      * 查询当前用户的默认车辆并且还处于绑定状态的车辆信息，
+     *
      * @param userId
      * @return
      */
@@ -26,6 +28,7 @@ public interface LorryInfoDao {
 
     /**
      * 查询当前用户的默认车辆并且还处于绑定状态的车辆信息，
+     *
      * @param userId
      * @return
      */
@@ -33,22 +36,32 @@ public interface LorryInfoDao {
 
     public List<TaskInfoReq.LorryInfoBean> getAllLorrySimpleInfoByUserId(@Param("userId") String userId);
 
-    LorryInfo getLorryByLorryID(@Param("lorryId")int lorryID);
+    LorryInfo getLorryByLorryID(@Param("lorryId") int lorryID);
 
     /**
      * 更新车辆状态
+     *
      * @param lorryID
      * @param status
      */
-    public int updateLorryStatus(@Param("lorryId")Integer lorryID,@Param("status")Integer status);
+    public int updateLorryStatus(@Param("lorryId") Integer lorryID, @Param("status") Integer status);
 
     /**
      * 根据车牌号 车架号码 以及发动机号码查询车辆
+     *
      * @param plateNo
      * @param frameNo
      * @param engineNo
      * @return
      */
-    public LorryInfo getLorryInfoByFlaNoEngNoFraNo(@Param("plateNo")String plateNo,@Param("frameNo")String frameNo,@Param("engineNo")String engineNo);
+    public LorryInfo getLorryInfoByFlaNoEngNoFraNo(@Param("plateNo") String plateNo, @Param("frameNo") String frameNo,
+            @Param("engineNo") String engineNo);
+
+    List<LorryInfo> getAllLorryInfoByUserId(@Param("userId") String userId);
+
+    LorryInfo getLorryByStringLorryID(@Param("lorryId") String lorryID);
+
+
+    int updateCarCornInfo(CarCornInfo carCornInfo);
 
 }
