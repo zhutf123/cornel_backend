@@ -152,7 +152,7 @@
             <if test="unitWeight != null">#{unitWeight},</if>
             <if test="engineNo != null">#{engineNo},</if>
             <if test="carLiceOwner != null">#{carLiceOwner},</if>
-            <if test="userId != null">#{userId}</if>
+            <if test="userId != null">#{userId},</if>
             <if test="lorryId != null">#{lorryId},</if>
 
         </trim>
