@@ -12,9 +12,7 @@ import sun.dc.pr.PRError;
  * @Date: 2020-01-17    11:39
  */
 @Data @Builder @AllArgsConstructor @NoArgsConstructor public class DriverCpllUserInfoResp {
-    private String userId;
     private Integer optResult;
-    private String name;
     private String lorryId;
 
     public static enum STATUS implements IEmus {
