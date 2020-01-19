@@ -89,7 +89,7 @@ import javax.servlet.http.HttpServletResponse;
     @RequestMapping(value = "/comp-userinfo.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult completeUserInfo(
             @RequestBody DriverCpllUserInfoReq param, HttpServletResponse response) {
         try {
-            return JsonResult.success(driverRegisterService.getCarType());
+            return JsonResult.success(driverRegisterService.driverCompleteUserInfo(param));
         } catch (Exception e) {
             log.error("司机完善个人信息失败！", e);
         }

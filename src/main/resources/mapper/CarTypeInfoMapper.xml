@@ -14,7 +14,7 @@
     <sql id="main_column">
         id,
         name,
-        desc ,
+        car_desc ,
         status,
         create_time
     </sql>
