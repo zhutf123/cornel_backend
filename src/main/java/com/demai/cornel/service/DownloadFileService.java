@@ -24,7 +24,7 @@ public class DownloadFileService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DownloadFileService.class);
 
-    private static final  String DOWNLOAD_PATH_FORMAT =  "/file/download?%s";
+    private static final  String DOWNLOAD_PATH_FORMAT =  "/file/download?key=%s";
 
     public  void downloadService(String fileName, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
