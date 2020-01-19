@@ -9,6 +9,7 @@ import com.demai.cornel.model.*;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.delivery.DriverCpllCarReq;
+import com.demai.cornel.vo.delivery.DriverCpllCarResp;
 import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
 import com.demai.cornel.vo.delivery.DriverCpllUserInfoResp;
 import com.google.common.base.Preconditions;
@@ -84,26 +85,26 @@ import java.util.UUID;
      * @param driverCpllCarReq
      * @return
      */
-    @Transactional public DriverCpllUserInfoResp driverCompleteCarInfo(DriverCpllCarReq driverCpllCarReq) {
+    @Transactional public DriverCpllCarResp driverCompleteCarInfo(DriverCpllCarReq driverCpllCarReq) {
         log.debug("driver register complete user info user info is [{}]", JacksonUtils.obj2String(driverCpllCarReq));
         Preconditions.checkNotNull(driverCpllCarReq);
         LorryInfo lorryInfo = new LorryInfo();
         BeanUtils.copyProperties(driverCpllCarReq, lorryInfo);
         if (!carOptService.checkAddParam(lorryInfo)) {
             log.debug("add car info error due to param lock");
-            return DriverCpllUserInfoResp.builder().optResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue())
+            return DriverCpllCarResp.builder().optResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue())
                     .build();
         }
         if (carOptService.getCarExistByParam(driverCpllCarReq.getPlateNumber(), driverCpllCarReq.getFrameNumber(),
                 driverCpllCarReq.getEngineNo())) {
             log.debug("add car info error due to car has already exist");
-            return DriverCpllUserInfoResp.builder().optResult(DriverCpllUserInfoResp.STATUS.CAR_EXIST.getValue())
+            return DriverCpllCarResp.builder().optResult(DriverCpllUserInfoResp.STATUS.CAR_EXIST.getValue())
                     .build();
         }
         UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
         if (userInfo == null) {
             log.debug("add car info error due to user error");
-            return DriverCpllUserInfoResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SERVICE_ERROR.getValue())
+            return DriverCpllCarResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SERVICE_ERROR.getValue())
                     .build();
         }
         lorryInfo.setIdCard(userInfo.getIdCard());
@@ -114,11 +115,11 @@ import java.util.UUID;
         int res = lorryInfoDao.save(lorryInfo);
         if (res == 0) {
             log.debug("add car info error due to inser lorry info into db error");
-            return DriverCpllUserInfoResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SERVICE_ERROR.getValue())
+            return DriverCpllCarResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SERVICE_ERROR.getValue())
                     .build();
         }
         imgService.saveCarInfoImgs(driverCpllCarReq.getImgURL(), lorryInfo.getLorryId());
-        return DriverCpllUserInfoResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue()).lorryId(lorryInfo.getLorryId()).build();
+        return DriverCpllCarResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue()).lorryId(lorryInfo.getLorryId()).build();
     }
 
     public List<CarTypeInfo> getCarType() {

@@ -12,11 +12,12 @@ import sun.dc.pr.PRError;
  * @Date: 2020-01-17    11:39
  */
 @Data @Builder @AllArgsConstructor @NoArgsConstructor public class DriverCpllUserInfoResp {
+    private String userId;
     private Integer optResult;
-    private String lorryId;
+    private String name;
 
     public static enum STATUS implements IEmus {
-        SUCCESS(0, "成功"), PARAM_ERROR(1, "参数缺失"), CAR_EXIST(2, "车辆已经存在"), SERVICE_ERROR(3, "服务异常");
+        SUCCESS(0, "成功"), PARAM_ERROR(1, "参数缺失"),CAR_EXIST(2, "车辆已经存在"), SERVICE_ERROR(3, "服务异常");
 
         private int value;
         private String expr;
