@@ -7,6 +7,7 @@ import com.demai.cornel.service.UserLoginService;
 import com.demai.cornel.service.UserService;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.delivery.DriverCpllCarReq;
 import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
 import com.demai.cornel.vo.user.UserLoginParam;
 import com.demai.cornel.vo.user.UserLoginResp;
@@ -90,6 +91,16 @@ import javax.servlet.http.HttpServletResponse;
             @RequestBody DriverCpllUserInfoReq param, HttpServletResponse response) {
         try {
             return JsonResult.success(driverRegisterService.driverCompleteUserInfo(param));
+        } catch (Exception e) {
+            log.error("司机完善个人信息失败！", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+
+    @RequestMapping(value = "/comp-carinfo.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult completeCarInfo(
+            @RequestBody DriverCpllCarReq param, HttpServletResponse response) {
+        try {
+            return JsonResult.success(driverRegisterService.driverCompleteCarInfo(param));
         } catch (Exception e) {
             log.error("司机完善个人信息失败！", e);
         }
