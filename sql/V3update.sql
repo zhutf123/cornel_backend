@@ -30,4 +30,30 @@ comment on column img_list.url is '图片地址';
 
 create unique index img_list_id_uindex on img_list (id);
 
+-- 货车类型表
+DROP TABLE IF EXISTS "car_type";
+create table car_type
+(
+	id serial not null,
+	name varchar(20),
+	desc varchar(200),
+	create_time timestamp default now(),
+	status int default 1
+);
+
+comment on table car_type is '车型表';
+
+comment on column car_type.id is '自增ID';
+
+comment on column car_type.name is '名称';
+
+comment on column car_type.desc is '描述';
+
+comment on column car_type.create_time is '创建时间';
+
+comment on column car_type.status is '1 可用 0不可用';
+-- 修改车辆表
+alter table lorry_info add car_lice_owner varchar(20);
+comment on column lorry_info.car_lice_owner is '车辆行驶证归属人 本人、他人、公司';
+
 

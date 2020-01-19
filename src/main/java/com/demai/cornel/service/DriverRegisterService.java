@@ -1,7 +1,10 @@
 package com.demai.cornel.service;
 
+import com.demai.cornel.config.CarLiceTypeConfig;
+import com.demai.cornel.dao.CarTypeInfoDao;
 import com.demai.cornel.dao.ImgInfoDao;
 import com.demai.cornel.dao.UserInfoDao;
+import com.demai.cornel.model.CarTypeInfo;
 import com.demai.cornel.model.ImgInfo;
 import com.demai.cornel.model.ImgInfoReq;
 import com.demai.cornel.model.UserInfo;
@@ -17,6 +20,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -26,6 +32,7 @@ import java.util.UUID;
 @Service @Slf4j public class DriverRegisterService {
     @Resource private UserInfoDao userInfoDao;
     @Resource private ImgInfoDao imgInfoDao;
+    @Resource private CarTypeInfoDao carTypeInfoDao;
 
     public DriverCpllUserInfoResp driverCompleteUserInfo(DriverCpllUserInfoReq driverCpllUserInfoReq) {
         log.debug("driver register complete user info user info is [{}]",
@@ -34,7 +41,7 @@ import java.util.UUID;
         Preconditions.checkNotNull(driverCpllUserInfoReq);
         if (Strings.isNullOrEmpty(driverCpllUserInfoReq.getIdCard()) || Strings
                 .isNullOrEmpty(driverCpllUserInfoReq.getName()) || Strings
-                .isNullOrEmpty(driverCpllUserInfoReq.getMobile()) ||  CollectionUtils
+                .isNullOrEmpty(driverCpllUserInfoReq.getMobile()) || CollectionUtils
                 .isEmpty(driverCpllUserInfoReq.getImgs())) {
             log.debug("driver register complete fail due to param lock");
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue());
@@ -49,18 +56,18 @@ import java.util.UUID;
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.SERVICE_ERROR.getValue());
             return driverCpllUserInfoResp;
         }
-        if(CollectionUtils.isEmpty(driverCpllUserInfoReq.getImgs())){
+        if (CollectionUtils.isEmpty(driverCpllUserInfoReq.getImgs())) {
             log.debug("complete user info img is empty");
         }
         driverCpllUserInfoReq.getImgs().stream().forEach(x -> {
             ImgInfo imgInfo = new ImgInfo();
             imgInfo.setImgId(UUID.randomUUID().toString());
-            log.debug("img key is [{}] url is [{}]",x.getKey(),x.getUrl());
+            log.debug("img key is [{}] url is [{}]", x.getKey(), x.getUrl());
             //todo imgdesc 为什么是null
             ImgInfo.IMGDESC imgdesc = ImgInfo.IMGDESC.keyOf(x.getKey());
-            log.debug("img desc is [{}]",JacksonUtils.obj2String(imgdesc));
-            if(imgdesc!=null){
-            imgInfo.setImgDesc(imgdesc.getExpr());
+            log.debug("img desc is [{}]", JacksonUtils.obj2String(imgdesc));
+            if (imgdesc != null) {
+                imgInfo.setImgDesc(imgdesc.getExpr());
             }
             imgInfo.setUrl(x.getUrl());
             imgInfo.setBindId(CookieAuthUtils.getCurrentUser());
@@ -71,27 +78,15 @@ import java.util.UUID;
         driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue());
         driverCpllUserInfoResp.setUserId(driverCpllUserInfoReq.getUserId());
         driverCpllUserInfoResp.setName(driverCpllUserInfoReq.getName());
-        log.debug("complete user info [{}]",JacksonUtils.obj2String(driverCpllUserInfoResp));
+        log.debug("complete user info [{}]", JacksonUtils.obj2String(driverCpllUserInfoResp));
         return driverCpllUserInfoResp;
     }
 
-    public static void main(String[] args) {
-        ImgInfoReq x= new ImgInfoReq();
-        x.setKey("idcard");
-        x.setUrl("http://sanbdsad");
-        ImgInfo imgInfo = new ImgInfo();
-        imgInfo.setImgId(UUID.randomUUID().toString());
-        log.debug("img key is [{}] url is [{}]",x.getKey(),x.getUrl());
-        imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());
-        log.debug("img key 2",x.getKey(),x.getUrl());
-        imgInfo.setUrl(x.getUrl());
-        log.debug("img key 3",x.getKey(),x.getUrl());
-
-        imgInfo.setBindId(CookieAuthUtils.getCurrentUser());
-        log.debug("img key 4",x.getKey(),x.getUrl());
-
-        imgInfo.setBindType(ImgInfo.BINDTYPESTATUS.BIND_USER.getValue());
-        log.debug("img key 5 ",x.getKey(),x.getUrl());
+   public List<CarTypeInfo> getCarType() {
+        List<CarTypeInfo> carTypeInfos = carTypeInfoDao.selectAllCarType();
+        return CollectionUtils.isEmpty(carTypeInfos) ? Collections.EMPTY_LIST : carTypeInfos;
     }
-
+    public List<String> getCarLiceType() {
+        return CarLiceTypeConfig.carLiceTypeList;
+    }
 }

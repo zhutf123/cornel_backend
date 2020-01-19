@@ -25,13 +25,12 @@ import java.util.List;
          * carleLiceOwner : 他人
          */
 
-        private String plateNumber;
-        private String frameNumber;
-        private String engineNo;
-        private String lorryType;
-        private double carryWeight;
-        private String carLiceOwner;
-        private String carleLiceOwner;
+        private String plateNumber;//车牌号
+        private String frameNumber;//车架号
+        private String engineNo;//发动机号
+        private String lorryType;//货车类型
+        private double carryWeight;//载重
+        private String carLiceOwner;//行驶证
         private List<ImgInfoReq> imgURL;
     }
 }

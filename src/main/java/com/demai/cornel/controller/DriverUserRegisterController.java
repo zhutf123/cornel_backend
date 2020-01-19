@@ -68,13 +68,30 @@ import javax.servlet.http.HttpServletResponse;
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
-
+    @RequestMapping(value = "/car-type.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getCarType(
+            @RequestBody String param, HttpServletResponse response) {
+        try {
+            return JsonResult.success(driverRegisterService.getCarType());
+        } catch (Exception e) {
+            log.error("获取车辆类型失败！", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+    @RequestMapping(value = "/car-lice.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getCarLiceType(
+            @RequestBody String param, HttpServletResponse response) {
+        try {
+            return JsonResult.success(driverRegisterService.getCarLiceType());
+        } catch (Exception e) {
+            log.error("获取车辆行驶证类型失败！", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
     @RequestMapping(value = "/comp-userinfo.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult completeUserInfo(
             @RequestBody DriverCpllUserInfoReq param, HttpServletResponse response) {
         try {
-            return JsonResult.success(driverRegisterService.driverCompleteUserInfo(param));
+            return JsonResult.success(driverRegisterService.getCarType());
         } catch (Exception e) {
-            log.error("用户登录异常！", e);
+            log.error("司机完善个人信息失败！", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
