@@ -61,7 +61,7 @@ import java.util.UUID;
         }
     }
 
-    public static enum IMGDESC {
+    public  enum IMGDESC {
         ID_CARD("idcard", "身份证号"), USER_CARD("userCard", "手持身份证号"), CAR_LICE("carLice", "行驶证照片"), DRIVER_LICE(
                 "driverLice", "驾驶证照片"), CAR_IMG("carImg", "车辆45度照片");
 

@@ -56,9 +56,12 @@ import java.util.UUID;
             ImgInfo imgInfo = new ImgInfo();
             imgInfo.setImgId(UUID.randomUUID().toString());
             log.debug("img key is [{}] url is [{}]",x.getKey(),x.getUrl());
+            //todo imgdesc 为什么是null
             ImgInfo.IMGDESC imgdesc = ImgInfo.IMGDESC.keyOf(x.getKey());
             log.debug("img desc is [{}]",JacksonUtils.obj2String(imgdesc));
-            //imgInfo.setImgDesc().getExpr());
+            if(imgdesc!=null){
+            imgInfo.setImgDesc(imgdesc.getExpr());
+            }
             imgInfo.setUrl(x.getUrl());
             imgInfo.setBindId(CookieAuthUtils.getCurrentUser());
             imgInfo.setStatus(ImgInfo.STATUS.EXIST.getValue());
