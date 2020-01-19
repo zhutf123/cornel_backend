@@ -150,9 +150,9 @@
             </if>
             <if test="defaultFlag != null">#{defaultFlag} ,</if>
             <if test="unitWeight != null">#{unitWeight},</if>
-            <if test="engine_no != null">#{engineNo},</if>
-            <if test="car_lice_owner != null">#{carLiceOwner},</if>
-            <if test="user_id != null">#{userId}</if>
+            <if test="engineNo != null">#{engineNo},</if>
+            <if test="carLiceOwner != null">#{carLiceOwner},</if>
+            <if test="userId != null">#{userId}</if>
             <if test="lorryId != null">#{lorryId},</if>
 
         </trim>
