@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data @Builder public class UploadResp {
     private Integer optResult;
-    private List<String> url;
+    private String url;
     public static enum CODE_ENUE implements IEmus {
         SUCCESS(0, "请求成功"),
         PARAM_ERROR(1, "参数错误"),
