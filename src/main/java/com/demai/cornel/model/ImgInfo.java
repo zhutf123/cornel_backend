@@ -87,5 +87,13 @@ import java.util.UUID;
         }
     }
 
-
+//    public static void main(String[] args) {
+//        String u= "idcard";
+//        System.out.println(ImgInfo.IMGDESC.keyOf(u).getExpr());
+//        ImgInfo imgInfo = new ImgInfo();
+//        imgInfo.setImgId(UUID.randomUUID().toString());
+//        imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(u).getExpr());
+//        System.out.println(ImgInfo.IMGDESC.keyOf(u).getExpr());
+//
+//    }
 }
