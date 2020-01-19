@@ -43,8 +43,7 @@ import static com.demai.cornel.config.BannerConfig.downloadUrl;
     public String uploadFile(MultipartFile files,String key) throws IOException {
         try {
             log.info("file name is [{}]",files.getOriginalFilename());
-            File saveFile = new File(configProperties.uploadLocation + key+
-                    files.getOriginalFilename().substring(files.getOriginalFilename().lastIndexOf(".")));
+            File saveFile = new File(configProperties.uploadLocation + key);
             FileUtils.copyInputStreamToFile(files.getInputStream(), saveFile);
             String downloadUrl = downloadFileService.getDownloadUri(saveFile.getName());
             log.info("==={}", JsonUtil.toJson(downloadUrl));
