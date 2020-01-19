@@ -20,13 +20,19 @@
         <result column="status" property="status"/>
         <result column="ext_info" property="extInfo"/>
         <result column="create_time" property="createTime"
-                jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+                jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
 
         <result column="operate_time" property="operateTime"
-                jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+                jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="default_flag" property="defaultFlag"/>
         <result column="unit_weight" property="unitWeight"/>
         <result column="over_carry_weight" property="overCarryWeight"/>
+        <result column="engine_no" property="engineNo"/>
+        <result column="car_lice_owner" property="carLiceOwner"/>
+        <result column="user_id" property="userId"/>
+        <result column="lorry_id" property="lorryId"/>
 
     </resultMap>
 
@@ -50,7 +56,12 @@
         lorry_info.operate_time,
         lorry_info.default_flag,
         lorry_info.unit_weight,
-        lorry_info.over_carry_weight
+        lorry_info.over_carry_weight,
+        lorry_info.engine_no,
+        lorry_info.car_lice_owner,
+        lorry_info.user_id,
+        lorry_info.lorry_id
+
     </sql>
 
     <update id="update" parameterType="com.demai.cornel.model.LorryInfo">
@@ -70,10 +81,18 @@
             <if test="idCard != null">id_card = #{idCard},</if>
             <if test="status != null">status = #{status},</if>
             <if test="extInfo != null">ext_info = #{extInfo},</if>
-            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
-            <if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="createTime != null">create_time =
+                #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
+            <if test="operateTime != null">operate_time =
+                #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
             <if test="default_flag != null">default_flag = #{defaultFlag},</if>
             <if test="unitWeight != null">unit_weight = #{unitWeight},</if>
+            <if test="engineNo != null">engine_no = #{engineNo},</if>
+            <if test="carLiceOwner != null">car_lice_owner = #{carLiceOwner},</if>
+            <if test="userId != null">user_id = #{userId} ,</if>
+            <if test="lorryId != null">lorry_id = #{lorryId} ,</if>
 
         </trim>
         where id = #{id}
@@ -100,7 +119,10 @@
             <if test="operateTime != null">operate_time ,</if>
             <if test="defaultFlag != null">default_flag ,</if>
             <if test="unitWeight != null">unit_weight ,</if>
-
+            <if test="engineNo != null">engine_no,</if>
+            <if test="carLiceOwner != null">car_lice_owner,</if>
+            <if test="userId != null">user_id ,</if>
+            <if test="lorryId != null">lorry_id ,</if>
         </trim>
         )values(
         <trim suffixOverrides=",">
@@ -118,10 +140,20 @@
             <if test="idCard != null">#{idCard} ,</if>
             <if test="status != null">#{status} ,</if>
             <if test="extInfo != null">#{extInfo} ,</if>
-            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
-            <if test="operateTime != null">#{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
+            <if test="operateTime != null">
+                #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
             <if test="defaultFlag != null">#{defaultFlag} ,</if>
             <if test="unitWeight != null">#{unitWeight},</if>
+            <if test="engine_no != null">#{engineNo},</if>
+            <if test="car_lice_owner != null">#{carLiceOwner},</if>
+            <if test="user_id != null">#{userId}</if>
+            <if test="lorryId != null">#{lorryId},</if>
 
         </trim>
         )
@@ -170,4 +202,9 @@
 
         update lorry_info set status=#{status} where id=#{lorryId};
     </update>
+    <select id="getLorryInfoByFlaNoEngNoFraNo" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info where plate_number=#{plateNo} and frame_number=#{frameNo} and engine_no=#{engineNo} and status=1 limit 1;
+    </select>
 </mapper>

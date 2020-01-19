@@ -55,5 +55,9 @@ comment on column car_type.status is '1 可用 0不可用';
 -- 修改车辆表
 alter table lorry_info add car_lice_owner varchar(20);
 comment on column lorry_info.car_lice_owner is '车辆行驶证归属人 本人、他人、公司';
-
-
+alter table lorry_info add engine_no varchar(40);
+comment on column lorry_info.engine_no is '发动机编号';
+alter table lorry_info add user_id varchar(40);
+comment on column lorry_info.user_id is '用户ID';
+alter table lorry_info add lorry_id varchar(40);
+comment on column lorry_info.lorry_id is '车辆ID';

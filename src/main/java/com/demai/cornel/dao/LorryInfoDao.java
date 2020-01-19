@@ -15,7 +15,7 @@ import java.util.List;
 public interface LorryInfoDao {
     public void update(LorryInfo lorryInfo);
 
-    public void save(LorryInfo lorryInfo);
+    public int save(LorryInfo lorryInfo);
 
     /**
      * 查询当前用户的默认车辆并且还处于绑定状态的车辆信息，
@@ -41,5 +41,14 @@ public interface LorryInfoDao {
      * @param status
      */
     public int updateLorryStatus(@Param("lorryId")Integer lorryID,@Param("status")Integer status);
+
+    /**
+     * 根据车牌号 车架号码 以及发动机号码查询车辆
+     * @param plateNo
+     * @param frameNo
+     * @param engineNo
+     * @return
+     */
+    public LorryInfo getLorryInfoByFlaNoEngNoFraNo(@Param("plateNo")String plateNo,@Param("frameNo")String frameNo,@Param("engineNo")String engineNo);
 
 }

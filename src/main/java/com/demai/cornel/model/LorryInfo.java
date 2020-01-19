@@ -38,6 +38,10 @@ import java.util.Map;
     private Integer defaultFlag;
     private String unitWeight;
     private BigDecimal overCarryWeight;
+    private String carLiceOwner;
+    private String engineNo;
+    private String userId;
+    private String lorryId;
 
     public static enum STATUS_ENUE {
 
