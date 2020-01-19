@@ -40,10 +40,10 @@ import static com.demai.cornel.config.BannerConfig.downloadUrl;
     }
 
 
-    public String uploadFile(MultipartFile files) throws IOException {
+    public String uploadFile(MultipartFile files,String key) throws IOException {
         try {
             log.info("file name is [{}]",files.getOriginalFilename());
-            File saveFile = new File(configProperties.uploadLocation + UUID.randomUUID() + files.getOriginalFilename()
+            File saveFile = new File(configProperties.uploadLocation + key
                     .substring(files.getOriginalFilename().lastIndexOf(".")));
             FileUtils.copyInputStreamToFile(files.getInputStream(), saveFile);
             String downloadUrl = downloadFileService.getDownloadUri(saveFile.getName());

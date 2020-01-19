@@ -32,8 +32,8 @@ import java.util.List;
     @Resource private DownloadFileService downloadFileService;
 
     @PostMapping(value = "/upload", headers = ("content-type=multipart/*")) @ResponseBody public JsonResult upload(
-             MultipartFile req, HttpServletResponse resp,
-            @RequestParam(value = "key", required = false) String key,
+            @RequestParam("file") MultipartFile req, HttpServletResponse resp,
+            @RequestParam(value = "key", required = true) String key,
             @RequestParam(value = "name", required = false) String name) {
         log.info("upload the file the file name is:{}", name);
         if (Strings.isNullOrEmpty(key) || Strings.isNullOrEmpty(name)) {
@@ -42,7 +42,7 @@ import java.util.List;
         }
         String downloadUrl = null;
         try {
-            downloadUrl = uploadFileService.uploadFile(req);
+            downloadUrl = uploadFileService.uploadFile(req,key);
             if (downloadUrl == null) {
                 JsonResult
                         .success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.SERVER_ERROR.getValue()).build());
