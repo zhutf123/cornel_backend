@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * @Author binz.zhang
@@ -86,9 +87,5 @@ import java.util.Arrays;
         }
     }
 
-    public static void main(String[] args) {
-        String  userCar="userCard";
-        IMGDESC i = IMGDESC.keyOf(userCar);
-        System.out.println("ok");
-    }
+
 }
