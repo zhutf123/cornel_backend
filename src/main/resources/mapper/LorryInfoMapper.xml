@@ -192,7 +192,7 @@
         user_info.id_card=lorry_info.id_card
         where lorry_info.status!=0 and user_info.user_id=#{userId};
     </select>
-    <select id="getAllLorryInfoByUserId" resultType="com.demai.cornel.model.LorryInfo">
+    <select id="getAllLorryInfoByUserId" resultMap="lorryInfoResultMap">
         select
         <include refid="main_column"/>
         from lorry_info
