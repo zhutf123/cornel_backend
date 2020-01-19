@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.ImgInfoDao">
+
+    <resultMap type="com.demai.cornel.model.ImgInfo" id="userInfoResultMap">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="img_id" property="imgId" jdbcType="VARCHAR"/>
+        <result column="img_desc" property="imgDesc" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="bind_id" property="bindId" jdbcType="VARCHAR"/>
+        <result column="bind_type" property="bindType" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="main_column">
+        id,
+        img_id,
+        img_desc,
+        bind_id,
+        bind_type,
+        create_time,
+        url
+    </sql>
+
+    <insert id="insert" parameterType="com.demai.cornel.model.ImgInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into user_info(
+        <trim suffixOverrides=",">
+            <if test="id != null">id ,</if>
+            <if test="imgId != null">img_id ,</if>
+            <if test="imgDesc != null">img_desc ,</if>
+            <if test="status != null">status ,</if>
+            <if test="bindId != null">bind_id ,</if>
+            <if test="bindType != null">bind_type ,</if>
+            <if test="createTime != null">create_time ,</if>
+            <if test="url != null">url ,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="id != null">#{id} ,</if>
+            <if test="imgId != null">#{imgId} ,</if>
+            <if test="imgDesc != null">#{imgDesc} ,</if>
+            <if test="status != null">#{status} ,</if>
+            <if test="bindId != null">#{bindId} ,</if>
+            <if test="bindType != null">#{bindType} ,</if>
+            <if test="createTime != null">#{createTime} ,</if>
+            <if test="url != null">#{headImg} ,</if>
+        </trim>
+        )
+    </insert>
+
+
+</mapper>

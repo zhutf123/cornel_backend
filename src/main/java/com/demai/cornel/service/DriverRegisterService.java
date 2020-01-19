@@ -1,17 +1,22 @@
 package com.demai.cornel.service;
 
+import com.demai.cornel.dao.ImgInfoDao;
 import com.demai.cornel.dao.UserInfoDao;
+import com.demai.cornel.model.ImgInfo;
 import com.demai.cornel.model.UserInfo;
+import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
 import com.demai.cornel.vo.delivery.DriverCpllUserInfoResp;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 /**
  * @Author binz.zhang
@@ -19,6 +24,7 @@ import javax.annotation.Resource;
  */
 @Service @Slf4j public class DriverRegisterService {
     @Resource private UserInfoDao userInfoDao;
+    @Resource private ImgInfoDao imgInfoDao;
 
     public DriverCpllUserInfoResp driverCompleteUserInfo(DriverCpllUserInfoReq driverCpllUserInfoReq) {
         log.debug("driver register complete user info user info is [{}]",
@@ -28,7 +34,8 @@ import javax.annotation.Resource;
         if (Strings.isNullOrEmpty(driverCpllUserInfoReq.getIdCard()) || Strings
                 .isNullOrEmpty(driverCpllUserInfoReq.getName()) || Strings
                 .isNullOrEmpty(driverCpllUserInfoReq.getMobile()) || Strings
-                .isNullOrEmpty(driverCpllUserInfoReq.getUserId())) {
+                .isNullOrEmpty(driverCpllUserInfoReq.getUserId()) || CollectionUtils
+                .isEmpty(driverCpllUserInfoReq.getImgs())) {
             log.debug("driver register complete fail due to param lock");
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue());
             return driverCpllUserInfoResp;
@@ -41,6 +48,15 @@ import javax.annotation.Resource;
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.SERVICE_ERROR.getValue());
             return driverCpllUserInfoResp;
         }
+        driverCpllUserInfoReq.getImgs().stream().forEach(x -> {
+            ImgInfo imgInfo = new ImgInfo();
+            imgInfo.setImgId(UUID.randomUUID().toString());
+            imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());
+            imgInfo.setUrl(x.getUrl());
+            imgInfo.setBindId(CookieAuthUtils.getCurrentUser());
+            imgInfo.setBindType(ImgInfo.BINDTYPESTATUS.BIND_USER.getValue());
+            imgInfoDao.insert(imgInfo);
+        });
         driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue());
         driverCpllUserInfoResp.setUserId(driverCpllUserInfoReq.getUserId());
         driverCpllUserInfoResp.setName(driverCpllUserInfoReq.getName());
