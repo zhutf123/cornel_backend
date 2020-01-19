@@ -55,7 +55,7 @@ import java.util.UUID;
             ImgInfo imgInfo = new ImgInfo();
             imgInfo.setImgId(UUID.randomUUID().toString());
             log.debug("img key is [{}] url is [{}]",x.getKey(),x.getUrl());
-            imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());
+           // imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());
             log.debug("img key 2",x.getKey(),x.getUrl());
             imgInfo.setUrl(x.getUrl());
             log.debug("img key 3",x.getKey(),x.getUrl());
