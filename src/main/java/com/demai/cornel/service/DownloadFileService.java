@@ -26,10 +26,11 @@ public class DownloadFileService {
 
     private static final  String DOWNLOAD_PATH_FORMAT =  "/file/download/%s";
 
-    public static void downloadService(String fileName, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public  void downloadService(String fileName, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         //ClassPathResource classPathResource = new ClassPathResource(fileName);
-        File file = new File(fileName);
+        String location = configProperties.uploadLocation+fileName;
+        File file = new File(location);
         if (!file.exists()|| !file.isFile()) {
             resp.reset();
             resp.setContentType("text/plain;charset=utf-8");
