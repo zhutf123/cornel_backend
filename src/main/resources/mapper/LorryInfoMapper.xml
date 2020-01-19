@@ -196,7 +196,7 @@
         select
         <include refid="main_column"/>
         from lorry_info
-        where status!=0 and user_id=#{userId};
+        where status!=0 and user_id=#{userId} order by id desc;
     </select>
 
     <select id="getLorryByLorryID" resultMap="lorryInfoResultMap">
