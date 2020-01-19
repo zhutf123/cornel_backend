@@ -18,8 +18,8 @@ public class CarLiceTypeConfig {
     private String carlicetype;
     public static List<String> carLiceTypeList = new ArrayList<>();
 
-    public void setDownload(String download) {
-        this.carlicetype = download;
+    public void setDownload(String carlicetype) {
+        this.carlicetype = carlicetype;
     }
     @PostConstruct
     private void init(){
