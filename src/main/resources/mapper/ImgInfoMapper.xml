@@ -45,7 +45,7 @@
             <if test="bindId != null">#{bindId} ,</if>
             <if test="bindType != null">#{bindType} ,</if>
             <if test="createTime != null">#{createTime} ,</if>
-            <if test="url != null">#{headImg} ,</if>
+            <if test="url != null">#{url} ,</if>
         </trim>
         )
     </insert>
