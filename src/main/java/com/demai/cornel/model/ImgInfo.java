@@ -82,7 +82,7 @@ import java.util.UUID;
         }
 
         public static IMGDESC keyOf(String key) {
-            return Arrays.stream(IMGDESC.values()).filter(likeTypeEnum -> likeTypeEnum.getKey() == key).findAny()
+            return Arrays.stream(IMGDESC.values()).filter(X -> X.getKey() == key).findAny()
                     .orElse(null);
         }
     }

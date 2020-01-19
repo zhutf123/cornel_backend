@@ -34,14 +34,14 @@ import java.util.UUID;
         Preconditions.checkNotNull(driverCpllUserInfoReq);
         if (Strings.isNullOrEmpty(driverCpllUserInfoReq.getIdCard()) || Strings
                 .isNullOrEmpty(driverCpllUserInfoReq.getName()) || Strings
-                .isNullOrEmpty(driverCpllUserInfoReq.getMobile()) || Strings
-                .isNullOrEmpty(driverCpllUserInfoReq.getUserId()) || CollectionUtils
+                .isNullOrEmpty(driverCpllUserInfoReq.getMobile()) ||  CollectionUtils
                 .isEmpty(driverCpllUserInfoReq.getImgs())) {
             log.debug("driver register complete fail due to param lock");
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue());
             return driverCpllUserInfoResp;
         }
         UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(CookieAuthUtils.getCurrentUser());
         BeanUtils.copyProperties(driverCpllUserInfoReq, userInfo);
         int res = userInfoDao.update(userInfo);
         if (res == 0) {
@@ -72,23 +72,23 @@ import java.util.UUID;
         return driverCpllUserInfoResp;
     }
 
-//    public static void main(String[] args) {
-//        ImgInfoReq x= new ImgInfoReq();
-//        x.setKey("idcard");
-//        x.setUrl("http://sanbdsad");
-//        ImgInfo imgInfo = new ImgInfo();
-//        imgInfo.setImgId(UUID.randomUUID().toString());
-//        log.debug("img key is [{}] url is [{}]",x.getKey(),x.getUrl());
-//        imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());
-//        log.debug("img key 2",x.getKey(),x.getUrl());
-//        imgInfo.setUrl(x.getUrl());
-//        log.debug("img key 3",x.getKey(),x.getUrl());
-//
-//        imgInfo.setBindId(CookieAuthUtils.getCurrentUser());
-//        log.debug("img key 4",x.getKey(),x.getUrl());
-//
-//        imgInfo.setBindType(ImgInfo.BINDTYPESTATUS.BIND_USER.getValue());
-//        log.debug("img key 5 ",x.getKey(),x.getUrl());
-//    }
+    public static void main(String[] args) {
+        ImgInfoReq x= new ImgInfoReq();
+        x.setKey("idcard");
+        x.setUrl("http://sanbdsad");
+        ImgInfo imgInfo = new ImgInfo();
+        imgInfo.setImgId(UUID.randomUUID().toString());
+        log.debug("img key is [{}] url is [{}]",x.getKey(),x.getUrl());
+        imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());
+        log.debug("img key 2",x.getKey(),x.getUrl());
+        imgInfo.setUrl(x.getUrl());
+        log.debug("img key 3",x.getKey(),x.getUrl());
+
+        imgInfo.setBindId(CookieAuthUtils.getCurrentUser());
+        log.debug("img key 4",x.getKey(),x.getUrl());
+
+        imgInfo.setBindType(ImgInfo.BINDTYPESTATUS.BIND_USER.getValue());
+        log.debug("img key 5 ",x.getKey(),x.getUrl());
+    }
 
 }
