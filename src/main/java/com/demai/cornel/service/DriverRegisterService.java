@@ -48,6 +48,9 @@ import java.util.UUID;
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.SERVICE_ERROR.getValue());
             return driverCpllUserInfoResp;
         }
+        if(CollectionUtils.isEmpty(driverCpllUserInfoReq.getImgs())){
+            log.debug("complete user info img is empty");
+        }
         driverCpllUserInfoReq.getImgs().stream().forEach(x -> {
             ImgInfo imgInfo = new ImgInfo();
             imgInfo.setImgId(UUID.randomUUID().toString());
