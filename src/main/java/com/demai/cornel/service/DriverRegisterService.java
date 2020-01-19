@@ -110,14 +110,15 @@ import java.util.UUID;
         lorryInfo.setIdType(1);
         lorryInfo.setLorryId(UUID.randomUUID().toString());
         lorryInfo.setUserId(userInfo.getUserId());
+        lorryInfo.setLorryId(UUID.randomUUID().toString());
         int res = lorryInfoDao.save(lorryInfo);
         if (res == 0) {
             log.debug("add car info error due to inser lorry info into db error");
             return DriverCpllUserInfoResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SERVICE_ERROR.getValue())
                     .build();
         }
-        imgService.saveCarInfoImgs(driverCpllCarReq.getImgURL(), userInfo.getUserId());
-        return DriverCpllUserInfoResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue()).build();
+        imgService.saveCarInfoImgs(driverCpllCarReq.getImgURL(), lorryInfo.getLorryId());
+        return DriverCpllUserInfoResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue()).lorryId(lorryInfo.getLorryId()).build();
     }
 
     public List<CarTypeInfo> getCarType() {
