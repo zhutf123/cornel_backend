@@ -1,5 +1,6 @@
 package com.demai.cornel.vo.delivery;
 
+import com.demai.cornel.model.ImgInfoReq;
 import lombok.Data;
 
 import java.util.List;
@@ -20,9 +21,6 @@ import java.util.List;
     private Integer idType = 1;
     private List<ImgInfoReq> imgs;
 
-    @Data public static class ImgInfoReq {
-        private String key;
-        private String url;
-    }
+
 
 }

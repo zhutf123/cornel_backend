@@ -85,4 +85,10 @@ import java.util.Arrays;
                     .orElse(null);
         }
     }
+
+    public static void main(String[] args) {
+        String  userCar="userCard";
+        IMGDESC i = IMGDESC.keyOf(userCar);
+        System.out.println("ok");
+    }
 }

@@ -54,6 +54,7 @@ import java.util.UUID;
         driverCpllUserInfoReq.getImgs().stream().forEach(x -> {
             ImgInfo imgInfo = new ImgInfo();
             imgInfo.setImgId(UUID.randomUUID().toString());
+            log.debug("img key is [{}]",x.getKey());
             imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());
             imgInfo.setUrl(x.getUrl());
             imgInfo.setBindId(CookieAuthUtils.getCurrentUser());
