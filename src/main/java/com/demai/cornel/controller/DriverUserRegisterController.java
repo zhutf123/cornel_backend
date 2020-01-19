@@ -69,7 +69,7 @@ import javax.servlet.http.HttpServletResponse;
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
     @RequestMapping(value = "/car-type.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getCarType(
-            @RequestBody String param, HttpServletResponse response) {
+             HttpServletResponse response) {
         try {
             return JsonResult.success(driverRegisterService.getCarType());
         } catch (Exception e) {
@@ -78,7 +78,7 @@ import javax.servlet.http.HttpServletResponse;
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
     @RequestMapping(value = "/car-lice.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getCarLiceType(
-            @RequestBody String param, HttpServletResponse response) {
+             HttpServletResponse response) {
         try {
             return JsonResult.success(driverRegisterService.getCarLiceType());
         } catch (Exception e) {

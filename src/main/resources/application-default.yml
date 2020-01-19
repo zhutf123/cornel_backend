@@ -129,4 +129,4 @@ upload:
   location: /home/www/upload/
   downloadHost: https://beta.demeteria.com/
 car-config:
-  carLicetype: 本人,他人,公司
+  carlicetype: 本人,他人,公司

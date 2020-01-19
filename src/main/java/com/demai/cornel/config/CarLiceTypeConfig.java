@@ -15,16 +15,16 @@ import java.util.List;
 @ConfigurationProperties(prefix = "car-config")
 @Service
 public class CarLiceTypeConfig {
-    private String carLiceType;
+    private String carlicetype;
     public static List<String> carLiceTypeList = new ArrayList<>();
 
     public void setDownload(String download) {
-        this.carLiceType = download;
+        this.carlicetype = download;
     }
     @PostConstruct
     private void init(){
-        if(carLiceType!=null){
-            carLiceTypeList.addAll(Splitter.on(",").trimResults().splitToList(carLiceType));
+        if(carlicetype!=null){
+            carLiceTypeList.addAll(Splitter.on(",").trimResults().splitToList(carlicetype));
         }
     }
 }
