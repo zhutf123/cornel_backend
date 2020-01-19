@@ -26,7 +26,7 @@ public enum CarTypeEnum {
     }
 
     public static CarTypeEnum typeOf(String type) {
-        return Arrays.stream(CarTypeEnum.values()).filter(carTypeEnum -> carTypeEnum.getType() == type).findAny()
+        return Arrays.stream(CarTypeEnum.values()).filter(carTypeEnum -> carTypeEnum.getType().equals(type)).findAny()
                 .orElse(null);
     }
 }

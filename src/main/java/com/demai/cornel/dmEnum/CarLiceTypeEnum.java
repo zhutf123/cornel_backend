@@ -25,7 +25,7 @@ public enum  CarLiceTypeEnum {
     }
 
     public static CarLiceTypeEnum typeOf(String type) {
-        return Arrays.stream(CarLiceTypeEnum.values()).filter(carLiceTypeEnum -> carLiceTypeEnum.getType() == type).findAny()
+        return Arrays.stream(CarLiceTypeEnum.values()).filter(carLiceTypeEnum -> carLiceTypeEnum.getType().equals(type)).findAny()
                 .orElse(null);
     }
 }
