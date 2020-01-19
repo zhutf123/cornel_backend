@@ -229,7 +229,7 @@ public class DeliveryCornController {
      * @param param
      * @return
      */
-    @RequestMapping(value = "/edit-carinfo.json", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit-userinfo.json", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult deliveryUpdateDriverInfo(@RequestBody DriverCornInfo driverCornInfo) {
         Preconditions.checkNotNull(driverCornInfo);
