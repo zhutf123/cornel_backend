@@ -51,12 +51,13 @@ import java.util.List;
         if (lorryInfos == null) {
             return Collections.EMPTY_LIST;
         }
+
         List<CarCornInfo> carCornInfos = Lists.newArrayList();
-        lorryInfos.stream().forEach(x -> {
+        for (LorryInfo lorryInfo:lorryInfos) {
             CarCornInfo carCornInfo = new CarCornInfo();
-            BeanUtils.copyProperties(x, carCornInfo);
+            BeanUtils.copyProperties(lorryInfo, carCornInfo);
             carCornInfos.add(carCornInfo);
-        });
+        }
         return carCornInfos;
     }
 
