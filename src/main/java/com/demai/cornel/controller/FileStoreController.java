@@ -45,7 +45,7 @@ import java.util.List;
             downloadUrl = uploadFileService.uploadFile(req,key);
             if (downloadUrl == null) {
                 JsonResult
-                        .success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.SERVER_ERROR.getValue()).build());
+                        .success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.SUCCESS.getValue()).build());
             }
         } catch (IOException e) {
             log.error("upload file fail due to ", e);
