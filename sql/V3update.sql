@@ -36,7 +36,7 @@ create table car_type
 (
 	id serial not null,
 	name varchar(20),
-	desc varchar(200),
+	car_desc varchar(200),
 	create_time timestamp default now(),
 	status int default 1
 );

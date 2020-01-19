@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Data public class CarTypeInfo {
     private Long id;
     private String name;
-    private String desc;
+    private String carDesc;
     private Timestamp createTime;
     private Integer status;
 

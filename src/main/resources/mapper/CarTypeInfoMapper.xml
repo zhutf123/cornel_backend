@@ -6,7 +6,7 @@
     <resultMap type="com.demai.cornel.model.CarTypeInfo" id="userInfoResultMap">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="desc" property="desc" jdbcType="VARCHAR"/>
+        <result column="car_desc" property="carDesc" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -24,7 +24,7 @@
         <trim suffixOverrides=",">
             <if test="id != null">id ,</if>
             <if test="name != null">name ,</if>
-            <if test="desc != null">desc ,</if>
+            <if test="carDesc != null">car_desc ,</if>
             <if test="status != null">status ,</if>
             <if test="createTime != null">create_time ,</if>
         </trim>
@@ -32,7 +32,7 @@
         <trim suffixOverrides=",">
             <if test="id != null">#{id} ,</if>
             <if test="name != null">#{name} ,</if>
-            <if test="desc != null">#{desc} ,</if>
+            <if test="carDesc != null">#{carDesc} ,</if>
             <if test="status != null">#{status} ,</if>
             <if test="createTime != null">#{createTime} ,</if>
         </trim>
