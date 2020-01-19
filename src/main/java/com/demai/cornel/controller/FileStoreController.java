@@ -32,9 +32,9 @@ import java.util.List;
     @Resource private DownloadFileService downloadFileService;
 
     @PostMapping(value = "/upload", headers = ("content-type=multipart/*")) @ResponseBody public JsonResult upload(
-            @RequestParam("file") MultipartFile req, HttpServletResponse resp,
-            @RequestParam(value = "key", required = true) String key,
-            @RequestParam(value = "name", required = true) String name) {
+             MultipartFile req, HttpServletResponse resp,
+            @RequestParam(value = "key", required = false) String key,
+            @RequestParam(value = "name", required = false) String name) {
         log.info("upload the file the file name is:{}", name);
         if (Strings.isNullOrEmpty(key) || Strings.isNullOrEmpty(name)) {
             log.error("upload file fail lack the name ");
