@@ -3,6 +3,7 @@ package com.demai.cornel.service;
 import com.demai.cornel.dao.ImgInfoDao;
 import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.model.ImgInfo;
+import com.demai.cornel.model.ImgInfoReq;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
@@ -71,9 +72,27 @@ import java.util.UUID;
         driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue());
         driverCpllUserInfoResp.setUserId(driverCpllUserInfoReq.getUserId());
         driverCpllUserInfoResp.setName(driverCpllUserInfoReq.getName());
+        log.debug("complete user info [{}]",JacksonUtils.obj2String(driverCpllUserInfoResp));
         return driverCpllUserInfoResp;
     }
 
+    public static void main(String[] args) {
+        ImgInfoReq x= new ImgInfoReq();
+        x.setKey("idcard");
+        x.setUrl("http://sanbdsad");
+        ImgInfo imgInfo = new ImgInfo();
+        imgInfo.setImgId(UUID.randomUUID().toString());
+        log.debug("img key is [{}] url is [{}]",x.getKey(),x.getUrl());
+        imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());
+        log.debug("img key 2",x.getKey(),x.getUrl());
+        imgInfo.setUrl(x.getUrl());
+        log.debug("img key 3",x.getKey(),x.getUrl());
 
+        imgInfo.setBindId(CookieAuthUtils.getCurrentUser());
+        log.debug("img key 4",x.getKey(),x.getUrl());
+
+        imgInfo.setBindType(ImgInfo.BINDTYPESTATUS.BIND_USER.getValue());
+        log.debug("img key 5 ",x.getKey(),x.getUrl());
+    }
 
 }
