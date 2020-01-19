@@ -230,7 +230,6 @@
             <if test="frameNumber != null">frame_number = #{frameNumber},</if>
             <if test="engineNo != null">engine_no = #{engineNo},</if>
             <if test="carLiceOwner != null">car_lice_owner = #{carLiceOwner},</if>
-            <if test="userId != null">user_id = #{userId} ,</if>
         </trim>
         where lorry_id = #{lorryId}
     </update>
