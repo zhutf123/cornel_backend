@@ -123,6 +123,8 @@
             <if test="carLiceOwner != null">car_lice_owner,</if>
             <if test="userId != null">user_id ,</if>
             <if test="lorryId != null">lorry_id ,</if>
+            <if test="overCarryWeight != null">over_carry_weight ,</if>
+
         </trim>
         )values(
         <trim suffixOverrides=",">
@@ -154,6 +156,7 @@
             <if test="carLiceOwner != null">#{carLiceOwner},</if>
             <if test="userId != null">#{userId},</if>
             <if test="lorryId != null">#{lorryId},</if>
+            <if test="overCarryWeight != null">#{overCarryWeight} ,</if>
 
         </trim>
         )
