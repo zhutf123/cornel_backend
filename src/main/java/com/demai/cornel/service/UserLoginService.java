@@ -39,7 +39,7 @@ public class UserLoginService {
     @Resource
     private UserInfoDao userInfoDao;
     @Resource
-    private WeChatService weChatService;
+    private WeChatDriverService weChatService;
     @Resource
     private SendMsgService sendMsgService;
     @Resource
