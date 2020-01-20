@@ -2,6 +2,7 @@ package com.demai.cornel.controller;
 
 import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.service.DriverLoginService;
 import com.demai.cornel.service.DriverRegisterService;
 import com.demai.cornel.service.UserLoginService;
 import com.demai.cornel.service.UserService;
@@ -28,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Date: 2020-01-16    15:57
  */
 @Controller @RequestMapping("/driver-reg") @Slf4j public class DriverUserRegisterController {
-    @Resource private UserLoginService userLoginService;
+    @Resource private DriverLoginService driverLoginService;
     @Resource private DriverRegisterService driverRegisterService;
 
     /***
@@ -41,7 +42,7 @@ import javax.servlet.http.HttpServletResponse;
             @RequestBody UserLoginSendMsgParam phone) {
         try {
             log.debug("send code access [{}]", JacksonUtils.obj2String(phone));
-            return JsonResult.successStatus(userLoginService.sendLoginCodeMsgV2(phone.getPhone()));
+            return JsonResult.successStatus(driverLoginService.sendLoginCodeMsgV2(phone.getPhone()));
         } catch (Exception e) {
             log.error("用户发送短信异常！", e);
             return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
@@ -58,7 +59,7 @@ import javax.servlet.http.HttpServletResponse;
             Preconditions.checkNotNull(param.getJscode());
             Preconditions.checkNotNull(param.getPhone());
             Preconditions.checkNotNull(param.getMsgCode());
-            UserLoginResp login = userLoginService.doLoginV3(param);
+            UserLoginResp login = driverLoginService.doLoginV3(param);
             if (login.getCode().compareTo(UserLoginResp.CODE_ENUE.SUCCESS.getValue()) == 0) {
                 return JsonResult.success(login);
             } else {
