@@ -48,7 +48,7 @@
             <if test="url != null">#{url} ,</if>
         </trim>
         )
-        ON CONFLICT(bindType,bindId,url)
+        ON CONFLICT(bind_type,bind_id,img_desc)
         DO UPDATE
         <trim prefix="set" suffixOverrides=",">
             <if test="id != null">id=#{id} ,</if>
