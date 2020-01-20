@@ -6,6 +6,7 @@ import com.demai.cornel.dao.CarTypeInfoDao;
 import com.demai.cornel.dao.ImgInfoDao;
 import com.demai.cornel.dao.LorryInfoDao;
 import com.demai.cornel.dao.UserInfoDao;
+import com.demai.cornel.dmEnum.WeightUnit;
 import com.demai.cornel.model.*;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
@@ -122,6 +123,7 @@ import java.util.UUID;
         lorryInfo.setUserId(userInfo.getUserId());
         lorryInfo.setLorryId(UUID.randomUUID().toString());
         lorryInfo.setOverCarryWeight(lorryInfo.getCarryWeight().multiply(new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR)));
+        lorryInfo.setUnitWeight(WeightUnit.TONS.getExpr());
         int res = lorryInfoDao.save(lorryInfo);
         if (res == 0) {
             log.debug("add car info error due to inser lorry info into db error");
