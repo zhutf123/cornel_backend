@@ -104,7 +104,11 @@ import java.util.List;
             return null;
         }
         TaskInfoReq taskInfoReq = new TaskInfoReq(taskInfo);
-        taskInfoReq.setDriverName(userInfoDao.getUserNameByUserId(userId));
+        String dirverName = userInfoDao.getUserNameByUserId(userId);
+        if(dirverName==null){
+            dirverName="";
+        }
+        taskInfoReq.setDriverName(dirverName);
         taskInfoReq.setLorryInfo(lorryInfos);
         List<TaskInfoReq.StartTime> startTimes = new ArrayList<>(taskInfo.getSubTaskTime().size());
         if (taskInfo.getSubTaskTime() != null) {

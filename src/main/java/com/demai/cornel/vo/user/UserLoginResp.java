@@ -29,7 +29,7 @@ public class UserLoginResp implements Serializable {
     private String phone;
 
     /**  用户当前的状态 **/
-    private Integer userStatus;
+    private Integer userStatus=0;
 
     public UserLoginResp(String openId, String userId, Integer role, Integer code, String phone) {
         this.openId = openId;
