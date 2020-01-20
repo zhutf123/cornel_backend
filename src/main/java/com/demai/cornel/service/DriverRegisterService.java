@@ -9,6 +9,7 @@ import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.model.*;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.PhoneUtil;
 import com.demai.cornel.vo.delivery.DriverCpllCarReq;
 import com.demai.cornel.vo.delivery.DriverCpllCarResp;
 import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
@@ -59,6 +60,11 @@ import java.util.UUID;
                 .isEmpty(driverCpllUserInfoReq.getImgs())) {
             log.debug("driver register complete fail due to param lock");
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue());
+            return driverCpllUserInfoResp;
+        }
+        if(!PhoneUtil.isPhone(driverCpllUserInfoReq.getMobile())){
+            log.debug("driver register complete fail due to tel format error ");
+            driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PHONE_ERROR.getValue());
             return driverCpllUserInfoResp;
         }
         UserInfo userInfo = new UserInfo();

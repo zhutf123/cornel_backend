@@ -17,7 +17,7 @@ import sun.dc.pr.PRError;
     private String name;
 
     public static enum STATUS implements IEmus {
-        SUCCESS(0, "成功"), PARAM_ERROR(1, "参数缺失"),CAR_EXIST(2, "车辆已经存在"), SERVICE_ERROR(3, "服务异常");
+        SUCCESS(0, "成功"), PARAM_ERROR(1, "参数缺失"), SERVICE_ERROR(2, "服务异常"),PHONE_ERROR(3, "车辆已经存在");
 
         private int value;
         private String expr;
