@@ -27,38 +27,38 @@
     <insert id="insert" parameterType="com.demai.cornel.model.ImgInfo" useGeneratedKeys="true" keyProperty="id">
         insert into img_list(
         <trim suffixOverrides=",">
-            <if test="id != null">id ,</if>
-            <if test="imgId != null">img_id ,</if>
-            <if test="imgDesc != null">img_desc ,</if>
+            <if test="id != null and id !='' ">id ,</if>
+            <if test="imgId != null and imgId != '' ">img_id ,</if>
+            <if test="imgDesc != null and imgDesc != '' ">img_desc ,</if>
             <if test="status != null">status ,</if>
-            <if test="bindId != null">bind_id ,</if>
+            <if test="bindId != null and bindId != ''">bind_id ,</if>
             <if test="bindType != null">bind_type ,</if>
             <if test="createTime != null">create_time ,</if>
-            <if test="url != null">url ,</if>
+            <if test="url != null and url != ''">url ,</if>
         </trim>
         )values(
         <trim suffixOverrides=",">
-            <if test="id != null">#{id} ,</if>
-            <if test="imgId != null">#{imgId} ,</if>
-            <if test="imgDesc != null">#{imgDesc} ,</if>
+            <if test="id != null and id !='' ">#{id} ,</if>
+            <if test="imgId != null and imgId != '' ">#{imgId} ,</if>
+            <if test="imgDesc != null and imgDesc != '' ">#{imgDesc} ,</if>
             <if test="status != null">#{status} ,</if>
-            <if test="bindId != null">#{bindId} ,</if>
+            <if test="bindId != null and bindId != ''">#{bindId} ,</if>
             <if test="bindType != null">#{bindType} ,</if>
             <if test="createTime != null">#{createTime} ,</if>
-            <if test="url != null">#{url} ,</if>
+            <if test="url != null and url != ''">#{url} ,</if>
         </trim>
         )
         ON CONFLICT (bind_type,bind_id,img_desc)
         DO UPDATE
         <trim prefix="set" suffixOverrides=",">
-            <if test="id != null">id=#{id} ,</if>
-            <if test="imgId != null">img_id=#{imgId} ,</if>
-            <if test="imgDesc != null">img_desc=#{imgDesc} ,</if>
+            <if test="id != null and id !='' ">id=#{id} ,</if>
+            <if test="imgId != null and imgId != '' ">img_id=#{imgId} ,</if>
+            <if test="imgDesc != null and imgDesc != '' ">img_desc=#{imgDesc} ,</if>
             <if test="status != null">status = #{status} ,</if>
-            <if test="bindId != null">bind_id=#{bindId} ,</if>
+            <if test="bindId != null and bindId != ''">bind_id=#{bindId} ,</if>
             <if test="bindType != null">bind_type=#{bindType} ,</if>
             <if test="createTime != null">create_time=#{createTime} ,</if>
-            <if test="url != null">url=#{url} ,</if>
+            <if test="url != null and url != ''">url=#{url} ,</if>
         </trim>
     </insert>
     <update id="updateCarImgStatus">
