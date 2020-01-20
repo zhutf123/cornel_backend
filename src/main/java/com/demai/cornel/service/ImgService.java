@@ -10,8 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @Author binz.zhang
@@ -68,6 +67,36 @@ import java.util.UUID;
         return true;
     }
 
+    public List<ImgInfoReq> getCarImgs(String lorryId){
+        List<ImgInfo> imgInfos = imgInfoDao.getCarImgByLorryId(lorryId);
+        if(imgInfos==null || imgInfos.size()<=0){
+            return Collections.EMPTY_LIST;
+        }
+        List<ImgInfoReq> reqs = new ArrayList<>();
+        imgInfos.stream().forEach(x->{
+            ImgInfo.IMGDESC imgdesc = ImgInfo.IMGDESC.exparOf(x.getImgDesc());
+            if(imgdesc!=null){
+                reqs.add(new ImgInfoReq(imgdesc.getKey(),x.getUrl()));
+            }
+        });
+        return reqs;
+    }
+
+    public List<ImgInfoReq> getUserImgs(String userId){
+        List<ImgInfo> imgInfos = imgInfoDao.getUserImgByUserId(userId);
+        if(imgInfos==null || imgInfos.size()<=0){
+            return Collections.EMPTY_LIST;
+        }
+        List<ImgInfoReq> reqs = new ArrayList<>();
+        imgInfos.stream().forEach(x->{
+            ImgInfo.IMGDESC imgdesc = ImgInfo.IMGDESC.exparOf(x.getImgDesc());
+            if(imgdesc!=null){
+                reqs.add(new ImgInfoReq(imgdesc.getKey(),x.getUrl()));
+            }
+        });
+        return reqs;
+    }
+
     public boolean saveUserInfoImgs(List<ImgInfoReq> imgInfoReqs, String userId) {
         if (imgInfoReqs == null || Strings.isNullOrEmpty(userId)) {
             return false;
@@ -79,6 +108,7 @@ import java.util.UUID;
         }
         return true;
     }
+
     public boolean saveCarInfoImgs(List<ImgInfoReq> imgInfoReqs, String lorryId) {
         if (imgInfoReqs == null || Strings.isNullOrEmpty(lorryId)) {
             return false;

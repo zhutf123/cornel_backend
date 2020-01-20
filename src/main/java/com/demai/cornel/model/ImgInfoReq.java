@@ -10,4 +10,12 @@ import lombok.Data;
 public class ImgInfoReq {
     private String key;
     private String url;
+
+    public ImgInfoReq(String key, String url) {
+        this.key = key;
+        this.url = url;
+    }
+
+    public ImgInfoReq() {
+    }
 }

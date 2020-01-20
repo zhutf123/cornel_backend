@@ -85,6 +85,11 @@ import java.util.UUID;
             return Arrays.stream(IMGDESC.values()).filter(X -> X.getKey().equalsIgnoreCase( key)).findAny()
                     .orElse(null);
         }
+
+        public static IMGDESC exparOf(String value) {
+            return Arrays.stream(IMGDESC.values()).filter(X -> X.getExpr().equalsIgnoreCase( value)).findAny()
+                    .orElse(null);
+        }
     }
 
 //    public static void main(String[] args) {

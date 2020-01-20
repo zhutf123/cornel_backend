@@ -11,7 +11,7 @@ import sun.dc.pr.PRError;
  * @Date: 2020-01-19    19:44
  */
 @Data
-public class GetDriverCornInfoResp extends DriverCornInfo {
+public class GetDriverCornInfoResp extends DriverCpllUserInfoReq {
     private Integer optResult;
     public static enum STATUS implements IEmus {
         SUCCESS(0, "成功"), NO_USER(1, "未查到用户信息"),SERVER_ERROR(3, "服务错误");

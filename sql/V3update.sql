@@ -9,7 +9,7 @@ create table img_list
 	bind_id varchar(40),
 	bind_type int,
 	create_time timestamp default now(),
-	url varchar(50)
+	url varchar(100)
 );
 
 comment on column img_list.id is '自增ID';

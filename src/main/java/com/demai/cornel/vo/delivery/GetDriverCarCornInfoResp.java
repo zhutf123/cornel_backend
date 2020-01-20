@@ -9,7 +9,7 @@ import lombok.Data;
  * @Date: 2020-01-19    19:58
  */
 @Data
-public class GetDriverCarCornInfoResp extends CarCornInfo {
+public class GetDriverCarCornInfoResp extends DriverCpllCarReq {
     private Integer optResult;
     public static enum STATUS implements IEmus {
         SUCCESS(0, "成功"), NO_USER(1, "未查到用户信息"),SERVER_ERROR(3, "服务错误");

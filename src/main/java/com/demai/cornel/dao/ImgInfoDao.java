@@ -16,4 +16,11 @@ public interface ImgInfoDao {
 
     int insert(ImgInfo imgInfo);
 
+    //    int updateCarImgURL(@Param("desc")String desc,@Param("lorryId")String lorryId,@Param("status")Integer status);
+    //
+    //    int updateUserImgURL(@Param("desc")String desc,@Param("userId")String userId,@Param("status")Integer status);
+
+    List<ImgInfo> getCarImgByLorryId(@Param("lorryId") String lorryId);
+
+    List<ImgInfo> getUserImgByUserId(@Param("userId") String userId);
 }

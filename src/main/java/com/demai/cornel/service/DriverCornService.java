@@ -6,6 +6,8 @@ import com.demai.cornel.dmEnum.IdTypeEnum;
 import com.demai.cornel.model.*;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.vo.delivery.DriverCpllCarReq;
+import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
 import com.demai.cornel.vo.delivery.GetDriverCarCornInfoResp;
 import com.demai.cornel.vo.delivery.GetDriverCornInfoResp;
 import com.google.common.base.Strings;
@@ -26,6 +28,7 @@ import java.util.List;
 @Service @Slf4j public class DriverCornService {
     @Resource private UserInfoDao userInfoDao;
     @Resource private LorryInfoDao lorryInfoDao;
+    @Resource private ImgService imgService;
 
     public GetDriverCornInfoResp getUserCornInfo() {
         String userId = CookieAuthUtils.getCurrentUser();
@@ -44,6 +47,7 @@ import java.util.List;
             driverCornInfo.setMobile(userInfo.getMobile().iterator().next());
         }
         driverCornInfo.setOptResult(GetDriverCornInfoResp.STATUS.SUCCESS.getValue());
+        driverCornInfo.setImgs(imgService.getUserImgs(userInfo.getUserId()));
         return driverCornInfo;
     }
 
@@ -54,7 +58,7 @@ import java.util.List;
         }
 
         List<CarCornInfo> carCornInfos = Lists.newArrayList();
-        for (LorryInfo lorryInfo:lorryInfos) {
+        for (LorryInfo lorryInfo : lorryInfos) {
             log.debug("lorry if is [{}]", JacksonUtils.obj2String(lorryInfo));
             CarCornInfo carCornInfo = new CarCornInfo();
             BeanUtils.copyProperties(lorryInfo, carCornInfo);
@@ -70,36 +74,47 @@ import java.util.List;
             getDriverCarCornInfoResp.setOptResult(GetDriverCarCornInfoResp.STATUS.NO_USER.getValue());
             return getDriverCarCornInfoResp;
         }
-        BeanUtils.copyProperties(lorryInfo,getDriverCarCornInfoResp);
+        BeanUtils.copyProperties(lorryInfo, getDriverCarCornInfoResp);
         getDriverCarCornInfoResp.setOptResult(GetDriverCarCornInfoResp.STATUS.SUCCESS.getValue());
+        getDriverCarCornInfoResp.setImgURL(imgService.getCarImgs(lorryId));
         return getDriverCarCornInfoResp;
     }
-    public OpCorn updateCarCornInfo(CarCornInfo carCornInfo) {
-        if(carCornInfo==null){
+
+
+
+    public OpCorn updateCarCornInfo(DriverCpllCarReq carCornInfo) {
+        if (carCornInfo == null) {
             return OpCorn.builder().optResult(OpCorn.STATUS.PARAM_ERROR.getValue()).build();
         }
         int res = lorryInfoDao.updateCarCornInfo(carCornInfo);
-        if(res==0){
+        if (res == 0) {
             return OpCorn.builder().optResult(OpCorn.STATUS.SERVER_ERROR.getValue()).build();
+        }
+        if (carCornInfo.getImgURL() != null && carCornInfo.getImgURL().size() > 0) {
+            imgService.saveCarInfoImgs(carCornInfo.getImgURL(), carCornInfo.getLorryId());
         }
         return OpCorn.builder().optResult(OpCorn.STATUS.SUCCESS.getValue()).build();
     }
-    public OpCorn updateUserCornInfo(DriverCornInfo driverCornInfo) {
-        if(driverCornInfo==null){
+
+    public OpCorn updateUserCornInfo(DriverCpllUserInfoReq driverCornInfo) {
+        if (driverCornInfo == null) {
             return OpCorn.builder().optResult(OpCorn.STATUS.PARAM_ERROR.getValue()).build();
         }
         UserInfo userInfoBefore = userInfoDao.getUserInfoByUserId(driverCornInfo.getUserId());
-        if(userInfoBefore==null){
+        if (userInfoBefore == null) {
             return OpCorn.builder().optResult(OpCorn.STATUS.NO_OPT_TARGET.getValue()).build();
         }
         UserInfo userInfoAfter = new UserInfo();
-        BeanUtils.copyProperties(driverCornInfo,userInfoAfter);
-        if(!Strings.isNullOrEmpty(driverCornInfo.getMobile())){
+        BeanUtils.copyProperties(driverCornInfo, userInfoAfter);
+        if (!Strings.isNullOrEmpty(driverCornInfo.getMobile())) {
             userInfoAfter.setMobile(Sets.newHashSet(driverCornInfo.getMobile()));
         }
         int res = userInfoDao.update(userInfoAfter);
-        if(res==0){
+        if (res == 0) {
             return OpCorn.builder().optResult(OpCorn.STATUS.SERVER_ERROR.getValue()).build();
+        }
+        if (driverCornInfo.getImgs() != null && driverCornInfo.getImgs().size() > 0) {
+            imgService.saveUserInfoImgs(driverCornInfo.getImgs(), driverCornInfo.getUserId());
         }
         return OpCorn.builder().optResult(OpCorn.STATUS.SUCCESS.getValue()).build();
     }
