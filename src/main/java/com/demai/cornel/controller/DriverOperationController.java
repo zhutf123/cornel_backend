@@ -5,6 +5,8 @@ package com.demai.cornel.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.demai.cornel.config.ServiceMobileConfig;
+import com.demai.cornel.constant.ConfigProperties;
 import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
@@ -36,6 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * Create By zhutf  19-11-10  上午9:33
@@ -45,7 +48,7 @@ import java.util.Optional;
     @Resource private UserLoginService userLoginService;
 
     @Resource private OrderInfoDao orderInfoDao;
-
+    @Resource private ServiceMobileConfig serviceMobileConfig;
     @Resource private OrderService orderService;
     @Resource private SupplierTaskService supplierTaskService;
     @Resource private DeliveryTaskService deliveryTaskService;
@@ -70,11 +73,12 @@ import java.util.Optional;
     @RequestMapping(value = "/order-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult getOrderList(
             @RequestBody GetOrderListReq getOrderListReq) {
         Preconditions.checkNotNull(getOrderListReq);
-        if ( getOrderListReq.getOrderType() == null) {
+        if (getOrderListReq.getOrderType() == null) {
             log.warn("order list api param is null");
             return JsonResult.successStatus(GetOrderListResp.CODE_ENUE.PARAM_ERROR);
         }
-        return JsonResult.success(orderService.getOrderList(getOrderListReq,UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)));
+        return JsonResult.success(
+                orderService.getOrderList(getOrderListReq, UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)));
     }
 
     @RequestMapping(value = "/order-info.json", method = RequestMethod.POST) @ResponseBody public JsonResult getOrderInfo(
@@ -87,6 +91,7 @@ import java.util.Optional;
 
     /**
      * 司机抵达烘干塔
+     *
      * @param orderIdParam
      * @return
      */
@@ -95,35 +100,37 @@ import java.util.Optional;
         Preconditions.checkNotNull(orderIdParam);
         JSONObject receivedParam = JSON.parseObject(orderIdParam);
         String orderId = (String) receivedParam.get("orderId");
-        return JsonResult.success(orderService.driverArriveDep(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME),orderId));
+        return JsonResult
+                .success(orderService.driverArriveDep(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId));
     }
 
     /**
      * 司机确认从烘干塔出货
+     *
      * @param orderIdParam
      * @return
      */
-    @RequestMapping(value = "/confirm-stockOut.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult confirmStockOut(
+    @RequestMapping(value = "/confirm-stockOut.json", method = RequestMethod.POST) @ResponseBody public JsonResult confirmStockOut(
             @RequestBody String orderIdParam) {
         Preconditions.checkNotNull(orderIdParam);
         JSONObject receivedParam = JSON.parseObject(orderIdParam);
         String orderId = (String) receivedParam.get("orderId");
-        return JsonResult.success(orderService.confirmStockOut(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME),orderId));
+        return JsonResult
+                .success(orderService.confirmStockOut(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId));
     }
 
     /**
      * 到达港口
+     *
      * @param orderIdParam
      * @return
      */
-    @RequestMapping(value = "/arrive-arr.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult arriveArr(
+    @RequestMapping(value = "/arrive-arr.json", method = RequestMethod.POST) @ResponseBody public JsonResult arriveArr(
             @RequestBody String orderIdParam) {
         Preconditions.checkNotNull(orderIdParam);
         JSONObject receivedParam = JSON.parseObject(orderIdParam);
         String orderId = (String) receivedParam.get("orderId");
-        return JsonResult.success(orderService.arriveArr(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME),orderId));
+        return JsonResult.success(orderService.arriveArr(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME), orderId));
     }
 
     /**
@@ -132,9 +139,8 @@ import java.util.Optional;
      * @param param
      * @return
      */
-    @RequestMapping(value = "/shipment.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult shipment(@RequestBody OperationOrderReq param) {
+    @RequestMapping(value = "/shipment.json", method = RequestMethod.POST) @ResponseBody public JsonResult shipment(
+            @RequestBody OperationOrderReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             OperationOrderResp result = supplierTaskService.driverShipmentOver(curUser, param);
@@ -142,22 +148,20 @@ import java.util.Optional;
                 log.debug("driver shipment over user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
             return JsonResult.success(result);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("driver shipment over exception！{}", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 
-    
     /**
      * 接货人接获完成
      *
      * @param param
      * @return
      */
-    @RequestMapping(value = "/confirm-delivery.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult confirmDelivery(@RequestBody OperationOrderReq param) {
+    @RequestMapping(value = "/confirm-delivery.json", method = RequestMethod.POST) @ResponseBody public JsonResult confirmDelivery(
+            @RequestBody OperationOrderReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
             OperationOrderResp result = deliveryTaskService.driverConfirmDelivery(curUser, param);
@@ -165,12 +169,11 @@ import java.util.Optional;
                 log.debug("driver shipment over user:{} result:{}", curUser, JsonUtil.toJson(result));
             }
             return JsonResult.success(result);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("driver shipment over exception！{}", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
-
 
     /**
      * 司机确认整个订单完成
@@ -178,14 +181,30 @@ import java.util.Optional;
      * @param param
      * @return
      */
-    @RequestMapping(value = "/confirm-fin-order.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult confirmFinishOrder(@RequestBody OperationOrderReq param) {
+    @RequestMapping(value = "/confirm-fin-order.json", method = RequestMethod.POST) @ResponseBody public JsonResult confirmFinishOrder(
+            @RequestBody OperationOrderReq param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-            OperationOrderResp result = orderService.driverConfrimTaskOver(param.getOrderId(),curUser);;
+            OperationOrderResp result = orderService.driverConfrimTaskOver(param.getOrderId(), curUser);
+            ;
             return JsonResult.success(result);
-        }catch (Exception e){
+        } catch (Exception e) {
+            log.error("driver shipment over exception！{}", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+
+    /**
+     * 司机确认整个订单完成
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/get-service.json", method = RequestMethod.POST) @ResponseBody public JsonResult getServiceMobile() {
+        try {
+            Random r = new Random();
+            return JsonResult.success(ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size())));
+        } catch (Exception e) {
             log.error("driver shipment over exception！{}", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
