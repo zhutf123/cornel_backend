@@ -54,7 +54,7 @@ import java.util.List;
             JsonResult.success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.SERVER_ERROR.getValue()).build());
         }
         return JsonResult.success(
-                UploadResp.builder().optResult(UploadResp.CODE_ENUE.SERVER_ERROR.getValue()).url(downloadUrl).build());
+                UploadResp.builder().optResult(UploadResp.CODE_ENUE.SUCCESS.getValue()).url(downloadUrl).build());
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET) @ResponseBody public void download(
