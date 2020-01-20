@@ -29,6 +29,12 @@ comment on column img_list.create_time is '上传时间';
 comment on column img_list.url is '图片地址';
 
 create unique index img_list_id_uindex on img_list (id);
+create index img_list_type_id_desc on img_list (bind_type,bind_id,img_desc);
+
+alter table img_list
+	add constraint img_list_type_id_desc_pk
+		unique (bind_type,bind_id,img_desc);
+
 
 -- 货车类型表
 DROP TABLE IF EXISTS "car_type";

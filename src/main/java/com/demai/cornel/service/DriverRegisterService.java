@@ -74,7 +74,7 @@ import java.util.UUID;
         if (CollectionUtils.isEmpty(driverCpllUserInfoReq.getImgs())) {
             log.debug("complete user info img is empty");
         }
-        imgService.saveCarInfoImgs(driverCpllUserInfoReq.getImgs(), userInfo.getUserId());
+        imgService.saveUserInfoImgs(driverCpllUserInfoReq.getImgs(), userInfo.getUserId());
         driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue());
         driverCpllUserInfoResp.setUserId(driverCpllUserInfoReq.getUserId());
         driverCpllUserInfoResp.setName(driverCpllUserInfoReq.getName());
