@@ -37,7 +37,7 @@ import java.util.List;
             @RequestParam("file") MultipartFile req, HttpServletResponse resp,
             @RequestParam(value = "key", required = true) String key,
             @RequestParam(value = "name", required = false) String name) {
-        log.info("upload the file the file name is:{}", name);
+        log.info("upload the file the file key is [{}] name is:{}",key,name);
         if (Strings.isNullOrEmpty(key) ) {
             log.error("upload file fail lack the name ");
            return JsonResult.success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.PARAM_ERROR.getValue()).build());
