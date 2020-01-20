@@ -40,14 +40,14 @@ import java.util.List;
         log.info("upload the file the file name is:{}", name);
         if (Strings.isNullOrEmpty(key) ) {
             log.error("upload file fail lack the name ");
-            JsonResult.success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.PARAM_ERROR.getValue()).build());
+           return JsonResult.success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.PARAM_ERROR.getValue()).build());
         }
         String downloadUrl = null;
         try {
             downloadUrl = uploadFileService.uploadFile(req,key);
             if (downloadUrl == null) {
                 return JsonResult
-                        .success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.SUCCESS.getValue()).build());
+                        .success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.SERVER_ERROR.getValue()).build());
             }
         } catch (IOException e) {
             log.error("upload file fail due to ", e);
