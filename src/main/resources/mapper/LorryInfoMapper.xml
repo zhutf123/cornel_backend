@@ -124,6 +124,7 @@
             <if test="userId != null">user_id ,</if>
             <if test="lorryId != null">lorry_id ,</if>
             <if test="overCarryWeight != null">over_carry_weight ,</if>
+            <if test="unitWeight != null">unit_weight ,</if>
 
         </trim>
         )values(
@@ -157,7 +158,7 @@
             <if test="userId != null">#{userId},</if>
             <if test="lorryId != null">#{lorryId},</if>
             <if test="overCarryWeight != null">#{overCarryWeight} ,</if>
-
+            <if test="unitWeight != null">#{unitWeight} ,</if>
         </trim>
         )
     </insert>
