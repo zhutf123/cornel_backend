@@ -84,8 +84,8 @@ public class UserLoginResp implements Serializable {
 
     }
     public static enum USER_STATUS_ENUE implements IEmus {
-        REGISTERED(0, "已注册"),
-        UNREGISTERED(1, "未注册");
+        REGISTERED(1, "已注册"),
+        UNREGISTERED(0, "未注册");
 
         private int value;
         private String expr;

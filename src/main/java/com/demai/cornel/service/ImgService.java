@@ -4,6 +4,7 @@ import com.demai.cornel.dao.ImgInfoDao;
 import com.demai.cornel.model.ImgInfo;
 import com.demai.cornel.model.ImgInfoReq;
 import com.demai.cornel.util.JacksonUtils;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -119,5 +120,11 @@ import java.util.*;
             }
         }
         return true;
+    }
+
+    public static void main(String[] args) {
+        String imh = ".jpg";
+        List<String> gf = Splitter.on(".").splitToList(imh);
+        System.out.println("ok");
     }
 }
