@@ -101,19 +101,19 @@ import java.util.UUID;
         BeanUtils.copyProperties(driverCpllCarReq, lorryInfo);
         if (!carOptService.checkAddParam(lorryInfo)) {
             log.debug("add car info error due to param lock");
-            return DriverCpllCarResp.builder().optResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue())
+            return DriverCpllCarResp.builder().optResult(DriverCpllCarResp.STATUS.PARAM_ERROR.getValue())
                     .build();
         }
         if (carOptService.getCarExistByParam(driverCpllCarReq.getPlateNumber(), driverCpllCarReq.getFrameNumber(),
                 driverCpllCarReq.getEngineNo())) {
             log.debug("add car info error due to car has already exist");
-            return DriverCpllCarResp.builder().optResult(DriverCpllUserInfoResp.STATUS.CAR_EXIST.getValue())
+            return DriverCpllCarResp.builder().optResult(DriverCpllCarResp.STATUS.CAR_EXIST.getValue())
                     .build();
         }
         UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
         if (userInfo == null) {
             log.debug("add car info error due to user error");
-            return DriverCpllCarResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SERVICE_ERROR.getValue())
+            return DriverCpllCarResp.builder().optResult(DriverCpllCarResp.STATUS.SERVICE_ERROR.getValue())
                     .build();
         }
         lorryInfo.setIdCard(userInfo.getIdCard());
@@ -125,11 +125,11 @@ import java.util.UUID;
         int res = lorryInfoDao.save(lorryInfo);
         if (res == 0) {
             log.debug("add car info error due to inser lorry info into db error");
-            return DriverCpllCarResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SERVICE_ERROR.getValue())
+            return DriverCpllCarResp.builder().optResult(DriverCpllCarResp.STATUS.SERVICE_ERROR.getValue())
                     .build();
         }
         imgService.saveCarInfoImgs(driverCpllCarReq.getImgURL(), lorryInfo.getLorryId());
-        return DriverCpllCarResp.builder().optResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue()).lorryId(lorryInfo.getLorryId()).build();
+        return DriverCpllCarResp.builder().optResult(DriverCpllCarResp.STATUS.SUCCESS.getValue()).lorryId(lorryInfo.getLorryId()).build();
     }
 
     public List<CarTypeInfo> getCarType() {
