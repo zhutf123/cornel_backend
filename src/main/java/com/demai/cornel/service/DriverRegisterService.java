@@ -62,9 +62,9 @@ import java.util.UUID;
             return driverCpllUserInfoResp;
         }
         UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(driverCpllUserInfoReq, userInfo);
         userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
         userInfo.setUserId(CookieAuthUtils.getCurrentUser());
-        BeanUtils.copyProperties(driverCpllUserInfoReq, userInfo);
         int res = userInfoDao.update(userInfo);
         if (res == 0) {
             log.debug("driver register complete fail due to update user info fail");
