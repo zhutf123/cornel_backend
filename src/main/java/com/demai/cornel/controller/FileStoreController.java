@@ -38,7 +38,7 @@ import java.util.List;
             @RequestParam(value = "key", required = true) String key,
             @RequestParam(value = "name", required = false) String name) {
         log.info("upload the file the file name is:{}", name);
-        if (Strings.isNullOrEmpty(key) || Strings.isNullOrEmpty(name)) {
+        if (Strings.isNullOrEmpty(key) ) {
             log.error("upload file fail lack the name ");
             JsonResult.success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.PARAM_ERROR.getValue()).build());
         }
