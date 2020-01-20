@@ -19,6 +19,7 @@ import com.demai.cornel.service.DriverCornService;
 import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.delivery.DriverCpllCarReq;
+import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.order.OperationOrderReq;
 import com.demai.cornel.vo.order.OperationOrderResp;
@@ -233,7 +234,7 @@ public class DeliveryCornController {
      */
     @RequestMapping(value = "/edit-userinfo.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult deliveryUpdateDriverInfo(@RequestBody DriverCornInfo driverCornInfo) {
+    public JsonResult deliveryUpdateDriverInfo(@RequestBody DriverCpllUserInfoReq driverCornInfo) {
         Preconditions.checkNotNull(driverCornInfo);
         return JsonResult.success(driverCornService.updateUserCornInfo(driverCornInfo));
     }
