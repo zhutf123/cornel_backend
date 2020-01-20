@@ -122,6 +122,7 @@ import java.util.UUID;
         lorryInfo.setLorryId(UUID.randomUUID().toString());
         lorryInfo.setUserId(userInfo.getUserId());
         lorryInfo.setLorryId(UUID.randomUUID().toString());
+        lorryInfo.setStatus(LorryInfo.STATUS_ENUE.IDLE.getValue());
         lorryInfo.setOverCarryWeight(lorryInfo.getCarryWeight().multiply(new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR)));
         lorryInfo.setUnitWeight(WeightUnit.TONS.getExpr());
         int res = lorryInfoDao.save(lorryInfo);
