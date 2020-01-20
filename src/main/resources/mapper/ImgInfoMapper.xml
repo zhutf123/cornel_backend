@@ -48,12 +48,12 @@
             <if test="url != null">#{url} ,</if>
         </trim>
         )
-        ON CONFLICT(bind_type,bind_id,img_desc)
+        ON CONFLICT (bind_type,bind_id,img_desc)
         DO UPDATE
         <trim prefix="set" suffixOverrides=",">
             <if test="id != null">id=#{id} ,</if>
             <if test="imgId != null">img_id=#{imgId} ,</if>
-            <if test="imgDesc != null">img_desc#{imgDesc} ,</if>
+            <if test="imgDesc != null">img_desc=#{imgDesc} ,</if>
             <if test="status != null">status = #{status} ,</if>
             <if test="bindId != null">bind_id=#{bindId} ,</if>
             <if test="bindType != null">bind_type=#{bindType} ,</if>
