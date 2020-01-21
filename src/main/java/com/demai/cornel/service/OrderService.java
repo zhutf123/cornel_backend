@@ -141,7 +141,7 @@ import java.util.concurrent.TimeUnit;
             orderInfo.setOrderId(IDUtils.getUUID());
             orderInfo.setTaskId(taskSaveVO.getTaskId());
             orderInfo.setUserId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME));
-            orderInfo.setLorryId(lorryInfo.getId());
+            orderInfo.setLorryId(lorryInfo.getLorryId());
 
             orderInfo.setDistance(taskInfo.getDistance());
             orderInfo.setUnitDistance(taskInfo.getUnitDistance());
