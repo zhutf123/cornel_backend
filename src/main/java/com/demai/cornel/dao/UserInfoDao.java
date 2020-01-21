@@ -15,6 +15,13 @@ public interface UserInfoDao {
 
     public UserInfo getUserInfoByPhone(@Param("phone") String phone);
 
+    public UserInfo getDryTowerUserInfoByPhone(@Param("phone") String phone);
+
+
+    public UserInfo getUserInfoNoDriverByPhone(@Param("phone") String phone);
+
+    public UserInfo getDriverInfoByPhone(@Param("phone") String phone);
+
     List<UserInfo> getUsersInfoByPhones(@Param("phones") Set<String> phones);
 
     List<UserDistOrderModel> getUserDefaultLorryByTels(@Param("phones") Set<String> phones);

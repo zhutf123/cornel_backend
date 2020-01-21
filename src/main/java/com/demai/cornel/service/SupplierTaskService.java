@@ -255,7 +255,7 @@ import lombok.extern.slf4j.Slf4j;
                 return DryTower.REGISTER_STATUS.PARAM_ERROR;
             }
             //校验联系人在不在库里面 不在则插入 在则校验一下联系人的身份证号跟名字跟请求中是否相同
-            UserInfo contactUserInfo = userInfoDao.getUserInfoByPhone(dryTower.getContactMobile());
+            UserInfo contactUserInfo = userInfoDao.getDryTowerUserInfoByPhone(dryTower.getContactMobile());
             String contactUserId;
             if (contactUserInfo == null) {
                 UserInfo insertContact = new UserInfo();
