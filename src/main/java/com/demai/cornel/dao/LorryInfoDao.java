@@ -36,7 +36,7 @@ public interface LorryInfoDao {
 
     public List<TaskInfoReq.LorryInfoBean> getAllLorrySimpleInfoByUserId(@Param("userId") String userId);
 
-    LorryInfo getLorryByLorryID(@Param("lorryId") int lorryID);
+    LorryInfo getLorryByLorryID(@Param("lorryId") String lorryID);
 
     /**
      * 更新车辆状态
@@ -44,7 +44,7 @@ public interface LorryInfoDao {
      * @param lorryID
      * @param status
      */
-    public int updateLorryStatus(@Param("lorryId") Integer lorryID, @Param("status") Integer status);
+    public int updateLorryStatus(@Param("lorryId") String lorryID, @Param("status") Integer status);
 
     /**
      * 根据车牌号 车架号码 以及发动机号码查询车辆

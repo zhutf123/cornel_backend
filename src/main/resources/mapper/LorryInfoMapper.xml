@@ -207,11 +207,11 @@
         select
         <include refid="main_column"/>
         from lorry_info
-        where id=#{lorryId}
+        where lorry_id=#{lorryId}
     </select>
     <update id="updateLorryStatus">
 
-        update lorry_info set status=#{status} where id=#{lorryId};
+        update lorry_info set status=#{status} where lorry_id=#{lorryId};
     </update>
     <select id="getLorryInfoByFlaNoEngNoFraNo" resultMap="lorryInfoResultMap">
         select
