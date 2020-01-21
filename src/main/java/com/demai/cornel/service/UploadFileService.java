@@ -43,8 +43,15 @@ import static com.demai.cornel.config.BannerConfig.downloadUrl;
         try {
             log.info("file name is [{}]", files.getOriginalFilename());
             File saveFile = new File(configProperties.uploadLocation + key);
+            String downloadUrl=null;
+            if(saveFile.exists()&&saveFile.isFile()){
+                log.debug("file already exist key is [{}]",key);
+                 downloadUrl = downloadFileService.getDownloadUri(saveFile.getName());
+                log.info("==={}", JsonUtil.toJson(downloadUrl));
+                return downloadUrl;
+            }
             FileUtils.copyInputStreamToFile(files.getInputStream(), saveFile);
-            String downloadUrl = downloadFileService.getDownloadUri(saveFile.getName());
+             downloadUrl = downloadFileService.getDownloadUri(saveFile.getName());
             log.info("==={}", JsonUtil.toJson(downloadUrl));
             return downloadUrl;
         } catch (Exception e) {
