@@ -69,7 +69,7 @@ import java.util.List;
         private int lorryId;
         private String plateNumber;
         private BigDecimal carryWeight;
-        private BigDecimal overCarryWeight;
+        private BigDecimal overCarryWight;
         private String unitWeight;
         private boolean defaultSelect;
         private Integer carStatus;
