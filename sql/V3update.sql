@@ -67,3 +67,5 @@ alter table lorry_info add user_id varchar(40);
 comment on column lorry_info.user_id is '用户ID';
 alter table lorry_info add lorry_id varchar(40);
 comment on column lorry_info.lorry_id is '车辆ID';
+
+alter table order_info alter column lorry_id type varchar(50) using lorry_id::varchar(50);

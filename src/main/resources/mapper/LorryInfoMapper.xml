@@ -233,6 +233,7 @@
             <if test="plateNumber != null">plate_number = #{plateNumber},</if>
             <if test="frameNumber != null">frame_number = #{frameNumber},</if>
             <if test="engineNo != null">engine_no = #{engineNo},</if>
+            <if test="overCarryWight != null">over_carry_weight = #{overCarryWight},</if>
             <if test="carLiceOwner != null">car_lice_owner = #{carLiceOwner},</if>
         </trim>
         where lorry_id = #{lorryId}

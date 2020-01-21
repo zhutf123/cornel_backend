@@ -92,9 +92,9 @@ import java.util.List;
         LorryInfo lorryInfo = new LorryInfo();
         BeanUtils.copyProperties(carCornInfo,lorryInfo);
         if(carCornInfo.getCarryWeight()!=null){
-            lorryInfo.setOverCarryWeight(carCornInfo.getCarryWeight().multiply(new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR)));
+            carCornInfo.setOverCarryWight(carCornInfo.getCarryWeight().multiply(new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR)));
         }
-        int res = lorryInfoDao.updatupdateByLorryId(lorryInfo);
+        int res = lorryInfoDao.updateCarCornInfo(carCornInfo);
         if (res == 0) {
             return OpCorn.builder().optResult(OpCorn.STATUS.SERVER_ERROR.getValue()).build();
         }
