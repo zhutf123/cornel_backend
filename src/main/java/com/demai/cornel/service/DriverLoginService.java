@@ -58,6 +58,7 @@ import java.util.concurrent.TimeUnit;
             userInfoInit.setOpenId(Sets.newHashSet(resp.getOpenid()));
             userInfoInit.setUserId(UUID.randomUUID().toString());
             userInfoInit.setStatus(UserInfo.USER_STATUS.PENDING.getValue());
+            userInfoInit.setRole(UserInfo.ROLE_ENUE.DRIVER.getValue());
             userInfoDao.save(userInfoInit);
             return new UserLoginResp(resp.getOpenid(), userInfoInit.getUserId(), 1,
                     UserLoginResp.CODE_ENUE.SUCCESS.getValue(), param.getPhone(),
