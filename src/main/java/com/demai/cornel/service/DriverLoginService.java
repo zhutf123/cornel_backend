@@ -27,22 +27,16 @@ import java.util.concurrent.TimeUnit;
  * @Author binz.zhang
  * @Date: 2020-01-20    17:53
  */
-@Slf4j
-@Service
-public class DriverLoginService {
+@Slf4j @Service public class DriverLoginService {
 
-    @Resource
-    private UserInfoDao userInfoDao;
-    @Resource
-    private WeChatDriverService weChatDriverService;
-    @Resource
-    private SendMsgService sendMsgService;
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
-
+    @Resource private UserInfoDao userInfoDao;
+    @Resource private WeChatDriverService weChatDriverService;
+    @Resource private SendMsgService sendMsgService;
+    @Resource private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 三期的验证登录逻辑 存在用户还未注册就先验证验证码 完成注册的逻辑
+     *
      * @param param
      * @return
      */
@@ -50,9 +44,9 @@ public class DriverLoginService {
         // valid msg code
         if (!checkLoginMsgCode(param.getPhone(), param.getMsgCode())) {
             return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
-                    UserLoginResp.CODE_ENUE.MSG_CODE_ERROR.getValue(),param.getPhone());
+                    UserLoginResp.CODE_ENUE.MSG_CODE_ERROR.getValue(), param.getPhone());
         }
-
+        log.debug("jscode is [{}]", param.getJscode());
         UserInfo userInfo = userInfoDao.getDriverInfoByPhone(param.getPhone());
         WechatCode2SessionResp resp = weChatDriverService.getOpenId(param.getJscode());
         if (log.isDebugEnabled()) {
@@ -65,24 +59,25 @@ public class DriverLoginService {
             userInfoInit.setUserId(UUID.randomUUID().toString());
             userInfoInit.setStatus(UserInfo.USER_STATUS.PENDING.getValue());
             userInfoDao.save(userInfoInit);
-            return new UserLoginResp(resp.getOpenid(), userInfoInit.getUserId(), 1, UserLoginResp.CODE_ENUE.SUCCESS.getValue(),
-                    param.getPhone(),UserLoginResp.USER_STATUS_ENUE.UNREGISTERED.getValue());
+            return new UserLoginResp(resp.getOpenid(), userInfoInit.getUserId(), 1,
+                    UserLoginResp.CODE_ENUE.SUCCESS.getValue(), param.getPhone(),
+                    UserLoginResp.USER_STATUS_ENUE.UNREGISTERED.getValue());
         }
 
         if (resp != null && StringUtil.isNotBlank(resp.getOpenid())) {
             Set<String> openIds = userInfo.getOpenId();
-            if (CollectionUtils.isEmpty(openIds)){
+            if (CollectionUtils.isEmpty(openIds)) {
                 openIds = Sets.newHashSet(resp.getOpenid());
             }
-            userInfoDao.updateUserOpenIdByUid(openIds,userInfo.getId());
+            userInfoDao.updateUserOpenIdByUid(openIds, userInfo.getId());
             return new UserLoginResp(resp.getOpenid(), userInfo.getUserId(), userInfo.getRole(),
-                    UserLoginResp.CODE_ENUE.SUCCESS.getValue(),param.getPhone(),UserLoginResp.USER_STATUS_ENUE.REGISTERED.getValue());
+                    UserLoginResp.CODE_ENUE.SUCCESS.getValue(), param.getPhone(),
+                    UserLoginResp.USER_STATUS_ENUE.REGISTERED.getValue());
         }
         return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, userInfo.getRole(),
-                UserLoginResp.CODE_ENUE.OPENID_ERROR.getValue(),param.getPhone(),UserLoginResp.USER_STATUS_ENUE.REGISTERED.getValue());
+                UserLoginResp.CODE_ENUE.OPENID_ERROR.getValue(), param.getPhone(),
+                UserLoginResp.USER_STATUS_ENUE.REGISTERED.getValue());
     }
-
-
 
     /***
      * 三期给用户发送登录验证码 用户先登录后完成注册所以不在发短信的时候验证用户信息。
@@ -90,16 +85,14 @@ public class DriverLoginService {
      */
     public Integer sendLoginCodeMsgV2(String phone) {
         Integer validCode = GenRandomCodeUtil.genRandomCode(6);
-        stringRedisTemplate.opsForValue().set(Joiner.on("_").join(phone, "loginValid"), String.valueOf(validCode), 300,
-                TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue()
+                .set(Joiner.on("_").join(phone, "loginValid"), String.valueOf(validCode), 300, TimeUnit.SECONDS);
         Integer sendResult = sendMsgService.sendLoginValid(phone, validCode);
         if (sendResult.compareTo(SendMsgService.SEND_MSG_CODE.SUCCESS.getValue()) == 0) {
             return ResponseStatusEnum.SUCCESS.getValue();
         }
         return ResponseStatusEnum.NETWORK_ERROR.getValue();
     }
-
-
 
     /***
      * 验证该手机号的登录验证码
@@ -109,15 +102,13 @@ public class DriverLoginService {
      */
     public Boolean checkLoginMsgCode(String phone, String msgCode) {
         String code = stringRedisTemplate.opsForValue().get(Joiner.on("_").join(phone, "loginValid"));
-        if (StringUtil.isBlank(code)){
+        if (StringUtil.isBlank(code)) {
             return Boolean.FALSE;
         }
-        if (msgCode.equalsIgnoreCase(code)){
+        if (msgCode.equalsIgnoreCase(code)) {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }
-
-
 
 }
