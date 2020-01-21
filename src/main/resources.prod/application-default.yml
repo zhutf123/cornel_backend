@@ -37,6 +37,11 @@ caching:
     code2session: https://api.weixin.qq.com/sns/jscode2session?appid={appId}&secret={appSecret}&js_code={jscode}&grant_type=authorization_code
     appId: wx5bde5e1ca69bd7f6
     appSecret: 80dc07ef341d0c59314d935378075068
+we-chat-driver:
+  code2session: https://api.weixin.qq.com/sns/jscode2session?appid={appId}&secret={appSecret}&js_code={jscode}&grant_type=authorization_code
+  appId: wxbcb8b37ff9f2ce18
+  appSecret: 0ba267b4ad3f37bd0e591d557e5144aa
+
 
 ali-config:
     accessKeyId: LTAI4FjjDZfU5McHXiDEH2Uk
@@ -70,3 +75,8 @@ service:
   mobileList: 13551151842,13551151842
 banner:
   download: https://beta.demeteria.com/banner/download.json?key=1.png,https://beta.demeteria.com/banner/download.json?key=2.png
+upload:
+  location: /home/update/
+  downloadHost: https:/demeteria.com
+car-config:
+  carlicetype: 本人,他人,公司
