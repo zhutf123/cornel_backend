@@ -66,7 +66,7 @@ import java.util.List;
          * false
          */
 
-        private int lorryId;
+        private String lorryId;
         private String plateNumber;
         private BigDecimal carryWeight;
         private BigDecimal overCarryWight;
