@@ -40,7 +40,7 @@ public class UserInfoTest extends BaseTest {
         userInfo.setIdCard("370830199208251236");
        // userInfoDao.save(userInfo);
         userInfoDao.updateUserOpenIdByUid(openId,8L);
-        UserInfo userInfo2 = userInfoDao.getUserInfoByPhone("13551151848");
+        //UserInfo userInfo2 = userInfoDao.getUserInfoByPhone("13551151848");
 
 
 
