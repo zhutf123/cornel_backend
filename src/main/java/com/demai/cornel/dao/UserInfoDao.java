@@ -13,7 +13,7 @@ public interface UserInfoDao {
 
     public void save(UserInfo userInfo);
 
-    public UserInfo getUserInfoByPhone(@Param("phone") String phone);
+    //public UserInfo getUserInfoByPhone(@Param("phone") String phone);
 
     public UserInfo getDryTowerUserInfoByPhone(@Param("phone") String phone);
 

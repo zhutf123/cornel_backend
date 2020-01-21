@@ -9,7 +9,7 @@ spring:
       max-request-size: 50MB
   redis:
     cluster:
-      nodes: 192.168.0.104:6379,192.168.0.104:6380
+      nodes: 192.168.0.107:6379,192.168.0.107:6380,192.168.0.107:6381
       max-redirects: 5
       password: cornel00147258
       timeout: 5
@@ -107,8 +107,8 @@ ali-config:
 datasources:
   dm-master:
     driverClassName: org.postgresql.Driver
-    jdbcUrl: 'jdbc:postgresql://192.168.0.103:7654/cornel_beta'
-    username: cornel_beta
+    jdbcUrl: 'jdbc:postgresql://192.168.0.107:5432/cornel_product'
+    username: cornel_prd
     password: a9e43160-7d34-4a9d-8120-f605b111ce59
     maximumPoolSize: 5
     idleTimeout: 600000
@@ -131,7 +131,7 @@ service:
 banner:
   download: https://demeteria.com/banner/download.json?key=1.png,https://demeteria.com/banner/download.json?key=2.png
 upload:
-  location: /home/www/upload/
-  downloadHost: https://beta.demeteria.com
+  location: /home/update/
+  downloadHost: https:/demeteria.com
 car-config:
   carlicetype: 本人,他人,公司
