@@ -13,4 +13,5 @@ public class DriverCornInfo {
     private String mobile;
     private String idCard;
     private Integer idType = 1;
+
 }

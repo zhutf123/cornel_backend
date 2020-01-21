@@ -15,6 +15,7 @@ public class CarCornInfo {
     private String engineNo;//发动机号
     private String lorryType;//货车类型
     private BigDecimal carryWeight;//载重
+    private BigDecimal overCarryWeight;//载重
     private String carLiceOwner;//行驶证
     private String lorryId;//货车类型
 
