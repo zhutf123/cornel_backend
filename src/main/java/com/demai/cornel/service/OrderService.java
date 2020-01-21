@@ -343,7 +343,7 @@ import java.util.concurrent.TimeUnit;
             return OperationOrderResp.builder().opResult(1).build();
         }
         OrderInfo orderInfoCurr = orderInfoDao.getOrderInfoByOrderId(orderId);
-        lorryInfoDao.updateLorryStatus(orderInfoCurr.getLorryId().intValue(), LorryInfo.STATUS_ENUE.IDLE.getValue());
+        lorryInfoDao.updateLorryStatus(orderInfoCurr.getLorryId(), LorryInfo.STATUS_ENUE.IDLE.getValue());
         log.info("release car status car id is [{}] status is [{}]", orderInfoCurr.getLorryId(),
                 LorryInfo.STATUS_ENUE.IDLE.getValue());
         return OperationOrderResp.builder().opResult(0).orderStatus(OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue())

@@ -23,7 +23,7 @@ public class OrderInfo implements Serializable {
     private Long id;
     private String orderId;
     private String taskId;
-    private Long lorryId;
+    private String lorryId;
     private String userId;
 
     private BigDecimal distance;

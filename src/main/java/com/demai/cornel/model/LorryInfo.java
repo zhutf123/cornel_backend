@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Data @NoArgsConstructor @AllArgsConstructor public class LorryInfo implements Serializable {
     private static final long serialVersionUID = -2319454798286728301L;
-    private Long id;
+    private String id;
     private String lorryType;
     private String company;
     private BigDecimal weight;
