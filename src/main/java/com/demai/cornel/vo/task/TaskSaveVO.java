@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 
     private String taskId;
     private BigDecimal carryWeight;
-    private int larryId;
+    private String larryId;
     private String selectTime;
     private String userId;
 
