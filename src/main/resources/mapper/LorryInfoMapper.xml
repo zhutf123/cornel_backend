@@ -64,7 +64,7 @@
 
     </sql>
 
-    <update id="update" parameterType="com.demai.cornel.model.LorryInfo">
+    <update id="updatupdateByLorryId" parameterType="com.demai.cornel.model.LorryInfo">
         update lorry_info
         <trim prefix="set" suffixOverrides=",">
             <if test="lorryType != null">lorry_type = #{lorryType},</if>
@@ -95,7 +95,7 @@
             <if test="lorryId != null">lorry_id = #{lorryId} ,</if>
 
         </trim>
-        where id = #{id}
+        where lorry_id = #{lorryId}
     </update>
 
     <insert id="save" parameterType="com.demai.cornel.model.LorryInfo" useGeneratedKeys="true" keyProperty="id">

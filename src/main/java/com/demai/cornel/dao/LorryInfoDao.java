@@ -14,7 +14,7 @@ import java.util.List;
  * Create By zhutf 19-10-6 下午1:08
  */
 public interface LorryInfoDao {
-    public void update(LorryInfo lorryInfo);
+    public int updatupdateByLorryId(LorryInfo lorryInfo);
 
     public int save(LorryInfo lorryInfo);
 

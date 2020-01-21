@@ -1,5 +1,6 @@
 package com.demai.cornel.service;
 
+import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dao.LorryInfoDao;
 import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.dmEnum.IdTypeEnum;
@@ -18,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,6 +64,7 @@ import java.util.List;
             log.debug("lorry if is [{}]", JacksonUtils.obj2String(lorryInfo));
             CarCornInfo carCornInfo = new CarCornInfo();
             BeanUtils.copyProperties(lorryInfo, carCornInfo);
+            carCornInfo.setOverCarryWight(lorryInfo.getOverCarryWeight());
             carCornInfos.add(carCornInfo);
         }
         return carCornInfos;
@@ -86,7 +89,12 @@ import java.util.List;
         if (carCornInfo == null) {
             return OpCorn.builder().optResult(OpCorn.STATUS.PARAM_ERROR.getValue()).build();
         }
-        int res = lorryInfoDao.updateCarCornInfo(carCornInfo);
+        LorryInfo lorryInfo = new LorryInfo();
+        BeanUtils.copyProperties(carCornInfo,lorryInfo);
+        if(carCornInfo.getCarryWeight()!=null){
+            lorryInfo.setOverCarryWeight(carCornInfo.getCarryWeight().multiply(new BigDecimal(ContextConsts.LORRY_OVER_WEIGHT_FACTOR)));
+        }
+        int res = lorryInfoDao.updatupdateByLorryId(lorryInfo);
         if (res == 0) {
             return OpCorn.builder().optResult(OpCorn.STATUS.SERVER_ERROR.getValue()).build();
         }
