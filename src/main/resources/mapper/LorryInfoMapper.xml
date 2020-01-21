@@ -185,7 +185,7 @@
     </select>
     <select id="getAllLorrySimpleInfoByUserId" resultType="com.demai.cornel.model.TaskInfoReq$LorryInfoBean">
         select
-        lorry_info.id as lorryId,
+        lorry_info.lorry_id as lorryId,
         lorry_info.plate_number as plateNumber,
         lorry_info.carry_weight as carryWeight,
         lorry_info.default_flag as defaultSelect,
