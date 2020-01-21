@@ -16,7 +16,7 @@ public class LorryInfoRespBase implements Serializable {
     /**
      * 车辆信息id
      */
-    private Integer lorryId;
+    private String lorryId;
     /**
      * 车牌号
      */
