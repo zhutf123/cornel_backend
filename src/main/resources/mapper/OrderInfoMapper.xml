@@ -367,7 +367,7 @@
     <select id="getOrderInfoByOrderTypeAndUserId" resultMap="listRespMapper">
         SELECT
         <include refid="listResp_driver"></include>
-        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id where
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id where
         o.user_id=#{userId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null and orderId=='' and orderId=='null'">
@@ -383,7 +383,7 @@
     <select id="getOrderInfoByUserAndOrderId" resultMap="listRespMapper">
         SELECT
        <include refid="listRespOrderId_driver"/>
-        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id  left join user_info u on o.user_id=u.user_id where
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id  left join user_info u on o.user_id=u.user_id where
         o.user_id=#{userId}
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         and o.order_id=#{orderId};
@@ -392,7 +392,7 @@
     <select id="getOrderInfoByTaskByDelivery" resultMap="listRespMapper">
         SELECT
         <include refid="listResp_column"/>
-        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id
         left join user_info u on o.user_id=u.user_id
         where
         <![CDATA[ o.receiver_user_id @>array[#{deliverId}]::varchar[] ]]>
@@ -422,7 +422,7 @@
     <select id="getOrderInfoBySupplier" resultMap="listRespMapper">
         SELECT
         <include refid="listResp_column"/>
-        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id
         left join user_info u on o.user_id=u.user_id
         where
         <![CDATA[ o.send_out_user_id @> array[#{supplierId}]::varchar[] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
@@ -436,7 +436,7 @@
     <select id="getOrderInfoByOrderIdOrVerifyCode" resultMap="listRespMapper">
         SELECT
         <include refid="listResp_column"/>
-        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.id=o.lorry_id
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id
         left join user_info u on o.user_id=u.user_id
         where
         1=1
