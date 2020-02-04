@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
         }
 
         @Override public String toString() {
-            return title + " " + value+" ";
+            return title + " " + value;
         }
     }
 

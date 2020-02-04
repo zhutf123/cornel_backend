@@ -3,6 +3,7 @@ package com.demai.cornel.vo.quota;
 import com.demai.cornel.model.Commodity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -46,6 +47,19 @@ import java.util.stream.Collectors;
             this.commodityProperties = properties.stream()
                     .collect(Collectors.toMap(Commodity.Properties::getTitle, Commodity.Properties::getValue));
         }
+    }
+
+    public static String convertProperties(List<Commodity.Properties> properties) {
+        if (CollectionUtils.isEmpty(properties)) {
+            return "";
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        properties.stream().forEach(x -> {
+            if (!x.getTitle().equals("名称")) {
+                stringBuilder.append(x.toString()).append(" ");
+            }
+        });
+        return stringBuilder.toString();
     }
 
     @Data public static class Detail {
