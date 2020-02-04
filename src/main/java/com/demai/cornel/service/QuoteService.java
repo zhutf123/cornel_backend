@@ -12,6 +12,7 @@ import com.demai.cornel.vo.quota.*;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -165,8 +166,14 @@ import java.util.regex.Pattern;
      * @return
      */
     public List<GerQuoteListResp> getSystemQuoteList(GetQuoteListReq getQuoteListReq) {
-        return systemQuoteDao.getNewSystemQuote(getQuoteListReq.getQuoteId(),
+        List<GerQuoteListResp> gerQuoteListResps =  systemQuoteDao.getNewSystemQuote(getQuoteListReq.getQuoteId(),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));
+        if(gerQuoteListResps==null){
+            log.warn("get system quote empty");
+            return Collections.EMPTY_LIST;
+        }
+        buildSystemQuoteDetail(gerQuoteListResps);
+        return gerQuoteListResps;
     }
 
     private boolean checkQuote(OfferQuoteReq offerQuoteReq) {
@@ -327,5 +334,23 @@ import java.util.regex.Pattern;
         }
         return dateList;
 
+    }
+
+    /**
+     * 构建系统报价的报价详情数据
+     * @param quoteListResps
+     * @return
+     */
+    void buildSystemQuoteDetail(List<GerQuoteListResp>quoteListResps){
+        if(CollectionUtils.isEmpty(quoteListResps)){
+            return;
+        }
+        quoteListResps.stream().forEach(x->{
+            List<GerQuoteListResp.Detail> details=new LinkedList<>();
+            details.add(new GerQuoteListResp.Detail("质量标准",x.getProperties().toString()));
+            details.add(new GerQuoteListResp.Detail("单价",x.getQuote().toString()+"/"+x.getUnitPrice()));
+            details.add(new GerQuoteListResp.Detail("注意事项",x.getNotice()));
+            x.setDetail(details);
+        });
     }
 }

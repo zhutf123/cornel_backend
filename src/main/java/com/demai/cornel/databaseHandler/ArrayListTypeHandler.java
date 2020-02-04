@@ -1,28 +1,22 @@
-/**
- * Copyright (c) 2019 dm.com. All Rights Reserved.
- */
 package com.demai.cornel.databaseHandler;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Array;
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.*;
 import java.util.List;
 import java.util.Set;
 
 /**
- * Create By zhutf  19-10-6  下午4:23
+ * @Author binz.zhang
+ * @Date: 2020-02-04    12:20
  */
-public abstract class ArraySetTypeHandler<T> extends BaseTypeHandler<Set<T>> {
+public abstract class ArrayListTypeHandler <T> extends BaseTypeHandler<List<T>> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ArraySetTypeHandler.class);
     private final String baseType;
@@ -30,35 +24,35 @@ public abstract class ArraySetTypeHandler<T> extends BaseTypeHandler<Set<T>> {
     /**
      * @param baseType postgres base type of the postgres array
      */
-    public ArraySetTypeHandler(String baseType) {
+    public ArrayListTypeHandler(String baseType) {
         this.baseType = baseType;
     }
 
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, Set<T> parameter, JdbcType jdbcType)
+    public void setNonNullParameter(PreparedStatement ps, int i, List<T> parameter, JdbcType jdbcType)
             throws SQLException {
         Array array = ps.getConnection().createArrayOf(baseType, parameter.toArray());
         ps.setArray(i, array);
     }
 
     @Override
-    public Set<T> getNullableResult(ResultSet rs, String columnName) throws SQLException {
+    public List<T> getNullableResult(ResultSet rs, String columnName) throws SQLException {
         return fromString(rs.getString(columnName));
     }
 
     @Override
-    public Set<T> getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+    public List<T> getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         return fromString(rs.getString(columnIndex));
     }
 
     @Override
-    public Set<T> getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+    public List<T> getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         return fromString(cs.getString(columnIndex));
     }
 
     //TODO string with split
-    private Set<T> fromString(String array) {
-        Set<T> set = Sets.newHashSet();
+    private List<T> fromString(String array) {
+        List<T> set = Lists.newArrayList();
         if (!Strings.isNullOrEmpty(array)) {
             String n = array.substring(1, array.length()-1);
             if (!Strings.isNullOrEmpty(n)) {

@@ -12,6 +12,8 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
     </resultMap>
 
 
@@ -25,6 +27,9 @@
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
         <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"
                 javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
+
     </resultMap>
     <sql id="list_Resp">
         quote_id,
@@ -32,13 +37,14 @@
         unit_price,
         unit_weight,
         min_shipment_weight,
+        notice,
         c.commodity_id,
         c.name as commodity_name,
         c.commodity_properties
     </sql>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, quote_id, commodity_id, quote, unit_price, create_time, update_time,status,unit_weight
+        id, quote_id, commodity_id, quote, unit_price, create_time, update_time,status,unit_weight,notice
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -173,7 +179,7 @@
             s.id <![CDATA[<]]> (select id from system_quote where quote_id=#{quoteId})
         </if>
         <if test="quoteId == null or quoteId == ''">
-           and
+            and
             s.id <![CDATA[<=]]> (select max(id) from system_quote limit 1)
         </if>
         order by s.id desc limit #{pgSize};

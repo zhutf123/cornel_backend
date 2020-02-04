@@ -5,6 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author binz.zhang
@@ -47,5 +48,10 @@ import java.util.Date;
      * 状态
      */
     private Integer status;
+
+    /**
+     * 注意事项
+     */
+    private List<String> notice;
 
 }

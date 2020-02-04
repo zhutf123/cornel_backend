@@ -48,6 +48,10 @@ import java.util.stream.Collectors;
             this.title = title;
             this.value = properties;
         }
+
+        @Override public String toString() {
+            return title + " " + value+" ";
+        }
     }
 
     public void setCommodityProperties(Map<String, String> commodityProperties) {
@@ -68,10 +72,8 @@ import java.util.stream.Collectors;
         }
     }
 
-
     public static enum COMMODITY_SYSTEM_STATUS implements IEmus {
-        SYSTEM(1, "系统商品"),
-        CUSTOM(0,"用户自定义商品");
+        SYSTEM(1, "系统商品"), CUSTOM(0, "用户自定义商品");
 
         private Integer value;
         private String expr;
@@ -81,13 +83,11 @@ import java.util.stream.Collectors;
             this.expr = expr;
         }
 
-        @Override
-        public int getValue() {
+        @Override public int getValue() {
             return value;
         }
 
-        @Override
-        public String getExpr() {
+        @Override public String getExpr() {
             return expr;
         }
     }
