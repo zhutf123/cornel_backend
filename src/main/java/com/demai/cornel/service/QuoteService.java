@@ -174,6 +174,7 @@ import java.util.regex.Pattern;
         }
         buildSystemQuoteDetail(gerQuoteListResps);
         return gerQuoteListResps;
+
     }
 
     private boolean checkQuote(OfferQuoteReq offerQuoteReq) {
@@ -347,8 +348,8 @@ import java.util.regex.Pattern;
         }
         quoteListResps.stream().forEach(x->{
             List<GerQuoteListResp.Detail> details=new LinkedList<>();
-            details.add(new GerQuoteListResp.Detail("质量标准",x.getProperties().toString()));
-            details.add(new GerQuoteListResp.Detail("单价",GerQuoteListResp.convertProperties(x.getProperties())));
+            details.add(new GerQuoteListResp.Detail("质量标准",GerQuoteListResp.convertProperties(x.getProperties())));
+            details.add(new GerQuoteListResp.Detail("单价",x.getQuote().toString()+" /"+x.getUnitPrice()));
             details.add(new GerQuoteListResp.Detail("注意事项",x.getNotice()));
             x.setDetail(details);
         });
