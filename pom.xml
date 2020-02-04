@@ -562,7 +562,6 @@
     </distributionManagement>
     <build>
         <finalName>cornel_backend</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -652,8 +651,17 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>${env.resources}</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
     <profiles>
@@ -667,6 +675,7 @@
                 <deploy.type>beta</deploy.type>
                 <deploy.group></deploy.group>
                 <env.profile.name>beta</env.profile.name>
+                <env.resources>src/main/resources.beta</env.resources>
             </properties>
         </profile>
 
@@ -676,6 +685,8 @@
                 <deploy.type>dev</deploy.type>
                 <deploy.group></deploy.group>
                 <env.profile.name>dev</env.profile.name>
+                <env.resources>src/main/resources.dev</env.resources>
+
             </properties>
         </profile>
 
@@ -685,6 +696,8 @@
                 <deploy.type>prod</deploy.type>
                 <deploy.group></deploy.group>
                 <env.profile.name>prod</env.profile.name>
+                <env.resources>src/main/resources.prod</env.resources>
+
             </properties>
         </profile>
         <profile>
@@ -693,6 +706,8 @@
                 <deploy.type>local</deploy.type>
                 <deploy.group></deploy.group>
                 <env.profile.name>local</env.profile.name>
+                <env.resources>src/main/resources.local</env.resources>
+
             </properties>
         </profile>
     </profiles>

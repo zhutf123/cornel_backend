@@ -13,7 +13,7 @@
         </encoder>
     </appender>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="stdout"/>
     </root>
 
@@ -44,5 +44,4 @@
     <logger name="org.redisson.cluster" level="WARN" additivity="false">
         <appender-ref ref="stdout"/>
     </logger>
-
 </configuration>
