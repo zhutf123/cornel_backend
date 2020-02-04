@@ -19,7 +19,7 @@ public class ArrayStringListTypeHandler extends ArrayListTypeHandler<String> {
     /**
      * @param baseType postgres base type of the postgres array
      */
-    public ArrayStringListTypeHandler(String baseType) {
+    public ArrayStringListTypeHandler() {
             super("varchar");
     }
 
