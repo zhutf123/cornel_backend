@@ -29,7 +29,6 @@ import com.demai.cornel.vo.user.UserLoginResp;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.sun.javafx.tools.resource.PackagerResource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
