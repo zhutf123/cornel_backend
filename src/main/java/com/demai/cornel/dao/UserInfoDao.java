@@ -20,6 +20,9 @@ public interface UserInfoDao {
 
     public UserInfo getUserInfoNoDriverByPhone(@Param("phone") String phone);
 
+    public UserInfo getSupplyUserInfoByPhone(@Param("phone") String phone);
+
+
     public UserInfo getDriverInfoByPhone(@Param("phone") String phone);
 
     List<UserInfo> getUsersInfoByPhones(@Param("phones") Set<String> phones);
