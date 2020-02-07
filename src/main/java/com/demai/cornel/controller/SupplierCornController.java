@@ -16,6 +16,7 @@ import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
 import com.demai.cornel.vo.delivery.SupplierCplUserInfoReq;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.order.OperationOrderReq;
@@ -289,6 +290,18 @@ import java.util.Optional;
      */
     @RequestMapping(value = "/user-info.json", method = RequestMethod.POST) @ResponseBody public JsonResult addTower() {
         return supplierTaskService.getSupplierInfo();
+    }
+
+    /**
+     * 更新个人信息
+     * @param param
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/edit-userinfo.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult updateUserInfo(@RequestBody SupplierCplUserInfoReq param, HttpServletResponse response) {
+        Preconditions.checkNotNull(param);
+        return JsonResult.success(supplyUserService.updateUserCornInfo(param));
     }
 
 }

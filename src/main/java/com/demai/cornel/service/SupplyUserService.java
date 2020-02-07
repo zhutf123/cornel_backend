@@ -2,6 +2,7 @@ package com.demai.cornel.service;
 
 import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.model.OpCorn;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.*;
 import com.demai.cornel.util.json.JsonUtil;
@@ -165,5 +166,29 @@ public class SupplyUserService {
         driverCpllUserInfoResp.setName(supplierCplUserInfoReq.getName());
         log.debug("supplier complete user info [{}]", JacksonUtils.obj2String(driverCpllUserInfoResp));
         return driverCpllUserInfoResp;
+    }
+
+
+    public OpCorn updateUserCornInfo(SupplierCplUserInfoReq driverCornInfo) {
+        if (driverCornInfo == null) {
+            return OpCorn.builder().optResult(OpCorn.STATUS.PARAM_ERROR.getValue()).build();
+        }
+        UserInfo userInfoBefore = userInfoDao.getUserInfoByUserId(driverCornInfo.getUserId());
+        if (userInfoBefore == null) {
+            return OpCorn.builder().optResult(OpCorn.STATUS.NO_OPT_TARGET.getValue()).build();
+        }
+        UserInfo userInfoAfter = new UserInfo();
+        BeanUtils.copyProperties(driverCornInfo, userInfoAfter);
+        if (!Strings.isNullOrEmpty(driverCornInfo.getMobile())) {
+            userInfoAfter.setMobile(Sets.newHashSet(driverCornInfo.getMobile()));
+        }
+        int res = userInfoDao.update(userInfoAfter);
+        if (res == 0) {
+            return OpCorn.builder().optResult(OpCorn.STATUS.SERVER_ERROR.getValue()).build();
+        }
+        if (driverCornInfo.getImgs() != null && driverCornInfo.getImgs().size() > 0) {
+            imgService.saveUserInfoImgs(driverCornInfo.getImgs(), driverCornInfo.getUserId());
+        }
+        return OpCorn.builder().optResult(OpCorn.STATUS.SUCCESS.getValue()).build();
     }
 }

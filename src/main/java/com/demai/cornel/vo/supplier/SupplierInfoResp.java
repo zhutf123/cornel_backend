@@ -2,6 +2,7 @@ package com.demai.cornel.vo.supplier;
 
 import com.demai.cornel.dmEnum.IEmus;
 import com.demai.cornel.model.Commodity;
+import com.demai.cornel.model.ImgInfoReq;
 import com.demai.cornel.vo.user.UserLoginResp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,7 @@ public class SupplierInfoResp {
     private String idCard;
     private String serviceMobile;
     List<TowerInfo> towerInfos;
+    private List<ImgInfoReq> imgs;
 
     @Data public static class TowerInfo {
         List<Commodity> commoditys;
