@@ -16,6 +16,7 @@ import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.delivery.SupplierCplUserInfoReq;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.order.OperationOrderReq;
 import com.demai.cornel.vo.order.OperationOrderResp;
@@ -88,7 +89,15 @@ import java.util.Optional;
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
-
+    @RequestMapping(value = "/comp-userinfo.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult completeUserInfo(
+            @RequestBody SupplierCplUserInfoReq param, HttpServletResponse response) {
+        try {
+            return JsonResult.success(supplyUserService.supplierCompleteUserInfo(param));
+        } catch (Exception e) {
+            log.error("司机完善个人信息失败！", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
     /**
      * 烘干塔列表
      *

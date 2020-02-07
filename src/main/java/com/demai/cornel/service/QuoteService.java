@@ -12,6 +12,7 @@ import com.demai.cornel.vo.quota.*;
 import com.demai.cornel.vo.task.GetOrderListReq;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
@@ -348,8 +349,8 @@ import java.util.regex.Pattern;
         }
         quoteListResps.stream().forEach(x->{
             List<GerQuoteListResp.Detail> details=new LinkedList<>();
-            details.add(new GerQuoteListResp.Detail("质量标准",GerQuoteListResp.convertProperties(x.getProperties())));
-            details.add(new GerQuoteListResp.Detail("单价",x.getQuote().toString()+" /"+x.getUnitPrice()));
+            details.add(new GerQuoteListResp.Detail("质量标准", Lists.newArrayList(GerQuoteListResp.convertProperties(x.getProperties()))));
+            details.add(new GerQuoteListResp.Detail("单价",Lists.newArrayList(x.getQuote().toString()+" /"+x.getUnitPrice())));
             details.add(new GerQuoteListResp.Detail("注意事项",x.getNotice()));
             x.setDetail(details);
         });

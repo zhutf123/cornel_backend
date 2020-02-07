@@ -3,17 +3,23 @@ package com.demai.cornel.service;
 import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.model.UserInfo;
-import com.demai.cornel.util.GenRandomCodeUtil;
-import com.demai.cornel.util.StringUtil;
+import com.demai.cornel.util.*;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.WeChat.WechatCode2SessionResp;
+import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
+import com.demai.cornel.vo.delivery.DriverCpllUserInfoResp;
+import com.demai.cornel.vo.delivery.SupplierCplUserInfoReq;
+import com.demai.cornel.vo.delivery.SupplierCpllUserInfoResp;
 import com.demai.cornel.vo.user.UserLoginParam;
 import com.demai.cornel.vo.user.UserLoginResp;
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +43,9 @@ public class SupplyUserService {
     private SendMsgService sendMsgService;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private ImgService imgService;
 
     public UserLoginResp doLogin(UserLoginParam param) {
         // valid msg code
@@ -119,4 +128,42 @@ public class SupplyUserService {
         return Boolean.FALSE;
     }
 
+    public SupplierCpllUserInfoResp supplierCompleteUserInfo(SupplierCplUserInfoReq supplierCplUserInfoReq) {
+        log.debug("driver register complete user info user info is [{}]",
+                JacksonUtils.obj2String(supplierCplUserInfoReq));
+        SupplierCpllUserInfoResp driverCpllUserInfoResp = new SupplierCpllUserInfoResp();
+        Preconditions.checkNotNull(supplierCplUserInfoReq);
+        if (Strings.isNullOrEmpty(supplierCplUserInfoReq.getIdCard()) || Strings
+                .isNullOrEmpty(supplierCplUserInfoReq.getName()) || Strings
+                .isNullOrEmpty(supplierCplUserInfoReq.getMobile()) || CollectionUtils
+                .isEmpty(supplierCplUserInfoReq.getImgs())) {
+            log.debug("supplier register complete fail due to param lock");
+            driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue());
+            return driverCpllUserInfoResp;
+        }
+        if(!PhoneUtil.isPhone(supplierCplUserInfoReq.getMobile())){
+            log.debug("supplier register complete fail due to tel format error ");
+            driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PHONE_ERROR.getValue());
+            return driverCpllUserInfoResp;
+        }
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(supplierCplUserInfoReq, userInfo);
+        userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
+        userInfo.setUserId(CookieAuthUtils.getCurrentUser());
+        int res = userInfoDao.update(userInfo);
+        if (res == 0) {
+            log.debug("supplier register complete fail due to update user info fail");
+            driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.SERVICE_ERROR.getValue());
+            return driverCpllUserInfoResp;
+        }
+        if (CollectionUtils.isEmpty(supplierCplUserInfoReq.getImgs())) {
+            log.debug("supplier complete user info img is empty");
+        }
+        imgService.saveUserInfoImgs(supplierCplUserInfoReq.getImgs(), userInfo.getUserId());
+        driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue());
+        driverCpllUserInfoResp.setUserId(supplierCplUserInfoReq.getUserId());
+        driverCpllUserInfoResp.setName(supplierCplUserInfoReq.getName());
+        log.debug("supplier complete user info [{}]", JacksonUtils.obj2String(driverCpllUserInfoResp));
+        return driverCpllUserInfoResp;
+    }
 }
