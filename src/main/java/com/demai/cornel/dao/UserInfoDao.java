@@ -35,6 +35,9 @@ public interface UserInfoDao {
 
     UserInfo getUserInfoByUserId(@Param("userId") String userId);
 
+    UserInfo getSupplierUserInfoByUserId(@Param("userId") String userId);
+
+
     String getUserNameByUserId(@Param("userID") String userId);
 
 

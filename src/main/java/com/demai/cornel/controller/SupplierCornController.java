@@ -288,10 +288,13 @@ import java.util.Optional;
      * @param
      * @return
      */
-    @RequestMapping(value = "/user-info.json", method = RequestMethod.POST) @ResponseBody public JsonResult addTower() {
-        return supplierTaskService.getSupplierInfo();
+    @RequestMapping(value = "/all-info.json", method = RequestMethod.POST) @ResponseBody public JsonResult addTower() {
+        return supplierTaskService.getSupplierAllInfo();
     }
 
+    @RequestMapping(value = "/user-info.json", method = RequestMethod.POST) @ResponseBody public JsonResult getUserInfo() {
+        return JsonResult.success(supplierTaskService.getSupplierInfo());
+    }
     /**
      * 更新个人信息
      * @param param

@@ -12,6 +12,7 @@ import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.dao.CommodityDao;
 import com.demai.cornel.dao.DryTowerDao;
 import com.demai.cornel.dao.UserInfoDao;
+import com.demai.cornel.dmEnum.IdTypeEnum;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.DryTower;
@@ -19,6 +20,8 @@ import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.*;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.delivery.GetDriverCornInfoResp;
+import com.demai.cornel.vo.delivery.GetSupplierCornInfoResp;
 import com.demai.cornel.vo.supplier.*;
 import com.demai.cornel.vo.tower.TowerOperaResp;
 import com.google.common.base.Strings;
@@ -408,7 +411,7 @@ import lombok.extern.slf4j.Slf4j;
                 .status(TowerOperaResp.OPERATION_STATUS.SUCCESS.getValue()).build();
     }
 
-    public JsonResult getSupplierInfo() {
+    public JsonResult getSupplierAllInfo() {
         String userId = CookieAuthUtils.getCurrentUser();
         UserInfo userInfo = userInfoDao.getUserInfoByUserId(userId);
         SupplierInfoResp supplierInfoResp = new SupplierInfoResp();
@@ -448,5 +451,27 @@ import lombok.extern.slf4j.Slf4j;
         return JsonResult.success(supplierInfoResp);
 
     }
+    public GetSupplierCornInfoResp getSupplierInfo() {
+        String userId = CookieAuthUtils.getCurrentUser();
+        GetSupplierCornInfoResp supplierCornInfoResp = new GetSupplierCornInfoResp();
+
+        UserInfo userInfo = userInfoDao.getSupplierUserInfoByUserId(userId);
+        if (userInfo == null) {
+            supplierCornInfoResp.setOptResult(GetDriverCornInfoResp.STATUS.NO_USER.getValue());
+            return supplierCornInfoResp;
+        }
+        BeanUtils.copyProperties(userInfo, supplierCornInfoResp);
+        if (!userInfo.getIdType().equals(IdTypeEnum.IDCARD.getValue())) {
+            supplierCornInfoResp.setIdCard("");
+        }
+        if (userInfo.getMobile() != null && userInfo.getMobile().size() > 0) {
+            supplierCornInfoResp.setMobile(userInfo.getMobile().iterator().next());
+        }
+        supplierCornInfoResp.setOptResult(GetDriverCornInfoResp.STATUS.SUCCESS.getValue());
+        supplierCornInfoResp.setImgs(imgService.getUserImgs(userInfo.getUserId()));
+        return supplierCornInfoResp;
+
+    }
+
 
 }
