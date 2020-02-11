@@ -7,7 +7,10 @@
     <groupId>com.dm.cornel</groupId>
     <artifactId>cornel_backend</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
+    <modules>
+        <module>purcharse</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
