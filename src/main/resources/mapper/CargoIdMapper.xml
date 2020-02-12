@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.purcharse.dao.CargoIdMapper">
+  <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.CargoId">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="weight" jdbcType="NUMERIC" property="weight" />
+    <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight" />
+    <result column="location_id" jdbcType="VARCHAR" property="locationId" />
+    <result column="parent_cargo_id" jdbcType="VARCHAR" property="parentCargoId" />
+    <result column="deal_time" jdbcType="TIMESTAMP" property="dealTime" />
+    <result column="price" jdbcType="NUMERIC" property="price" />
+    <result column="commodity_id" jdbcType="VARCHAR" property="commodityId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="store_id" jdbcType="VARCHAR" property="storeId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, weight, unit_weight, location_id, parent_cargo_id, deal_time, price, commodity_id, 
+    "status", store_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from cargo_id
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from cargo_id
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.demai.cornel.purcharse.model.CargoId">
+    <!--@mbg.generated-->
+    insert into cargo_id (id, weight, unit_weight, 
+      location_id, parent_cargo_id, deal_time, 
+      price, commodity_id, "status", 
+      store_id)
+    values (#{id,jdbcType=INTEGER}, #{weight,jdbcType=NUMERIC}, #{unitWeight,jdbcType=VARCHAR}, 
+      #{locationId,jdbcType=VARCHAR}, #{parentCargoId,jdbcType=VARCHAR}, #{dealTime,jdbcType=TIMESTAMP}, 
+      #{price,jdbcType=NUMERIC}, #{commodityId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{storeId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.CargoId">
+    <!--@mbg.generated-->
+    insert into cargo_id
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="unitWeight != null">
+        unit_weight,
+      </if>
+      <if test="locationId != null">
+        location_id,
+      </if>
+      <if test="parentCargoId != null">
+        parent_cargo_id,
+      </if>
+      <if test="dealTime != null">
+        deal_time,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="status != null">
+        "status",
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=NUMERIC},
+      </if>
+      <if test="unitWeight != null">
+        #{unitWeight,jdbcType=VARCHAR},
+      </if>
+      <if test="locationId != null">
+        #{locationId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCargoId != null">
+        #{parentCargoId,jdbcType=VARCHAR},
+      </if>
+      <if test="dealTime != null">
+        #{dealTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=NUMERIC},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.CargoId">
+    <!--@mbg.generated-->
+    update cargo_id
+    <set>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=NUMERIC},
+      </if>
+      <if test="unitWeight != null">
+        unit_weight = #{unitWeight,jdbcType=VARCHAR},
+      </if>
+      <if test="locationId != null">
+        location_id = #{locationId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCargoId != null">
+        parent_cargo_id = #{parentCargoId,jdbcType=VARCHAR},
+      </if>
+      <if test="dealTime != null">
+        deal_time = #{dealTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=NUMERIC},
+      </if>
+      <if test="commodityId != null">
+        commodity_id = #{commodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        "status" = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.CargoId">
+    <!--@mbg.generated-->
+    update cargo_id
+    set weight = #{weight,jdbcType=NUMERIC},
+      unit_weight = #{unitWeight,jdbcType=VARCHAR},
+      location_id = #{locationId,jdbcType=VARCHAR},
+      parent_cargo_id = #{parentCargoId,jdbcType=VARCHAR},
+      deal_time = #{dealTime,jdbcType=TIMESTAMP},
+      price = #{price,jdbcType=NUMERIC},
+      commodity_id = #{commodityId,jdbcType=VARCHAR},
+      "status" = #{status,jdbcType=INTEGER},
+      store_id = #{storeId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

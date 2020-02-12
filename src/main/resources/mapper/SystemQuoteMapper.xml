@@ -29,7 +29,6 @@
                 javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
         <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
-
     </resultMap>
     <sql id="list_Resp">
         quote_id,

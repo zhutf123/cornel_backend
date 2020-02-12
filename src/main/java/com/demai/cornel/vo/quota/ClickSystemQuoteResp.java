@@ -48,8 +48,8 @@ public class ClickSystemQuoteResp {
     }
 
     public static enum STATUS_ENUE implements IEmus {
-        PARAM_ERROR(-1, "参数错误"), SUCCESS(0, "请求成功"), USER_ERROR(1, "用户角色不是烘干塔"), DRY_TOWER_ERROR(2,
-                "未查询到有效的烘干塔信息"), COMMODITY_ERROR(3, "商品已失效");
+        PARAM_ERROR(-1, "参数错误"), SUCCESS(0, "请求成功"), USER_ERROR(1, "用户不存在"), NO_OFFER(2,
+                "未查询到报价信息"), COMMODITY_ERROR(3, "商品已失效");
 
         private int value;
         private String expr;
