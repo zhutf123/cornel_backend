@@ -1,5 +1,7 @@
 package com.demai.cornel.purcharse.service;
 
+import com.demai.cornel.dao.CommodityDao;
+import com.demai.cornel.model.Commodity;
 import com.demai.cornel.purcharse.dao.BuyerInfoMapper;
 import com.demai.cornel.purcharse.dao.LocationInfoMapper;
 import com.demai.cornel.purcharse.dao.OfferSheetMapper;
@@ -9,6 +11,7 @@ import com.demai.cornel.purcharse.vo.GetSystemOfferResp;
 import com.demai.cornel.purcharse.vo.req.GetSystemOfferReq;
 import com.demai.cornel.purcharse.vo.resp.ClickSystemOfferResp;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.vo.quota.ClickSystemQuoteResp;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
 import com.google.common.base.Preconditions;
@@ -31,6 +34,7 @@ import java.util.stream.Collectors;
     @Resource private OfferSheetMapper offerSheetMapper;
     @Resource private BuyerInfoMapper buyerInfoMapper;
     @Resource private LocationInfoMapper locationInfoMapper;
+    @Resource private CommodityDao commodityDao;
 
     /**
      * 获取当前系统报价的接口
@@ -92,8 +96,19 @@ import java.util.stream.Collectors;
             clickSystemOfferResp.setMobile(buyerInfo.getMobile().iterator().next());
         }
         OfferSheet offerSheet = offerSheetMapper.selectByOfferId(offerId);
+        if(offerSheet==null){
+            return ClickSystemOfferResp.builder().status(ClickSystemQuoteResp.STATUS_ENUE.COMMODITY_ERROR.getValue()).build();
+        }
+        Commodity commodity = commodityDao.getCommodityByCommodityId(offerSheet.getCommodityId());
+        if(commodity==null){
+            return ClickSystemOfferResp.builder().status(ClickSystemQuoteResp.STATUS_ENUE.COMMODITY_ERROR.getValue()).build();
+        }
+        clickSystemOfferResp.setCommodity(commodity);
+        BeanUtils.copyProperties(offerSheet,clickSystemOfferResp);
+        clickSystemOfferResp.setStatus(ClickSystemOfferResp.STATUS_ENUE.SUCCESS.getValue());
+        clickSystemOfferResp.setEstimateReceiveTime(DateFormatUtils.getAfterTime(System.currentTimeMillis(),DateFormatUtils.ISO_DATE_PATTERN,10));
         //todo 加入抢单逻辑
-        return null;
+        return clickSystemOfferResp;
 
     }
 }

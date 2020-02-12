@@ -9,6 +9,7 @@ import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -171,5 +172,12 @@ public final class DateFormatUtils {
     public static Date parse(String dateStr, String pattern) {
         // 使用withZoneUTC防止夏令时问题
         return LocalDateTime.parse(dateStr, DateTimeFormat.forPattern(pattern).withZoneUTC()).toDate();
+    }
+
+    public static String getAfterTime(long time,String timeFormat,Integer afterDays){
+        Calendar calendar1 = Calendar.getInstance();
+        SimpleDateFormat sdf1 = new SimpleDateFormat(timeFormat);
+        calendar1.add(Calendar.DATE, afterDays);
+        return sdf1.format(calendar1.getTime());
     }
 }

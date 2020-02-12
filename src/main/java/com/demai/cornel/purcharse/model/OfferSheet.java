@@ -1,6 +1,7 @@
 package com.demai.cornel.purcharse.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -41,7 +42,7 @@ public class OfferSheet {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Timestamp createTime;
 
     /**
      * 报价ID
