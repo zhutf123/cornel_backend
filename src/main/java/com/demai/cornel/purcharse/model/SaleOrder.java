@@ -1,12 +1,16 @@
 package com.demai.cornel.purcharse.model;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
 * @Author binz.zhang
 * @Date: 2020-02-12    13:32
 */
+@Data
 public class SaleOrder {
     /**
     * 自增ID
@@ -31,12 +35,12 @@ public class SaleOrder {
     /**
     * 下单时间
     */
-    private Date orderTime;
+    private Timestamp orderTime;
 
     /**
     * 预计送达时间
     */
-    private Date estimateReceiveTime;
+    private Timestamp estimateReceiveTime;
 
     /**
     * 付款方式
@@ -88,131 +92,4 @@ public class SaleOrder {
     */
     private String purchaseId;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getCargoId() {
-        return cargoId;
-    }
-
-    public void setCargoId(String cargoId) {
-        this.cargoId = cargoId;
-    }
-
-    public String getBuyerId() {
-        return buyerId;
-    }
-
-    public void setBuyerId(String buyerId) {
-        this.buyerId = buyerId;
-    }
-
-    public Date getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(Date orderTime) {
-        this.orderTime = orderTime;
-    }
-
-    public Date getEstimateReceiveTime() {
-        return estimateReceiveTime;
-    }
-
-    public void setEstimateReceiveTime(Date estimateReceiveTime) {
-        this.estimateReceiveTime = estimateReceiveTime;
-    }
-
-    public String getPaymentType() {
-        return paymentType;
-    }
-
-    public void setPaymentType(String paymentType) {
-        this.paymentType = paymentType;
-    }
-
-    public Integer getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(Integer paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public BigDecimal getFreightPrice() {
-        return freightPrice;
-    }
-
-    public void setFreightPrice(BigDecimal freightPrice) {
-        this.freightPrice = freightPrice;
-    }
-
-    public BigDecimal getCommodityPrice() {
-        return commodityPrice;
-    }
-
-    public void setCommodityPrice(BigDecimal commodityPrice) {
-        this.commodityPrice = commodityPrice;
-    }
-
-    public BigDecimal getOrderPrice() {
-        return orderPrice;
-    }
-
-    public void setOrderPrice(BigDecimal orderPrice) {
-        this.orderPrice = orderPrice;
-    }
-
-    public String getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(String unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public BigDecimal getWeight() {
-        return weight;
-    }
-
-    public void setWeight(BigDecimal weight) {
-        this.weight = weight;
-    }
-
-    public String getUintWeight() {
-        return uintWeight;
-    }
-
-    public void setUintWeight(String uintWeight) {
-        this.uintWeight = uintWeight;
-    }
-
-    public String getWaybillId() {
-        return waybillId;
-    }
-
-    public void setWaybillId(String waybillId) {
-        this.waybillId = waybillId;
-    }
-
-    public String getPurchaseId() {
-        return purchaseId;
-    }
-
-    public void setPurchaseId(String purchaseId) {
-        this.purchaseId = purchaseId;
-    }
 }

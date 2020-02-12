@@ -1,13 +1,17 @@
 package com.demai.cornel.purcharse.model;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author binz.zhang
  * @Date: 2020-02-12    17:06
  */
+@Data
 public class OfferSheet {
     /**
      * 自增ID
@@ -52,7 +56,7 @@ public class OfferSheet {
     /**
      * 注意事项
      */
-    private String notice;
+    private List<String> notice;
 
     private BigDecimal minBuyWeight;
 
@@ -61,91 +65,5 @@ public class OfferSheet {
      */
     private String unitWeight;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCommodityId() {
-        return commodityId;
-    }
-
-    public void setCommodityId(String commodityId) {
-        this.commodityId = commodityId;
-    }
-
-    public String getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public String getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(String unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public Short getStatus() {
-        return status;
-    }
-
-    public void setStatus(Short status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getOfferId() {
-        return offerId;
-    }
-
-    public void setOfferId(String offerId) {
-        this.offerId = offerId;
-    }
-
-    public String getNotice() {
-        return notice;
-    }
-
-    public void setNotice(String notice) {
-        this.notice = notice;
-    }
-
-    public BigDecimal getMinBuyWeight() {
-        return minBuyWeight;
-    }
-
-    public void setMinBuyWeight(BigDecimal minBuyWeight) {
-        this.minBuyWeight = minBuyWeight;
-    }
-
-    public String getUnitWeight() {
-        return unitWeight;
-    }
-
-    public void setUnitWeight(String unitWeight) {
-        this.unitWeight = unitWeight;
-    }
 }

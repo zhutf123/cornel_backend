@@ -1,11 +1,15 @@
 package com.demai.cornel.purcharse.model;
 
+import lombok.Data;
+
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
 * @Author binz.zhang
 * @Date: 2020-02-12    13:16
 */
+@Data
 public class CompanyInfo {
     /**
     * 自增ID
@@ -25,12 +29,12 @@ public class CompanyInfo {
     /**
     * 创建时间
     */
-    private Date createTime;
+    private Timestamp createTime;
 
     /**
     * 更新时间
     */
-    private Date updateTime;
+    private Timestamp updateTime;
 
     /**
     * 状态 1 有效 0无效
@@ -47,67 +51,4 @@ public class CompanyInfo {
     */
     private String contactTel;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getContactUser() {
-        return contactUser;
-    }
-
-    public void setContactUser(String contactUser) {
-        this.contactUser = contactUser;
-    }
-
-    public String getContactTel() {
-        return contactTel;
-    }
-
-    public void setContactTel(String contactTel) {
-        this.contactTel = contactTel;
-    }
 }

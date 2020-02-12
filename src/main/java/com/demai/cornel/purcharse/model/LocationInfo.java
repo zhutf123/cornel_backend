@@ -1,9 +1,12 @@
 package com.demai.cornel.purcharse.model;
 
+import lombok.Data;
+
 /**
 * @Author binz.zhang
 * @Date: 2020-02-12    15:22
 */
+@Data
 public class LocationInfo {
     /**
     * 位置ID
@@ -24,43 +27,5 @@ public class LocationInfo {
 
     private Integer status;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(Integer locationId) {
-        this.locationId = locationId;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getLocationGis() {
-        return locationGis;
-    }
-
-    public void setLocationGis(String locationGis) {
-        this.locationGis = locationGis;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 }

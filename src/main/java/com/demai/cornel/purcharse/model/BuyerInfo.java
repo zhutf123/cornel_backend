@@ -2,6 +2,7 @@ package com.demai.cornel.purcharse.model;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
@@ -49,12 +50,12 @@ public class BuyerInfo {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Timestamp createTime;
 
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private Timestamp updateTime;
 
     /**
      * 常用地址

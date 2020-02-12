@@ -1,12 +1,16 @@
 package com.demai.cornel.purcharse.model;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
 * @Author binz.zhang
 * @Date: 2020-02-12    13:08
 */
+@Data
 public class StoreInfo {
     /**
     * 自增ID
@@ -46,7 +50,7 @@ public class StoreInfo {
     /**
     * 创建时间
     */
-    private Date createTime;
+    private Timestamp createTime;
 
     /**
     * 0无效 1有效
@@ -55,83 +59,5 @@ public class StoreInfo {
 
     private String storeId;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCommodityId() {
-        return commodityId;
-    }
-
-    public void setCommodityId(String commodityId) {
-        this.commodityId = commodityId;
-    }
-
-    public String getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
-    }
-
-    public BigDecimal getBuyingPrice() {
-        return buyingPrice;
-    }
-
-    public void setBuyingPrice(BigDecimal buyingPrice) {
-        this.buyingPrice = buyingPrice;
-    }
-
-    public String getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(String unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public BigDecimal getWeight() {
-        return weight;
-    }
-
-    public void setWeight(BigDecimal weight) {
-        this.weight = weight;
-    }
-
-    public String getUnitWeight() {
-        return unitWeight;
-    }
-
-    public void setUnitWeight(String unitWeight) {
-        this.unitWeight = unitWeight;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Short getStatus() {
-        return status;
-    }
-
-    public void setStatus(Short status) {
-        this.status = status;
-    }
-
-    public String getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(String storeId) {
-        this.storeId = storeId;
-    }
 }

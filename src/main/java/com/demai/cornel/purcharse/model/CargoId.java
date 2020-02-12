@@ -1,12 +1,16 @@
 package com.demai.cornel.purcharse.model;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
 * @Author binz.zhang
 * @Date: 2020-02-12    13:34
 */
+@Data
 public class CargoId {
     /**
     * 自增ID
@@ -36,7 +40,7 @@ public class CargoId {
     /**
     * 成交时间
     */
-    private Date dealTime;
+    private Timestamp dealTime;
 
     /**
     * 成交单价
@@ -58,83 +62,5 @@ public class CargoId {
     */
     private String storeId;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public BigDecimal getWeight() {
-        return weight;
-    }
-
-    public void setWeight(BigDecimal weight) {
-        this.weight = weight;
-    }
-
-    public String getUnitWeight() {
-        return unitWeight;
-    }
-
-    public void setUnitWeight(String unitWeight) {
-        this.unitWeight = unitWeight;
-    }
-
-    public String getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
-    }
-
-    public String getParentCargoId() {
-        return parentCargoId;
-    }
-
-    public void setParentCargoId(String parentCargoId) {
-        this.parentCargoId = parentCargoId;
-    }
-
-    public Date getDealTime() {
-        return dealTime;
-    }
-
-    public void setDealTime(Date dealTime) {
-        this.dealTime = dealTime;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public String getCommodityId() {
-        return commodityId;
-    }
-
-    public void setCommodityId(String commodityId) {
-        this.commodityId = commodityId;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(String storeId) {
-        this.storeId = storeId;
-    }
 }

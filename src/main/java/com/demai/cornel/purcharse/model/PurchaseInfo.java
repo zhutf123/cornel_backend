@@ -1,6 +1,9 @@
 package com.demai.cornel.purcharse.model;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -8,6 +11,7 @@ import java.util.Date;
 * @Date: 2020-02-12    13:29
  ** 买家求购信息
 */
+@Data
 public class PurchaseInfo {
     /**
     * 自增ID
@@ -52,12 +56,12 @@ public class PurchaseInfo {
     /**
     * 收货起始时间
     */
-    private Date receiveStart;
+    private Timestamp receiveStart;
 
     /**
     * 收货截止时间
     */
-    private Date receiveEnd;
+    private Timestamp receiveEnd;
 
     /**
     * 0 无效 1有效
@@ -67,101 +71,7 @@ public class PurchaseInfo {
     /**
     * 创建时间
     */
-    private Date createTime;
+    private Timestamp createTime;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCommodityId() {
-        return commodityId;
-    }
-
-    public void setCommodityId(String commodityId) {
-        this.commodityId = commodityId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getWeight() {
-        return weight;
-    }
-
-    public void setWeight(BigDecimal weight) {
-        this.weight = weight;
-    }
-
-    public String getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(String unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public String getUnitWeight() {
-        return unitWeight;
-    }
-
-    public void setUnitWeight(String unitWeight) {
-        this.unitWeight = unitWeight;
-    }
-
-    public String getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
-    }
-
-    public Date getReceiveStart() {
-        return receiveStart;
-    }
-
-    public void setReceiveStart(Date receiveStart) {
-        this.receiveStart = receiveStart;
-    }
-
-    public Date getReceiveEnd() {
-        return receiveEnd;
-    }
-
-    public void setReceiveEnd(Date receiveEnd) {
-        this.receiveEnd = receiveEnd;
-    }
-
-    public Short getStatus() {
-        return status;
-    }
-
-    public void setStatus(Short status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
 }
