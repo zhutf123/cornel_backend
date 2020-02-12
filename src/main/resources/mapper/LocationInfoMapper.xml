@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.purcharse.dao.LocationInfoMapper">
+  <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.LocationInfo">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="location_id" jdbcType="INTEGER" property="locationId" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="location_gis" jdbcType="VARCHAR" property="locationGis" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, location_id, "location", location_gis, "status"
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from location_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from location_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.demai.cornel.purcharse.model.LocationInfo">
+    <!--@mbg.generated-->
+    insert into location_info (id, location_id, "location", 
+      location_gis, "status")
+    values (#{id,jdbcType=INTEGER}, #{locationId,jdbcType=INTEGER}, #{location,jdbcType=VARCHAR}, 
+      #{locationGis,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.LocationInfo">
+    <!--@mbg.generated-->
+    insert into location_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="locationId != null">
+        location_id,
+      </if>
+      <if test="location != null">
+        "location",
+      </if>
+      <if test="locationGis != null">
+        location_gis,
+      </if>
+      <if test="status != null">
+        "status",
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="locationId != null">
+        #{locationId,jdbcType=INTEGER},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="locationGis != null">
+        #{locationGis,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.LocationInfo">
+    <!--@mbg.generated-->
+    update location_info
+    <set>
+      <if test="locationId != null">
+        location_id = #{locationId,jdbcType=INTEGER},
+      </if>
+      <if test="location != null">
+        "location" = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="locationGis != null">
+        location_gis = #{locationGis,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        "status" = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.LocationInfo">
+    <!--@mbg.generated-->
+    update location_info
+    set location_id = #{locationId,jdbcType=INTEGER},
+      "location" = #{location,jdbcType=VARCHAR},
+      location_gis = #{locationGis,jdbcType=VARCHAR},
+      "status" = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="getLocationByLocationId" resultType="java.lang.String">
+       select location from location_info where location_id in
+      <if test="locationId!=null and locationId.size()>0">
+        <foreach collection="locationId" item="lo" index="index" open="(" separator="," close=")">
+          #{lo}
+        </foreach>
+      </if>
+      and status=1;
+    </select>
+</mapper>
