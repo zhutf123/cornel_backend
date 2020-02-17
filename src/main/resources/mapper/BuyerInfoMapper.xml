@@ -16,11 +16,13 @@
         <result column="frequently_location"  property="frequentlyLocation" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="default_location" jdbcType="VARCHAR" property="defaultLocation"/>
+
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, user_id, user_name, id_card, id_type, mobile, company_id, create_time, update_time,
-        frequently_location, "status"
+        frequently_location, "status",default_location
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -39,11 +41,11 @@
         insert into buyer_info (id, user_id, user_name,
         id_card, id_type, mobile,
         company_id, create_time, update_time,
-        frequently_location, "status")
+        frequently_location, "status",default_location)
         values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
         #{idCard,jdbcType=VARCHAR}, #{idType,jdbcType=SMALLINT}, #{mobile,jdbcType=VARCHAR},
         #{companyId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
-        #{frequentlyLocation,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+        #{frequentlyLocation,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},#{defaultLocation,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.BuyerInfo">
         <!--@mbg.generated-->
@@ -82,6 +84,9 @@
             <if test="status != null">
                 "status",
             </if>
+            <if test="defaultLocation!= null">
+                default_location,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -112,10 +117,13 @@
                 #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="frequentlyLocation != null">
-                #{frequentlyLocation,jdbcType=VARCHAR},
+                #{frequentlyLocation,jdbcType=ARRAY,javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="status != null">
                 #{status,jdbcType=INTEGER},
+            </if>
+            <if test="defaultLocation != null">
+                #{defaultLocation,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -148,10 +156,13 @@
                 update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="frequentlyLocation != null">
-                frequently_location = #{frequentlyLocation,jdbcType=VARCHAR},
+                frequently_location = #{frequentlyLocation,jdbcType=ARRAY,javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="status != null">
                 "status" = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="defaultLocation != null">
+                default_location = #{defaultLocation,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -167,8 +178,9 @@
         company_id = #{companyId,jdbcType=VARCHAR},
         create_time = #{createTime,jdbcType=TIMESTAMP},
         update_time = #{updateTime,jdbcType=TIMESTAMP},
-        frequently_location = #{frequentlyLocation,jdbcType=VARCHAR},
-        "status" = #{status,jdbcType=INTEGER}
+        frequently_location = #{frequentlyLocation,jdbcType=ARRAY,javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+        "status" = #{status,jdbcType=INTEGER},
+        default_location = #{defaultLocation,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectByUserId" resultMap="BaseResultMap">
@@ -176,4 +188,21 @@
         <include refid="Base_Column_List"/>
         from buyer_info where user_id=#{userId} and status=1;
     </select>
+    <update id="updateFrequentlyLocation">
+        update buyer_info
+        <set>
+        <if test="defaultLocation != null and defaultLocation != ''">
+            default_location=#{defaultLocation,jdbcType=VARCHAR} ,
+        </if>
+         <if test="frequentlyLocation != null and frequentlyLocation.size() != 0">
+             frequently_location=#{frequentlyLocation,jdbcType=ARRAY,javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+         </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+    <update id="updateDefaultLocation">
+      update buyer_info set default_location=#{defaultLocation,jdbcType=VARCHAR} where user_id=#{userId} ;
+    </update>
+
+
 </mapper>

@@ -3,9 +3,9 @@ package com.demai.cornel.purcharse.dao;
 import com.demai.cornel.purcharse.model.SaleOrder;
 
 /**
-* @Author binz.zhang
-* @Date: 2020-02-12    13:32
-*/
+ * @Author binz.zhang
+ * @Date: 2020-02-14    19:37
+ */
 public interface SaleOrderMapper {
     int deleteByPrimaryKey(Integer id);
 

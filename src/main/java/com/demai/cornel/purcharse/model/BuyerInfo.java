@@ -10,8 +10,7 @@ import java.util.Set;
  * @Author binz.zhang
  * @Date: 2020-02-12    17:18
  */
-@Data
-public class BuyerInfo {
+@Data public class BuyerInfo {
     /**
      * 自增ID
      */
@@ -67,5 +66,6 @@ public class BuyerInfo {
      */
     private Integer status;
 
+    private String defaultLocation;
 
 }

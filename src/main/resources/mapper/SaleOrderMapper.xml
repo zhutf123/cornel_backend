@@ -19,12 +19,19 @@
     <result column="uint_weight" jdbcType="VARCHAR" property="uintWeight" />
     <result column="waybill_id" jdbcType="VARCHAR" property="waybillId" />
     <result column="purchase_id" jdbcType="VARCHAR" property="purchaseId" />
+    <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation" />
+    <result column="from_location" jdbcType="VARCHAR" property="fromLocation" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, "status", cargo_id, buyer_id, order_time, estimate_receive_time, payment_type, 
     payment_status, freight_price, commodity_price, order_price, unit_price, weight, 
-    uint_weight, waybill_id, purchase_id
+    uint_weight, waybill_id, purchase_id, contact_user_name, mobile, receive_location, 
+    from_location, order_id, offer_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -45,13 +52,17 @@
       payment_type, payment_status, freight_price, 
       commodity_price, order_price, unit_price, 
       weight, uint_weight, waybill_id, 
-      purchase_id)
+      purchase_id, contact_user_name, mobile, 
+      receive_location, from_location, order_id, 
+      offer_id)
     values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{cargoId,jdbcType=VARCHAR}, 
       #{buyerId,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, #{estimateReceiveTime,jdbcType=TIMESTAMP}, 
       #{paymentType,jdbcType=VARCHAR}, #{paymentStatus,jdbcType=INTEGER}, #{freightPrice,jdbcType=NUMERIC}, 
       #{commodityPrice,jdbcType=NUMERIC}, #{orderPrice,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR}, 
       #{weight,jdbcType=NUMERIC}, #{uintWeight,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR}, 
-      #{purchaseId,jdbcType=VARCHAR})
+      #{purchaseId,jdbcType=VARCHAR}, #{contactUserName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{receiveLocation,jdbcType=VARCHAR}, #{fromLocation,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{offerId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
     <!--@mbg.generated-->
@@ -105,6 +116,24 @@
       <if test="purchaseId != null">
         purchase_id,
       </if>
+      <if test="contactUserName != null">
+        contact_user_name,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="receiveLocation != null">
+        receive_location,
+      </if>
+      <if test="fromLocation != null">
+        from_location,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="offerId != null">
+        offer_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -154,6 +183,24 @@
       </if>
       <if test="purchaseId != null">
         #{purchaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="contactUserName != null">
+        #{contactUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveLocation != null">
+        #{receiveLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="fromLocation != null">
+        #{fromLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="offerId != null">
+        #{offerId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -206,6 +253,24 @@
       <if test="purchaseId != null">
         purchase_id = #{purchaseId,jdbcType=VARCHAR},
       </if>
+      <if test="contactUserName != null">
+        contact_user_name = #{contactUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveLocation != null">
+        receive_location = #{receiveLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="fromLocation != null">
+        from_location = #{fromLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="offerId != null">
+        offer_id = #{offerId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -226,7 +291,13 @@
       weight = #{weight,jdbcType=NUMERIC},
       uint_weight = #{uintWeight,jdbcType=VARCHAR},
       waybill_id = #{waybillId,jdbcType=VARCHAR},
-      purchase_id = #{purchaseId,jdbcType=VARCHAR}
+      purchase_id = #{purchaseId,jdbcType=VARCHAR},
+      contact_user_name = #{contactUserName,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      receive_location = #{receiveLocation,jdbcType=VARCHAR},
+      from_location = #{fromLocation,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      offer_id = #{offerId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

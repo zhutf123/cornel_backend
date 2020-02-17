@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.demai.cornel.purcharse.dao.CargoIdMapper">
-  <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.CargoId">
+<mapper namespace="com.demai.cornel.purcharse.dao.CargoInfoMapper">
+  <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.CargoInfo">
     <!--@mbg.generated-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="weight" jdbcType="NUMERIC" property="weight" />
@@ -13,11 +13,12 @@
     <result column="commodity_id" jdbcType="VARCHAR" property="commodityId" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="store_id" jdbcType="VARCHAR" property="storeId" />
+    <result column="cargo_id" jdbcType="VARCHAR" property="cargoId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, weight, unit_weight, location_id, parent_cargo_id, deal_time, price, commodity_id, 
-    "status", store_id
+    "status", store_id, cargo_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -31,18 +32,18 @@
     delete from cargo_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.demai.cornel.purcharse.model.CargoId">
+  <insert id="insert" parameterType="com.demai.cornel.purcharse.model.CargoInfo">
     <!--@mbg.generated-->
-    insert into cargo_info (id, weight, unit_weight,
+    insert into cargo_info (id, weight, unit_weight, 
       location_id, parent_cargo_id, deal_time, 
       price, commodity_id, "status", 
-      store_id)
+      store_id, cargo_id)
     values (#{id,jdbcType=INTEGER}, #{weight,jdbcType=NUMERIC}, #{unitWeight,jdbcType=VARCHAR}, 
       #{locationId,jdbcType=VARCHAR}, #{parentCargoId,jdbcType=VARCHAR}, #{dealTime,jdbcType=TIMESTAMP}, 
       #{price,jdbcType=NUMERIC}, #{commodityId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{storeId,jdbcType=VARCHAR})
+      #{storeId,jdbcType=VARCHAR}, #{cargoId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.CargoId">
+  <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.CargoInfo">
     <!--@mbg.generated-->
     insert into cargo_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -76,6 +77,9 @@
       <if test="storeId != null">
         store_id,
       </if>
+      <if test="cargoId != null">
+        cargo_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -108,9 +112,12 @@
       <if test="storeId != null">
         #{storeId,jdbcType=VARCHAR},
       </if>
+      <if test="cargoId != null">
+        #{cargoId,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.CargoId">
+  <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.CargoInfo">
     <!--@mbg.generated-->
     update cargo_info
     <set>
@@ -141,10 +148,13 @@
       <if test="storeId != null">
         store_id = #{storeId,jdbcType=VARCHAR},
       </if>
+      <if test="cargoId != null">
+        cargo_id = #{cargoId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.CargoId">
+  <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.CargoInfo">
     <!--@mbg.generated-->
     update cargo_info
     set weight = #{weight,jdbcType=NUMERIC},
@@ -155,7 +165,8 @@
       price = #{price,jdbcType=NUMERIC},
       commodity_id = #{commodityId,jdbcType=VARCHAR},
       "status" = #{status,jdbcType=INTEGER},
-      store_id = #{storeId,jdbcType=VARCHAR}
+      store_id = #{storeId,jdbcType=VARCHAR},
+      cargo_id = #{cargoId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

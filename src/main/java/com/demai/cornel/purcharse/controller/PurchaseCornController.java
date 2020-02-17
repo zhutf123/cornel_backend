@@ -6,6 +6,7 @@ import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.purcharse.service.PurchaseCornService;
 import com.demai.cornel.purcharse.vo.req.GetSystemOfferReq;
+import com.demai.cornel.purcharse.vo.req.SystemOfferReq;
 import com.demai.cornel.service.UserLoginService;
 import com.demai.cornel.service.UserService;
 import com.demai.cornel.util.JacksonUtils;
@@ -39,7 +40,7 @@ public class PurchaseCornController {
      * 获取系统报价
      * @return
      */
-    @RequestMapping(value = "/system-offer.json", method = RequestMethod.POST)
+    @RequestMapping(value = "/get-system-offer.json", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult systemOffer(@RequestBody GetSystemOfferReq getSystemOfferReq) {
             return JsonResult.success(purchaseCornService.getSystemOfferRespList(getSystemOfferReq));
@@ -56,4 +57,27 @@ public class PurchaseCornController {
         String orderId = (String) receivedParam.get("offerId");
         return JsonResult.success(purchaseCornService.clickSystemQuoteResp(orderId));
     }
+
+    /**
+     * 点击我要报价 系统补充信息
+     * @return
+     */
+    @RequestMapping(value = "/click-my-offer.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult clickSystemOffe() {
+        return JsonResult.success(purchaseCornService.clickMyOfferResp());
+    }
+
+    /**
+     * 买家下单系统商品操作
+     * @return
+     */
+    @RequestMapping(value = "/submit-system-offer.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult systemOffer(@RequestBody SystemOfferReq param) {
+        return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
+    }
+
+
+
 }

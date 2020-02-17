@@ -23,12 +23,11 @@ import java.util.Map;
     private String commodityName;  //商品名称
     private String location;//发货地
     private BigDecimal minBuyWeight;//最少购买量
-
+    private List<Commodity.Properties> properties; //商品属性
     private List<GetSystemOfferResp.Detail> detail; //报价详情
     @JsonIgnore private List<String> notice; //注意事项
     @JsonIgnore private Map<String, String> commodityProperties;
 
-    private List<Commodity.Properties> properties; //商品属性
 
     public void setCommodityProperties(Map<String, String> commodityProperties) {
         this.commodityProperties = commodityProperties;

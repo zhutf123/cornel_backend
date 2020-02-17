@@ -1,14 +1,10 @@
 package com.demai.cornel.purcharse.dao;
 
-import com.demai.cornel.purcharse.model.LocationInfo;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
-import java.util.Set;
+import com.demai.cornel.purcharse.model.LocationInfo;import org.apache.ibatis.annotations.Param;import java.util.List;import java.util.Set;
 
 /**
  * @Author binz.zhang
- * @Date: 2020-02-12    15:22
+ * @Date: 2020-02-14    10:58
  */
 public interface LocationInfoMapper {
     int deleteByPrimaryKey(Integer id);
@@ -18,10 +14,14 @@ public interface LocationInfoMapper {
     int insertSelective(LocationInfo record);
 
     LocationInfo selectByPrimaryKey(Integer id);
+    LocationInfo selectByLocationId(@Param("locationId") String locationId);
 
     int updateByPrimaryKeySelective(LocationInfo record);
 
     int updateByPrimaryKey(LocationInfo record);
 
     List<String> getLocationByLocationId(@Param("locationId") Set<String> locations);
+    List<LocationInfo> getLocationInfoByLocationId(@Param("locationId") Set<String> locations);
+
+    LocationInfo selectLocationIdByInfo(@Param("locationArea")String locationArea,@Param("locationDetail")String locationDetail,@Param("location")String location);
 }
