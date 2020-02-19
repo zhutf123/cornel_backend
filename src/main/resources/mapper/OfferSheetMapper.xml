@@ -11,10 +11,12 @@
     <result column="status" jdbcType="SMALLINT" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
-    <result column="notice" jdbcType="VARCHAR" property="notice" />
+    <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
+            typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
     <result column="min_buy_weight" jdbcType="NUMERIC" property="minBuyWeight" />
     <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight" />
   </resultMap>
+
   <resultMap id="list_resp" type="com.demai.cornel.purcharse.vo.GetSystemOfferResp">
     <!--@mbg.generated-->
     <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
