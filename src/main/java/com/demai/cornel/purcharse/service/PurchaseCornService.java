@@ -235,7 +235,7 @@ import java.util.*;
             log.debug("submitSystemQuoteResp fail due offerSheet invalid");
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
-        if(offerSheet.getMinBuyWeight().compareTo(offer.getWeight())==-1){
+        if(offerSheet.getMinBuyWeight().compareTo(offer.getWeight())==1){
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
 
