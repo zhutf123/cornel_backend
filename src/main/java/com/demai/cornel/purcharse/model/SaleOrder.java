@@ -127,6 +127,9 @@ import lombok.Data;
      */
     private Timestamp receiveEndTime;
 
+
+    private String commodityId;
+
     public static enum STATUS_ENUM implements IEmus {
         CANCLE(0, "取消"), UNDER_APPROVAL(1, "待审核"), UNDER_DELIVER(2, "待运输"), UNDER_RECEIVE(3, "带接货"), FINISH(5, "订单完成");
 

@@ -275,10 +275,15 @@ import java.util.*;
         List<GetSaleOrderListResp> getSaleOrderListResps = saleOrderMapper
                 .getSaleOrderList(getSaleOrderListReq.getOrderId(), getSaleOrderListReq.getPgSize(),
                         getSaleOrderListReq.getOrderType());
+
         if (getSaleOrderListReq == null) {
             log.debug("getSaleOrderListRespList fail due to get result  empty");
             return Collections.EMPTY_LIST;
         }
+        getSaleOrderListResps.stream().forEach(x->{
+            Commodity commodity  = commodityDao.getCommodityByCommodityId(x.getCommodityId());
+            x.setCommodity(commodity);
+        });
         return getSaleOrderListResps;
 
     }

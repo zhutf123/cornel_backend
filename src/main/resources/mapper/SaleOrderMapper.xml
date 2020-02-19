@@ -1,351 +1,365 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demai.cornel.purcharse.dao.SaleOrderMapper">
-  <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.SaleOrder">
-    <!--@mbg.generated-->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="cargo_id" jdbcType="VARCHAR" property="cargoId" />
-    <result column="buyer_id" jdbcType="VARCHAR" property="buyerId" />
-    <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
-    <result column="receive_start_time" jdbcType="TIMESTAMP" property="receiveStartTime" />
-    <result column="payment_type" jdbcType="VARCHAR" property="paymentType" />
-    <result column="payment_status" jdbcType="INTEGER" property="paymentStatus" />
-    <result column="freight_price" jdbcType="NUMERIC" property="freightPrice" />
-    <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice" />
-    <result column="order_price" jdbcType="NUMERIC" property="orderPrice" />
-    <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />
-    <result column="weight" jdbcType="NUMERIC" property="weight" />
-    <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight" />
-    <result column="waybill_id" jdbcType="VARCHAR" property="waybillId" />
-    <result column="purchase_id" jdbcType="VARCHAR" property="purchaseId" />
-    <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation" />
-    <result column="from_location" jdbcType="VARCHAR" property="fromLocation" />
-    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
-    <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
-    <result column="receive_end_time" jdbcType="TIMESTAMP" property="receiveEndTime" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.SaleOrder">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="cargo_id" jdbcType="VARCHAR" property="cargoId"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="order_time" jdbcType="TIMESTAMP" property="orderTime"/>
+        <result column="receive_start_time" jdbcType="TIMESTAMP" property="receiveStartTime"/>
+        <result column="payment_type" jdbcType="VARCHAR" property="paymentType"/>
+        <result column="payment_status" jdbcType="INTEGER" property="paymentStatus"/>
+        <result column="freight_price" jdbcType="NUMERIC" property="freightPrice"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="waybill_id" jdbcType="VARCHAR" property="waybillId"/>
+        <result column="purchase_id" jdbcType="VARCHAR" property="purchaseId"/>
+        <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="offer_id" jdbcType="VARCHAR" property="offerId"/>
+        <result column="receive_end_time" jdbcType="TIMESTAMP" property="receiveEndTime"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+
+    </resultMap>
 
 
+    <resultMap id="BaseResultMap_list" type="com.demai.cornel.purcharse.vo.resp.GetSaleOrderListResp">
+        <!--@mbg.generated-->
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="freight_price" jdbcType="NUMERIC" property="freightPrice"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
 
-  <resultMap id="BaseResultMap_list" type="com.demai.cornel.purcharse.vo.resp.GetSaleOrderListResp">
-    <!--@mbg.generated-->
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="receive_start_time" jdbcType="TIMESTAMP" property="receiveStartTime" />
-    <result column="freight_price" jdbcType="NUMERIC" property="freightPrice" />
-    <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice" />
-    <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />
-    <result column="weight" jdbcType="NUMERIC" property="weight" />
-    <result column="order_price" jdbcType="NUMERIC" property="orderPrice" />
-    <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight" />
-    <result column="receive_end_time" jdbcType="TIMESTAMP" property="receiveEndTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    id, "status", cargo_id, buyer_id, order_time, receive_start_time, payment_type, payment_status, 
-    freight_price, commodity_price, order_price, unit_price, weight, unit_weight, waybill_id, 
-    purchase_id, contact_user_name, mobile, receive_location, from_location, order_id, 
-    offer_id, receive_end_time
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
-    from sale_order
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    <!--@mbg.generated-->
-    delete from sale_order
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
-    <!--@mbg.generated-->
-    insert into sale_order (id, "status", cargo_id, 
-      buyer_id, order_time, receive_start_time, 
-      payment_type, payment_status, freight_price, 
-      commodity_price, order_price, unit_price, 
-      weight, unit_weight, waybill_id, 
-      purchase_id, contact_user_name, mobile, 
-      receive_location, from_location, order_id, 
-      offer_id, receive_end_time)
-    values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{cargoId,jdbcType=VARCHAR}, 
-      #{buyerId,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, #{receiveStartTime,jdbcType=TIMESTAMP}, 
-      #{paymentType,jdbcType=VARCHAR}, #{paymentStatus,jdbcType=INTEGER}, #{freightPrice,jdbcType=NUMERIC}, 
-      #{commodityPrice,jdbcType=NUMERIC}, #{orderPrice,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR}, 
-      #{weight,jdbcType=NUMERIC}, #{unitWeight,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR}, 
-      #{purchaseId,jdbcType=VARCHAR}, #{contactUserName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{receiveLocation,jdbcType=VARCHAR}, #{fromLocation,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
-      #{offerId,jdbcType=VARCHAR}, #{receiveEndTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
-    <!--@mbg.generated-->
-    insert into sale_order
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="status != null">
-        "status",
-      </if>
-      <if test="cargoId != null">
-        cargo_id,
-      </if>
-      <if test="buyerId != null">
-        buyer_id,
-      </if>
-      <if test="orderTime != null">
-        order_time,
-      </if>
-      <if test="receiveStartTime != null">
-        receive_start_time,
-      </if>
-      <if test="paymentType != null">
-        payment_type,
-      </if>
-      <if test="paymentStatus != null">
-        payment_status,
-      </if>
-      <if test="freightPrice != null">
-        freight_price,
-      </if>
-      <if test="commodityPrice != null">
-        commodity_price,
-      </if>
-      <if test="orderPrice != null">
-        order_price,
-      </if>
-      <if test="unitPrice != null">
-        unit_price,
-      </if>
-      <if test="weight != null">
-        weight,
-      </if>
-      <if test="unitWeight != null">
-        unit_weight,
-      </if>
-      <if test="waybillId != null">
-        waybill_id,
-      </if>
-      <if test="purchaseId != null">
-        purchase_id,
-      </if>
-      <if test="contactUserName != null">
-        contact_user_name,
-      </if>
-      <if test="mobile != null">
-        mobile,
-      </if>
-      <if test="receiveLocation != null">
-        receive_location,
-      </if>
-      <if test="fromLocation != null">
-        from_location,
-      </if>
-      <if test="orderId != null">
-        order_id,
-      </if>
-      <if test="offerId != null">
-        offer_id,
-      </if>
-      <if test="receiveEndTime != null">
-        receive_end_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="cargoId != null">
-        #{cargoId,jdbcType=VARCHAR},
-      </if>
-      <if test="buyerId != null">
-        #{buyerId,jdbcType=VARCHAR},
-      </if>
-      <if test="orderTime != null">
-        #{orderTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="receiveStartTime != null">
-        #{receiveStartTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="paymentType != null">
-        #{paymentType,jdbcType=VARCHAR},
-      </if>
-      <if test="paymentStatus != null">
-        #{paymentStatus,jdbcType=INTEGER},
-      </if>
-      <if test="freightPrice != null">
-        #{freightPrice,jdbcType=NUMERIC},
-      </if>
-      <if test="commodityPrice != null">
-        #{commodityPrice,jdbcType=NUMERIC},
-      </if>
-      <if test="orderPrice != null">
-        #{orderPrice,jdbcType=NUMERIC},
-      </if>
-      <if test="unitPrice != null">
-        #{unitPrice,jdbcType=VARCHAR},
-      </if>
-      <if test="weight != null">
-        #{weight,jdbcType=NUMERIC},
-      </if>
-      <if test="unitWeight != null">
-        #{unitWeight,jdbcType=VARCHAR},
-      </if>
-      <if test="waybillId != null">
-        #{waybillId,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseId != null">
-        #{purchaseId,jdbcType=VARCHAR},
-      </if>
-      <if test="contactUserName != null">
-        #{contactUserName,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null">
-        #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="receiveLocation != null">
-        #{receiveLocation,jdbcType=VARCHAR},
-      </if>
-      <if test="fromLocation != null">
-        #{fromLocation,jdbcType=VARCHAR},
-      </if>
-      <if test="orderId != null">
-        #{orderId,jdbcType=VARCHAR},
-      </if>
-      <if test="offerId != null">
-        #{offerId,jdbcType=VARCHAR},
-      </if>
-      <if test="receiveEndTime != null">
-        #{receiveEndTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
-    <!--@mbg.generated-->
-    update sale_order
-    <set>
-      <if test="status != null">
-        "status" = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="cargoId != null">
-        cargo_id = #{cargoId,jdbcType=VARCHAR},
-      </if>
-      <if test="buyerId != null">
-        buyer_id = #{buyerId,jdbcType=VARCHAR},
-      </if>
-      <if test="orderTime != null">
-        order_time = #{orderTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="receiveStartTime != null">
-        receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="paymentType != null">
-        payment_type = #{paymentType,jdbcType=VARCHAR},
-      </if>
-      <if test="paymentStatus != null">
-        payment_status = #{paymentStatus,jdbcType=INTEGER},
-      </if>
-      <if test="freightPrice != null">
-        freight_price = #{freightPrice,jdbcType=NUMERIC},
-      </if>
-      <if test="commodityPrice != null">
-        commodity_price = #{commodityPrice,jdbcType=NUMERIC},
-      </if>
-      <if test="orderPrice != null">
-        order_price = #{orderPrice,jdbcType=NUMERIC},
-      </if>
-      <if test="unitPrice != null">
-        unit_price = #{unitPrice,jdbcType=VARCHAR},
-      </if>
-      <if test="weight != null">
-        weight = #{weight,jdbcType=NUMERIC},
-      </if>
-      <if test="unitWeight != null">
-        unit_weight = #{unitWeight,jdbcType=VARCHAR},
-      </if>
-      <if test="waybillId != null">
-        waybill_id = #{waybillId,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseId != null">
-        purchase_id = #{purchaseId,jdbcType=VARCHAR},
-      </if>
-      <if test="contactUserName != null">
-        contact_user_name = #{contactUserName,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null">
-        mobile = #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="receiveLocation != null">
-        receive_location = #{receiveLocation,jdbcType=VARCHAR},
-      </if>
-      <if test="fromLocation != null">
-        from_location = #{fromLocation,jdbcType=VARCHAR},
-      </if>
-      <if test="orderId != null">
-        order_id = #{orderId,jdbcType=VARCHAR},
-      </if>
-      <if test="offerId != null">
-        offer_id = #{offerId,jdbcType=VARCHAR},
-      </if>
-      <if test="receiveEndTime != null">
-        receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
-    <!--@mbg.generated-->
-    update sale_order
-    set "status" = #{status,jdbcType=INTEGER},
-      cargo_id = #{cargoId,jdbcType=VARCHAR},
-      buyer_id = #{buyerId,jdbcType=VARCHAR},
-      order_time = #{orderTime,jdbcType=TIMESTAMP},
-      receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
-      payment_type = #{paymentType,jdbcType=VARCHAR},
-      payment_status = #{paymentStatus,jdbcType=INTEGER},
-      freight_price = #{freightPrice,jdbcType=NUMERIC},
-      commodity_price = #{commodityPrice,jdbcType=NUMERIC},
-      order_price = #{orderPrice,jdbcType=NUMERIC},
-      unit_price = #{unitPrice,jdbcType=VARCHAR},
-      weight = #{weight,jdbcType=NUMERIC},
-      unit_weight = #{unitWeight,jdbcType=VARCHAR},
-      waybill_id = #{waybillId,jdbcType=VARCHAR},
-      purchase_id = #{purchaseId,jdbcType=VARCHAR},
-      contact_user_name = #{contactUserName,jdbcType=VARCHAR},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      receive_location = #{receiveLocation,jdbcType=VARCHAR},
-      from_location = #{fromLocation,jdbcType=VARCHAR},
-      order_id = #{orderId,jdbcType=VARCHAR},
-      offer_id = #{offerId,jdbcType=VARCHAR},
-      receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-    <select id="selectSaleOrderByCargoId" resultMap="BaseResultMap">
-      select
-      <include refid="Base_Column_List"/>
-      from sale_order where cargo_id=#{cargoId,jdbcType=VARCHAR} ;
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, "status", cargo_id, buyer_id, order_time, receive_start_time, payment_type, payment_status,
+        freight_price, commodity_price, order_price, unit_price, weight, unit_weight, waybill_id,
+        purchase_id, contact_user_name, mobile, receive_location, from_location, order_id,
+        offer_id, receive_end_time,commodity_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from sale_order
+        where id = #{id,jdbcType=INTEGER}
     </select>
-  <select id="getSaleOrderList" resultMap="BaseResultMap_list">
-     select <include refid="Base_Column_List"/>
-     from sale_order where 1=1
-     <if test="orderId != null and orderId != ''">
-      and id  <![CDATA[<=]]> (select id from sale_order where offer_id=#{orderId} )
-     </if>
-    <if test="orderId == null or orderId == ''">
-      and id  <![CDATA[<=]]> (select max(id) from sale_order)
-    </if>
-     <if test="status != null">
-      and status = #{status}
-     </if>
-    <if test="status == null">
-      and status !=0
-    </if>
-     order by id desc limit #{pgSize} ;
-  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from sale_order
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
+        <!--@mbg.generated-->
+        insert into sale_order (id, "status", cargo_id,
+        buyer_id, order_time, receive_start_time,
+        payment_type, payment_status, freight_price,
+        commodity_price, order_price, unit_price,
+        weight, unit_weight, waybill_id,
+        purchase_id, contact_user_name, mobile,
+        receive_location, from_location, order_id,
+        offer_id, receive_end_time,commodity_id)
+        values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{cargoId,jdbcType=VARCHAR},
+        #{buyerId,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, #{receiveStartTime,jdbcType=TIMESTAMP},
+        #{paymentType,jdbcType=VARCHAR}, #{paymentStatus,jdbcType=INTEGER}, #{freightPrice,jdbcType=NUMERIC},
+        #{commodityPrice,jdbcType=NUMERIC}, #{orderPrice,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR},
+        #{weight,jdbcType=NUMERIC}, #{unitWeight,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR},
+        #{purchaseId,jdbcType=VARCHAR}, #{contactUserName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+        #{receiveLocation,jdbcType=VARCHAR}, #{fromLocation,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR},
+        #{offerId,jdbcType=VARCHAR}, #{receiveEndTime,jdbcType=TIMESTAMP}, #{commodityId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
+        <!--@mbg.generated-->
+        insert into sale_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="status != null">
+                "status",
+            </if>
+            <if test="cargoId != null">
+                cargo_id,
+            </if>
+            <if test="buyerId != null">
+                buyer_id,
+            </if>
+            <if test="orderTime != null">
+                order_time,
+            </if>
+            <if test="receiveStartTime != null">
+                receive_start_time,
+            </if>
+            <if test="paymentType != null">
+                payment_type,
+            </if>
+            <if test="paymentStatus != null">
+                payment_status,
+            </if>
+            <if test="freightPrice != null">
+                freight_price,
+            </if>
+            <if test="commodityPrice != null">
+                commodity_price,
+            </if>
+            <if test="orderPrice != null">
+                order_price,
+            </if>
+            <if test="unitPrice != null">
+                unit_price,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="unitWeight != null">
+                unit_weight,
+            </if>
+            <if test="waybillId != null">
+                waybill_id,
+            </if>
+            <if test="purchaseId != null">
+                purchase_id,
+            </if>
+            <if test="contactUserName != null">
+                contact_user_name,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="receiveLocation != null">
+                receive_location,
+            </if>
+            <if test="fromLocation != null">
+                from_location,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="offerId != null">
+                offer_id,
+            </if>
+            <if test="receiveEndTime != null">
+                receive_end_time,
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                commodity_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="cargoId != null">
+                #{cargoId,jdbcType=VARCHAR},
+            </if>
+            <if test="buyerId != null">
+                #{buyerId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTime != null">
+                #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="receiveStartTime != null">
+                #{receiveStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="paymentType != null">
+                #{paymentType,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentStatus != null">
+                #{paymentStatus,jdbcType=INTEGER},
+            </if>
+            <if test="freightPrice != null">
+                #{freightPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="commodityPrice != null">
+                #{commodityPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="orderPrice != null">
+                #{orderPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="waybillId != null">
+                #{waybillId,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseId != null">
+                #{purchaseId,jdbcType=VARCHAR},
+            </if>
+            <if test="contactUserName != null">
+                #{contactUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveLocation != null">
+                #{receiveLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="fromLocation != null">
+                #{fromLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="offerId != null">
+                #{offerId,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveEndTime != null">
+                #{receiveEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                #{commodityId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
+        <!--@mbg.generated-->
+        update sale_order
+        <set>
+            <if test="status != null">
+                "status" = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="cargoId != null">
+                cargo_id = #{cargoId,jdbcType=VARCHAR},
+            </if>
+            <if test="buyerId != null">
+                buyer_id = #{buyerId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTime != null">
+                order_time = #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="receiveStartTime != null">
+                receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="paymentType != null">
+                payment_type = #{paymentType,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentStatus != null">
+                payment_status = #{paymentStatus,jdbcType=INTEGER},
+            </if>
+            <if test="freightPrice != null">
+                freight_price = #{freightPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="commodityPrice != null">
+                commodity_price = #{commodityPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="orderPrice != null">
+                order_price = #{orderPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                unit_price = #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                unit_weight = #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="waybillId != null">
+                waybill_id = #{waybillId,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseId != null">
+                purchase_id = #{purchaseId,jdbcType=VARCHAR},
+            </if>
+            <if test="contactUserName != null">
+                contact_user_name = #{contactUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveLocation != null">
+                receive_location = #{receiveLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="fromLocation != null">
+                from_location = #{fromLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="offerId != null">
+                offer_id = #{offerId,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveEndTime != null">
+                receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP},
+            </if>
+             <if test="commodityId != null and commodityId != ''">
+                 commodity_id=#{commodityId} ,
+             </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
+        <!--@mbg.generated-->
+        update sale_order
+        set "status" = #{status,jdbcType=INTEGER},
+        cargo_id = #{cargoId,jdbcType=VARCHAR},
+        buyer_id = #{buyerId,jdbcType=VARCHAR},
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+        receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
+        payment_type = #{paymentType,jdbcType=VARCHAR},
+        payment_status = #{paymentStatus,jdbcType=INTEGER},
+        freight_price = #{freightPrice,jdbcType=NUMERIC},
+        commodity_price = #{commodityPrice,jdbcType=NUMERIC},
+        order_price = #{orderPrice,jdbcType=NUMERIC},
+        unit_price = #{unitPrice,jdbcType=VARCHAR},
+        weight = #{weight,jdbcType=NUMERIC},
+        unit_weight = #{unitWeight,jdbcType=VARCHAR},
+        waybill_id = #{waybillId,jdbcType=VARCHAR},
+        purchase_id = #{purchaseId,jdbcType=VARCHAR},
+        contact_user_name = #{contactUserName,jdbcType=VARCHAR},
+        mobile = #{mobile,jdbcType=VARCHAR},
+        receive_location = #{receiveLocation,jdbcType=VARCHAR},
+        from_location = #{fromLocation,jdbcType=VARCHAR},
+        order_id = #{orderId,jdbcType=VARCHAR},
+        offer_id = #{offerId,jdbcType=VARCHAR},
+        receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP},
+        commodity_id = #{cargoId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectSaleOrderByCargoId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sale_order where cargo_id=#{cargoId,jdbcType=VARCHAR} ;
+    </select>
+    <select id="getSaleOrderList" resultMap="BaseResultMap_list">
+        select
+        <include refid="Base_Column_List"/>
+        from sale_order where 1=1
+        <if test="orderId != null and orderId != ''">
+            and id  <![CDATA[<=]]> (select id from sale_order where offer_id=#{orderId} )
+        </if>
+        <if test="orderId == null or orderId == ''">
+            and id  <![CDATA[<=]]> (select max(id) from sale_order)
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="status == null">
+            and status !=0
+        </if>
+        order by id desc limit #{pgSize} ;
+    </select>
 </mapper>

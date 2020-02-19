@@ -19,10 +19,11 @@ public class GetSaleOrderListResp {
     private BigDecimal freightPrice;//运费
     private BigDecimal orderPrice;//订单总价值
     private String unitPrice;// 价格单位
-    private Timestamp receiveStartTime;//收货开始时间
-    private Timestamp receiveEndTime;//收货结束时间
+    private String receiveStartTime;//收货开始时间
+    private String receiveEndTime;//收货结束时间
     private Integer arriveCar;//到达车辆
     private Integer unarriveCar;// 未达到车辆
     private Integer status;
+    private String commodityId;
 
 }
