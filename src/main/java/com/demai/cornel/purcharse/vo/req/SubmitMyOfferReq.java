@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 
 /**
  * @Author binz.zhang
- * @Date: 2020-02-14    11:16
+ * @Date: 2020-02-17    14:58
  */
 @Data
-public class SystemOfferReq {
+public class SubmitMyOfferReq {
     private String buyerId;  //下单用户ID
     @NonNull
     private String contactUserName; //联系人
@@ -23,12 +23,11 @@ public class SystemOfferReq {
     @NonNull
     private BigDecimal weight; //重量
     private String unitWeight = "吨"; //重量单位
-    private String offerId; // 首页售卖ID
     @NonNull
     private BigDecimal commodityPrice;
     private String unitPrice = "元";
     @NonNull
-    private String receiveStartTime;//预计收货时间
-    private String receiveEndTime;//预计收货时间截止时间
+    private String receiveStartTime;//预计收货开始时间
+    private String receiveEndTime;//预计收货结束时间
 
 }

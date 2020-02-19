@@ -18,7 +18,7 @@ import java.util.List;
 
 @Data @Builder @AllArgsConstructor @NoArgsConstructor public class ClickSystemOfferResp {
     private String userName;  //联系人名字
-    private String mobile="";    //手机号
+    private String mobile = "";    //手机号
     private Commodity commodity; //货品
     private BigDecimal minBuyWeight;  //出货量
     private BigDecimal price;  //单位价格
@@ -26,7 +26,10 @@ import java.util.List;
     private String unitPrice; //价格单位
     private Integer status;
     private List<String> receiveLocation; //收货地址
-    private String estimateReceiveTime;//预计收货时间
+
+    private String receiveStartTime;//预计收货时间
+    private String receiveEndTime;//预计收货时间
+
     public static enum STATUS_ENUE implements IEmus {
         PARAM_ERROR(-1, "参数错误"), SUCCESS(0, "请求成功"), USER_ERROR(1, "无权限"), COMMODITY_ERROR(3, "商品已失效");
 

@@ -137,7 +137,8 @@
             <if test="receiverUserId != null">receiver_user_id,</if>
             <if test="unitDistance != null">unit_distance,</if>
             <if test="unitWeightPrice != null">unit_weight_price,</if>
-
+            <if test="receiverMobile != null">receiver_mobile,</if>
+            <if test="supplierMobile != null">supplier_mobile,</if>
         </trim>
         )values(
         <trim suffixOverrides=",">
@@ -174,7 +175,8 @@
             </if>
             <if test="unitDistance != null">#{unitDistance},</if>
             <if test="unitWeightPrice != null">#{unitWeightPrice},</if>
-
+            <if test="receiverMobile != null">#{receiverMobile,jdbcType=ARRAY, javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,</if>
+            <if test="supplierMobile != null">#{supplierMobile,jdbcType=ARRAY, javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,</if>
         </trim>
         )
     </insert>

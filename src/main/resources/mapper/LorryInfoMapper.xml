@@ -238,5 +238,8 @@
         </trim>
         where lorry_id = #{lorryId}
     </update>
+    <select id="getAllIdleLorry" resultMap="lorryInfoResultMap">
+     select <include refid="main_column"/> from lorry_info where status=2;
+    </select>
 
 </mapper>

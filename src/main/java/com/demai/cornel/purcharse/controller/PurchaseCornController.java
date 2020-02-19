@@ -5,12 +5,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.purcharse.service.PurchaseCornService;
+import com.demai.cornel.purcharse.vo.req.GetSaleOrderListReq;
 import com.demai.cornel.purcharse.vo.req.GetSystemOfferReq;
+import com.demai.cornel.purcharse.vo.req.SubmitMyOfferReq;
 import com.demai.cornel.purcharse.vo.req.SystemOfferReq;
 import com.demai.cornel.service.UserLoginService;
 import com.demai.cornel.service.UserService;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.task.GetOrderListReq;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +72,18 @@ public class PurchaseCornController {
     }
 
     /**
+     * 点击我要报价 系统补充信息
+     * @return
+     */
+    @RequestMapping(value = "/submit-my-offer.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult submitMyOffer(@RequestBody SubmitMyOfferReq param) {
+        return JsonResult.success(purchaseCornService.submitMyOffer(param));
+    }
+
+
+
+    /**
      * 买家下单系统商品操作
      * @return
      */
@@ -78,6 +93,39 @@ public class PurchaseCornController {
         return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
     }
 
+    /**
+     * 买家下单系统商品操作
+     * @return
+     */
+    @RequestMapping(value = "/get-order-list.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult systemOffer(@RequestBody GetSaleOrderListReq getSaleOrderListReq) {
+        return JsonResult.success(purchaseCornService.getSaleOrderListRespList(getSaleOrderListReq));
+    }
 
+//    /**
+//     * 买家派单逻辑
+//     * @return
+//     */
+//    @RequestMapping(value = "/dist-order.json", method = RequestMethod.POST)
+//    @ResponseBody
+//    public JsonResult getOrderList(@RequestBody String param) {
+//        JSONObject jsonObject1 = JSONObject.parseObject(param);
+//        String cargoId = jsonObject1.getString("cargoId");
+//        return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
+//    }
+
+
+//    /**
+//     * 买家派单逻辑
+//     * @return
+//     */
+//    @RequestMapping(value = "/dist-order.json", method = RequestMethod.POST)
+//    @ResponseBody
+//    public JsonResult getOrderList(@RequestBody String param) {
+//        JSONObject jsonObject1 = JSONObject.parseObject(param);
+//        String cargoId = jsonObject1.getString("cargoId");
+//        return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
+//    }
 
 }

@@ -8,7 +8,7 @@
     <result column="cargo_id" jdbcType="VARCHAR" property="cargoId" />
     <result column="buyer_id" jdbcType="VARCHAR" property="buyerId" />
     <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
-    <result column="estimate_receive_time" jdbcType="TIMESTAMP" property="estimateReceiveTime" />
+    <result column="receive_start_time" jdbcType="TIMESTAMP" property="receiveStartTime" />
     <result column="payment_type" jdbcType="VARCHAR" property="paymentType" />
     <result column="payment_status" jdbcType="INTEGER" property="paymentStatus" />
     <result column="freight_price" jdbcType="NUMERIC" property="freightPrice" />
@@ -16,7 +16,7 @@
     <result column="order_price" jdbcType="NUMERIC" property="orderPrice" />
     <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />
     <result column="weight" jdbcType="NUMERIC" property="weight" />
-    <result column="uint_weight" jdbcType="VARCHAR" property="uintWeight" />
+    <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight" />
     <result column="waybill_id" jdbcType="VARCHAR" property="waybillId" />
     <result column="purchase_id" jdbcType="VARCHAR" property="purchaseId" />
     <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName" />
@@ -25,13 +25,29 @@
     <result column="from_location" jdbcType="VARCHAR" property="fromLocation" />
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
+    <result column="receive_end_time" jdbcType="TIMESTAMP" property="receiveEndTime" />
+  </resultMap>
+
+
+
+  <resultMap id="BaseResultMap_list" type="com.demai.cornel.purcharse.vo.resp.GetSaleOrderListResp">
+    <!--@mbg.generated-->
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="receive_start_time" jdbcType="TIMESTAMP" property="receiveStartTime" />
+    <result column="freight_price" jdbcType="NUMERIC" property="freightPrice" />
+    <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice" />
+    <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />
+    <result column="weight" jdbcType="NUMERIC" property="weight" />
+    <result column="order_price" jdbcType="NUMERIC" property="orderPrice" />
+    <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight" />
+    <result column="receive_end_time" jdbcType="TIMESTAMP" property="receiveEndTime" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, "status", cargo_id, buyer_id, order_time, estimate_receive_time, payment_type, 
-    payment_status, freight_price, commodity_price, order_price, unit_price, weight, 
-    uint_weight, waybill_id, purchase_id, contact_user_name, mobile, receive_location, 
-    from_location, order_id, offer_id
+    id, "status", cargo_id, buyer_id, order_time, receive_start_time, payment_type, payment_status, 
+    freight_price, commodity_price, order_price, unit_price, weight, unit_weight, waybill_id, 
+    purchase_id, contact_user_name, mobile, receive_location, from_location, order_id, 
+    offer_id, receive_end_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -48,21 +64,21 @@
   <insert id="insert" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
     <!--@mbg.generated-->
     insert into sale_order (id, "status", cargo_id, 
-      buyer_id, order_time, estimate_receive_time, 
+      buyer_id, order_time, receive_start_time, 
       payment_type, payment_status, freight_price, 
       commodity_price, order_price, unit_price, 
-      weight, uint_weight, waybill_id, 
+      weight, unit_weight, waybill_id, 
       purchase_id, contact_user_name, mobile, 
       receive_location, from_location, order_id, 
-      offer_id)
+      offer_id, receive_end_time)
     values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{cargoId,jdbcType=VARCHAR}, 
-      #{buyerId,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, #{estimateReceiveTime,jdbcType=TIMESTAMP}, 
+      #{buyerId,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, #{receiveStartTime,jdbcType=TIMESTAMP}, 
       #{paymentType,jdbcType=VARCHAR}, #{paymentStatus,jdbcType=INTEGER}, #{freightPrice,jdbcType=NUMERIC}, 
       #{commodityPrice,jdbcType=NUMERIC}, #{orderPrice,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR}, 
-      #{weight,jdbcType=NUMERIC}, #{uintWeight,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=NUMERIC}, #{unitWeight,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR}, 
       #{purchaseId,jdbcType=VARCHAR}, #{contactUserName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{receiveLocation,jdbcType=VARCHAR}, #{fromLocation,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
-      #{offerId,jdbcType=VARCHAR})
+      #{offerId,jdbcType=VARCHAR}, #{receiveEndTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
     <!--@mbg.generated-->
@@ -83,8 +99,8 @@
       <if test="orderTime != null">
         order_time,
       </if>
-      <if test="estimateReceiveTime != null">
-        estimate_receive_time,
+      <if test="receiveStartTime != null">
+        receive_start_time,
       </if>
       <if test="paymentType != null">
         payment_type,
@@ -107,8 +123,8 @@
       <if test="weight != null">
         weight,
       </if>
-      <if test="uintWeight != null">
-        uint_weight,
+      <if test="unitWeight != null">
+        unit_weight,
       </if>
       <if test="waybillId != null">
         waybill_id,
@@ -134,6 +150,9 @@
       <if test="offerId != null">
         offer_id,
       </if>
+      <if test="receiveEndTime != null">
+        receive_end_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -151,8 +170,8 @@
       <if test="orderTime != null">
         #{orderTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="estimateReceiveTime != null">
-        #{estimateReceiveTime,jdbcType=TIMESTAMP},
+      <if test="receiveStartTime != null">
+        #{receiveStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="paymentType != null">
         #{paymentType,jdbcType=VARCHAR},
@@ -175,8 +194,8 @@
       <if test="weight != null">
         #{weight,jdbcType=NUMERIC},
       </if>
-      <if test="uintWeight != null">
-        #{uintWeight,jdbcType=VARCHAR},
+      <if test="unitWeight != null">
+        #{unitWeight,jdbcType=VARCHAR},
       </if>
       <if test="waybillId != null">
         #{waybillId,jdbcType=VARCHAR},
@@ -202,6 +221,9 @@
       <if test="offerId != null">
         #{offerId,jdbcType=VARCHAR},
       </if>
+      <if test="receiveEndTime != null">
+        #{receiveEndTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
@@ -220,8 +242,8 @@
       <if test="orderTime != null">
         order_time = #{orderTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="estimateReceiveTime != null">
-        estimate_receive_time = #{estimateReceiveTime,jdbcType=TIMESTAMP},
+      <if test="receiveStartTime != null">
+        receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="paymentType != null">
         payment_type = #{paymentType,jdbcType=VARCHAR},
@@ -244,8 +266,8 @@
       <if test="weight != null">
         weight = #{weight,jdbcType=NUMERIC},
       </if>
-      <if test="uintWeight != null">
-        uint_weight = #{uintWeight,jdbcType=VARCHAR},
+      <if test="unitWeight != null">
+        unit_weight = #{unitWeight,jdbcType=VARCHAR},
       </if>
       <if test="waybillId != null">
         waybill_id = #{waybillId,jdbcType=VARCHAR},
@@ -271,6 +293,9 @@
       <if test="offerId != null">
         offer_id = #{offerId,jdbcType=VARCHAR},
       </if>
+      <if test="receiveEndTime != null">
+        receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -281,7 +306,7 @@
       cargo_id = #{cargoId,jdbcType=VARCHAR},
       buyer_id = #{buyerId,jdbcType=VARCHAR},
       order_time = #{orderTime,jdbcType=TIMESTAMP},
-      estimate_receive_time = #{estimateReceiveTime,jdbcType=TIMESTAMP},
+      receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
       payment_type = #{paymentType,jdbcType=VARCHAR},
       payment_status = #{paymentStatus,jdbcType=INTEGER},
       freight_price = #{freightPrice,jdbcType=NUMERIC},
@@ -289,7 +314,7 @@
       order_price = #{orderPrice,jdbcType=NUMERIC},
       unit_price = #{unitPrice,jdbcType=VARCHAR},
       weight = #{weight,jdbcType=NUMERIC},
-      uint_weight = #{uintWeight,jdbcType=VARCHAR},
+      unit_weight = #{unitWeight,jdbcType=VARCHAR},
       waybill_id = #{waybillId,jdbcType=VARCHAR},
       purchase_id = #{purchaseId,jdbcType=VARCHAR},
       contact_user_name = #{contactUserName,jdbcType=VARCHAR},
@@ -297,7 +322,30 @@
       receive_location = #{receiveLocation,jdbcType=VARCHAR},
       from_location = #{fromLocation,jdbcType=VARCHAR},
       order_id = #{orderId,jdbcType=VARCHAR},
-      offer_id = #{offerId,jdbcType=VARCHAR}
+      offer_id = #{offerId,jdbcType=VARCHAR},
+      receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="selectSaleOrderByCargoId" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from sale_order where cargo_id=#{cargoId,jdbcType=VARCHAR} ;
+    </select>
+  <select id="getSaleOrderList" resultMap="BaseResultMap_list">
+     select <include refid="Base_Column_List"/>
+     from sale_order where 1=1
+     <if test="orderId != null and orderId != ''">
+      and id  <![CDATA[<=]]> (select id from sale_order where offer_id=#{orderId} )
+     </if>
+    <if test="orderId == null or orderId == ''">
+      and id  <![CDATA[<=]]> (select max(id) from sale_order)
+    </if>
+     <if test="status != null">
+      and status = #{status}
+     </if>
+    <if test="status == null">
+      and status !=0
+    </if>
+     order by id desc limit #{pgSize} ;
+  </select>
 </mapper>

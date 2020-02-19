@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SystemOfferResp {
+public class BuyOfferResp {
     private String orderId;
     private Integer orderStatus;
     private Integer status;
@@ -22,7 +22,7 @@ public class SystemOfferResp {
         PARAM_ERROR(-1, "参数错误"),
         SUCCESS(0, "请求成功"),
         SERVER_ERROR(1, "网络异常，请稍后重试"),
-        OFFER_INVALID(2, "报价无效");
+        USER_ERROR(2, "用户无权限下单");
 
         private int value;
         private String expr;

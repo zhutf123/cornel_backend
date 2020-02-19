@@ -69,6 +69,8 @@ public class TaskInfo implements Serializable {
     private Set<String> receiverUserId;
     private Set<String> sendOutUserId;
     private String unitPrice;
+    private Set<String> receiverMobile;
+    private Set<String> supplierMobile;
 
     public static enum STATUS_ENUE {
 

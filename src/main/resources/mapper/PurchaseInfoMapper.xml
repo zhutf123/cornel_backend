@@ -5,21 +5,25 @@
     <!--@mbg.generated-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="commodity_id" jdbcType="VARCHAR" property="commodityId" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="buyer_id" jdbcType="VARCHAR" property="buyerId" />
     <result column="price" jdbcType="NUMERIC" property="price" />
     <result column="weight" jdbcType="NUMERIC" property="weight" />
     <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />
     <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight" />
-    <result column="location_id" jdbcType="VARCHAR" property="locationId" />
-    <result column="receive_start" jdbcType="TIMESTAMP" property="receiveStart" />
-    <result column="receive_end" jdbcType="TIMESTAMP" property="receiveEnd" />
+    <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId" />
+    <result column="receive_start_time" jdbcType="TIMESTAMP" property="receiveStartTime" />
+    <result column="receive_end_time" jdbcType="TIMESTAMP" property="receiveEndTime" />
     <result column="status" jdbcType="SMALLINT" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="purchase_id" jdbcType="VARCHAR" property="purchaseId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, commodity_id, user_id, price, weight, unit_price, unit_weight, location_id, receive_start, 
-    receive_end, "status", create_time
+    id, commodity_id, buyer_id, price, weight, unit_price, unit_weight, receive_location_id, 
+    receive_start_time, receive_end_time, "status", create_time, contact_user_name, mobile, 
+    purchase_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -35,15 +39,17 @@
   </delete>
   <insert id="insert" parameterType="com.demai.cornel.purcharse.model.PurchaseInfo">
     <!--@mbg.generated-->
-    insert into purchase_info (id, commodity_id, user_id, 
+    insert into purchase_info (id, commodity_id, buyer_id, 
       price, weight, unit_price, 
-      unit_weight, location_id, receive_start, 
-      receive_end, "status", create_time
+      unit_weight, receive_location_id, receive_start_time, 
+      receive_end_time, "status", create_time, 
+      contact_user_name, mobile, purchase_id
       )
-    values (#{id,jdbcType=INTEGER}, #{commodityId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{commodityId,jdbcType=VARCHAR}, #{buyerId,jdbcType=VARCHAR}, 
       #{price,jdbcType=NUMERIC}, #{weight,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR}, 
-      #{unitWeight,jdbcType=VARCHAR}, #{locationId,jdbcType=VARCHAR}, #{receiveStart,jdbcType=TIMESTAMP}, 
-      #{receiveEnd,jdbcType=TIMESTAMP}, #{status,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}
+      #{unitWeight,jdbcType=VARCHAR}, #{receiveLocationId,jdbcType=VARCHAR}, #{receiveStartTime,jdbcType=TIMESTAMP}, 
+      #{receiveEndTime,jdbcType=TIMESTAMP}, #{status,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{contactUserName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{purchaseId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.PurchaseInfo">
@@ -56,8 +62,8 @@
       <if test="commodityId != null">
         commodity_id,
       </if>
-      <if test="userId != null">
-        user_id,
+      <if test="buyerId != null">
+        buyer_id,
       </if>
       <if test="price != null">
         price,
@@ -71,20 +77,29 @@
       <if test="unitWeight != null">
         unit_weight,
       </if>
-      <if test="locationId != null">
-        location_id,
+      <if test="receiveLocationId != null">
+        receive_location_id,
       </if>
-      <if test="receiveStart != null">
-        receive_start,
+      <if test="receiveStartTime != null">
+        receive_start_time,
       </if>
-      <if test="receiveEnd != null">
-        receive_end,
+      <if test="receiveEndTime != null">
+        receive_end_time,
       </if>
       <if test="status != null">
         "status",
       </if>
       <if test="createTime != null">
         create_time,
+      </if>
+      <if test="contactUserName != null">
+        contact_user_name,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="purchaseId != null">
+        purchase_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -94,8 +109,8 @@
       <if test="commodityId != null">
         #{commodityId,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=VARCHAR},
+      <if test="buyerId != null">
+        #{buyerId,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         #{price,jdbcType=NUMERIC},
@@ -109,20 +124,29 @@
       <if test="unitWeight != null">
         #{unitWeight,jdbcType=VARCHAR},
       </if>
-      <if test="locationId != null">
-        #{locationId,jdbcType=VARCHAR},
+      <if test="receiveLocationId != null">
+        #{receiveLocationId,jdbcType=VARCHAR},
       </if>
-      <if test="receiveStart != null">
-        #{receiveStart,jdbcType=TIMESTAMP},
+      <if test="receiveStartTime != null">
+        #{receiveStartTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="receiveEnd != null">
-        #{receiveEnd,jdbcType=TIMESTAMP},
+      <if test="receiveEndTime != null">
+        #{receiveEndTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=SMALLINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactUserName != null">
+        #{contactUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseId != null">
+        #{purchaseId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -133,8 +157,8 @@
       <if test="commodityId != null">
         commodity_id = #{commodityId,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=VARCHAR},
+      <if test="buyerId != null">
+        buyer_id = #{buyerId,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=NUMERIC},
@@ -148,20 +172,29 @@
       <if test="unitWeight != null">
         unit_weight = #{unitWeight,jdbcType=VARCHAR},
       </if>
-      <if test="locationId != null">
-        location_id = #{locationId,jdbcType=VARCHAR},
+      <if test="receiveLocationId != null">
+        receive_location_id = #{receiveLocationId,jdbcType=VARCHAR},
       </if>
-      <if test="receiveStart != null">
-        receive_start = #{receiveStart,jdbcType=TIMESTAMP},
+      <if test="receiveStartTime != null">
+        receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="receiveEnd != null">
-        receive_end = #{receiveEnd,jdbcType=TIMESTAMP},
+      <if test="receiveEndTime != null">
+        receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         "status" = #{status,jdbcType=SMALLINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactUserName != null">
+        contact_user_name = #{contactUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseId != null">
+        purchase_id = #{purchaseId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -170,16 +203,19 @@
     <!--@mbg.generated-->
     update purchase_info
     set commodity_id = #{commodityId,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=VARCHAR},
+      buyer_id = #{buyerId,jdbcType=VARCHAR},
       price = #{price,jdbcType=NUMERIC},
       weight = #{weight,jdbcType=NUMERIC},
       unit_price = #{unitPrice,jdbcType=VARCHAR},
       unit_weight = #{unitWeight,jdbcType=VARCHAR},
-      location_id = #{locationId,jdbcType=VARCHAR},
-      receive_start = #{receiveStart,jdbcType=TIMESTAMP},
-      receive_end = #{receiveEnd,jdbcType=TIMESTAMP},
+      receive_location_id = #{receiveLocationId,jdbcType=VARCHAR},
+      receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
+      receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP},
       "status" = #{status,jdbcType=SMALLINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      contact_user_name = #{contactUserName,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      purchase_id = #{purchaseId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

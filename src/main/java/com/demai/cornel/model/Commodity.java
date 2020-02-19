@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  * 商品类
  */
 @Data public class Commodity {
+    @JsonIgnore
     private Long id;
     /**
      * 商品名称
@@ -32,10 +33,12 @@ import java.util.stream.Collectors;
     /**
      * 商品标志位1 是表明是系统商品 0表示是用户自定义商品
      **/
+    @JsonIgnore
     private Integer systemFlag;
     /**
      * 商品绑定用户 当该商品是用户自定义的商品是该字段表明了商品是那个用户创建的
      **/
+    @JsonIgnore
     private String bindUserId;
     @JsonIgnore private Map<String, String> commodityProperties;
     private List<Properties> properties;

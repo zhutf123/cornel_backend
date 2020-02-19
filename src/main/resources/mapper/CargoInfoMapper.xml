@@ -169,4 +169,8 @@
       cargo_id = #{cargoId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="selectByParentCargoId" resultMap="BaseResultMap">
+       select <include refid="Base_Column_List"/>
+       from cargo_info where parent_cargo_id=#{cargoId,jdbcType=VARCHAR} ;
+    </select>
 </mapper>

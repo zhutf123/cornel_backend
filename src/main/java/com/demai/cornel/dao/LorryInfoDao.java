@@ -64,4 +64,7 @@ public interface LorryInfoDao {
 
     int updateCarCornInfo(CarCornInfo carCornInfo);
 
+
+    List<LorryInfo> getAllIdleLorry();
+
 }

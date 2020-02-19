@@ -1,6 +1,9 @@
 package com.demai.cornel.purcharse.dao;
 
 import com.demai.cornel.purcharse.model.CargoInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @Author binz.zhang
@@ -18,4 +21,7 @@ public interface CargoInfoMapper {
     int updateByPrimaryKeySelective(CargoInfo record);
 
     int updateByPrimaryKey(CargoInfo record);
+
+
+    List<CargoInfo> selectByParentCargoId(@Param("cargoId")String parentCargoId);
 }

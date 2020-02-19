@@ -1,6 +1,7 @@
 package com.demai.cornel.purcharse.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import com.demai.cornel.dmEnum.IEmus;
@@ -8,7 +9,7 @@ import lombok.Data;
 
 /**
  * @Author binz.zhang
- * @Date: 2020-02-14    19:37
+ * @Date: 2020-02-18    21:51
  */
 @Data public class SaleOrder {
     /**
@@ -34,12 +35,12 @@ import lombok.Data;
     /**
      * 下单时间
      */
-    private Date orderTime;
+    private Timestamp orderTime;
 
     /**
-     * 预计送达时间
+     * 预计送达起始时间
      */
-    private Date estimateReceiveTime;
+    private Timestamp receiveStartTime;
 
     /**
      * 付款方式
@@ -79,7 +80,7 @@ import lombok.Data;
     /**
      * 重量单位
      */
-    private String uintWeight;
+    private String unitWeight;
 
     /**
      * 运单列表
@@ -121,13 +122,13 @@ import lombok.Data;
      */
     private String offerId;
 
+    /**
+     * 预计收货截止时间
+     */
+    private Timestamp receiveEndTime;
 
     public static enum STATUS_ENUM implements IEmus {
-        CANCLE(0, "取消"),
-        UNDER_APPROVAL(1, "待审核"),
-        UNDER_DELIVER(2, "待运输"),
-        UNDER_RECEIVE(3, "带接货"),
-        FINISH(5, "订单完成");
+        CANCLE(0, "取消"), UNDER_APPROVAL(1, "待审核"), UNDER_DELIVER(2, "待运输"), UNDER_RECEIVE(3, "带接货"), FINISH(5, "订单完成");
 
         private int value;
         private String expr;
