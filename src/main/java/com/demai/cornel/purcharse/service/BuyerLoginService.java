@@ -6,6 +6,7 @@ import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.purcharse.dao.BuyerInfoMapper;
 import com.demai.cornel.purcharse.dao.CompanyInfoMapper;
 import com.demai.cornel.purcharse.dao.LocationInfoMapper;
+import com.demai.cornel.purcharse.model.BuyerCornInfo;
 import com.demai.cornel.purcharse.model.BuyerInfo;
 import com.demai.cornel.purcharse.model.CompanyInfo;
 import com.demai.cornel.purcharse.model.LocationInfo;
@@ -166,19 +167,27 @@ import java.util.concurrent.TimeUnit;
 
     public BuyerCompleteInfoResp getUserCompleteInfo() {
         BuyerInfo buyerInfo = buyerInfoMapper.selectByUserId(CookieAuthUtils.getCurrentUser());
+        BuyerCplUserInfoReq cornInfo = new BuyerCplUserInfoReq();
         if(buyerInfo==null){
             return BuyerCompleteInfoResp.builder().status(BuyerCompleteInfoResp.STATUS.USERR_ERROR.getValue()).build();
         }
+        BeanUtils.copyProperties(buyerInfo,cornInfo);
+        if(buyerInfo.getMobile()!=null){
+            cornInfo.setMobile(buyerInfo.getMobile().iterator().next());
+        }else {
+            cornInfo.setMobile("");
+        }
+        cornInfo.setImgs(imgService.getUserImgs(CookieAuthUtils.getCurrentUser()));
         CompanyInfo companyInfo = companyInfoMapper.selectBycompanyId(buyerInfo.getCompanyId());
         if(companyInfo==null){
-            return BuyerCompleteInfoResp.builder().userInfo(buyerInfo).status(BuyerCompleteInfoResp.STATUS.SUCCESS.getValue()).build();
+            return BuyerCompleteInfoResp.builder().userInfo(cornInfo).status(BuyerCompleteInfoResp.STATUS.SUCCESS.getValue()).build();
         }
         LocationInfo locationInfo = locationInfoMapper.selectByLocationId(companyInfo.getLocationId());
         if(locationInfo==null){
             companyInfo.setLocation("");
         }
         companyInfo.setLocation(locationInfo.getLocation());
-        return BuyerCompleteInfoResp.builder().userInfo(buyerInfo).companyInfo(companyInfo).status(BuyerCompleteInfoResp.STATUS.SUCCESS.getValue()).build();
+        return BuyerCompleteInfoResp.builder().userInfo(cornInfo).companyInfo(companyInfo).status(BuyerCompleteInfoResp.STATUS.SUCCESS.getValue()).build();
 
     }
 

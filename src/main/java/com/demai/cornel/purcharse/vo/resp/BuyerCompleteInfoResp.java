@@ -1,6 +1,7 @@
 package com.demai.cornel.purcharse.vo.resp;
 
 import com.demai.cornel.dmEnum.IEmus;
+import com.demai.cornel.purcharse.model.BuyerCornInfo;
 import com.demai.cornel.purcharse.model.BuyerInfo;
 import com.demai.cornel.purcharse.model.CompanyInfo;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BuyerCompleteInfoResp {
-    private BuyerInfo userInfo;
+    private BuyerCornInfo userInfo;
     private CompanyInfo companyInfo;
     private Integer status;
     public static enum STATUS implements IEmus {
