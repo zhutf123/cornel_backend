@@ -53,7 +53,7 @@ import java.util.*;
         LocationInfo insertLc = new LocationInfo();
         BeanUtils.copyProperties(addLocationReq,insertLc);
         insertLc.setLocationId(UUID.randomUUID().toString());
-        int resInLo  = locationInfoMapper.insert(insertLc);
+        int resInLo  = locationInfoMapper.insertSelective(insertLc);
         if(resInLo!=1){
             log.debug("addLocation fail due to db error");
             return JsonResult.success(OptLocationResp.builder().optStatus(OptLocationResp.STATUS_ENUE.SERVER_ERROR.getValue()).build());
