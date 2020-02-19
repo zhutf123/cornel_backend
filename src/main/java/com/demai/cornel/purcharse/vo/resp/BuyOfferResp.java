@@ -22,7 +22,8 @@ public class BuyOfferResp {
         PARAM_ERROR(-1, "参数错误"),
         SUCCESS(0, "请求成功"),
         SERVER_ERROR(1, "网络异常，请稍后重试"),
-        USER_ERROR(2, "用户无权限下单");
+        USER_ERROR(2, "用户无权限下单"),
+        WEIGHT_INVALID(3,"采购重量必须大于最下采购重量");
 
         private int value;
         private String expr;

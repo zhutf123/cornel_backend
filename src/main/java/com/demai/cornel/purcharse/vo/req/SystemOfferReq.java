@@ -25,7 +25,7 @@ public class SystemOfferReq {
     private String unitWeight = "吨"; //重量单位
     private String offerId; // 首页售卖ID
     @NonNull
-    private BigDecimal commodityPrice;
+    private BigDecimal price;
     private String unitPrice = "元";
     @NonNull
     private String receiveStartTime;//预计收货时间

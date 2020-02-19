@@ -24,7 +24,7 @@ public class SubmitMyOfferReq {
     private BigDecimal weight; //重量
     private String unitWeight = "吨"; //重量单位
     @NonNull
-    private BigDecimal commodityPrice;
+    private BigDecimal price;
     private String unitPrice = "元";
     @NonNull
     private String receiveStartTime;//预计收货开始时间

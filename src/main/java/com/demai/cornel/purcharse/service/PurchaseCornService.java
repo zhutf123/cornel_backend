@@ -138,7 +138,7 @@ import java.util.*;
             return false;
         }
         if (Strings.isNullOrEmpty(param.getCommodityId()) || param.getWeight() == null
-                || param.getCommodityPrice() == null || Strings.isNullOrEmpty(param.getReceiveLocationId()) || Strings
+                || param.getPrice() == null || Strings.isNullOrEmpty(param.getReceiveLocationId()) || Strings
                 .isNullOrEmpty(param.getReceiveStartTime()) || Strings.isNullOrEmpty(param.getReceiveEndTime())) {
             log.debug("checksubmitMyOffer fail  due to param error");
             return false;
@@ -231,10 +231,14 @@ import java.util.*;
         if (Strings.isNullOrEmpty(offer.getOfferId())) {
             offerSheet = offerSheetMapper.selectByOfferId(offer.getOfferId());
         }
+        if(offerSheet.getMinBuyWeight().compareTo(offer.getWeight())==-1){
+            return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
+
         CargoInfo cargoInfo = new CargoInfo();
         cargoInfo.setCommodityId(offer.getCommodityId());
         cargoInfo.setDealTime(new Timestamp(System.currentTimeMillis()));
-        cargoInfo.setPrice(offer.getCommodityPrice());
+        cargoInfo.setPrice(offer.getPrice());
         cargoInfo.setUnitWeight(offer.getUnitWeight());
         cargoInfo.setWeight(offer.getWeight());
         cargoInfo.setUnitWeight(offer.getUnitWeight());
@@ -250,6 +254,7 @@ import java.util.*;
         if (offerSheet != null) {
             saleOrder.setFromLocation(offerSheet.getLocationId());
         }
+        saleOrder.setCommodityPrice(offer.getPrice());
         saleOrder.setStatus(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue());
         int ret = saleOrderMapper.insertSelective(saleOrder);
         if (ret != 1) {
@@ -312,7 +317,7 @@ import java.util.*;
         }
         if (Strings.isNullOrEmpty(offerReq.getCommodityId()) || Strings.isNullOrEmpty(offerReq.getContactUserName())
                 || Strings.isNullOrEmpty(offerReq.getMobile()) || Strings.isNullOrEmpty(offerReq.getReceiveLocationId())
-                || null == offerReq.getWeight() || null == offerReq.getCommodityPrice() || Strings
+                || null == offerReq.getWeight() || null == offerReq.getPrice() || Strings
                 .isNullOrEmpty(offerReq.getReceiveStartTime()) || Strings.isNullOrEmpty(offerReq.getReceiveEndTime())) {
             return false;
         }
