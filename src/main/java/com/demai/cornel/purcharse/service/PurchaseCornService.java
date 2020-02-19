@@ -228,7 +228,7 @@ import java.util.*;
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
         OfferSheet offerSheet = null;
-        if (Strings.isNullOrEmpty(offer.getOfferId())) {
+        if (!Strings.isNullOrEmpty(offer.getOfferId())) {
             offerSheet = offerSheetMapper.selectByOfferId(offer.getOfferId());
         }
         if(offerSheet==null){
