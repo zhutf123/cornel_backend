@@ -208,7 +208,7 @@
       and
       o.id <![CDATA[<]]> (select id from offer_sheet where o.offer_id=#{offerId})
     </if>
-    <if test="quoteId == null or quoteId == ''">
+    <if test="offerId == null or offerId == ''">
       and
       o.id <![CDATA[<=]]> (select max(id) from offer_sheet limit 1)
     </if>

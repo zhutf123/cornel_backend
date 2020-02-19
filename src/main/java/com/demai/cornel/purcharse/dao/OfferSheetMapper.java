@@ -19,7 +19,7 @@ public interface OfferSheetMapper {
 
     int updateByPrimaryKey(OfferSheet record);
 
-    List<GetSystemOfferResp> getSystemOfferSheet(@Param("offerId") String offerId, @Param("pgsSize") Integer pgsize);
+    List<GetSystemOfferResp> getSystemOfferSheet(@Param("offerId") String offerId, @Param("pgSize") Integer pgSize);
     OfferSheet selectByOfferId(@Param("offerId") String offerId);
 
 }
