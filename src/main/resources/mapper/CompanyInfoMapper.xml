@@ -11,10 +11,15 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="contact_user" jdbcType="VARCHAR" property="contactUser" />
     <result column="contact_tel" jdbcType="VARCHAR" property="contactTel" />
+    <result column="main_project" jdbcType="VARCHAR" property="mainProject" />
+    <result column="main_req" jdbcType="VARCHAR" property="mainReq" />
+    <result column="daily_consume" jdbcType="NUMERIC" property="dailyConsume" />
+    <result column="location_id" jdbcType="VARCHAR" property="locationId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, company_id, company_name, create_time, update_time, "status", contact_user, contact_tel
+    id, company_id, company_name, create_time, update_time, "status", contact_user, contact_tel, 
+    main_project, main_req, daily_consume, location_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -32,10 +37,14 @@
     <!--@mbg.generated-->
     insert into company_info (id, company_id, company_name, 
       create_time, update_time, "status", 
-      contact_user, contact_tel)
+      contact_user, contact_tel, main_project, 
+      main_req, daily_consume, location_id
+      )
     values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{contactUser,jdbcType=VARCHAR}, #{contactTel,jdbcType=VARCHAR})
+      #{contactUser,jdbcType=VARCHAR}, #{contactTel,jdbcType=VARCHAR}, #{mainProject,jdbcType=VARCHAR}, 
+      #{mainReq,jdbcType=VARCHAR}, #{dailyConsume,jdbcType=NUMERIC}, #{locationId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.CompanyInfo">
     <!--@mbg.generated-->
@@ -65,6 +74,18 @@
       <if test="contactTel != null">
         contact_tel,
       </if>
+      <if test="mainProject != null">
+        main_project,
+      </if>
+      <if test="mainReq != null">
+        main_req,
+      </if>
+      <if test="dailyConsume != null">
+        daily_consume,
+      </if>
+      <if test="locationId != null">
+        location_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -90,6 +111,18 @@
       </if>
       <if test="contactTel != null">
         #{contactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="mainProject != null">
+        #{mainProject,jdbcType=VARCHAR},
+      </if>
+      <if test="mainReq != null">
+        #{mainReq,jdbcType=VARCHAR},
+      </if>
+      <if test="dailyConsume != null">
+        #{dailyConsume,jdbcType=NUMERIC},
+      </if>
+      <if test="locationId != null">
+        #{locationId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -118,8 +151,20 @@
       <if test="contactTel != null">
         contact_tel = #{contactTel,jdbcType=VARCHAR},
       </if>
+      <if test="mainProject != null">
+        main_project = #{mainProject,jdbcType=VARCHAR},
+      </if>
+      <if test="mainReq != null">
+        main_req = #{mainReq,jdbcType=VARCHAR},
+      </if>
+      <if test="dailyConsume != null">
+        daily_consume = #{dailyConsume,jdbcType=NUMERIC},
+      </if>
+      <if test="locationId != null">
+        location_id = #{locationId,jdbcType=VARCHAR},
+      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where company_id = #{companyId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.CompanyInfo">
     <!--@mbg.generated-->
@@ -130,7 +175,17 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       "status" = #{status,jdbcType=INTEGER},
       contact_user = #{contactUser,jdbcType=VARCHAR},
-      contact_tel = #{contactTel,jdbcType=VARCHAR}
+      contact_tel = #{contactTel,jdbcType=VARCHAR},
+      main_project = #{mainProject,jdbcType=VARCHAR},
+      main_req = #{mainReq,jdbcType=VARCHAR},
+      daily_consume = #{dailyConsume,jdbcType=NUMERIC},
+      location_id = #{locationId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectBycompanyId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from company_info
+    where company_id = #{companyId,jdbcType=VARCHAR}
+  </select>
 </mapper>

@@ -6,11 +6,14 @@ import com.demai.cornel.purcharse.model.LocationInfo;
 import com.demai.cornel.purcharse.service.BuyerLoginService;
 import com.demai.cornel.purcharse.service.PurcharseOtherService;
 import com.demai.cornel.purcharse.vo.req.AddLocationReq;
+import com.demai.cornel.purcharse.vo.req.BuyerCplCompanyReq;
+import com.demai.cornel.purcharse.vo.req.BuyerCplUserInfoReq;
 import com.demai.cornel.purcharse.vo.req.GetSystemOfferReq;
 import com.demai.cornel.service.UserLoginService;
 import com.demai.cornel.service.UserService;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
 import com.demai.cornel.vo.user.UserLoginParam;
 import com.demai.cornel.vo.user.UserLoginResp;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
@@ -82,6 +85,36 @@ import javax.servlet.http.HttpServletResponse;
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 
+    @RequestMapping(value = "/comp-userinfo.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public JsonResult completeUserInfo(
+            @RequestBody BuyerCplUserInfoReq param, HttpServletResponse response) {
+        try {
+            return JsonResult.success(buyerLoginService.driverCompleteUserInfo(param));
+        } catch (Exception e) {
+            log.error("m买家完善个人信息！", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+    @RequestMapping(value = "/comp-company.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult completeCompanyInfo(
+            @RequestBody BuyerCplCompanyReq param, HttpServletResponse response) {
+        try {
+            return JsonResult.success(buyerLoginService.buyerCplCompany(param));
+        } catch (Exception e) {
+            log.error("m买家完善公司信息信息！", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+    @RequestMapping(value = "/get-userinfo.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult getUserInfo() {
+        try {
+            return JsonResult.success(buyerLoginService.getUserCompleteInfo());
+        } catch (Exception e) {
+            log.error("m买家完善公司信息信息！", e);
+        }
+        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
     /**
      * 增加收货地址
      *

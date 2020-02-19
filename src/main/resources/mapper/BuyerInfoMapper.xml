@@ -165,7 +165,7 @@
                 default_location = #{defaultLocation,jdbcType=INTEGER},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where user_id = #{userId}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.BuyerInfo">
         <!--@mbg.generated-->
