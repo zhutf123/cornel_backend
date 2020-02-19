@@ -121,7 +121,7 @@ import java.util.concurrent.TimeUnit;
         userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
         userInfo.setUserId(CookieAuthUtils.getCurrentUser());
         userInfo.setMobile(Sets.newHashSet(buyerCplUserInfoReq.getMobile()));
-        int res = buyerInfoMapper.updateByPrimaryKey(userInfo);
+        int res = buyerInfoMapper.updateByPrimaryKeySelective(userInfo);
         if (res == 0) {
             log.debug("driver register complete fail due to update user info fail");
             driverCpllUserInfoResp.setOptResult(BuyerCplUserInfoResp.STATUS.SERVICE_ERROR.getValue());
