@@ -30,7 +30,7 @@ import java.util.UUID;
     public String cargoConvertTask(CargoInfo cargoInfo, SaleOrder saleOrder) {
         Commodity commodity = commodityDao.getCommodityByCommodityId(cargoInfo.getCommodityId());
         TaskInfo taskInfo = new TaskInfo();
-        taskInfo.setUnitWeight(saleOrder.getUintWeight());
+        //taskInfo.setUnitWeight(saleOrder.getUintWeight());
         taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveEndTime()));
         taskInfo.setDistance(new BigDecimal(1000.00));
         taskInfo.setArr(saleOrder.getFromLocation());
