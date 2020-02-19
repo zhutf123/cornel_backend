@@ -80,8 +80,8 @@ import java.util.*;
         }
         quoteListResps.stream().forEach(x -> {
             List<GetSystemOfferResp.Detail> details = new LinkedList<>();
-            details.add(new GetSystemOfferResp.Detail("质量标准", GerQuoteListResp.convertProperties(x.getProperties())));
-            details.add(new GetSystemOfferResp.Detail("单价", x.getPrice().toString() + " /" + x.getUnitPrice()));
+            details.add(new GetSystemOfferResp.Detail("质量标准",  Lists.newArrayList(GerQuoteListResp.convertProperties(x.getProperties()))));
+            details.add(new GetSystemOfferResp.Detail("单价",  Lists.newArrayList(x.getPrice().toString() + " /" + x.getUnitPrice())));
             details.add(new GetSystemOfferResp.Detail("注意事项", x.getNotice()));
             x.setDetail(details);
         });

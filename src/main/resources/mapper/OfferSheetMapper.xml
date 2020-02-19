@@ -21,7 +21,7 @@
     <!--@mbg.generated-->
     <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
     <result column="commodity_id" jdbcType="VARCHAR" property="commodityId" />
-    <result column="commodityName" jdbcType="VARCHAR" property="commodityName"/>
+    <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
     <result column="price" jdbcType="NUMERIC" property="price" />
     <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />
     <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
@@ -43,7 +43,7 @@
     o.min_buy_weight,
     o.unit_weight,
     o.commodity_id,
-    c.commodity_name,
+    c.name as commodity_name,
     o.price,
     o.unit_price,
     l.location,
