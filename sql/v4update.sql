@@ -262,6 +262,7 @@ create unique index purchase_info_id_uindex
 
 
 -- 售卖订单表
+-- auto-generated definition
 create table sale_order
 (
     id                 serial not null
@@ -342,6 +343,7 @@ comment on column sale_order.receive_end_time is '预计收货截止时间';
 
 create unique index sell_order_id_uindex
     on sale_order (id);
+
 
 -- 运输方式表
 create table transport_type

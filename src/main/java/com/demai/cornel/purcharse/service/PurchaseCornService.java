@@ -231,6 +231,10 @@ import java.util.*;
         if (Strings.isNullOrEmpty(offer.getOfferId())) {
             offerSheet = offerSheetMapper.selectByOfferId(offer.getOfferId());
         }
+        if(offerSheet==null){
+            log.debug("submitSystemQuoteResp fail due offerSheet invalid");
+            return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
+        }
         if(offerSheet.getMinBuyWeight().compareTo(offer.getWeight())==-1){
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
