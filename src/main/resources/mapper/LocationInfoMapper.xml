@@ -139,7 +139,7 @@
         and status=1;
     </select>
     <select id="getLocationInfoByLocationId" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select <include refid="Base_Column_List"/> from location_info where location_id in
         <if test="locationId!=null and locationId.size()&gt;0">
             <foreach close=")" collection="locationId" index="index" item="lo" open="(" separator=",">
                 #{lo}

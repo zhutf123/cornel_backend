@@ -185,7 +185,7 @@ import java.util.*;
         clickSystemOfferResp.setStatus(ClickSystemOfferResp.STATUS_ENUE.SUCCESS.getValue());
         clickSystemOfferResp.setReceiveStartTime(
                 DateFormatUtils.getAfterTime(System.currentTimeMillis(), DateFormatUtils.ISO_DATE_PATTERN, 10));
-        clickSystemOfferResp.setReceiveStartTime(
+        clickSystemOfferResp.setReceiveEndTime(
                 DateFormatUtils.getAfterTime(System.currentTimeMillis(), DateFormatUtils.ISO_DATE_PATTERN, 15));
         //todo 加入抢单逻辑
         return clickSystemOfferResp;
@@ -198,8 +198,10 @@ import java.util.*;
             return ClickMyOfferResp.builder().status(ClickMyOfferResp.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
         if (Strings.isNullOrEmpty(buyerInfo.getDefaultLocation()) && buyerInfo.getFrequentlyLocation() == null) {
-            return ClickMyOfferResp.builder().status(ClickMyOfferResp.STATUS_ENUE.SUCCESS.getValue())
-                    .receiveLocation("").build();
+            LocationInfo defaultLocation = locationInfoMapper.selectByLocationId(buyerInfo.getDefaultLocation());
+            if(defaultLocation!=null) {
+                return ClickMyOfferResp.builder().status(ClickMyOfferResp.STATUS_ENUE.SUCCESS.getValue()).receiveLocation(defaultLocation.getLocation()).build();
+            }
         }
         if (Strings.isNullOrEmpty(buyerInfo.getDefaultLocation())) {
             buyerInfo.setDefaultLocation(buyerInfo.getFrequentlyLocation().iterator().next());
@@ -209,7 +211,7 @@ import java.util.*;
             return ClickMyOfferResp.builder().status(ClickMyOfferResp.STATUS_ENUE.SUCCESS.getValue())
                     .receiveLocation("").build();
         }
-        return ClickMyOfferResp.builder().status(ClickMyOfferResp.STATUS_ENUE.SUCCESS.getValue()).receiveLocation("")
+        return ClickMyOfferResp.builder().status(ClickMyOfferResp.STATUS_ENUE.SUCCESS.getValue()).receiveLocation(locationInfo.getLocation())
                 .build();
 
     }
