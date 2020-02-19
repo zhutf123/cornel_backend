@@ -137,7 +137,8 @@
         #{offerId,jdbcType=VARCHAR},
       </if>
       <if test="notice != null">
-        #{notice,jdbcType=VARCHAR},
+        #{notice,jdbcType=ARRAY,javaType=java.util.List,
+            typeHandler=com.demai.cornel.databaseHandler.ArrayStringListTypeHandler},
       </if>
       <if test="minBuyWeight != null">
         #{minBuyWeight,jdbcType=NUMERIC},
@@ -173,7 +174,8 @@
         offer_id = #{offerId,jdbcType=VARCHAR},
       </if>
       <if test="notice != null">
-        notice = #{notice,jdbcType=VARCHAR},
+        notice = #{notice,jdbcType=ARRAY,javaType=java.util.List,
+            typeHandler=com.demai.cornel.databaseHandler.ArrayStringListTypeHandler},
       </if>
       <if test="minBuyWeight != null">
         min_buy_weight = #{minBuyWeight,jdbcType=NUMERIC},
@@ -194,7 +196,8 @@
       "status" = #{status,jdbcType=SMALLINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       offer_id = #{offerId,jdbcType=VARCHAR},
-      notice = #{notice,jdbcType=VARCHAR},
+      notice = #{notice,notice,jdbcType=ARRAY,javaType=java.util.List,
+            typeHandler=com.demai.cornel.databaseHandler.ArrayStringListTypeHandler},
       min_buy_weight = #{minBuyWeight,jdbcType=NUMERIC},
       unit_weight = #{unitWeight,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
