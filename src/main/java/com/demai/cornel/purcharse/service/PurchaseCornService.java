@@ -10,14 +10,8 @@ import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.purcharse.dao.*;
 import com.demai.cornel.purcharse.model.*;
 import com.demai.cornel.purcharse.vo.GetSystemOfferResp;
-import com.demai.cornel.purcharse.vo.req.GetSaleOrderListReq;
-import com.demai.cornel.purcharse.vo.req.GetSystemOfferReq;
-import com.demai.cornel.purcharse.vo.req.SubmitMyOfferReq;
-import com.demai.cornel.purcharse.vo.req.SystemOfferReq;
-import com.demai.cornel.purcharse.vo.resp.ClickMyOfferResp;
-import com.demai.cornel.purcharse.vo.resp.ClickSystemOfferResp;
-import com.demai.cornel.purcharse.vo.resp.BuyOfferResp;
-import com.demai.cornel.purcharse.vo.resp.GetSaleOrderListResp;
+import com.demai.cornel.purcharse.vo.req.*;
+import com.demai.cornel.purcharse.vo.resp.*;
 import com.demai.cornel.util.*;
 import com.demai.cornel.vo.quota.ClickSystemQuoteResp;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
@@ -116,7 +110,7 @@ import java.util.*;
             purchaseInfo.setMobile(buyerInfo.getMobile().iterator().next());
         }
         purchaseInfo.setPurchaseId(UUID.randomUUID().toString());
-        purchaseInfo.setStatus(PurchaseInfo.STATUS_ENUM.UNDER_APPROVAL.getValue());
+        purchaseInfo.setStatus(PurchaseInfo.STATUS_ENUM.UNDER_DEAL.getValue());
         int res = purchaseInfoMapper.insertSelective(purchaseInfo);
         if (res != 1) {
             log.debug("submitMyOffer fail due to db error ");
@@ -236,7 +230,7 @@ import java.util.*;
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
         if(offerSheet.getMinBuyWeight().compareTo(offer.getWeight())==1){
-            return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+            return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.WEIGHT_INVALID.getValue()).build();
         }
 
         CargoInfo cargoInfo = new CargoInfo();
@@ -289,6 +283,31 @@ import java.util.*;
             x.setCommodity(commodity);
         });
         return getSaleOrderListResps;
+
+    }
+
+    public List<GetPurchaseListResp> getPurchaseListRespList(GetPurchaseListReq getPurchaseListReq) {
+        if (getPurchaseListReq == null) {
+            log.debug("getSaleOrderListRespList fail due to getSaleOrderListReq empty");
+            return Collections.EMPTY_LIST;
+        }
+//        if (getPurchaseListReq.getPgSize() == null) {
+//            getPurchaseListReq.setPgSize(10);
+//        }
+//        List<GetSaleOrderListResp> getSaleOrderListResps = purchaseInfoMapper
+//                .getSaleOrderList(getSaleOrderListReq.getOrderId(), getSaleOrderListReq.getPgSize(),
+//                        getSaleOrderListReq.getOrderType());
+//
+//        if (getSaleOrderListReq == null) {
+//            log.debug("getSaleOrderListRespList fail due to get result  empty");
+//            return Collections.EMPTY_LIST;
+//        }
+//        getSaleOrderListResps.stream().forEach(x->{
+//            Commodity commodity  = commodityDao.getCommodityByCommodityId(x.getCommodityId());
+//            x.setCommodity(commodity);
+//        });
+//        return getSaleOrderListResps;
+        return null;
 
     }
 

@@ -15,14 +15,14 @@ public interface BuyerInfoMapper {
     int insert(BuyerInfo record);
 
     int insertSelective(BuyerInfo record);
-
+    BuyerInfo selectByUserId(@Param("userId")String userId);
     BuyerInfo selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(BuyerInfo record);
 
     int updateByPrimaryKey(BuyerInfo record);
 
-    BuyerInfo selectByUserId(@Param("userId") String userId);
+    BuyerInfo selectByUserIdByLogin(@Param("userId") String userId);
 
     int updateFrequentlyLocation(@Param("userId") String userId,
             @Param("frequentlyLocation") Set<String> frequentlyLocation,
@@ -31,5 +31,7 @@ public interface BuyerInfoMapper {
     int updateDefaultLocation(@Param("userId") String userId,
             @Param("defaultLocation") String defaultLocation);
 
+
+    BuyerInfo selectBuyInfoByPhone(@Param("phone")String phone);
 
 }

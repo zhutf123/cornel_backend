@@ -1,5 +1,6 @@
 package com.demai.cornel.purcharse.model;
 
+import com.demai.cornel.dmEnum.IEmus;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -68,4 +69,27 @@ import java.util.Set;
 
     private String defaultLocation;
 
+    public static enum USER_STATUS implements IEmus {
+        INVALID(0, "无效的"),
+        ENABLE(1, "使用中"),
+        PENDING(2, "待注册");
+        private int value;
+        private String expr;
+
+        private USER_STATUS(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+
+        @Override
+        public String getExpr() {
+            return expr;
+        }
+
+    }
 }

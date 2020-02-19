@@ -72,7 +72,7 @@ import java.util.*;
         return JsonResult.success(OptLocationResp.builder().optStatus(OptLocationResp.STATUS_ENUE.SUCCESS.getValue()).locationId(insertLc.getLocationId()).build());
     }
 
-    public JsonResult   getLocationList(){
+    public JsonResult  getLocationList(){
         BuyerInfo buyerInfo = buyerInfoMapper.selectByUserId(CookieAuthUtils.getCurrentUser());
         if(buyerInfo==null){
             return JsonResult.success(GetLocationResp.builder().status(GetLocationResp.STATUS_ENUE.USER_ERROR.getValue()).build());

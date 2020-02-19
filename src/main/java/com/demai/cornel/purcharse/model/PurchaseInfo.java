@@ -88,11 +88,9 @@ import lombok.Data;
     private String purchaseId;
     public static enum STATUS_ENUM implements IEmus {
         CANCLE(0, "取消"),
-        UNDER_APPROVAL(1<<0, "待审核"),
-        UNDER_SEND(1<<1, "待发货"),
-        UNDER_DELIVER(1<<2, "待运输"),
-        UNDER_RECEIVE(1<<3, "带接货"),
-        FINISH(1<<4, "订单完成");
+        //UNDER_APPROVAL(1<<0, "待审核"),
+        UNDER_DEAL(1<<0,"求购中"),
+        DEAL(1<<1, "已成交");
 
         private int value;
         private String expr;

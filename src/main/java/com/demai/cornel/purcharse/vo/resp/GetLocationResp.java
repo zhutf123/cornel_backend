@@ -20,6 +20,7 @@ import java.util.List;
     private Integer status;
     private List<LocationEntiy> locations;
     @Data public static class LocationEntiy {
+        private String locationId;
         private String location;
         private String locationArea;
         private String locationDetail;

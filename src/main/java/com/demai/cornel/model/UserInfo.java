@@ -57,7 +57,9 @@ public class UserInfo implements Serializable {
         SUPPLIER(2, "烘干塔"),
         DELIVERY(3, "港口"),
         ADMIN(4, "系统管理员"),
-        OPERATOR(5, "操作员") ;
+        OPERATOR(5, "操作员") ,
+        BUYER(6, "买家") ;
+
 
         private int value;
         private String expr;

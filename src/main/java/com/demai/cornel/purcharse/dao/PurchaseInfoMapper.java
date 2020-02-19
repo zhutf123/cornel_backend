@@ -1,6 +1,11 @@
 package com.demai.cornel.purcharse.dao;
 
 import com.demai.cornel.purcharse.model.PurchaseInfo;
+import com.demai.cornel.purcharse.vo.resp.GetPurchaseListResp;
+import lombok.Data;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @Author binz.zhang
@@ -18,4 +23,7 @@ public interface PurchaseInfoMapper {
     int updateByPrimaryKeySelective(PurchaseInfo record);
 
     int updateByPrimaryKey(PurchaseInfo record);
+
+
+//    List<GetPurchaseListResp> getPurcharseList(@Param("buyserId")String buyerId,)
 }

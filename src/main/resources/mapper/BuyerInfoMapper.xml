@@ -43,7 +43,7 @@
         company_id, create_time, update_time,
         frequently_location, "status",default_location)
         values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
-        #{idCard,jdbcType=VARCHAR}, #{idType,jdbcType=SMALLINT}, #{mobile,jdbcType=VARCHAR},
+        #{idCard,jdbcType=VARCHAR}, #{idType,jdbcType=SMALLINT}, #{mobile,jdbcType=ARRAY,javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
         #{companyId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
         #{frequentlyLocation,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},#{defaultLocation,jdbcType=VARCHAR})
     </insert>
@@ -105,7 +105,7 @@
                 #{idType,jdbcType=SMALLINT},
             </if>
             <if test="mobile != null">
-                #{mobile,jdbcType=VARCHAR},
+                #{mobile,jdbcType=ARRAY,javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="companyId != null">
                 #{companyId,jdbcType=VARCHAR},
@@ -144,7 +144,7 @@
                 id_type = #{idType,jdbcType=SMALLINT},
             </if>
             <if test="mobile != null">
-                mobile = #{mobile,jdbcType=VARCHAR},
+                mobile = #{mobile,jdbcType=ARRAY,javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="companyId != null">
                 company_id = #{companyId,jdbcType=VARCHAR},
@@ -174,7 +174,7 @@
         user_name = #{userName,jdbcType=VARCHAR},
         id_card = #{idCard,jdbcType=VARCHAR},
         id_type = #{idType,jdbcType=SMALLINT},
-        mobile = #{mobile,jdbcType=VARCHAR},
+        mobile = #{mobile,jdbcType=ARRAY,javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
         company_id = #{companyId,jdbcType=VARCHAR},
         create_time = #{createTime,jdbcType=TIMESTAMP},
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -203,6 +203,14 @@
     <update id="updateDefaultLocation">
       update buyer_info set default_location=#{defaultLocation,jdbcType=VARCHAR} where user_id=#{userId} ;
     </update>
+    <select id="selectBuyInfoByPhone" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List"/>
+     from buyer_info where   status=1 and <![CDATA[ mobile @> array[#{phone}] ]]> limit 1;
+    </select>
+    <select id="selectByUserIdByLogin" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from buyer_info where   status=1 and <![CDATA[ mobile @> array[#{phone}] ]]> limit 1;
+    </select>
 
 
 </mapper>
