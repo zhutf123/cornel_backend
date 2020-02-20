@@ -231,7 +231,9 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="getPurcharseList" resultMap="BaseResultMap">
-     select from purchase_info where buyer_id=#{buyserId} and status!=0
+     select
+     <include refid="Base_Column_List"/>
+     from purchase_info where buyer_id=#{buyserId} and status!=0
      <if test="purchaseId != null and purchaseId != ''">
        and id <![CDATA[<]]> (select id from purchase_info where purchase_id=#{purchaseId,jdbcType=VARCHAR} )
      </if>
