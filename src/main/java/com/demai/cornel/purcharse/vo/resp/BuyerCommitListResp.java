@@ -16,5 +16,6 @@ public class BuyerCommitListResp extends Commodity {
     private String receiveStartTime;//预估收货时间
     private String receiveEndTime;//预估收货结束时间
     private String unitWeight="吨"; //价格单位
+    private BigDecimal shipmentWeight=30.00;
 
 }
