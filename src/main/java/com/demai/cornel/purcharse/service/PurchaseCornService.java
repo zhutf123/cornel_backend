@@ -107,7 +107,7 @@ import java.util.*;
         Timestamp receiveStart = TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, param.getReceiveStartTime());
         Timestamp receiveEnd = TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, param.getReceiveEndTime());
         purchaseInfo.setReceiveStartTime(receiveStart);
-        purchaseInfo.setReceiveStartTime(receiveEnd);
+        purchaseInfo.setReceiveEndTime(receiveEnd);
         purchaseInfo.setBuyerId(userId);
         purchaseInfo.setContactUserName(buyerInfo.getUserName());
         if (buyerInfo.getMobile() != null && buyerInfo.getMobile().size() > 0) {
