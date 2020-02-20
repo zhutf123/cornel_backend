@@ -44,7 +44,7 @@
   from purchase_info
   where id = #{id,jdbcType=INTEGER}
 </select>
-  <select id="selectByPurchaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPurchaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select
     <include refid="Base_Column_List" />
