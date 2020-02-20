@@ -54,6 +54,7 @@ import java.util.concurrent.TimeUnit;
 
     public UserLoginResp doLogin(UserLoginParam param) {
         // valid msg code
+        log.info("doloogin param is {}",JacksonUtils.obj2String(param));
         if (!checkLoginMsgCode(param.getPhone(), param.getMsgCode())) {
             return new UserLoginResp(StringUtils.EMPTY, StringUtils.EMPTY, 1,
                     UserLoginResp.CODE_ENUE.MSG_CODE_ERROR.getValue(), param.getPhone());
@@ -213,6 +214,7 @@ import java.util.concurrent.TimeUnit;
      * @return
      */
     public Boolean checkLoginMsgCode(String phone, String msgCode) {
+        log.info("check login phone is {}",phone);
         String code = stringRedisTemplate.opsForValue().get(Joiner.on("_").join(phone, "loginValid"));
         if (StringUtil.isBlank(code)) {
             return Boolean.FALSE;
