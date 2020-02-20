@@ -158,4 +158,8 @@
       store_id = #{storeId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="selectStoreIdByCommodityId" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from store_info where commodity_id=#{commodityId} and status=1;
+    </select>
 </mapper>

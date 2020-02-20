@@ -157,4 +157,9 @@ import javax.servlet.http.HttpServletResponse;
         return purcharseOtherService.editLocation(locationInfo);
     }
 
+    @RequestMapping(value = "/commodity-list.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult getCommotidyList() {
+        return JsonResult.success(purcharseOtherService.getCommodityList());
+    }
+
 }

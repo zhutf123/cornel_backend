@@ -1,6 +1,7 @@
 package com.demai.cornel.dao;
 
 import com.demai.cornel.model.Commodity;
+import com.demai.cornel.purcharse.vo.resp.BuyerCommitListResp;
 import com.demai.cornel.vo.commodity.GetCommodityListResp;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,4 +21,7 @@ public interface CommodityDao {
 
 
     List<Commodity> getCommodityByIds(@Param("commodityIds") Set<String> commodityId);
+
+
+    List<BuyerCommitListResp> buyerGetCommodityList(@Param("userId")String userId);
 }

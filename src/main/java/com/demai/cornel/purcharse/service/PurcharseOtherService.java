@@ -1,14 +1,19 @@
 package com.demai.cornel.purcharse.service;
 
+import com.demai.cornel.dao.CommodityDao;
 import com.demai.cornel.purcharse.dao.BuyerInfoMapper;
 import com.demai.cornel.purcharse.dao.LocationInfoMapper;
+import com.demai.cornel.purcharse.dao.StoreInfoMapper;
 import com.demai.cornel.purcharse.model.BuyerInfo;
 import com.demai.cornel.purcharse.model.LocationInfo;
+import com.demai.cornel.purcharse.model.StoreInfo;
 import com.demai.cornel.purcharse.vo.req.AddLocationReq;
+import com.demai.cornel.purcharse.vo.resp.BuyerCommitListResp;
 import com.demai.cornel.purcharse.vo.resp.GetLocationDetailResp;
 import com.demai.cornel.purcharse.vo.resp.GetLocationResp;
 import com.demai.cornel.purcharse.vo.resp.OptLocationResp;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.vo.JsonResult;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -16,8 +21,10 @@ import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import sun.jvm.hotspot.debugger.posix.elf.ELFException;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -28,6 +35,8 @@ import java.util.*;
 
     @Resource private LocationInfoMapper locationInfoMapper;
     @Resource private BuyerInfoMapper buyerInfoMapper;
+    @Resource private CommodityDao commodityDao;
+    @Resource private StoreInfoMapper storeInfoMapper;
 
     public JsonResult addLocation(AddLocationReq addLocationReq) {
 
@@ -130,6 +139,26 @@ import java.util.*;
             getLocationDetailResp.setDefaultFlag(0);
         }
         return getLocationDetailResp;
+    }
+
+
+    public List<BuyerCommitListResp>getCommodityList(){
+        List<BuyerCommitListResp> buyerCommitListResps = commodityDao.buyerGetCommodityList(CookieAuthUtils.getCurrentUser());
+        if(buyerCommitListResps==null){
+            return Collections.EMPTY_LIST;
+        }
+        buyerCommitListResps.stream().forEach(x->{
+            List<StoreInfo> storeInfo = storeInfoMapper.selectStoreIdByCommodityId(x.getCommodityId());
+            if(storeInfo==null||storeInfo.size()==0){
+                x.setReceiveStartTime(DateFormatUtils.getAfterTime(System.currentTimeMillis(), DateFormatUtils.ISO_DATE_PATTERN, 10));
+                x.setReceiveEndTime(DateFormatUtils.getAfterTime(System.currentTimeMillis(), DateFormatUtils.ISO_DATE_PATTERN, 15));
+            }else {
+                x.setReceiveStartTime(DateFormatUtils.getAfterTime(System.currentTimeMillis(), DateFormatUtils.ISO_DATE_PATTERN, 5));
+                x.setReceiveEndTime(DateFormatUtils.getAfterTime(System.currentTimeMillis(), DateFormatUtils.ISO_DATE_PATTERN, 10));
+            }
+        });
+        return buyerCommitListResps;
+
     }
 
     public JsonResult editLocation(AddLocationReq req) {

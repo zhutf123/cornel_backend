@@ -29,6 +29,19 @@
         <result column="unit_weight" property="unitWeight"/>
     </resultMap>
 
+    <resultMap type="com.demai.cornel.purcharse.vo.resp.BuyerCommitListResp" id="commodityListBuyMapper">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="commodity_id" property="commodityId"/>
+        <result column="status" property="status"/>
+        <result column="system_flag" property="systemFlag"/>
+        <result column="bind_user_id" property="bindUserId"/>
+        <result column="quote" property="quote"/>
+        <result column="unit_price" property="unitPrice"/>
+    </resultMap>
+
     <sql id="main_column">
         id,
         name,
@@ -37,6 +50,16 @@
         status,
         system_flag,
         bind_user_id
+    </sql>
+    <sql id="main_column_buyer">
+        id,
+        name,
+        commodity_properties,
+        commodity_id,
+        status,
+        system_flag,
+        bind_user_id,
+        re_sale_price as quote
     </sql>
     <sql id="commodity_list_column">
         c.id,
@@ -105,5 +128,10 @@
         </if>
 
     </select>
-
+    <select id="buyerGetCommodityList" resultMap="commodityListBuyMapper">
+        select
+        <include refid="main_column_buyer"/>
+        from commodity_list c where c.status=1 and (c.system_flag=1 or ((c.system_flag=0 and c.bind_user_id=#{userId}))) and s.status=1
+        order by c.id desc;
+    </select>
 </mapper>
