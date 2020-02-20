@@ -123,6 +123,7 @@ import java.util.*;
         }
         GetLocationDetailResp getLocationDetailResp = new GetLocationDetailResp();
         BeanUtils.copyProperties(locationInfo,getLocationDetailResp);
+        getLocationDetailResp.setOptStatus(GetLocationDetailResp.STATUS_ENUE.SUCCESS.getValue());
         if(buyerInfo!=null&&buyerInfo.getDefaultLocation().equals(locationId)){
             getLocationDetailResp.setDefaultFlag(1);
         }else {
