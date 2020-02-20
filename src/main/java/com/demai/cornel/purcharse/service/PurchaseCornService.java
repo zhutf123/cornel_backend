@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.hp.gagawa.java.elements.P;
 import lombok.extern.slf4j.Slf4j;
+import org.postgresql.jdbc.TimestampUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -300,11 +301,15 @@ import java.util.*;
         }
         List<GetPurchaseListResp> getPurchaseListResps = new ArrayList<>();
         purchaseInfos.stream().forEach(x->{
+            Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             log.debug("getSaleOrderListRespList copy x [{}]",JacksonUtils.obj2String(x));
             GetPurchaseListResp getPurchaseListResp = new GetPurchaseListResp();
             BeanUtils.copyProperties(x,getPurchaseListResp);
             getPurchaseListResp.setCommodityPrice(x.getPrice());
+            getPurchaseListResp.setCommodity(commodity);
             getPurchaseListResp.setOrderPrice(getPurchaseListResp.getCommodityPrice().multiply(x.getWeight()));
+            getPurchaseListResp.setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT,x.getReceiveStartTime()));
+            getPurchaseListResp.setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT,x.getReceiveEndTime()));
             getPurchaseListResps.add(getPurchaseListResp);
         });
         return getPurchaseListResps;
