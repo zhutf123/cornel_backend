@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -291,24 +292,21 @@ import java.util.*;
             log.debug("getSaleOrderListRespList fail due to getSaleOrderListReq empty");
             return Collections.EMPTY_LIST;
         }
-//        if (getPurchaseListReq.getPgSize() == null) {
-//            getPurchaseListReq.setPgSize(10);
-//        }
-//        List<GetSaleOrderListResp> getSaleOrderListResps = purchaseInfoMapper
-//                .getSaleOrderList(getSaleOrderListReq.getOrderId(), getSaleOrderListReq.getPgSize(),
-//                        getSaleOrderListReq.getOrderType());
-//
-//        if (getSaleOrderListReq == null) {
-//            log.debug("getSaleOrderListRespList fail due to get result  empty");
-//            return Collections.EMPTY_LIST;
-//        }
-//        getSaleOrderListResps.stream().forEach(x->{
-//            Commodity commodity  = commodityDao.getCommodityByCommodityId(x.getCommodityId());
-//            x.setCommodity(commodity);
-//        });
-//        return getSaleOrderListResps;
-        return null;
+        List<PurchaseInfo> purchaseInfos = purchaseInfoMapper.getPurcharseList(CookieAuthUtils.getCurrentUser()
+                ,getPurchaseListReq.getPurchaseId(),Optional.ofNullable(getPurchaseListReq.getPgSize()).orElse(10));
 
+        if(purchaseInfos==null){
+            return Collections.EMPTY_LIST;
+        }
+        List<GetPurchaseListResp> getPurchaseListResps = new ArrayList<>();
+        purchaseInfos.stream().forEach(x->{
+            GetPurchaseListResp getPurchaseListResp = new GetPurchaseListResp();
+            BeanUtils.copyProperties(x,getPurchaseListResp);
+            getPurchaseListResp.setCommodityPrice(x.getPrice());
+            getPurchaseListResp.setOrderPrice(getPurchaseListResp.getCommodityPrice().multiply(x.getWeight()));
+            getPurchaseListResps.add(getPurchaseListResp);
+        });
+        return getPurchaseListResps;
     }
 
     /**

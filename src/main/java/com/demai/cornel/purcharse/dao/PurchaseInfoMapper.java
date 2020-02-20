@@ -25,5 +25,6 @@ public interface PurchaseInfoMapper {
     int updateByPrimaryKey(PurchaseInfo record);
 
 
-//    List<GetPurchaseListResp> getPurcharseList(@Param("buyserId")String buyerId,)
+   List<PurchaseInfo> getPurcharseList(@Param("buyserId")String buyerId,
+           @Param("purchaseId")String purchaseId,@Param("pgSize")Integer pgSize);
 }

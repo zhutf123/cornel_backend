@@ -19,6 +19,18 @@
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="purchase_id" jdbcType="VARCHAR" property="purchaseId" />
   </resultMap>
+
+
+<!--  <resultMap id="BaseResultMap_list" type="com.demai.cornel.purcharse.vo.resp.GetPurchaseListResp">-->
+<!--    &lt;!&ndash;@mbg.generated&ndash;&gt;-->
+<!--    <result column="commodity_id" jdbcType="VARCHAR" property="commodityId" />-->
+<!--    <result column="weight" jdbcType="NUMERIC" property="weight" />-->
+<!--    <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />-->
+<!--    <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight" />-->
+<!--    <result column="receive_start_time" jdbcType="TIMESTAMP" property="receiveStartTime" />-->
+<!--    <result column="receive_end_time" jdbcType="TIMESTAMP" property="receiveEndTime" />-->
+<!--    <result column="status" jdbcType="SMALLINT" property="status" />-->
+<!--  </resultMap>-->
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, commodity_id, buyer_id, price, weight, unit_price, unit_weight, receive_location_id, 
@@ -218,4 +230,14 @@
       purchase_id = #{purchaseId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="getPurcharseList" resultMap="BaseResultMap">
+     select from purchase_info where buyer_id=#{buyserId} and status!=0
+     <if test="purchaseId != null and purchaseId != ''">
+       and id <![CDATA[<]]> (select id from purchase_info where purchase_id=#{purchaseId,jdbcType=VARCHAR} )
+     </if>
+      <if test="purchaseId == null or purchaseId == ''">
+        and id <![CDATA[<=]]> (select max (id) from purchase_info )
+      </if>
+       order by id desc limit #{pgSize,jdbcType=INTEGER}
+    </select>
 </mapper>

@@ -9,6 +9,5 @@ import lombok.Data;
 @Data
 public class GetPurchaseListReq {
     private String purchaseId;
-    private Integer orderType;
     private Integer pgSize;
 }
