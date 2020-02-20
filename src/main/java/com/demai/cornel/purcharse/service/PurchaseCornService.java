@@ -291,7 +291,7 @@ import java.util.*;
 
     }
 
-    public OptPurchaseResp editPurchase(PurchaseInfo purchaseInfo) {
+    public OptPurchaseResp editPurchase(SubmitMyOfferReq purchaseInfo) {
         log.debug("edit purchase param is {} ", JacksonUtils.obj2String(purchaseInfo));
         if (purchaseInfo == null) {
             log.debug("edit purchaseInfo fail due to param is invalid");
@@ -311,7 +311,16 @@ import java.util.*;
             log.debug("edit purchaseInfo fail cur status is deal");
             return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.DEAL_ERROR.getValue()).build();
         }
-        int res = purchaseInfoMapper.updateByPrimaryKeySelective(purchaseInfo);
+        PurchaseInfo purchaseInfoUp = new PurchaseInfo();
+        BeanUtils.copyProperties(purchaseInfo,purchaseInfoUp);
+        if(!Strings.isNullOrEmpty(purchaseInfo.getReceiveStartTime())) {
+            purchaseInfoUp.setReceiveStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,purchaseInfo.getReceiveStartTime() ));
+
+        }
+        if(!Strings.isNullOrEmpty(purchaseInfo.getReceiveEndTime())) {
+            purchaseInfoUp.setReceiveEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,purchaseInfo.getReceiveEndTime() ));
+        }
+        int res = purchaseInfoMapper.updateByPrimaryKeySelective(purchaseInfoUp);
         if (res != 1) {
             log.debug("edit purchaseInfo fail due to update db fail");
             return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();

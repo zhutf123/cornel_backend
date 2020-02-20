@@ -110,8 +110,8 @@ import javax.annotation.Resource;
      * @return
      */
     @RequestMapping(value = "/edit-purchase.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
-            @RequestBody PurchaseInfo purchaseInfo) {
-        return JsonResult.success(purchaseCornService.editPurchase(purchaseInfo));
+            @RequestBody SubmitMyOfferReq param) {
+        return JsonResult.success(purchaseCornService.editPurchase(param));
     }
 
     /**

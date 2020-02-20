@@ -11,6 +11,8 @@ import java.math.BigDecimal;
  */
 @Data
 public class SubmitMyOfferReq {
+    private String purchaseId;
+
     private String buyerId;  //下单用户ID
     @NonNull
     private String contactUserName; //联系人
