@@ -1,5 +1,7 @@
 package com.demai.cornel.purcharse.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.purcharse.model.LocationInfo;
@@ -19,6 +21,7 @@ import com.demai.cornel.vo.user.UserLoginResp;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -131,6 +134,17 @@ import javax.servlet.http.HttpServletResponse;
      */
     @RequestMapping(value = "/get-location.json", method = RequestMethod.POST) @ResponseBody public JsonResult getLocation() {
         return purcharseOtherService.getLocationList();
+    }
+    /**
+     * 获取收货地址list
+     * @return
+     */
+    @RequestMapping(value = "/get-location-detail.json", method = RequestMethod.POST) @ResponseBody
+    public JsonResult getLocationDetail(@RequestBody String param) {
+        Preconditions.checkNotNull(param);
+        JSONObject receivedParam = JSON.parseObject(param);
+        String locationId = (String) receivedParam.get("locationId");
+        return JsonResult.success(purcharseOtherService.getLocationDetail(locationId));
     }
 
     /**

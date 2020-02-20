@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.purcharse.model.PurchaseInfo;
 import com.demai.cornel.purcharse.service.PurchaseCornService;
 import com.demai.cornel.purcharse.vo.req.*;
 import com.demai.cornel.service.UserLoginService;
@@ -109,6 +110,16 @@ public class PurchaseCornController {
     public JsonResult systemOffer(@RequestBody GetPurchaseListReq getPurchaseListReq) {
         return JsonResult.success(purchaseCornService.getPurchaseListRespList(getPurchaseListReq));
     }
+
+    /**
+     * 买家下单系统商品操作
+     * @return
+     */
+//    @RequestMapping(value = "/edit-purchase.json", method = RequestMethod.POST)
+//    @ResponseBody
+//    public JsonResult systemOffer(@RequestBody PurchaseInfo purchaseInfo) {
+//        return JsonResult.success(purchaseCornService.editPurchase(getPurchaseListReq));
+//    }
 
 //    /**
 //     * 买家派单逻辑

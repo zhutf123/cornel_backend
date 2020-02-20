@@ -314,6 +314,8 @@ import java.util.*;
         return getPurchaseListResps;
     }
 
+
+//    public
     /**
      * 提交购买订单
      *
