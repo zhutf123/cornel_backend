@@ -72,6 +72,7 @@ import javax.servlet.http.HttpServletResponse;
     @ResponseBody
     public JsonResult doUserLogin(@RequestBody UserLoginParam param, HttpServletResponse response) {
         try {
+            log.info("login param is {}",JacksonUtils.obj2String(param));
             Preconditions.checkNotNull(param);
             Preconditions.checkNotNull(param.getJscode());
             Preconditions.checkNotNull(param.getPhone());
