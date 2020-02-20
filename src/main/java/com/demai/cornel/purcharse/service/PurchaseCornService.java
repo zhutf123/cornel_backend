@@ -300,6 +300,7 @@ import java.util.*;
         }
         List<GetPurchaseListResp> getPurchaseListResps = new ArrayList<>();
         purchaseInfos.stream().forEach(x->{
+            log.debug("getSaleOrderListRespList copy x [{}]",JacksonUtils.obj2String(x));
             GetPurchaseListResp getPurchaseListResp = new GetPurchaseListResp();
             BeanUtils.copyProperties(x,getPurchaseListResp);
             getPurchaseListResp.setCommodityPrice(x.getPrice());
