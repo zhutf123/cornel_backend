@@ -59,6 +59,7 @@
         status,
         system_flag,
         bind_user_id,
+        unit_price,
         re_sale_price as quote
     </sql>
     <sql id="commodity_list_column">
@@ -131,7 +132,7 @@
     <select id="buyerGetCommodityList" resultMap="commodityListBuyMapper">
         select
         <include refid="main_column_buyer"/>
-        from commodity_list c where c.status=1 and (c.system_flag=1 or ((c.system_flag=0 and c.bind_user_id=#{userId}))) and s.status=1
+        from commodity_list c where c.status=1 and (c.system_flag=1 or ((c.system_flag=0 and c.bind_user_id=#{userId})))
         order by c.id desc;
     </select>
 </mapper>
