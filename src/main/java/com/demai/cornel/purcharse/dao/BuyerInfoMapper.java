@@ -22,7 +22,7 @@ public interface BuyerInfoMapper {
 
     int updateByPrimaryKey(BuyerInfo record);
 
-    BuyerInfo selectByUserIdByLogin(@Param("userId") String userId);
+    BuyerInfo selectByUserIdByLogin(@Param("phone") String phone);
 
     int updateFrequentlyLocation(@Param("userId") String userId,
             @Param("frequentlyLocation") Set<String> frequentlyLocation,
