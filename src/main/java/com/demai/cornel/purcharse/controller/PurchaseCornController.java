@@ -28,31 +28,27 @@ import javax.annotation.Resource;
  * @Date: 2020-02-12    14:16
  */
 
-@Controller
-@RequestMapping("/purchase")
-@Slf4j
-public class PurchaseCornController {
-    @Resource
-    private PurchaseCornService purchaseCornService;
-    @Resource
-    private UserService userService;
+@Controller @RequestMapping("/purchase") @Slf4j public class PurchaseCornController {
+    @Resource private PurchaseCornService purchaseCornService;
+    @Resource private UserService userService;
 
     /**
      * 获取系统报价
+     *
      * @return
      */
-    @RequestMapping(value = "/get-system-offer.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult systemOffer(@RequestBody GetSystemOfferReq getSystemOfferReq) {
-            return JsonResult.success(purchaseCornService.getSystemOfferRespList(getSystemOfferReq));
+    @RequestMapping(value = "/get-system-offer.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
+            @RequestBody GetSystemOfferReq getSystemOfferReq) {
+        return JsonResult.success(purchaseCornService.getSystemOfferRespList(getSystemOfferReq));
     }
+
     /**
      * 获取系统报价
+     *
      * @return
      */
-    @RequestMapping(value = "/click-system-offer.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult clickSystemOffe(@RequestBody String param) {
+    @RequestMapping(value = "/click-system-offer.json", method = RequestMethod.POST) @ResponseBody public JsonResult clickSystemOffe(
+            @RequestBody String param) {
         Preconditions.checkNotNull(param);
         JSONObject receivedParam = JSON.parseObject(param);
         String orderId = (String) receivedParam.get("offerId");
@@ -61,89 +57,100 @@ public class PurchaseCornController {
 
     /**
      * 点击我要报价 系统补充信息
+     *
      * @return
      */
-    @RequestMapping(value = "/click-my-offer.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult clickSystemOffe() {
+    @RequestMapping(value = "/click-my-offer.json", method = RequestMethod.POST) @ResponseBody public JsonResult clickSystemOffe() {
         return JsonResult.success(purchaseCornService.clickMyOfferResp());
     }
 
     /**
      * 点击我要报价 系统补充信息
+     *
      * @return
      */
-    @RequestMapping(value = "/submit-my-offer.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult submitMyOffer(@RequestBody SubmitMyOfferReq param) {
+    @RequestMapping(value = "/submit-my-offer.json", method = RequestMethod.POST) @ResponseBody public JsonResult submitMyOffer(
+            @RequestBody SubmitMyOfferReq param) {
         return JsonResult.success(purchaseCornService.submitMyOffer(param));
     }
 
-
-
     /**
      * 买家下单系统商品操作
+     *
      * @return
      */
-    @RequestMapping(value = "/submit-system-offer.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult systemOffer(@RequestBody SystemOfferReq param) {
+    @RequestMapping(value = "/submit-system-offer.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
+            @RequestBody SystemOfferReq param) {
         return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
     }
 
     /**
      * 买家下单系统商品操作
+     *
      * @return
      */
-    @RequestMapping(value = "/get-order-list.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult systemOffer(@RequestBody GetSaleOrderListReq getSaleOrderListReq) {
+    @RequestMapping(value = "/get-order-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
+            @RequestBody GetSaleOrderListReq getSaleOrderListReq) {
         return JsonResult.success(purchaseCornService.getSaleOrderListRespList(getSaleOrderListReq));
     }
 
     /**
      * 买家下单系统商品操作
+     *
      * @return
      */
-    @RequestMapping(value = "/get-purchase-list.json", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResult systemOffer(@RequestBody GetPurchaseListReq getPurchaseListReq) {
+    @RequestMapping(value = "/get-purchase-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
+            @RequestBody GetPurchaseListReq getPurchaseListReq) {
         return JsonResult.success(purchaseCornService.getPurchaseListRespList(getPurchaseListReq));
     }
 
     /**
      * 买家下单系统商品操作
+     *
      * @return
      */
-//    @RequestMapping(value = "/edit-purchase.json", method = RequestMethod.POST)
-//    @ResponseBody
-//    public JsonResult systemOffer(@RequestBody PurchaseInfo purchaseInfo) {
-//        return JsonResult.success(purchaseCornService.editPurchase(getPurchaseListReq));
-//    }
+    @RequestMapping(value = "/edit-purchase.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
+            @RequestBody PurchaseInfo purchaseInfo) {
+        return JsonResult.success(purchaseCornService.editPurchase(purchaseInfo));
+    }
 
-//    /**
-//     * 买家派单逻辑
-//     * @return
-//     */
-//    @RequestMapping(value = "/dist-order.json", method = RequestMethod.POST)
-//    @ResponseBody
-//    public JsonResult getOrderList(@RequestBody String param) {
-//        JSONObject jsonObject1 = JSONObject.parseObject(param);
-//        String cargoId = jsonObject1.getString("cargoId");
-//        return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
-//    }
+    /**
+     * 买家下单系统商品操作
+     *
+     * @return
+     */
+    @RequestMapping(value = "/update-purchase-status.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
+            @RequestBody String param) {
+        Preconditions.checkNotNull(param);
+        JSONObject receivedParam = JSON.parseObject(param);
+        String orderId = (String) receivedParam.get("purchaseId");
+        Integer status = (Integer) receivedParam.get("status");
 
+        return JsonResult.success(purchaseCornService.updatePurchase(orderId, status));
+    }
 
-//    /**
-//     * 买家派单逻辑
-//     * @return
-//     */
-//    @RequestMapping(value = "/dist-order.json", method = RequestMethod.POST)
-//    @ResponseBody
-//    public JsonResult getOrderList(@RequestBody String param) {
-//        JSONObject jsonObject1 = JSONObject.parseObject(param);
-//        String cargoId = jsonObject1.getString("cargoId");
-//        return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
-//    }
+    //    /**
+    //     * 买家派单逻辑
+    //     * @return
+    //     */
+    //    @RequestMapping(value = "/dist-order.json", method = RequestMethod.POST)
+    //    @ResponseBody
+    //    public JsonResult getOrderList(@RequestBody String param) {
+    //        JSONObject jsonObject1 = JSONObject.parseObject(param);
+    //        String cargoId = jsonObject1.getString("cargoId");
+    //        return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
+    //    }
+
+    //    /**
+    //     * 买家派单逻辑
+    //     * @return
+    //     */
+    //    @RequestMapping(value = "/dist-order.json", method = RequestMethod.POST)
+    //    @ResponseBody
+    //    public JsonResult getOrderList(@RequestBody String param) {
+    //        JSONObject jsonObject1 = JSONObject.parseObject(param);
+    //        String cargoId = jsonObject1.getString("cargoId");
+    //        return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
+    //    }
 
 }

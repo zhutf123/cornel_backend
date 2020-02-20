@@ -38,11 +38,18 @@
     purchase_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <!--@mbg.generated-->
+  select
+  <include refid="Base_Column_List" />
+  from purchase_info
+  where id = #{id,jdbcType=INTEGER}
+</select>
+  <select id="selectByPurchaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
+    select
     <include refid="Base_Column_List" />
     from purchase_info
-    where id = #{id,jdbcType=INTEGER}
+    where purchase_id = #{purchaseId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
@@ -209,7 +216,7 @@
         purchase_id = #{purchaseId,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where purchase_id = #{purchaseId}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.PurchaseInfo">
     <!--@mbg.generated-->
@@ -242,4 +249,7 @@
       </if>
        order by id desc limit #{pgSize,jdbcType=INTEGER}
     </select>
+  <delete id="updateStatus">
+    update purchase_info set status=#{status} where purchase_id=#{purchaseId,jdbcType=VARCHAR}
+  </delete>
 </mapper>

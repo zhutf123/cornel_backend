@@ -76,8 +76,10 @@ import java.util.*;
         }
         quoteListResps.stream().forEach(x -> {
             List<GetSystemOfferResp.Detail> details = new LinkedList<>();
-            details.add(new GetSystemOfferResp.Detail("质量标准",  Lists.newArrayList(GerQuoteListResp.convertProperties(x.getProperties()))));
-            details.add(new GetSystemOfferResp.Detail("单价",  Lists.newArrayList(x.getPrice().toString() + " /" + x.getUnitPrice())));
+            details.add(new GetSystemOfferResp.Detail("质量标准",
+                    Lists.newArrayList(GerQuoteListResp.convertProperties(x.getProperties()))));
+            details.add(new GetSystemOfferResp.Detail("单价",
+                    Lists.newArrayList(x.getPrice().toString() + " /" + x.getUnitPrice())));
             details.add(new GetSystemOfferResp.Detail("注意事项", x.getNotice()));
             x.setDetail(details);
         });
@@ -133,8 +135,8 @@ import java.util.*;
         if (param == null) {
             return false;
         }
-        if (Strings.isNullOrEmpty(param.getCommodityId()) || param.getWeight() == null
-                || param.getPrice() == null || Strings.isNullOrEmpty(param.getReceiveLocationId()) || Strings
+        if (Strings.isNullOrEmpty(param.getCommodityId()) || param.getWeight() == null || param.getPrice() == null
+                || Strings.isNullOrEmpty(param.getReceiveLocationId()) || Strings
                 .isNullOrEmpty(param.getReceiveStartTime()) || Strings.isNullOrEmpty(param.getReceiveEndTime())) {
             log.debug("checksubmitMyOffer fail  due to param error");
             return false;
@@ -195,8 +197,9 @@ import java.util.*;
         }
         if (Strings.isNullOrEmpty(buyerInfo.getDefaultLocation()) && buyerInfo.getFrequentlyLocation() == null) {
             LocationInfo defaultLocation = locationInfoMapper.selectByLocationId(buyerInfo.getDefaultLocation());
-            if(defaultLocation!=null) {
-                return ClickMyOfferResp.builder().status(ClickMyOfferResp.STATUS_ENUE.SUCCESS.getValue()).receiveLocation(defaultLocation.getLocation()).build();
+            if (defaultLocation != null) {
+                return ClickMyOfferResp.builder().status(ClickMyOfferResp.STATUS_ENUE.SUCCESS.getValue())
+                        .receiveLocation(defaultLocation.getLocation()).build();
             }
         }
         if (Strings.isNullOrEmpty(buyerInfo.getDefaultLocation())) {
@@ -207,8 +210,8 @@ import java.util.*;
             return ClickMyOfferResp.builder().status(ClickMyOfferResp.STATUS_ENUE.SUCCESS.getValue())
                     .receiveLocation("").build();
         }
-        return ClickMyOfferResp.builder().status(ClickMyOfferResp.STATUS_ENUE.SUCCESS.getValue()).receiveLocation(locationInfo.getLocation())
-                .build();
+        return ClickMyOfferResp.builder().status(ClickMyOfferResp.STATUS_ENUE.SUCCESS.getValue())
+                .receiveLocation(locationInfo.getLocation()).build();
 
     }
 
@@ -227,11 +230,11 @@ import java.util.*;
         if (!Strings.isNullOrEmpty(offer.getOfferId())) {
             offerSheet = offerSheetMapper.selectByOfferId(offer.getOfferId());
         }
-        if(offerSheet==null){
+        if (offerSheet == null) {
             log.debug("submitSystemQuoteResp fail due offerSheet invalid");
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
-        if(offerSheet.getMinBuyWeight().compareTo(offer.getWeight())==1){
+        if (offerSheet.getMinBuyWeight().compareTo(offer.getWeight()) == 1) {
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.WEIGHT_INVALID.getValue()).build();
         }
 
@@ -280,12 +283,70 @@ import java.util.*;
             log.debug("getSaleOrderListRespList fail due to get result  empty");
             return Collections.EMPTY_LIST;
         }
-        getSaleOrderListResps.stream().forEach(x->{
-            Commodity commodity  = commodityDao.getCommodityByCommodityId(x.getCommodityId());
+        getSaleOrderListResps.stream().forEach(x -> {
+            Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             x.setCommodity(commodity);
         });
         return getSaleOrderListResps;
 
+    }
+
+    public OptPurchaseResp editPurchase(PurchaseInfo purchaseInfo) {
+        log.debug("edit purchase param is {} ", JacksonUtils.obj2String(purchaseInfo));
+        if (purchaseInfo == null) {
+            log.debug("edit purchaseInfo fail due to param is invalid");
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
+        PurchaseInfo beforePu = purchaseInfoMapper.selectByPurchaseId(purchaseInfo.getPurchaseId());
+        if (!CookieAuthUtils.getCurrentUser().equals(beforePu.getBuyerId())) {
+            log.debug("edit purchaseInfo fail cur user no auth ");
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.USER_ERROR.getValue()).build();
+        }
+
+        if (beforePu == null || beforePu.getStatus().equals(PurchaseInfo.STATUS_ENUM.CANCLE.getValue())) {
+            log.debug("edit purchaseInfo fail purchase invalid ");
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PURCHASE_INVALID.getValue()).build();
+        }
+        if (beforePu.getStatus().equals(PurchaseInfo.STATUS_ENUM.DEAL.getValue())) {
+            log.debug("edit purchaseInfo fail cur status is deal");
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.DEAL_ERROR.getValue()).build();
+        }
+        int res = purchaseInfoMapper.updateByPrimaryKeySelective(purchaseInfo);
+        if (res != 1) {
+            log.debug("edit purchaseInfo fail due to update db fail");
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
+        }
+        PurchaseInfo beforePhu = purchaseInfoMapper.selectByPurchaseId(purchaseInfo.getPurchaseId());
+        return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SUCCESS.getValue())
+                .purchaseId(purchaseInfo.getPurchaseId()).purchaseStatus(beforePhu.getStatus()).build();
+    }
+
+    public OptPurchaseResp updatePurchase(String purchaseId, Integer status) {
+
+        if (Strings.isNullOrEmpty(purchaseId) || status == null) {
+            log.debug("update purchaseInfo status fail due to param is invalid");
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
+        PurchaseInfo beforePu = purchaseInfoMapper.selectByPurchaseId(purchaseId);
+        if (!CookieAuthUtils.getCurrentUser().equals(beforePu.getBuyerId())) {
+            log.debug("update purchaseInfo fail cur user no auth ");
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.USER_ERROR.getValue()).build();
+        }
+        if (beforePu == null || beforePu.getStatus().equals(PurchaseInfo.STATUS_ENUM.CANCLE.getValue())) {
+            log.debug("edit purchaseInfo fail purchase invalid ");
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PURCHASE_INVALID.getValue()).build();
+        }
+        if (beforePu.getStatus().equals(PurchaseInfo.STATUS_ENUM.DEAL.getValue())) {
+            log.debug("edit purchaseInfo fail cur status is deal");
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.DEAL_ERROR.getValue()).build();
+        }
+        int res = purchaseInfoMapper.updateStatus(purchaseId, status);
+        if (res != 1) {
+            log.debug("edit purchaseInfo fail due to update db fail");
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
+        }
+        return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SUCCESS.getValue())
+                .purchaseStatus(status).purchaseId(purchaseId).build();
     }
 
     public List<GetPurchaseListResp> getPurchaseListRespList(GetPurchaseListReq getPurchaseListReq) {
@@ -293,29 +354,32 @@ import java.util.*;
             log.debug("getSaleOrderListRespList fail due to getSaleOrderListReq empty");
             return Collections.EMPTY_LIST;
         }
-        List<PurchaseInfo> purchaseInfos = purchaseInfoMapper.getPurcharseList(CookieAuthUtils.getCurrentUser()
-                ,getPurchaseListReq.getPurchaseId(),Optional.ofNullable(getPurchaseListReq.getPgSize()).orElse(10));
+        List<PurchaseInfo> purchaseInfos = purchaseInfoMapper
+                .getPurcharseList(CookieAuthUtils.getCurrentUser(), getPurchaseListReq.getPurchaseId(),
+                        Optional.ofNullable(getPurchaseListReq.getPgSize()).orElse(10));
 
-        if(purchaseInfos==null){
+        if (purchaseInfos == null) {
             return Collections.EMPTY_LIST;
         }
         List<GetPurchaseListResp> getPurchaseListResps = new ArrayList<>();
-        purchaseInfos.stream().forEach(x->{
+        purchaseInfos.stream().forEach(x -> {
             Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             GetPurchaseListResp getPurchaseListResp = new GetPurchaseListResp();
-            BeanUtils.copyProperties(x,getPurchaseListResp);
+            BeanUtils.copyProperties(x, getPurchaseListResp);
             getPurchaseListResp.setCommodityPrice(x.getPrice());
             getPurchaseListResp.setCommodity(commodity);
             getPurchaseListResp.setOrderPrice(getPurchaseListResp.getCommodityPrice().multiply(x.getWeight()));
-            getPurchaseListResp.setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT,x.getReceiveStartTime()));
-            getPurchaseListResp.setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT,x.getReceiveEndTime()));
+            getPurchaseListResp
+                    .setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, x.getReceiveStartTime()));
+            getPurchaseListResp
+                    .setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, x.getReceiveEndTime()));
             getPurchaseListResps.add(getPurchaseListResp);
         });
         return getPurchaseListResps;
     }
 
+    //    public
 
-//    public
     /**
      * 提交购买订单
      *

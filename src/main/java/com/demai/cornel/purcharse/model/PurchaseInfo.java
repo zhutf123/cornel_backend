@@ -86,11 +86,9 @@ import lombok.Data;
      * 求购ID
      */
     private String purchaseId;
+
     public static enum STATUS_ENUM implements IEmus {
-        CANCLE(0, "取消"),
-        //UNDER_APPROVAL(1<<0, "待审核"),
-        UNDER_DEAL(1<<0,"求购中"),
-        DEAL(1<<1, "已成交");
+        CANCLE(0, "取消"), UNDER_DEAL(1, "求购中"), DEAL(2, "已成交"), SHELVES(3, "下架");
 
         private int value;
         private String expr;
