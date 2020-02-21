@@ -158,7 +158,7 @@ import javax.annotation.Resource;
      *
      * @return
      */
-    @RequestMapping(value = "/get-purchase-detail.json", method = RequestMethod.POST)
+    @RequestMapping(value = "/update-purchase-status.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult getPurchaseDetail(@RequestBody String param) {
         Preconditions.checkNotNull(param);
         JSONObject receivedParam = JSON.parseObject(param);
