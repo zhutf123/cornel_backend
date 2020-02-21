@@ -159,7 +159,7 @@ import javax.annotation.Resource;
      * @return
      */
     @RequestMapping(value = "/update-purchase-status.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult getPurchaseDetail(@RequestBody String param) {
+    @ResponseBody public JsonResult updatePurchaseStatus(@RequestBody String param) {
         Preconditions.checkNotNull(param);
         JSONObject receivedParam = JSON.parseObject(param);
         String orderId = (String) receivedParam.get("purchaseId");
