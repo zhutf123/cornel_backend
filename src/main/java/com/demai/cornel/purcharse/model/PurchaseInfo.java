@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import com.demai.cornel.dmEnum.IEmus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -70,6 +71,7 @@ import lombok.Data;
     /**
      * 创建时间
      */
+    @JsonIgnore
     private Timestamp createTime;
 
     /**

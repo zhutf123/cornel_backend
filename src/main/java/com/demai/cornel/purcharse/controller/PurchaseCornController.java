@@ -109,6 +109,30 @@ import javax.annotation.Resource;
      *
      * @return
      */
+    @RequestMapping(value = "/get-purchase-num.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult getPurchaseNum() {
+        return JsonResult.success(purchaseCornService.getPurchaseNum());
+    }
+
+
+    /**
+     * 买家下单系统商品操作
+     *
+     * @return
+     */
+    @RequestMapping(value = "/get-purchase-detail.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult getPurchaseDetai(@RequestBody String param) {
+        Preconditions.checkNotNull(param);
+        JSONObject receivedParam = JSON.parseObject(param);
+        String orderId = (String) receivedParam.get("purchaseId");
+        return JsonResult.success(purchaseCornService.getPurchaseDetailResp(orderId));
+    }
+
+    /**
+     * 买家下单系统商品操作
+     *
+     * @return
+     */
     @RequestMapping(value = "/edit-purchase.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
             @RequestBody SubmitMyOfferReq param) {
         return JsonResult.success(purchaseCornService.editPurchase(param));
@@ -126,6 +150,20 @@ import javax.annotation.Resource;
         String orderId = (String) receivedParam.get("purchaseId");
         Integer status = (Integer) receivedParam.get("status");
 
+        return JsonResult.success(purchaseCornService.updatePurchase(orderId, status));
+    }
+
+    /**
+     * 买家下单系统商品操作
+     *
+     * @return
+     */
+    @RequestMapping(value = "/get-purchase-detail.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult getPurchaseDetail(@RequestBody String param) {
+        Preconditions.checkNotNull(param);
+        JSONObject receivedParam = JSON.parseObject(param);
+        String orderId = (String) receivedParam.get("purchaseId");
+        Integer status = (Integer) receivedParam.get("status");
         return JsonResult.success(purchaseCornService.updatePurchase(orderId, status));
     }
 

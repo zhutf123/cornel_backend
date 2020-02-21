@@ -312,13 +312,15 @@ import java.util.*;
             return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.DEAL_ERROR.getValue()).build();
         }
         PurchaseInfo purchaseInfoUp = new PurchaseInfo();
-        BeanUtils.copyProperties(purchaseInfo,purchaseInfoUp);
-        if(!Strings.isNullOrEmpty(purchaseInfo.getReceiveStartTime())) {
-            purchaseInfoUp.setReceiveStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,purchaseInfo.getReceiveStartTime() ));
+        BeanUtils.copyProperties(purchaseInfo, purchaseInfoUp);
+        if (!Strings.isNullOrEmpty(purchaseInfo.getReceiveStartTime())) {
+            purchaseInfoUp.setReceiveStartTime(
+                    TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, purchaseInfo.getReceiveStartTime()));
 
         }
-        if(!Strings.isNullOrEmpty(purchaseInfo.getReceiveEndTime())) {
-            purchaseInfoUp.setReceiveEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,purchaseInfo.getReceiveEndTime() ));
+        if (!Strings.isNullOrEmpty(purchaseInfo.getReceiveEndTime())) {
+            purchaseInfoUp.setReceiveEndTime(
+                    TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, purchaseInfo.getReceiveEndTime()));
         }
         int res = purchaseInfoMapper.updateByPrimaryKeySelective(purchaseInfoUp);
         if (res != 1) {
@@ -356,6 +358,52 @@ import java.util.*;
         }
         return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SUCCESS.getValue())
                 .purchaseStatus(status).purchaseId(purchaseId).build();
+    }
+
+    //    public PurchaseInfo getPurchaseDetail(String purchaseId) {
+    //        PurchaseInfo purchaseInfo = purchaseInfoMapper.selectByPurchaseId(purchaseId);
+    //
+    //
+    //
+    //
+    //    }
+
+    public GetPurchaseNumResp getPurchaseNum() {
+        int num = purchaseInfoMapper.getPurchaseNum(CookieAuthUtils.getCurrentUser());
+        GetPurchaseNumResp getPurchaseNumResp = new GetPurchaseNumResp();
+        getPurchaseNumResp.setNum(new Integer(num));
+        return getPurchaseNumResp;
+
+    }
+
+    public GetPurchaseDetailResp getPurchaseDetailResp(String purchaseId) {
+        log.debug("get {} purchase detail ", purchaseId);
+        GetPurchaseDetailResp getPurchaseDetailResp = new GetPurchaseDetailResp();
+        if (Strings.isNullOrEmpty(purchaseId)) {
+            getPurchaseDetailResp.setOptStatus(GetPurchaseDetailResp.STATUS_ENUE.PARAM_ERROE.getValue());
+            return getPurchaseDetailResp;
+        }
+        PurchaseInfo purchaseInfo = purchaseInfoMapper.selectByPurchaseId(purchaseId);
+        if (purchaseInfo == null) {
+            getPurchaseDetailResp.setOptStatus(GetPurchaseDetailResp.STATUS_ENUE.PURCHASE_INVALID.getValue());
+            return getPurchaseDetailResp;
+        }
+        if (!purchaseInfo.getBuyerId().equals(CookieAuthUtils.getCurrentUser())) {
+            log.debug("get {} purchase detail fail due no auth", purchaseId);
+            getPurchaseDetailResp.setOptStatus(GetPurchaseDetailResp.STATUS_ENUE.NO_AUTH.getValue());
+            return getPurchaseDetailResp;
+        }
+        BeanUtils.copyProperties(purchaseInfo, getPurchaseDetailResp);
+        getPurchaseDetailResp.setCommodityPrice(purchaseInfo.getPrice());
+        getPurchaseDetailResp.setCommodity(commodityDao.getCommodityByCommodityId(purchaseInfo.getCommodityId()));
+        getPurchaseDetailResp.setOrderPrice(purchaseInfo.getPrice().multiply(purchaseInfo.getWeight()));
+        getPurchaseDetailResp.setReceiveStartTime(
+                TimeStampUtil.timeStampConvertString(TIME_FORMAT, purchaseInfo.getReceiveStartTime()));
+        getPurchaseDetailResp
+                .setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, purchaseInfo.getReceiveEndTime()));
+        getPurchaseDetailResp.setOptStatus(GetPurchaseDetailResp.STATUS_ENUE.SUCCESS.getValue());
+        return getPurchaseDetailResp;
+
     }
 
     public List<GetPurchaseListResp> getPurchaseListRespList(GetPurchaseListReq getPurchaseListReq) {
