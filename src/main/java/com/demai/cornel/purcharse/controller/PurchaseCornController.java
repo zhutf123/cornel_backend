@@ -133,7 +133,7 @@ import javax.annotation.Resource;
      *
      * @return
      */
-    @RequestMapping(value = "/edit-purchase.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
+    @RequestMapping(value = "/edit-purchase.json", method = RequestMethod.POST) @ResponseBody public JsonResult editPurchase(
             @RequestBody SubmitMyOfferReq param) {
         return JsonResult.success(purchaseCornService.editPurchase(param));
     }
@@ -143,7 +143,7 @@ import javax.annotation.Resource;
      *
      * @return
      */
-    @RequestMapping(value = "/update-purchase-status.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
+    @RequestMapping(value = "/update-purchase-status.json", method = RequestMethod.POST) @ResponseBody public JsonResult updatePurchasestatus(
             @RequestBody String param) {
         Preconditions.checkNotNull(param);
         JSONObject receivedParam = JSON.parseObject(param);
@@ -153,19 +153,19 @@ import javax.annotation.Resource;
         return JsonResult.success(purchaseCornService.updatePurchase(orderId, status));
     }
 
-    /**
-     * 买家下单系统商品操作
-     *
-     * @return
-     */
-    @RequestMapping(value = "/update-purchase-status.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult updatePurchaseStatus(@RequestBody String param) {
-        Preconditions.checkNotNull(param);
-        JSONObject receivedParam = JSON.parseObject(param);
-        String orderId = (String) receivedParam.get("purchaseId");
-        Integer status = (Integer) receivedParam.get("status");
-        return JsonResult.success(purchaseCornService.updatePurchase(orderId, status));
-    }
+//    /**
+//     * 买家下单系统商品操作
+//     *
+//     * @return
+//     */
+//    @RequestMapping(value = "/update-purchase-status.json", method = RequestMethod.POST)
+//    @ResponseBody public JsonResult updatePurchaseStatus(@RequestBody String param) {
+//        Preconditions.checkNotNull(param);
+//        JSONObject receivedParam = JSON.parseObject(param);
+//        String orderId = (String) receivedParam.get("purchaseId");
+//        Integer status = (Integer) receivedParam.get("status");
+//        return JsonResult.success(purchaseCornService.updatePurchase(orderId, status));
+//    }
 
     //    /**
     //     * 买家派单逻辑
