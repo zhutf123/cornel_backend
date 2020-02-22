@@ -43,6 +43,7 @@
         <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
         <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
 
     </resultMap>
     <sql id="Base_Column_List">

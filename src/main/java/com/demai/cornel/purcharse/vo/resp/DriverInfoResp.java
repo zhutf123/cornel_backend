@@ -13,5 +13,5 @@ public class DriverInfoResp {
     private String mobile;
     private String LorryId;
     private String orderId;
-    private Integer status;
+    private Long status;
 }
