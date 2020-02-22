@@ -64,4 +64,8 @@ public interface OrderInfoDao {
     String getSendOutCode(@Param("orderID")String orderId);
 
     String getReceiveCode(@Param("orderID")String orderId);
+
+
+    List<OrderInfo> getOrderInfosByOrderIds(@Param("orderIds") List<String> orderId);
+
 }

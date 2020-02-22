@@ -292,6 +292,7 @@ import java.util.*;
             return Collections.EMPTY_LIST;
         }
         getSaleOrderListResps.stream().forEach(x -> {
+
             Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             x.setCommodity(commodity);
         });
@@ -436,7 +437,7 @@ import java.util.*;
         }
         BeanUtils.copyProperties(purchaseInfo, getPurchaseDetailResp);
         getPurchaseDetailResp.setCommodityPrice(purchaseInfo.getPrice());
-        getPurchaseDetailResp.setCommodity(commodityDao.getCommodityByCommodityId(purchaseInfo.getCommodityId()));
+        getPurchaseDetailResp.setCommodity(commodityDao.buyerGetCommodity(purchaseInfo.getCommodityId()));
         getPurchaseDetailResp.setOrderPrice(purchaseInfo.getPrice().multiply(purchaseInfo.getWeight()));
         getPurchaseDetailResp.setReceiveStartTime(
                 TimeStampUtil.timeStampConvertString(TIME_FORMAT, purchaseInfo.getReceiveStartTime()));
@@ -470,7 +471,7 @@ import java.util.*;
             GetPurchaseListResp getPurchaseListResp = new GetPurchaseListResp();
             BeanUtils.copyProperties(x, getPurchaseListResp);
             getPurchaseListResp.setCommodityPrice(x.getPrice());
-            getPurchaseListResp.setCommodity(commodity);
+            getPurchaseListResp.setCommodity(commodityDao.buyerGetCommodity(x.getCommodityId()));
             getPurchaseListResp.setOrderPrice(getPurchaseListResp.getCommodityPrice().multiply(x.getWeight()));
             getPurchaseListResp
                     .setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, x.getReceiveStartTime()));

@@ -146,4 +146,7 @@
       </if>
     </trim>
   </insert>
+    <select id="getSaleOrderDeliverId" resultType="java.lang.String">
+       SELECT deliver_id from waybill_info where sale_id=#{saleId,jdbcType=VARCHAR} ;
+    </select>
 </mapper>

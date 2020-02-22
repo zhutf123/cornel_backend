@@ -3,6 +3,8 @@ package com.demai.cornel.purcharse.vo.resp;
 import com.demai.cornel.dmEnum.IEmus;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * @Author binz.zhang
  * @Date: 2020-02-21    22:40
@@ -12,7 +14,6 @@ public class GetPurchaseDetailResp extends GetPurchaseListResp {
     private Integer optStatus;
     private String locationId;
     private String location;
-
     private String locationArea;
     private String locationDetail;
 

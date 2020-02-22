@@ -15,12 +15,19 @@
         <result column="succ_weight" property="succWeight"/>
         <result column="overweight" property="overweight"/>
         <result column="unit_weight" property="unitWeight"/>
-        <result column="accept_time" property="acceptTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
-        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
-        <result column="must_finish_time" property="mustFinishTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
-        <result column="send_out_time" property="sendOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
-        <result column="estimate_finish_time" property="estimateFinishTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
-        <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="accept_time" property="acceptTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="must_finish_time" property="mustFinishTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="send_out_time" property="sendOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="estimate_finish_time" property="estimateFinishTime" jdbcType="TIMESTAMP"
+                javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="send_out_code" property="sendOutCode"/>
         <result column="send_out_user_id" property="sendOutUserId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
@@ -29,14 +36,20 @@
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="status" property="status"/>
         <result column="unexpect" property="unexpect"/>
-        <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="cancel_reason" property="cancelReason"/>
         <result column="ext_info" property="extInfo"/>
-        <result column="create_time" property="createTime"   jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
-        <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="receive_time" property="receiveTime"/>
-        <result column="delivery_receive_time" property="deliveryReceiveTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
-        <result column="let_out_time" property="letOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="delivery_receive_time" property="deliveryReceiveTime" jdbcType="TIMESTAMP"
+                javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="let_out_time" property="letOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
     </resultMap>
 
     <resultMap id="listRespMapper" type="com.demai.cornel.vo.task.GetOrderListResp">
@@ -47,11 +60,12 @@
         <result column="status" property="orderStatus"/>
         <result column="order_weight" property="orderWeight"/>
         <result column="receive_code" property="verifyCode"/>
-        <result column="receive_time" property="startTime" />
+        <result column="receive_time" property="startTime"/>
 
         <result column="delivery_receive_time" property="deliveryReceiveTime"/>
         <result column="order_carry_weight" property="orderCarryWeight"/>
-        <result column="send_out_time" property="sendOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="send_out_time" property="sendOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="succ_weight" property="succWeight"/>
 
         <result column="title" property="title"/>
@@ -59,8 +73,10 @@
         <result column="arr" property="arr"/>
         <result column="dep_gis" property="depGis"/>
         <result column="arr_gis" property="arrGis"/>
-        <result column="start_time" property="startValidDate" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
-        <result column="end_time" property="endValidDate" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="start_time" property="startValidDate" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="end_time" property="endValidDate" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="unit_weight_price" property="unitWeightPrice"/>
         <result column="unit_price" property="unitPrice"/>
         <result column="unit_weight" property="unitWeight"/>
@@ -74,7 +90,8 @@
         <result column="driver_mobile" property="driverMobileSet" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="delivery_receive_time" property="deliveryReceiveTime"/>
-        <result column="let_out_time" property="letOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="let_out_time" property="letOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="service_mobile" property="serviceMobile"/>
 
         <result column="receiver_mobile" property="receiverMobileSet" jdbcType="ARRAY" javaType="java.util.Set"
@@ -83,7 +100,6 @@
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
 
     </resultMap>
-
 
 
     <sql id="main_column">
@@ -234,12 +250,24 @@
             <if test="succWeight != null">succ_weight = #{succWeight},</if>
             <if test="overweight != null">overweight = #{overweight},</if>
             <if test="unitWeight != null">unit_weight = #{unitWeight},</if>
-            <if test="acceptTime != null">accept_time = #{acceptTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
-            <if test="startTime != null">start_time = #{startTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
-            <if test="mustFinishTime != null">must_finish_time = #{mustFinishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
-            <if test="sendOutTime != null">send_out_time = #{sendOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
-            <if test="estimateFinishTime != null">estimate_finish_time = #{estimateFinishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
-            <if test="finishTime != null">finish_time = #{finishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="acceptTime != null">accept_time =
+                #{acceptTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
+            <if test="startTime != null">start_time =
+                #{startTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
+            <if test="mustFinishTime != null">must_finish_time =
+                #{mustFinishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
+            <if test="sendOutTime != null">send_out_time =
+                #{sendOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
+            <if test="estimateFinishTime != null">estimate_finish_time =
+                #{estimateFinishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
+            <if test="finishTime != null">finish_time =
+                #{finishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
             <if test="sendOutCode != null">send_out_code = #{sendOutCode},</if>
             <if test="sendOutUserId != null">send_out_user_id =
                 #{sendOutUserId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
@@ -250,14 +278,24 @@
             </if>
             <if test="status != null">status = #{status},</if>
             <if test="unexpect != null">unexpect = #{unexpect},</if>
-            <if test="cancelTime != null">cancel_time = #{cancelTime,jdbcType=TIMESTAMP,javaType=java.sql.Date,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="cancelTime != null">cancel_time =
+                #{cancelTime,jdbcType=TIMESTAMP,javaType=java.sql.Date,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
             <if test="cancelReason != null">cancel_reason = #{cancelReason},</if>
             <if test="extInfo != null">ext_info = #{extInfo},</if>
-            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
-            <if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="createTime != null">create_time =
+                #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
+            <if test="operateTime != null">operate_time =
+                #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
             <if test="receiveTime != null">receive_time = #{receiveTime},</if>
-            <if test="deliveryReceiveTime != null">delivery_receive_time = #{deliveryReceiveTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
-            <if test="letOutTime != null">let_out_time = #{letOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="deliveryReceiveTime != null">delivery_receive_time =
+                #{deliveryReceiveTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
+            <if test="letOutTime != null">let_out_time =
+                #{letOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
         </trim>
         where id = #{id}
     </update>
@@ -267,11 +305,19 @@
         set status=#{status}
         <if test="carryWeight != null">,carry_weight=#{carryWeight}</if>
         <if test="receiveTime != null">,receive_time=#{receiveTime}</if>
-        <if test="sendOutTime != null">,send_out_time=#{sendOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}</if>
-        <if test="deliveryReceiveTime != null">,delivery_receive_time=#{deliveryReceiveTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}</if>
+        <if test="sendOutTime != null">
+            ,send_out_time=#{sendOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+        </if>
+        <if test="deliveryReceiveTime != null">
+            ,delivery_receive_time=#{deliveryReceiveTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+        </if>
         <if test="succWeight != null">,succ_weight=#{succWeight}</if>
-        <if test="letOutTime != null">,let_out_time=#{letOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}</if>
-        <if test="finishTime != null">,finish_time=#{finishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}</if>
+        <if test="letOutTime != null">
+            ,let_out_time=#{letOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+        </if>
+        <if test="finishTime != null">
+            ,finish_time=#{finishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+        </if>
         where order_id = #{orderId} and
         status=#{oldStatus}
         <if test="sendOutUserId!=null">
@@ -336,12 +382,30 @@
             <if test="succWeight != null">#{succWeight} ,</if>
             <if test="overweight != null">#{overweight} ,</if>
             <if test="unitWeight != null">#{unitWeight} ,</if>
-            <if test="acceptTime != null">#{acceptTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
-            <if test="startTime != null">#{startTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
-            <if test="mustFinishTime != null">#{mustFinishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
-            <if test="sendOutTime != null">#{sendOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
-            <if test="estimateFinishTime != null">#{estimateFinishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
-            <if test="finishTime != null">#{finishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="acceptTime != null">
+                #{acceptTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
+            <if test="mustFinishTime != null">
+                #{mustFinishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
+            <if test="sendOutTime != null">
+                #{sendOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
+            <if test="estimateFinishTime != null">
+                #{estimateFinishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
+            <if test="finishTime != null">
+                #{finishTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
             <if test="sendOutCode != null">#{sendOutCode} ,</if>
             <if test="sendOutUserId != null">
                 #{sendOutUserId, typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
@@ -352,14 +416,29 @@
             </if>
             <if test="status != null">#{status} ,</if>
             <if test="unexpect != null">#{unexpect} ,</if>
-            <if test="cancelTime != null">#{cancelTime,jdbcType=TIMESTAMP,javaType=java.sql.Date,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="cancelTime != null">
+                #{cancelTime,jdbcType=TIMESTAMP,javaType=java.sql.Date,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
             <if test="cancelReason != null">#{cancelReason} ,</if>
             <if test="extInfo != null">#{extInfo} ,</if>
-            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
-            <if test="operateTime != null">#{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
+            <if test="operateTime != null">
+                #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
             <if test="receiveTime != null">#{receiveTime} ,</if>
-            <if test="deliveryReceiveTime != null">#{deliveryReceiveTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
-            <if test="letOutTime != null">#{letOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="deliveryReceiveTime != null">
+                #{deliveryReceiveTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
+            <if test="letOutTime != null">
+                #{letOutTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
 
         </trim>
         )
@@ -367,7 +446,8 @@
     <select id="getOrderInfoByOrderTypeAndUserId" resultMap="listRespMapper">
         SELECT
         <include refid="listResp_driver"></include>
-        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id where
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id
+        where
         o.user_id=#{userId} and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId == null and orderId=='' and orderId=='null'">
@@ -382,8 +462,9 @@
 
     <select id="getOrderInfoByUserAndOrderId" resultMap="listRespMapper">
         SELECT
-       <include refid="listRespOrderId_driver"/>
-        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id  left join user_info u on o.user_id=u.user_id where
+        <include refid="listRespOrderId_driver"/>
+        from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id
+        left join user_info u on o.user_id=u.user_id where
         o.user_id=#{userId}
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         and o.order_id=#{orderId};
@@ -425,7 +506,8 @@
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id
         left join user_info u on o.user_id=u.user_id
         where
-        <![CDATA[ o.send_out_user_id @> array[#{supplierId}]::varchar[] ]]> and o.status= (o.status <![CDATA[ & ]]> #{orderType} )
+        <![CDATA[ o.send_out_user_id @> array[#{supplierId}]::varchar[] ]]> and o.status= (o.status <![CDATA[ & ]]>
+        #{orderType} )
         and t.status in(1<![CDATA[<<]]>4,4<![CDATA[<<]]>5)
         <if test="orderId!=null and orderId!='' and orderId!='null'">
             and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})
@@ -480,6 +562,20 @@
     </select>
     <select id="getReceiveCode" resultType="java.lang.String">
         select receive_code from order_info where order_id=#{orderID}
+    </select>
+    <select id="getOrderInfosByOrderIds" resultMap="orderInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from order_info where status!=0 and
+        <if test="orderIds != null and orderIds.size()>0">
+            order_id in
+            <foreach collection="orderIds" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        <if test="orderIds == null and orderIds.size()==0">
+            1 = 0
+        </if>
     </select>
 
 </mapper>

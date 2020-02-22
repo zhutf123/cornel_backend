@@ -135,4 +135,9 @@
         from commodity_list c where c.status=1 and (c.system_flag=1 or ((c.system_flag=0 and c.bind_user_id=#{userId})))
         order by c.id desc;
     </select>
+    <select id="buyerGetCommodity" resultMap="commodityListBuyMapper">
+        select
+        <include refid="main_column_buyer"/>
+        from commodity_list c where c.status=1 and commodity_id=#{commodityId} ;
+    </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.demai.cornel.purcharse.vo.resp;
 
 import com.demai.cornel.model.Commodity;
+import com.demai.cornel.vo.commodity.GetCommodityListResp;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
  */
 @Data
 public class GetPurchaseListResp {
-    private Commodity commodity; //商品属性
+    private BuyerCommitListResp commodity; //商品属性
     private BigDecimal weight;   // 重量
     private String unitWeight;  //重量单位
     private BigDecimal commodityPrice;//商品单价

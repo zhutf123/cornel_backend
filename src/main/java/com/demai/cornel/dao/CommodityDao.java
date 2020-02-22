@@ -24,4 +24,6 @@ public interface CommodityDao {
 
 
     List<BuyerCommitListResp> buyerGetCommodityList(@Param("userId")String userId);
+
+    BuyerCommitListResp buyerGetCommodity(@Param("commodityId")String commodiyId);
 }
