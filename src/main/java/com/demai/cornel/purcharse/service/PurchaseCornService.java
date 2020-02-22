@@ -42,10 +42,6 @@ import java.util.*;
     @Resource private CargoInfoMapper cargoInfoMapper;
     @Resource private SaleOrderMapper saleOrderMapper;
     @Resource private PurchaseInfoMapper purchaseInfoMapper;
-    @Resource private LorryInfoDao lorryInfoDao;
-    @Resource private TaskInfoDao taskInfoDao;
-    @Resource private OrderInfoDao orderInfoDao;
-    @Resource private DistSaleOrderService distSaleOrderService;
     @Resource private OrderDeliverService orderDeliverService;
 
     private static String TIME_FORMAT = "yyyy-MM-dd";
@@ -451,8 +447,8 @@ import java.util.*;
         getPurchaseDetailResp.setOptStatus(GetPurchaseDetailResp.STATUS_ENUE.SUCCESS.getValue());
         LocationInfo locationInfo = locationInfoMapper.selectByLocationId(purchaseInfo.getReceiveLocationId());
         getPurchaseDetailResp.setLocationId(locationInfo.getLocationId());
-        getPurchaseDetailResp.setLocationId(locationInfo.getLocationArea());
-        getPurchaseDetailResp.setLocationId(locationInfo.getLocationDetail());
+        getPurchaseDetailResp.setLocationArea(locationInfo.getLocationArea());
+        getPurchaseDetailResp.setLocationDetail(locationInfo.getLocationDetail());
         getPurchaseDetailResp.setLocation(locationInfo.getLocation());
         return getPurchaseDetailResp;
 

@@ -97,6 +97,13 @@ import javax.naming.ldap.PagedResultsControl;
         return JsonResult.success(purchaseCornService.getSaleOrderListRespList(getSaleOrderListReq));
     }
 
+//    @RequestMapping(value = "/get-order-detail.json", method = RequestMethod.POST)
+//    @ResponseBody public JsonResult getSaleDetail(@RequestBody String param) {
+//        JSONObject jsonObject = JSON.parseObject()
+//        return JsonResult.success(purchaseCornService.getSaleOrderListRespList(getSaleOrderListReq));
+//    }
+
+
     /**
      * 买家下单系统商品操作
      *
