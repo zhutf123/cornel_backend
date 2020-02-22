@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.purcharse.model.PurchaseInfo;
+import com.demai.cornel.purcharse.service.DistSaleOrderService;
 import com.demai.cornel.purcharse.service.PurchaseCornService;
 import com.demai.cornel.purcharse.vo.req.*;
 import com.demai.cornel.service.UserLoginService;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.naming.ldap.PagedResultsControl;
 
 /**
  * @Author binz.zhang
@@ -31,6 +33,7 @@ import javax.annotation.Resource;
 @Controller @RequestMapping("/purchase") @Slf4j public class PurchaseCornController {
     @Resource private PurchaseCornService purchaseCornService;
     @Resource private UserService userService;
+    @Resource private DistSaleOrderService distSaleOrderService;
 
     /**
      * 获取系统报价
@@ -109,19 +112,17 @@ import javax.annotation.Resource;
      *
      * @return
      */
-    @RequestMapping(value = "/get-purchase-num.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult getPurchaseNum() {
+    @RequestMapping(value = "/get-purchase-num.json", method = RequestMethod.POST) @ResponseBody public JsonResult getPurchaseNum() {
         return JsonResult.success(purchaseCornService.getPurchaseNum());
     }
-
 
     /**
      * 买家下单系统商品操作
      *
      * @return
      */
-    @RequestMapping(value = "/get-purchase-detail.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult getPurchaseDetai(@RequestBody String param) {
+    @RequestMapping(value = "/get-purchase-detail.json", method = RequestMethod.POST) @ResponseBody public JsonResult getPurchaseDetai(
+            @RequestBody String param) {
         Preconditions.checkNotNull(param);
         JSONObject receivedParam = JSON.parseObject(param);
         String orderId = (String) receivedParam.get("purchaseId");
@@ -152,44 +153,33 @@ import javax.annotation.Resource;
 
         return JsonResult.success(purchaseCornService.updatePurchase(orderId, status));
     }
-    @RequestMapping(value = "/get-purchase-bargain.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult getPurchaseBargain(@RequestBody String param) {
+
+    @RequestMapping(value = "/get-purchase-bargain.json", method = RequestMethod.POST) @ResponseBody public JsonResult getPurchaseBargain(
+            @RequestBody String param) {
         Preconditions.checkNotNull(param);
         JSONObject receivedParam = JSON.parseObject(param);
         String orderId = (String) receivedParam.get("purchaseId");
         return JsonResult.success(purchaseCornService.getPurcahseBargain(orderId));
     }
 
-    @RequestMapping(value = "/edit-purchase-price.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult updatePurchasePrice(@RequestBody UpdatePurcahsePriceReq param) {
+    @RequestMapping(value = "/edit-purchase-price.json", method = RequestMethod.POST) @ResponseBody public JsonResult updatePurchasePrice(
+            @RequestBody UpdatePurcahsePriceReq param) {
         Preconditions.checkNotNull(param);
         return JsonResult.success(purchaseCornService.updatePurchasePrice(param));
     }
 
-//    /**
-//     * 买家下单系统商品操作
-//     *
-//     * @return
-//     */
-//    @RequestMapping(value = "/update-purchase-status.json", method = RequestMethod.POST)
-//    @ResponseBody public JsonResult updatePurchaseStatus(@RequestBody String param) {
-//        Preconditions.checkNotNull(param);
-//        JSONObject receivedParam = JSON.parseObject(param);
-//        String orderId = (String) receivedParam.get("purchaseId");
-//        Integer status = (Integer) receivedParam.get("status");
-//        return JsonResult.success(purchaseCornService.updatePurchase(orderId, status));
-//    }
-
     //    /**
-    //     * 买家派单逻辑
+    //     * 买家下单系统商品操作
+    //     *
     //     * @return
     //     */
-    //    @RequestMapping(value = "/dist-order.json", method = RequestMethod.POST)
-    //    @ResponseBody
-    //    public JsonResult getOrderList(@RequestBody String param) {
-    //        JSONObject jsonObject1 = JSONObject.parseObject(param);
-    //        String cargoId = jsonObject1.getString("cargoId");
-    //        return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
+    //    @RequestMapping(value = "/update-purchase-status.json", method = RequestMethod.POST)
+    //    @ResponseBody public JsonResult updatePurchaseStatus(@RequestBody String param) {
+    //        Preconditions.checkNotNull(param);
+    //        JSONObject receivedParam = JSON.parseObject(param);
+    //        String orderId = (String) receivedParam.get("purchaseId");
+    //        Integer status = (Integer) receivedParam.get("status");
+    //        return JsonResult.success(purchaseCornService.updatePurchase(orderId, status));
     //    }
 
     //    /**
@@ -203,5 +193,16 @@ import javax.annotation.Resource;
     //        String cargoId = jsonObject1.getString("cargoId");
     //        return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
     //    }
+
+    //    /**
+    //     * 买家派单逻辑
+    //     * @return
+    //     */
+    @RequestMapping(value = "/dist-order.json", method = RequestMethod.POST) @ResponseBody public JsonResult getOrderList(
+            @RequestBody String param) {
+        JSONObject jsonObject1 = JSONObject.parseObject(param);
+        String cargoId = jsonObject1.getString("saleId");
+        return JsonResult.success(distSaleOrderService.cargoConvertTask(cargoId));
+    }
 
 }

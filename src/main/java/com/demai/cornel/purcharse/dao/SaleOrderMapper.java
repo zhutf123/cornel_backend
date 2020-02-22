@@ -18,6 +18,7 @@ public interface SaleOrderMapper {
     int insertSelective(SaleOrder record);
 
     SaleOrder selectByPrimaryKey(Integer id);
+    SaleOrder selectBySaleId(String  orderId);
 
     int updateByPrimaryKeySelective(SaleOrder record);
 

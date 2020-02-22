@@ -18,6 +18,8 @@
     <result column="parent_cargo_id" jdbcType="VARCHAR" property="parentCargoId" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="deliver_id" jdbcType="VARCHAR" property="deliverId" />
+    <result column="sale_id" jdbcType="VARCHAR" property="saleId" />
   </resultMap>
   <insert id="insert" parameterType="com.demai.cornel.purcharse.model.WaybillInfo">
     <!--@mbg.generated-->
@@ -25,14 +27,14 @@
       from_location_id, to_location_id, start_time, 
       end_time, weight, unit_weight, 
       price, unit_price, cargo_id, 
-      parent_cargo_id, "status", update_time
-      )
+      parent_cargo_id, "status", update_time, 
+      deliver_id, sale_id)
     values (#{id,jdbcType=INTEGER}, #{carrierId,jdbcType=VARCHAR}, #{transportId,jdbcType=VARCHAR}, 
       #{fromLocationId,jdbcType=VARCHAR}, #{toLocationId,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{weight,jdbcType=NUMERIC}, #{unitWeight,jdbcType=VARCHAR}, 
       #{price,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR}, #{cargoId,jdbcType=VARCHAR}, 
-      #{parentCargoId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{parentCargoId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deliverId,jdbcType=VARCHAR}, #{saleId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.WaybillInfo">
     <!--@mbg.generated-->
@@ -83,6 +85,12 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="deliverId != null">
+        deliver_id,
+      </if>
+      <if test="saleId != null">
+        sale_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -129,6 +137,12 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverId != null">
+        #{deliverId,jdbcType=VARCHAR},
+      </if>
+      <if test="saleId != null">
+        #{saleId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

@@ -59,6 +59,13 @@
         from sale_order
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selectBySaleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from sale_order
+        where order_id = #{orderId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         <!--@mbg.generated-->
         delete from sale_order
