@@ -46,6 +46,8 @@ import java.util.*;
     @Resource private TaskInfoDao taskInfoDao;
     @Resource private OrderInfoDao orderInfoDao;
     @Resource private DistSaleOrderService distSaleOrderService;
+    @Resource private OrderDeliverService orderDeliverService;
+
     private static String TIME_FORMAT = "yyyy-MM-dd";
     private static List<BigDecimal> PURCHASE_BARGAIN = new ArrayList<>();
 
@@ -292,7 +294,10 @@ import java.util.*;
             return Collections.EMPTY_LIST;
         }
         getSaleOrderListResps.stream().forEach(x -> {
-
+            if(!x.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue())
+                    && !x.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue()) && !x.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())){
+                x.setCarInfo(orderDeliverService.getSaleCarStatus(x.getOrderId()));
+            }
             Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             x.setCommodity(commodity);
         });

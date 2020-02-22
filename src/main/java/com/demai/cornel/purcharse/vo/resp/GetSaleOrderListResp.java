@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Author binz.zhang
@@ -21,9 +22,10 @@ public class GetSaleOrderListResp {
     private String unitPrice;// 价格单位
     private String receiveStartTime;//收货开始时间
     private String receiveEndTime;//收货结束时间
-    private Integer arriveCar;//到达车辆
-    private Integer unarriveCar;// 未达到车辆
+    private Integer carTotalNum;//车辆总数
+    private List<DriverInfoResp> carInfo;// 车辆详情
     private Integer status;
     private String commodityId;
+    private String orderId;
 
 }
