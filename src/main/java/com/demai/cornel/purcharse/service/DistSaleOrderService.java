@@ -70,22 +70,24 @@ import java.util.UUID;
         BigDecimal unditWeght = saleOrder.getWeight();
         List<String> alreadyDistL = new ArrayList<>();
         boolean distRes = true;
+        int tryNum = 0;
+
         log.info("当前有{}量闲置车辆，准备进行派单。派单重量为{}", locationInfoList.size(), saleOrder.getWeight());
         while (unditWeght.compareTo(new BigDecimal(0.0)) != -1 && distRes) {
+            tryNum++;
             if (alreadyDistL.size() == locationInfoList.size()) {
                 log.info("没有足够的车辆进行派单");
                 distRes = false;
             }
-            int tryNum = 1;
             for (LorryInfo lorryInfo : locationInfoList) {
                 if (lorryInfo.getOverCarryWeight().compareTo(unditWeght) != 1 && !alreadyDistL
                         .contains(lorryInfo.getLorryId())) {
                     orderInfos.add(buildOrder(taskInfo, lorryInfo, lorryInfo.getOverCarryWeight()));
-                    log.info("第{}次 尝试派单，车辆ID {},派发重量 {} ", tryNum, lorryInfo.getCarryWeight().toString(),
+                    log.info("第{}次 尝试派单，车辆ID {},派发重量 {} ", tryNum, lorryInfo.getLorryId(),lorryInfo.getCarryWeight().toString(),
                             lorryInfo.getOverCarryWeight().toString());
                     unditWeght = unditWeght.subtract(lorryInfo.getOverCarryWeight());
                     alreadyDistL.add(lorryInfo.getLorryId());
-                } else {
+                } else if(!alreadyDistL.contains(lorryInfo.getLorryId())){
                     orderInfos.add(buildOrder(taskInfo, lorryInfo, unditWeght));
                     unditWeght = new BigDecimal(0.0);
                     alreadyDistL.add(lorryInfo.getLorryId());
