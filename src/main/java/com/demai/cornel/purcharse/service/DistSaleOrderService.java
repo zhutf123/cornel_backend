@@ -40,7 +40,7 @@ import java.util.UUID;
     @Resource private OrderInfoDao orderInfoDao;
     @Resource private SaleOrderMapper saleOrderMapper;
 
-    private static final String TIME_FORMAT = "yyyy-MM-dd";
+    private static final String TIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
     public String cargoConvertTask(String saleOrderId) {
         SaleOrder saleOrder = saleOrderMapper.selectBySaleId(saleOrderId);
@@ -48,6 +48,7 @@ import java.util.UUID;
         TaskInfo taskInfo = new TaskInfo();
         //taskInfo.setUnitWeight(saleOrder.getUintWeight());
         taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveEndTime()));
+        taskInfo.setDistance(new BigDecimal(1000.00));
         taskInfo.setDistance(new BigDecimal(1000.00));
         taskInfo.setArr(saleOrder.getFromLocation());
         taskInfo.setDep(saleOrder.getReceiveLocation());
