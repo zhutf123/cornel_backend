@@ -80,14 +80,16 @@ import java.util.UUID;
                 distRes = false;
             }
             for (LorryInfo lorryInfo : locationInfoList) {
-                if (lorryInfo.getOverCarryWeight().compareTo(unditWeght) != 1 && !alreadyDistL
-                        .contains(lorryInfo.getLorryId())) {
+                if(!alreadyDistL.contains(lorryInfo.getLorryId())){
+                    continue;
+                }
+                if (lorryInfo.getOverCarryWeight().compareTo(unditWeght) != 1 ) {
                     orderInfos.add(buildOrder(taskInfo, lorryInfo, lorryInfo.getOverCarryWeight()));
                     log.info("第{}次 尝试派单，车辆ID {},派发重量 {} ", tryNum, lorryInfo.getLorryId(),lorryInfo.getCarryWeight().toString(),
                             lorryInfo.getOverCarryWeight().toString());
                     unditWeght = unditWeght.subtract(lorryInfo.getOverCarryWeight());
                     alreadyDistL.add(lorryInfo.getLorryId());
-                } else if(!alreadyDistL.contains(lorryInfo.getLorryId())){
+                } else {
                     orderInfos.add(buildOrder(taskInfo, lorryInfo, unditWeght));
                     unditWeght = new BigDecimal(0.0);
                     alreadyDistL.add(lorryInfo.getLorryId());
