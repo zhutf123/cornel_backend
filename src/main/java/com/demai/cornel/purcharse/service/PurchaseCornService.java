@@ -354,7 +354,7 @@ import java.util.*;
             priceDetail.setIncrease(x);
             BigDecimal curUnit = purchaseInfo.getPrice().add(x);
             priceDetail.setAfterUnitPrice(curUnit);
-            priceDetail.setAfterUnitPrice(curUnit.multiply(purchaseInfo.getWeight()));
+            priceDetail.setAfterOrderPrice(curUnit.multiply(purchaseInfo.getWeight()));
             details.add(priceDetail);
         });
         return GetPurchaseBargainResp.builder().optStatus(GetPurchaseBargainResp.STATUS_ENUE.SUCCESS.getValue())
@@ -443,6 +443,11 @@ import java.util.*;
         getPurchaseDetailResp
                 .setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, purchaseInfo.getReceiveEndTime()));
         getPurchaseDetailResp.setOptStatus(GetPurchaseDetailResp.STATUS_ENUE.SUCCESS.getValue());
+        LocationInfo locationInfo = locationInfoMapper.selectByLocationId(purchaseInfo.getReceiveLocationId());
+        getPurchaseDetailResp.setLocationId(locationInfo.getLocationId());
+        getPurchaseDetailResp.setLocationId(locationInfo.getLocationArea());
+        getPurchaseDetailResp.setLocationId(locationInfo.getLocationDetail());
+        getPurchaseDetailResp.setLocation(locationInfo.getLocation());
         return getPurchaseDetailResp;
 
     }
@@ -476,35 +481,6 @@ import java.util.*;
         return getPurchaseListResps;
     }
 
-    //    public
-
-    /**
-     * 提交购买订单
-     *
-     * @return
-     */
-    //    public BuyOfferResp getSaleOrderList(SystemOfferReq offer) {
-    //
-    //    }
-    //    public String distOrder(String cargoId) {
-    //        List<CargoInfo> cargoInfo = cargoInfoMapper.selectByParentCargoId(cargoId);
-    //        if (cargoInfo == null) {
-    //            return "cargo invalid";
-    //        }
-    //        List<LorryInfo>lorryInfos = lorryInfoDao.getAllIdleLorry();
-    //        if(lorryInfos==null || lorryInfos.size()<cargoInfo.size()){
-    //            return "没有足够的车辆进行派单";
-    //        }
-    //        SaleOrder saleOrder = saleOrderMapper.selectSaleOrderByCargoId(cargoId);
-    //        if(saleOrder==null){
-    //            return "购买订单无效";
-    //        }
-    //        cargoInfo.stream().forEach(x->{
-    //            String taskId = distSaleOrderService.cargoConvertTask(x,saleOrder);
-    //            String lorryId = null;
-    //        });
-    //
-    //    }
     private boolean checkOffet(SystemOfferReq offerReq) {
         log.debug("checkOffet offerReq is [{}]", JacksonUtils.obj2String(offerReq));
         if (offerReq == null) {
