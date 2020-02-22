@@ -78,10 +78,10 @@ import java.util.UUID;
             }
             int tryNum = 1;
             for (LorryInfo lorryInfo : locationInfoList) {
-                if (lorryInfo.getOverCarryWeight().compareTo(unditWeght) != 1 && alreadyDistL
+                if (lorryInfo.getOverCarryWeight().compareTo(unditWeght) != 1 && !alreadyDistL
                         .contains(lorryInfo.getLorryId())) {
                     orderInfos.add(buildOrder(taskInfo, lorryInfo, lorryInfo.getOverCarryWeight()));
-                    log.info("第{}次 尝试派单，车辆ID {},派发重量 {} ", tryNum, lorryInfo.getLorryId(),
+                    log.info("第{}次 尝试派单，车辆ID {},派发重量 {} ", tryNum, lorryInfo.getCarryWeight().toString(),
                             lorryInfo.getOverCarryWeight().toString());
                     unditWeght = unditWeght.subtract(lorryInfo.getOverCarryWeight());
                     alreadyDistL.add(lorryInfo.getLorryId());
@@ -89,7 +89,7 @@ import java.util.UUID;
                     orderInfos.add(buildOrder(taskInfo, lorryInfo, unditWeght));
                     unditWeght = new BigDecimal(0.0);
                     alreadyDistL.add(lorryInfo.getLorryId());
-                    log.info("第{}次 尝试派单，车辆ID {},派发重量 {} ", tryNum, lorryInfo.getLorryId(), unditWeght);
+                    log.info("第{}次 尝试派单，车辆ID {},派发重量 {} ", tryNum, lorryInfo.getLorryId(), unditWeght.toString());
                 }
             }
         }
@@ -106,9 +106,11 @@ import java.util.UUID;
                 waybillInfo.setDeliverId(x.getOrderId());
                 waybillInfoMapper.insertSelective(waybillInfo);
             });
-        }
+            return "dist order success ";
 
-        return "dist order success ";
+        }
+        return "dist order fail ";
+
     }
 
     private OrderInfo buildOrder(TaskInfo taskSaveVO, LorryInfo lorryInfo, BigDecimal weight) {
