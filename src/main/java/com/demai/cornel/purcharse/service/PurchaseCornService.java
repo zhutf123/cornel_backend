@@ -363,9 +363,9 @@ import java.util.*;
                 .priceDetail(details).build();
     }
     public OptPurchaseResp updatePurchasePrice(UpdatePurcahsePriceReq updatePurcahsePriceReq) {
-        if(updatePurcahsePriceReq.getIncrease()==null){
-            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
-        }
+//        if(updatePurcahsePriceReq.getIncrease()==null){
+//            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+//        }
         PurchaseInfo purchaseInfo = purchaseInfoMapper.selectByPurchaseId(updatePurcahsePriceReq.getPurchaseId());
         if(purchaseInfo==null){
             return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PURCHASE_INVALID.getValue()).build();
