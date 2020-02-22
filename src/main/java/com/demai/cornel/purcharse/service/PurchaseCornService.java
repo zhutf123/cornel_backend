@@ -374,7 +374,8 @@ import java.util.*;
         if(!purchaseInfo.getBuyerId().equals(CookieAuthUtils.getCurrentUser())){
             return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
-        purchaseInfo.setPrice(purchaseInfo.getPrice().add(updatePurcahsePriceReq.getIncrease()));
+        //todo 这儿要在数据库加一个字段 表明总价格
+        purchaseInfo.setPrice(updatePurcahsePriceReq.getAfterOrderPrice().divide(purchaseInfo.getWeight()));
         int res = purchaseInfoMapper.updateByPrimaryKeySelective(purchaseInfo);
         if(res!=1){
             return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
@@ -497,4 +498,25 @@ import java.util.*;
         return true;
 
     }
+
+
+
+//    public GetSaleDetailResp getSaleOrderDetail(String saleId){
+//        SaleOrder saleOrder = saleOrderMapper.selectBySaleId(saleId);
+//        GetSaleDetailResp getSaleDetailResp = new GetSaleDetailResp();
+//        if(saleOrder==null){
+//            log.info("get sale detai fail due to order invalid");
+//            getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.purcahse_INVALID.getValue());
+//        }
+//        if(!saleOrder.getBuyerId().equals(CookieAuthUtils.getCurrentUser())){
+//            log.info("get sale detai fail due to cur user has no auth ");
+//            getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.USER_ERROR.getValue());
+//        }
+//        BeanUtils.copyProperties(saleOrder,getSaleDetailResp);
+//
+//        List<DriverInfoResp> cars = orderDeliverService.getSaleCarStatus(saleId);
+//
+//
+//
+//    }
 }

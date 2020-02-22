@@ -99,8 +99,11 @@ import javax.naming.ldap.PagedResultsControl;
 
 //    @RequestMapping(value = "/get-order-detail.json", method = RequestMethod.POST)
 //    @ResponseBody public JsonResult getSaleDetail(@RequestBody String param) {
-//        JSONObject jsonObject = JSON.parseObject()
-//        return JsonResult.success(purchaseCornService.getSaleOrderListRespList(getSaleOrderListReq));
+//        JSONObject jsonObject = JSON.parseObject(param);
+//        String saleId = jsonObject.getString("saleId");
+//
+//
+//        return JsonResult.success(purchaseCornService.getSaleOrderDetail(getSaleOrderListReq));
 //    }
 
 
@@ -175,31 +178,7 @@ import javax.naming.ldap.PagedResultsControl;
         return JsonResult.success(purchaseCornService.updatePurchasePrice(param));
     }
 
-    //    /**
-    //     * 买家下单系统商品操作
-    //     *
-    //     * @return
-    //     */
-    //    @RequestMapping(value = "/update-purchase-status.json", method = RequestMethod.POST)
-    //    @ResponseBody public JsonResult updatePurchaseStatus(@RequestBody String param) {
-    //        Preconditions.checkNotNull(param);
-    //        JSONObject receivedParam = JSON.parseObject(param);
-    //        String orderId = (String) receivedParam.get("purchaseId");
-    //        Integer status = (Integer) receivedParam.get("status");
-    //        return JsonResult.success(purchaseCornService.updatePurchase(orderId, status));
-    //    }
 
-    //    /**
-    //     * 买家派单逻辑
-    //     * @return
-    //     */
-    //    @RequestMapping(value = "/dist-order.json", method = RequestMethod.POST)
-    //    @ResponseBody
-    //    public JsonResult getOrderList(@RequestBody String param) {
-    //        JSONObject jsonObject1 = JSONObject.parseObject(param);
-    //        String cargoId = jsonObject1.getString("cargoId");
-    //        return JsonResult.success(purchaseCornService.submitSystemQuoteResp(param));
-    //    }
 
     //    /**
     //     * 买家派单逻辑
