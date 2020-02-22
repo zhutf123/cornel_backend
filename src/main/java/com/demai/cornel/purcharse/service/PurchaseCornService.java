@@ -47,6 +47,14 @@ import java.util.*;
     @Resource private OrderInfoDao orderInfoDao;
     @Resource private DistSaleOrderService distSaleOrderService;
     private static String TIME_FORMAT = "yyyy-MM-dd";
+    private static List<BigDecimal> PURCHASE_BARGAIN = new ArrayList<>();
+
+    static {
+        PURCHASE_BARGAIN.add(new BigDecimal(10));
+        PURCHASE_BARGAIN.add(new BigDecimal(15));
+        PURCHASE_BARGAIN.add(new BigDecimal(20));
+        PURCHASE_BARGAIN.add(new BigDecimal(50));
+    }
 
     /**
      * 获取当前系统报价的接口
@@ -332,6 +340,46 @@ import java.util.*;
                 .purchaseId(purchaseInfo.getPurchaseId()).purchaseStatus(beforePhu.getStatus()).build();
     }
 
+    public GetPurchaseBargainResp getPurcahseBargain(String purchaseId) {
+        PurchaseInfo purchaseInfo = purchaseInfoMapper.selectByPurchaseId(purchaseId);
+        if (purchaseInfo == null) {
+            return GetPurchaseBargainResp.builder()
+                    .optStatus(GetPurchaseBargainResp.STATUS_ENUE.purcahse_INVALID.getValue()).build();
+        }
+        List<GetPurchaseBargainResp.priceDetail> details = new ArrayList<>(PURCHASE_BARGAIN.size());
+        PURCHASE_BARGAIN.stream().forEach(x -> {
+            GetPurchaseBargainResp.priceDetail priceDetail = new GetPurchaseBargainResp.priceDetail();
+            priceDetail.setBeforeOrderPrice(purchaseInfo.getPrice().multiply(purchaseInfo.getWeight()));
+            priceDetail.setBeforeUnitPrice(purchaseInfo.getPrice());
+            priceDetail.setIncrease(x);
+            BigDecimal curUnit = purchaseInfo.getPrice().add(x);
+            priceDetail.setAfterUnitPrice(curUnit);
+            priceDetail.setAfterUnitPrice(curUnit.multiply(purchaseInfo.getWeight()));
+            details.add(priceDetail);
+        });
+        return GetPurchaseBargainResp.builder().optStatus(GetPurchaseBargainResp.STATUS_ENUE.SUCCESS.getValue())
+                .priceDetail(details).build();
+    }
+    public OptPurchaseResp updatePurchasePrice(UpdatePurcahsePriceReq updatePurcahsePriceReq) {
+        if(updatePurcahsePriceReq.getIncrease()==null){
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
+        PurchaseInfo purchaseInfo = purchaseInfoMapper.selectByPurchaseId(updatePurcahsePriceReq.getPurchaseId());
+        if(purchaseInfo==null){
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PURCHASE_INVALID.getValue()).build();
+
+        }
+        if(!purchaseInfo.getBuyerId().equals(CookieAuthUtils.getCurrentUser())){
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.USER_ERROR.getValue()).build();
+        }
+        purchaseInfo.setPrice(purchaseInfo.getPrice().add(updatePurcahsePriceReq.getIncrease()));
+        int res = purchaseInfoMapper.updateByPrimaryKeySelective(purchaseInfo);
+        if(res!=1){
+            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
+        }
+        return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SUCCESS.getValue()).purchaseStatus(purchaseInfo.getStatus()).purchaseId(updatePurcahsePriceReq.getPurchaseId()).build();
+    }
+
     public OptPurchaseResp updatePurchase(String purchaseId, Integer status) {
 
         if (Strings.isNullOrEmpty(purchaseId) || status == null) {
@@ -360,13 +408,6 @@ import java.util.*;
                 .purchaseStatus(status).purchaseId(purchaseId).build();
     }
 
-    //    public PurchaseInfo getPurchaseDetail(String purchaseId) {
-    //        PurchaseInfo purchaseInfo = purchaseInfoMapper.selectByPurchaseId(purchaseId);
-    //
-    //
-    //
-    //
-    //    }
 
     public GetPurchaseNumResp getPurchaseNum() {
         int num = purchaseInfoMapper.getPurchaseNum(CookieAuthUtils.getCurrentUser());

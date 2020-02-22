@@ -152,6 +152,19 @@ import javax.annotation.Resource;
 
         return JsonResult.success(purchaseCornService.updatePurchase(orderId, status));
     }
+    @RequestMapping(value = "/get-purchase-bargain.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult getPurchaseBargain(@RequestBody String param) {
+        Preconditions.checkNotNull(param);
+        JSONObject receivedParam = JSON.parseObject(param);
+        String orderId = (String) receivedParam.get("purchaseId");
+        return JsonResult.success(purchaseCornService.getPurcahseBargain(orderId));
+    }
+
+    @RequestMapping(value = "/edit-purchase-price.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult updatePurchasePrice(@RequestBody UpdatePurcahsePriceReq param) {
+        Preconditions.checkNotNull(param);
+        return JsonResult.success(purchaseCornService.updatePurchasePrice(param));
+    }
 
 //    /**
 //     * 买家下单系统商品操作

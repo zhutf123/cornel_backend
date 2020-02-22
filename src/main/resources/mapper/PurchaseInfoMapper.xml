@@ -253,6 +253,6 @@
     update purchase_info set status=#{status} where purchase_id=#{purchaseId,jdbcType=VARCHAR}
   </delete>
   <select id="getPurchaseNum" resultType="int">
-      select count(*) from purchase_info where status!=0;
+      select count(*) from purchase_info where status!=0 and buyer_id=#{userId,jdbcType=VARCHAR}
   </select>
 </mapper>
