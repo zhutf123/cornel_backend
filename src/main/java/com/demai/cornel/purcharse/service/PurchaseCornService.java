@@ -501,22 +501,32 @@ import java.util.*;
 
 
 
-//    public GetSaleDetailResp getSaleOrderDetail(String saleId){
-//        SaleOrder saleOrder = saleOrderMapper.selectBySaleId(saleId);
-//        GetSaleDetailResp getSaleDetailResp = new GetSaleDetailResp();
-//        if(saleOrder==null){
-//            log.info("get sale detai fail due to order invalid");
-//            getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.purcahse_INVALID.getValue());
-//        }
-//        if(!saleOrder.getBuyerId().equals(CookieAuthUtils.getCurrentUser())){
-//            log.info("get sale detai fail due to cur user has no auth ");
-//            getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.USER_ERROR.getValue());
-//        }
-//        BeanUtils.copyProperties(saleOrder,getSaleDetailResp);
-//
-//        List<DriverInfoResp> cars = orderDeliverService.getSaleCarStatus(saleId);
-//
-//
-//
-//    }
+    public GetSaleDetailResp getSaleOrderDetail(String saleId){
+        SaleOrder saleOrder = saleOrderMapper.selectBySaleId(saleId);
+        GetSaleDetailResp getSaleDetailResp = new GetSaleDetailResp();
+        if(saleOrder==null){
+            log.info("get sale detai fail due to order invalid");
+            getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.purcahse_INVALID.getValue());
+        }
+        if(!saleOrder.getBuyerId().equals(CookieAuthUtils.getCurrentUser())){
+            log.info("get sale detai fail due to cur user has no auth ");
+            getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.USER_ERROR.getValue());
+        }
+        BeanUtils.copyProperties(saleOrder,getSaleDetailResp);
+        if(!saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue()) ||
+                !saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())
+                ||!saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_DELIVER.getValue())) {
+            log.info("sale under deliver so add car info to order");
+            List<DriverInfoResp> cars = orderDeliverService.getSaleCarStatus(saleId);
+            getSaleDetailResp.setCarInfo(cars);
+        }
+        getSaleDetailResp.setContactUserName(saleOrder.getContactUserName());
+        getSaleDetailResp.setContactMobile(saleOrder.getMobile());
+        LocationInfo locationInfo = locationInfoMapper.selectByLocationId(saleOrder.getReceiveLocation());
+        getSaleDetailResp.setReceiveLocation(locationInfo.getLocation());
+        getSaleDetailResp.setReceiveLocationId(saleOrder.getReceiveLocation());
+        getSaleDetailResp.setOptResult(GetSaleDetailResp.STATUS_ENUE.SUCCESS.getValue());
+        log.debug("get sale order detail {}",JacksonUtils.obj2String(getSaleDetailResp));
+        return getSaleDetailResp;
+    }
 }
