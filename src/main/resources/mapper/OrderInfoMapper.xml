@@ -527,7 +527,7 @@
 
     <select id="buyerGetLorryList" resultMap="listRespMapperBuyer">
         SELECT
-        <include refid="listResp_column"/>
+        <include refid="listResp_buyer"/>
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id
         left join user_info u on o.user_id=u.user_id
         where
@@ -544,7 +544,7 @@
     </select>
     <select id="buyerGetLorryDetail" resultMap="listRespMapperBuyer">
         SELECT
-        <include refid="listResp_column"/>
+        <include refid="listResp_buyer"/>
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id
         left join user_info u on o.user_id=u.user_id
         where o.order_id=#{deliverId};
