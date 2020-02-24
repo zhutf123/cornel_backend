@@ -356,7 +356,7 @@
         select
         <include refid="Base_Column_List"/>
         from sale_order where
-        and status=(status <![CDATA[ & ]]> #{status} ))
+        and status=((status <![CDATA[ & ]]> #{status} ))
         <if test="orderId != null and orderId != ''">
             and id  <![CDATA[<=]]> (select id from sale_order where offer_id=#{orderId} )
         </if>

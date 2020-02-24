@@ -139,8 +139,6 @@ import lombok.Data;
         CANCLE(0, "取消"),
         UNDER_APPROVAL(1 << 0, "待审核"),
         RUNNING(1 << 1, "进行中"),
-       // DELIVER_ING(1 << 2, "运输中"),
-        //UNDER_RECEIVE(1 << 3, "待接货"),
         FINISH(1<<2, "已完成");
 
         private int value;
