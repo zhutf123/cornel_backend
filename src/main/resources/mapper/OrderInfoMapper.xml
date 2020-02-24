@@ -227,7 +227,7 @@
         o.order_id,
         o.user_id as driver_user_id,
         l.lorry_id,
-        o.arr,
+        t.arr,
         u.mobile as driver_mobile,
         u.name as driver_user_name,
         o.unit_weight,
