@@ -560,8 +560,12 @@ import java.util.*;
 //            getSaleDetailResp.setCarInfo(cars);
 //            getSaleDetailResp.setCarTotalNum(getSaleDetailResp.getCarInfo().size());
 //        }
+        getSaleDetailResp.setCommodity(commodityDao.getCommodityByCommodityId(getSaleDetailResp.getCommodityId()));
         getSaleDetailResp.setContactUserName(saleOrder.getContactUserName());
         getSaleDetailResp.setContactMobile(saleOrder.getMobile());
+        getSaleDetailResp.setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT,saleOrder.getReceiveStartTime()));
+        getSaleDetailResp.setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT,saleOrder.getReceiveEndTime()));
+
         LocationInfo locationInfo = locationInfoMapper.selectByLocationId(saleOrder.getReceiveLocation());
         getSaleDetailResp.setReceiveLocation(locationInfo.getLocation());
         getSaleDetailResp.setReceiveLocationId(saleOrder.getReceiveLocation());
