@@ -71,6 +71,7 @@ public interface OrderInfoDao {
 
 
     List<BuyerGelLorryListResp> buyerGetLorryList(@Param("deliverIds") List<String> supplierId);
+    BuyerGelLorryListResp buyerGetLorryDetail(@Param("deliverId") String deliverId);
 
 
 }

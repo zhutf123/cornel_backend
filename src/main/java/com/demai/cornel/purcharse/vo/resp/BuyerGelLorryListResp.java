@@ -20,6 +20,8 @@ public class BuyerGelLorryListResp {
     private String driverUserName;
     private String driverUserId;
     private String driverMobile;
+    private String receiveLocation;
+
     @JsonIgnore
     private Set<String> driverMobileSet;
     private String product;

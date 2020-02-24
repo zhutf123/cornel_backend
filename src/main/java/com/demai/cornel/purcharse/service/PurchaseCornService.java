@@ -231,7 +231,7 @@ import java.util.*;
      * @param offer
      * @return
      */
-    public BuyOfferResp  submitSystemQuoteResp(SystemOfferReq offer) {
+    public BuyOfferResp submitSystemQuoteResp(SystemOfferReq offer) {
         Preconditions.checkNotNull(offer);
         if (!checkOffet(offer)) {
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
@@ -296,11 +296,11 @@ import java.util.*;
             return Collections.EMPTY_LIST;
         }
         getSaleOrderListResps.stream().forEach(x -> {
-//            if(!x.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue())
-//                    && !x.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue()) && !x.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())){
-//                x.setCarInfo(orderDeliverService.getSaleCarStatus(x.getOrderId()));
-//                x.setCarTotalNum(x.getCarInfo().size());
-//            }
+            //            if(!x.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue())
+            //                    && !x.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue()) && !x.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())){
+            //                x.setCarInfo(orderDeliverService.getSaleCarStatus(x.getOrderId()));
+            //                x.setCarTotalNum(x.getCarInfo().size());
+            //            }
             Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             x.setCommodity(commodity);
         });
@@ -309,35 +309,54 @@ import java.util.*;
     }
 
     public List<BuyerGelLorryListResp> getSaleList(String saleId) {
-        log.debug("getSaleList param saleid is {}",saleId);
-        if(Strings.isNullOrEmpty(saleId)){
+        log.debug("getSaleList param saleid is {}", saleId);
+        if (Strings.isNullOrEmpty(saleId)) {
             log.debug("getSaleList fail due to param error");
             return Collections.EMPTY_LIST;
         }
-        SaleOrder saleOrder =  saleOrderMapper.selectBySaleId(saleId);
-        if(saleOrder==null || saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue())){
+        SaleOrder saleOrder = saleOrderMapper.selectBySaleId(saleId);
+        if (saleOrder == null || saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue())) {
             log.debug("getSaleList fail due to param error");
             return Collections.EMPTY_LIST;
         }
-        if(!saleOrder.getBuyerId().equals(CookieAuthUtils.getCurrentUser())){
+        if (!saleOrder.getBuyerId().equals(CookieAuthUtils.getCurrentUser())) {
             log.debug("getSaleList fail due to cur user has no auth ");
             return Collections.EMPTY_LIST;
         }
         List<String> deliverId = waybillInfoMapper.getSaleOrderDeliverId(saleId);
-        if(deliverId==null||deliverId.size()==0){
+        if (deliverId == null || deliverId.size() == 0) {
             log.debug("getSaleList fail due to cur sale order has no deliver info ");
             return Collections.EMPTY_LIST;
         }
         List<BuyerGelLorryListResp> orderListResp = orderInfoDao.buyerGetLorryList(deliverId);
         if (org.apache.commons.collections.CollectionUtils.isEmpty(orderListResp)) {
-            log.info("getSaleList fail due  delivery query order list is empty sale id is {}",saleId);
+            log.info("getSaleList fail due  delivery query order list is empty sale id is {}", saleId);
             return Lists.newArrayList();
         }
-        orderListResp.stream().filter(order -> org.apache.commons.collections.CollectionUtils.isNotEmpty(order.getDriverMobileSet()))
+        orderListResp.stream()
+                .filter(order -> org.apache.commons.collections.CollectionUtils.isNotEmpty(order.getDriverMobileSet()))
                 .forEach(order -> {
                     order.setDriverMobile(order.getDriverMobileSet().iterator().next());
                 });
         return orderListResp;
+    }
+
+    public BuyerGelLorryDetailResp getDeliverOrderDetail(String deliverOrderId) {
+        BuyerGelLorryDetailResp buyerGelLorryDetailResp = new BuyerGelLorryDetailResp();
+
+        if (Strings.isNullOrEmpty(deliverOrderId)) {
+            buyerGelLorryDetailResp.setOptStatus(BuyerGelLorryDetailResp.STATUS_ENUE.PARAM_ERROR.getValue());
+            return buyerGelLorryDetailResp;
+        }
+        BuyerGelLorryListResp buyerGelLorryListResp = orderInfoDao.buyerGetLorryDetail(deliverOrderId);
+        if (buyerGelLorryListResp == null) {
+            buyerGelLorryDetailResp.setOptStatus(BuyerGelLorryDetailResp.STATUS_ENUE.order_error.getValue());
+            return buyerGelLorryDetailResp;
+        }
+        BeanUtils.copyProperties(buyerGelLorryListResp, buyerGelLorryDetailResp);
+        buyerGelLorryDetailResp.setOptStatus(BuyerGelLorryDetailResp.STATUS_ENUE.SUCCESS.getValue());
+        return buyerGelLorryDetailResp;
+
     }
 
     public OptPurchaseResp editPurchase(SubmitMyOfferReq purchaseInfo) {
@@ -401,25 +420,27 @@ import java.util.*;
         return GetPurchaseBargainResp.builder().optStatus(GetPurchaseBargainResp.STATUS_ENUE.SUCCESS.getValue())
                 .priceDetail(details).build();
     }
+
     public OptPurchaseResp updatePurchasePrice(UpdatePurcahsePriceReq updatePurcahsePriceReq) {
-//        if(updatePurcahsePriceReq.getIncrease()==null){
-//            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
-//        }
+        //        if(updatePurcahsePriceReq.getIncrease()==null){
+        //            return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        //        }
         PurchaseInfo purchaseInfo = purchaseInfoMapper.selectByPurchaseId(updatePurcahsePriceReq.getPurchaseId());
-        if(purchaseInfo==null){
+        if (purchaseInfo == null) {
             return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.PURCHASE_INVALID.getValue()).build();
 
         }
-        if(!purchaseInfo.getBuyerId().equals(CookieAuthUtils.getCurrentUser())){
+        if (!purchaseInfo.getBuyerId().equals(CookieAuthUtils.getCurrentUser())) {
             return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
         //todo 这儿要在数据库加一个字段 表明总价格
         purchaseInfo.setPrice(updatePurcahsePriceReq.getAfterOrderPrice().divide(purchaseInfo.getWeight()));
         int res = purchaseInfoMapper.updateByPrimaryKeySelective(purchaseInfo);
-        if(res!=1){
+        if (res != 1) {
             return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
         }
-        return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SUCCESS.getValue()).purchaseStatus(purchaseInfo.getStatus()).purchaseId(updatePurcahsePriceReq.getPurchaseId()).build();
+        return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SUCCESS.getValue())
+                .purchaseStatus(purchaseInfo.getStatus()).purchaseId(updatePurcahsePriceReq.getPurchaseId()).build();
     }
 
     public OptPurchaseResp updatePurchase(String purchaseId, Integer status) {
@@ -449,7 +470,6 @@ import java.util.*;
         return OptPurchaseResp.builder().optStatus(OptPurchaseResp.STATUS_ENUE.SUCCESS.getValue())
                 .purchaseStatus(status).purchaseId(purchaseId).build();
     }
-
 
     public GetPurchaseNumResp getPurchaseNum() {
         int num = purchaseInfoMapper.getPurchaseNum(CookieAuthUtils.getCurrentUser());
@@ -538,39 +558,39 @@ import java.util.*;
 
     }
 
-
-
-    public GetSaleDetailResp getSaleOrderDetail(String saleId){
+    public GetSaleDetailResp getSaleOrderDetail(String saleId) {
         SaleOrder saleOrder = saleOrderMapper.selectBySaleId(saleId);
         GetSaleDetailResp getSaleDetailResp = new GetSaleDetailResp();
-        if(saleOrder==null){
+        if (saleOrder == null) {
             log.info("get sale detai fail due to order invalid");
             getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.purcahse_INVALID.getValue());
         }
-        if(!saleOrder.getBuyerId().equals(CookieAuthUtils.getCurrentUser())){
+        if (!saleOrder.getBuyerId().equals(CookieAuthUtils.getCurrentUser())) {
             log.info("get sale detai fail due to cur user has no auth ");
             getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.USER_ERROR.getValue());
         }
-        BeanUtils.copyProperties(saleOrder,getSaleDetailResp);
-//        if(!saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue()) ||
-//                !saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())
-//                ||!saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_DELIVER.getValue())) {
-//            log.info("sale under deliver so add car info to order");
-//            List<DriverInfoResp> cars = orderDeliverService.getSaleCarStatus(saleId);
-//            getSaleDetailResp.setCarInfo(cars);
-//            getSaleDetailResp.setCarTotalNum(getSaleDetailResp.getCarInfo().size());
-//        }
+        BeanUtils.copyProperties(saleOrder, getSaleDetailResp);
+        //        if(!saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue()) ||
+        //                !saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())
+        //                ||!saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_DELIVER.getValue())) {
+        //            log.info("sale under deliver so add car info to order");
+        //            List<DriverInfoResp> cars = orderDeliverService.getSaleCarStatus(saleId);
+        //            getSaleDetailResp.setCarInfo(cars);
+        //            getSaleDetailResp.setCarTotalNum(getSaleDetailResp.getCarInfo().size());
+        //        }
         getSaleDetailResp.setCommodity(commodityDao.getCommodityByCommodityId(getSaleDetailResp.getCommodityId()));
         getSaleDetailResp.setContactUserName(saleOrder.getContactUserName());
         getSaleDetailResp.setContactMobile(saleOrder.getMobile());
-        getSaleDetailResp.setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT,saleOrder.getReceiveStartTime()));
-        getSaleDetailResp.setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT,saleOrder.getReceiveEndTime()));
+        getSaleDetailResp.setReceiveStartTime(
+                TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveStartTime()));
+        getSaleDetailResp
+                .setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveEndTime()));
 
         LocationInfo locationInfo = locationInfoMapper.selectByLocationId(saleOrder.getReceiveLocation());
         getSaleDetailResp.setReceiveLocation(locationInfo.getLocation());
         getSaleDetailResp.setReceiveLocationId(saleOrder.getReceiveLocation());
         getSaleDetailResp.setOptResult(GetSaleDetailResp.STATUS_ENUE.SUCCESS.getValue());
-        log.debug("get sale order detail {}",JacksonUtils.obj2String(getSaleDetailResp));
+        log.debug("get sale order detail {}", JacksonUtils.obj2String(getSaleDetailResp));
         return getSaleDetailResp;
     }
 }
