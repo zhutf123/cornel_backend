@@ -537,7 +537,7 @@
             and o.id  <![CDATA[<]]> (select id from order_info where order_id=#{orderId})
         </if>
         order by o.id desc limit #{pgSize};
-    </select>buyerGetLorryList
+    </select>
 
     <select id="buyerGetLorryList" resultMap="listRespMapperBuyer">
         SELECT

@@ -45,7 +45,6 @@ import java.util.*;
     @Resource private CargoInfoMapper cargoInfoMapper;
     @Resource private SaleOrderMapper saleOrderMapper;
     @Resource private PurchaseInfoMapper purchaseInfoMapper;
-    @Resource private OrderDeliverService orderDeliverService;
     @Resource private WaybillInfoMapper waybillInfoMapper;
     @Resource private OrderInfoDao orderInfoDao;
 
