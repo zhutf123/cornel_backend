@@ -97,6 +97,15 @@ import javax.naming.ldap.PagedResultsControl;
         return JsonResult.success(purchaseCornService.getSaleOrderListRespList(getSaleOrderListReq));
     }
 
+    @RequestMapping(value = "/get-car-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
+            @RequestBody String param ) {
+        JSONObject jsonObject = JSON.parseObject(param);
+        String saleId = jsonObject.getString("saleId");
+
+        return JsonResult.success(purchaseCornService.getSaleList(saleId));
+    }
+
+
     @RequestMapping(value = "/get-order-detail.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult getSaleDetail(@RequestBody String param) {
         JSONObject jsonObject = JSON.parseObject(param);

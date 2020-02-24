@@ -6,6 +6,7 @@ import com.demai.cornel.dao.OrderInfoDao;
 import com.demai.cornel.dao.TaskInfoDao;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.LorryInfo;
+import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.purcharse.dao.*;
 import com.demai.cornel.purcharse.model.*;
@@ -13,8 +14,10 @@ import com.demai.cornel.purcharse.vo.GetSystemOfferResp;
 import com.demai.cornel.purcharse.vo.req.*;
 import com.demai.cornel.purcharse.vo.resp.*;
 import com.demai.cornel.util.*;
+import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.quota.ClickSystemQuoteResp;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
+import com.demai.cornel.vo.task.GetOrderListResp;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -43,6 +46,8 @@ import java.util.*;
     @Resource private SaleOrderMapper saleOrderMapper;
     @Resource private PurchaseInfoMapper purchaseInfoMapper;
     @Resource private OrderDeliverService orderDeliverService;
+    @Resource private WaybillInfoMapper waybillInfoMapper;
+    @Resource private OrderInfoDao orderInfoDao;
 
     private static String TIME_FORMAT = "yyyy-MM-dd";
     private static List<BigDecimal> PURCHASE_BARGAIN = new ArrayList<>();
@@ -227,7 +232,7 @@ import java.util.*;
      * @param offer
      * @return
      */
-    public BuyOfferResp submitSystemQuoteResp(SystemOfferReq offer) {
+    public BuyOfferResp  submitSystemQuoteResp(SystemOfferReq offer) {
         Preconditions.checkNotNull(offer);
         if (!checkOffet(offer)) {
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
@@ -264,6 +269,8 @@ import java.util.*;
             saleOrder.setFromLocation(offerSheet.getLocationId());
         }
         saleOrder.setCommodityPrice(offer.getPrice());
+        // todo 订单总价格 需要加上运费
+        saleOrder.setOrderPrice(saleOrder.getCommodityPrice().multiply(saleOrder.getCommodityPrice()));
         saleOrder.setStatus(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue());
         int ret = saleOrderMapper.insertSelective(saleOrder);
         if (ret != 1) {
@@ -290,15 +297,48 @@ import java.util.*;
             return Collections.EMPTY_LIST;
         }
         getSaleOrderListResps.stream().forEach(x -> {
-            if(!x.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue())
-                    && !x.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue()) && !x.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())){
-                x.setCarInfo(orderDeliverService.getSaleCarStatus(x.getOrderId()));
-            }
+//            if(!x.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue())
+//                    && !x.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue()) && !x.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())){
+//                x.setCarInfo(orderDeliverService.getSaleCarStatus(x.getOrderId()));
+//                x.setCarTotalNum(x.getCarInfo().size());
+//            }
             Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             x.setCommodity(commodity);
         });
         return getSaleOrderListResps;
 
+    }
+
+    public List<BuyerGelLorryListResp> getSaleList(String saleId) {
+        log.debug("getSaleList param saleid is {}",saleId);
+        if(Strings.isNullOrEmpty(saleId)){
+            log.debug("getSaleList fail due to param error");
+            return Collections.EMPTY_LIST;
+        }
+        SaleOrder saleOrder =  saleOrderMapper.selectBySaleId(saleId);
+        if(saleOrder==null || saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue())){
+            log.debug("getSaleList fail due to param error");
+            return Collections.EMPTY_LIST;
+        }
+        if(!saleOrder.getBuyerId().equals(CookieAuthUtils.getCurrentUser())){
+            log.debug("getSaleList fail due to cur user has no auth ");
+            return Collections.EMPTY_LIST;
+        }
+        List<String> deliverId = waybillInfoMapper.getSaleOrderDeliverId(saleId);
+        if(deliverId==null||deliverId.size()==0){
+            log.debug("getSaleList fail due to cur sale order has no deliver info ");
+            return Collections.EMPTY_LIST;
+        }
+        List<BuyerGelLorryListResp> orderListResp = orderInfoDao.buyerGetLorryList(deliverId);
+        if (org.apache.commons.collections.CollectionUtils.isEmpty(orderListResp)) {
+            log.info("getSaleList fail due  delivery query order list is empty sale id is {}",saleId);
+            return Lists.newArrayList();
+        }
+        orderListResp.stream().filter(order -> org.apache.commons.collections.CollectionUtils.isNotEmpty(order.getDriverMobileSet()))
+                .forEach(order -> {
+                    order.setDriverMobile(order.getDriverMobileSet().iterator().next());
+                });
+        return orderListResp;
     }
 
     public OptPurchaseResp editPurchase(SubmitMyOfferReq purchaseInfo) {
@@ -513,13 +553,14 @@ import java.util.*;
             getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.USER_ERROR.getValue());
         }
         BeanUtils.copyProperties(saleOrder,getSaleDetailResp);
-        if(!saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue()) ||
-                !saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())
-                ||!saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_DELIVER.getValue())) {
-            log.info("sale under deliver so add car info to order");
-            List<DriverInfoResp> cars = orderDeliverService.getSaleCarStatus(saleId);
-            getSaleDetailResp.setCarInfo(cars);
-        }
+//        if(!saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue()) ||
+//                !saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())
+//                ||!saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.UNDER_DELIVER.getValue())) {
+//            log.info("sale under deliver so add car info to order");
+//            List<DriverInfoResp> cars = orderDeliverService.getSaleCarStatus(saleId);
+//            getSaleDetailResp.setCarInfo(cars);
+//            getSaleDetailResp.setCarTotalNum(getSaleDetailResp.getCarInfo().size());
+//        }
         getSaleDetailResp.setContactUserName(saleOrder.getContactUserName());
         getSaleDetailResp.setContactMobile(saleOrder.getMobile());
         LocationInfo locationInfo = locationInfoMapper.selectByLocationId(saleOrder.getReceiveLocation());

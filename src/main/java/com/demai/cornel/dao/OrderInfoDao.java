@@ -6,6 +6,7 @@ package com.demai.cornel.dao;
 import java.sql.Date;
 import java.util.List;
 
+import com.demai.cornel.purcharse.vo.resp.BuyerGelLorryListResp;
 import org.apache.ibatis.annotations.Param;
 
 import com.demai.cornel.model.OrderInfo;
@@ -67,5 +68,9 @@ public interface OrderInfoDao {
 
 
     List<OrderInfo> getOrderInfosByOrderIds(@Param("orderIds") List<String> orderId);
+
+
+    List<BuyerGelLorryListResp> buyerGetLorryList(@Param("deliverIds") List<String> supplierId);
+
 
 }
