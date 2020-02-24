@@ -21,6 +21,7 @@ public class BuyerGelLorryListResp {
     private String driverUserId;
     private String driverMobile;
     private String receiveLocation;
+    private String plateNumber;
 
     @JsonIgnore
     private Set<String> driverMobileSet;

@@ -115,7 +115,7 @@
 
         <result column="carry_weight" property="carryWeight"/>
         <result column="product" property="product"/>
-
+        <result column="plate_number" property="plateNumber"/>
         <result column="estimate_finish_time" property="esArrTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
 
@@ -235,7 +235,8 @@
         o.carry_weight,
         o.commodity_id,
         t.product,
-        o.estimate_finish_time
+        o.estimate_finish_time,
+        l.plate_number
     </sql>
 
 
@@ -537,9 +538,9 @@
                 #{item}
             </foreach>
         </if>
-         <if test="deliverIds == null or deliverIds.size() == 0">
-             1=0
-         </if>
+        <if test="deliverIds == null or deliverIds.size() == 0">
+            1=0
+        </if>
         order by o.id desc;
     </select>
     <select id="buyerGetLorryDetail" resultMap="listRespMapperBuyer">
@@ -548,7 +549,7 @@
         from order_info o left join task_info t on o.task_id=t.task_id left join lorry_info l on l.lorry_id=o.lorry_id
         left join user_info u on o.user_id=u.user_id
         where o.order_id=#{deliverId};
-            </select>
+    </select>
 
     <update id="updateOrderStatus">
         update order_info set status=#{status} where order_id=#{orderId} and user_id=#{userId} and status=#{oldStatus};
