@@ -103,51 +103,20 @@
     </resultMap>
 
     <resultMap id="listRespMapperBuyer" type="com.demai.cornel.purcharse.vo.resp.BuyerGelLorryListResp">
-        <result column="order_id" property="orderId"/>
+        <result column="order_id" property="deliverOrderId"/>
         <result column="lorry_id" property="lorryId"/>
-
-        <result column="task_id" property="taskId"/>
-        <result column="status" property="orderStatus"/>
-        <result column="order_weight" property="orderWeight"/>
-        <result column="receive_code" property="verifyCode"/>
-        <result column="receive_time" property="startTime"/>
-
-        <result column="delivery_receive_time" property="deliveryReceiveTime"/>
-        <result column="order_carry_weight" property="orderCarryWeight"/>
-        <result column="send_out_time" property="sendOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
-                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
-        <result column="succ_weight" property="succWeight"/>
-
-        <result column="title" property="title"/>
-        <result column="dep" property="dep"/>
-        <result column="arr" property="arr"/>
-        <result column="dep_gis" property="depGis"/>
-        <result column="arr_gis" property="arrGis"/>
-        <result column="start_time" property="startValidDate" jdbcType="TIMESTAMP" javaType="java.lang.String"
-                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
-        <result column="end_time" property="endValidDate" jdbcType="TIMESTAMP" javaType="java.lang.String"
-                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
-        <result column="unit_weight_price" property="unitWeightPrice"/>
-        <result column="unit_price" property="unitPrice"/>
-        <result column="unit_weight" property="unitWeight"/>
-        <result column="distance" property="distance"/>
-        <result column="unit_distance" property="unitDistance"/>
-        <result column="lorry_id" property="lorryId"/>
-        <result column="plate_number" property="plateNumber"/>
-        <result column="carry_weight" property="carryWeight"/>
-        <result column="over_carry_weight" property="overCarryWight"/>
-        <result column="driver_name" property="driverName"/>
+        <result column="driver_user_id" property="driverUserId"/>
         <result column="driver_mobile" property="driverMobileSet" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
-        <result column="delivery_receive_time" property="deliveryReceiveTime"/>
-        <result column="let_out_time" property="letOutTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
-                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
-        <result column="service_mobile" property="serviceMobile"/>
+        <result column="driver_user_name" property="driverUserName"/>
+        <result column="unit_weight" property="unitWeight"/>
+        <result column="status" property="status"/>
 
-        <result column="receiver_mobile" property="receiverMobileSet" jdbcType="ARRAY" javaType="java.util.Set"
-                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
-        <result column="supplier_mobile" property="supplierMobileSet" jdbcType="ARRAY" javaType="java.util.Set"
-                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="carry_weight" property="carryWeight"/>
+        <result column="product" property="product"/>
+
+        <result column="estimate_finish_time" property="esArrTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
 
     </resultMap>
 
@@ -252,6 +221,21 @@
         l.carry_weight,
         l.over_carry_weight
     </sql>
+
+    <sql id="listResp_buyer">
+        o.order_id,
+        o.user_id as driver_user_id,
+        l.lorry_id,
+        u.mobile as driver_mobile,
+        u.name as driver_user_name,
+        o.unit_weight,
+        o.status,
+        o.carry_weight,
+        o.commodity_id,
+        t.product,
+        o.estimate_finish_time
+    </sql>
+
 
     <sql id="listRespOrderId_driver">
         o.order_id,

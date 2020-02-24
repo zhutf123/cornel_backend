@@ -9,6 +9,7 @@ import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.LorryInfo;
 import com.demai.cornel.model.OrderInfo;
 import com.demai.cornel.model.TaskInfo;
+import com.demai.cornel.purcharse.dao.LocationInfoMapper;
 import com.demai.cornel.purcharse.dao.SaleOrderMapper;
 import com.demai.cornel.purcharse.dao.WaybillInfoMapper;
 import com.demai.cornel.purcharse.model.CargoInfo;
@@ -38,6 +39,8 @@ import java.util.UUID;
     @Resource private LorryInfoDao lorryInfoDao;
     @Resource private WaybillInfoMapper waybillInfoMapper;
     @Resource private OrderInfoDao orderInfoDao;
+    @Resource private LocationInfoMapper locationInfoMapper;
+
     @Resource private SaleOrderMapper saleOrderMapper;
 
     private static final String TIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
@@ -50,8 +53,8 @@ import java.util.UUID;
         taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveEndTime()));
         taskInfo.setDistance(new BigDecimal(1000.00));
         taskInfo.setDistance(new BigDecimal(1000.00));
-        taskInfo.setArr(saleOrder.getFromLocation());
-        taskInfo.setDep(saleOrder.getReceiveLocation());
+        taskInfo.setArr(locationInfoMapper.selectByLocationId(saleOrder.getFromLocation()).getLocation());
+        taskInfo.setDep(locationInfoMapper.selectByLocationId(saleOrder.getReceiveLocation()).getLocation());
         taskInfo.setProduct(commodity.getName());
         taskInfo.setTitle(commodity.getName() + saleOrder.getFromLocation() + "到" + saleOrder.getReceiveLocation());
         taskInfo.setReceiverUserId(Sets.newHashSet(saleOrder.getBuyerId()));
