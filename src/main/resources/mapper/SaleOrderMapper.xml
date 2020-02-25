@@ -365,4 +365,7 @@
         </if>
         order by id desc limit #{pgSize} ;
     </select>
+    <update id="updateSaleStatus">
+        update sale_order set status=#{status} where order_id=#{orderId} ;
+    </update>
 </mapper>

@@ -3,6 +3,7 @@
  */
 package com.demai.cornel.dao;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -73,5 +74,8 @@ public interface OrderInfoDao {
     List<BuyerGelLorryListResp> buyerGetLorryList(@Param("deliverIds") List<String> supplierId);
     BuyerGelLorryListResp buyerGetLorryDetail(@Param("deliverId") String deliverId);
 
+
+    int buyerOrderStatusAndSuccWeight(@Param("orderId")String orderID,
+            @Param("receiveWeight") BigDecimal receiveWeight,@Param("status")Long status);
 
 }

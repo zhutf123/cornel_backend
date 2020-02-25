@@ -233,7 +233,6 @@
         o.unit_weight,
         o.status,
         o.carry_weight,
-        o.commodity_id,
         t.product,
         o.estimate_finish_time,
         l.plate_number
@@ -639,5 +638,8 @@
             1 = 0
         </if>
     </select>
+    <update id="buyerOrderStatusAndSuccWeight">
+      update order_info set status=#{status} and succ_weight=#{receiveWeight} where order_id=#{orderId} ;
+    </update>
 
 </mapper>

@@ -354,8 +354,45 @@ import java.util.*;
             return buyerGelLorryDetailResp;
         }
         BeanUtils.copyProperties(buyerGelLorryListResp, buyerGelLorryDetailResp);
+        buyerGelLorryDetailResp.setDriverMobile(buyerGelLorryDetailResp.getDriverMobileSet().iterator().next());
         buyerGelLorryDetailResp.setOptStatus(BuyerGelLorryDetailResp.STATUS_ENUE.SUCCESS.getValue());
         return buyerGelLorryDetailResp;
+
+    }
+
+
+
+    public OptResultResp confirmDeliver(String saleId,String deliverId,BigDecimal receiveWeight) {
+       if(Strings.isNullOrEmpty(saleId)||Strings.isNullOrEmpty(deliverId) || receiveWeight==null){
+           return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+       }
+       int rst = orderInfoDao.buyerOrderStatusAndSuccWeight(deliverId,receiveWeight,OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue());
+       if(rst!=1){
+           return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
+       }
+       List<String> deliveId = waybillInfoMapper.getSaleOrderDeliverId(saleId);
+
+       if(deliveId==null || deliveId.size()==0){
+           log.info("confirmDeliver fail due to get deliver id list is empty by sale id ");
+           return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
+       }
+       List<BuyerGelLorryListResp> gelLorryListResps = orderInfoDao.buyerGetLorryList(deliveId);
+        if(gelLorryListResps==null || gelLorryListResps.size()==0){
+            log.info("confirmDeliver fail due to get deliver list is empty by sale id ");
+            return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
+        }
+        boolean updateSaleStatus= false;
+        for (BuyerGelLorryListResp buyerGelLorryListResp:gelLorryListResps) {
+            if(!buyerGelLorryListResp.getStatus().equals(OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue())){
+                updateSaleStatus = true;
+                break;
+            }
+        }
+        if(updateSaleStatus){
+            saleOrderMapper.updateSaleStatus(saleId,SaleOrder.STATUS_ENUM.FINISH.getValue());
+        }
+        return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.SUCCESS.getValue()).build();
+
 
     }
 

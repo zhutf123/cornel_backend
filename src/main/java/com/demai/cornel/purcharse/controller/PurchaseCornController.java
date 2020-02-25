@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.naming.ldap.PagedResultsControl;
+import java.math.BigDecimal;
 
 /**
  * @Author binz.zhang
@@ -112,11 +113,21 @@ import javax.naming.ldap.PagedResultsControl;
         return JsonResult.success(purchaseCornService.getDeliverOrderDetail(deliverOrderId));
     }
 
+    @RequestMapping(value = "/confirm-receive.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult confirmReceive(@RequestBody String param ) {
+        JSONObject jsonObject = JSON.parseObject(param);
+        String deliverOrderId = jsonObject.getString("deliverOrderId");
+        String saleId = jsonObject.getString("saleId");
+        BigDecimal receiveWeight = jsonObject.getBigDecimal("receiveWeight");
+        return JsonResult.success(purchaseCornService.confirmDeliver(saleId,deliverOrderId,receiveWeight));
+    }
+
+
 
     @RequestMapping(value = "/get-order-detail.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult getSaleDetail(@RequestBody String param) {
         JSONObject jsonObject = JSON.parseObject(param);
-        String saleId = jsonObject.getString("saleId");
+        String saleId = jsonObject.getString("orderId");
         return JsonResult.success(purchaseCornService.getSaleOrderDetail(saleId));
     }
 

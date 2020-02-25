@@ -28,6 +28,7 @@ public interface SaleOrderMapper {
 
     List<GetSaleOrderListResp> getSaleOrderList(@Param("orderId") String orderId, @Param("pgSize") Integer pgSize,
             @Param("status") Integer status);
-
+    int updateSaleStatus(@Param("orderId") String orderId,
+            @Param("status") Integer status);
 
 }
