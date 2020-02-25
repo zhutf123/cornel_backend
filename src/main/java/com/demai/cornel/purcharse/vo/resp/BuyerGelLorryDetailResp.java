@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class BuyerGelLorryDetailResp extends BuyerGelLorryListResp {
 
+    private String finishTime;
     private Integer optStatus;
     public static enum STATUS_ENUE implements IEmus {
         PARAM_ERROR(-1, "参数错误"),

@@ -118,7 +118,8 @@
         <result column="plate_number" property="plateNumber"/>
         <result column="estimate_finish_time" property="esArrTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
-
+        <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
     </resultMap>
 
 
@@ -226,6 +227,7 @@
     <sql id="listResp_buyer">
         o.order_id,
         o.user_id as driver_user_id,
+        o.finish_time,
         l.lorry_id,
         t.arr,
         u.mobile as driver_mobile,

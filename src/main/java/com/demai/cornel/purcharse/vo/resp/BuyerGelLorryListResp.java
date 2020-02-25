@@ -22,7 +22,7 @@ public class BuyerGelLorryListResp {
     private String driverMobile;
     private String receiveLocation;
     private String plateNumber;
-
+    private String finishTime;
     @JsonIgnore
     private Set<String> driverMobileSet;
     private String product;
