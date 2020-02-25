@@ -162,5 +162,8 @@ import javax.servlet.http.HttpServletResponse;
     @ResponseBody public JsonResult getCommotidyList() {
         return JsonResult.success(purcharseOtherService.getCommodityList());
     }
-
+    @RequestMapping(value = "/get-service-mobile.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult getServiceMobile() {
+        return JsonResult.success(purcharseOtherService.getServiceMobile());
+    }
 }

@@ -621,7 +621,7 @@ import java.util.*;
         getSaleDetailResp.setReceiveStartTime(
                 TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveStartTime()));
         getSaleDetailResp
-                .setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveEndTime()));
+                .setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveEndTime()));
 
         LocationInfo locationInfo = locationInfoMapper.selectByLocationId(saleOrder.getReceiveLocation());
         getSaleDetailResp.setReceiveLocation(locationInfo.getLocation());

@@ -1,5 +1,7 @@
 package com.demai.cornel.purcharse.service;
 
+import com.demai.cornel.config.ServiceMobileConfig;
+import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dao.CommodityDao;
 import com.demai.cornel.purcharse.dao.BuyerInfoMapper;
 import com.demai.cornel.purcharse.dao.LocationInfoMapper;
@@ -8,10 +10,7 @@ import com.demai.cornel.purcharse.model.BuyerInfo;
 import com.demai.cornel.purcharse.model.LocationInfo;
 import com.demai.cornel.purcharse.model.StoreInfo;
 import com.demai.cornel.purcharse.vo.req.AddLocationReq;
-import com.demai.cornel.purcharse.vo.resp.BuyerCommitListResp;
-import com.demai.cornel.purcharse.vo.resp.GetLocationDetailResp;
-import com.demai.cornel.purcharse.vo.resp.GetLocationResp;
-import com.demai.cornel.purcharse.vo.resp.OptLocationResp;
+import com.demai.cornel.purcharse.vo.resp.*;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.vo.JsonResult;
@@ -179,6 +178,12 @@ import java.util.*;
         }
         return JsonResult.success(OptLocationResp.builder().optStatus(OptLocationResp.STATUS_ENUE.SUCCESS.getValue())
                 .locationId(req.getLocationId()).build());
+    }
+
+
+
+    public GetServiceMobileResp getServiceMobile(){
+        return GetServiceMobileResp.builder().mobile(ServiceMobileConfig.serviceMobile.iterator().next()).build();
     }
 
 }
