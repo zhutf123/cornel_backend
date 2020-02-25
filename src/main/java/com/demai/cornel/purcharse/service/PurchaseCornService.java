@@ -615,6 +615,8 @@ import java.util.*;
         //            getSaleDetailResp.setCarInfo(cars);
         //            getSaleDetailResp.setCarTotalNum(getSaleDetailResp.getCarInfo().size());
         //        }
+
+        getSaleDetailResp.setOrderTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT,saleOrder.getOrderTime()));
         getSaleDetailResp.setCommodity(commodityDao.getCommodityByCommodityId(getSaleDetailResp.getCommodityId()));
         getSaleDetailResp.setContactUserName(saleOrder.getContactUserName());
         getSaleDetailResp.setContactMobile(saleOrder.getMobile());

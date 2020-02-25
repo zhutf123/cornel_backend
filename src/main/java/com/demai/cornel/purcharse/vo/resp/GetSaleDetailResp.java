@@ -13,6 +13,7 @@ public class GetSaleDetailResp extends GetSaleOrderListResp {
     private String contactMobile;
     private String receiveLocationId;
     private String receiveLocation;
+    private String orderTime;
 
     private Integer optResult;
     public static enum STATUS_ENUE implements IEmus {
