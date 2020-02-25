@@ -127,7 +127,8 @@ import java.math.BigDecimal;
     @RequestMapping(value = "/get-order-detail.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult getSaleDetail(@RequestBody String param) {
         JSONObject jsonObject = JSON.parseObject(param);
-        String saleId = jsonObject.getString("orderId");
+        String saleId = jsonObject.getString("saleId");
+        log.info("purchase get get-order-detail sale id is {}",saleId);
         return JsonResult.success(purchaseCornService.getSaleOrderDetail(saleId));
     }
 
