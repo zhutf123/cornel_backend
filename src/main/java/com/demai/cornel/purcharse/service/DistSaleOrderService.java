@@ -124,7 +124,7 @@ import java.util.UUID;
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId(IDUtils.getUUID());
         orderInfo.setTaskId(taskSaveVO.getTaskId());
-        orderInfo.setUserId(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME));
+        orderInfo.setUserId(CookieAuthUtils.getCurrentUser());
         orderInfo.setLorryId(lorryInfo.getLorryId());
 
         orderInfo.setDistance(new BigDecimal(1000));
