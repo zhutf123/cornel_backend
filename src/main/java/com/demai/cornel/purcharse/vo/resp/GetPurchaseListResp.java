@@ -22,4 +22,5 @@ public class GetPurchaseListResp {
     private String receiveEndTime;//收货结束时间
     private Integer status;
     private String purchaseId;
+    private String saleId;
 }

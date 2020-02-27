@@ -124,7 +124,7 @@ import java.util.*;
             purchaseInfo.setMobile(buyerInfo.getMobile().iterator().next());
         }
         purchaseInfo.setPurchaseId(UUID.randomUUID().toString());
-        purchaseInfo.setStatus(PurchaseInfo.STATUS_ENUM.UNDER_DEAL.getValue());
+        purchaseInfo.setStatus(PurchaseInfo.STATUS_ENUM.UNDER_PRO.getValue());
         int res = purchaseInfoMapper.insertSelective(purchaseInfo);
         if (res != 1) {
             log.debug("submitMyOffer fail due to db error ");
@@ -572,6 +572,7 @@ import java.util.*;
         getPurchaseDetailResp
                 .setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, purchaseInfo.getReceiveEndTime()));
         getPurchaseDetailResp.setOptStatus(GetPurchaseDetailResp.STATUS_ENUE.SUCCESS.getValue());
+        getPurchaseDetailResp.setSaleId(saleOrderMapper.getSaleIdByPurchaseId(purchaseId));
         LocationInfo locationInfo = locationInfoMapper.selectByLocationId(purchaseInfo.getReceiveLocationId());
         if (locationInfo == null) {
             log.error(
@@ -621,6 +622,7 @@ import java.util.*;
                     .setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, x.getReceiveStartTime()));
             getPurchaseListResp
                     .setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, x.getReceiveEndTime()));
+            getPurchaseListResp.setSaleId(saleOrderMapper.getSaleIdByPurchaseId(x.getPurchaseId()));
             getPurchaseListResps.add(getPurchaseListResp);
         });
         return getPurchaseListResps;

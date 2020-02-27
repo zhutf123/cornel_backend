@@ -368,4 +368,7 @@
     <update id="updateSaleStatus">
         update sale_order set status=#{status} where order_id=#{orderId} ;
     </update>
+    <select id="getSaleIdByPurchaseId" resultType="java.lang.String">
+       select order_id from sale_order where purchase_id=#{purchaseId,jdbcType=VARCHAR} ;
+    </select>
 </mapper>

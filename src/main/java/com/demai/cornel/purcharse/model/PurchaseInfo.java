@@ -90,7 +90,8 @@ import lombok.Data;
     private String purchaseId;
 
     public static enum STATUS_ENUM implements IEmus {
-        CANCLE(0, "取消"), UNDER_DEAL(1, "求购中"), DEAL(2, "已成交"), SHELVES(3, "下架");
+//        CANCLE(0, "取消"), UNDER_DEAL(1, "求购中"), DEAL(2, "已成交"), SHELVES(3, "下架");
+CANCLE(0, "取消"), UNDER_PRO(1, "审核中"),DEAL(2, "已成交"), SHELVES(3, "下架");
 
         private int value;
         private String expr;

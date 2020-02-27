@@ -31,4 +31,6 @@ public interface SaleOrderMapper {
     int updateSaleStatus(@Param("orderId") String orderId,
             @Param("status") Integer status);
 
+    String getSaleIdByPurchaseId(@Param("purchaseId")String purchaseId);
+
 }
