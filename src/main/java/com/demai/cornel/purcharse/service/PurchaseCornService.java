@@ -646,11 +646,14 @@ import java.util.*;
         GetSaleDetailResp getSaleDetailResp = new GetSaleDetailResp();
         if (saleOrder == null) {
             log.info("get sale detai fail due to order invalid");
-            getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.purcahse_INVALID.getValue());
+             getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.purcahse_INVALID.getValue());
+            return getSaleDetailResp;
         }
         if (!saleOrder.getBuyerId().equals(CookieAuthUtils.getCurrentUser())) {
             log.info("get sale detai fail due to cur user has no auth ");
             getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.USER_ERROR.getValue());
+            return getSaleDetailResp;
+
         }
         BeanUtils.copyProperties(saleOrder, getSaleDetailResp);
         //        if(!saleOrder.getStatus().equals(SaleOrder.STATUS_ENUM.CANCLE.getValue()) ||
