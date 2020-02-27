@@ -10,6 +10,7 @@ import com.demai.cornel.purcharse.service.PurchaseCornService;
 import com.demai.cornel.purcharse.vo.req.*;
 import com.demai.cornel.service.UserLoginService;
 import com.demai.cornel.service.UserService;
+import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.task.GetOrderListReq;
@@ -95,6 +96,7 @@ import java.math.BigDecimal;
      */
     @RequestMapping(value = "/get-order-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
             @RequestBody GetSaleOrderListReq getSaleOrderListReq) {
+        log.info("user {} get order list param is {}", CookieAuthUtils.getCurrentUser(),JacksonUtils.obj2String(getSaleOrderListReq));
         return JsonResult.success(purchaseCornService.getSaleOrderListRespList(getSaleOrderListReq));
     }
 
