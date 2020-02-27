@@ -89,7 +89,7 @@ import java.math.BigDecimal;
     }
 
     /**
-     * 买家下单系统商品操作
+     * 买家获取下单列表
      *
      * @return
      */
@@ -98,6 +98,11 @@ import java.math.BigDecimal;
         return JsonResult.success(purchaseCornService.getSaleOrderListRespList(getSaleOrderListReq));
     }
 
+    /**
+     * 买家获取指定订单下的货运列表
+     * @param param
+     * @return
+     */
     @RequestMapping(value = "/get-car-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult systemOffer(
             @RequestBody String param ) {
         JSONObject jsonObject = JSON.parseObject(param);
@@ -106,6 +111,11 @@ import java.math.BigDecimal;
         return JsonResult.success(purchaseCornService.getSaleList(saleId));
     }
 
+    /**
+     * 买家获取指定货运的 货运详情
+     * @param param
+     * @return
+     */
     @RequestMapping(value = "/get-car-detail.json", method = RequestMethod.POST) @ResponseBody public JsonResult getdeliverDetail(
             @RequestBody String param ) {
         JSONObject jsonObject = JSON.parseObject(param);
@@ -122,8 +132,11 @@ import java.math.BigDecimal;
         return JsonResult.success(purchaseCornService.confirmDeliver(saleId,deliverOrderId,receiveWeight));
     }
 
-
-
+    /**
+     * 买家获取订单详情
+     * @param param
+     * @return
+     */
     @RequestMapping(value = "/get-order-detail.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult getSaleDetail(@RequestBody String param) {
         JSONObject jsonObject = JSON.parseObject(param);
@@ -134,7 +147,7 @@ import java.math.BigDecimal;
 
 
     /**
-     * 买家下单系统商品操作
+     * 买家获取我的求购订单list
      *
      * @return
      */
@@ -144,7 +157,7 @@ import java.math.BigDecimal;
     }
 
     /**
-     * 买家下单系统商品操作
+     * 买家获取我的求购总数目
      *
      * @return
      */
@@ -153,7 +166,7 @@ import java.math.BigDecimal;
     }
 
     /**
-     * 买家下单系统商品操作
+     * 买家获取我的求购的详情
      *
      * @return
      */
@@ -166,7 +179,7 @@ import java.math.BigDecimal;
     }
 
     /**
-     * 买家下单系统商品操作
+     * 买家编辑自己的求购订单
      *
      * @return
      */

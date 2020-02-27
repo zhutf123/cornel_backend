@@ -67,7 +67,7 @@ import java.util.concurrent.TimeUnit;
             buyerInfo1.setMobile(Sets.newHashSet(param.getPhone()));
             buyerInfo1.setStatus(BuyerInfo.USER_STATUS.PENDING.getValue());
             buyerInfoMapper.insertSelective(buyerInfo1);
-            return new UserLoginResp(resp.getOpenid(), buyerInfo.getUserId(), 1,
+            return new UserLoginResp(resp.getOpenid(), buyerInfo1.getUserId(), 1,
                     UserLoginResp.CODE_ENUE.SUCCESS.getValue(), param.getPhone(),
                     UserLoginResp.USER_STATUS_ENUE.UNREGISTERED.getValue());
         }

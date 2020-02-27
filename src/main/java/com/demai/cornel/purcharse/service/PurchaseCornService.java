@@ -279,6 +279,12 @@ import java.util.*;
                 orderId(saleOrder.getOrderId()).orderStatus(saleOrder.getStatus()).build();
     }
 
+    /**
+     * 买家获取下单列表
+     *
+     * @param getSaleOrderListReq
+     * @return
+     */
     public List<GetSaleOrderListResp> getSaleOrderListRespList(GetSaleOrderListReq getSaleOrderListReq) {
         if (getSaleOrderListReq == null) {
             log.debug("getSaleOrderListRespList fail due to getSaleOrderListReq empty");
@@ -308,6 +314,12 @@ import java.util.*;
 
     }
 
+    /**
+     * 买家获取指定订单下的货运列表
+     *
+     * @param saleId
+     * @return
+     */
     public List<BuyerGelLorryListResp> getSaleList(String saleId) {
         log.debug("getSaleList param saleid is {}", saleId);
         if (Strings.isNullOrEmpty(saleId)) {
@@ -323,6 +335,7 @@ import java.util.*;
             log.debug("getSaleList fail due to cur user has no auth ");
             return Collections.EMPTY_LIST;
         }
+        //h获取运单ID 关联了order_info 表
         List<String> deliverId = waybillInfoMapper.getSaleOrderDeliverId(saleId);
         if (deliverId == null || deliverId.size() == 0) {
             log.debug("getSaleList fail due to cur sale order has no deliver info ");
@@ -341,58 +354,66 @@ import java.util.*;
         return orderListResp;
     }
 
+    /**
+     * 买家获取指定货运详情
+     *
+     * @param deliverOrderId 货运ID
+     * @return
+     */
     public BuyerGelLorryDetailResp getDeliverOrderDetail(String deliverOrderId) {
+        log.debug("buyer get deliver {} detail ", deliverOrderId);
         BuyerGelLorryDetailResp buyerGelLorryDetailResp = new BuyerGelLorryDetailResp();
-
         if (Strings.isNullOrEmpty(deliverOrderId)) {
+            log.debug("buyer get deliver detail fail due to param is null");
             buyerGelLorryDetailResp.setOptStatus(BuyerGelLorryDetailResp.STATUS_ENUE.PARAM_ERROR.getValue());
             return buyerGelLorryDetailResp;
         }
         BuyerGelLorryListResp buyerGelLorryListResp = orderInfoDao.buyerGetLorryDetail(deliverOrderId);
         if (buyerGelLorryListResp == null) {
+            log.debug("buyer get deliver detail fail due to get deliver order is nulll from order_info table");
             buyerGelLorryDetailResp.setOptStatus(BuyerGelLorryDetailResp.STATUS_ENUE.order_error.getValue());
             return buyerGelLorryDetailResp;
         }
         BeanUtils.copyProperties(buyerGelLorryListResp, buyerGelLorryDetailResp);
         buyerGelLorryDetailResp.setDriverMobile(buyerGelLorryDetailResp.getDriverMobileSet().iterator().next());
         buyerGelLorryDetailResp.setOptStatus(BuyerGelLorryDetailResp.STATUS_ENUE.SUCCESS.getValue());
+        log.debug("buyer get deliver detail success return data is {}",
+                JacksonUtils.obj2String(buyerGelLorryDetailResp));
         return buyerGelLorryDetailResp;
 
     }
 
+    public OptResultResp confirmDeliver(String saleId, String deliverId, BigDecimal receiveWeight) {
+        if (Strings.isNullOrEmpty(saleId) || Strings.isNullOrEmpty(deliverId) || receiveWeight == null) {
+            return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
+        int rst = orderInfoDao.buyerOrderStatusAndSuccWeight(deliverId, receiveWeight,
+                OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue());
+        if (rst != 1) {
+            return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
+        }
+        List<String> deliveId = waybillInfoMapper.getSaleOrderDeliverId(saleId);
 
-
-    public OptResultResp confirmDeliver(String saleId,String deliverId,BigDecimal receiveWeight) {
-       if(Strings.isNullOrEmpty(saleId)||Strings.isNullOrEmpty(deliverId) || receiveWeight==null){
-           return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
-       }
-       int rst = orderInfoDao.buyerOrderStatusAndSuccWeight(deliverId,receiveWeight,OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue());
-       if(rst!=1){
-           return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
-       }
-       List<String> deliveId = waybillInfoMapper.getSaleOrderDeliverId(saleId);
-
-       if(deliveId==null || deliveId.size()==0){
-           log.info("confirmDeliver fail due to get deliver id list is empty by sale id ");
-           return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
-       }
-       List<BuyerGelLorryListResp> gelLorryListResps = orderInfoDao.buyerGetLorryList(deliveId);
-        if(gelLorryListResps==null || gelLorryListResps.size()==0){
+        if (deliveId == null || deliveId.size() == 0) {
+            log.info("confirmDeliver fail due to get deliver id list is empty by sale id ");
+            return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
+        }
+        List<BuyerGelLorryListResp> gelLorryListResps = orderInfoDao.buyerGetLorryList(deliveId);
+        if (gelLorryListResps == null || gelLorryListResps.size() == 0) {
             log.info("confirmDeliver fail due to get deliver list is empty by sale id ");
             return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
         }
-        boolean updateSaleStatus= false;
-        for (BuyerGelLorryListResp buyerGelLorryListResp:gelLorryListResps) {
-            if(!buyerGelLorryListResp.getStatus().equals(OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue())){
+        boolean updateSaleStatus = false;
+        for (BuyerGelLorryListResp buyerGelLorryListResp : gelLorryListResps) {
+            if (!buyerGelLorryListResp.getStatus().equals(OrderInfo.STATUS_ENUE.ORDER_SUCCESS.getValue())) {
                 updateSaleStatus = true;
                 break;
             }
         }
-        if(updateSaleStatus){
-            saleOrderMapper.updateSaleStatus(saleId,SaleOrder.STATUS_ENUM.FINISH.getValue());
+        if (updateSaleStatus) {
+            saleOrderMapper.updateSaleStatus(saleId, SaleOrder.STATUS_ENUM.FINISH.getValue());
         }
         return OptResultResp.builder().optStatus(OptResultResp.STATUS_ENUE.SUCCESS.getValue()).build();
-
 
     }
 
@@ -508,6 +529,11 @@ import java.util.*;
                 .purchaseStatus(status).purchaseId(purchaseId).build();
     }
 
+    /**
+     * 查询买家下面的求购总数目
+     *
+     * @return
+     */
     public GetPurchaseNumResp getPurchaseNum() {
         int num = purchaseInfoMapper.getPurchaseNum(CookieAuthUtils.getCurrentUser());
         GetPurchaseNumResp getPurchaseNumResp = new GetPurchaseNumResp();
@@ -525,11 +551,13 @@ import java.util.*;
         }
         PurchaseInfo purchaseInfo = purchaseInfoMapper.selectByPurchaseId(purchaseId);
         if (purchaseInfo == null) {
+            log.debug("get purchase detail fail due to can not get purchase {} form purchase_info ", purchaseId);
             getPurchaseDetailResp.setOptStatus(GetPurchaseDetailResp.STATUS_ENUE.PURCHASE_INVALID.getValue());
             return getPurchaseDetailResp;
         }
         if (!purchaseInfo.getBuyerId().equals(CookieAuthUtils.getCurrentUser())) {
-            log.debug("get {} purchase detail fail due no auth", purchaseId);
+            log.debug("get {} purchase detail fail due no auth,cur user is {}, order user is {}", purchaseId,
+                    CookieAuthUtils.getCurrentUser(), purchaseInfo.getBuyerId());
             getPurchaseDetailResp.setOptStatus(GetPurchaseDetailResp.STATUS_ENUE.NO_AUTH.getValue());
             return getPurchaseDetailResp;
         }
@@ -543,14 +571,30 @@ import java.util.*;
                 .setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, purchaseInfo.getReceiveEndTime()));
         getPurchaseDetailResp.setOptStatus(GetPurchaseDetailResp.STATUS_ENUE.SUCCESS.getValue());
         LocationInfo locationInfo = locationInfoMapper.selectByLocationId(purchaseInfo.getReceiveLocationId());
-        getPurchaseDetailResp.setLocationId(locationInfo.getLocationId());
-        getPurchaseDetailResp.setLocationArea(locationInfo.getLocationArea());
-        getPurchaseDetailResp.setLocationDetail(locationInfo.getLocationDetail());
+        if (locationInfo == null) {
+            log.error(
+                    "get purchase detail but can not get receive location, the receive location id is {} in purchase_info ",
+                    purchaseInfo.getReceiveLocationId());
+            getPurchaseDetailResp.setLocationId("");
+            getPurchaseDetailResp.setLocationArea("");
+            getPurchaseDetailResp.setLocationDetail("");
+        } else {
+            getPurchaseDetailResp.setLocationId(locationInfo.getLocationId());
+            getPurchaseDetailResp.setLocationArea(locationInfo.getLocationArea());
+            getPurchaseDetailResp.setLocationDetail(locationInfo.getLocationDetail());
+        }
+
         getPurchaseDetailResp.setLocation(locationInfo.getLocation());
         return getPurchaseDetailResp;
 
     }
 
+    /**
+     * 买家获取我的求购list
+     *
+     * @param getPurchaseListReq
+     * @return
+     */
     public List<GetPurchaseListResp> getPurchaseListRespList(GetPurchaseListReq getPurchaseListReq) {
         if (getPurchaseListReq == null) {
             log.debug("getSaleOrderListRespList fail due to getSaleOrderListReq empty");
@@ -561,11 +605,11 @@ import java.util.*;
                         Optional.ofNullable(getPurchaseListReq.getPgSize()).orElse(10));
 
         if (purchaseInfos == null) {
+            log.debug("cur user {} has no purchase order ", CookieAuthUtils.getCurrentUser());
             return Collections.EMPTY_LIST;
         }
         List<GetPurchaseListResp> getPurchaseListResps = new ArrayList<>();
         purchaseInfos.stream().forEach(x -> {
-            Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             GetPurchaseListResp getPurchaseListResp = new GetPurchaseListResp();
             BeanUtils.copyProperties(x, getPurchaseListResp);
             getPurchaseListResp.setCommodityPrice(x.getPrice());
@@ -616,7 +660,7 @@ import java.util.*;
         //            getSaleDetailResp.setCarTotalNum(getSaleDetailResp.getCarInfo().size());
         //        }
 
-        getSaleDetailResp.setOrderTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT,saleOrder.getOrderTime()));
+        getSaleDetailResp.setOrderTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getOrderTime()));
         getSaleDetailResp.setCommodity(commodityDao.getCommodityByCommodityId(getSaleDetailResp.getCommodityId()));
         getSaleDetailResp.setContactUserName(saleOrder.getContactUserName());
         getSaleDetailResp.setContactMobile(saleOrder.getMobile());
@@ -626,10 +670,17 @@ import java.util.*;
                 .setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveEndTime()));
 
         LocationInfo locationInfo = locationInfoMapper.selectByLocationId(saleOrder.getReceiveLocation());
-        getSaleDetailResp.setReceiveLocation(locationInfo.getLocation());
-        getSaleDetailResp.setReceiveLocationId(saleOrder.getReceiveLocation());
+        if (locationInfo == null) {
+            log.error("buyer get order detail,can't get receive location from location_info location id is {} ",
+                    saleOrder.getReceiveLocation());
+            getSaleDetailResp.setReceiveLocation("");
+            getSaleDetailResp.setReceiveLocationId("");
+        } else {
+            getSaleDetailResp.setReceiveLocation(locationInfo.getLocation());
+            getSaleDetailResp.setReceiveLocationId(saleOrder.getReceiveLocation());
+        }
         getSaleDetailResp.setOptResult(GetSaleDetailResp.STATUS_ENUE.SUCCESS.getValue());
-        log.debug("get sale order detail {}", JacksonUtils.obj2String(getSaleDetailResp));
+        log.debug("get sale order detail success return data is  {}", JacksonUtils.obj2String(getSaleDetailResp));
         return getSaleDetailResp;
     }
 }
