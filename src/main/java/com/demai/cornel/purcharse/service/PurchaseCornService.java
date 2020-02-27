@@ -262,6 +262,7 @@ import java.util.*;
         saleOrder.setCargoId(cargoInfo.getCargoId());
         saleOrder.setOrderId(UUID.randomUUID().toString());
         saleOrder.setBuyerId(CookieAuthUtils.getCurrentUser());
+        saleOrder.setReceiveLocation(offer.getReceiveLocationId());
         saleOrder.setReceiveStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offer.getReceiveStartTime()));
         saleOrder.setReceiveEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offer.getReceiveStartTime()));
         if (offerSheet != null) {
