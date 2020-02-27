@@ -311,6 +311,7 @@ import java.util.*;
             Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             x.setCommodity(commodity);
         });
+        log.debug("user is {} getSaleOrderListRespList return data {}",CookieAuthUtils.getCurrentUser(),JacksonUtils.obj2String(getSaleOrderListResps));
         return getSaleOrderListResps;
 
     }
