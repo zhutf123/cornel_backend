@@ -74,6 +74,7 @@ service:
   mobileList: 13551151842,13551151842
 banner:
   download: https://beta.demeteria.com/banner/download.json?key=1.png,https://beta.demeteria.com/banner/download.json?key=2.png
+  purchaseBanner: https://beta.demeteria.com/banner/download.json?key=3.png,https://beta.demeteria.com/banner/download.json?key=4.png
 upload:
   location: /home/update/
   downloadHost: https://beta.demeteria.com

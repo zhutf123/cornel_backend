@@ -44,4 +44,5 @@
     <logger name="org.redisson.cluster" level="WARN" additivity="false">
         <appender-ref ref="stdout"/>
     </logger>
+
 </configuration>

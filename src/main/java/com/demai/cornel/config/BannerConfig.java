@@ -16,7 +16,13 @@ import java.util.List;
 @Service
 public class BannerConfig {
     private String download;
+    private String purchaseBanner;
     public static List<String> downloadUrl = new ArrayList<>();
+    public static List<String> purchaseBannerLsit = new ArrayList<>();
+
+    public void setPurchaseBanner(String purchaseBanner) {
+        this.purchaseBanner = purchaseBanner;
+    }
 
     public void setDownload(String download) {
         this.download = download;
@@ -26,5 +32,9 @@ public class BannerConfig {
         if(download!=null){
             downloadUrl.addAll(Splitter.on(",").trimResults().splitToList(download));
         }
+        if(download!=null){
+            purchaseBannerLsit.addAll(Splitter.on(",").trimResults().splitToList(purchaseBanner));
+        }
+
     }
 }

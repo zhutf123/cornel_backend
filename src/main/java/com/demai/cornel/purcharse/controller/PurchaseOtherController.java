@@ -11,6 +11,7 @@ import com.demai.cornel.purcharse.vo.req.AddLocationReq;
 import com.demai.cornel.purcharse.vo.req.BuyerCplCompanyReq;
 import com.demai.cornel.purcharse.vo.req.BuyerCplUserInfoReq;
 import com.demai.cornel.purcharse.vo.req.GetSystemOfferReq;
+import com.demai.cornel.service.BannerService;
 import com.demai.cornel.service.UserLoginService;
 import com.demai.cornel.service.UserService;
 import com.demai.cornel.util.JacksonUtils;
@@ -39,11 +40,9 @@ import javax.servlet.http.HttpServletResponse;
 
     @Resource private PurcharseOtherService purcharseOtherService;
 
-
-    @Resource
-    private BuyerLoginService buyerLoginService;
-    @Resource
-    private UserService userService;
+    @Resource private BannerService bannerService;
+    @Resource private BuyerLoginService buyerLoginService;
+    @Resource private UserService userService;
 
     /***
      * 给用户手机号 发送短信验证码 需要补充逻辑 在n分钟内，发送x条的限制
@@ -51,10 +50,8 @@ import javax.servlet.http.HttpServletResponse;
      * @param phone 手机号
      * @return
      */
-    @RequestMapping(value = "/sendCode.json", method = RequestMethod.POST)
-    @ResponseBody
-    @AccessControl(value = "60_3")
-    public JsonResult userLoginSendCode(@RequestBody UserLoginSendMsgParam phone) {
+    @RequestMapping(value = "/sendCode.json", method = RequestMethod.POST) @ResponseBody @AccessControl(value = "60_3") public JsonResult userLoginSendCode(
+            @RequestBody UserLoginSendMsgParam phone) {
         try {
             log.debug("send code access [{}]", JacksonUtils.obj2String(phone));
             return JsonResult.successStatus(buyerLoginService.sendLoginCodeMsg(phone.getPhone()));
@@ -65,14 +62,12 @@ import javax.servlet.http.HttpServletResponse;
     }
 
     /**
-     *
      * @return
      */
-    @RequestMapping(value = "/login.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody
-    public JsonResult doUserLogin(@RequestBody UserLoginParam param, HttpServletResponse response) {
+    @RequestMapping(value = "/login.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult doUserLogin(
+            @RequestBody UserLoginParam param, HttpServletResponse response) {
         try {
-            log.info("login param is {}",JacksonUtils.obj2String(param));
+            log.info("login param is {}", JacksonUtils.obj2String(param));
             Preconditions.checkNotNull(param);
             Preconditions.checkNotNull(param.getJscode());
             Preconditions.checkNotNull(param.getPhone());
@@ -89,9 +84,7 @@ import javax.servlet.http.HttpServletResponse;
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 
-    @RequestMapping(value = "/comp-userinfo.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody
-    public JsonResult completeUserInfo(
+    @RequestMapping(value = "/comp-userinfo.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult completeUserInfo(
             @RequestBody BuyerCplUserInfoReq param, HttpServletResponse response) {
         try {
             return JsonResult.success(buyerLoginService.driverCompleteUserInfo(param));
@@ -100,8 +93,8 @@ import javax.servlet.http.HttpServletResponse;
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
-    @RequestMapping(value = "/comp-company.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult completeCompanyInfo(
+
+    @RequestMapping(value = "/comp-company.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult completeCompanyInfo(
             @RequestBody BuyerCplCompanyReq param, HttpServletResponse response) {
         try {
             return JsonResult.success(buyerLoginService.buyerCplCompany(param));
@@ -110,8 +103,8 @@ import javax.servlet.http.HttpServletResponse;
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
-    @RequestMapping(value = "/get-userinfo.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult getUserInfo() {
+
+    @RequestMapping(value = "/get-userinfo.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getUserInfo() {
         try {
             return JsonResult.success(buyerLoginService.getUserCompleteInfo());
         } catch (Exception e) {
@@ -119,6 +112,7 @@ import javax.servlet.http.HttpServletResponse;
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
+
     /**
      * 增加收货地址
      *
@@ -131,17 +125,20 @@ import javax.servlet.http.HttpServletResponse;
 
     /**
      * 获取收货地址list
+     *
      * @return
      */
     @RequestMapping(value = "/get-location.json", method = RequestMethod.POST) @ResponseBody public JsonResult getLocation() {
         return purcharseOtherService.getLocationList();
     }
+
     /**
      * 获取收货地址list
+     *
      * @return
      */
-    @RequestMapping(value = "/get-location-detail.json", method = RequestMethod.POST) @ResponseBody
-    public JsonResult getLocationDetail(@RequestBody String param) {
+    @RequestMapping(value = "/get-location-detail.json", method = RequestMethod.POST) @ResponseBody public JsonResult getLocationDetail(
+            @RequestBody String param) {
         Preconditions.checkNotNull(param);
         JSONObject receivedParam = JSON.parseObject(param);
         String locationId = (String) receivedParam.get("locationId");
@@ -150,6 +147,7 @@ import javax.servlet.http.HttpServletResponse;
 
     /**
      * 修改地址
+     *
      * @param locationInfo
      * @return
      */
@@ -158,12 +156,15 @@ import javax.servlet.http.HttpServletResponse;
         return purcharseOtherService.editLocation(locationInfo);
     }
 
-    @RequestMapping(value = "/commodity-list.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult getCommotidyList() {
+    @RequestMapping(value = "/commodity-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult getCommotidyList() {
         return JsonResult.success(purcharseOtherService.getCommodityList());
     }
-    @RequestMapping(value = "/get-service-mobile.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult getServiceMobile() {
+
+    @RequestMapping(value = "/get-service-mobile.json", method = RequestMethod.POST) @ResponseBody public JsonResult getServiceMobile() {
         return JsonResult.success(purcharseOtherService.getServiceMobile());
+    }
+
+    @RequestMapping(value = "/get-banner-list.json", method = RequestMethod.POST) @ResponseBody public JsonResult gerBannnerList() {
+        return JsonResult.success(bannerService.purchaseGetBannerDownloadUrl());
     }
 }

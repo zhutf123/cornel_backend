@@ -31,7 +31,10 @@ public class BannerService {
 
 
 
+    public List<String> purchaseGetBannerDownloadUrl() {
 
+        return BannerConfig.purchaseBannerLsit;
+    }
 
 
     public  void downloadClassResourceService(String fileName, HttpServletRequest req, HttpServletResponse resp) throws IOException {
