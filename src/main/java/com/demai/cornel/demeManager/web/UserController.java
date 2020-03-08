@@ -18,10 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +28,11 @@ import java.lang.ref.PhantomReference;
  * @Author binz.zhang
  * @Date: 2020-03-08    12:06
  */
-@Controller @RequestMapping("/admin") @Slf4j public class UserController {
+@Controller
+@RequestMapping("/admin")
+@CrossOrigin
+@Slf4j
+public class UserController {
 
     @Resource private AdminUserLoginService adminUserLoginService;
     @Resource private AdminCornService adminCornService;
