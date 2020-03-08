@@ -30,7 +30,6 @@ import java.lang.ref.PhantomReference;
  */
 @Controller
 @RequestMapping("/admin")
-@CrossOrigin
 @Slf4j
 public class UserController {
 
@@ -43,7 +42,10 @@ public class UserController {
      * @param phone 手机号
      * @return
      */
-    @RequestMapping(value = "/sendCode.json", method = RequestMethod.POST) @ResponseBody @AccessControl(value = "60_3") public JsonResult userLoginSendCode(
+    @RequestMapping(value = "/sendCode.json", method = RequestMethod.POST)
+    @ResponseBody @AccessControl(value = "60_3")
+    @CrossOrigin
+    public JsonResult userLoginSendCode(
             @RequestBody UserLoginSendMsgParam phone) {
         try {
             log.debug("send code access [{}]", JacksonUtils.obj2String(phone));
@@ -57,7 +59,9 @@ public class UserController {
     /**
      * @return
      */
-    @RequestMapping(value = "/login.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult doUserLogin(
+    @RequestMapping(value = "/login.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @CrossOrigin
+    @ResponseBody public JsonResult doUserLogin(
             @RequestBody UserLoginParam param, HttpServletResponse response) {
         try {
             Preconditions.checkNotNull(param);
@@ -75,12 +79,15 @@ public class UserController {
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/get-quote-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteList(
-            @RequestBody GetQuoteListReq param) {
+            @RequestBody GetQuoteListReq param)
+    {
         Preconditions.checkNotNull(param);
         return JsonResult.success(adminCornService.getQuoteList(param));
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/get-quote-detail.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     @ResponseBody public JsonResult getQuoteDetail(@RequestBody String param) {
         Preconditions.checkNotNull(param);
@@ -90,6 +97,7 @@ public class UserController {
     }
 
 
+    @CrossOrigin
     @RequestMapping(value = "/review-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     @ResponseBody public JsonResult reviewQuote(@RequestBody ReviewQuoteReq reviewQuoteReq) {
         Preconditions.checkNotNull(reviewQuoteReq);
