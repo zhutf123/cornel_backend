@@ -132,6 +132,7 @@
         q.unit_weight,
         q.status,
         q.mobile,
+        q.shipment_weight,
         u.name as user_name,
         c.commodity_id,
         c.name as commodity_name
@@ -426,7 +427,7 @@
         select
         <include refid="list_Resp_admin"/>
         from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id
-        inner join user_info u on q.user_id=u.user_id where q.status=!0
+        inner join user_info u on q.user_id=u.user_id where q.status!=0
         <if test="quoteId != null and quoteId != ''">
             and
             q.id <![CDATA[<]]> (select id from quote_info where quote_id=#{quoteId})
@@ -439,8 +440,8 @@
     </select>
     <select id="adminGetQuoteDetail" resultType="com.demai.cornel.demeManager.vo.AdminGetQuteDetail">
       select <include refid="detail_Resp_admin"/>
-     from quote_info q inner join commodity_list c on s.commodity_id=c.commodity_id
-        inner join user_info u on s.bind_user_id=u.user_id where q.status=!0
+        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id
+        inner join user_info u on q.user_id=u.user_id where q.status!=0
         and q.quote_id=#{quoteId,jdbcType=VARCHAR}
     </select>
 
