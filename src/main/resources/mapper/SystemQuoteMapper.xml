@@ -44,8 +44,8 @@
     <sql id="list_Resp">
         quote_id,
         quote,
-        unit_price,
-        unit_weight,
+        q.unit_price,
+        q.unit_weight,
         min_shipment_weight,
         notice,
         c.commodity_id,
@@ -206,7 +206,8 @@
      from system_quote where status=1 and commodity_id=#{commodityId} ;
     </select>
     <select id="adminGetSystemList" resultMap="listRespMapper_admin">
-      select <include refid="list_Resp"/>
+      select
+      <include refid="list_Resp"/>
      from system_quote s inner join commodity_list c on s.commodity_id=c.commodity_id where s.status=1;
     </select>
 
