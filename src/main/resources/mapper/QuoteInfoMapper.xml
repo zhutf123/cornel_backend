@@ -425,7 +425,7 @@
     <select id="adminGetQuoteList" resultMap="listRespMapper_admin">
         select
         <include refid="list_Resp_admin"/>
-        from quote_info q inner join commodity_list c on s.commodity_id=c.commodity_id
+        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id
         inner join user_info u on q.bind_user_id=u.user_id where q.status=!0
         <if test="quoteId != null and quoteId != ''">
             and
