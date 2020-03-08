@@ -1,6 +1,7 @@
 package com.demai.cornel.demeManager.dao;
 
 import com.demai.cornel.demeManager.model.SpecialQuote;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @Author binz.zhang
@@ -10,4 +11,7 @@ public interface SpecialQuoteMapper {
     int insert(SpecialQuote record);
 
     int insertSelective(SpecialQuote record);
+
+
+    int updateCommodityIdquoteStatus(@Param("commodityId")String commodityId,@Param("userId")String userId);
 }

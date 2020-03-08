@@ -116,4 +116,7 @@
       </if>
     </trim>
   </insert>
+    <update id="updateCommodityIdquoteStatus">
+    update special_quote set status=0 where commodity_id=#{commodityId} and target_user_id=#{userId,jdbcType=VARCHAR}
+    </update>
 </mapper>

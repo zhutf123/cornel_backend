@@ -134,9 +134,6 @@ import java.util.*;
             log.debug("cur user {} no auth EDIT quote", CookieAuthUtils.getCurrentUser());
             return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
-        adminGetTowerReq.getQuoteInfos().stream().forEach(x -> {
-
-        });
 
         for (AdminEditQuoteReq.quoteInfo x : adminGetTowerReq.getQuoteInfos()) {
             SpecialQuote specialQuote = new SpecialQuote();
@@ -146,6 +143,9 @@ import java.util.*;
             }
             BeanUtils.copyProperties(x, specialQuote);
             specialQuote.setQuoteUserId(CookieAuthUtils.getCurrentUser());
+            specialQuote.setTargetUserId(x.getUserId());
+            specialQuote.setTargetUserId(x.getTowerId());
+            specialQuoteMapper.updateCommodityIdquoteStatus(x.getCommodityId(),x.getUserId());
             int res = specialQuoteMapper.insertSelective(specialQuote);
             if (res != 1) {
                 return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.SUCCESS.getValue())
