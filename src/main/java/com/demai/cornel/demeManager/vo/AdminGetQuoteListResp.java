@@ -16,6 +16,8 @@ public class AdminGetQuoteListResp {
     private String unitPrice;
     private String commodityId;
     private String commodityName;
+    private String warehouseTime;//货物入库时间
+
     /**
      * 用户名
      */

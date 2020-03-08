@@ -72,6 +72,7 @@
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
     </resultMap>
     <resultMap id="detailRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuteDetail">
         <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
@@ -86,6 +87,7 @@
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
 
     </resultMap>
 
@@ -136,6 +138,7 @@
         q.shipment_weight,
         q.user_name,
         q.user_id,
+        q.warehouse_time,
         c.commodity_id,
         c.name as commodity_name
     </sql>
@@ -151,6 +154,7 @@
         q.create_time,
         q.user_id,
         q.location,
+        q.warehouse_time,
         c.commodity_id,
         c.name as commodity_name
     </sql>
