@@ -134,7 +134,7 @@
         q.mobile,
         u.name as user_name,
         c.commodity_id,
-        c.name as commodity_name,
+        c.name as commodity_name
     </sql>
     <sql id="detail_Resp_admin">
         q.quote_id,
