@@ -85,6 +85,7 @@
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
 
     </resultMap>
 
@@ -147,6 +148,7 @@
         q.mobile,
         q.shipment_weight,
         q.user_name,
+        q.create_time,
         q.user_id,
         q.location,
         c.commodity_id,

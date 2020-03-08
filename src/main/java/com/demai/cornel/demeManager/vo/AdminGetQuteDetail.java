@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class AdminGetQuteDetail extends AdminGetQuoteListResp {
     private String location;
     private Integer optStatus;
+    private String createTime;//下单时间
     public static enum STATUS_ENUE implements IEmus {
         PARAM_ERROR(-1, "参数错误"),
         SUCCESS(0, "请求成功"),
