@@ -426,7 +426,7 @@
         select
         <include refid="list_Resp_admin"/>
         from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id
-        inner join user_info u on q.bind_user_id=u.user_id where q.status=!0
+        inner join user_info u on q.user_id=u.user_id where q.status=!0
         <if test="quoteId != null and quoteId != ''">
             and
             q.id <![CDATA[<]]> (select id from quote_info where quote_id=#{quoteId})
