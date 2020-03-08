@@ -70,7 +70,7 @@ public class UserController {
             AdminLoginResp login = adminUserLoginService.doLogin(param);
             if (login.getCode().compareTo(UserLoginResp.CODE_ENUE.SUCCESS.getValue()) == 0) {
                 String ckey = "u="+login.getUserId()+"&t=";
-               String encodeCkey = Base64Utils.encode(ckey.getBytes()).toString();
+               String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
                 Cookie cookie  = new Cookie("ckey",encodeCkey);
                 response.addCookie(cookie);
                 return JsonResult.success(login);

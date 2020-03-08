@@ -12,6 +12,7 @@ import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import com.demai.cornel.vo.quota.*;
 import com.demai.cornel.vo.task.GetOrderListReq;
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
@@ -30,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @Author binz.zhang
@@ -176,7 +178,20 @@ import java.util.regex.Pattern;
             log.warn("get system quote empty");
             return Collections.EMPTY_LIST;
         }
-        //List<SpecialQuote> specialQuote = specialQuoteMapper.insert()
+        List<SpecialQuote> specialQuote = specialQuoteMapper.selectSpecialQuoteByTargetUserId(CookieAuthUtils.getCurrentUser());
+        Map<String,BigDecimal> bigDecimalHashMap=null;
+        if(specialQuote!=null){
+            bigDecimalHashMap = specialQuote.stream().collect(Collectors.toMap(SpecialQuote::getCommodityId, SpecialQuote::getQuote,
+                    (oldValue, newValue) -> newValue));
+        }
+        if(bigDecimalHashMap!=null) {
+            Map<String, BigDecimal> finalBigDecimalHashMap = bigDecimalHashMap;
+            gerQuoteListResps.stream().forEach(x->{
+                if(finalBigDecimalHashMap.get(x.getCommodityId())!=null){
+                    x.setQuote(finalBigDecimalHashMap.get(x.getCommodityId()));
+                }
+            });
+        }
         buildSystemQuoteDetail(gerQuoteListResps);
         return gerQuoteListResps;
 

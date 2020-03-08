@@ -12,6 +12,7 @@ import com.demai.cornel.model.DryTower;
 import com.demai.cornel.model.QuoteInfo;
 import com.demai.cornel.model.SystemQuote;
 import com.demai.cornel.model.UserInfo;
+import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
 import com.google.common.base.Strings;
@@ -163,6 +164,15 @@ import java.util.*;
             return Collections.EMPTY_LIST;
         }
        return systemQuote;
+    }
+
+    public static void main(String[] args) {
+        String ckey = "u="+"binz.zhang"+"&t=";
+        String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
+        String decode = new String(Base64Utils.decode(encodeCkey));
+        System.out.println(decode);
+
+
     }
 
 }
