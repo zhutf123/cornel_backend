@@ -1,5 +1,7 @@
 package com.demai.cornel.dao;
 
+import com.demai.cornel.demeManager.vo.AdminGetQuoteListResp;
+import com.demai.cornel.demeManager.vo.AdminGetQuteDetail;
 import com.demai.cornel.model.QuoteInfo;
 import com.demai.cornel.vo.quota.GetOfferInfoResp;
 import com.demai.cornel.vo.quota.GetOfferListResp;
@@ -28,8 +30,11 @@ public interface QuoteInfoDao {
 
     List<GetOfferListResp> getSystemOwnerQuoteList(@Param("userId")String userId ,@Param("quoteId")String quoteId,@Param("pgSize")Integer pgSize);
 
+    List<AdminGetQuoteListResp> adminGetQuoteList(@Param("quoteId") String quoteId, @Param("pgSize") Integer pgSize);
 
     GetOfferInfoResp getQuoteInfoById(@Param("quoteId")String quoteId);
+
+    AdminGetQuteDetail adminGetQuoteDetail(@Param("quoteId") String quoteId);
 
 
     int updateStatusByQuoteIdAndUserId(@Param("quoteId")String quoteId,@Param("userId")String userId,@Param("status")int status);

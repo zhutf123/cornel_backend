@@ -102,7 +102,7 @@ public class QuoteInfo {
      * 联系电话
      */
     private String mobile;
-
+    private String reviewUser;
     /**
      * 结束时间
      */

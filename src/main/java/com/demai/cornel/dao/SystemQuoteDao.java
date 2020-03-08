@@ -1,5 +1,6 @@
 package com.demai.cornel.dao;
 
+import com.demai.cornel.demeManager.vo.AdminGetQuoteListResp;
 import com.demai.cornel.model.SystemQuote;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
 import com.demai.cornel.vo.quota.GetQuoteListReq;
@@ -28,4 +29,7 @@ public interface SystemQuoteDao {
 
 
     SystemQuote getSystemQuoteByCommodityId(@Param("commodityId")String commodityId);
+
+
+
 }

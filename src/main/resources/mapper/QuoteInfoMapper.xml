@@ -61,6 +61,32 @@
 
     </resultMap>
 
+    <resultMap id="listRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuoteListResp">
+        <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="min_shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
+    <resultMap id="detailRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuteDetail">
+        <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="min_shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+
+    </resultMap>
 
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
@@ -98,6 +124,30 @@
     q.mobile,
     q.location
   </sql>
+
+    <sql id="list_Resp_admin">
+        q.quote_id,
+        q.quote,
+        q.unit_price,
+        q.unit_weight,
+        q.status,
+        q.mobile,
+        u.name as user_name,
+        c.commodity_id,
+        c.name as commodity_name,
+    </sql>
+    <sql id="detail_Resp_admin">
+        q.quote_id,
+        q.quote,
+        q.unit_price,
+        q.unit_weight,
+        q.status,
+        q.mobile,
+        q.location,
+        u.name as user_name,
+        c.commodity_id,
+        c.name as commodity_name,
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
         select
@@ -307,8 +357,11 @@
             <if test="endTime != null">
                 end_time = #{endTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="reviewUser != null">
+                review_user = #{reviewUser,jdbcType=VARCHAR} ,
+            </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where quote_id = #{quoteId,jdbcType=VARCHAR}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.demai.cornel.model.QuoteInfo">
         <!--@mbg.generated-->
@@ -368,5 +421,28 @@
     <delete id="updateStatusByQuoteIdAndUserId">
       update quote_info set status=#{status} where quote_id=#{quoteId,jdbcType=VARCHAR} and  user_id=#{userId,jdbcType=VARCHAR} ;
     </delete>
+
+    <select id="adminGetQuoteList" resultMap="listRespMapper_admin">
+        select
+        <include refid="list_Resp_admin"/>
+        from quote_info q inner join commodity_list c on s.commodity_id=c.commodity_id
+        inner join user_info u on s.bind_user_id=u.user_id where q.status=!0
+        <if test="quoteId != null and quoteId != ''">
+            and
+            q.id <![CDATA[<]]> (select id from quote_info where quote_id=#{quoteId})
+        </if>
+        <if test="quoteId == null or quoteId == ''">
+            and
+            q.id <![CDATA[<=]]> (select max(id) from system_quote limit 1)
+        </if>
+        order by q.id desc limit #{pgSize};
+    </select>
+    <select id="adminGetQuoteDetail" resultType="com.demai.cornel.demeManager.vo.AdminGetQuteDetail">
+      select <include refid="detail_Resp_admin"/>
+     from quote_info q inner join commodity_list c on s.commodity_id=c.commodity_id
+        inner join user_info u on s.bind_user_id=u.user_id where q.status=!0
+        and q.quote_id=#{quoteId,jdbcType=VARCHAR}
+    </select>
+
 
 </mapper>
