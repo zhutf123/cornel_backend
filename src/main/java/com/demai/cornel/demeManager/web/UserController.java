@@ -60,7 +60,6 @@ import java.lang.ref.PhantomReference;
             @RequestBody UserLoginParam param, HttpServletResponse response) {
         try {
             Preconditions.checkNotNull(param);
-            Preconditions.checkNotNull(param.getJscode());
             Preconditions.checkNotNull(param.getPhone());
             Preconditions.checkNotNull(param.getMsgCode());
             AdminLoginResp login = adminUserLoginService.doLogin(param);
