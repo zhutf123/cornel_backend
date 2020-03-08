@@ -125,7 +125,7 @@ import java.util.*;
     }
 
     public AdminEditQuoteResp editQuote(AdminEditQuoteReq adminGetTowerReq) {
-        if (adminGetTowerReq == null) {
+        if (adminGetTowerReq == null ) {
             log.debug("cur user {} no auth EDIT quote due to param error", CookieAuthUtils.getCurrentUser());
             return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue())
                     .build();
@@ -135,6 +135,7 @@ import java.util.*;
             log.debug("cur user {} no auth EDIT quote", CookieAuthUtils.getCurrentUser());
             return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
+
 
         for (AdminEditQuoteReq.quoteInfo x : adminGetTowerReq.getQuoteInfos()) {
             SpecialQuote specialQuote = new SpecialQuote();
