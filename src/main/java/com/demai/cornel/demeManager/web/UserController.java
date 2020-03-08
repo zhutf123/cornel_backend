@@ -9,6 +9,7 @@ import com.demai.cornel.demeManager.vo.AdminLoginResp;
 import com.demai.cornel.demeManager.vo.GetQuoteListReq;
 import com.demai.cornel.demeManager.vo.ReviewQuoteReq;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.user.UserLoginParam;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.ref.PhantomReference;
 
@@ -69,6 +71,10 @@ public class UserController {
             Preconditions.checkNotNull(param.getMsgCode());
             AdminLoginResp login = adminUserLoginService.doLogin(param);
             if (login.getCode().compareTo(UserLoginResp.CODE_ENUE.SUCCESS.getValue()) == 0) {
+                String ckey = "u="+login.getUserId()+"&t=";
+               String encodeCkey = Base64Utils.encode(ckey.getBytes()).toString();
+                Cookie cookie  = new Cookie("ckey",encodeCkey);
+                response.addCookie(cookie);
                 return JsonResult.success(login);
             } else {
                 return JsonResult.successStatus(UserLoginResp.CODE_ENUE.getByValue(login.getCode()));
