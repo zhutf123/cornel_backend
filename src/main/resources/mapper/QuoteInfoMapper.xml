@@ -66,7 +66,7 @@
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
         <result column="quote" jdbcType="NUMERIC" property="quote"/>
         <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
-        <result column="min_shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
+        <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
         <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
@@ -78,7 +78,7 @@
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
         <result column="quote" jdbcType="NUMERIC" property="quote"/>
         <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
-        <result column="min_shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
+        <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
         <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
@@ -441,7 +441,7 @@
         </if>
         order by q.id desc limit #{pgSize};
     </select>
-    <select id="adminGetQuoteDetail" resultType="com.demai.cornel.demeManager.vo.AdminGetQuteDetail">
+    <select id="adminGetQuoteDetail" resultMap="detailRespMapper_admin">
       select <include refid="detail_Resp_admin"/>
         from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id
         where q.status!=0
