@@ -146,7 +146,7 @@ import java.util.*;
             BeanUtils.copyProperties(x, specialQuote);
             specialQuote.setQuoteUserId(CookieAuthUtils.getCurrentUser());
             specialQuote.setTargetUserId(x.getUserId());
-            specialQuote.setTargetUserId(x.getTowerId());
+            specialQuote.setTargetTowerId(x.getTowerId());
             specialQuote.setQuote(x.getSelfQuote());
             specialQuoteMapper.updateCommodityIdquoteStatus(x.getCommodityId(),x.getUserId());
             int res = specialQuoteMapper.insertSelective(specialQuote);
