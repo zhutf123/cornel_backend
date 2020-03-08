@@ -17,6 +17,7 @@ public class AdminEditQuoteReq {
     public static class quoteInfo{
         private String commodityId;
         private BigDecimal quote;
+        private BigDecimal selfQuote;
         private String unitPrice="元";
         private String unitWeight="吨";
         private String userId;

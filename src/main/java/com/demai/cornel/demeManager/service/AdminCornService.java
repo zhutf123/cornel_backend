@@ -146,6 +146,7 @@ import java.util.*;
             specialQuote.setQuoteUserId(CookieAuthUtils.getCurrentUser());
             specialQuote.setTargetUserId(x.getUserId());
             specialQuote.setTargetUserId(x.getTowerId());
+            specialQuote.setQuote(x.getSelfQuote());
             specialQuoteMapper.updateCommodityIdquoteStatus(x.getCommodityId(),x.getUserId());
             int res = specialQuoteMapper.insertSelective(specialQuote);
             if (res != 1) {
@@ -171,8 +172,6 @@ import java.util.*;
         String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
         String decode = new String(Base64Utils.decode(encodeCkey));
         System.out.println(decode);
-
-
     }
 
 }
