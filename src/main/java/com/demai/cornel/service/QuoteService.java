@@ -3,6 +3,8 @@ package com.demai.cornel.service;
 import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dao.*;
+import com.demai.cornel.demeManager.dao.SpecialQuoteMapper;
+import com.demai.cornel.demeManager.model.SpecialQuote;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.*;
 import com.demai.cornel.util.CookieAuthUtils;
@@ -41,6 +43,8 @@ import java.util.regex.Pattern;
     @Resource private SystemQuoteDao systemQuoteDao;
     @Resource private CommodityDao commodityDao;
     @Resource private CommodityService commodityService;
+    @Resource private SpecialQuoteMapper specialQuoteMapper;
+
     private static String TIME_FORMAT = "yyyy-MM-dd";
 
     /**
@@ -172,6 +176,7 @@ import java.util.regex.Pattern;
             log.warn("get system quote empty");
             return Collections.EMPTY_LIST;
         }
+        //List<SpecialQuote> specialQuote = specialQuoteMapper.insert()
         buildSystemQuoteDetail(gerQuoteListResps);
         return gerQuoteListResps;
 

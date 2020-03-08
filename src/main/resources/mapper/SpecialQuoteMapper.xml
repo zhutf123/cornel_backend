@@ -17,6 +17,12 @@
     <result column="min_shipment_weight" jdbcType="NUMERIC" property="minShipmentWeight" />
     <result column="quote" jdbcType="NUMERIC" property="quote" />
   </resultMap>
+  <sql id="base_cloumn">
+    id,quote_user_id,quote_id,status,target_user_id,commodity_id,unit_price,unit_weight,min_shipment_weight,quote
+  </sql>
+
+
+
   <insert id="insert" parameterType="com.demai.cornel.demeManager.model.SpecialQuote">
     <!--@mbg.generated-->
     insert into special_quote (id, quote_user_id, quote_id, 
@@ -119,4 +125,8 @@
     <update id="updateCommodityIdquoteStatus">
     update special_quote set status=0 where commodity_id=#{commodityId} and target_user_id=#{userId,jdbcType=VARCHAR}
     </update>
+  <select id="selectSpecialQuoteByTargetUserId" resultMap="BaseResultMap">
+    select <include refid="base_cloumn"/>
+   from special_quote where status=1 and target_user_id=#{userId,jdbcType=VARCHAR}
+  </select>
 </mapper>

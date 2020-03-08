@@ -1,7 +1,10 @@
 package com.demai.cornel.demeManager.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
+
+import com.demai.cornel.util.TimeStampUtil;
 import lombok.Data;
 
 /**
@@ -28,12 +31,12 @@ public class SpecialQuote {
     /**
     * 创建时间
     */
-    private Date createTime;
+    private Timestamp createTime;
 
     /**
     * 更新时间
     */
-    private Date updateTime;
+    private Timestamp updateTime;
 
     /**
     * 状态0 无效 1有效

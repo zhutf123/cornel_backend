@@ -2,6 +2,7 @@ package com.demai.cornel.demeManager.vo;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -15,9 +16,9 @@ public class AdminEditQuoteReq {
     @Data
     public static class quoteInfo{
         private String commodityId;
-        private String quote;
-        private String unitPrice;
-        private String unitWeight;
+        private BigDecimal quote;
+        private String unitPrice="元";
+        private String unitWeight="吨";
         private String userId;
         private String towerId;
     }

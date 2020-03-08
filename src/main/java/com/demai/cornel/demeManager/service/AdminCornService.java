@@ -157,11 +157,6 @@ import java.util.*;
     }
 
     public List<AdminGetSyQuLis> getSyQuLis() {
-        //        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-        //        if(adminUser==null){
-        //            log.debug("cur user {} no auth get system quote",CookieAuthUtils.getCurrentUser());
-        //            return Collections.EMPTY_LIST;
-        //        }
         List<AdminGetSyQuLis> systemQuote = systemQuoteDao.adminGetSystemList();
         if (systemQuote == null) {
             log.debug("cur user {}  get system quote list empty", CookieAuthUtils.getCurrentUser());
