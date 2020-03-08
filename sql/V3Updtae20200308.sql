@@ -31,3 +31,7 @@ alter table admin_user
 create unique index admin_user_id_uindex
     on admin_user (id);
 
+alter table quote_info
+	add warehouse_time timestamp;
+comment on column quote_info.warehouse_time is '货物入库时间';
+
