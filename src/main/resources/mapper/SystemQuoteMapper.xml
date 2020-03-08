@@ -29,9 +29,17 @@
                 javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
         <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
-
     </resultMap>
 
+
+    <resultMap id="listRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetSyQuLis">
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+
+    </resultMap>
 
     <sql id="list_Resp">
         quote_id,
@@ -192,6 +200,14 @@
         select
         <include refid="Base_Column_List"/>
         from system_quote where commodity_id=#{commodityId} and status=1 order by id desc limit 1;
+    </select>
+    <select id="selectByCommodityId" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List"/>
+     from system_quote where status=1 and commodity_id=#{commodityId} ;
+    </select>
+    <select id="adminGetSystemList" resultMap="listRespMapper_admin">
+      select <include refid="list_Resp"/>
+     from system_quote s inner join commodity_list c on s.commodity_id=c.commodity_id where s.status=1;
     </select>
 
 

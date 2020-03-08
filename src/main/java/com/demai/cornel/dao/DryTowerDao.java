@@ -36,5 +36,6 @@ public interface DryTowerDao {
 
     int updateTowerNonDefaultFlag(@Param("userID")String userId);
 
+    List<DryTower> selectAllTower(@Param("towerId")String towerId,@Param("pgSzie")Integer pgSize);
 
 }

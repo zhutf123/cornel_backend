@@ -38,4 +38,7 @@ public interface QuoteInfoDao {
 
 
     int updateStatusByQuoteIdAndUserId(@Param("quoteId")String quoteId,@Param("userId")String userId,@Param("status")int status);
+
+
+
 }

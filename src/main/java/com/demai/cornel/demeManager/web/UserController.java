@@ -5,9 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.demeManager.service.AdminCornService;
 import com.demai.cornel.demeManager.service.AdminUserLoginService;
-import com.demai.cornel.demeManager.vo.AdminLoginResp;
-import com.demai.cornel.demeManager.vo.GetQuoteListReq;
-import com.demai.cornel.demeManager.vo.ReviewQuoteReq;
+import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.JacksonUtils;
@@ -109,6 +107,27 @@ public class UserController {
         Preconditions.checkNotNull(reviewQuoteReq);
         return JsonResult.success(adminCornService.adminReviewQuote(reviewQuoteReq));
     }
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/get-tower-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult getTowerList(@RequestBody AdminGetTowerReq reviewQuoteReq) {
+        Preconditions.checkNotNull(reviewQuoteReq);
+        return JsonResult.success(adminCornService.getTowerList(reviewQuoteReq));
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/edit-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult editQuote(@RequestBody AdminEditQuoteReq adminEditQuoteReq) {
+        Preconditions.checkNotNull(adminEditQuoteReq);
+        return JsonResult.success(adminCornService.editQuote(adminEditQuoteReq));
+    }
+    @CrossOrigin
+    @RequestMapping(value = "/get-system-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult getSystemQuote() {
+        return JsonResult.success(adminCornService.getSyQuLis());
+    }
+
 
 
 
