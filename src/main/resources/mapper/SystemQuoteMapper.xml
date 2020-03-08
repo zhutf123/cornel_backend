@@ -42,11 +42,11 @@
     </resultMap>
 
     <sql id="list_Resp">
-        quote_id,
-        quote,
+        q.quote_id,
+        q.quote,
         q.unit_price,
         q.unit_weight,
-        min_shipment_weight,
+        q.min_shipment_weight,
         notice,
         c.commodity_id,
         c.name as commodity_name,
