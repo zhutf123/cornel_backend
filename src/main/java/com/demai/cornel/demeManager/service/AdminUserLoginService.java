@@ -46,6 +46,7 @@ public class AdminUserLoginService {
             return adminLoginResp;
         }
         BeanUtils.copyProperties(adminUser,adminLoginResp);
+        adminLoginResp.setCode(0);
         return adminLoginResp;
     }
 
