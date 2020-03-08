@@ -133,7 +133,8 @@
         q.status,
         q.mobile,
         q.shipment_weight,
-        u.name as user_name,
+        q.user_name,
+        q.user_id,
         c.commodity_id,
         c.name as commodity_name
     </sql>
@@ -144,10 +145,12 @@
         q.unit_weight,
         q.status,
         q.mobile,
+        q.shipment_weight,
+        q.user_name,
+        q.user_id,
         q.location,
-        u.name as user_name,
         c.commodity_id,
-        c.name as commodity_name,
+        c.name as commodity_name
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -427,7 +430,7 @@
         select
         <include refid="list_Resp_admin"/>
         from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id
-        inner join user_info u on q.user_id=u.user_id where q.status!=0
+         where q.status!=0
         <if test="quoteId != null and quoteId != ''">
             and
             q.id <![CDATA[<]]> (select id from quote_info where quote_id=#{quoteId})
@@ -441,7 +444,7 @@
     <select id="adminGetQuoteDetail" resultType="com.demai.cornel.demeManager.vo.AdminGetQuteDetail">
       select <include refid="detail_Resp_admin"/>
         from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id
-        inner join user_info u on q.user_id=u.user_id where q.status!=0
+        where q.status!=0
         and q.quote_id=#{quoteId,jdbcType=VARCHAR}
     </select>
 
