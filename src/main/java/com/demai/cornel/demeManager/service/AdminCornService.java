@@ -68,7 +68,7 @@ public class AdminCornService {
         }
 
         if(!quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_PASS.getValue())
-                && quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue() )){
+                && !quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue() )){
             log.debug("review quote fail due to param error quote status invalid ");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
@@ -82,7 +82,7 @@ public class AdminCornService {
         quoteInfo.setStatus(quoteReq.getStatus());
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         quoteInfo.setReviewUser(CookieAuthUtils.getCurrentUser());
-        int res = quoteInfoDao.updateByPrimaryKey(quoteInfo);
+        int res = quoteInfoDao.updateByPrimaryKeySelective(quoteInfo);
         if(res!=1){
             log.warn("review quote failfail due to update db fail");
             return ReviewQuoteResp.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.SERVER_ERROR.getValue()).build();
