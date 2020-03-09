@@ -3,7 +3,6 @@ package com.demai.cornel.model;
 import com.demai.cornel.dmEnum.IEmus;
 import lombok.Builder;
 import lombok.Data;
-import sun.dc.pr.PRError;
 
 /**
  * @Author binz.zhang
