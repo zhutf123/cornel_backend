@@ -443,7 +443,7 @@
         </if>
         <if test="quoteId == null or quoteId == ''">
             and
-            q.id <![CDATA[<=]]> (select max(id) from system_quote limit 1)
+            q.id <![CDATA[<=]]> (select max(id) from quote_info limit 1)
         </if>
         order by q.id desc limit #{pgSize};
     </select>

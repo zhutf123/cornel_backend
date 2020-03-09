@@ -39,6 +39,9 @@ alter table quote_info
 comment on column quote_info.warehouse_time is '货物入库时间';
 
 
+alter table system_quote
+	add notice varchar(200) [];
+	comment on column system_quote.notice is '报价注意事项';
 
 -- auto-generated definition
 create table special_quote
