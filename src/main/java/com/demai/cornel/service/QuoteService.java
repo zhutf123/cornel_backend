@@ -451,6 +451,7 @@ import java.util.stream.Collectors;
             details.add(new GerQuoteListResp.Detail("单价",
                     Lists.newArrayList(x.getQuote().toString() + " /" + x.getUnitPrice())));
             details.add(new GerQuoteListResp.Detail("注意事项", x.getNotice()));
+            x.setDetail(details);
         });
     }
 
