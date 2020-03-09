@@ -147,6 +147,8 @@ import java.util.stream.Collectors;
         quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
         quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        quoteInfo.setWarehouseTime(new Timestamp(System.currentTimeMillis()));
+
         quoteInfoDao.insertSelective(quoteInfo);
         offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
