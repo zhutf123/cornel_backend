@@ -39,8 +39,7 @@
         <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
-        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
-                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP"/>
     </resultMap>
     <resultMap id="get_quote_info" type="com.demai.cornel.vo.quota.GetOfferInfoResp">
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
@@ -60,7 +59,7 @@
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
-        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <resultMap id="listRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuoteListResp">

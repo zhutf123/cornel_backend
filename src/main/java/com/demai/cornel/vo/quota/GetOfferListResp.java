@@ -78,7 +78,7 @@ import java.util.stream.Collectors;
     private Integer status;
 
     private String serviceMobile;
-    private String warehouseTime;
+    private Timestamp warehouseTime;
 
 
     public void setCommodityProperties(Map<String, String> commodityProperties) {
