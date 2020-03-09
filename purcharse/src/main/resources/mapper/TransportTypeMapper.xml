@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.purcharse.dao.TransportTypeMapper">
+  <resultMap id="BaseResultMap" type="com.demai.purcharse.model.TransportType">
+    <!--@mbg.generated-->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="transport_type" jdbcType="VARCHAR" property="transportType" />
+    <result column="transport_id" jdbcType="VARCHAR" property="transportId" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+  </resultMap>
+  <insert id="insert" parameterType="com.demai.purcharse.model.TransportType">
+    <!--@mbg.generated-->
+    insert into transport_type (id, transport_type, transport_id, 
+      "status")
+    values (#{id,jdbcType=INTEGER}, #{transportType,jdbcType=VARCHAR}, #{transportId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.demai.purcharse.model.TransportType">
+    <!--@mbg.generated-->
+    insert into transport_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="transportType != null">
+        transport_type,
+      </if>
+      <if test="transportId != null">
+        transport_id,
+      </if>
+      <if test="status != null">
+        "status",
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="transportType != null">
+        #{transportType,jdbcType=VARCHAR},
+      </if>
+      <if test="transportId != null">
+        #{transportId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

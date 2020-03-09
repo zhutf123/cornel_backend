@@ -64,9 +64,9 @@ import java.util.stream.Collectors;
 
     @Data public static class Detail {
         private String title;
-        private Object values;
+        private List<String> values;
 
-        public Detail(String title, Object values) {
+        public Detail(String title, List<String> values) {
             this.title = title;
             this.values = values;
         }

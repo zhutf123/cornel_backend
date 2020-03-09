@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.purcharse.dao.LocationInfoMapper">
+  <resultMap id="BaseResultMap" type="com.demai.purcharse.model.LocationInfo">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="address_detai" jdbcType="VARCHAR" property="addressDetai" />
+    <result column="address_gis" jdbcType="VARCHAR" property="addressGis" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, address_id, address_detai, address_gis, "status"
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from location_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from location_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.demai.purcharse.model.LocationInfo">
+    <!--@mbg.generated-->
+    insert into location_info (id, address_id, address_detai, 
+      address_gis, "status")
+    values (#{id,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, #{addressDetai,jdbcType=VARCHAR}, 
+      #{addressGis,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.demai.purcharse.model.LocationInfo">
+    <!--@mbg.generated-->
+    insert into location_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="addressId != null">
+        address_id,
+      </if>
+      <if test="addressDetai != null">
+        address_detai,
+      </if>
+      <if test="addressGis != null">
+        address_gis,
+      </if>
+      <if test="status != null">
+        "status",
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="addressId != null">
+        #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="addressDetai != null">
+        #{addressDetai,jdbcType=VARCHAR},
+      </if>
+      <if test="addressGis != null">
+        #{addressGis,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demai.purcharse.model.LocationInfo">
+    <!--@mbg.generated-->
+    update location_info
+    <set>
+      <if test="addressId != null">
+        address_id = #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="addressDetai != null">
+        address_detai = #{addressDetai,jdbcType=VARCHAR},
+      </if>
+      <if test="addressGis != null">
+        address_gis = #{addressGis,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        "status" = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demai.purcharse.model.LocationInfo">
+    <!--@mbg.generated-->
+    update location_info
+    set address_id = #{addressId,jdbcType=INTEGER},
+      address_detai = #{addressDetai,jdbcType=VARCHAR},
+      address_gis = #{addressGis,jdbcType=VARCHAR},
+      "status" = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

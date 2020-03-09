@@ -20,6 +20,9 @@ public interface UserInfoDao {
 
     public UserInfo getUserInfoNoDriverByPhone(@Param("phone") String phone);
 
+    public UserInfo getSupplyUserInfoByPhone(@Param("phone") String phone);
+
+
     public UserInfo getDriverInfoByPhone(@Param("phone") String phone);
 
     List<UserInfo> getUsersInfoByPhones(@Param("phones") Set<String> phones);
@@ -31,6 +34,9 @@ public interface UserInfoDao {
     List<UserDistOrderModel> getUsersLorryInfoByPlateNumber(@Param("platNumbers") Set<String> platNumber);
 
     UserInfo getUserInfoByUserId(@Param("userId") String userId);
+
+    UserInfo getSupplierUserInfoByUserId(@Param("userId") String userId);
+
 
     String getUserNameByUserId(@Param("userID") String userId);
 
