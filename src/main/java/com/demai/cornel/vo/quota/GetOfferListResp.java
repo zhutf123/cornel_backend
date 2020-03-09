@@ -3,8 +3,10 @@ package com.demai.cornel.vo.quota;
 import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.QuoteInfo;
+import com.demai.cornel.util.TimeStampUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.postgresql.jdbc.TimestampUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.xml.ws.Service;
@@ -79,7 +81,12 @@ import java.util.stream.Collectors;
 
     private String serviceMobile;
     private Timestamp warehouseTime;
+    private String showWarehouseTime;
 
+    public void setWarehouseTime(Timestamp warehouseTime) {
+        this.warehouseTime = warehouseTime;
+        this.showWarehouseTime = TimeStampUtil.timeStampConvertString("yyyy-MM-dd",warehouseTime);
+    }
 
     public void setCommodityProperties(Map<String, String> commodityProperties) {
         this.commodityProperties = commodityProperties;
