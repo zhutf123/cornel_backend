@@ -19,6 +19,7 @@ import com.google.common.collect.Maps;
 import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.postgresql.jdbc.TimestampUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +72,8 @@ import java.util.stream.Collectors;
             return offerQuoteResp;
         }
         // todo 这一块后续需要重新做，用户上传的自定义的商品 为-1 的时候表示是用户自定义的
-        if (offerQuoteReq.getCommodityId().equalsIgnoreCase("-1") && Strings.isNullOrEmpty(offerQuoteReq.getCommodityName())) {
+        if (offerQuoteReq.getCommodityId().equalsIgnoreCase("-1") && Strings
+                .isNullOrEmpty(offerQuoteReq.getCommodityName())) {
             log.debug("offer quote fail due to commodity is empty");
             return OfferQuoteResp.builder().status(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
@@ -98,6 +100,7 @@ import java.util.stream.Collectors;
         quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
         quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        quoteInfo.setWarehouseTime(new Timestamp(System.currentTimeMillis()));
         quoteInfoDao.insertSelective(quoteInfo);
         offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
@@ -151,6 +154,50 @@ import java.util.stream.Collectors;
         return offerQuoteResp;
     }
 
+    public OfferQuoteResp offerSystemQuoteV2(SystemQuoteV2Req offerQuoteReq) {
+        OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
+        Preconditions.checkNotNull(offerQuoteReq);
+        log.debug("dry tower quote info is [{}]", JacksonUtils.obj2String(offerQuoteReq));
+        if (!checkQuote(offerQuoteReq)) {
+            log.info("dry tower quote info fail due to param illegal");
+            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue());
+            return offerQuoteResp;
+        }
+        DryTower dryTower = dryTowerDao.selectByTowerId(offerQuoteReq.getTowerId());
+        if (dryTower == null) {
+            log.info("dry tower quote info fail due to dry tower illegal");
+            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.DRY_TOWER_ERROR.getValue());
+            return offerQuoteResp;
+        }
+        QuoteInfo quoteInfo = new QuoteInfo();
+        BeanUtils.copyProperties(offerQuoteReq, quoteInfo);
+        String userId = CookieAuthUtils.getCurrentUser();
+        quoteInfo.setLocation(dryTower.getLocation());
+        quoteInfo.setUserId(userId);
+        if (Strings.isNullOrEmpty(offerQuoteReq.getMobile())) {
+            UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
+            if (!CollectionUtils.isEmpty(userInfo.getMobile())) {
+                quoteInfo.setMobile(userInfo.getMobile().iterator().next());
+            }
+        }
+        Timestamp warehouseTime = new Timestamp(
+                TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getWarehouseTime()).getTime()
+                        + System.currentTimeMillis() % 100000);//为了排序加上当前时间时分秒作为时间戳
+        quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
+        quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
+        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
+        quoteInfo.setQuoteId(UUID.randomUUID().toString());
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        quoteInfo.setWarehouseTime(warehouseTime);
+        quoteInfoDao.insertSelective(quoteInfo);
+        offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
+        offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
+        offerQuoteResp.setQuoteId(quoteInfo.getQuoteId());
+        return offerQuoteResp;
+    }
+
     /**
      * 点击“我要报价” 返给客户端
      *
@@ -172,22 +219,23 @@ import java.util.stream.Collectors;
      * @return
      */
     public List<GerQuoteListResp> getSystemQuoteList(GetQuoteListReq getQuoteListReq) {
-        List<GerQuoteListResp> gerQuoteListResps =  systemQuoteDao.getNewSystemQuote(getQuoteListReq.getQuoteId(),
+        List<GerQuoteListResp> gerQuoteListResps = systemQuoteDao.getNewSystemQuote(getQuoteListReq.getQuoteId(),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));
-        if(gerQuoteListResps==null){
+        if (gerQuoteListResps == null) {
             log.warn("get system quote empty");
             return Collections.EMPTY_LIST;
         }
-        List<SpecialQuote> specialQuote = specialQuoteMapper.selectSpecialQuoteByTargetUserId(CookieAuthUtils.getCurrentUser());
-        Map<String,BigDecimal> bigDecimalHashMap=null;
-        if(specialQuote!=null){
-            bigDecimalHashMap = specialQuote.stream().collect(Collectors.toMap(SpecialQuote::getCommodityId, SpecialQuote::getQuote,
-                    (oldValue, newValue) -> newValue));
+        List<SpecialQuote> specialQuote = specialQuoteMapper
+                .selectSpecialQuoteByTargetUserId(CookieAuthUtils.getCurrentUser());
+        Map<String, BigDecimal> bigDecimalHashMap = null;
+        if (specialQuote != null) {
+            bigDecimalHashMap = specialQuote.stream().collect(Collectors
+                    .toMap(SpecialQuote::getCommodityId, SpecialQuote::getQuote, (oldValue, newValue) -> newValue));
         }
-        if(bigDecimalHashMap!=null) {
+        if (bigDecimalHashMap != null) {
             Map<String, BigDecimal> finalBigDecimalHashMap = bigDecimalHashMap;
-            gerQuoteListResps.stream().forEach(x->{
-                if(finalBigDecimalHashMap.get(x.getCommodityId())!=null){
+            gerQuoteListResps.stream().forEach(x -> {
+                if (finalBigDecimalHashMap.get(x.getCommodityId()) != null) {
                     x.setQuote(finalBigDecimalHashMap.get(x.getCommodityId()));
                 }
             });
@@ -301,13 +349,38 @@ import java.util.stream.Collectors;
 
     }
 
+    public List<GetOfferListResp> getSystemOfferListRespListV2(GetSysQuoListV2Req getSysQuoListV2Req) {
+        if (getSysQuoListV2Req.getPgSize() == null) {
+            getSysQuoListV2Req.setPgSize(20);
+        }
+        if (getSysQuoListV2Req.getTime() == null) {
+            getSysQuoListV2Req.setTime(new Timestamp(System.currentTimeMillis()));
+        }
+        List<GetOfferListResp> getOfferListResps = quoteInfoDao
+                .getSystemOwnerQuoteListV2(CookieAuthUtils.getCurrentUser(), getSysQuoListV2Req.getTime(), getSysQuoListV2Req.getPgSize());
+        if (getOfferListResps == null) {
+            getOfferListResps = Collections.EMPTY_LIST;
+        }
+        String serviceMobile = "";
+        if (ServiceMobileConfig.serviceMobile != null) {
+            Random r = new Random();
+            serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
+        }
+        String finalServiceMobile = serviceMobile;
+        getOfferListResps.stream().forEach(x -> {
+            x.setServiceMobile(finalServiceMobile);
+        });
+        return getOfferListResps;
+
+    }
+
     public GetOfferInfoResp getOfferInfoResp(String quoteId) {
         String serviceMobile = "";
         if (ServiceMobileConfig.serviceMobile != null) {
             Random r = new Random();
             serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
         }
-        GetOfferInfoResp getOfferInfoResp =  quoteInfoDao.getQuoteInfoById(quoteId);
+        GetOfferInfoResp getOfferInfoResp = quoteInfoDao.getQuoteInfoById(quoteId);
         getOfferInfoResp.setServiceMobile(serviceMobile);
         return getOfferInfoResp;
     }
@@ -359,19 +432,29 @@ import java.util.stream.Collectors;
 
     /**
      * 构建系统报价的报价详情数据
+     *
      * @param quoteListResps
      * @return
      */
-    void buildSystemQuoteDetail(List<GerQuoteListResp>quoteListResps){
-        if(CollectionUtils.isEmpty(quoteListResps)){
+    void buildSystemQuoteDetail(List<GerQuoteListResp> quoteListResps) {
+        if (CollectionUtils.isEmpty(quoteListResps)) {
             return;
         }
-        quoteListResps.stream().forEach(x->{
-            List<GerQuoteListResp.Detail> details=new LinkedList<>();
-            details.add(new GerQuoteListResp.Detail("质量标准",GerQuoteListResp.convertProperties(x.getProperties())));
-            details.add(new GerQuoteListResp.Detail("单价",x.getQuote().toString()+" /"+x.getUnitPrice()));
-            details.add(new GerQuoteListResp.Detail("注意事项",x.getNotice()));
+        quoteListResps.stream().forEach(x -> {
+            List<GerQuoteListResp.Detail> details = new LinkedList<>();
+            details.add(new GerQuoteListResp.Detail("质量标准", GerQuoteListResp.convertProperties(x.getProperties())));
+            details.add(new GerQuoteListResp.Detail("单价", x.getQuote().toString() + " /" + x.getUnitPrice()));
+            details.add(new GerQuoteListResp.Detail("注意事项", x.getNotice()));
             x.setDetail(details);
         });
+    }
+
+    public static void main(String[] args) {
+        String time = "2020-03-09";
+        Timestamp timestamp = TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,"1970-01-01 08:00:00");
+        Calendar.getInstance().getTimeInMillis();
+        System.out.println(timestamp.getTime());
+        System.out.println(System.currentTimeMillis());
+
     }
 }

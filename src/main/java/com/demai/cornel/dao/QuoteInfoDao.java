@@ -7,6 +7,7 @@ import com.demai.cornel.vo.quota.GetOfferInfoResp;
 import com.demai.cornel.vo.quota.GetOfferListResp;
 import org.apache.ibatis.annotations.Param;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -39,6 +40,7 @@ public interface QuoteInfoDao {
 
     int updateStatusByQuoteIdAndUserId(@Param("quoteId")String quoteId,@Param("userId")String userId,@Param("status")int status);
 
+    List<GetOfferListResp> getSystemOwnerQuoteListV2(@Param("userId")String userId ,@Param("time") Timestamp timestamp,@Param("pgSize")Integer pgSize);
 
 
 }

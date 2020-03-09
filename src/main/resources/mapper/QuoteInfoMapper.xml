@@ -39,6 +39,8 @@
         <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
     </resultMap>
     <resultMap id="get_quote_info" type="com.demai.cornel.vo.quota.GetOfferInfoResp">
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
@@ -58,7 +60,7 @@
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
-
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
     </resultMap>
 
     <resultMap id="listRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuoteListResp">
@@ -109,7 +111,8 @@
     q.unit_weight,
     q.start_time,
     q.end_time,
-    q.status
+    q.status,
+    q.warehouse_time
   </sql>
     <sql id="get_offer_info">
     c.name as commodity_name,
@@ -125,7 +128,8 @@
     q.status,
     q.user_name,
     q.mobile,
-    q.location
+    q.location,
+    q.warehouse_time
   </sql>
 
     <sql id="list_Resp_admin">
@@ -248,6 +252,9 @@
             <if test="endTime != null">
                 end_time,
             </if>
+            <if test="warehouseTime != null">
+                warehouse_time,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -306,6 +313,9 @@
             </if>
             <if test="endTime != null">
                 #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="warehouseTime != null">
+                #{warehouseTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -453,7 +463,13 @@
         where q.status!=0
         and q.quote_id=#{quoteId,jdbcType=VARCHAR}
     </select>
-
+    <select id="getSystemOwnerQuoteListV2" resultMap="get_quote_list">
+            select
+            <include refid="get_offer_list"/>
+            from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and q.status != -1 and
+            q.system_flag=1 and q.warehouse_time <![CDATA[<]]> #{time,jdbcType=TIMESTAMP}
+            order by q.warehouse_time desc limit #{pgSize} ;
+    </select>
 
 
 </mapper>

@@ -13,8 +13,8 @@
         </encoder>
     </appender>
 
-    <root level="INFO">
-        <appender-ref ref="stdout"/>
+    <root level="DEBUG">
+        <appender-ref ref="DEBUG"/>
     </root>
 
     <logger name="org.apache.zookeeper" level="WARN" additivity="false">
@@ -44,4 +44,5 @@
     <logger name="org.redisson.cluster" level="WARN" additivity="false">
         <appender-ref ref="stdout"/>
     </logger>
+
 </configuration>

@@ -5,10 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.service.QuoteService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.vo.JsonResult;
-import com.demai.cornel.vo.quota.GetQuoteListReq;
-import com.demai.cornel.vo.quota.OfferQuoteReq;
-import com.demai.cornel.vo.quota.SystemQuoteReq;
-import com.demai.cornel.vo.quota.UserDefineQuoteReq;
+import com.demai.cornel.vo.quota.*;
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -94,6 +92,16 @@ import javax.annotation.Resource;
     }
 
     /**
+     * 烘干塔接受系统报价的接口 v2
+     *
+     * @param offerQuoteReq
+     * @return
+     */
+    @RequestMapping(value = "/offer-sysquot-v2.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult offerSystemQuoteV2(@RequestBody SystemQuoteV2Req offerQuoteReq) {
+        return JsonResult.success(quoteService.offerSystemQuoteV2(offerQuoteReq));
+    }
+    /**
      * 烘干塔获取议价范围
      *
      * @param param
@@ -132,6 +140,17 @@ import javax.annotation.Resource;
         String quoteId = (String) receivedParam.get("quoteId");
         Integer pgSize = (Integer) receivedParam.get("pgSize");
         return JsonResult.success(quoteService.getSystemOfferListRespList(quoteId, pgSize));
+    }
+    /**
+     * 获取被动报价list
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/my-sysquot-v2.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult getOwerSystemOfferListV2(
+            @RequestBody GetSysQuoListV2Req param) {
+        Preconditions.checkNotNull(param);
+        return JsonResult.success(quoteService.getSystemOfferListRespListV2(param));
     }
 
     /**

@@ -103,6 +103,7 @@ public class QuoteInfo {
      */
     private String mobile;
     private String reviewUser;
+    private Timestamp warehouseTime;
     /**
      * 结束时间
      */
