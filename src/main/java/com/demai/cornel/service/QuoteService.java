@@ -327,27 +327,6 @@ import java.util.stream.Collectors;
         return getOfferListResps;
     }
 
-    public List<GetOfferListResp> getSystemOfferListRespList(String quoteId, Integer pgSize) {
-        if (pgSize == null) {
-            pgSize = 10;
-        }
-        List<GetOfferListResp> getOfferListResps = quoteInfoDao
-                .getSystemOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
-        if (getOfferListResps == null) {
-            getOfferListResps = Collections.EMPTY_LIST;
-        }
-        String serviceMobile = "";
-        if (ServiceMobileConfig.serviceMobile != null) {
-            Random r = new Random();
-            serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
-        }
-        String finalServiceMobile = serviceMobile;
-        getOfferListResps.stream().forEach(x -> {
-            x.setServiceMobile(finalServiceMobile);
-        });
-        return getOfferListResps;
-
-    }
 
     public List<GetOfferListResp> getSystemOfferListRespListV2(GetSysQuoListV2Req getSysQuoListV2Req) {
         if (getSysQuoListV2Req.getPgSize() == null) {
@@ -373,6 +352,30 @@ import java.util.stream.Collectors;
         return getOfferListResps;
 
     }
+
+    public List<GetOfferListResp> getSystemOfferListRespList(String quoteId, Integer pgSize) {
+        if (pgSize == null) {
+            pgSize = 10;
+        }
+        List<GetOfferListResp> getOfferListResps = quoteInfoDao
+                .getSystemOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
+        if (getOfferListResps == null) {
+            getOfferListResps = Collections.EMPTY_LIST;
+        }
+        String serviceMobile = "";
+        if (ServiceMobileConfig.serviceMobile != null) {
+            Random r = new Random();
+            serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
+        }
+        String finalServiceMobile = serviceMobile;
+        getOfferListResps.stream().forEach(x -> {
+            x.setServiceMobile(finalServiceMobile);
+        });
+        return getOfferListResps;
+
+    }
+
+
 
     public GetOfferInfoResp getOfferInfoResp(String quoteId) {
         String serviceMobile = "";

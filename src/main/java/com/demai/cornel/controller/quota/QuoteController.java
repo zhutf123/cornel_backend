@@ -142,7 +142,7 @@ import javax.annotation.Resource;
         return JsonResult.success(quoteService.getSystemOfferListRespList(quoteId, pgSize));
     }
     /**
-     * 获取被动报价list
+     * 获取被动报价list v2
      * @param param
      * @return
      */
