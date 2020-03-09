@@ -330,16 +330,16 @@ import java.util.stream.Collectors;
         return getOfferListResps;
     }
 
-
     public List<GetOfferListResp> getSystemOfferListRespListV2(GetSysQuoListV2Req getSysQuoListV2Req) {
         if (getSysQuoListV2Req.getPgSize() == null) {
             getSysQuoListV2Req.setPgSize(20);
         }
-//        if (getSysQuoListV2Req.getTime() == null) {
-//            getSysQuoListV2Req.setTime(new Timestamp(System.currentTimeMillis()));
-//        }
+        //        if (getSysQuoListV2Req.getTime() == null) {
+        //            getSysQuoListV2Req.setTime(new Timestamp(System.currentTimeMillis()));
+        //        }
         List<GetOfferListResp> getOfferListResps = quoteInfoDao
-                .getSystemOwnerQuoteListV2(CookieAuthUtils.getCurrentUser(), getSysQuoListV2Req.getTime(), getSysQuoListV2Req.getPgSize());
+                .getSystemOwnerQuoteListV2(CookieAuthUtils.getCurrentUser(), getSysQuoListV2Req.getTime(),
+                        getSysQuoListV2Req.getPgSize());
         if (getOfferListResps == null) {
             getOfferListResps = Collections.EMPTY_LIST;
         }
@@ -377,8 +377,6 @@ import java.util.stream.Collectors;
         return getOfferListResps;
 
     }
-
-
 
     public GetOfferInfoResp getOfferInfoResp(String quoteId) {
         String serviceMobile = "";
@@ -448,24 +446,12 @@ import java.util.stream.Collectors;
         }
         quoteListResps.stream().forEach(x -> {
             List<GerQuoteListResp.Detail> details = new LinkedList<>();
-            details.add(new GerQuoteListResp.Detail("质量标准", GerQuoteListResp.convertProperties(x.getProperties())));
-            details.add(new GerQuoteListResp.Detail("单价", x.getQuote().toString() + " /" + x.getUnitPrice()));
+            details.add(new GerQuoteListResp.Detail("质量标准",
+                    Lists.newArrayList(GerQuoteListResp.convertProperties(x.getProperties()))));
+            details.add(new GerQuoteListResp.Detail("单价",
+                    Lists.newArrayList(x.getQuote().toString() + " /" + x.getUnitPrice())));
             details.add(new GerQuoteListResp.Detail("注意事项", x.getNotice()));
-        quoteListResps.stream().forEach(x->{
-            List<GerQuoteListResp.Detail> details=new LinkedList<>();
-            details.add(new GerQuoteListResp.Detail("质量标准", Lists.newArrayList(GerQuoteListResp.convertProperties(x.getProperties()))));
-            details.add(new GerQuoteListResp.Detail("单价",Lists.newArrayList(x.getQuote().toString()+" /"+x.getUnitPrice())));
-            details.add(new GerQuoteListResp.Detail("注意事项",x.getNotice()));
-            x.setDetail(details);
         });
     }
 
-    public static void main(String[] args) {
-        String time = "2020-03-09";
-        Timestamp timestamp = TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,"1970-01-01 08:00:00");
-        Calendar.getInstance().getTimeInMillis();
-        System.out.println(timestamp.getTime());
-        System.out.println(System.currentTimeMillis());
-
-    }
 }
