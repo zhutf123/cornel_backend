@@ -446,15 +446,7 @@
         <include refid="list_Resp_admin"/>
         from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id
          where q.status!=0
-        <if test="quoteId != null and quoteId != ''">
-            and
-            q.id <![CDATA[<]]> (select id from quote_info where quote_id=#{quoteId})
-        </if>
-        <if test="quoteId == null or quoteId == ''">
-            and
-            q.id <![CDATA[<=]]> (select max(id) from quote_info limit 1)
-        </if>
-        order by q.id desc limit #{pgSize};
+        order by q.warehouse_time desc offset #{limit} limit #{pgSize};
     </select>
     <select id="adminGetQuoteDetail" resultMap="detailRespMapper_admin">
       select <include refid="detail_Resp_admin"/>

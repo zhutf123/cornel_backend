@@ -40,7 +40,10 @@ import java.util.*;
     @Resource private SpecialQuoteMapper specialQuoteMapper;
 
     public List<AdminGetQuoteListResp> getQuoteList(GetQuoteListReq getQuoteListReq) {
-        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(getQuoteListReq.getQuoteId(),
+        if(getQuoteListReq.getLimit()==null){
+            getQuoteListReq.setLimit(0);
+        }
+        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(getQuoteListReq.getLimit(),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));
         if (gerQuoteListResps == null) {
             log.warn("admin get system quote empty");

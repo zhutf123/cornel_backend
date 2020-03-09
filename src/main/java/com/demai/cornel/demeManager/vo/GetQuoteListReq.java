@@ -9,6 +9,6 @@ import lombok.Data;
 @Data
 public class GetQuoteListReq {
 
-    private String quoteId;
+    private Integer limit;
     private Integer pgSize;
 }
