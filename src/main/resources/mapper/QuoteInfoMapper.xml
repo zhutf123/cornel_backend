@@ -466,7 +466,15 @@
             select
             <include refid="get_offer_list"/>
             from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and q.status != -1 and
-            q.system_flag=1 and q.warehouse_time <![CDATA[<]]> #{time,jdbcType=TIMESTAMP}
+            q.system_flag=1
+        <if test="time != null">
+            and
+            q.warehouse_time <![CDATA[<]]> #{time,jdbcType=TIMESTAMP}
+        </if>
+        <if test="quoteId == null">
+            and
+            q.id <![CDATA[<=]]> (select max(warehouse_time) from quote_info limit 1)
+        </if>
             order by q.warehouse_time desc limit #{pgSize} ;
     </select>
 

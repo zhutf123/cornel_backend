@@ -332,9 +332,9 @@ import java.util.stream.Collectors;
         if (getSysQuoListV2Req.getPgSize() == null) {
             getSysQuoListV2Req.setPgSize(20);
         }
-        if (getSysQuoListV2Req.getTime() == null) {
-            getSysQuoListV2Req.setTime(new Timestamp(System.currentTimeMillis()));
-        }
+//        if (getSysQuoListV2Req.getTime() == null) {
+//            getSysQuoListV2Req.setTime(new Timestamp(System.currentTimeMillis()));
+//        }
         List<GetOfferListResp> getOfferListResps = quoteInfoDao
                 .getSystemOwnerQuoteListV2(CookieAuthUtils.getCurrentUser(), getSysQuoListV2Req.getTime(), getSysQuoListV2Req.getPgSize());
         if (getOfferListResps == null) {
