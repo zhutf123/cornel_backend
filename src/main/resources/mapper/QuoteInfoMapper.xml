@@ -471,7 +471,7 @@
             and
             q.warehouse_time <![CDATA[<]]> #{time,jdbcType=TIMESTAMP}
         </if>
-        <if test="quoteId == null">
+        <if test="time == null">
             and
             q.warehouse_time <![CDATA[<=]]> (select max(warehouse_time) from quote_info limit 1)
         </if>
