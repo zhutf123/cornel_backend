@@ -16,6 +16,7 @@ import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,13 @@ import java.util.*;
     @Resource private SpecialQuoteMapper specialQuoteMapper;
 
     public List<AdminGetQuoteListResp> getQuoteList(GetQuoteListReq getQuoteListReq) {
+
+        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
+
+        if (adminUser == null) {
+            log.warn("admin get  quote detail fail due to user error ");
+            return Collections.EMPTY_LIST;
+        }
         if(getQuoteListReq.getLimit()==null){
             getQuoteListReq.setLimit(0);
         }
@@ -163,6 +171,11 @@ import java.util.*;
     }
 
     public List<AdminGetSyQuLis> getSyQuLis() {
+        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
+        if (adminUser == null) {
+            log.debug("cur user {} no auth  getSyQuLis list", CookieAuthUtils.getCurrentUser());
+            return Collections.EMPTY_LIST;
+        }
         List<AdminGetSyQuLis> systemQuote = systemQuoteDao.adminGetSystemList();
         if (systemQuote == null) {
             log.debug("cur user {}  get system quote list empty", CookieAuthUtils.getCurrentUser());

@@ -8,6 +8,7 @@ import com.demai.cornel.demeManager.service.AdminUserLoginService;
 import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.util.Base64Utils;
+import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.user.UserLoginParam;
@@ -15,6 +16,7 @@ import com.demai.cornel.vo.user.UserLoginResp;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +30,7 @@ import java.lang.ref.PhantomReference;
  * @Author binz.zhang
  * @Date: 2020-03-08    12:06
  */
-@Controller
-@RequestMapping("/admin")
-@Slf4j
-public class UserController {
+@Controller @RequestMapping("/admin") @Slf4j public class UserController {
 
     @Resource private AdminUserLoginService adminUserLoginService;
     @Resource private AdminCornService adminCornService;
@@ -42,10 +41,7 @@ public class UserController {
      * @param phone 手机号
      * @return
      */
-    @RequestMapping(value = "/sendCode.json", method = RequestMethod.POST)
-    @ResponseBody @AccessControl(value = "60_3")
-    @CrossOrigin
-    public JsonResult userLoginSendCode(
+    @RequestMapping(value = "/sendCode.json", method = RequestMethod.POST) @ResponseBody @AccessControl(value = "60_3") @CrossOrigin public JsonResult userLoginSendCode(
             @RequestBody UserLoginSendMsgParam phone) {
         try {
             log.debug("send code access [{}]", JacksonUtils.obj2String(phone));
@@ -59,9 +55,7 @@ public class UserController {
     /**
      * @return
      */
-    @RequestMapping(value = "/login.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @CrossOrigin
-    @ResponseBody public JsonResult doUserLogin(
+    @RequestMapping(value = "/login.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @CrossOrigin @ResponseBody public JsonResult doUserLogin(
             @RequestBody UserLoginParam param, HttpServletResponse response) {
         try {
             Preconditions.checkNotNull(param);
@@ -69,9 +63,10 @@ public class UserController {
             Preconditions.checkNotNull(param.getMsgCode());
             AdminLoginResp login = adminUserLoginService.doLogin(param);
             if (login.getCode().compareTo(UserLoginResp.CODE_ENUE.SUCCESS.getValue()) == 0) {
-                String ckey = "u="+login.getUserId()+"&t=";
-               String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
-                Cookie cookie  = new Cookie("ckey",encodeCkey);
+                String ckey = "u=" + login.getUserId() + "&t=";
+                String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
+                Cookie cookie = new Cookie("ckey", encodeCkey);
+                cookie.setMaxAge(24 * 60 * 60);//24 小时过期
                 response.addCookie(cookie);
                 return JsonResult.success(login);
             } else {
@@ -83,52 +78,48 @@ public class UserController {
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
 
-    @CrossOrigin
-    @RequestMapping(value = "/get-quote-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteList(
-            @RequestBody GetQuoteListReq param)
-    {
+    @CrossOrigin @RequestMapping(value = "/get-quote-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteList(
+            @RequestBody GetQuoteListReq param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
+        String user = CookieAuthUtils.getCurrentUser();
+        if(Strings.isNullOrEmpty(user)){
+            String ckey = "u=" + user + "&t=";
+            String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
+            Cookie cookie = new Cookie("ckey", encodeCkey);
+            cookie.setMaxAge(24 * 60 * 60);//24 小时过期
+            response.addCookie(cookie);
+        }
         return JsonResult.success(adminCornService.getQuoteList(param));
     }
 
-    @CrossOrigin
-    @RequestMapping(value = "/get-quote-detail.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult getQuoteDetail(@RequestBody String param) {
+    @CrossOrigin @RequestMapping(value = "/get-quote-detail.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteDetail(
+            @RequestBody String param) {
         Preconditions.checkNotNull(param);
         JSONObject receivedParam = JSON.parseObject(param);
         String quoteId = (String) receivedParam.get("quoteId");
         return JsonResult.success(adminCornService.getQuteDetail(quoteId));
     }
 
-
-    @CrossOrigin
-    @RequestMapping(value = "/review-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult reviewQuote(@RequestBody ReviewQuoteReq reviewQuoteReq) {
+    @CrossOrigin @RequestMapping(value = "/review-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult reviewQuote(
+            @RequestBody ReviewQuoteReq reviewQuoteReq) {
         Preconditions.checkNotNull(reviewQuoteReq);
         return JsonResult.success(adminCornService.adminReviewQuote(reviewQuoteReq));
     }
 
-
-    @CrossOrigin
-    @RequestMapping(value = "/get-tower-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult getTowerList(@RequestBody AdminGetTowerReq reviewQuoteReq) {
+    @CrossOrigin @RequestMapping(value = "/get-tower-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getTowerList(
+            @RequestBody AdminGetTowerReq reviewQuoteReq) {
         Preconditions.checkNotNull(reviewQuoteReq);
         return JsonResult.success(adminCornService.getTowerList(reviewQuoteReq));
     }
 
-    @CrossOrigin
-    @RequestMapping(value = "/edit-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult editQuote(@RequestBody AdminEditQuoteReq adminEditQuoteReq) {
+    @CrossOrigin @RequestMapping(value = "/edit-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult editQuote(
+            @RequestBody AdminEditQuoteReq adminEditQuoteReq) {
         Preconditions.checkNotNull(adminEditQuoteReq);
         return JsonResult.success(adminCornService.editQuote(adminEditQuoteReq));
     }
-    @CrossOrigin
-    @RequestMapping(value = "/get-system-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult getSystemQuote() {
+
+    @CrossOrigin @RequestMapping(value = "/get-system-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getSystemQuote() {
         return JsonResult.success(adminCornService.getSyQuLis());
     }
-
-
-
 
 }
