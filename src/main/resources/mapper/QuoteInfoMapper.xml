@@ -73,6 +73,8 @@
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="company" jdbcType="VARCHAR" property="company"/>
+
         <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
     </resultMap>
     <resultMap id="detailRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuteDetail">
@@ -89,7 +91,7 @@
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
-
+        <result column="company" jdbcType="VARCHAR" property="company"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -143,7 +145,8 @@
         q.user_id,
         q.warehouse_time,
         c.commodity_id,
-        c.name as commodity_name
+        c.name as commodity_name,
+        d.company
     </sql>
     <sql id="detail_Resp_admin">
         q.quote_id,
@@ -159,7 +162,8 @@
         q.location,
         q.warehouse_time,
         c.commodity_id,
-        c.name as commodity_name
+        c.name as commodity_name,
+        d.company
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -444,13 +448,13 @@
     <select id="adminGetQuoteList" resultMap="listRespMapper_admin">
         select
         <include refid="list_Resp_admin"/>
-        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id
+        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on q.tower_id=d.tower_id
          where q.status!=0
-        order by q.warehouse_time desc offset #{limit} limit #{pgSize};
+        order by q.warehouse_time desc,status desc offset #{limit} limit #{pgSize};
     </select>
     <select id="adminGetQuoteDetail" resultMap="detailRespMapper_admin">
       select <include refid="detail_Resp_admin"/>
-        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id
+        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on q.tower_id=d.tower_id
         where q.status!=0
         and q.quote_id=#{quoteId,jdbcType=VARCHAR}
     </select>

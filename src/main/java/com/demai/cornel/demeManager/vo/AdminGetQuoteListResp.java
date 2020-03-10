@@ -28,5 +28,6 @@ public class AdminGetQuoteListResp {
     private String quoteId;
     private String mobile;
     private Integer status;
+    private String company;//公司名称
 
 }
