@@ -77,7 +77,7 @@ import java.util.UUID;
     @CrossOrigin @RequestMapping(value = "/get-quote-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteList(
             @RequestBody GetQuoteListReq param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
-        return JsonResult.success(adminCornService.getQuoteList(param));
+        return JsonResult.success(adminCornService.getQuoteList(param,response));
     }
 
     @CrossOrigin @RequestMapping(value = "/get-quote-detail.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteDetail(
