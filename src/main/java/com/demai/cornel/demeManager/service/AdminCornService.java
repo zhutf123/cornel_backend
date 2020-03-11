@@ -219,6 +219,7 @@ import java.util.*;
         SystemQuote systemQuoteNew = new SystemQuote();
         BeanUtils.copyProperties(systemQuoteOld,systemQuoteNew);
         systemQuoteNew.setStatus(1);
+        systemQuoteNew.setId(null);
         systemQuoteNew.setQuote(quoteInfo.getSelfQuote());
         systemQuoteNew.setQuoteUserId(CookieAuthUtils.getCurrentUser());
         systemQuoteNew.setCreateTime(new Timestamp(System.currentTimeMillis()));
