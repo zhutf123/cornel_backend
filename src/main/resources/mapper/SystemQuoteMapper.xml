@@ -106,6 +106,9 @@
             <if test="updateTime != null">
                 update_time,
             </if>
+            <if test="status != null">
+                status ,
+            </if>
             <if test="unitWeight != null">
                 unit_weight,
             </if>
