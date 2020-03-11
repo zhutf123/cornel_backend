@@ -58,7 +58,7 @@
 
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, quote_id, commodity_id, quote, unit_price, create_time, update_time,status,unit_weight,notice
+        id, quote_id, commodity_id, quote, unit_price, create_time, update_time,status,unit_weight,notice,min_shipment_weight
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -115,6 +115,13 @@
             <if test="quoteUserId != null">
                 quote_user_id,
             </if>
+            <if test="minShipmentWeight != null">
+                min_shipment_weight,
+            </if>
+            <if test="notice != null">
+                notice,
+            </if>
+
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -146,6 +153,12 @@
             </if>
             <if test="quoteUserId != null">
                 #{quoteUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="minShipmentWeight != null">
+                #{minShipmentWeight,jdbcType=DECIMAL} ,
+            </if>
+            <if test="notice != null">
+                #{notice,jdbcType=ARRAY,javaType=java.util.List,typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler} ,
             </if>
         </trim>
     </insert>

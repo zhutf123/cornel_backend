@@ -55,4 +55,6 @@ import java.util.List;
     private List<String> notice;
 
     private String quoteUserId;//报价人
+    private BigDecimal minShipmentWeight;
+
 }
