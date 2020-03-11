@@ -158,7 +158,7 @@
                 #{minShipmentWeight,jdbcType=DECIMAL} ,
             </if>
             <if test="notice != null">
-                #{notice,jdbcType=ARRAY,javaType=java.util.List,typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler} ,
+                #{notice,jdbcType=ARRAY,javaType=java.util.List,typeHandler=com.demai.cornel.databaseHandler.ArrayStringListTypeHandler} ,
             </if>
         </trim>
     </insert>
