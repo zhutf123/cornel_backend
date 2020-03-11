@@ -15,7 +15,7 @@
         <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
         <result column="quote_user_id" jdbcType="VARCHAR" property="quoteUserId"/>
-
+        <result column="min_shipment_weight" jdbcType="NUMERIC" property="minShipmentWeight"/>
     </resultMap>
 
 
