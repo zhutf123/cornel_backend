@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -42,7 +43,7 @@ import java.util.*;
     @Resource private SpecialQuoteMapper specialQuoteMapper;
     @Resource private AdminUserLoginService adminUserLoginService;
 
-    public List<AdminGetQuoteListResp> getQuoteList(GetQuoteListReq getQuoteListReq) {
+    public List<AdminGetQuoteListResp> getQuoteList(GetQuoteListReq getQuoteListReq, HttpServletResponse response) {
 
         String userId = CookieAuthUtils.getCurrentUser();
         String token = CookieAuthUtils.getCurrentUserToken();
@@ -57,6 +58,8 @@ import java.util.*;
         if (getQuoteListReq.getLimit() == null) {
             getQuoteListReq.setLimit(0);
         }
+        adminUserLoginService.resetTokenExprieTime(userId,token);
+        response.addCookie(adminUserLoginService.buildCkey(userId,token));
         List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(getQuoteListReq.getLimit(),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));
         if (gerQuoteListResps == null) {

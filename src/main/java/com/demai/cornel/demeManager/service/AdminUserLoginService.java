@@ -52,26 +52,38 @@ import java.util.concurrent.TimeUnit;
         String token = UUID.randomUUID().toString().replaceAll("-", "");
         stringRedisTemplate.opsForValue().set(String.format(TOKEN_KEY_FORMAT, adminUser.getUserId()), token,
                 Duration.ofSeconds(24 * 60 * 60, 0));
-        String ckey = String.format(ADMIN_CK_FORMAT,adminUser.getUserId(),token);
-        String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
-        Cookie cookie = new Cookie("ckey", encodeCkey);
-        cookie.setMaxAge(24 * 60 * 60);//24 小时过期
-        httpServletResponse.addCookie(cookie);
+        httpServletResponse.addCookie(buildCkey(adminUser.getUserId(),token));
         BeanUtils.copyProperties(adminUser, adminLoginResp);
         adminLoginResp.setCode(0);
         return adminLoginResp;
     }
 
+    public Cookie buildCkey(String userID, String token) {
+        String ckey = String.format(ADMIN_CK_FORMAT, userID, token);
+        String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
+        Cookie cookie = new Cookie("ckey", encodeCkey);
+        cookie.setMaxAge(24 * 60 * 60);//24 小时过期
+        return cookie;
+    }
 
-    public boolean checkAdminToken(String token,String userId){
-        if(Strings.isNullOrEmpty(token) || Strings.isNullOrEmpty(userId)){
+    public boolean checkAdminToken(String token, String userId) {
+        if (Strings.isNullOrEmpty(token) || Strings.isNullOrEmpty(userId)) {
             return false;
         }
         String tokenRedis = stringRedisTemplate.opsForValue().get(String.format(TOKEN_KEY_FORMAT, userId));
-        if(Strings.isNullOrEmpty(tokenRedis) || !tokenRedis.equals(token)){
-            log.debug("cur user {}  token check fail carry token is {} ",userId,token);
+        if (Strings.isNullOrEmpty(tokenRedis) || !tokenRedis.equals(token)) {
+            log.debug("cur user {}  token check fail carry token is {} ", userId, token);
             return false;
         }
+        return true;
+    }
+
+    public boolean resetTokenExprieTime(String userId, String token) {
+        if (Strings.isNullOrEmpty(token) || Strings.isNullOrEmpty(userId)) {
+            return false;
+        }
+        stringRedisTemplate.opsForValue()
+                .set(String.format(TOKEN_KEY_FORMAT, userId), token, Duration.ofSeconds(24 * 60 * 60, 0));
         return true;
     }
 
