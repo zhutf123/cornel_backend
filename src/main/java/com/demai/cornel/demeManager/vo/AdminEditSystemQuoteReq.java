@@ -7,10 +7,9 @@ import java.util.List;
 
 /**
  * @Author binz.zhang
- * @Date: 2020-03-08    20:40
+ * @Date: 2020-03-11    19:25
  */
-@Data
-public class AdminEditQuoteReq {
+public class AdminEditSystemQuoteReq {
     public List<quoteInfo> quoteInfos;
 
     @Data
@@ -22,8 +21,5 @@ public class AdminEditQuoteReq {
         private String unitWeight="吨";
         private String userId;
         private String towerId;
-        private Integer systemFlag; // 0 或者null 为针对烘干塔的报价 1是系统报价
-
     }
-
 }

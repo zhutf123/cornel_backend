@@ -22,6 +22,9 @@ public class CookieAuthUtils {
 
     public static final String CKEY_KEY_JOINER = "=";
 
+    public static final String CKEY_KEY_TOKEN = "tk";
+
+
     /**
      * u=lilulucas.li&o=aHHYA8SADA87DSVADS&t=13551151111
      *
@@ -36,5 +39,9 @@ public class CookieAuthUtils {
 
     public static String getCurrentUser() {
         return UserHolder.getValue(KEY_USER_NAME);
+    }
+
+    public static String getCurrentUserToken() {
+        return UserHolder.getValue(CKEY_KEY_TOKEN);
     }
 }

@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.ref.PhantomReference;
+import java.util.UUID;
 
 /**
  * @Author binz.zhang
@@ -61,13 +62,8 @@ import java.lang.ref.PhantomReference;
             Preconditions.checkNotNull(param);
             Preconditions.checkNotNull(param.getPhone());
             Preconditions.checkNotNull(param.getMsgCode());
-            AdminLoginResp login = adminUserLoginService.doLogin(param);
+            AdminLoginResp login = adminUserLoginService.doLogin(param,response);
             if (login.getCode().compareTo(UserLoginResp.CODE_ENUE.SUCCESS.getValue()) == 0) {
-                String ckey = "u=" + login.getUserId() + "&t=";
-                String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
-                Cookie cookie = new Cookie("ckey", encodeCkey);
-                cookie.setMaxAge(24 * 60 * 60);//24 小时过期
-                response.addCookie(cookie);
                 return JsonResult.success(login);
             } else {
                 return JsonResult.successStatus(UserLoginResp.CODE_ENUE.getByValue(login.getCode()));
@@ -81,14 +77,6 @@ import java.lang.ref.PhantomReference;
     @CrossOrigin @RequestMapping(value = "/get-quote-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteList(
             @RequestBody GetQuoteListReq param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
-        String user = CookieAuthUtils.getCurrentUser();
-        if(Strings.isNullOrEmpty(user)){
-            String ckey = "u=" + user + "&t=";
-            String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
-            Cookie cookie = new Cookie("ckey", encodeCkey);
-            cookie.setMaxAge(24 * 60 * 60);//24 小时过期
-            response.addCookie(cookie);
-        }
         return JsonResult.success(adminCornService.getQuoteList(param));
     }
 

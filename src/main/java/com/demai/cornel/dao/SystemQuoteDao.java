@@ -35,4 +35,6 @@ public interface SystemQuoteDao {
 
     List<AdminGetSyQuLis> adminGetSystemList();
 
+    int updateCommoditySystemInvalid(@Param("commodityId")String commodityId);
+
 }

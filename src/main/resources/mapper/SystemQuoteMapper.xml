@@ -14,6 +14,8 @@
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
+        <result column="quote_user_id" jdbcType="VARCHAR" property="quoteUserId"/>
+
     </resultMap>
 
 
@@ -107,6 +109,9 @@
             <if test="unitWeight != null">
                 unit_weight,
             </if>
+            <if test="quote_user_id != null">
+                quote_user_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -135,6 +140,9 @@
             </if>
             <if test="unitWeight != null">
                 #{unitWeight,jdbcType=VARCHAR} ,
+            </if>
+            <if test="quote_user_id != null">
+                #{quote_user_id,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -210,6 +218,9 @@
       <include refid="list_Resp"/>
      from system_quote s inner join commodity_list c on s.commodity_id=c.commodity_id where s.status=1;
     </select>
+    <update id="updateCommoditySystemInvalid">
+       update system_quote set status = 0 where commodity_id=#{commodityId,jdbcType=VARCHAR}
+    </update>
 
 
 </mapper>

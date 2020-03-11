@@ -14,6 +14,7 @@ import com.demai.cornel.model.SystemQuote;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -39,16 +40,21 @@ import java.util.*;
     @Resource private DryTowerDao dryTowerDao;
     @Resource private UserInfoDao userInfoDao;
     @Resource private SpecialQuoteMapper specialQuoteMapper;
+    @Resource private AdminUserLoginService adminUserLoginService;
 
     public List<AdminGetQuoteListResp> getQuoteList(GetQuoteListReq getQuoteListReq) {
 
+        String userId = CookieAuthUtils.getCurrentUser();
+        String token = CookieAuthUtils.getCurrentUserToken();
+        if (!adminUserLoginService.checkAdminToken(token, userId)) {
+            return Collections.EMPTY_LIST;
+        }
         AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-
         if (adminUser == null) {
             log.warn("admin get  quote detail fail due to user error ");
             return Collections.EMPTY_LIST;
         }
-        if(getQuoteListReq.getLimit()==null){
+        if (getQuoteListReq.getLimit() == null) {
             getQuoteListReq.setLimit(0);
         }
         List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(getQuoteListReq.getLimit(),
@@ -61,10 +67,14 @@ import java.util.*;
     }
 
     public AdminGetQuteDetail getQuteDetail(String quoteId) {
+
+        String userId = CookieAuthUtils.getCurrentUser();
+        String token = CookieAuthUtils.getCurrentUserToken();
+        if (!adminUserLoginService.checkAdminToken(token, userId)) {
+            return AdminGetQuteDetail.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
+        }
         AdminGetQuteDetail quoteInfo = quoteInfoDao.adminGetQuoteDetail(quoteId);
-
         AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-
         if (adminUser == null) {
             log.warn("admin get  quote detail fail due to user error ");
             return AdminGetQuteDetail.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
@@ -80,6 +90,11 @@ import java.util.*;
     }
 
     public ReviewQuoteResp adminReviewQuote(ReviewQuoteReq quoteReq) {
+        String userId = CookieAuthUtils.getCurrentUser();
+        String token = CookieAuthUtils.getCurrentUserToken();
+        if (!adminUserLoginService.checkAdminToken(token, userId)) {
+            return ReviewQuoteResp.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
+        }
         if (quoteReq == null || Strings.isNullOrEmpty(quoteReq.getQuoteId()) || quoteReq.getStatus() == null) {
             log.debug("review quote fail due to param error");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
@@ -110,6 +125,11 @@ import java.util.*;
     }
 
     public List<AdminGetTowerListResp> getTowerList(AdminGetTowerReq adminGetTowerReq) {
+        String userId = CookieAuthUtils.getCurrentUser();
+        String token = CookieAuthUtils.getCurrentUserToken();
+        if (!adminUserLoginService.checkAdminToken(token, userId)) {
+            return Collections.EMPTY_LIST;
+        }
         AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
         if (adminUser == null) {
             log.debug("cur user {} no auth get tower list", CookieAuthUtils.getCurrentUser());
@@ -136,7 +156,12 @@ import java.util.*;
     }
 
     public AdminEditQuoteResp editQuote(AdminEditQuoteReq adminGetTowerReq) {
-        if (adminGetTowerReq == null ) {
+        String userId = CookieAuthUtils.getCurrentUser();
+        String token = CookieAuthUtils.getCurrentUserToken();
+        if (!adminUserLoginService.checkAdminToken(token, userId)) {
+            return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.USER_ERROR.getValue()).build();
+        }
+        if (adminGetTowerReq == null) {
             log.debug("cur user {} no auth EDIT quote due to param error", CookieAuthUtils.getCurrentUser());
             return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue())
                     .build();
@@ -147,30 +172,74 @@ import java.util.*;
             return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
 
-
         for (AdminEditQuoteReq.quoteInfo x : adminGetTowerReq.getQuoteInfos()) {
-            SpecialQuote specialQuote = new SpecialQuote();
-            SystemQuote systemQuote = systemQuoteDao.selectByCommodityId(x.getCommodityId());
-            if (systemQuote != null) {
-                BeanUtils.copyProperties(systemQuote, specialQuote);
-            }
-            BeanUtils.copyProperties(x, specialQuote);
-            specialQuote.setQuoteUserId(CookieAuthUtils.getCurrentUser());
-            specialQuote.setTargetUserId(x.getUserId());
-            specialQuote.setTargetTowerId(x.getTowerId());
-            specialQuote.setQuote(x.getSelfQuote());
-            specialQuoteMapper.updateCommodityIdquoteStatus(x.getCommodityId(),x.getUserId());
-            int res = specialQuoteMapper.insertSelective(specialQuote);
-            if (res != 1) {
-                return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.SUCCESS.getValue())
-                        .build();
-
+            if(x.getSystemFlag()!=null && x.getSystemFlag().equals(1)){
+                editSystemQuote(x);
+            }else {
+                editSpecialUserQuote(x);
             }
         }
         return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }
 
+    private boolean editSpecialUserQuote(AdminEditQuoteReq.quoteInfo quoteInfo) {
+        if(quoteInfo==null|| Strings.isNullOrEmpty(quoteInfo.getCommodityId())
+                ||Strings.isNullOrEmpty(quoteInfo.getUserId()) ||Strings.isNullOrEmpty(quoteInfo.getTowerId()) || quoteInfo.getQuote()==null ){
+            log.error("editSpecialUserQuote fail due param lock param is {}", JacksonUtils.obj2String(quoteInfo));
+            return false;
+        }
+        SpecialQuote specialQuote = new SpecialQuote();
+        SystemQuote systemQuote = systemQuoteDao.selectByCommodityId(quoteInfo.getCommodityId());
+        if (systemQuote != null) {
+            BeanUtils.copyProperties(systemQuote, specialQuote);
+        }
+        BeanUtils.copyProperties(quoteInfo, specialQuote);
+        specialQuote.setQuoteUserId(CookieAuthUtils.getCurrentUser());
+        specialQuote.setTargetUserId(quoteInfo.getUserId());
+        specialQuote.setTargetTowerId(quoteInfo.getTowerId());
+        specialQuote.setQuote(quoteInfo.getSelfQuote());
+        specialQuoteMapper.updateCommodityIdquoteStatus(quoteInfo.getCommodityId(), quoteInfo.getUserId());
+        int res = specialQuoteMapper.insertSelective(specialQuote);
+        if (res != 1) {
+            log.error("editSpecialUserQuote fail due to update db fail");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean editSystemQuote(AdminEditQuoteReq.quoteInfo quoteInfo) {
+        if(quoteInfo==null|| Strings.isNullOrEmpty(quoteInfo.getCommodityId()) || quoteInfo.getQuote()==null ){
+            log.error("editSystemQuote fail due param lock param is {}", JacksonUtils.obj2String(quoteInfo));
+            return false;
+        }
+        SystemQuote systemQuoteOld =systemQuoteDao.getSystemQuoteByCommodityId(quoteInfo.getCommodityId());
+        if(systemQuoteOld==null){
+            log.error("editSystemQuote fail due to systemQuoteOld is null");
+        }
+        SystemQuote systemQuoteNew = new SystemQuote();
+        BeanUtils.copyProperties(systemQuoteOld,systemQuoteNew);
+        systemQuoteNew.setStatus(1);
+        systemQuoteNew.setQuote(quoteInfo.getSelfQuote());
+        systemQuoteNew.setQuoteUserId(CookieAuthUtils.getCurrentUser());
+        systemQuoteNew.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        systemQuoteNew.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        systemQuoteDao.updateCommoditySystemInvalid(quoteInfo.getCommodityId());
+        int res = systemQuoteDao.insertSelective(systemQuoteNew);
+        if (res != 1) {
+            log.error("editSystemQuote fail due to update db fail");
+            return false;
+        }
+        return true;
+    }
+
+
+
     public List<AdminGetSyQuLis> getSyQuLis() {
+        String userId = CookieAuthUtils.getCurrentUser();
+        String token = CookieAuthUtils.getCurrentUserToken();
+        if (!adminUserLoginService.checkAdminToken(token, userId)) {
+            return Collections.EMPTY_LIST;
+        }
         AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
         if (adminUser == null) {
             log.debug("cur user {} no auth  getSyQuLis list", CookieAuthUtils.getCurrentUser());
@@ -181,11 +250,11 @@ import java.util.*;
             log.debug("cur user {}  get system quote list empty", CookieAuthUtils.getCurrentUser());
             return Collections.EMPTY_LIST;
         }
-       return systemQuote;
+        return systemQuote;
     }
 
     public static void main(String[] args) {
-        String ckey = "u="+"binz.zhang"+"&t=";
+        String ckey = "u=" + "binz.zhang" + "&t=";
         String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
         String decode = new String(Base64Utils.decode(encodeCkey));
         System.out.println(decode);
