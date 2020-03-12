@@ -23,7 +23,6 @@ public class AdminEditQuoteReq {
         private String userId;
         private String towerId;
         private Integer systemFlag; // 0 或者null 为针对烘干塔的报价 1是系统报价
-
     }
 
 }

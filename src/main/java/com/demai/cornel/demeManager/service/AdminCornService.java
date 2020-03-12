@@ -8,16 +8,14 @@ import com.demai.cornel.demeManager.dao.SpecialQuoteMapper;
 import com.demai.cornel.demeManager.model.AdminUser;
 import com.demai.cornel.demeManager.model.SpecialQuote;
 import com.demai.cornel.demeManager.vo.*;
-import com.demai.cornel.model.DryTower;
-import com.demai.cornel.model.QuoteInfo;
-import com.demai.cornel.model.SystemQuote;
-import com.demai.cornel.model.UserInfo;
+import com.demai.cornel.model.*;
 import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.hp.gagawa.java.elements.A;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -200,7 +198,9 @@ import java.util.*;
         specialQuote.setQuoteUserId(CookieAuthUtils.getCurrentUser());
         specialQuote.setTargetUserId(quoteInfo.getUserId());
         specialQuote.setTargetTowerId(quoteInfo.getTowerId());
+
         specialQuote.setQuote(quoteInfo.getSelfQuote());
+
         specialQuoteMapper.updateCommodityIdquoteStatus(quoteInfo.getCommodityId(), quoteInfo.getUserId());
         int res = specialQuoteMapper.insertSelective(specialQuote);
         if (res != 1) {
@@ -255,6 +255,34 @@ import java.util.*;
             return Collections.EMPTY_LIST;
         }
         return systemQuote;
+    }
+
+
+    public List<AdminGetTowerQuLiResp> getTowerQuoteList(String towerUserId) {
+        String userId = CookieAuthUtils.getCurrentUser();
+        String token = CookieAuthUtils.getCurrentUserToken();
+        if (!adminUserLoginService.checkAdminToken(token, userId)) {
+            return Collections.EMPTY_LIST;
+        }
+        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
+        if (adminUser == null) {
+            log.debug("cur user {} no auth  AdminGetTowerQuLiResp list", CookieAuthUtils.getCurrentUser());
+            return Collections.EMPTY_LIST;
+        }
+        List<SpecialQuote> specialQuote = specialQuoteMapper.selectSpecialQuoteByTargetUserId(towerUserId);
+        if (specialQuote == null) {
+            log.debug("cur user {}  get AdminGetTowerQuLiResp list empty", CookieAuthUtils.getCurrentUser());
+            return Collections.EMPTY_LIST;
+        }
+        List<AdminGetTowerQuLiResp> resps = new ArrayList<>();
+        specialQuote.stream().forEach(x->{
+            Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
+            AdminGetTowerQuLiResp adminGetTowerQuLiResp = new AdminGetTowerQuLiResp();
+            BeanUtils.copyProperties(x,adminGetTowerQuLiResp);
+            adminGetTowerQuLiResp.setCommodityName(commodity.getName());
+            resps.add(adminGetTowerQuLiResp);
+        });
+        return resps;
     }
 
     public static void main(String[] args) {

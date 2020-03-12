@@ -110,4 +110,9 @@ import java.util.UUID;
         return JsonResult.success(adminCornService.getSyQuLis());
     }
 
+    @CrossOrigin @RequestMapping(value = "/get-tower-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult getTowerQuote(@RequestBody AdGetTowQuLiReq adGetTowQuLiReq) {
+        Preconditions.checkNotNull(adGetTowQuLiReq);
+        return JsonResult.success(adminCornService.getTowerQuoteList(adGetTowQuLiReq.getUserId()));
+    }
 }
