@@ -57,6 +57,7 @@ import java.util.*;
             getQuoteListReq.setLimit(0);
         }
         adminUserLoginService.resetTokenExprieTime(userId,token);
+        response.addCookie(adminUserLoginService.clearPathCookie());
         response.addCookie(adminUserLoginService.buildCkey(userId,token));
         List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(getQuoteListReq.getLimit(),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));

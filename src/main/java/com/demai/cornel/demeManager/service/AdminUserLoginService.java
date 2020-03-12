@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.util.UUID;
@@ -36,7 +37,7 @@ import java.util.concurrent.TimeUnit;
     private static final String TOKEN_KEY_FORMAT = "admin_token_%s";
     private static final String ADMIN_CK_FORMAT = "u=%s&tk=%s";
 
-    public AdminLoginResp doLogin(UserLoginParam param, HttpServletResponse httpServletResponse) {
+    public AdminLoginResp doLogin(UserLoginParam param, HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) {
         // valid msg code
         AdminLoginResp adminLoginResp = new AdminLoginResp();
         adminLoginResp.setMobile(param.getPhone());
@@ -52,6 +53,7 @@ import java.util.concurrent.TimeUnit;
         String token = UUID.randomUUID().toString().replaceAll("-", "");
         stringRedisTemplate.opsForValue().set(String.format(TOKEN_KEY_FORMAT, adminUser.getUserId()), token,
                 Duration.ofSeconds(24 * 60 * 60, 0));
+        httpServletResponse.addCookie(clearPathCookie());
         httpServletResponse.addCookie(buildCkey(adminUser.getUserId(),token));
         BeanUtils.copyProperties(adminUser, adminLoginResp);
         adminLoginResp.setCode(0);
@@ -59,11 +61,18 @@ import java.util.concurrent.TimeUnit;
     }
 
     public Cookie buildCkey(String userID, String token) {
+
         String ckey = String.format(ADMIN_CK_FORMAT, userID, token);
         String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
         Cookie cookie = new Cookie("ckey", encodeCkey);
         cookie.setPath("/");
         cookie.setMaxAge(24 * 60 * 60);//24 小时过期
+        return cookie;
+    }
+    public Cookie clearPathCookie() {
+        Cookie cookie = new Cookie("ckey", null);
+        cookie.setPath("/admin");
+        cookie.setMaxAge(0);
         return cookie;
     }
 
