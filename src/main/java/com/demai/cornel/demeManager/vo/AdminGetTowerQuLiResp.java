@@ -14,4 +14,6 @@ public class AdminGetTowerQuLiResp {
     private BigDecimal quote;
     private String unitPrice;
     private String unitWeight;
+    private String commodityId;
+
 }
