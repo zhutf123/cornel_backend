@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
     private static final String TOKEN_KEY_FORMAT = "admin_token_%s";
     private static final String ADMIN_CK_FORMAT = "u=%s&tk=%s";
 
-    public AdminLoginResp doLogin(UserLoginParam param, HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) {
+    public AdminLoginResp doLogin(UserLoginParam param,HttpServletResponse httpServletResponse) {
         // valid msg code
         AdminLoginResp adminLoginResp = new AdminLoginResp();
         adminLoginResp.setMobile(param.getPhone());
