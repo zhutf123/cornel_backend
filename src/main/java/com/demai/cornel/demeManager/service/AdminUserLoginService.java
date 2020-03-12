@@ -71,7 +71,6 @@ import java.util.concurrent.TimeUnit;
     }
     public Cookie clearPathCookie() {
         Cookie cookie = new Cookie("ckey", null);
-        cookie.setPath("/admin");
         cookie.setMaxAge(0);
         return cookie;
     }
