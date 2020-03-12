@@ -14,7 +14,11 @@ public class CookieUtils {
         Cookie[] cookies;
         if (ArrayUtils.isNotEmpty(cookies = request.getCookies())) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(name)) {
+                // todo 需要去掉 2020-03-14以后就可以去掉了
+                if (cookie.getName().equals(name) && cookie.getPath().equals("/admin")) {
+                    cookie.setMaxAge(0);
+                }
+                if (cookie.getName().equals(name) && !cookie.getPath().equals("/admin")) {
                     return cookie;
                 }
             }
