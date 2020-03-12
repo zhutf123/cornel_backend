@@ -62,6 +62,7 @@ import java.util.concurrent.TimeUnit;
         String ckey = String.format(ADMIN_CK_FORMAT, userID, token);
         String encodeCkey = new String(Base64Utils.encode(ckey.getBytes()));
         Cookie cookie = new Cookie("ckey", encodeCkey);
+        cookie.setPath("/");
         cookie.setMaxAge(24 * 60 * 60);//24 小时过期
         return cookie;
     }
