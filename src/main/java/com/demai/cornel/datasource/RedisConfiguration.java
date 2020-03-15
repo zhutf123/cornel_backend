@@ -36,7 +36,7 @@ public class RedisConfiguration {
         org.springframework.core.env.PropertySource<?> propertySource = abstractEnvironment.getPropertySources().get("applicationConfig: [classpath:/application-default.yml]");
         if (null != propertySource) {
             RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(propertySource);
-            redisClusterConfiguration.setPassword(password);
+            //redisClusterConfiguration.setPassword(password);
             LettuceConnectionFactory redisConnectionFactory = new LettuceConnectionFactory(redisClusterConfiguration);
             return redisConnectionFactory;
         }
