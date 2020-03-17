@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 
 /**
  * @Author binz.zhang
@@ -43,7 +44,8 @@ public class QuoteControllerV3 {
     }
 
     @RequestMapping(value = "/get-quote-price.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult getQuotePrice(@RequestBody GetQuotePriceRep getQuotePriceRep) {
+    @ResponseBody public JsonResult getQuotePrice(@RequestBody GetQuotePriceRep getQuotePriceRep)
+            throws ParseException {
         return JsonResult.success(quoteServiceV3.getQuotePrice(getQuotePriceRep));
     }
 }
