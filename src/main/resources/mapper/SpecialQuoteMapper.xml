@@ -131,7 +131,7 @@
     </select>
     <select id="getNearestCommodityPrice" resultType="java.math.BigDecimal">
         select quote from special_quote where target_user_id=#{userId,jdbcType=VARCHAR} and
-        commodity_id=#{commodityId,jdbcType=VARCHAR} and create_time <![CDATA[ <= ]]> #{time,jdbcType=TIMESTAMP}
+        commodity_id=#{commodityId,jdbcType=VARCHAR} and date(create_time) <![CDATA[ <= ]]> #{time,jdbcType=TIMESTAMP}
         order by create_time desc limit 1;
     </select>
 </mapper>

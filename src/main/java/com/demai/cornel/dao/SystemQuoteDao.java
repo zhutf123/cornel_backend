@@ -8,6 +8,7 @@ import com.demai.cornel.vo.quota.GetQuoteListReq;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -39,5 +40,5 @@ public interface SystemQuoteDao {
 
     int updateCommoditySystemInvalid(@Param("commodityId")String commodityId);
 
-    BigDecimal getNearestCommodityPrice(@Param("commodityId")String commodityId,@Param("time") String time);
+    BigDecimal getNearestCommodityPrice(@Param("commodityId")String commodityId,@Param("time") Date time);
 }

@@ -4,6 +4,7 @@ import com.demai.cornel.demeManager.model.SpecialQuote;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -20,6 +21,5 @@ public interface SpecialQuoteMapper {
 
     List<SpecialQuote> selectSpecialQuoteByTargetUserId(@Param("userId") String userId);
 
-    BigDecimal getNearestCommodityPrice(@Param("userId")String userId,@Param("commodityId")String commodityId,@Param("time")
-            String time);
+    BigDecimal getNearestCommodityPrice(@Param("userId")String userId,@Param("commodityId")String commodityId,@Param("time") Date time);
 }

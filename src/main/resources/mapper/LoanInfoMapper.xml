@@ -24,7 +24,7 @@
     <!--@mbg.generated-->
     id, loan_id, price, interest, apply_user_id, apply_time, lending_time, est_repay_time, 
     actual_repay_time, interest_total, repay_price, review_user_id, create_time, update_time, 
-    "status",actualPrice
+    "status",actual_price
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->

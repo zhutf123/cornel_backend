@@ -20,7 +20,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -105,7 +108,7 @@ import java.util.UUID;
         return offerQuoteResp;
     }
 
-    public OfferQuoteResp editSystemQuote(SystemQuoteV2Req offerQuoteReq) {
+    public OfferQuoteResp   editSystemQuote(SystemQuoteV2Req offerQuoteReq) {
         OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
         Preconditions.checkNotNull(offerQuoteReq);
         log.debug("dry tower update quote info is [{}]", JacksonUtils.obj2String(offerQuoteReq));
@@ -183,18 +186,17 @@ import java.util.UUID;
     }
 
 
-    public GetQuotePriceResp getQuotePrice(GetQuotePriceRep req){
+    public GetQuotePriceResp getQuotePrice(GetQuotePriceRep req) throws ParseException {
         if(req==null || Strings.isNullOrEmpty(req.getCommodityId()) || Strings.isNullOrEmpty(req.getTime())){
             log.debug("get quote price err due to param err");
             return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
-        Timestamp timestamp = TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,req.getTime());
-
-        BigDecimal quote = specialQuoteMapper.getNearestCommodityPrice(CookieAuthUtils.getCurrentUser(),req.getCommodityId(),req.getTime());
+        Date time = Date.valueOf(req.getTime());
+        BigDecimal quote = specialQuoteMapper.getNearestCommodityPrice(CookieAuthUtils.getCurrentUser(),req.getCommodityId(),time);
         if(quote!=null){
             return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.SUCCESS.getValue()).quote(quote).build();
         }
-        quote = systemQuoteDao.getNearestCommodityPrice(req.getCommodityId(),req.getTime());
+        quote = systemQuoteDao.getNearestCommodityPrice(req.getCommodityId(),time);
         if(quote!=null){
             return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.SUCCESS.getValue()).quote(quote).build();
         }
