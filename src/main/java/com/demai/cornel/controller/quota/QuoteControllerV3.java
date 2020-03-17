@@ -39,6 +39,11 @@ public class QuoteControllerV3 {
      */
     @RequestMapping(value = "/offer-sysquot-v3.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult offerSystemQuoteV2(@RequestBody SystemQuoteV2Req offerQuoteReq) {
-        return JsonResult.success(quoteService.offerSystemQuoteV2(offerQuoteReq));
+        return JsonResult.success(quoteServiceV3.offerSystemQuoteV2(offerQuoteReq));
+    }
+
+    @RequestMapping(value = "/edit-sysquot-v3.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult editSystemQuote(@RequestBody SystemQuoteV2Req offerQuoteReq) {
+        return JsonResult.success(quoteServiceV3.offerSystemQuoteV2(offerQuoteReq));
     }
 }

@@ -202,6 +202,8 @@ import java.util.stream.Collectors;
         return offerQuoteResp;
     }
 
+
+
     /**
      * 点击“我要报价” 返给客户端
      *

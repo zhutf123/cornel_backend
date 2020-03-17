@@ -181,7 +181,7 @@
         select
         <include refid="Base_Column_List"/>
         from quote_info
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{quoteId,jdbcType=VARCHAR}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         <!--@mbg.generated-->

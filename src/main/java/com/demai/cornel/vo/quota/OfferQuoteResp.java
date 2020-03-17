@@ -12,17 +12,15 @@ import lombok.NoArgsConstructor;
  * 报价返回model
  */
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class OfferQuoteResp {
+@Data @AllArgsConstructor @NoArgsConstructor @Builder public class OfferQuoteResp {
     private String quoteId;
     private Integer quoteStatus;
     private Integer status;
 
     public static enum STATUS_ENUE implements IEmus {
-        PARAM_ERROR(-1, "参数错误"), SUCCESS(0, "请求成功"), SERVER_ERROR(1, "网络异常，请稍后重试"), DRY_TOWER_ERROR(2, "烘干塔无效");
+        PARAM_ERROR(-1, "参数错误"), SUCCESS(0, "请求成功"),
+        SERVER_ERROR(1, "网络异常，请稍后重试"), DRY_TOWER_ERROR(2, "烘干塔无效"),
+        ORDER_INVALD(3,"订单无效"),USER_ERR(4,"用户无权限"),ORDER_STATUS_INVALD(4,"订单不可修改");
 
         private int value;
         private String expr;
@@ -40,6 +38,6 @@ public class OfferQuoteResp {
             return expr;
         }
 
-    }
+        }
 
 }

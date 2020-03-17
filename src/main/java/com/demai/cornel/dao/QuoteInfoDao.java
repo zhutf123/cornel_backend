@@ -21,7 +21,7 @@ public interface QuoteInfoDao {
 
     int insertSelective(QuoteInfo record);
 
-    QuoteInfo selectByPrimaryKey(Integer id);
+    QuoteInfo selectByPrimaryKey(String quoteId);
 
     int updateByPrimaryKeySelective(QuoteInfo record);
 
