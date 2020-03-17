@@ -17,6 +17,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -357,7 +358,9 @@ import java.util.stream.Collectors;
                     BeanUtils.copyProperties(x, loanInfoSimple);
                     loanInfoSimple.setApplyTime(loanInfos.iterator().next().getApplyTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,loanInfos.iterator().next().getApplyTime()));
                     loanInfoSimple.setLendingTime(loanInfos.iterator().next().getLendingTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,loanInfos.iterator().next().getLendingTime()));
-                    x.setLoanInfo(loanInfoSimple);
+                    x.setLoanInfo(Lists.newArrayList(loanInfoSimple));
+                }else {
+                    x.setLoanInfo(Collections.EMPTY_LIST);
                 }
             }
             x.setServiceMobile(finalServiceMobile);
