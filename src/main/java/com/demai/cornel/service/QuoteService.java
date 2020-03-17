@@ -23,6 +23,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.postgresql.jdbc.TimestampUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 import javax.swing.text.html.Option;
@@ -49,7 +50,7 @@ import java.util.stream.Collectors;
     @Resource private CommodityService commodityService;
     @Resource private SpecialQuoteMapper specialQuoteMapper;
     @Resource private LoanInfoMapper loanInfoMapper;
-
+    @Resource private ImgService imgService;
     private static String TIME_FORMAT = "yyyy-MM-dd";
 
     /**
@@ -201,8 +202,6 @@ import java.util.stream.Collectors;
         offerQuoteResp.setQuoteId(quoteInfo.getQuoteId());
         return offerQuoteResp;
     }
-
-
 
     /**
      * 点击“我要报价” 返给客户端
@@ -402,6 +401,8 @@ import java.util.stream.Collectors;
                 getOfferInfoResp.setLoanInfo(Collections.EMPTY_LIST);
             }
         }
+        List<ImgInfoReq> imgInfoReqs =imgService.getQuoteImgs(quoteId);
+        getOfferInfoResp.setImgInfo(imgInfoReqs);
         getOfferInfoResp.setServiceMobile(serviceMobile);
         return getOfferInfoResp;
     }

@@ -115,7 +115,7 @@ import java.util.*;
                 desc = (ImgInfo.IMGDESC.QUOTE_ATTACH.getExpr());
                 List<String> attSuff = Splitter.on("_").splitToList(x.getKey());
                 if(attSuff!=null&&attSuff.size()>=2){
-                    desc = desc+attSuff.get(2);
+                    desc = desc+"_"+attSuff.get(2);
                 }
             }else {
                 desc  = (ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());
@@ -147,6 +147,31 @@ import java.util.*;
         return reqs;
     }
 
+
+    public List<ImgInfoReq> getQuoteImgs(String quoteId){
+        List<ImgInfo> imgInfos = imgInfoDao.getUserImgByQuoteId(quoteId);
+        if(imgInfos==null || imgInfos.size()<=0){
+            return Collections.EMPTY_LIST;
+        }
+        List<ImgInfoReq> reqs = new ArrayList<>();
+        imgInfos.stream().forEach(x->{
+            String imgKey = null;
+            if(x.getImgDesc().startsWith(ImgInfo.IMGDESC.QUOTE_ATTACH.getExpr())){
+                 imgKey = ImgInfo.IMGDESC.QUOTE_ATTACH.getKey();
+                List<String> attmenchSup = Splitter.on("_").splitToList(x.getImgDesc());
+                if(attmenchSup!=null&&attmenchSup.size()>=2){
+                    imgKey = imgKey+"_"+attmenchSup.get(2);
+                }
+            }else {
+                imgKey = ImgInfo.IMGDESC.exparOf(x.getImgDesc()).getKey();
+            }
+            if(imgKey!=null){
+                reqs.add(new ImgInfoReq(imgKey,x.getUrl()));
+            }
+        });
+
+        return reqs;
+    }
     public List<ImgInfoReq> getUserImgs(String userId){
         List<ImgInfo> imgInfos = imgInfoDao.getUserImgByUserId(userId);
         if(imgInfos==null || imgInfos.size()<=0){
