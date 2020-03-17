@@ -81,6 +81,7 @@ import java.util.*;
             if(!Strings.isNullOrEmpty(imgInfoReq.getKey()) && imgInfoReq.getKey().startsWith(ImgInfo.IMGDESC.QUOTE_ATTACH.getKey())){
                 String descTem = (ImgInfo.IMGDESC.QUOTE_ATTACH.getExpr());
                 List<String> attSuff = Splitter.on("_").splitToList(imgInfoReq.getKey());
+                log.debug(">>>>>.img split key is {}",JacksonUtils.obj2String(attSuff));
                 if(attSuff!=null&&attSuff.size()>=2){
                     descTem = descTem+"_"+attSuff.get(1);
                 }
