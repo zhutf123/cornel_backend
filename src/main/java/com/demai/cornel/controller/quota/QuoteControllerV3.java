@@ -6,6 +6,7 @@ import com.demai.cornel.service.QuoteService;
 import com.demai.cornel.service.QuoteServiceV3;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.quota.GetQuotePriceRep;
 import com.demai.cornel.vo.quota.SystemQuoteV2Req;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -39,5 +40,10 @@ public class QuoteControllerV3 {
     @RequestMapping(value = "/edit-sysquot-v3.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult editSystemQuote(@RequestBody SystemQuoteV2Req offerQuoteReq) {
         return JsonResult.success(quoteServiceV3.editSystemQuote(offerQuoteReq));
+    }
+
+    @RequestMapping(value = "/get-quote-price.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult getQuotePrice(@RequestBody GetQuotePriceRep getQuotePriceRep) {
+        return JsonResult.success(quoteServiceV3.getQuotePrice(getQuotePriceRep));
     }
 }

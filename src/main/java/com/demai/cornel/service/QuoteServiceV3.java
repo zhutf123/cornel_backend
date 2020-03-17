@@ -9,9 +9,7 @@ import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.TimeStampUtil;
-import com.demai.cornel.vo.quota.OfferQuoteReq;
-import com.demai.cornel.vo.quota.OfferQuoteResp;
-import com.demai.cornel.vo.quota.SystemQuoteV2Req;
+import com.demai.cornel.vo.quota.*;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -40,7 +38,6 @@ import java.util.UUID;
     @Resource private SpecialQuoteMapper specialQuoteMapper;
     @Resource private LoanInfoMapper loanInfoMapper;
     @Resource private ImgService imgService;
-
     private static String TIME_FORMAT = "yyyy-MM-dd";
 
     public OfferQuoteResp offerSystemQuoteV2(SystemQuoteV2Req offerQuoteReq) {
@@ -184,6 +181,27 @@ import java.util.UUID;
         offerQuoteResp.setQuoteId(quoteInfo.getQuoteId());
         return offerQuoteResp;
     }
+
+
+    public GetQuotePriceResp getQuotePrice(GetQuotePriceRep req){
+        if(req==null || Strings.isNullOrEmpty(req.getCommodityId()) || Strings.isNullOrEmpty(req.getTime())){
+            log.debug("get quote price err due to param err");
+            return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
+        Timestamp timestamp = TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,req.getTime());
+
+        BigDecimal quote = specialQuoteMapper.getNearestCommodityPrice(CookieAuthUtils.getCurrentUser(),req.getCommodityId(),req.getTime());
+        if(quote!=null){
+            return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.SUCCESS.getValue()).quote(quote).build();
+        }
+        quote = systemQuoteDao.getNearestCommodityPrice(req.getCommodityId(),req.getTime());
+        if(quote!=null){
+            return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.SUCCESS.getValue()).quote(quote).build();
+        }
+        return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.COMMODITY_ERROR.getValue()).build();
+    }
+
+
 
     private boolean checkQuote(SystemQuoteV2Req offerQuoteReq) {
         return offerQuoteReq != null && offerQuoteReq.getCommodityId() != null && !Strings

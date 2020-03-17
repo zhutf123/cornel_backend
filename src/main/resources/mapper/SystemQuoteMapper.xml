@@ -237,6 +237,10 @@
     <update id="updateCommoditySystemInvalid">
        update system_quote set status = 0 where commodity_id=#{commodityId,jdbcType=VARCHAR}
     </update>
+    <select id="getNearestCommodityPrice" resultType="java.math.BigDecimal">
+       select quote from system_quote where  commodity_id=#{commodityId,jdbcType=VARCHAR} and create_time <![CDATA[ <= ]]> #{time,jdbcType=TIMESTAMP}
+        order by create_time desc limit 1
+    </select>
 
 
 </mapper>
