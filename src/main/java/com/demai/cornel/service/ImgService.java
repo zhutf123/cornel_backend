@@ -82,7 +82,7 @@ import java.util.*;
                 String descTem = (ImgInfo.IMGDESC.QUOTE_ATTACH.getExpr());
                 List<String> attSuff = Splitter.on("_").splitToList(imgInfoReq.getKey());
                 if(attSuff!=null&&attSuff.size()>=2){
-                    descTem = descTem+attSuff.get(1);
+                    descTem = descTem+"_"+attSuff.get(1);
                 }
                 imgInfo.setImgDesc(descTem);
             }else {
@@ -120,10 +120,22 @@ import java.util.*;
             }else {
                 desc  = (ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());
             }
+            boolean udpateFl = false;
             for (ImgInfo imgInfo:oldImgInfo) {
                 if(!Strings.isNullOrEmpty(imgInfo.getImgDesc()) && imgInfo.getImgDesc().equals(desc)){
                     imgInfoDao.updateImgUrl(quoteId,desc,x.getUrl());
+                    udpateFl=true;
                 }
+            }
+            if(!udpateFl){
+                ImgInfo imgInfo = new ImgInfo();
+                imgInfo.setStatus(ImgInfo.STATUS.EXIST.getValue());
+                imgInfo.setBindType(ImgInfo.BINDTYPESTATUS.BIND_QUOTE.getValue());
+                imgInfo.setBindId(quoteId);
+                imgInfo.setImgId(UUID.randomUUID().toString());
+                imgInfo.setUrl(x.getUrl());
+                imgInfo.setImgDesc(desc);
+                imgInfoDao.insert(imgInfo);
             }
 
         });
