@@ -78,7 +78,7 @@ import java.util.*;
             imgInfo.setBindId(quoteId);
             imgInfo.setImgId(UUID.randomUUID().toString());
 
-            if(Strings.isNullOrEmpty(imgInfoReq.getKey()) && imgInfoReq.getKey().startsWith(ImgInfo.IMGDESC.QUOTE_ATTACH.getKey())){
+            if(!Strings.isNullOrEmpty(imgInfoReq.getKey()) && imgInfoReq.getKey().startsWith(ImgInfo.IMGDESC.QUOTE_ATTACH.getKey())){
                 imgInfo.setImgDesc(ImgInfo.IMGDESC.QUOTE_ATTACH.getExpr());
             }else {
                 imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(imgInfoReq.getKey()).getExpr());

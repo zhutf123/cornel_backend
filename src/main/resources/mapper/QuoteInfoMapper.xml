@@ -347,7 +347,7 @@
                 #{wetWeight,jdbcType=DECIMAL} ,
             </if>
             <if test="loanId != null">
-                #{loanIdopenId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,
+                #{loanId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,
             </if>
         </trim>
     </insert>
