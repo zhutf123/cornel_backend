@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -82,7 +83,9 @@ import java.util.stream.Collectors;
     private String serviceMobile;
     private Timestamp warehouseTime;
     private String showWarehouseTime;
-
+    private Integer showLoan=0;//1 是显示放贷的情况 0 是不显示
+    private Set<String>loanId;
+    private LoanInfoSimple loanInfo;
     public void setWarehouseTime(Timestamp warehouseTime) {
         this.warehouseTime = warehouseTime;
         this.showWarehouseTime = TimeStampUtil.timeStampConvertString("yyyy-MM-dd",warehouseTime);

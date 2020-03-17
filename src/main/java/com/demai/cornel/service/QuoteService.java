@@ -336,9 +336,6 @@ import java.util.stream.Collectors;
         if (getSysQuoListV2Req.getPgSize() == null) {
             getSysQuoListV2Req.setPgSize(20);
         }
-        //        if (getSysQuoListV2Req.getTime() == null) {
-        //            getSysQuoListV2Req.setTime(new Timestamp(System.currentTimeMillis()));
-        //        }
         List<GetOfferListResp> getOfferListResps = quoteInfoDao
                 .getSystemOwnerQuoteListV2(CookieAuthUtils.getCurrentUser(), getSysQuoListV2Req.getTime(),
                         getSysQuoListV2Req.getPgSize());
@@ -352,6 +349,17 @@ import java.util.stream.Collectors;
         }
         String finalServiceMobile = serviceMobile;
         getOfferListResps.stream().forEach(x -> {
+            if(x.getLoanId()!=null) {
+                List<LoanInfo> loanInfos = loanInfoMapper.getLoanByLoanIds(x.getLoanId());
+                if(loanInfos!=null && loanInfos.iterator().next().getStatus().equals(LoanInfo.STATUS.PROVER.getValue())){
+                    x.setShowLoan(1);
+                    LoanInfoSimple loanInfoSimple = new LoanInfoSimple();
+                    BeanUtils.copyProperties(x, loanInfoSimple);
+                    loanInfoSimple.setApplyTime(loanInfos.iterator().next().getApplyTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,loanInfos.iterator().next().getApplyTime()));
+                    loanInfoSimple.setLendingTime(loanInfos.iterator().next().getLendingTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,loanInfos.iterator().next().getLendingTime()));
+                    x.setLoanInfo(loanInfoSimple);
+                }
+            }
             x.setServiceMobile(finalServiceMobile);
         });
         return getOfferListResps;

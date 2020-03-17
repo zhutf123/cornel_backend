@@ -3,6 +3,8 @@ package com.demai.cornel.model;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+
+import com.demai.cornel.dmEnum.IEmus;
 import lombok.Data;
 
 /**
@@ -84,4 +86,30 @@ public class LoanInfo {
     private Integer status;
 
     private BigDecimal actualPrice;//实际放款金额
+
+
+    public static enum STATUS implements IEmus {
+        CANCEL(0, "取消"),
+        UNDER_REVIEW(1, "待审核"),
+        PROVER(2, "审核通过"),
+        REJECT(3, "审核拒绝");
+        private int value;
+        private String expr;
+
+        private STATUS(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+
+        @Override
+        public String getExpr() {
+            return expr;
+        }
+
+    }
 }

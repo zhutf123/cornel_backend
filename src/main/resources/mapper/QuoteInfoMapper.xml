@@ -44,6 +44,8 @@
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP"/>
+        <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
     </resultMap>
     <resultMap id="get_quote_info" type="com.demai.cornel.vo.quota.GetOfferInfoResp">
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
@@ -122,7 +124,8 @@
     q.start_time,
     q.end_time,
     q.status,
-    q.warehouse_time
+    q.warehouse_time,
+    q.loan_id
   </sql>
     <sql id="get_offer_info">
     c.name as commodity_name,
