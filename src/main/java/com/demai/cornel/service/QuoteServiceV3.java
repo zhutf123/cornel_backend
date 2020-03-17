@@ -163,6 +163,7 @@ import java.util.UUID;
            imgService.updateQuoteImg(offerQuoteReq.getImgs(),offerQuoteReq.getQuoteId());
         }
         quoteInfo.setQuoteId(oldQuote.getQuoteId());
+        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         if (!Strings.isNullOrEmpty(offerQuoteReq.getStartTime())) {

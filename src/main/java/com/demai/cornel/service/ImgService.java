@@ -173,7 +173,7 @@ import java.util.*;
                  imgKey = ImgInfo.IMGDESC.QUOTE_ATTACH.getKey();
                 List<String> attmenchSup = Splitter.on("_").splitToList(x.getImgDesc());
                 if(attmenchSup!=null&&attmenchSup.size()>=2){
-                    imgKey = imgKey+"_"+attmenchSup.get(2);
+                    imgKey = imgKey+"_"+attmenchSup.get(1);
                 }
             }else {
                 imgKey = ImgInfo.IMGDESC.exparOf(x.getImgDesc()).getKey();
