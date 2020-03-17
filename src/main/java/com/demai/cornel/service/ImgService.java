@@ -82,7 +82,7 @@ import java.util.*;
                 String descTem = (ImgInfo.IMGDESC.QUOTE_ATTACH.getExpr());
                 List<String> attSuff = Splitter.on("_").splitToList(imgInfoReq.getKey());
                 if(attSuff!=null&&attSuff.size()>=2){
-                    descTem = descTem+attSuff.get(2);
+                    descTem = descTem+attSuff.get(1);
                 }
                 imgInfo.setImgDesc(descTem);
             }else {
@@ -115,7 +115,7 @@ import java.util.*;
                 desc = (ImgInfo.IMGDESC.QUOTE_ATTACH.getExpr());
                 List<String> attSuff = Splitter.on("_").splitToList(x.getKey());
                 if(attSuff!=null&&attSuff.size()>=2){
-                    desc = desc+"_"+attSuff.get(2);
+                    desc = desc+"_"+attSuff.get(1);
                 }
             }else {
                 desc  = (ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());

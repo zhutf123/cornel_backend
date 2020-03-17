@@ -85,7 +85,7 @@
         from img_list where status=1 and bind_type=2 and bind_id=#{quoteId,jdbcType=VARCHAR};
     </select>
     <update id="updateImgUrl">
-      update img_list set url=#{url} where bind_id=#{bindId} and desc =#{desc} ;
+      update img_list set url=#{url} where bind_id=#{bindId} and img_desc =#{desc} ;
     </update>
 
 
