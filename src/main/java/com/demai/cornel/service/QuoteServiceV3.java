@@ -177,7 +177,7 @@ import java.util.UUID;
                             + System.currentTimeMillis() % 100000);//为了排序加上当前时间时分秒作为时间戳
             quoteInfo.setWarehouseTime(warehouseTime);
         }
-        quoteInfoDao.insertSelective(quoteInfo);
+        quoteInfoDao.updateByPrimaryKeySelective(quoteInfo);
         offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
         offerQuoteResp.setQuoteId(quoteInfo.getQuoteId());
