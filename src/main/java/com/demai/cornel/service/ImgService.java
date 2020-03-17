@@ -79,12 +79,15 @@ import java.util.*;
             imgInfo.setImgId(UUID.randomUUID().toString());
 
             if(!Strings.isNullOrEmpty(imgInfoReq.getKey()) && imgInfoReq.getKey().startsWith(ImgInfo.IMGDESC.QUOTE_ATTACH.getKey())){
-                imgInfo.setImgDesc(ImgInfo.IMGDESC.QUOTE_ATTACH.getExpr());
+                String descTem = (ImgInfo.IMGDESC.QUOTE_ATTACH.getExpr());
+                List<String> attSuff = Splitter.on("_").splitToList(imgInfoReq.getKey());
+                if(attSuff!=null&&attSuff.size()>=2){
+                    descTem = descTem+attSuff.get(2);
+                }
+                imgInfo.setImgDesc(descTem);
             }else {
                 imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(imgInfoReq.getKey()).getExpr());
             }
-
-
             imgInfo.setUrl(imgInfoReq.getUrl());
             int res = imgInfoDao.insert(imgInfo);
             if (res == 0) {
@@ -96,6 +99,37 @@ import java.util.*;
             return false;
         }
         return true;
+    }
+
+
+
+    public void updateQuoteImg(List<ImgInfoReq> imgInfoReqs,String quoteId){
+        List<ImgInfo> oldImgInfo = imgInfoDao.getUserImgByQuoteId(quoteId);
+        if(oldImgInfo==null){
+            saveQuoteImgs(imgInfoReqs,quoteId);
+            return;
+        }
+        imgInfoReqs.stream().forEach(x->{
+            String desc="";
+            if(!Strings.isNullOrEmpty(x.getKey()) && x.getKey().startsWith(ImgInfo.IMGDESC.QUOTE_ATTACH.getKey())){
+                desc = (ImgInfo.IMGDESC.QUOTE_ATTACH.getExpr());
+                List<String> attSuff = Splitter.on("_").splitToList(x.getKey());
+                if(attSuff!=null&&attSuff.size()>=2){
+                    desc = desc+attSuff.get(2);
+                }
+            }else {
+                desc  = (ImgInfo.IMGDESC.keyOf(x.getKey()).getExpr());
+            }
+            for (ImgInfo imgInfo:oldImgInfo) {
+                if(!Strings.isNullOrEmpty(imgInfo.getImgDesc()) && imgInfo.getImgDesc().equals(desc)){
+                    imgInfoDao.updateImgUrl(quoteId,desc,x.getUrl());
+                }
+            }
+
+        });
+
+
+
     }
 
     public List<ImgInfoReq> getCarImgs(String lorryId){

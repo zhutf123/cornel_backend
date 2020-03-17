@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class SystemQuoteV2Req extends SystemQuoteReq {
     private String warehouseTime;//烘干塔货物入库的时间
-    private Integer cargoStatus;// 货物状态
+    private Integer cargoStatus;// 货物状态1现货 2等待货物入库
     private BigDecimal wetWeight;//湿粮重量
     private BigDecimal loanPrice; //贷款金额
     private List<ImgInfoReq> imgs;

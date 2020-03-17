@@ -38,6 +38,6 @@ public class QuoteControllerV3 {
 
     @RequestMapping(value = "/edit-sysquot-v3.json", method = RequestMethod.POST)
     @ResponseBody public JsonResult editSystemQuote(@RequestBody SystemQuoteV2Req offerQuoteReq) {
-        return JsonResult.success(quoteServiceV3.offerSystemQuoteV2(offerQuoteReq));
+        return JsonResult.success(quoteServiceV3.editSystemQuote(offerQuoteReq));
     }
 }

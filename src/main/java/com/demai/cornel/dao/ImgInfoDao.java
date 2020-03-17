@@ -23,4 +23,9 @@ public interface ImgInfoDao {
     List<ImgInfo> getCarImgByLorryId(@Param("lorryId") String lorryId);
 
     List<ImgInfo> getUserImgByUserId(@Param("userId") String userId);
+
+    List<ImgInfo> getUserImgByQuoteId(@Param("quoteId") String quoteId);
+
+
+    int updateImgUrl(@Param("bindId")String bindId,@Param("desc")String desc,@Param("url") String url );
 }

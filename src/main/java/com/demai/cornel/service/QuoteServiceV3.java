@@ -159,6 +159,9 @@ import java.util.UUID;
             return offerQuoteResp;
 
         }
+        if(offerQuoteReq.getImgs()!=null && offerQuoteReq.getImgs().size()>0){
+           imgService.updateQuoteImg(offerQuoteReq.getImgs(),offerQuoteReq.getQuoteId());
+        }
         quoteInfo.setQuoteId(oldQuote.getQuoteId());
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
