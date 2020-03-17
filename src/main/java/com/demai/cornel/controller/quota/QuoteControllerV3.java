@@ -25,12 +25,6 @@ public class QuoteControllerV3 {
     @Resource private QuoteServiceV3 quoteServiceV3;
     @Resource private QuoteService quoteService;
 
-//    @RequestMapping(value = "/click-system-quote.json", method = RequestMethod.POST) @ResponseBody public JsonResult clickOfferSystemQuote(
-//            @RequestBody String param) {
-//        JSONObject receivedParam = JSON.parseObject(param);
-//        String commodityId = (String) receivedParam.get("commodityId");
-//        return JsonResult.success(quoteService.getClickInfo(CookieAuthUtils.getCurrentUser(), commodityId));
-//    }
     /**
      * 烘干塔接受系统报价的接口 v2
      *
