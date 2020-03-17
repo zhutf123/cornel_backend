@@ -355,7 +355,7 @@ import java.util.stream.Collectors;
                 if(loanInfos!=null && loanInfos.iterator().next().getStatus().equals(LoanInfo.STATUS.PROVER.getValue())){
                     x.setShowLoan(1);
                     LoanInfoSimple loanInfoSimple = new LoanInfoSimple();
-                    BeanUtils.copyProperties(x, loanInfoSimple);
+                    BeanUtils.copyProperties(loanInfos.iterator().next(), loanInfoSimple);
                     loanInfoSimple.setApplyTime(loanInfos.iterator().next().getApplyTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,loanInfos.iterator().next().getApplyTime()));
                     loanInfoSimple.setLendingTime(loanInfos.iterator().next().getLendingTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,loanInfos.iterator().next().getLendingTime()));
                     x.setLoanInfo(Lists.newArrayList(loanInfoSimple));
