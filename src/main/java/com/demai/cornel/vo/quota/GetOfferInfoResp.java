@@ -1,6 +1,12 @@
 package com.demai.cornel.vo.quota;
 
+import com.demai.cornel.model.ImgInfoReq;
+import com.demai.cornel.model.LoanInfo;
 import lombok.Data;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @Author binz.zhang
@@ -10,4 +16,10 @@ import lombok.Data;
     private String userName;
     private String mobile;
     private String location;
+    private Integer cargoStatus;
+    private Set<String> loanId;
+    private BigDecimal wetWeight;
+    private BigDecimal loanPrice;
+    private List<ImgInfoReq> imgInfo;
+    private List<LoanInfoSimple> loanInfo;
 }

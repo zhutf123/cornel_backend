@@ -42,7 +42,7 @@ import java.util.UUID;
     }
 
     public static enum BINDTYPESTATUS implements IEmus {
-        BIND_USER(0, "绑定的人"), BIND_CAR(1, "绑定的车");
+        BIND_USER(0, "绑定的人"), BIND_CAR(1, "绑定的车"), BIND_QUOTE(2, "绑定的烘干塔订单");
 
         private int value;
         private String expr;
@@ -61,9 +61,10 @@ import java.util.UUID;
         }
     }
 
-    public  enum IMGDESC {
+    public enum IMGDESC {
         ID_CARD("idcard", "身份证号"), USER_CARD("userCard", "手持身份证号"), CAR_LICE("carLice", "行驶证照片"), DRIVER_LICE(
-                "driverLice", "驾驶证照片"), CAR_IMG("carImg", "车辆45度照片");
+                "driverLice", "驾驶证照片"), CAR_IMG("carImg", "车辆45度照片"), APPRO("appro", "烘干塔拨款申请单"), RECEIPT("receipt",
+                "烘干塔收款凭证"), QUOTE_ATTACH("quoteAttach", "烘干塔校验附件");
 
         private String key;
         private String expr;
@@ -82,23 +83,22 @@ import java.util.UUID;
         }
 
         public static IMGDESC keyOf(String key) {
-            return Arrays.stream(IMGDESC.values()).filter(X -> X.getKey().equalsIgnoreCase( key)).findAny()
-                    .orElse(null);
+            return Arrays.stream(IMGDESC.values()).filter(X -> X.getKey().equalsIgnoreCase(key)).findAny().orElse(null);
         }
 
         public static IMGDESC exparOf(String value) {
-            return Arrays.stream(IMGDESC.values()).filter(X -> X.getExpr().equalsIgnoreCase( value)).findAny()
+            return Arrays.stream(IMGDESC.values()).filter(X -> X.getExpr().equalsIgnoreCase(value)).findAny()
                     .orElse(null);
         }
     }
 
-//    public static void main(String[] args) {
-//        String u= "idcard";
-//        System.out.println(ImgInfo.IMGDESC.keyOf(u).getExpr());
-//        ImgInfo imgInfo = new ImgInfo();
-//        imgInfo.setImgId(UUID.randomUUID().toString());
-//        imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(u).getExpr());
-//        System.out.println(ImgInfo.IMGDESC.keyOf(u).getExpr());
-//
-//    }
+    //    public static void main(String[] args) {
+    //        String u= "idcard";
+    //        System.out.println(ImgInfo.IMGDESC.keyOf(u).getExpr());
+    //        ImgInfo imgInfo = new ImgInfo();
+    //        imgInfo.setImgId(UUID.randomUUID().toString());
+    //        imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(u).getExpr());
+    //        System.out.println(ImgInfo.IMGDESC.keyOf(u).getExpr());
+    //
+    //    }
 }

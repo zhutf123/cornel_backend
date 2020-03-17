@@ -22,6 +22,10 @@
         <result column="tower_id" jdbcType="VARCHAR" property="towerId"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
+        <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
     </resultMap>
 
     <resultMap id="get_quote_list" type="com.demai.cornel.vo.quota.GetOfferListResp">
@@ -60,6 +64,11 @@
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP"/>
+
+        <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
+        <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
     </resultMap>
 
     <resultMap id="listRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuoteListResp">
@@ -98,7 +107,7 @@
         <!--@mbg.generated-->
         id, commodity_id, "quote", unit_price, shipment_weight, unit_weight, start_time,
         update_time, "status", "desc", system_flag, bargain_status, user_id, "location",
-        user_name, quote_id, tower_id, mobile, end_time
+        user_name, quote_id, tower_id, mobile, end_time,cargo_status,wet_weight,loan_id
     </sql>
 
     <sql id="get_offer_list">
@@ -130,7 +139,9 @@
     q.user_name,
     q.mobile,
     q.location,
-    q.warehouse_time
+    q.warehouse_time,
+    q.wet_weight,
+    q.cargo_status
   </sql>
 
     <sql id="list_Resp_admin">
@@ -258,6 +269,15 @@
             <if test="warehouseTime != null">
                 warehouse_time,
             </if>
+            <if test="cargoStatus != null">
+                cargo_status,
+            </if>
+            <if test="wetWeight != null">
+                wet_weight,
+            </if>
+            <if test="loanId != null">
+                loan_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -319,6 +339,15 @@
             </if>
             <if test="warehouseTime != null">
                 #{warehouseTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cargoStatus != null">
+                #{cargoStatus,jdbcType=INTEGER} ,
+            </if>
+            <if test="wetWeight != null">
+                #{wetWeight,jdbcType=DECIMAL} ,
+            </if>
+            <if test="loanId != null">
+                #{loanIdopenId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,
             </if>
         </trim>
     </insert>

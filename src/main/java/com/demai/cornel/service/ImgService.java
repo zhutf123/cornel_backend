@@ -67,6 +67,36 @@ import java.util.*;
         }
         return true;
     }
+    public boolean saveQuoteInfoImg(ImgInfoReq imgInfoReq, String quoteId) {
+        if (imgInfoReq == null || Strings.isNullOrEmpty(quoteId)) {
+            return false;
+        }
+        try {
+            ImgInfo imgInfo = new ImgInfo();
+            imgInfo.setStatus(ImgInfo.STATUS.EXIST.getValue());
+            imgInfo.setBindType(ImgInfo.BINDTYPESTATUS.BIND_QUOTE.getValue());
+            imgInfo.setBindId(quoteId);
+            imgInfo.setImgId(UUID.randomUUID().toString());
+
+            if(Strings.isNullOrEmpty(imgInfoReq.getKey()) && imgInfoReq.getKey().startsWith(ImgInfo.IMGDESC.QUOTE_ATTACH.getKey())){
+                imgInfo.setImgDesc(ImgInfo.IMGDESC.QUOTE_ATTACH.getExpr());
+            }else {
+                imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(imgInfoReq.getKey()).getExpr());
+            }
+
+
+            imgInfo.setUrl(imgInfoReq.getUrl());
+            int res = imgInfoDao.insert(imgInfo);
+            if (res == 0) {
+                log.info("insert img into db fail img info is [{}]", JacksonUtils.obj2String(imgInfo));
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("insert img into db error", e);
+            return false;
+        }
+        return true;
+    }
 
     public List<ImgInfoReq> getCarImgs(String lorryId){
         List<ImgInfo> imgInfos = imgInfoDao.getCarImgByLorryId(lorryId);
@@ -122,6 +152,17 @@ import java.util.*;
         return true;
     }
 
+    public boolean saveQuoteImgs(List<ImgInfoReq> imgInfoReqs, String quoteId) {
+        if (imgInfoReqs == null || Strings.isNullOrEmpty(quoteId)) {
+            return false;
+        }
+        for (ImgInfoReq imgInfoReq : imgInfoReqs) {
+            if (!saveQuoteInfoImg(imgInfoReq, quoteId)) {
+                return false;
+            }
+        }
+        return true;
+    }
     public static void main(String[] args) {
         String imh = ".jpg";
         List<String> gf = Splitter.on(".").splitToList(imh);

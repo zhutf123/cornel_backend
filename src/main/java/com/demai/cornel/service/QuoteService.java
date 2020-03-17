@@ -48,6 +48,7 @@ import java.util.stream.Collectors;
     @Resource private CommodityDao commodityDao;
     @Resource private CommodityService commodityService;
     @Resource private SpecialQuoteMapper specialQuoteMapper;
+    @Resource private LoanInfoMapper loanInfoMapper;
 
     private static String TIME_FORMAT = "yyyy-MM-dd";
 
@@ -384,7 +385,21 @@ import java.util.stream.Collectors;
             Random r = new Random();
             serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
         }
+
         GetOfferInfoResp getOfferInfoResp = quoteInfoDao.getQuoteInfoById(quoteId);
+        if (getOfferInfoResp.getLoanId() != null && getOfferInfoResp.getLoanId().size() > 0) {
+            List<LoanInfo> loanInfos = loanInfoMapper.getLoanByLoanIds(getOfferInfoResp.getLoanId());
+            if (loanInfos != null) {
+                getOfferInfoResp.setLoanInfo(loanInfos.stream().map(x -> {
+                    LoanInfoSimple loanInfoSimple = new LoanInfoSimple();
+                    BeanUtils.copyProperties(x, loanInfoSimple);
+                    return loanInfoSimple;
+                }).collect(Collectors.toList()));
+                getOfferInfoResp.setLoanPrice(loanInfos.get(0).getPrice());
+            } else {
+                getOfferInfoResp.setLoanInfo(Collections.EMPTY_LIST);
+            }
+        }
         getOfferInfoResp.setServiceMobile(serviceMobile);
         return getOfferInfoResp;
     }

@@ -6,6 +6,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @Author binz.zhang
@@ -104,6 +105,11 @@ public class QuoteInfo {
     private String mobile;
     private String reviewUser;
     private Timestamp warehouseTime;
+
+    private Integer cargoStatus;// 货物状态
+    private BigDecimal wetWeight;//湿粮重量
+    private Set<String> loanId;//贷款ID
+
     /**
      * 结束时间
      */
