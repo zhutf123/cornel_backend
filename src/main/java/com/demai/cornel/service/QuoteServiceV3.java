@@ -128,7 +128,7 @@ import java.util.UUID;
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.ORDER_STATUS_INVALD.getValue());
             return offerQuoteResp;
         }
-        if (oldQuote.getUserId().equals(CookieAuthUtils.getCurrentUser())) {
+        if (!oldQuote.getUserId().equals(CookieAuthUtils.getCurrentUser())) {
             log.info("edit  quote info fail due to  cur user has no auth ");
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.USER_ERR.getValue());
             return offerQuoteResp;
