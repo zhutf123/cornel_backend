@@ -18,12 +18,13 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="actualPrice" jdbcType="NUMERIC" property="actualPrice" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, loan_id, price, interest, apply_user_id, apply_time, lending_time, est_repay_time, 
     actual_repay_time, interest_total, repay_price, review_user_id, create_time, update_time, 
-    "status"
+    "status",actualPrice
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->

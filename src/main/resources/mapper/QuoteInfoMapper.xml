@@ -141,7 +141,8 @@
     q.location,
     q.warehouse_time,
     q.wet_weight,
-    q.cargo_status
+    q.cargo_status,
+    q.loan_id
   </sql>
 
     <sql id="list_Resp_admin">

@@ -394,6 +394,8 @@ import java.util.stream.Collectors;
                 getOfferInfoResp.setLoanInfo(loanInfos.stream().map(x -> {
                     LoanInfoSimple loanInfoSimple = new LoanInfoSimple();
                     BeanUtils.copyProperties(x, loanInfoSimple);
+                    loanInfoSimple.setApplyTime(x.getApplyTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,x.getApplyTime()));
+                    loanInfoSimple.setLendingTime(x.getLendingTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,x.getLendingTime()));
                     return loanInfoSimple;
                 }).collect(Collectors.toList()));
                 getOfferInfoResp.setLoanPrice(loanInfos.get(0).getPrice());

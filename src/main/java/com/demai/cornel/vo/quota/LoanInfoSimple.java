@@ -12,8 +12,6 @@ import java.sql.Timestamp;
 @Data
 public class LoanInfoSimple {
 
-    private String loanId;
-
     /**
      * 贷款金额
      */
@@ -26,16 +24,17 @@ public class LoanInfoSimple {
     /**
      * 请款日期
      */
-    private Timestamp applyTime;
+    private String applyTime;
 
     /**
      * 放款日期
      */
-    private Timestamp lendingTime;
+    private String lendingTime;
 
 
     /**
      * 状态0 已取消 1待审核 2审核通过 3审核拒绝 4待放款 5已放款 6
      */
     private Integer status;
+    private BigDecimal actualPrice;
 }

@@ -82,4 +82,6 @@ public class LoanInfo {
     * 状态0 已取消 1待审核 2审核通过 3审核拒绝
     */
     private Integer status;
+
+    private BigDecimal actualPrice;//实际放款金额
 }
