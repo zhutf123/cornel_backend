@@ -240,7 +240,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
                     .build();
         }
 
-        float dryWetRadio = ((float) (30 / 100) - (float) 14.5 / 100) * 1.2f;
+        double dryWetRadio = ((30.0 / 100) - (14.5 / 100))*1.2;
         BigDecimal dryWeight = calculateDryReq.getWetWeight()
                 .subtract(calculateDryReq.getWetWeight().multiply(new BigDecimal(dryWetRadio)));
 
