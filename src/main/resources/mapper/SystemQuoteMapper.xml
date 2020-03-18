@@ -239,7 +239,11 @@
     </update>
     <select id="getNearestCommodityPrice" resultType="java.math.BigDecimal">
        select quote from system_quote where  commodity_id=#{commodityId,jdbcType=VARCHAR} and date(create_time) <![CDATA[ <= ]]> #{time,jdbcType=TIMESTAMP}
-        order by create_time desc limit 1
+       order by create_time desc limit 1;
+    </select>
+    <select id="getNearestCommodityPriceTime" resultType="java.sql.Timestamp">
+       select create_time from system_quote where  commodity_id=#{commodityId,jdbcType=VARCHAR}
+       order by create_time desc limit 1;
     </select>
 
 

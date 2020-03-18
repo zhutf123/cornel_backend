@@ -13,6 +13,7 @@ import com.demai.cornel.vo.quota.*;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
+import com.hp.gagawa.java.elements.B;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
@@ -108,7 +109,7 @@ import java.util.UUID;
         return offerQuoteResp;
     }
 
-    public OfferQuoteResp   editSystemQuote(SystemQuoteV2Req offerQuoteReq) {
+    public OfferQuoteResp editSystemQuote(SystemQuoteV2Req offerQuoteReq) {
         OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
         Preconditions.checkNotNull(offerQuoteReq);
         log.debug("dry tower update quote info is [{}]", JacksonUtils.obj2String(offerQuoteReq));
@@ -159,8 +160,8 @@ import java.util.UUID;
             return offerQuoteResp;
 
         }
-        if(offerQuoteReq.getImgs()!=null && offerQuoteReq.getImgs().size()>0){
-           imgService.updateQuoteImg(offerQuoteReq.getImgs(),offerQuoteReq.getQuoteId());
+        if (offerQuoteReq.getImgs() != null && offerQuoteReq.getImgs().size() > 0) {
+            imgService.updateQuoteImg(offerQuoteReq.getImgs(), offerQuoteReq.getQuoteId());
         }
         quoteInfo.setQuoteId(oldQuote.getQuoteId());
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
@@ -185,25 +186,65 @@ import java.util.UUID;
         return offerQuoteResp;
     }
 
-
     public GetQuotePriceResp getQuotePrice(GetQuotePriceRep req) throws ParseException {
-        if(req==null || Strings.isNullOrEmpty(req.getCommodityId()) || Strings.isNullOrEmpty(req.getTime())){
+        if (req == null || Strings.isNullOrEmpty(req.getCommodityId()) || Strings.isNullOrEmpty(req.getTime())) {
             log.debug("get quote price err due to param err");
             return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
+        GetQuotePriceResp getQuotePriceResp = new GetQuotePriceResp();
+        Timestamp spNeT = specialQuoteMapper
+                .getNearestCommodityPriceTime(CookieAuthUtils.getCurrentUser(), req.getCommodityId());
+        Timestamp syNeT = systemQuoteDao.getNearestCommodityPriceTime(req.getCommodityId());
+
+        if(spNeT==null && syNeT==null){
+            log.debug("GetQuotePriceResp get fail due to spNeT and syNeT all is null");
+            return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.COMMODITY_ERROR.getValue()).build();
+        }
+        if (spNeT == null) {
+            getQuotePriceResp.setStartTime(TimeStampUtil.timeStampConvertString("yyyy-mm-dd", syNeT));
+        } else {
+            Timestamp nearTime = spNeT.before(syNeT) ? spNeT : syNeT;
+            getQuotePriceResp.setStartTime(TimeStampUtil.timeStampConvertString("yyyy-mm-dd", nearTime));
+        }
+
         Date time = Date.valueOf(req.getTime());
-        BigDecimal quote = specialQuoteMapper.getNearestCommodityPrice(CookieAuthUtils.getCurrentUser(),req.getCommodityId(),time);
-        if(quote!=null){
-            return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.SUCCESS.getValue()).quote(quote).build();
+        BigDecimal quote = specialQuoteMapper
+                .getNearestCommodityPrice(CookieAuthUtils.getCurrentUser(), req.getCommodityId(), time);
+        if (quote != null) {
+            getQuotePriceResp.setQuote(quote);
+        } else {
+            quote = systemQuoteDao.getNearestCommodityPrice(req.getCommodityId(), time);
+            if (quote != null) {
+                getQuotePriceResp.setQuote(quote);
+            }
         }
-        quote = systemQuoteDao.getNearestCommodityPrice(req.getCommodityId(),time);
-        if(quote!=null){
-            return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.SUCCESS.getValue()).quote(quote).build();
+        if(getQuotePriceResp.getQuote()==null ){
+            getQuotePriceResp.setOptResult(GetQuotePriceResp.STATUS_ENUE.TIME_ERR.getValue());
+            return getQuotePriceResp;
         }
-        return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.COMMODITY_ERROR.getValue()).build();
+        getQuotePriceResp.setOptResult(GetQuotePriceResp.STATUS_ENUE.SUCCESS.getValue());
+        return getQuotePriceResp;
+
     }
 
+    public GetDryWetRadioResp getDryWetRadio() {
+        return new GetDryWetRadioResp();
+    }
 
+    public CalculateDryWeiResp calculateDryWeight(CalculateDryReq calculateDryReq) {
+        if (calculateDryReq == null || calculateDryReq.getWetWeight() == null
+                || calculateDryReq.getWetWeight().compareTo(new BigDecimal(0.0)) != 1) {
+            return CalculateDryWeiResp.builder().optResult(CalculateDryWeiResp.STATUS_ENUE.PARAM_ERROR.getValue())
+                    .build();
+        }
+
+        float dryWetRadio = ((float) (30 / 100) - (float) 14.5 / 100) * 1.2f;
+        BigDecimal dryWeight = calculateDryReq.getWetWeight()
+                .subtract(calculateDryReq.getWetWeight().multiply(new BigDecimal(dryWetRadio)));
+        return CalculateDryWeiResp.builder().optResult(CalculateDryWeiResp.STATUS_ENUE.SUCCESS.getValue()).
+                dryWeight(dryWeight).wetWeight(calculateDryReq.getWetWeight()).build();
+
+    }
 
     private boolean checkQuote(SystemQuoteV2Req offerQuoteReq) {
         return offerQuoteReq != null && offerQuoteReq.getCommodityId() != null && !Strings

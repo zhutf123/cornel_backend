@@ -84,7 +84,7 @@ import java.util.stream.Collectors;
     private Timestamp warehouseTime;
     private String showWarehouseTime;
     private Integer showLoan=0;//1 是显示放贷的情况 0 是不显示
-    private Set<String>loanId;
+    @JsonIgnore private Set<String>loanId;
     private List<LoanInfoSimple> loanInfo;
     public void setWarehouseTime(Timestamp warehouseTime) {
         this.warehouseTime = warehouseTime;

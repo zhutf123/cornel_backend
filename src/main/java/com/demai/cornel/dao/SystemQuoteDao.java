@@ -41,4 +41,7 @@ public interface SystemQuoteDao {
     int updateCommoditySystemInvalid(@Param("commodityId")String commodityId);
 
     BigDecimal getNearestCommodityPrice(@Param("commodityId")String commodityId,@Param("time") Date time);
+
+    Timestamp getNearestCommodityPriceTime(@Param("commodityId")String commodityId);
+
 }
