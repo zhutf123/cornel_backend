@@ -28,6 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.UUID;
 
+import static java.math.BigDecimal.ROUND_HALF_UP;
+
 /**
  * @Author binz.zhang
  * @Date: 2020-03-16    17:01
@@ -201,10 +203,10 @@ import java.util.UUID;
             return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.COMMODITY_ERROR.getValue()).build();
         }
         if (spNeT == null) {
-            getQuotePriceResp.setStartTime(TimeStampUtil.timeStampConvertString("yyyy-mm-dd", syNeT));
+            getQuotePriceResp.setStartTime(TimeStampUtil.timeStampConvertString("yyyy-MM-dd", syNeT));
         } else {
             Timestamp nearTime = spNeT.before(syNeT) ? spNeT : syNeT;
-            getQuotePriceResp.setStartTime(TimeStampUtil.timeStampConvertString("yyyy-mm-dd", nearTime));
+            getQuotePriceResp.setStartTime(TimeStampUtil.timeStampConvertString("yyyy-MM-dd", nearTime));
         }
 
         Date time = Date.valueOf(req.getTime());
@@ -241,8 +243,9 @@ import java.util.UUID;
         float dryWetRadio = ((float) (30 / 100) - (float) 14.5 / 100) * 1.2f;
         BigDecimal dryWeight = calculateDryReq.getWetWeight()
                 .subtract(calculateDryReq.getWetWeight().multiply(new BigDecimal(dryWetRadio)));
+
         return CalculateDryWeiResp.builder().optResult(CalculateDryWeiResp.STATUS_ENUE.SUCCESS.getValue()).
-                dryWeight(dryWeight).wetWeight(calculateDryReq.getWetWeight()).build();
+                dryWeight(dryWeight.setScale(2,ROUND_HALF_UP)).wetWeight(calculateDryReq.getWetWeight()).build();
 
     }
 
