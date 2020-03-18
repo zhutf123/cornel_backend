@@ -243,7 +243,7 @@
     </select>
     <select id="getNearestCommodityPriceTime" resultType="java.sql.Timestamp">
        select create_time from system_quote where  commodity_id=#{commodityId,jdbcType=VARCHAR}
-       order by create_time desc limit 1;
+       order by create_time asc limit 1;
     </select>
 
 
