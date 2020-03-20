@@ -154,7 +154,7 @@ public class QuoteInfo {
         }
 
     }public static enum CARGO_STATUS implements IEmus {
-        futures(1, "等待货物入库"), spot(2, "现货");
+        futures(2, "等待货物入库"), spot(1, "现货");
         private int value;
         private String expr;
 
