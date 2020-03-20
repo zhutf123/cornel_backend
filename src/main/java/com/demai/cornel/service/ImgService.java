@@ -89,7 +89,7 @@ import java.util.*;
             }else {
                 imgInfo.setImgDesc(ImgInfo.IMGDESC.keyOf(imgInfoReq.getKey()).getExpr());
             }
-            imgInfo.setUrl(imgInfoReq.getUrl());
+            imgInfo.setUrl(imgInfoReq.getUrl()==null ? "":imgInfoReq.getUrl());
             int res = imgInfoDao.insert(imgInfo);
             if (res == 0) {
                 log.info("insert img into db fail img info is [{}]", JacksonUtils.obj2String(imgInfo));
