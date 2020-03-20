@@ -36,7 +36,8 @@ import java.util.List;
     public JsonResult upload(
             @RequestParam("file") MultipartFile req, HttpServletResponse resp,
             @RequestParam(value = "key", required = true) String key,
-            @RequestParam(value = "name", required = false) String name) {
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "index", required = false) Integer index) {
         log.info("upload the file the file key is [{}] name is:{}",key,name);
         if (Strings.isNullOrEmpty(key) ) {
             log.error("upload file fail lack the name ");
@@ -54,7 +55,7 @@ import java.util.List;
             return JsonResult.success(UploadResp.builder().optResult(UploadResp.CODE_ENUE.SERVER_ERROR.getValue()).build());
         }
         return JsonResult.success(
-                UploadResp.builder().optResult(UploadResp.CODE_ENUE.SUCCESS.getValue()).url(downloadUrl).build());
+                UploadResp.builder().optResult(UploadResp.CODE_ENUE.SUCCESS.getValue()).url(downloadUrl).index(index).build());
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET) @ResponseBody public void download(
