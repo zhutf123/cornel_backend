@@ -64,7 +64,7 @@ import java.util.UUID;
     public enum IMGDESC {
         ID_CARD("idcard", "身份证号"), USER_CARD("userCard", "手持身份证号"), CAR_LICE("carLice", "行驶证照片"), DRIVER_LICE(
                 "driverLice", "驾驶证照片"), CAR_IMG("carImg", "车辆45度照片"), APPRO("appro", "烘干塔拨款申请单"), RECEIPT("receipt",
-                "烘干塔收款凭证"), QUOTE_ATTACH("quoteAttach", "烘干塔校验附件");
+                "烘干塔收款凭证"), QUOTE_ATTACH("quoteAttach", "烘干塔校验附件"),E_ACCOUNT("eightyAccount","百分之80底账");
 
         private String key;
         private String expr;
