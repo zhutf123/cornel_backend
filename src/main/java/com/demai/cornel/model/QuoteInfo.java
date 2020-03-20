@@ -153,6 +153,24 @@ public class QuoteInfo {
             return expr;
         }
 
+    }public static enum CARGO_STATUS implements IEmus {
+        futures(1, "等待货物入库"), spot(2, "现货");
+        private int value;
+        private String expr;
+
+        private CARGO_STATUS(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override public int getValue() {
+            return value;
+        }
+
+        @Override public String getExpr() {
+            return expr;
+        }
+
     }
 
 }

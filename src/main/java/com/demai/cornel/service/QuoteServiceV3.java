@@ -16,6 +16,7 @@ import com.google.common.collect.Sets;
 import com.hp.gagawa.java.elements.B;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.postgresql.jdbc.TimestampUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +62,9 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.DRY_TOWER_ERROR.getValue());
             return offerQuoteResp;
         }
-
+        if(offerQuoteReq.getCargoStatus().equals(QuoteInfo.CARGO_STATUS.spot.getValue())){
+            offerQuoteReq.setWarehouseTime(TimeStampUtil.timeStampConvertString("yyyy-MM-dd",new Timestamp(System.currentTimeMillis())));
+        }
         QuoteInfo quoteInfo = new QuoteInfo();
         BeanUtils.copyProperties(offerQuoteReq, quoteInfo);
         String userId = CookieAuthUtils.getCurrentUser();
@@ -120,6 +123,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue());
             return offerQuoteResp;
         }
+
         QuoteInfo oldQuote = quoteInfoDao.selectByPrimaryKey(offerQuoteReq.getQuoteId());
         if (oldQuote == null) {
             log.info("edit  quote info fail due to get old quote info is null");
@@ -250,9 +254,16 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
     }
 
     private boolean checkQuote(SystemQuoteV2Req offerQuoteReq) {
-        return offerQuoteReq != null && offerQuoteReq.getCommodityId() != null && !Strings
-                .isNullOrEmpty(offerQuoteReq.getTowerId()) && offerQuoteReq.getShipmentWeight() != null
-                && offerQuoteReq.getQuote() != null && offerQuoteReq.getWetWeight() != null;
+        if(offerQuoteReq == null || offerQuoteReq.getCommodityId() == null || Strings
+                .isNullOrEmpty(offerQuoteReq.getTowerId()) || offerQuoteReq.getShipmentWeight() == null
+                || offerQuoteReq.getQuote() == null ){
+            return false;
+        }
+        if(offerQuoteReq.getCargoStatus().equals(QuoteInfo.CARGO_STATUS.futures.getValue()) && offerQuoteReq.getWetWeight()==null){
+            return false;
+        }
+        return true;
+
     }
 
     public boolean updateLoanInfo(QuoteInfo oldQuoteInfo, BigDecimal updatePrice, QuoteInfo newQuote) {
