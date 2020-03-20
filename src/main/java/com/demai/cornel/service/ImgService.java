@@ -68,7 +68,7 @@ import java.util.*;
         return true;
     }
     public boolean saveQuoteInfoImg(ImgInfoReq imgInfoReq, String quoteId) {
-        if (imgInfoReq == null || Strings.isNullOrEmpty(quoteId) || Strings.isNullOrEmpty(imgInfoReq.getUrl())) {
+        if (imgInfoReq == null || Strings.isNullOrEmpty(quoteId)) {
             return false;
         }
         try {
