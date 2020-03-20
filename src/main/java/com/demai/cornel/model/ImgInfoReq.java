@@ -15,6 +15,8 @@ public class ImgInfoReq {
         this.key = key;
         if(url==null){
             this.url = "";
+        }else {
+            this.url = url;
 
         }
     }
