@@ -37,4 +37,5 @@ public class LoanInfoSimple {
      */
     private Integer status;
     private BigDecimal actualPrice;
+
 }
