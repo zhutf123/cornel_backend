@@ -83,6 +83,7 @@ import java.util.stream.Collectors;
     private String serviceMobile;
     private Timestamp warehouseTime;
     private String showWarehouseTime;
+    private Integer cargoStatus;
     private Integer showLoan=0;//1 是显示放贷的情况 0 是不显示
     @JsonIgnore private Set<String>loanId;
     private List<LoanInfoSimple> loanInfo;
