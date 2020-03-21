@@ -14,8 +14,6 @@ alter table quote_info
 
 comment on column quote_info.cargo_status is '货物状态1现货,2等待货物入库';
 
-alter table quote_info
-	add img_list varchar(50) [];
 
 create table loan_info
 (
