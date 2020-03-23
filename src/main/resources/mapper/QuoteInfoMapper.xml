@@ -150,7 +150,7 @@
     q.wet_weight,
     q.cargo_status,
     q.loan_id,
-    q.review_opt,
+    q.review_opt
   </sql>
 
     <sql id="list_Resp_admin">

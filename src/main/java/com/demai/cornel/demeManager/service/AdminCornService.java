@@ -126,7 +126,7 @@ import java.util.*;
         quoteInfo.setReviewUser(CookieAuthUtils.getCurrentUser());
         if(quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue()) ){
             HashMap<String,String> reviewOpt =  new HashMap<>(2);
-            reviewOpt.put("errCode",String.valueOf(quoteReq.getStatus()));
+            reviewOpt.put("errCode",String.valueOf(quoteReq.getErrCode()));
             reviewOpt.put("errDesc",quoteReq.getErrDesc());
             quoteInfo.setReviewOpt(reviewOpt);
         }
