@@ -47,6 +47,8 @@
         <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
+        <result column="review_opt" property="reviewOpt" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
     </resultMap>
     <resultMap id="get_quote_info" type="com.demai.cornel.vo.quota.GetOfferInfoResp">
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
@@ -129,7 +131,8 @@
     q.status,
     q.warehouse_time,
     q.loan_id,
-    q.cargo_status
+    q.cargo_status,
+    q.review_opt
   </sql>
     <sql id="get_offer_info">
     c.name as commodity_name,

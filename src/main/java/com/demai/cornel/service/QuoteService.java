@@ -329,6 +329,7 @@ import java.util.stream.Collectors;
         }
         String finalServiceMobile = serviceMobile;
         getOfferListResps.stream().forEach(x -> {
+            x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
             x.setServiceMobile(finalServiceMobile);
         });
         return getOfferListResps;
@@ -363,6 +364,7 @@ import java.util.stream.Collectors;
                 }else {
                     x.setLoanInfo(Collections.EMPTY_LIST);
                 }
+                x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
             }
             x.setServiceMobile(finalServiceMobile);
         });

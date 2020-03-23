@@ -23,7 +23,7 @@ public class OpterReviewService {
      */
    public ReviewOptResp towerReviewConvert(HashMap<String,String>optReview){
        if(optReview==null){
-          return  ReviewOptResp.builder().desc("").errTag(Collections.EMPTY_LIST).build();
+          return  ReviewOptResp.builder().detailDesc("").errTag(Collections.EMPTY_LIST).build();
        }
        Integer errCode  = 0;
        try {
@@ -33,16 +33,19 @@ public class OpterReviewService {
        }
        String desc = Strings.isNullOrEmpty(optReview.get("errDesc")) ? "": optReview.get("errDesc");
        if(errCode==null ){
-           return ReviewOptResp.builder().desc(desc).errTag(Collections.EMPTY_LIST).build();
+           return ReviewOptResp.builder().detailDesc(desc).errTag(Collections.EMPTY_LIST).build();
        }
-       List<String> errTag = new LinkedList<>();
+       List<ReviewModel> errTag = new LinkedList<>();
        Integer finalErrCode = errCode;
        Arrays.stream(ReviewModel.TOWER_SUP_ORDER_ERR.values()).forEach(x->{
            if(x.getValue()==(x.getValue()& finalErrCode)){
-               errTag.add(x.getExpr());
+               ReviewModel reviewModel = new ReviewModel();
+               reviewModel.setErrCode(x.getValue());
+               reviewModel.setDesc(x.getExpr());
+               errTag.add(reviewModel);
            }
        });
-      return ReviewOptResp.builder().desc(desc).errTag(errTag).build();
+      return ReviewOptResp.builder().detailDesc(desc).errTag(errTag).build();
    }
 
 }

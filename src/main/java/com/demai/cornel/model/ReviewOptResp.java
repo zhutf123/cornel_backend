@@ -17,6 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewOptResp {
-    private List<String> errTag;// 错误标签
-    private String desc;// 错误详情描述
+    private List<ReviewModel> errTag;// 错误标签
+    private String detailDesc;// 错误详情描述
 }

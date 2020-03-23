@@ -25,8 +25,6 @@ import java.util.Set;
     private BigDecimal wetWeight;
     private BigDecimal loanPrice;
     private List<ImgInfoReq> imgInfo;
-    private ReviewOptResp reviewInfo;
-    @JsonIgnore
-    private HashMap<String,String> reviewOpt;
+
     //private List<LoanInfoSimple> loanInfo;
 }
