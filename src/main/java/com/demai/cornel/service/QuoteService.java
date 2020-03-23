@@ -364,8 +364,8 @@ import java.util.stream.Collectors;
                 }else {
                     x.setLoanInfo(Collections.EMPTY_LIST);
                 }
-                x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
             }
+            x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
             x.setServiceMobile(finalServiceMobile);
         });
         return getOfferListResps;
