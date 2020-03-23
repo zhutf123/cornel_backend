@@ -2,10 +2,12 @@ package com.demai.cornel.vo.quota;
 
 import com.demai.cornel.model.ImgInfoReq;
 import com.demai.cornel.model.LoanInfo;
+import com.demai.cornel.model.ReviewOptResp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -23,5 +25,8 @@ import java.util.Set;
     private BigDecimal wetWeight;
     private BigDecimal loanPrice;
     private List<ImgInfoReq> imgInfo;
+    private ReviewOptResp reviewInfo;
+    @JsonIgnore
+    private HashMap<String,String> reviewOpt;
     //private List<LoanInfoSimple> loanInfo;
 }

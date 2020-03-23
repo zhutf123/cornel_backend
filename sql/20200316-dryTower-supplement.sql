@@ -71,3 +71,5 @@ alter table loan_info
 	add constraint loan_info_pk
 		primary key (id);
 
+alter table quote_info
+	add review_opt hstore;

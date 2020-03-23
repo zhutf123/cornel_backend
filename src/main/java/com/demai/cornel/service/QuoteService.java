@@ -52,6 +52,7 @@ import java.util.stream.Collectors;
     @Resource private SpecialQuoteMapper specialQuoteMapper;
     @Resource private LoanInfoMapper loanInfoMapper;
     @Resource private ImgService imgService;
+    @Resource private OpterReviewService opterReviewService;
     private static String TIME_FORMAT = "yyyy-MM-dd";
 
     /**
@@ -414,6 +415,7 @@ import java.util.stream.Collectors;
                 getOfferInfoResp.setLoanInfo(Collections.EMPTY_LIST);
             }
         }
+        getOfferInfoResp.setReviewInfo(opterReviewService.towerReviewConvert(getOfferInfoResp.getReviewOpt()));
         List<ImgInfoReq> imgInfoReqs =imgService.getQuoteImgs(quoteId);
         getOfferInfoResp.setImgInfo(imgInfoReqs);
         getOfferInfoResp.setServiceMobile(serviceMobile);

@@ -115,4 +115,9 @@ import java.util.UUID;
         Preconditions.checkNotNull(adGetTowQuLiReq);
         return JsonResult.success(adminCornService.getTowerQuoteList(adGetTowQuLiReq.getUserId()));
     }
+    @CrossOrigin @RequestMapping(value = "/get-err-opt.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult getErrOption() {
+        return JsonResult.success(adminCornService.getReviewErrOpt());
+    }
+
 }

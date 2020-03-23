@@ -10,4 +10,6 @@ import lombok.Data;
 public class ReviewQuoteReq {
     private String quoteId;
     private Integer status;
+    private Integer errCode;
+    private String errDesc;
 }

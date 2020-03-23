@@ -72,6 +72,8 @@
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
         <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
+        <result column="review_opt" property="reviewOpt" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
     </resultMap>
 
     <resultMap id="listRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuoteListResp">
@@ -147,7 +149,8 @@
     q.warehouse_time,
     q.wet_weight,
     q.cargo_status,
-    q.loan_id
+    q.loan_id,
+    q.review_opt,
   </sql>
 
     <sql id="list_Resp_admin">
@@ -417,6 +420,9 @@
             </if>
             <if test="reviewUser != null">
                 review_user = #{reviewUser,jdbcType=VARCHAR} ,
+            </if>
+            <if test="reviewOpt != null">
+                review_opt = #{hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler})},
             </if>
         </set>
         where quote_id = #{quoteId,jdbcType=VARCHAR}

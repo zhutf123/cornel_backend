@@ -23,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -112,11 +113,23 @@ import java.util.*;
             log.warn("review quote failfail due to user error ");
             return ReviewQuoteResp.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
+        if(quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue()) && (quoteReq.getErrCode()==null
+                ||Strings.isNullOrEmpty(quoteReq.getErrDesc()))){
+            log.debug("review quote fail due to param error reject quote must give the reason");
+            return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
+
         QuoteInfo quoteInfo = new QuoteInfo();
         quoteInfo.setQuoteId(quoteReq.getQuoteId());
         quoteInfo.setStatus(quoteReq.getStatus());
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         quoteInfo.setReviewUser(CookieAuthUtils.getCurrentUser());
+        if(quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue()) ){
+            HashMap<String,String> reviewOpt =  new HashMap<>(2);
+            reviewOpt.put("errCode",String.valueOf(quoteReq.getStatus()));
+            reviewOpt.put("errDesc",quoteReq.getErrDesc());
+            quoteInfo.setReviewOpt(reviewOpt);
+        }
         int res = quoteInfoDao.updateByPrimaryKeySelective(quoteInfo);
         if (res != 1) {
             log.warn("review quote failfail due to update db fail");
@@ -285,6 +298,18 @@ import java.util.*;
         });
         return resps;
     }
+
+    public List<ReviewModel> getReviewErrOpt(){
+        List<ReviewModel>reviewModels = new ArrayList<>();
+        Arrays.stream(ReviewModel.TOWER_SUP_ORDER_ERR.values()).forEach(x->{
+            ReviewModel reviewModel = new ReviewModel();
+            reviewModel.setErrCode(x.getValue());
+            reviewModel.setDesc(x.getExpr());
+            reviewModels.add(reviewModel);
+        });
+        return reviewModels;
+    }
+
 
     public static void main(String[] args) {
         String ckey = "u=" + "binz.zhang" + "&t=";

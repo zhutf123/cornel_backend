@@ -6,6 +6,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Set;
 
 /**
@@ -110,6 +111,7 @@ public class QuoteInfo {
     private BigDecimal wetWeight;//湿粮重量
     private Set<String> loanId;//贷款ID
 
+    private HashMap<String,String>reviewOpt;
     /**
      * 结束时间
      */
