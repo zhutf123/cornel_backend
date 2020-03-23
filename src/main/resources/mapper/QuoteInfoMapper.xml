@@ -422,7 +422,7 @@
                 review_user = #{reviewUser,jdbcType=VARCHAR} ,
             </if>
             <if test="reviewOpt != null">
-                review_opt = #{hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler})},
+                review_opt = hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}),
             </if>
         </set>
         where quote_id = #{quoteId,jdbcType=VARCHAR}
