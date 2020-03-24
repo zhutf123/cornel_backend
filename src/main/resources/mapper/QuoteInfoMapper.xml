@@ -108,6 +108,10 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="company" jdbcType="VARCHAR" property="company"/>
+        <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -169,7 +173,9 @@
         q.warehouse_time,
         c.commodity_id,
         c.name as commodity_name,
-        d.company
+        d.company,
+        q.loan_id,
+        q.wet_weight
     </sql>
     <sql id="detail_Resp_admin">
         q.quote_id,

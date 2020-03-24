@@ -9,6 +9,7 @@ import com.demai.cornel.demeManager.model.AdminUser;
 import com.demai.cornel.demeManager.model.SpecialQuote;
 import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.model.*;
+import com.demai.cornel.service.ImgService;
 import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
@@ -23,6 +24,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.*;
@@ -41,6 +43,8 @@ import java.util.*;
     @Resource private UserInfoDao userInfoDao;
     @Resource private SpecialQuoteMapper specialQuoteMapper;
     @Resource private AdminUserLoginService adminUserLoginService;
+    @Resource private LoanInfoMapper loanInfoMapper;
+    @Resource private ImgService imgService;
 
     public List<AdminGetQuoteListResp> getQuoteList(GetQuoteListReq getQuoteListReq, HttpServletResponse response) {
 
@@ -57,9 +61,9 @@ import java.util.*;
         if (getQuoteListReq.getLimit() == null) {
             getQuoteListReq.setLimit(0);
         }
-        adminUserLoginService.resetTokenExprieTime(userId,token);
+        adminUserLoginService.resetTokenExprieTime(userId, token);
         response.addCookie(adminUserLoginService.clearPathCookie());
-        response.addCookie(adminUserLoginService.buildCkey(userId,token));
+        response.addCookie(adminUserLoginService.buildCkey(userId, token));
         List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(getQuoteListReq.getLimit(),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));
         if (gerQuoteListResps == null) {
@@ -88,6 +92,13 @@ import java.util.*;
             return AdminGetQuteDetail.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.ORDER_INVALID.getValue())
                     .build();
         }
+        if(quoteInfo.getLoanId()==null){
+            quoteInfo.setLoanPrice(new BigDecimal(0.0));
+        }else {
+            List<LoanInfo> loanInfos =  loanInfoMapper.getLoanByLoanIds(quoteInfo.getLoanId());
+            quoteInfo.setLoanPrice(loanInfos==null || loanInfos.size()==0 ? new BigDecimal(0):loanInfos.get(0).getPrice());
+        }
+        quoteInfo.setImgInfo(imgService.getQuoteImgs(quoteId));
         quoteInfo.setOptStatus(AdminGetQuteDetail.STATUS_ENUE.SUCCESS.getValue());
         return quoteInfo;
     }
@@ -113,8 +124,8 @@ import java.util.*;
             log.warn("review quote failfail due to user error ");
             return ReviewQuoteResp.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
-        if(quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue()) && (quoteReq.getErrCode()==null
-                ||Strings.isNullOrEmpty(quoteReq.getErrDesc()))){
+        if (quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue()) && (
+                quoteReq.getErrCode() == null || Strings.isNullOrEmpty(quoteReq.getErrDesc()))) {
             log.debug("review quote fail due to param error reject quote must give the reason");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
@@ -124,10 +135,10 @@ import java.util.*;
         quoteInfo.setStatus(quoteReq.getStatus());
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         quoteInfo.setReviewUser(CookieAuthUtils.getCurrentUser());
-        if(quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue()) ){
-            HashMap<String,String> reviewOpt =  new HashMap<>(2);
-            reviewOpt.put("errCode",String.valueOf(quoteReq.getErrCode()));
-            reviewOpt.put("errDesc",quoteReq.getErrDesc());
+        if (quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue())) {
+            HashMap<String, String> reviewOpt = new HashMap<>(2);
+            reviewOpt.put("errCode", String.valueOf(quoteReq.getErrCode()));
+            reviewOpt.put("errDesc", quoteReq.getErrDesc());
             quoteInfo.setReviewOpt(reviewOpt);
         }
         int res = quoteInfoDao.updateByPrimaryKeySelective(quoteInfo);
@@ -188,9 +199,9 @@ import java.util.*;
         }
 
         for (AdminEditQuoteReq.quoteInfo x : adminGetTowerReq.getQuoteInfos()) {
-            if(x.getSystemFlag()!=null && x.getSystemFlag().equals(1)){
+            if (x.getSystemFlag() != null && x.getSystemFlag().equals(1)) {
                 editSystemQuote(x);
-            }else {
+            } else {
                 editSpecialUserQuote(x);
             }
         }
@@ -198,8 +209,9 @@ import java.util.*;
     }
 
     private boolean editSpecialUserQuote(AdminEditQuoteReq.quoteInfo quoteInfo) {
-        if(quoteInfo==null|| Strings.isNullOrEmpty(quoteInfo.getCommodityId())
-                ||Strings.isNullOrEmpty(quoteInfo.getUserId()) ||Strings.isNullOrEmpty(quoteInfo.getTowerId()) || quoteInfo.getQuote()==null ){
+        if (quoteInfo == null || Strings.isNullOrEmpty(quoteInfo.getCommodityId()) || Strings
+                .isNullOrEmpty(quoteInfo.getUserId()) || Strings.isNullOrEmpty(quoteInfo.getTowerId())
+                || quoteInfo.getQuote() == null) {
             log.error("editSpecialUserQuote fail due param lock param is {}", JacksonUtils.obj2String(quoteInfo));
             return false;
         }
@@ -225,16 +237,16 @@ import java.util.*;
     }
 
     private boolean editSystemQuote(AdminEditQuoteReq.quoteInfo quoteInfo) {
-        if(quoteInfo==null|| Strings.isNullOrEmpty(quoteInfo.getCommodityId()) || quoteInfo.getQuote()==null ){
+        if (quoteInfo == null || Strings.isNullOrEmpty(quoteInfo.getCommodityId()) || quoteInfo.getQuote() == null) {
             log.error("editSystemQuote fail due param lock param is {}", JacksonUtils.obj2String(quoteInfo));
             return false;
         }
-        SystemQuote systemQuoteOld =systemQuoteDao.getSystemQuoteByCommodityId(quoteInfo.getCommodityId());
-        if(systemQuoteOld==null){
+        SystemQuote systemQuoteOld = systemQuoteDao.getSystemQuoteByCommodityId(quoteInfo.getCommodityId());
+        if (systemQuoteOld == null) {
             log.error("editSystemQuote fail due to systemQuoteOld is null");
         }
         SystemQuote systemQuoteNew = new SystemQuote();
-        BeanUtils.copyProperties(systemQuoteOld,systemQuoteNew);
+        BeanUtils.copyProperties(systemQuoteOld, systemQuoteNew);
         systemQuoteNew.setStatus(1);
         systemQuoteNew.setId(null);
         systemQuoteNew.setQuote(quoteInfo.getSelfQuote());
@@ -249,8 +261,6 @@ import java.util.*;
         }
         return true;
     }
-
-
 
     public List<AdminGetSyQuLis> getSyQuLis() {
         String userId = CookieAuthUtils.getCurrentUser();
@@ -271,7 +281,6 @@ import java.util.*;
         return systemQuote;
     }
 
-
     public List<AdminGetTowerQuLiResp> getTowerQuoteList(String towerUserId) {
         String userId = CookieAuthUtils.getCurrentUser();
         String token = CookieAuthUtils.getCurrentUserToken();
@@ -289,19 +298,19 @@ import java.util.*;
             return Collections.EMPTY_LIST;
         }
         List<AdminGetTowerQuLiResp> resps = new ArrayList<>();
-        specialQuote.stream().forEach(x->{
+        specialQuote.stream().forEach(x -> {
             Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             AdminGetTowerQuLiResp adminGetTowerQuLiResp = new AdminGetTowerQuLiResp();
-            BeanUtils.copyProperties(x,adminGetTowerQuLiResp);
+            BeanUtils.copyProperties(x, adminGetTowerQuLiResp);
             adminGetTowerQuLiResp.setCommodityName(commodity.getName());
             resps.add(adminGetTowerQuLiResp);
         });
         return resps;
     }
 
-    public List<ReviewModel> getReviewErrOpt(){
-        List<ReviewModel>reviewModels = new ArrayList<>();
-        Arrays.stream(ReviewModel.TOWER_SUP_ORDER_ERR.values()).forEach(x->{
+    public List<ReviewModel> getReviewErrOpt() {
+        List<ReviewModel> reviewModels = new ArrayList<>();
+        Arrays.stream(ReviewModel.TOWER_SUP_ORDER_ERR.values()).forEach(x -> {
             ReviewModel reviewModel = new ReviewModel();
             reviewModel.setErrCode(x.getValue());
             reviewModel.setDesc(x.getExpr());
@@ -309,7 +318,6 @@ import java.util.*;
         });
         return reviewModels;
     }
-
 
     public static void main(String[] args) {
         String ckey = "u=" + "binz.zhang" + "&t=";
