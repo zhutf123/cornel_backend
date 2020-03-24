@@ -174,8 +174,6 @@
         c.commodity_id,
         c.name as commodity_name,
         d.company,
-        q.loan_id,
-        q.wet_weight
     </sql>
     <sql id="detail_Resp_admin">
         q.quote_id,
@@ -192,7 +190,9 @@
         q.warehouse_time,
         c.commodity_id,
         c.name as commodity_name,
-        d.company
+        d.company,
+        q.loan_id,
+        q.wet_weight
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         <!--@mbg.generated-->
