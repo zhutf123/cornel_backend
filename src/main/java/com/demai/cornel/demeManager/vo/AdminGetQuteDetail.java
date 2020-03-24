@@ -2,6 +2,7 @@ package com.demai.cornel.demeManager.vo;
 
 import com.demai.cornel.dmEnum.IEmus;
 import com.demai.cornel.model.ImgInfoReq;
+import com.demai.cornel.vo.quota.GetDryWetRadioResp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,8 @@ public class AdminGetQuteDetail extends AdminGetQuoteListResp {
     private BigDecimal wetWeight;
     private BigDecimal loanPrice;
     private List<ImgInfoReq> imgInfo;
+    private  float dryWetRadio = 1.2f;
+
     @JsonIgnore
     private Set<String> loanId;
     public static enum STATUS_ENUE implements IEmus {

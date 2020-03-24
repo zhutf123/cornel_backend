@@ -14,6 +14,7 @@ import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
+import com.demai.cornel.vo.quota.GetDryWetRadioResp;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.hp.gagawa.java.elements.A;
@@ -99,6 +100,7 @@ import java.util.*;
             quoteInfo.setLoanPrice(loanInfos==null || loanInfos.size()==0 ? new BigDecimal(0):loanInfos.get(0).getPrice());
         }
         quoteInfo.setImgInfo(imgService.getQuoteImgs(quoteId));
+        quoteInfo.setDryWetRadio(GetDryWetRadioResp.dryWetRadio);
         quoteInfo.setOptStatus(AdminGetQuteDetail.STATUS_ENUE.SUCCESS.getValue());
         return quoteInfo;
     }

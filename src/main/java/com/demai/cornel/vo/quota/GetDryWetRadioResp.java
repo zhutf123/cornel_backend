@@ -8,5 +8,5 @@ import lombok.Data;
  */
 @Data
 public class GetDryWetRadioResp {
-    private float dryWetRadio = 1.2f;
+    public static float dryWetRadio = 1.2f;
 }
