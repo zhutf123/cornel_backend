@@ -433,6 +433,18 @@
             <if test="reviewOpt != null">
                 review_opt = hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}),
             </if>
+            <if test="warehouseTime != null">
+                warehouse_time=#{warehouseTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cargoStatus != null">
+                cargo_status=#{cargoStatus,jdbcType=INTEGER} ,
+            </if>
+            <if test="wetWeight != null">
+               wet_weight= #{wetWeight,jdbcType=DECIMAL} ,
+            </if>
+            <if test="loanId != null">
+                loan_id=#{loanId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+            </if>
         </set>
         where quote_id = #{quoteId,jdbcType=VARCHAR}
     </update>
