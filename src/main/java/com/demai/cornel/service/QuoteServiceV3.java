@@ -185,7 +185,17 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
                             + System.currentTimeMillis() % 100000);//为了排序加上当前时间时分秒作为时间戳
             quoteInfo.setWarehouseTime(warehouseTime);
         }
-        quoteInfoDao.updateByPrimaryKeySelective(quoteInfo);
+        int res = 0;
+        try {
+            res = quoteInfoDao.updateByPrimaryKeySelective(quoteInfo);
+        }catch (Exception e){
+            log.error("update quote order fail du to update db fail",2);
+        }
+        if(res!=1){
+            log.error("update quote order fail du to update db fail");
+            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SERVER_ERROR.getValue());
+            return offerQuoteResp;
+        }
         offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
         offerQuoteResp.setQuoteId(quoteInfo.getQuoteId());
