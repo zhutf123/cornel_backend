@@ -306,9 +306,14 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
             newQuote.setLoanId(oldQuoteInfo.getLoanId());
             return true;
         }
-        int upRes = loanInfoMapper.updatePrice(updatePrice, oldQuoteInfo.getLoanId().iterator().next());
-        if (upRes != 1) {
-            log.error("update loan err due to update loan db err");
+        try {
+            int upRes = loanInfoMapper.updatePrice(updatePrice, oldQuoteInfo.getLoanId().iterator().next());
+            if (upRes != 1) {
+                log.error("update loan err due to update loan db err");
+                return false;
+            }
+        }catch (Exception e){
+            log.error("update laodn into db error",e);
             return false;
         }
         newQuote.setLoanId(oldQuoteInfo.getLoanId());
