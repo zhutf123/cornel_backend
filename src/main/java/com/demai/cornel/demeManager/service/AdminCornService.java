@@ -54,11 +54,11 @@ import java.util.*;
         if (!adminUserLoginService.checkAdminToken(token, userId)) {
             return Collections.EMPTY_LIST;
         }
-        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-        if (adminUser == null) {
-            log.warn("admin get  quote detail fail due to user error ");
-            return Collections.EMPTY_LIST;
-        }
+//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
+//        if (adminUser == null) {
+//            log.warn("admin get  quote detail fail due to user error ");
+//            return Collections.EMPTY_LIST;
+//        }
         if (getQuoteListReq.getLimit() == null) {
             getQuoteListReq.setLimit(0);
         }
@@ -82,11 +82,11 @@ import java.util.*;
             return AdminGetQuteDetail.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
         AdminGetQuteDetail quoteInfo = quoteInfoDao.adminGetQuoteDetail(quoteId);
-        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-        if (adminUser == null) {
-            log.warn("admin get  quote detail fail due to user error ");
-            return AdminGetQuteDetail.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
-        }
+//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
+//        if (adminUser == null) {
+//            log.warn("admin get  quote detail fail due to user error ");
+//            return AdminGetQuteDetail.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
+//        }
 
         if (quoteInfo == null) {
             log.warn("admin get  quote detail ");
@@ -121,11 +121,11 @@ import java.util.*;
             log.debug("review quote fail due to param error quote status invalid ");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
-        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-        if (adminUser == null) {
-            log.warn("review quote failfail due to user error ");
-            return ReviewQuoteResp.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
-        }
+//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
+//        if (adminUser == null) {
+//            log.warn("review quote failfail due to user error ");
+//            return ReviewQuoteResp.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
+//        }
         if (quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue()) && (
                 quoteReq.getErrCode() == null || Strings.isNullOrEmpty(quoteReq.getErrDesc()))) {
             log.debug("review quote fail due to param error reject quote must give the reason");
@@ -158,11 +158,11 @@ import java.util.*;
         if (!adminUserLoginService.checkAdminToken(token, userId)) {
             return Collections.EMPTY_LIST;
         }
-        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-        if (adminUser == null) {
-            log.debug("cur user {} no auth get tower list", CookieAuthUtils.getCurrentUser());
-            return Collections.EMPTY_LIST;
-        }
+//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
+//        if (adminUser == null) {
+//            log.debug("cur user {} no auth get tower list", CookieAuthUtils.getCurrentUser());
+//            return Collections.EMPTY_LIST;
+//        }
         List<DryTower> towers = dryTowerDao.selectAllTower(adminGetTowerReq.getTowerId(),
                 Optional.ofNullable(adminGetTowerReq.getPgSize()).orElse(10));
         if (towers == null || towers.size() == 0) {
@@ -194,11 +194,11 @@ import java.util.*;
             return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue())
                     .build();
         }
-        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-        if (adminUser == null) {
-            log.debug("cur user {} no auth EDIT quote", CookieAuthUtils.getCurrentUser());
-            return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.USER_ERROR.getValue()).build();
-        }
+//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
+//        if (adminUser == null) {
+//            log.debug("cur user {} no auth EDIT quote", CookieAuthUtils.getCurrentUser());
+//            return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.USER_ERROR.getValue()).build();
+//        }
 
         for (AdminEditQuoteReq.quoteInfo x : adminGetTowerReq.getQuoteInfos()) {
             if (x.getSystemFlag() != null && x.getSystemFlag().equals(1)) {
@@ -270,11 +270,11 @@ import java.util.*;
         if (!adminUserLoginService.checkAdminToken(token, userId)) {
             return Collections.EMPTY_LIST;
         }
-        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-        if (adminUser == null) {
-            log.debug("cur user {} no auth  getSyQuLis list", CookieAuthUtils.getCurrentUser());
-            return Collections.EMPTY_LIST;
-        }
+//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
+//        if (adminUser == null) {
+//            log.debug("cur user {} no auth  getSyQuLis list", CookieAuthUtils.getCurrentUser());
+//            return Collections.EMPTY_LIST;
+//        }
         List<AdminGetSyQuLis> systemQuote = systemQuoteDao.adminGetSystemList();
         if (systemQuote == null) {
             log.debug("cur user {}  get system quote list empty", CookieAuthUtils.getCurrentUser());
@@ -289,11 +289,11 @@ import java.util.*;
         if (!adminUserLoginService.checkAdminToken(token, userId)) {
             return Collections.EMPTY_LIST;
         }
-        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-        if (adminUser == null) {
-            log.debug("cur user {} no auth  AdminGetTowerQuLiResp list", CookieAuthUtils.getCurrentUser());
-            return Collections.EMPTY_LIST;
-        }
+//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
+//        if (adminUser == null) {
+//            log.debug("cur user {} no auth  AdminGetTowerQuLiResp list", CookieAuthUtils.getCurrentUser());
+//            return Collections.EMPTY_LIST;
+//        }
         List<SpecialQuote> specialQuote = specialQuoteMapper.selectSpecialQuoteByTargetUserId(towerUserId);
         if (specialQuote == null) {
             log.debug("cur user {}  get AdminGetTowerQuLiResp list empty", CookieAuthUtils.getCurrentUser());
