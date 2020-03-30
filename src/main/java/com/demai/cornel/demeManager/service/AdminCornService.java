@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @Author binz.zhang
@@ -46,7 +47,7 @@ import java.util.*;
     @Resource private AdminUserLoginService adminUserLoginService;
     @Resource private LoanInfoMapper loanInfoMapper;
     @Resource private ImgService imgService;
-
+private static AtomicBoolean atomicBoolean = new AtomicBoolean();
     public List<AdminGetQuoteListResp> getQuoteList(GetQuoteListReq getQuoteListReq, HttpServletResponse response) {
 
         String userId = CookieAuthUtils.getCurrentUser();
