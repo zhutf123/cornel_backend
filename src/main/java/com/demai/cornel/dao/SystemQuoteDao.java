@@ -1,10 +1,15 @@
 package com.demai.cornel.dao;
 
+import com.demai.cornel.demeManager.vo.AdminGetQuoteListResp;
+import com.demai.cornel.demeManager.vo.AdminGetSyQuLis;
 import com.demai.cornel.model.SystemQuote;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
 import com.demai.cornel.vo.quota.GetQuoteListReq;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -28,4 +33,15 @@ public interface SystemQuoteDao {
 
 
     SystemQuote getSystemQuoteByCommodityId(@Param("commodityId")String commodityId);
+
+    SystemQuote selectByCommodityId(String commodityId);
+
+    List<AdminGetSyQuLis> adminGetSystemList();
+
+    int updateCommoditySystemInvalid(@Param("commodityId")String commodityId);
+
+    BigDecimal getNearestCommodityPrice(@Param("commodityId")String commodityId,@Param("time") Date time);
+
+    Timestamp getNearestCommodityPriceTime(@Param("commodityId")String commodityId);
+
 }

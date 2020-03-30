@@ -20,7 +20,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.zaxxer.hikari.HikariConfig;
 
 @Configuration
-@MapperScan({"com.demai.cornel.dao","com.demai.cornel.auth.dao","com.demai.cornel.purcharse.dao"})
+@MapperScan({"com.demai.cornel.dao","com.demai.cornel.auth.dao","com.demai.cornel.demeManager.dao"})
 public class DataBaseConfiguration {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

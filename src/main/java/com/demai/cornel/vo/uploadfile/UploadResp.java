@@ -14,6 +14,7 @@ import java.util.List;
 @Data @Builder public class UploadResp {
     private Integer optResult;
     private String url;
+    private Integer index;
     public static enum CODE_ENUE implements IEmus {
         SUCCESS(0, "请求成功"),
         PARAM_ERROR(1, "参数错误"),

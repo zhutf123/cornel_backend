@@ -233,8 +233,24 @@
         <include refid="main_column"/>
         from user_info where user_id=#{userId} and status=1;
     </select>
+
+    <select id="getSupplierUserInfoByUserId" resultMap="userInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from user_info where user_id=#{userId} and status=1 and role=2;
+    </select>
+
+
     <select id="getUserNameByUserId" resultType="java.lang.String">
         select name from user_info where user_id=#{userID};
+    </select>
+
+    <select id="getSupplyUserInfoByPhone" resultMap="userInfoResultMap">
+        SELECT
+        <include refid="main_column"/>
+        from user_info
+        where status=1 and <![CDATA[ mobile @> array[#{phone}] ]]> and role =2
+        limit 1
     </select>
 
 

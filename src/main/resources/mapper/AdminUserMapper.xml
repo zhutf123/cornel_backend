@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.demeManager.dao.AdminUserMapper">
+  <resultMap id="BaseResultMap" type="com.demai.cornel.demeManager.model.AdminUser">
+    <!--@mbg.generated-->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="mobile" property="mobile" jdbcType="ARRAY" javaType="java.util.Set"
+            typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <sql id="base_cloumn">
+    id,user_id,user_name,mobile,status
+  </sql>
+
+  <insert id="insert" parameterType="com.demai.cornel.demeManager.model.AdminUser">
+    <!--@mbg.generated-->
+    insert into admin_user (id, user_id, user_name, 
+      mobile, "status")
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+    #{mobile,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}, #{status,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.demai.cornel.demeManager.model.AdminUser">
+    <!--@mbg.generated-->
+    insert into admin_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="status != null">
+        "status",
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectUserByTel" resultMap="BaseResultMap">
+        select <include refid="base_cloumn"/>
+        from admin_user  where status=1 and <![CDATA[ mobile @> array[#{tel}] ]]>
+
+  </select>
+
+  <select id="selectUserByUserId" resultMap="BaseResultMap">
+    select <include refid="base_cloumn"/>
+    from admin_user  where user_id=#{userId,jdbcType=VARCHAR}
+
+  </select>
+</mapper>

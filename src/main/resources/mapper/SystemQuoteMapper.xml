@@ -14,6 +14,8 @@
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
+        <result column="quote_user_id" jdbcType="VARCHAR" property="quoteUserId"/>
+        <result column="min_shipment_weight" jdbcType="NUMERIC" property="minShipmentWeight"/>
     </resultMap>
 
 
@@ -30,6 +32,17 @@
         <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
     </resultMap>
+
+
+    <resultMap id="listRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetSyQuLis">
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+
+    </resultMap>
+
     <sql id="list_Resp">
         quote_id,
         quote,
@@ -41,9 +54,11 @@
         c.name as commodity_name,
         c.commodity_properties
     </sql>
+
+
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, quote_id, commodity_id, quote, unit_price, create_time, update_time,status,unit_weight,notice
+        id, quote_id, commodity_id, quote, unit_price, create_time, update_time,status,unit_weight,notice,min_shipment_weight
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -91,9 +106,22 @@
             <if test="updateTime != null">
                 update_time,
             </if>
+            <if test="status != null">
+                status ,
+            </if>
             <if test="unitWeight != null">
                 unit_weight,
             </if>
+            <if test="quoteUserId != null">
+                quote_user_id,
+            </if>
+            <if test="minShipmentWeight != null">
+                min_shipment_weight,
+            </if>
+            <if test="notice != null">
+                notice,
+            </if>
+
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -122,6 +150,15 @@
             </if>
             <if test="unitWeight != null">
                 #{unitWeight,jdbcType=VARCHAR} ,
+            </if>
+            <if test="quoteUserId != null">
+                #{quoteUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="minShipmentWeight != null">
+                #{minShipmentWeight,jdbcType=DECIMAL} ,
+            </if>
+            <if test="notice != null">
+                #{notice,jdbcType=ARRAY,javaType=java.util.List,typeHandler=com.demai.cornel.databaseHandler.ArrayStringListTypeHandler} ,
             </if>
         </trim>
     </insert>
@@ -188,5 +225,26 @@
         <include refid="Base_Column_List"/>
         from system_quote where commodity_id=#{commodityId} and status=1 order by id desc limit 1;
     </select>
+    <select id="selectByCommodityId" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List"/>
+     from system_quote where status=1 and commodity_id=#{commodityId} ;
+    </select>
+    <select id="adminGetSystemList" resultMap="listRespMapper_admin">
+      select
+      <include refid="list_Resp"/>
+     from system_quote s inner join commodity_list c on s.commodity_id=c.commodity_id where s.status=1;
+    </select>
+    <update id="updateCommoditySystemInvalid">
+       update system_quote set status = 0 where commodity_id=#{commodityId,jdbcType=VARCHAR}
+    </update>
+    <select id="getNearestCommodityPrice" resultType="java.math.BigDecimal">
+       select quote from system_quote where  commodity_id=#{commodityId,jdbcType=VARCHAR} and date(create_time) <![CDATA[ <= ]]> #{time,jdbcType=TIMESTAMP}
+       order by create_time desc limit 1;
+    </select>
+    <select id="getNearestCommodityPriceTime" resultType="java.sql.Timestamp">
+       select create_time from system_quote where  commodity_id=#{commodityId,jdbcType=VARCHAR}
+       order by create_time asc limit 1;
+    </select>
+
 
 </mapper>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.dao.LoanInfoMapper">
+  <resultMap id="BaseResultMap" type="com.demai.cornel.model.LoanInfo">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="loan_id" jdbcType="INTEGER" property="loanId" />
+    <result column="price" jdbcType="NUMERIC" property="price" />
+    <result column="interest" jdbcType="NUMERIC" property="interest" />
+    <result column="apply_user_id" jdbcType="VARCHAR" property="applyUserId" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="lending_time" jdbcType="TIMESTAMP" property="lendingTime" />
+    <result column="est_repay_time" jdbcType="TIMESTAMP" property="estRepayTime" />
+    <result column="actual_repay_time" jdbcType="TIMESTAMP" property="actualRepayTime" />
+    <result column="interest_total" jdbcType="NUMERIC" property="interestTotal" />
+    <result column="repay_price" jdbcType="NUMERIC" property="repayPrice" />
+    <result column="review_user_id" jdbcType="VARCHAR" property="reviewUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="actual_price" jdbcType="NUMERIC" property="actualPrice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, loan_id, price, interest, apply_user_id, apply_time, lending_time, est_repay_time, 
+    actual_repay_time, interest_total, repay_price, review_user_id, create_time, update_time, 
+    "status",actual_price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from loan_info
+    where loan_id = #{loanId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from loan_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.demai.cornel.model.LoanInfo">
+    <!--@mbg.generated-->
+    insert into loan_info (id, loan_id, price, 
+      interest, apply_user_id, apply_time, 
+      lending_time, est_repay_time, actual_repay_time, 
+      interest_total, repay_price, review_user_id, 
+      create_time, update_time, "status"
+      )
+    values (#{id,jdbcType=INTEGER}, #{loanId,jdbcType=INTEGER}, #{price,jdbcType=NUMERIC}, 
+      #{interest,jdbcType=NUMERIC}, #{applyUserId,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{lendingTime,jdbcType=TIMESTAMP}, #{estRepayTime,jdbcType=TIMESTAMP}, #{actualRepayTime,jdbcType=TIMESTAMP}, 
+      #{interestTotal,jdbcType=NUMERIC}, #{repayPrice,jdbcType=NUMERIC}, #{reviewUserId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.demai.cornel.model.LoanInfo">
+    <!--@mbg.generated-->
+    insert into loan_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="loanId != null">
+        loan_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="interest != null">
+        interest,
+      </if>
+      <if test="applyUserId != null">
+        apply_user_id,
+      </if>
+      <if test="applyTime != null">
+        apply_time,
+      </if>
+      <if test="lendingTime != null">
+        lending_time,
+      </if>
+      <if test="estRepayTime != null">
+        est_repay_time,
+      </if>
+      <if test="actualRepayTime != null">
+        actual_repay_time,
+      </if>
+      <if test="interestTotal != null">
+        interest_total,
+      </if>
+      <if test="repayPrice != null">
+        repay_price,
+      </if>
+      <if test="reviewUserId != null">
+        review_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="status != null">
+        "status",
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="loanId != null">
+        #{loanId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=NUMERIC},
+      </if>
+      <if test="interest != null">
+        #{interest,jdbcType=NUMERIC},
+      </if>
+      <if test="applyUserId != null">
+        #{applyUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lendingTime != null">
+        #{lendingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estRepayTime != null">
+        #{estRepayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualRepayTime != null">
+        #{actualRepayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interestTotal != null">
+        #{interestTotal,jdbcType=NUMERIC},
+      </if>
+      <if test="repayPrice != null">
+        #{repayPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="reviewUserId != null">
+        #{reviewUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.model.LoanInfo">
+    <!--@mbg.generated-->
+    update loan_info
+    <set>
+      <if test="loanId != null">
+        loan_id = #{loanId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=NUMERIC},
+      </if>
+      <if test="interest != null">
+        interest = #{interest,jdbcType=NUMERIC},
+      </if>
+      <if test="applyUserId != null">
+        apply_user_id = #{applyUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null">
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lendingTime != null">
+        lending_time = #{lendingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estRepayTime != null">
+        est_repay_time = #{estRepayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualRepayTime != null">
+        actual_repay_time = #{actualRepayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interestTotal != null">
+        interest_total = #{interestTotal,jdbcType=NUMERIC},
+      </if>
+      <if test="repayPrice != null">
+        repay_price = #{repayPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="reviewUserId != null">
+        review_user_id = #{reviewUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        "status" = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demai.cornel.model.LoanInfo">
+    <!--@mbg.generated-->
+    update loan_info
+    set loan_id = #{loanId,jdbcType=INTEGER},
+      price = #{price,jdbcType=NUMERIC},
+      interest = #{interest,jdbcType=NUMERIC},
+      apply_user_id = #{applyUserId,jdbcType=VARCHAR},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      lending_time = #{lendingTime,jdbcType=TIMESTAMP},
+      est_repay_time = #{estRepayTime,jdbcType=TIMESTAMP},
+      actual_repay_time = #{actualRepayTime,jdbcType=TIMESTAMP},
+      interest_total = #{interestTotal,jdbcType=NUMERIC},
+      repay_price = #{repayPrice,jdbcType=NUMERIC},
+      review_user_id = #{reviewUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      "status" = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="getLoanByLoanIds" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from  loan_info where loan_id in
+        <foreach collection="loanIds" item="loanId" open ="(" separator="," close=")" index="index">
+          #{loanId}
+        </foreach>
+    </select>
+  <update id="updatePrice">
+     update loan_info set price=#{price,jdbcType=DECIMAL} where loan_id=#{loanId} ;
+  </update>
+
+</mapper>

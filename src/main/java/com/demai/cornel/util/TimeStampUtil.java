@@ -21,7 +21,16 @@ import java.util.Date;
             Date d1 = new SimpleDateFormat(timeFormat).parse(time);//定义起始日期
             return new Timestamp(d1.getTime());
         } catch (Exception e) {
-            log.error("parse time error", e);
+            log.error("stringConvertTimeStamp parse time error", e);
+            return null;
+        }
+    }
+
+    public static String timeStampConvertString(String timeFormat, Timestamp time) {
+        try {
+            return  new SimpleDateFormat(timeFormat).format(time.getTime());  // 获取只有年月日的时间
+        } catch (Exception e) {
+            log.error(" timeStampConvertString parse time error", e);
             return null;
         }
     }

@@ -28,6 +28,7 @@ public class ClickSystemQuoteResp {
     private String unitWeight; //出货量单位
     private String unitPrice; //价格单位
     private Integer status;
+    private Integer cargoStatus = 1;// 货物状态 1现货 2等待货物入库
     private List<DryTowerInfo> dryTowerInfo;
 
     @Data public static class DryTowerInfo {

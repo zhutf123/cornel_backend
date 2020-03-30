@@ -4,7 +4,7 @@ debug: false
 spring:
   redis:
     cluster:
-      nodes: 192.168.0.107:6379,192.168.0.107:6380,192.168.0.107:6381
+      nodes: 192.168.0.107:6379,192.168.0.107:6380,192.168.0.107:6381,192.168.0.107:6382,192.168.0.107:6383,192.168.0.107:6384
       max-redirects: 5
       password: cornel00147258
       timeout: 5
@@ -33,20 +33,20 @@ caching:
         spec: maximumSize=5000,expireAfterWrite=15m,recordStats
 #        cacheNullValues: false
 
- we-chat:
-    code2session: https://api.weixin.qq.com/sns/jscode2session?appid={appId}&secret={appSecret}&js_code={jscode}&grant_type=authorization_code
-    appId: wx5bde5e1ca69bd7f6
-    appSecret: 80dc07ef341d0c59314d935378075068
- we-chat-driver:
+we-chat:
+  code2session: https://api.weixin.qq.com/sns/jscode2session?appid={appId}&secret={appSecret}&js_code={jscode}&grant_type=authorization_code
+  appId: wx5bde5e1ca69bd7f6
+  appSecret: 80dc07ef341d0c59314d935378075068
+we-chat-driver:
   code2session: https://api.weixin.qq.com/sns/jscode2session?appid={appId}&secret={appSecret}&js_code={jscode}&grant_type=authorization_code
   appId: wxbcb8b37ff9f2ce18
   appSecret: 0ba267b4ad3f37bd0e591d557e5144aa
 
 
 ali-config:
-    accessKeyId: LTAI4FjjDZfU5McHXiDEH2Uk
-    accessSecret: 1C6KdK5kBZurVkFTSqp8wPE2mvJpBB
-    loginValidcodeId: SMS_176539582
+  accessKeyId: LTAI4FjjDZfU5McHXiDEH2Uk
+  accessSecret: 1C6KdK5kBZurVkFTSqp8wPE2mvJpBB
+  loginValidcodeId: SMS_176539582
 
 datasources:
   dm-master:
@@ -72,7 +72,7 @@ xxl:
 baidu:
   ak: 1EBYcarYLWPnnpUbrX4SUxQwtLSjgvF0
 service:
-  mobileList: 13551151842,13551151842
+  mobileList: 18904015597,18904015597
 banner:
   download: https://beta.demeteria.com/banner/download.json?key=1.png,https://beta.demeteria.com/banner/download.json?key=2.png
   purchaseBanner: https://beta.demeteria.com/banner/download.json?key=3.png,https://beta.demeteria.com/banner/download.json?key=4.png

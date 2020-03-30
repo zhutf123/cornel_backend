@@ -3,16 +3,17 @@ package com.demai.cornel.vo.quota;
 import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.QuoteInfo;
+import com.demai.cornel.model.ReviewOptResp;
+import com.demai.cornel.util.TimeStampUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.postgresql.jdbc.TimestampUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.xml.ws.Service;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -78,8 +79,19 @@ import java.util.stream.Collectors;
     private Integer status;
 
     private String serviceMobile;
-
-
+    private Timestamp warehouseTime;
+    private String showWarehouseTime;
+    private Integer cargoStatus;
+    private Integer showLoan=0;//1 是显示放贷的情况 0 是不显示
+    @JsonIgnore private Set<String>loanId;
+    private List<LoanInfoSimple> loanInfo;
+    private ReviewOptResp reviewInfo;
+    @JsonIgnore
+    private HashMap<String,String> reviewOpt;
+    public void setWarehouseTime(Timestamp warehouseTime) {
+        this.warehouseTime = warehouseTime;
+        this.showWarehouseTime = TimeStampUtil.timeStampConvertString("yyyy-MM-dd",warehouseTime);
+    }
 
     public void setCommodityProperties(Map<String, String> commodityProperties) {
         this.commodityProperties = commodityProperties;

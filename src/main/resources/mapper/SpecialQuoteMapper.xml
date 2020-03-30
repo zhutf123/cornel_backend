@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.demeManager.dao.SpecialQuoteMapper">
+    <resultMap id="BaseResultMap" type="com.demai.cornel.demeManager.model.SpecialQuote">
+        <!--@mbg.generated-->
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="quote_user_id" jdbcType="VARCHAR" property="quoteUserId"/>
+        <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="target_user_id" jdbcType="VARCHAR" property="targetUserId"/>
+        <result column="target_tower_id" jdbcType="VARCHAR" property="targetTowerId"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="min_shipment_weight" jdbcType="NUMERIC" property="minShipmentWeight"/>
+        <result column="quote" jdbcType="NUMERIC" property="quote"/>
+    </resultMap>
+    <sql id="base_cloumn">
+    id,quote_user_id,quote_id,status,target_user_id,commodity_id,unit_price,unit_weight,min_shipment_weight,quote
+  </sql>
+
+
+    <insert id="insert" parameterType="com.demai.cornel.demeManager.model.SpecialQuote">
+        <!--@mbg.generated-->
+        insert into special_quote (id, quote_user_id, quote_id,
+        create_time, update_time, "status",
+        target_user_id, target_tower_id, commodity_id,
+        unit_price, unit_weight, min_shipment_weight,
+        "quote")
+        values (#{id,jdbcType=INTEGER}, #{quoteUserId,jdbcType=VARCHAR}, #{quoteId,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+        #{targetUserId,jdbcType=VARCHAR}, #{targetTowerId,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR},
+        #{unitPrice,jdbcType=VARCHAR}, #{unitWeight,jdbcType=VARCHAR}, #{minShipmentWeight,jdbcType=NUMERIC},
+        #{quote,jdbcType=NUMERIC})
+    </insert>
+    <insert id="insertSelective" parameterType="com.demai.cornel.demeManager.model.SpecialQuote">
+        <!--@mbg.generated-->
+        insert into special_quote
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="quoteUserId != null">
+                quote_user_id,
+            </if>
+            <if test="quoteId != null">
+                quote_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="status != null">
+                "status",
+            </if>
+            <if test="targetUserId != null">
+                target_user_id,
+            </if>
+            <if test="targetTowerId != null">
+                target_tower_id,
+            </if>
+            <if test="commodityId != null">
+                commodity_id,
+            </if>
+            <if test="unitPrice != null">
+                unit_price,
+            </if>
+            <if test="unitWeight != null">
+                unit_weight,
+            </if>
+            <if test="minShipmentWeight != null">
+                min_shipment_weight,
+            </if>
+            <if test="quote != null">
+                "quote",
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="quoteUserId != null">
+                #{quoteUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="quoteId != null">
+                #{quoteId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="targetUserId != null">
+                #{targetUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="targetTowerId != null">
+                #{targetTowerId,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityId != null">
+                #{commodityId,jdbcType=VARCHAR},
+            </if>
+            <if test="unitPrice != null">
+                #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="unitWeight != null">
+                #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="minShipmentWeight != null">
+                #{minShipmentWeight,jdbcType=NUMERIC},
+            </if>
+            <if test="quote != null">
+                #{quote,jdbcType=NUMERIC},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateCommodityIdquoteStatus">
+    update special_quote set status=0 where commodity_id=#{commodityId} and target_user_id=#{userId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectSpecialQuoteByTargetUserId" resultMap="BaseResultMap">
+        select
+        <include refid="base_cloumn"/>
+        from special_quote where status=1 and target_user_id=#{userId,jdbcType=VARCHAR}
+    </select>
+    <select id="getNearestCommodityPrice" resultType="java.math.BigDecimal">
+        select quote from special_quote where target_user_id=#{userId,jdbcType=VARCHAR} and
+        commodity_id=#{commodityId,jdbcType=VARCHAR} and date(create_time) <![CDATA[ <= ]]> #{time,jdbcType=TIMESTAMP}
+        order by create_time desc limit 1;
+    </select>
+    <select id="getNearestCommodityPriceTime" resultType="java.sql.Timestamp">
+        select create_time from special_quote where target_user_id=#{userId,jdbcType=VARCHAR} and
+        commodity_id=#{commodityId,jdbcType=VARCHAR}
+        order by create_time  asc limit 1;
+    </select>
+</mapper>

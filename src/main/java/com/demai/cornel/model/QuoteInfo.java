@@ -6,6 +6,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * @Author binz.zhang
@@ -102,7 +104,14 @@ public class QuoteInfo {
      * 联系电话
      */
     private String mobile;
+    private String reviewUser;
+    private Timestamp warehouseTime;
 
+    private Integer cargoStatus;// 货物状态
+    private BigDecimal wetWeight;//湿粮重量
+    private Set<String> loanId;//贷款ID
+
+    private HashMap<String,String>reviewOpt;
     /**
      * 结束时间
      */
@@ -134,6 +143,24 @@ public class QuoteInfo {
         private String expr;
 
         private QUOTE_TATUS(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override public int getValue() {
+            return value;
+        }
+
+        @Override public String getExpr() {
+            return expr;
+        }
+
+    }public static enum CARGO_STATUS implements IEmus {
+        futures(2, "等待货物入库"), spot(1, "现货");
+        private int value;
+        private String expr;
+
+        private CARGO_STATUS(int value, String expr) {
             this.value = value;
             this.expr = expr;
         }

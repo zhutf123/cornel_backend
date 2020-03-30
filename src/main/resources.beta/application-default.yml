@@ -76,7 +76,7 @@ banner:
   download: https://beta.demeteria.com/banner/download.json?key=1.png,https://beta.demeteria.com/banner/download.json?key=2.png
   purchaseBanner: https://beta.demeteria.com/banner/download.json?key=3.png,https://beta.demeteria.com/banner/download.json?key=4.png
 upload:
-  location: /home/update/
+  location: /home/www/upload/
   downloadHost: https://beta.demeteria.com
 car-config:
   carlicetype: 本人,他人,公司

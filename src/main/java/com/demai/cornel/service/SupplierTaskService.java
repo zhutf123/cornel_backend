@@ -12,6 +12,7 @@ import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.dao.CommodityDao;
 import com.demai.cornel.dao.DryTowerDao;
 import com.demai.cornel.dao.UserInfoDao;
+import com.demai.cornel.dmEnum.IdTypeEnum;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.DryTower;
@@ -19,6 +20,8 @@ import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.*;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.JsonResult;
+import com.demai.cornel.vo.delivery.GetDriverCornInfoResp;
+import com.demai.cornel.vo.delivery.GetSupplierCornInfoResp;
 import com.demai.cornel.vo.supplier.*;
 import com.demai.cornel.vo.tower.TowerOperaResp;
 import com.google.common.base.Strings;
@@ -51,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 
     @Resource private UserInfoDao userInfoDao;
     @Resource private CommodityDao commodityDao;
+    @Resource private ImgService imgService;
 
     /**
      * 根据用户烘干塔用户id 订单状态查询任务订单
@@ -202,8 +206,8 @@ import lombok.extern.slf4j.Slf4j;
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
         return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
                 .success(Boolean.TRUE).opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue())
-                .orderId(param.getOrderId()).realWeight(orderInfo.getCarryWeight())
-                .orderStatus(orderInfo.getStatus()).build();
+                .orderId(param.getOrderId()).realWeight(orderInfo.getCarryWeight()).orderStatus(orderInfo.getStatus())
+                .build();
     }
 
     /**
@@ -230,14 +234,15 @@ import lombok.extern.slf4j.Slf4j;
         if (num == 0) {
             return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
                     .success(Boolean.FALSE)
-                    .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue()).realWeight(new BigDecimal(0.0))
-                    .orderId(param.getOrderId()).orderStatus(orderInfo.getStatus()).build();
+                    .opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.OPERATION_ERROR.getValue())
+                    .realWeight(new BigDecimal(0.0)).orderId(param.getOrderId()).orderStatus(orderInfo.getStatus())
+                    .build();
         }
         orderInfo = orderInfoDao.getOrderInfoByOrderId(param.getOrderId());
         return OperationOrderResp.builder().sendOutTime(DateFormatUtils.formatDateTime(new Date()))
                 .success(Boolean.TRUE).opResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue())
-                .orderId(param.getOrderId()).realWeight(orderInfo.getCarryWeight())
-                .orderStatus(orderInfo.getStatus()).build();
+                .orderId(param.getOrderId()).realWeight(orderInfo.getCarryWeight()).orderStatus(orderInfo.getStatus())
+                .build();
     }
 
     /**
@@ -282,7 +287,7 @@ import lombok.extern.slf4j.Slf4j;
                 dryTowerInsert.setTowerId(UUID.randomUUID().toString());
                 BeanUtils.copyProperties(dryTower, dryTowerInsert);
                 BeanUtils.copyProperties(x, dryTowerInsert);
-                dryTowerInsert.setContactUserId(Sets.newHashSet(finalContactUserId,CookieAuthUtils.getCurrentUser()));
+                dryTowerInsert.setContactUserId(Sets.newHashSet(finalContactUserId, CookieAuthUtils.getCurrentUser()));
                 dryTowerDao.insertSelective(dryTowerInsert);
             });
 
@@ -294,9 +299,10 @@ import lombok.extern.slf4j.Slf4j;
     }
 
     public static void main(String[] args) {
-        Set<String> get = Sets.newHashSet("1","2","3","1");
+        Set<String> get = Sets.newHashSet("1", "2", "3", "1");
         System.out.println("ok");
     }
+
     /**
      * 校验烘干塔参数
      * todo 其他校验细节还需讨论 当前的校验是联系人跟联系方式不能为空
@@ -340,7 +346,7 @@ import lombok.extern.slf4j.Slf4j;
         }
         BeanUtils.copyProperties(dryTower, getTowerInfoResp);
         List<Commodity> commodities = new ArrayList<>();
-        if(!CollectionUtils.isEmpty(dryTower.getCommodityId())){
+        if (!CollectionUtils.isEmpty(dryTower.getCommodityId())) {
             commodities = commodityDao.getCommodityByIds(dryTower.getCommodityId());
         }
         getTowerInfoResp.setCommoditys(commodities);
@@ -356,7 +362,7 @@ import lombok.extern.slf4j.Slf4j;
      * @return
      */
     public TowerOperaResp updateTowerInfo(DryTower dryTower) {
-        log.info("edit tower info is [{}]",JacksonUtils.obj2String(dryTower));
+        log.info("edit tower info is [{}]", JacksonUtils.obj2String(dryTower));
         if (dryTower == null || Strings.isNullOrEmpty(dryTower.getTowerId())) {
             return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.PARAM_ERROR.getValue()).build();
         }
@@ -365,7 +371,8 @@ import lombok.extern.slf4j.Slf4j;
         }
         int rest = dryTowerDao.updateByPrimaryKeySelective(dryTower);
         if (rest == 0) {
-            log.info("update tower info error due to update db fail tower info is [{}]",JacksonUtils.obj2String(dryTower));
+            log.info("update tower info error due to update db fail tower info is [{}]",
+                    JacksonUtils.obj2String(dryTower));
             return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.NO_TOWER.getValue()).build();
         }
         return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.SUCCESS.getValue())
@@ -382,7 +389,7 @@ import lombok.extern.slf4j.Slf4j;
      */
     public TowerOperaResp adddTowerInfo(AddDryTowerReq addDryTowerReq) {
         if (addDryTowerReq == null || Strings.isNullOrEmpty(addDryTowerReq.getLocationArea()) || Strings
-                .isNullOrEmpty(addDryTowerReq.getLocationDetail()) ) {
+                .isNullOrEmpty(addDryTowerReq.getLocationDetail())) {
             log.debug("add dry tower error due tu tower info  error [{}]", JacksonUtils.obj2String(addDryTowerReq));
             return TowerOperaResp.builder().status(TowerOperaResp.OPERATION_STATUS.PARAM_ERROR.getValue()).build();
         }
@@ -396,7 +403,7 @@ import lombok.extern.slf4j.Slf4j;
         dryTower.setBindUserId(CookieAuthUtils.getCurrentUser());
         dryTower.setTowerId(UUID.randomUUID().toString());
         dryTower.setContactUserId(Sets.newHashSet(CookieAuthUtils.getCurrentUser()));
-        if(addDryTowerReq.getDefaultFlag().equals(1)){
+        if (addDryTowerReq.getDefaultFlag().equals(1)) {
             dryTowerDao.updateTowerNonDefaultFlag(CookieAuthUtils.getCurrentUser());
         }
         dryTowerDao.insertSelective(dryTower);
@@ -404,7 +411,7 @@ import lombok.extern.slf4j.Slf4j;
                 .status(TowerOperaResp.OPERATION_STATUS.SUCCESS.getValue()).build();
     }
 
-    public JsonResult getSupplierInfo() {
+    public JsonResult getSupplierAllInfo() {
         String userId = CookieAuthUtils.getCurrentUser();
         UserInfo userInfo = userInfoDao.getUserInfoByUserId(userId);
         SupplierInfoResp supplierInfoResp = new SupplierInfoResp();
@@ -439,9 +446,32 @@ import lombok.extern.slf4j.Slf4j;
             towerInfos.add(towerInfo);
         });
         supplierInfoResp.setTowerInfos(towerInfos);
+        supplierInfoResp.setImgs(imgService.getUserImgs(userInfo.getUserId()));
         log.debug("supplier get user info return [{}]", JacksonUtils.obj2String(supplierInfoResp));
         return JsonResult.success(supplierInfoResp);
 
     }
+    public GetSupplierCornInfoResp getSupplierInfo() {
+        String userId = CookieAuthUtils.getCurrentUser();
+        GetSupplierCornInfoResp supplierCornInfoResp = new GetSupplierCornInfoResp();
+
+        UserInfo userInfo = userInfoDao.getSupplierUserInfoByUserId(userId);
+        if (userInfo == null) {
+            supplierCornInfoResp.setOptResult(GetDriverCornInfoResp.STATUS.NO_USER.getValue());
+            return supplierCornInfoResp;
+        }
+        BeanUtils.copyProperties(userInfo, supplierCornInfoResp);
+        if (!userInfo.getIdType().equals(IdTypeEnum.IDCARD.getValue())) {
+            supplierCornInfoResp.setIdCard("");
+        }
+        if (userInfo.getMobile() != null && userInfo.getMobile().size() > 0) {
+            supplierCornInfoResp.setMobile(userInfo.getMobile().iterator().next());
+        }
+        supplierCornInfoResp.setOptResult(GetDriverCornInfoResp.STATUS.SUCCESS.getValue());
+        supplierCornInfoResp.setImgs(imgService.getUserImgs(userInfo.getUserId()));
+        return supplierCornInfoResp;
+
+    }
+
 
 }

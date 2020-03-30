@@ -16,6 +16,9 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OfferQuoteReq {
+
+
+    private String quoteId;
     /**
      * 主营品种ID
      **/

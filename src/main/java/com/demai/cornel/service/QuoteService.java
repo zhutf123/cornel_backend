@@ -3,6 +3,8 @@ package com.demai.cornel.service;
 import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dao.*;
+import com.demai.cornel.demeManager.dao.SpecialQuoteMapper;
+import com.demai.cornel.demeManager.model.SpecialQuote;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.*;
 import com.demai.cornel.util.CookieAuthUtils;
@@ -10,15 +12,19 @@ import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import com.demai.cornel.vo.quota.*;
 import com.demai.cornel.vo.task.GetOrderListReq;
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.postgresql.jdbc.TimestampUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 import javax.swing.text.html.Option;
@@ -29,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @Author binz.zhang
@@ -42,6 +49,10 @@ import java.util.regex.Pattern;
     @Resource private SystemQuoteDao systemQuoteDao;
     @Resource private CommodityDao commodityDao;
     @Resource private CommodityService commodityService;
+    @Resource private SpecialQuoteMapper specialQuoteMapper;
+    @Resource private LoanInfoMapper loanInfoMapper;
+    @Resource private ImgService imgService;
+    @Resource private OpterReviewService opterReviewService;
     private static String TIME_FORMAT = "yyyy-MM-dd";
 
     /**
@@ -66,7 +77,8 @@ import java.util.regex.Pattern;
             return offerQuoteResp;
         }
         // todo 这一块后续需要重新做，用户上传的自定义的商品 为-1 的时候表示是用户自定义的
-        if (offerQuoteReq.getCommodityId().equalsIgnoreCase("-1") && Strings.isNullOrEmpty(offerQuoteReq.getCommodityName())) {
+        if (offerQuoteReq.getCommodityId().equalsIgnoreCase("-1") && Strings
+                .isNullOrEmpty(offerQuoteReq.getCommodityName())) {
             log.debug("offer quote fail due to commodity is empty");
             return OfferQuoteResp.builder().status(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
@@ -93,6 +105,7 @@ import java.util.regex.Pattern;
         quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
         quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        quoteInfo.setWarehouseTime(new Timestamp(System.currentTimeMillis()));
         quoteInfoDao.insertSelective(quoteInfo);
         offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
@@ -139,6 +152,52 @@ import java.util.regex.Pattern;
         quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
         quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        quoteInfo.setWarehouseTime(new Timestamp(System.currentTimeMillis()));
+
+        quoteInfoDao.insertSelective(quoteInfo);
+        offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
+        offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
+        offerQuoteResp.setQuoteId(quoteInfo.getQuoteId());
+        return offerQuoteResp;
+    }
+
+    public OfferQuoteResp offerSystemQuoteV2(SystemQuoteV2Req offerQuoteReq) {
+        OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
+        Preconditions.checkNotNull(offerQuoteReq);
+        log.debug("dry tower quote info is [{}]", JacksonUtils.obj2String(offerQuoteReq));
+        if (!checkQuote(offerQuoteReq)) {
+            log.info("dry tower quote info fail due to param illegal");
+            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue());
+            return offerQuoteResp;
+        }
+        DryTower dryTower = dryTowerDao.selectByTowerId(offerQuoteReq.getTowerId());
+        if (dryTower == null) {
+            log.info("dry tower quote info fail due to dry tower illegal");
+            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.DRY_TOWER_ERROR.getValue());
+            return offerQuoteResp;
+        }
+        QuoteInfo quoteInfo = new QuoteInfo();
+        BeanUtils.copyProperties(offerQuoteReq, quoteInfo);
+        String userId = CookieAuthUtils.getCurrentUser();
+        quoteInfo.setLocation(dryTower.getLocation());
+        quoteInfo.setUserId(userId);
+        if (Strings.isNullOrEmpty(offerQuoteReq.getMobile())) {
+            UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
+            if (!CollectionUtils.isEmpty(userInfo.getMobile())) {
+                quoteInfo.setMobile(userInfo.getMobile().iterator().next());
+            }
+        }
+        Timestamp warehouseTime = new Timestamp(
+                TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getWarehouseTime()).getTime()
+                        + System.currentTimeMillis() % 100000);//为了排序加上当前时间时分秒作为时间戳
+        quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
+        quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
+        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
+        quoteInfo.setQuoteId(UUID.randomUUID().toString());
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        quoteInfo.setWarehouseTime(warehouseTime);
         quoteInfoDao.insertSelective(quoteInfo);
         offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
@@ -167,11 +226,26 @@ import java.util.regex.Pattern;
      * @return
      */
     public List<GerQuoteListResp> getSystemQuoteList(GetQuoteListReq getQuoteListReq) {
-        List<GerQuoteListResp> gerQuoteListResps =  systemQuoteDao.getNewSystemQuote(getQuoteListReq.getQuoteId(),
+        List<GerQuoteListResp> gerQuoteListResps = systemQuoteDao.getNewSystemQuote(getQuoteListReq.getQuoteId(),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));
-        if(gerQuoteListResps==null){
+        if (gerQuoteListResps == null) {
             log.warn("get system quote empty");
             return Collections.EMPTY_LIST;
+        }
+        List<SpecialQuote> specialQuote = specialQuoteMapper
+                .selectSpecialQuoteByTargetUserId(CookieAuthUtils.getCurrentUser());
+        Map<String, BigDecimal> bigDecimalHashMap = null;
+        if (specialQuote != null) {
+            bigDecimalHashMap = specialQuote.stream().collect(Collectors
+                    .toMap(SpecialQuote::getCommodityId, SpecialQuote::getQuote, (oldValue, newValue) -> newValue));
+        }
+        if (bigDecimalHashMap != null) {
+            Map<String, BigDecimal> finalBigDecimalHashMap = bigDecimalHashMap;
+            gerQuoteListResps.stream().forEach(x -> {
+                if (finalBigDecimalHashMap.get(x.getCommodityId()) != null) {
+                    x.setQuote(finalBigDecimalHashMap.get(x.getCommodityId()));
+                }
+            });
         }
         buildSystemQuoteDetail(gerQuoteListResps);
         return gerQuoteListResps;
@@ -255,9 +329,47 @@ import java.util.regex.Pattern;
         }
         String finalServiceMobile = serviceMobile;
         getOfferListResps.stream().forEach(x -> {
+            x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
             x.setServiceMobile(finalServiceMobile);
         });
         return getOfferListResps;
+    }
+
+    public List<GetOfferListResp> getSystemOfferListRespListV2(GetSysQuoListV2Req getSysQuoListV2Req) {
+        if (getSysQuoListV2Req.getPgSize() == null) {
+            getSysQuoListV2Req.setPgSize(20);
+        }
+        List<GetOfferListResp> getOfferListResps = quoteInfoDao
+                .getSystemOwnerQuoteListV2(CookieAuthUtils.getCurrentUser(), getSysQuoListV2Req.getTime(),
+                        getSysQuoListV2Req.getPgSize());
+        if (getOfferListResps == null) {
+            getOfferListResps = Collections.EMPTY_LIST;
+        }
+        String serviceMobile = "";
+        if (ServiceMobileConfig.serviceMobile != null) {
+            Random r = new Random();
+            serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
+        }
+        String finalServiceMobile = serviceMobile;
+        getOfferListResps.stream().forEach(x -> {
+            if(x.getLoanId()!=null) {
+                List<LoanInfo> loanInfos = loanInfoMapper.getLoanByLoanIds(x.getLoanId());
+                if(loanInfos!=null && loanInfos.iterator().next().getStatus().equals(LoanInfo.STATUS.PROVER.getValue())){
+                    x.setShowLoan(0);//先统一关闭
+                    LoanInfoSimple loanInfoSimple = new LoanInfoSimple();
+                    BeanUtils.copyProperties(loanInfos.iterator().next(), loanInfoSimple);
+                    loanInfoSimple.setApplyTime(loanInfos.iterator().next().getApplyTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,loanInfos.iterator().next().getApplyTime()));
+                    loanInfoSimple.setLendingTime(loanInfos.iterator().next().getLendingTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,loanInfos.iterator().next().getLendingTime()));
+                    x.setLoanInfo(Lists.newArrayList(loanInfoSimple));
+                }else {
+                    x.setLoanInfo(Collections.EMPTY_LIST);
+                }
+            }
+            x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
+            x.setServiceMobile(finalServiceMobile);
+        });
+        return getOfferListResps;
+
     }
 
     public List<GetOfferListResp> getSystemOfferListRespList(String quoteId, Integer pgSize) {
@@ -288,7 +400,26 @@ import java.util.regex.Pattern;
             Random r = new Random();
             serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
         }
-        GetOfferInfoResp getOfferInfoResp =  quoteInfoDao.getQuoteInfoById(quoteId);
+
+        GetOfferInfoResp getOfferInfoResp = quoteInfoDao.getQuoteInfoById(quoteId);
+        if (getOfferInfoResp.getLoanId() != null && getOfferInfoResp.getLoanId().size() > 0) {
+            List<LoanInfo> loanInfos = loanInfoMapper.getLoanByLoanIds(getOfferInfoResp.getLoanId());
+            if (loanInfos != null) {
+                getOfferInfoResp.setLoanInfo(loanInfos.stream().map(x -> {
+                    LoanInfoSimple loanInfoSimple = new LoanInfoSimple();
+                    BeanUtils.copyProperties(x, loanInfoSimple);
+                    loanInfoSimple.setApplyTime(x.getApplyTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,x.getApplyTime()));
+                    loanInfoSimple.setLendingTime(x.getLendingTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,x.getLendingTime()));
+                    return loanInfoSimple;
+                }).collect(Collectors.toList()));
+                getOfferInfoResp.setLoanPrice(loanInfos.get(0).getPrice());
+            } else {
+                getOfferInfoResp.setLoanInfo(Collections.EMPTY_LIST);
+            }
+        }
+        getOfferInfoResp.setReviewInfo(opterReviewService.towerReviewConvert(getOfferInfoResp.getReviewOpt()));
+        List<ImgInfoReq> imgInfoReqs =imgService.getQuoteImgs(quoteId);
+        getOfferInfoResp.setImgInfo(imgInfoReqs);
         getOfferInfoResp.setServiceMobile(serviceMobile);
         return getOfferInfoResp;
     }
@@ -340,19 +471,23 @@ import java.util.regex.Pattern;
 
     /**
      * 构建系统报价的报价详情数据
+     *
      * @param quoteListResps
      * @return
      */
-    void buildSystemQuoteDetail(List<GerQuoteListResp>quoteListResps){
-        if(CollectionUtils.isEmpty(quoteListResps)){
+    void buildSystemQuoteDetail(List<GerQuoteListResp> quoteListResps) {
+        if (CollectionUtils.isEmpty(quoteListResps)) {
             return;
         }
-        quoteListResps.stream().forEach(x->{
-            List<GerQuoteListResp.Detail> details=new LinkedList<>();
-            details.add(new GerQuoteListResp.Detail("质量标准", Lists.newArrayList(GerQuoteListResp.convertProperties(x.getProperties()))));
-            details.add(new GerQuoteListResp.Detail("单价", Lists.newArrayList(x.getQuote().toString()+" /"+x.getUnitPrice())));
-            details.add(new GerQuoteListResp.Detail("注意事项",x.getNotice()));
+        quoteListResps.stream().forEach(x -> {
+            List<GerQuoteListResp.Detail> details = new LinkedList<>();
+            details.add(new GerQuoteListResp.Detail("质量标准",
+                    Lists.newArrayList(GerQuoteListResp.convertProperties(x.getProperties()))));
+            details.add(new GerQuoteListResp.Detail("单价",
+                    Lists.newArrayList(x.getQuote().toString() + " /" + x.getUnitPrice())));
+            details.add(new GerQuoteListResp.Detail("注意事项", x.getNotice()));
             x.setDetail(details);
         });
     }
+
 }

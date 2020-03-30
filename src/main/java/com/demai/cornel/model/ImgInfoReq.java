@@ -13,7 +13,12 @@ public class ImgInfoReq {
 
     public ImgInfoReq(String key, String url) {
         this.key = key;
-        this.url = url;
+        if(url==null){
+            this.url = "";
+        }else {
+            this.url = url;
+
+        }
     }
 
     public ImgInfoReq() {
