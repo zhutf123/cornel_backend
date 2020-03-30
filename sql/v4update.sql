@@ -200,6 +200,10 @@ comment on column offer_sheet.unit_weight is '重量单位';
 create unique index offer_sheet_id_uindex
     on offer_sheet (id);
 
+alter table offer_sheet
+	add target_user_id varchar(40);
+
+comment on column offer_sheet.target_user_id is '针对特定用户的报价，如果为空则是全局报价 否则是针对特定买家的报价';
 
 
 -- 求购表

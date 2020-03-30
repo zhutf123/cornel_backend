@@ -32,6 +32,17 @@
     <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
             typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
   </resultMap>
+
+
+  <resultMap id="list_admin_resp" type="com.demai.cornel.demeManager.vo.AdminGetSysOffResp">
+    <!--@mbg.generated-->
+    <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
+    <result column="commodity_id" jdbcType="VARCHAR" property="commodityId" />
+    <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+    <result column="price" jdbcType="NUMERIC" property="price" />
+    <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />
+    <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+  </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, commodity_id, location_id, price, unit_price, "status", create_time, offer_id, 
@@ -218,4 +229,24 @@
         select <include refid="Base_Column_List"/>
         from offer_sheet where offer_id=#{offerId};
     </select>
+  <select id="adminGetSysOfferSheet" resultMap="list_admin_resp">
+    select <include refid="column_list_resp" />
+    from offer_sheet o left join commodity_list c on o.commodity_id=c.commodity_id
+    left join location_info l on o.location_id=l.location_id
+    where o.status=1 order by o.id desc ;
+  </select>
+  <select id="selectByCommodityId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from offer_sheet where commodity_id=#{commodityId,jdbcType=VARCHAR} and status!=0 order by create_time desc limit 1;
+  </select>
+  <update id="updateOfferStatusByCommodityId">
+    update offer_sheet set status=0  where commodity_id=#{commodityId,jdbcType=VARCHAR} and status!=0 ;
+  </update>
+  <select id="selectSpecilaByCommodityIdAndUserId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from offer_sheet where commodity_id=#{commodityId,jdbcType=VARCHAR} and status!=0 and target_user_id = #{userId,jdbcType=VARCHAR} order by create_time desc limit 1;
+  </select>
+  <update id="updateOfferStatusByCommodityIdAndUserId">
+       update offer_sheet set status=0  where commodity_id=#{commodityId,jdbcType=VARCHAR} and status!=0 and  target_user_id = #{userId,jdbcType=VARCHAR};
+  </update>
 </mapper>

@@ -65,5 +65,5 @@ public class OfferSheet {
      */
     private String unitWeight;
 
-
+   private String targetUserId;
 }

@@ -1,8 +1,10 @@
 package com.demai.cornel.purcharse.dao;
 
+import com.demai.cornel.demeManager.vo.AdminGetBuyerResp;
 import com.demai.cornel.purcharse.model.BuyerInfo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,5 +35,10 @@ public interface BuyerInfoMapper {
 
 
     BuyerInfo selectBuyInfoByPhone(@Param("phone")String phone);
+
+
+    List<AdminGetBuyerResp> adminGetBuyerList(@Param("offset")Integer offset,@Param("pgSzie")Integer pgSize);
+
+
 
 }

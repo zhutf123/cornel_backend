@@ -19,6 +19,27 @@
         <result column="default_location" jdbcType="VARCHAR" property="defaultLocation"/>
 
     </resultMap>
+
+
+    <resultMap id="admin_lis" type="com.demai.cornel.demeManager.vo.AdminGetBuyerResp">
+        <!--@mbg.generated-->
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="mobile" property="mobile" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="company" jdbcType="VARCHAR" property="company"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+
+    </resultMap>
+
+    <sql id="admin_get_buyer">
+        b.user_id,
+        b.user_name,
+        b.mobile,
+        c.company_name as company,
+        l.location
+    </sql>
+
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, user_id, user_name, id_card, id_type, mobile, company_id, create_time, update_time,
@@ -210,6 +231,14 @@
     <select id="selectByUserIdByLogin" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from buyer_info where   status=1 and <![CDATA[ mobile @> array[#{phone}] ]]> limit 1;
+    </select>
+    <select id="adminGetBuyerList" resultMap="admin_lis">
+      select <include refid="admin_get_buyer"/>
+      from buyer_info b
+      left join company_info c on b.company_id=c.company_id
+      left join location_info l on b.default_location = c.location_id
+      where status !=0  order by id desc offset #{offset} limit #{pgSzie} ;
+
     </select>
 
 

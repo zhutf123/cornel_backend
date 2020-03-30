@@ -35,15 +35,15 @@ import java.util.Date;
         }
     }
 
-    public static String timeStampConvertString(String timeFormat, Timestamp time) {
-        try {
-            if (Strings.isNullOrEmpty(timeFormat) || time==null) {
-                return null;
-            }
-           return new SimpleDateFormat(timeFormat).format(time);
-        } catch (Exception e) {
-            log.error("parse time error", e);
-            return null;
-        }
-    }
+//    public static String timeStampConvertString(String timeFormat, Timestamp time) {
+//        try {
+//            if (Strings.isNullOrEmpty(timeFormat) || time==null) {
+//                return null;
+//            }
+//           return new SimpleDateFormat(timeFormat).format(time);
+//        } catch (Exception e) {
+//            log.error("parse time error", e);
+//            return null;
+//        }
+//    }
 }
