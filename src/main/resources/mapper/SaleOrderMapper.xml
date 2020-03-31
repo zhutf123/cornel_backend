@@ -68,6 +68,7 @@
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
         <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -94,7 +95,7 @@
         s.receive_end_time,
         s.commodity_id,
         s.view_status AS status,
-        c.commodity_name,
+        c.name as commodity_name ,
         l.location as receive_location
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -434,7 +435,7 @@
        select order_id from sale_order where purchase_id=#{purchaseId,jdbcType=VARCHAR} ;
     </select>
     <select id="selectSaleView" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleListResp">
-      select sum(order_price) as totalPrice,sum (weight) as totalWeight,count(*) as orderNum,view_status as status from sale_order where view_status!=0 order by view_status;
+      select sum(order_price) as totalPrice,sum (weight) as totalWeight,count(*) as orderNum,view_status as status from sale_order where view_status!=0 group by view_status order by view_status;
     </select>
     <select id="AdminGetSaleOrderList" resultMap="admin_detail_map">
         select
