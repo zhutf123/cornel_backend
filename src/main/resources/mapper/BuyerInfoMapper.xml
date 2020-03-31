@@ -237,7 +237,7 @@
       from buyer_info b
       left join company_info c on b.company_id=c.company_id
       left join location_info l on b.default_location = c.location_id
-      where status !=0  order by id desc offset #{offset} limit #{pgSzie} ;
+      where b.status !=0  order by b.id desc offset #{offset} limit #{pgSzie} ;
 
     </select>
 
