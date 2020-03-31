@@ -1,165 +1,202 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demai.cornel.purcharse.dao.StoreInfoMapper">
-  <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.StoreInfo">
-    <!--@mbg.generated-->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="commodity_id" jdbcType="VARCHAR" property="commodityId" />
-    <result column="location_id" jdbcType="VARCHAR" property="locationId" />
-    <result column="buying_price" jdbcType="NUMERIC" property="buyingPrice" />
-    <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />
-    <result column="weight" jdbcType="NUMERIC" property="weight" />
-    <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="status" jdbcType="SMALLINT" property="status" />
-    <result column="store_id" jdbcType="VARCHAR" property="storeId" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    id, commodity_id, location_id, buying_price, unit_price, weight, unit_weight, create_time, 
-    "status", store_id
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
-    from store_info
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    <!--@mbg.generated-->
-    delete from store_info
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.demai.cornel.purcharse.model.StoreInfo">
-    <!--@mbg.generated-->
-    insert into store_info (id, commodity_id, location_id, 
-      buying_price, unit_price, weight, 
-      unit_weight, create_time, "status", 
-      store_id)
-    values (#{id,jdbcType=INTEGER}, #{commodityId,jdbcType=VARCHAR}, #{locationId,jdbcType=VARCHAR}, 
-      #{buyingPrice,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR}, #{weight,jdbcType=NUMERIC}, 
-      #{unitWeight,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=SMALLINT}, 
-      #{storeId,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.StoreInfo">
-    <!--@mbg.generated-->
-    insert into store_info
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="commodityId != null">
-        commodity_id,
-      </if>
-      <if test="locationId != null">
-        location_id,
-      </if>
-      <if test="buyingPrice != null">
-        buying_price,
-      </if>
-      <if test="unitPrice != null">
-        unit_price,
-      </if>
-      <if test="weight != null">
-        weight,
-      </if>
-      <if test="unitWeight != null">
-        unit_weight,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="status != null">
-        "status",
-      </if>
-      <if test="storeId != null">
-        store_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="commodityId != null">
-        #{commodityId,jdbcType=VARCHAR},
-      </if>
-      <if test="locationId != null">
-        #{locationId,jdbcType=VARCHAR},
-      </if>
-      <if test="buyingPrice != null">
-        #{buyingPrice,jdbcType=NUMERIC},
-      </if>
-      <if test="unitPrice != null">
-        #{unitPrice,jdbcType=VARCHAR},
-      </if>
-      <if test="weight != null">
-        #{weight,jdbcType=NUMERIC},
-      </if>
-      <if test="unitWeight != null">
-        #{unitWeight,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=SMALLINT},
-      </if>
-      <if test="storeId != null">
-        #{storeId,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.StoreInfo">
-    <!--@mbg.generated-->
-    update store_info
-    <set>
-      <if test="commodityId != null">
-        commodity_id = #{commodityId,jdbcType=VARCHAR},
-      </if>
-      <if test="locationId != null">
+    <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.StoreInfo">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="location_id" jdbcType="VARCHAR" property="locationId"/>
+        <result column="buying_price" jdbcType="NUMERIC" property="buyingPrice"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="store_id" jdbcType="VARCHAR" property="storeId"/>
+        <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
+        <result column="undist_weight" jdbcType="NUMERIC" property="undistWeight"/>
+        <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, commodity_id, location_id, buying_price, unit_price, weight, unit_weight, create_time,
+        "status", store_id,capital_cost,quote_id,undist_weight
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from store_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from store_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.demai.cornel.purcharse.model.StoreInfo">
+        <!--@mbg.generated-->
+        insert into store_info (id, commodity_id, location_id,
+        buying_price, unit_price, weight,
+        unit_weight, create_time, "status",
+        store_id)
+        values (#{id,jdbcType=INTEGER}, #{commodityId,jdbcType=VARCHAR}, #{locationId,jdbcType=VARCHAR},
+        #{buyingPrice,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR}, #{weight,jdbcType=NUMERIC},
+        #{unitWeight,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=SMALLINT},
+        #{storeId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.StoreInfo">
+        <!--@mbg.generated-->
+        insert into store_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="commodityId != null">
+                commodity_id,
+            </if>
+            <if test="locationId != null">
+                location_id,
+            </if>
+            <if test="buyingPrice != null">
+                buying_price,
+            </if>
+            <if test="unitPrice != null">
+                unit_price,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="unitWeight != null">
+                unit_weight,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="status != null">
+                "status",
+            </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="capitalCost != null">
+                capital_cost,
+            </if>
+            <if test="undistWeight != null">
+                undist_weight,
+            </if>
+            <if test="quoteId != null">
+                quote_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="commodityId != null">
+                #{commodityId,jdbcType=VARCHAR},
+            </if>
+            <if test="locationId != null">
+                #{locationId,jdbcType=VARCHAR},
+            </if>
+            <if test="buyingPrice != null">
+                #{buyingPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=VARCHAR},
+            </if>
+            <if test="capitalCost != null">
+                #{capitalCost,jdbcType=DECIMAL} ,
+            </if>
+            <if test="undistWeight != null">
+                #{undistWeight,jdbcType=DECIMAL} ,
+            </if>
+            <if test="quoteId != null">
+                #{quoteId,jdbcType=VARCHAR} ,
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.StoreInfo">
+        <!--@mbg.generated-->
+        update store_info
+        <set>
+            <if test="commodityId != null">
+                commodity_id = #{commodityId,jdbcType=VARCHAR},
+            </if>
+            <if test="locationId != null">
+                location_id = #{locationId,jdbcType=VARCHAR},
+            </if>
+            <if test="buyingPrice != null">
+                buying_price = #{buyingPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                unit_price = #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                unit_weight = #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                "status" = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=VARCHAR},
+            </if>
+            <if test="capitalCost != null">
+                capital_cost= #{capitalCost,jdbcType=DECIMAL} ,
+            </if>
+            <if test="undistWeight != null">
+                undist_weight=#{undistWeight,jdbcType=DECIMAL} ,
+            </if>
+            <if test="quoteId != null">
+                quote_id=#{quoteId,jdbcType=VARCHAR} ,
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.StoreInfo">
+        <!--@mbg.generated-->
+        update store_info
+        set commodity_id = #{commodityId,jdbcType=VARCHAR},
         location_id = #{locationId,jdbcType=VARCHAR},
-      </if>
-      <if test="buyingPrice != null">
         buying_price = #{buyingPrice,jdbcType=NUMERIC},
-      </if>
-      <if test="unitPrice != null">
         unit_price = #{unitPrice,jdbcType=VARCHAR},
-      </if>
-      <if test="weight != null">
         weight = #{weight,jdbcType=NUMERIC},
-      </if>
-      <if test="unitWeight != null">
         unit_weight = #{unitWeight,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
         "status" = #{status,jdbcType=SMALLINT},
-      </if>
-      <if test="storeId != null">
-        store_id = #{storeId,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.StoreInfo">
-    <!--@mbg.generated-->
-    update store_info
-    set commodity_id = #{commodityId,jdbcType=VARCHAR},
-      location_id = #{locationId,jdbcType=VARCHAR},
-      buying_price = #{buyingPrice,jdbcType=NUMERIC},
-      unit_price = #{unitPrice,jdbcType=VARCHAR},
-      weight = #{weight,jdbcType=NUMERIC},
-      unit_weight = #{unitWeight,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      "status" = #{status,jdbcType=SMALLINT},
-      store_id = #{storeId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        store_id = #{storeId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
     <select id="selectStoreIdByCommodityId" resultMap="BaseResultMap">
-      select <include refid="Base_Column_List"/>
-      from store_info where commodity_id=#{commodityId} and status=1;
+        select
+        <include refid="Base_Column_List"/>
+        from store_info where commodity_id=#{commodityId} and status=1;
+    </select>
+    <select id="selectStoreIdByCommodityIdAndWeight" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_info where commodity_id=#{commodityId} and status=1 and undist_weight <![CDATA[>=]]> #{weight,jdbcType=DECIMAL} ;
     </select>
 </mapper>

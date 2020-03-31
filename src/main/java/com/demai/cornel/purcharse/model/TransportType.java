@@ -1,59 +1,62 @@
 package com.demai.cornel.purcharse.model;
 
+import com.demai.cornel.dmEnum.IEmus;
+import com.demai.cornel.model.ImgInfo;
+import lombok.Data;
+
+import java.util.Arrays;
+
 /**
-* @Author binz.zhang
-* @Date: 2020-02-12    13:32
-*/
-public class TransportType {
+ * @Author binz.zhang
+ * @Date: 2020-03-31    16:59
+ */
+@Data public class TransportType {
     /**
-    * 自增ID
-    */
+     * 自增ID
+     */
     private Integer id;
 
     /**
-    * 运输方式 货运、空运、水运
-    */
+     * 运输方式 货运、空运、水运
+     */
     private String transportType;
 
     /**
-    * uuid 
-    */
+     * uuid
+     */
     private String transportId;
 
     /**
-    * 0 无效 1有效
-    */
+     * 0 无效 1有效
+     */
     private Short status;
 
-    public Integer getId() {
-        return id;
+    public static enum TRANSPORT_TYPE_ENUM {
+        DIRECT("direct", "院内交货"), MOTOR("motor", "汽运"), RAIL("rail", "火车"), WATER("water", "水运"), OTHER("other", "其他");
+        private String type;
+        private String expr;
+
+        private TRANSPORT_TYPE_ENUM(String type, String expr) {
+            this.type = type;
+            this.expr = expr;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getExpr() {
+            return expr;
+        }
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public static TRANSPORT_TYPE_ENUM typeOf(String type) {
+        return Arrays.stream(TRANSPORT_TYPE_ENUM.values()).filter(X -> X.getType().equalsIgnoreCase(type)).findAny()
+                .orElse(null);
     }
 
-    public String getTransportType() {
-        return transportType;
-    }
-
-    public void setTransportType(String transportType) {
-        this.transportType = transportType;
-    }
-
-    public String getTransportId() {
-        return transportId;
-    }
-
-    public void setTransportId(String transportId) {
-        this.transportId = transportId;
-    }
-
-    public Short getStatus() {
-        return status;
-    }
-
-    public void setStatus(Short status) {
-        this.status = status;
+    public static TRANSPORT_TYPE_ENUM exparOf(String expr) {
+        return Arrays.stream(TRANSPORT_TYPE_ENUM.values()).filter(X -> X.getExpr().equalsIgnoreCase(expr)).findAny()
+                .orElse(null);
     }
 }

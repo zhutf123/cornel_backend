@@ -129,6 +129,11 @@ import lombok.Data;
 
     private String commodityId;
 
+    private String outStackId;
+
+    private Integer viewStatus;
+    private BigDecimal esIncome;//预计收益
+
     public static enum STATUS_ENUM implements IEmus {
         //        CANCLE(0, "取消"),
         //        UNDER_APPROVAL(1<<0, "待审核"),
@@ -136,15 +141,40 @@ import lombok.Data;
         //        DELIVER_ING(1<<2, "运输中"),
         //        UNDER_RECEIVE(1<<3, "待接货"),
         //        FINISH(5, "订单完成");
-        CANCLE(0, "取消"),
-        UNDER_APPROVAL(1 << 0, "待审核"),
-        RUNNING(1 << 1, "进行中"),
-        FINISH(1<<2, "已完成");
+        CANCLE(0, "取消"), UNDER_APPROVAL(1 << 0, "待审核"), REJECT_APPROVAL(1 << 1, "审核拒绝"), PASS_APPROVAL(1 << 2,
+                "审核通过"), RUNNING(1 << 3, "进行中"), FINISH(1 << 4, "已完成");
 
         private int value;
         private String expr;
 
         private STATUS_ENUM(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override public int getValue() {
+            return value;
+        }
+
+        @Override public String getExpr() {
+            return expr;
+        }
+    }
+
+    public static enum STATUS_VIEW implements IEmus {
+        //        CANCLE(0, "取消"),
+        //        UNDER_APPROVAL(1<<0, "待审核"),
+        //        UNDER_DELIVER(1<<1, "待运输"),
+        //        DELIVER_ING(1<<2, "运输中"),
+        //        UNDER_RECEIVE(1<<3, "待接货"),
+        //        FINISH(5, "订单完成");
+        CANCLE(0, "取消"), UNDER_APPROVAL(1, "待审核"), PASS_APPROVAL(2, "审核通过"), REJECT_APPROVAL(3, "审核拒绝"), RUNNING(4,
+                "进行中"), FINISH(5, "已完成");
+
+        private int value;
+        private String expr;
+
+        private STATUS_VIEW(int value, String expr) {
             this.value = value;
             this.expr = expr;
         }

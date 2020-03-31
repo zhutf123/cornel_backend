@@ -27,6 +27,8 @@
         <result column="offer_id" jdbcType="VARCHAR" property="offerId"/>
         <result column="receive_end_time" jdbcType="TIMESTAMP" property="receiveEndTime"/>
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="out_stack_id" jdbcType="VARCHAR" property="outStackId"/>
+        <result column="view_status" jdbcType="INTEGER" property="viewStatus"/>
 
     </resultMap>
 
@@ -34,16 +36,37 @@
     <resultMap id="BaseResultMap_list" type="com.demai.cornel.purcharse.vo.resp.GetSaleOrderListResp">
         <!--@mbg.generated-->
         <result column="status" jdbcType="INTEGER" property="status"/>
-        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="freight_price" jdbcType="NUMERIC" property="freightPrice"/>
         <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
         <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
         <result column="weight" jdbcType="NUMERIC" property="weight"/>
         <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
         <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
-        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
         <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+    </resultMap>
+
+
+    <resultMap id="admin_detail_map" type="com.demai.cornel.demeManager.vo.AdminGetSaleDetail">
+        <!--@mbg.generated-->
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="contact_user" jdbcType="VARCHAR" property="contactUserName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -51,7 +74,26 @@
         id, "status", cargo_id, buyer_id, order_time, receive_start_time, payment_type, payment_status,
         freight_price, commodity_price, order_price, unit_price, weight, unit_weight, waybill_id,
         purchase_id, contact_user_name, mobile, receive_location, from_location, order_id,
-        offer_id, receive_end_time,commodity_id
+        offer_id, receive_end_time,commodity_id,out_stack_id,view_status
+    </sql>
+
+
+    <sql id="admin_detail_List">
+        <!--@mbg.generated-->
+        s.buyer_id,
+        s.commodity_price,
+        s.order_price,
+        s.unit_price,
+        s.weight,
+        s.unit_weight,
+        s.contact_user_name,
+        s.mobile,
+        s.receive_location,
+        s.receive_end_time,
+        s.commodity_id,
+        s.view_status AS status,
+        c.commodity_name,
+        l.location as receive_location
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -167,6 +209,12 @@
             <if test="commodityId != null and commodityId != ''">
                 commodity_id,
             </if>
+            <if test="outStackId != null and outStackId != ''">
+                out_stack_id,
+            </if>
+            <if test="viewStatus != null">
+                view_status,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -241,6 +289,12 @@
             <if test="commodityId != null and commodityId != ''">
                 #{commodityId,jdbcType=VARCHAR},
             </if>
+            <if test="outStackId != null and outStackId != ''">
+                #{outStackId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="viewStatus != null">
+                #{viewStatus} ,
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
@@ -313,9 +367,15 @@
             <if test="receiveEndTime != null">
                 receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP},
             </if>
-             <if test="commodityId != null and commodityId != ''">
-                 commodity_id=#{commodityId} ,
-             </if>
+            <if test="commodityId != null and commodityId != ''">
+                commodity_id=#{commodityId} ,
+            </if>
+            <if test="outStackId != null and outStackId != ''">
+                out_stack_id = #{outStackId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="viewStatus != null">
+                view_status = #{viewStatus},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -356,7 +416,7 @@
         select
         <include refid="Base_Column_List"/>
         from sale_order where
-         status=((status <![CDATA[ & ]]> #{status} ))
+        status=((status <![CDATA[ & ]]> #{status} ))
         <if test="orderId != null and orderId != ''">
             and id  <![CDATA[<=]]> (select id from sale_order where offer_id=#{orderId} )
         </if>
@@ -370,5 +430,15 @@
     </update>
     <select id="getSaleIdByPurchaseId" resultType="java.lang.String">
        select order_id from sale_order where purchase_id=#{purchaseId,jdbcType=VARCHAR} ;
+    </select>
+    <select id="selectSaleView" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleListResp">
+      select sum(order_price) as totalPrice,sum (weight) as totalWeight,count(*) as orderNum,view_status as status from sale_order where view_status!=0 order by view_status;
+    </select>
+    <select id="AdminGetSaleOrderList" resultMap="admin_detail_map">
+        select
+        <include refid="admin_detail_List"/>
+        from sale_order s left join location_info l on l.location_id=s.receive_location
+        left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0
+        order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;
     </select>
 </mapper>

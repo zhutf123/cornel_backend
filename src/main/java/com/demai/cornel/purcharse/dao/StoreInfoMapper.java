@@ -1,7 +1,9 @@
 package com.demai.cornel.purcharse.dao;
 
 import com.demai.cornel.purcharse.model.StoreInfo;
+import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,4 +23,8 @@ public interface StoreInfoMapper {
     int updateByPrimaryKeySelective(StoreInfo record);
 
     int updateByPrimaryKey(StoreInfo record);
+
+    List<StoreInfo> selectStoreIdByCommodityIdAndWeight(@Param("commodityId") String commodityId,@Param("weight")
+            BigDecimal weight);
+
 }

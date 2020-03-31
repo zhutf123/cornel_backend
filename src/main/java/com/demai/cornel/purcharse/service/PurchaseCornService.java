@@ -47,7 +47,7 @@ import java.util.*;
     @Resource private PurchaseInfoMapper purchaseInfoMapper;
     @Resource private WaybillInfoMapper waybillInfoMapper;
     @Resource private OrderInfoDao orderInfoDao;
-
+    @Resource private OutStackService outStackService;
     private static String TIME_FORMAT = "yyyy-MM-dd";
     private static List<BigDecimal> PURCHASE_BARGAIN = new ArrayList<>();
 
@@ -248,18 +248,18 @@ import java.util.*;
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.WEIGHT_INVALID.getValue()).build();
         }
 
-        CargoInfo cargoInfo = new CargoInfo();
-        cargoInfo.setCommodityId(offer.getCommodityId());
-        cargoInfo.setDealTime(new Timestamp(System.currentTimeMillis()));
-        cargoInfo.setPrice(offer.getPrice());
-        cargoInfo.setUnitWeight(offer.getUnitWeight());
-        cargoInfo.setWeight(offer.getWeight());
-        cargoInfo.setUnitWeight(offer.getUnitWeight());
-        cargoInfo.setCargoId(UUID.randomUUID().toString());
-        cargoInfoMapper.insertSelective(cargoInfo);
+        //        CargoInfo cargoInfo = new CargoInfo();
+        //        cargoInfo.setCommodityId(offer.getCommodityId());
+        //        cargoInfo.setDealTime(new Timestamp(System.currentTimeMillis()));
+        //        cargoInfo.setPrice(offer.getPrice());
+        //        cargoInfo.setUnitWeight(offer.getUnitWeight());
+        //        cargoInfo.setWeight(offer.getWeight());
+        //        cargoInfo.setUnitWeight(offer.getUnitWeight());
+        //        cargoInfo.setCargoId(UUID.randomUUID().toString());
+        //        cargoInfoMapper.insertSelective(cargoInfo);
         SaleOrder saleOrder = new SaleOrder();
         BeanUtils.copyProperties(offer, saleOrder);
-        saleOrder.setCargoId(cargoInfo.getCargoId());
+        // saleOrder.setCargoId(cargoInfo.getCargoId());
         saleOrder.setOrderId(UUID.randomUUID().toString());
         saleOrder.setBuyerId(CookieAuthUtils.getCurrentUser());
         saleOrder.setReceiveLocation(offer.getReceiveLocationId());
@@ -276,6 +276,8 @@ import java.util.*;
         if (ret != 1) {
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
         }
+        // 构建系统默认的出货记录 todo 待完善
+        outStackService.buildSystemDefaultOutStackInfo(saleOrder);
         return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.SUCCESS.getValue()).
                 orderId(saleOrder.getOrderId()).orderStatus(saleOrder.getStatus()).build();
     }
@@ -311,7 +313,8 @@ import java.util.*;
             Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             x.setCommodity(commodity);
         });
-        log.debug("user is {} getSaleOrderListRespList return data {}",CookieAuthUtils.getCurrentUser(),JacksonUtils.obj2String(getSaleOrderListResps));
+        log.debug("user is {} getSaleOrderListRespList return data {}", CookieAuthUtils.getCurrentUser(),
+                JacksonUtils.obj2String(getSaleOrderListResps));
         return getSaleOrderListResps;
 
     }
@@ -648,7 +651,7 @@ import java.util.*;
         GetSaleDetailResp getSaleDetailResp = new GetSaleDetailResp();
         if (saleOrder == null) {
             log.info("get sale detai fail due to order invalid");
-             getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.purcahse_INVALID.getValue());
+            getSaleDetailResp.setStatus(GetSaleDetailResp.STATUS_ENUE.purcahse_INVALID.getValue());
             return getSaleDetailResp;
         }
         if (!saleOrder.getBuyerId().equals(CookieAuthUtils.getCurrentUser())) {

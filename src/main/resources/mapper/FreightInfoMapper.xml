@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.purcharse.dao.FreightInfoMapper">
+    <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.FreightInfo">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="freight_id" jdbcType="VARCHAR" property="freightId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
+        <result column="to_location" jdbcType="VARCHAR" property="toLocation"/>
+        <result column="transport_type" jdbcType="VARCHAR" property="transportType"/>
+        <result column="price" jdbcType="NUMERIC" property="price"/>
+        <result column="cost_time" jdbcType="INTEGER" property="costTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, freight_id, create_time, from_location, to_location, transport_type, price, cost_time,
+        "status"
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from freight_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from freight_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.demai.cornel.purcharse.model.FreightInfo">
+        <!--@mbg.generated-->
+        insert into freight_info (id, freight_id, create_time,
+        from_location, to_location, transport_type,
+        price, cost_time, "status"
+        )
+        values (#{id,jdbcType=INTEGER}, #{freightId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{fromLocation,jdbcType=VARCHAR}, #{toLocation,jdbcType=VARCHAR}, #{transportType,jdbcType=VARCHAR},
+        #{price,jdbcType=NUMERIC}, #{costTime,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.FreightInfo">
+        <!--@mbg.generated-->
+        insert into freight_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="freightId != null">
+                freight_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="fromLocation != null">
+                from_location,
+            </if>
+            <if test="toLocation != null">
+                to_location,
+            </if>
+            <if test="transportType != null">
+                transport_type,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="costTime != null">
+                cost_time,
+            </if>
+            <if test="status != null">
+                "status",
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="freightId != null">
+                #{freightId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fromLocation != null">
+                #{fromLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="toLocation != null">
+                #{toLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="transportType != null">
+                #{transportType,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=NUMERIC},
+            </if>
+            <if test="costTime != null">
+                #{costTime,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.FreightInfo">
+        <!--@mbg.generated-->
+        update freight_info
+        <set>
+            <if test="freightId != null">
+                freight_id = #{freightId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fromLocation != null">
+                from_location = #{fromLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="toLocation != null">
+                to_location = #{toLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="transportType != null">
+                transport_type = #{transportType,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=NUMERIC},
+            </if>
+            <if test="costTime != null">
+                cost_time = #{costTime,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                "status" = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.FreightInfo">
+        <!--@mbg.generated-->
+        update freight_info
+        set freight_id = #{freightId,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        from_location = #{fromLocation,jdbcType=VARCHAR},
+        to_location = #{toLocation,jdbcType=VARCHAR},
+        transport_type = #{transportType,jdbcType=VARCHAR},
+        price = #{price,jdbcType=NUMERIC},
+        cost_time = #{costTime,jdbcType=INTEGER},
+        "status" = #{status,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectMinPriceRoute" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from freight_info where (from_location=#{from,jdbcType=VARCHAR} and to_location=#{to,jdbcType=VARCHAR})
+        or (from_location=#{to,jdbcType=VARCHAR} and to_location=#{from,jdbcType=VARCHAR}) and status!=0 order by price
+        limit 1;
+    </select>
+</mapper>

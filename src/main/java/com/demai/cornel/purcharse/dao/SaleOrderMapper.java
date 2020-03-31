@@ -1,5 +1,7 @@
 package com.demai.cornel.purcharse.dao;
 
+import com.demai.cornel.demeManager.vo.AdminGetSaleDetail;
+import com.demai.cornel.demeManager.vo.AdminGetSaleListResp;
 import com.demai.cornel.purcharse.model.SaleOrder;
 import com.demai.cornel.purcharse.vo.resp.GetSaleOrderListResp;
 import org.apache.ibatis.annotations.Param;
@@ -33,4 +35,10 @@ public interface SaleOrderMapper {
 
     String getSaleIdByPurchaseId(@Param("purchaseId")String purchaseId);
 
+
+    List<AdminGetSaleListResp> selectSaleView();
+
+
+    List<AdminGetSaleDetail> AdminGetSaleOrderList(@Param("viewStatus") Integer viewStatus, @Param("pgSize") Integer pgSize,
+            @Param("offset") Integer offSet);
 }
