@@ -19,6 +19,8 @@ public interface FreightInfoMapper {
 
     FreightInfo selectByPrimaryKey(Integer id);
 
+    FreightInfo selectByFreightId(String FreightId);
+
     int updateByPrimaryKeySelective(FreightInfo record);
 
     int updateByPrimaryKey(FreightInfo record);

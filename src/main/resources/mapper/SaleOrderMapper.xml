@@ -69,6 +69,8 @@
         <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
         <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="out_stack_id" jdbcType="VARCHAR" property="outStackId"/>
+        <result column="es_income" jdbcType="NUMERIC" property="esInCome"/>
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -96,6 +98,9 @@
         s.receive_end_time,
         s.commodity_id,
         s.view_status AS status,
+        s.out_stack_id,
+        s.es_income,
+        s.view_status as status,
         c.name as commodity_name ,
         l.location as receive_location
     </sql>
@@ -445,7 +450,14 @@
         left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0
         order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;
     </select>
-<!--    <select id="adminGetSaleDetail" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleDetail">-->
+    <select id="selectSaleList" resultMap="admin_detail_map">
+        select
+        <include refid="admin_detail_List"/>
+        from sale_order s left join location_info l on l.location=s.receive_location
+        left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0
+        and order_id=#{orderId} ;
+    </select>
+    <!--    <select id="adminGetSaleDetail" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleDetail">-->
 <!--        select-->
 <!--        <include refid="admin_detail_List"/>-->
 <!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->

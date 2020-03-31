@@ -2,6 +2,8 @@ package com.demai.cornel.purcharse.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
+
 import lombok.Data;
 
 /**
@@ -38,7 +40,7 @@ public class FreightInfo {
     /**
     * 货运方式
     */
-    private String transportType;
+    private Set<String> transportType;
 
     /**
     * 运费

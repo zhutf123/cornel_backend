@@ -1,6 +1,7 @@
 package com.demai.cornel.demeManager.vo;
 
 import com.demai.cornel.purcharse.vo.resp.GetSaleOrderListResp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -24,6 +25,9 @@ import java.math.BigDecimal;
     private String unitPrice;
     private String unitWeight;
     private String status;
+    @JsonIgnore
+    private String outStackId;
+    private BigDecimal esInCome;
 
 
 }

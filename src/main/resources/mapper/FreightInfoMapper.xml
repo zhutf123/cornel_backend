@@ -8,7 +8,8 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
         <result column="to_location" jdbcType="VARCHAR" property="toLocation"/>
-        <result column="transport_type" jdbcType="VARCHAR" property="transportType"/>
+        <result column="transport_type"  property="transportType" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="price" jdbcType="NUMERIC" property="price"/>
         <result column="cost_time" jdbcType="INTEGER" property="costTime"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
@@ -159,5 +160,8 @@
         <include refid="Base_Column_List"/>
         from freight_info where (from_location=#{from,jdbcType=VARCHAR} and to_location=#{to,jdbcType=VARCHAR})
         or (from_location=#{to,jdbcType=VARCHAR} and to_location=#{from,jdbcType=VARCHAR}) and status!=0 order by price;
+    </select>
+    <select id="selectByFreightId" resultMap="BaseResultMap">
+       select <include refid="Base_Column_List"/> from freight_info where freight_id=#{FreightId} ;
     </select>
 </mapper>

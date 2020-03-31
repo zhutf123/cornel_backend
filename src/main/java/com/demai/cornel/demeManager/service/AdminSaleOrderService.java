@@ -51,7 +51,7 @@ import java.util.*;
      * @return
      */
     public AdminGetSaleDetail adminGetSaleDetail(String orderId) {
-        SaleOrder saleOrder = saleOrderMapper.selectBySaleId(orderId);
+        AdminGetSaleList saleOrder = saleOrderMapper.selectSaleList(orderId);
         if (saleOrder == null) {
             log.warn("adminGetSaleDetail fail due to order invalid");
             return AdminGetSaleDetail.builder().optStatus(AdminGetSaleDetail.STATUS_ENUE.ORDER_INVALID.getValue())
@@ -71,6 +71,14 @@ import java.util.*;
         if (storeInfo == null) {
             log.debug("adminGetSaleDetail cannot find storeInfo from db ");
             return adminGetSaleDetail;
+        }
+        FreightInfo freightInfo = freightInfoMapper.selectByFreightId(stackOutInfo.getFreightInfoId());
+        if(freightInfo!=null && freightInfo.getTransportType()!=null ){
+            StringBuilder stringBuilder = new StringBuilder();
+            freightInfo.getTransportType().stream().forEach(x->{
+                stringBuilder.append(TransportType.typeOf(x).getExpr());
+            });
+            adminGetSaleDetail.setTransportType(stringBuilder.toString());
         }
         adminGetSaleDetail.setStoreId(stackOutInfo.getStoreId());
         adminGetSaleDetail.setBuyingPrice(storeInfo.getBuyingPrice());
