@@ -119,7 +119,14 @@ import java.util.*;
                     AdminGetOutStackInfo.OtherInfo otherInfo = new AdminGetOutStackInfo.OtherInfo();
                     otherInfo.setFreightId(freightInfo.getFreightId());
                     otherInfo.setFreightPrice(freightInfo.getPrice());
-                    otherInfo.setTransportType(TransportType.typeOf(freightInfo.getTransportType()).getExpr());
+                    //
+                    if(freightInfo!=null && freightInfo.getTransportType()!=null ){
+                        StringBuilder stringBuilder = new StringBuilder("");
+                        freightInfo.getTransportType().stream().forEach(xT->{
+                            stringBuilder.append(TransportType.typeOf(xT).getExpr()).append("+");
+                        });
+                        otherInfo.setTransportType(stringBuilder.toString().substring(0,stringBuilder.lastIndexOf("+")));
+                    }
                     otherInfo.setInCome(saleOrder.getCommodityPrice().subtract(freightInfo.getPrice())
                             .subtract(x.getBuyingPrice()));
                     otherInfos.add(otherInfo);
