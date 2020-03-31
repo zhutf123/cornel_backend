@@ -1,6 +1,7 @@
 package com.demai.cornel.purcharse.dao;
 
 import com.demai.cornel.demeManager.vo.AdminGetSaleDetail;
+import com.demai.cornel.demeManager.vo.AdminGetSaleList;
 import com.demai.cornel.demeManager.vo.AdminGetSaleListResp;
 import com.demai.cornel.purcharse.model.SaleOrder;
 import com.demai.cornel.purcharse.vo.resp.GetSaleOrderListResp;
@@ -20,7 +21,8 @@ public interface SaleOrderMapper {
     int insertSelective(SaleOrder record);
 
     SaleOrder selectByPrimaryKey(Integer id);
-    SaleOrder selectBySaleId(String  orderId);
+
+    SaleOrder selectBySaleId(String orderId);
 
     int updateByPrimaryKeySelective(SaleOrder record);
 
@@ -30,15 +32,15 @@ public interface SaleOrderMapper {
 
     List<GetSaleOrderListResp> getSaleOrderList(@Param("orderId") String orderId, @Param("pgSize") Integer pgSize,
             @Param("status") Integer status);
-    int updateSaleStatus(@Param("orderId") String orderId,
-            @Param("status") Integer status);
 
-    String getSaleIdByPurchaseId(@Param("purchaseId")String purchaseId);
+    int updateSaleStatus(@Param("orderId") String orderId, @Param("status") Integer status);
 
+    String getSaleIdByPurchaseId(@Param("purchaseId") String purchaseId);
 
     List<AdminGetSaleListResp> selectSaleView();
 
+    List<AdminGetSaleList> AdminGetSaleOrderList(@Param("viewStatus") Integer viewStatus,
+            @Param("pgSize") Integer pgSize, @Param("offset") Integer offSet);
 
-    List<AdminGetSaleDetail> AdminGetSaleOrderList(@Param("viewStatus") Integer viewStatus, @Param("pgSize") Integer pgSize,
-            @Param("offset") Integer offSet);
+//    AdminGetSaleDetail adminGetSaleDetail(@Param("orderId") String orderId);
 }

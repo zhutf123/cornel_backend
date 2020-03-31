@@ -154,4 +154,10 @@
         or (from_location=#{to,jdbcType=VARCHAR} and to_location=#{from,jdbcType=VARCHAR}) and status!=0 order by price
         limit 1;
     </select>
+    <select id="selectFreights" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from freight_info where (from_location=#{from,jdbcType=VARCHAR} and to_location=#{to,jdbcType=VARCHAR})
+        or (from_location=#{to,jdbcType=VARCHAR} and to_location=#{from,jdbcType=VARCHAR}) and status!=0 order by price;
+    </select>
 </mapper>

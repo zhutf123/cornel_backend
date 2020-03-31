@@ -322,4 +322,8 @@
         "status" = #{status,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="selectByOutId" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List"/>
+     from stack_out_info where out_id=#{outId} ;
+    </select>
 </mapper>

@@ -199,4 +199,8 @@
         <include refid="Base_Column_List"/>
         from store_info where commodity_id=#{commodityId} and status=1 and undist_weight <![CDATA[>=]]> #{weight,jdbcType=DECIMAL} ;
     </select>
+    <select id="selectByStoreId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+     from store_info where store_id=#{storeId} ;
+    </select>
 </mapper>

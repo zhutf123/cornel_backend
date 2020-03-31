@@ -18,6 +18,8 @@ public interface StoreInfoMapper {
     int insertSelective(StoreInfo record);
 
     StoreInfo selectByPrimaryKey(Integer id);
+    StoreInfo selectByStoreId(String storeId);
+
     List<StoreInfo> selectStoreIdByCommodityId(String commodityId);
 
     int updateByPrimaryKeySelective(StoreInfo record);

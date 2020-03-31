@@ -1,0 +1,18 @@
+package com.demai.cornel.demeManager.vo;
+
+import lombok.Data;
+
+import java.math.BigDecimal;
+
+/**
+ * @Author binz.zhang
+ * @Date: 2020-03-31    21:58
+ */
+@Data
+public class AdminReviewSaleReq {
+    private Integer status;
+    private String orderId;
+    private String storeId; //库存ID
+    private String freightId;//货运ID
+    private BigDecimal inCome;//收益
+}

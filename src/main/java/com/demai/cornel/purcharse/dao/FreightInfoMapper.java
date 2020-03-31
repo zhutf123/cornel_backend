@@ -4,6 +4,7 @@ import com.demai.cornel.purcharse.model.FreightInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
 * @Author binz.zhang
@@ -23,4 +24,7 @@ public interface FreightInfoMapper {
     int updateByPrimaryKey(FreightInfo record);
 
     FreightInfo selectMinPriceRoute(@Param("from")String from,@Param("to")String to);
+
+    List<FreightInfo> selectFreights(@Param("from")String from,@Param("to")String to);
+
 }

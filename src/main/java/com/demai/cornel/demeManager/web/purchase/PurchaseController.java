@@ -81,6 +81,36 @@ import javax.servlet.http.HttpServletResponse;
         return JsonResult.success(adminSaleOrderService.adminGetSaleByStatus(status, offSet, pgSize));
     }
 
+    /**
+     * 管理员获取订单的详情 包括出货信息
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/get-order-detail.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody
+    public JsonResult adminGetOrderDerail(
+            @RequestBody String param) {
+        JSONObject receivedParam = JSON.parseObject(param);
+        String orderId = (String) receivedParam.get("orderId");
+        return JsonResult.success(adminSaleOrderService.adminGetSaleDetail(orderId));
+    }
+
+    /**
+     * 获取出货的其他选择 可以选择出货地点以及出货方式
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/get-stack-option.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody
+    public JsonResult adminGetStackOp(@RequestBody String param) {
+        JSONObject receivedParam = JSON.parseObject(param);
+        String orderId = (String) receivedParam.get("orderId");
+        return JsonResult.success(adminSaleOrderService.adminGetStackOption(orderId));
+    }
+
+    /**
+     * review 售卖订单
+     * @param param
+     * @return
+     */
     @RequestMapping(value = "/review-sale.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult reviewSaleOrder(
             @RequestBody String param) {
         JSONObject receivedParam = JSON.parseObject(param);

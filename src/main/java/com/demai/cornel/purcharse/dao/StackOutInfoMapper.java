@@ -15,6 +15,8 @@ public interface StackOutInfoMapper {
 
     StackOutInfo selectByPrimaryKey(Integer id);
 
+    StackOutInfo selectByOutId(String outId);
+
     int updateByPrimaryKeySelective(StackOutInfo record);
 
     int updateByPrimaryKey(StackOutInfo record);

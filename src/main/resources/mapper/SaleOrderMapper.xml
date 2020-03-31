@@ -51,7 +51,7 @@
     </resultMap>
 
 
-    <resultMap id="admin_detail_map" type="com.demai.cornel.demeManager.vo.AdminGetSaleDetail">
+    <resultMap id="admin_detail_map" type="com.demai.cornel.demeManager.vo.AdminGetSaleList">
         <!--@mbg.generated-->
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
@@ -67,6 +67,7 @@
         <result column="contact_user" jdbcType="VARCHAR" property="contactUserName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -80,6 +81,7 @@
 
     <sql id="admin_detail_List">
         <!--@mbg.generated-->
+        s.order_id,
         s.buyer_id,
         s.commodity_price,
         s.order_price,
@@ -441,4 +443,11 @@
         left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0
         order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;
     </select>
+<!--    <select id="adminGetSaleDetail" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleDetail">-->
+<!--        select-->
+<!--        <include refid="admin_detail_List"/>-->
+<!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->
+<!--        left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0-->
+<!--        order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;-->
+<!--    </select>-->
 </mapper>
