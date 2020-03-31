@@ -272,12 +272,12 @@ import java.util.*;
         // todo 订单总价格 需要加上运费
         saleOrder.setOrderPrice(saleOrder.getCommodityPrice().multiply(saleOrder.getCommodityPrice()));
         saleOrder.setStatus(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue());
+        outStackService.buildSystemDefaultOutStackInfo(saleOrder);
         int ret = saleOrderMapper.insertSelective(saleOrder);
         if (ret != 1) {
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();
         }
         // 构建系统默认的出货记录 todo 待完善
-        outStackService.buildSystemDefaultOutStackInfo(saleOrder);
         return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.SUCCESS.getValue()).
                 orderId(saleOrder.getOrderId()).orderStatus(saleOrder.getStatus()).build();
     }
