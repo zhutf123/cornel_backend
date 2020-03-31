@@ -40,8 +40,8 @@ import java.util.*;
      */
     public List<AdminGetSaleList> adminGetSaleByStatus(Integer status, Integer offSet, Integer pgSize) {
         List<AdminGetSaleList> saleDetails = saleOrderMapper
-                .AdminGetSaleOrderList(status, Optional.ofNullable(offSet).orElse(0),
-                        Optional.ofNullable(pgSize).orElse(10));
+                .AdminGetSaleOrderList(status,
+                        Optional.ofNullable(pgSize).orElse(10),Optional.ofNullable(offSet).orElse(0));
         return CollectionUtils.isEmpty(saleDetails) ? Collections.EMPTY_LIST : saleDetails;
     }
 

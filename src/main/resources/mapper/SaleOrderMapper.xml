@@ -55,14 +55,14 @@
         <!--@mbg.generated-->
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
-                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
         <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
         <result column="weight" jdbcType="NUMERIC" property="weight"/>
         <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
         <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
         <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
-                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
         <result column="contact_user" jdbcType="VARCHAR" property="contactUserName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
@@ -91,6 +91,7 @@
         s.unit_weight,
         s.contact_user_name,
         s.mobile,
+        s.receive_start_time,
         s.receive_location,
         s.receive_end_time,
         s.commodity_id,
@@ -440,7 +441,7 @@
     <select id="AdminGetSaleOrderList" resultMap="admin_detail_map">
         select
         <include refid="admin_detail_List"/>
-        from sale_order s left join location_info l on l.location_id=s.receive_location
+        from sale_order s left join location_info l on l.location=s.receive_location
         left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0
         order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;
     </select>
