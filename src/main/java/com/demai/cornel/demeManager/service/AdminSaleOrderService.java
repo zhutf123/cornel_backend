@@ -137,7 +137,7 @@ import java.util.*;
         adminGetSaleDetail1.setFromLocation(loanInfo == null ? "" : loanInfo.getLocation());
 
         List<FreightInfo> freightInfos = freightInfoMapper
-                .selectFreights(saleOrder.getReceiveLocation(), stackOutInfo.getFromLocation());
+                .selectFreights(stackOutInfo.getReceiveLocation(), stackOutInfo.getFromLocation());
         if (freightInfos != null) {
             List<AdminGetOutStackInfo.OtherInfo> otherInfos = new ArrayList<>(freightInfos.size());
             freightInfos.stream().forEach(fiT -> {
