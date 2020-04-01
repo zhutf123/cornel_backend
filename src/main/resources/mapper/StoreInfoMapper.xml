@@ -198,10 +198,15 @@
     <select id="selectStoreIdByCommodityIdAndWeight" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from store_info where commodity_id=#{commodityId} and status=1 and undist_weight <![CDATA[>=]]> #{weight,jdbcType=DECIMAL} ;
+        from store_info where commodity_id=#{commodityId} and status=1 and undist_weight <![CDATA[>=]]>
+        #{weight,jdbcType=DECIMAL} ;
     </select>
     <select id="selectByStoreId" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
-     from store_info where store_id=#{storeId} ;
+        select
+        <include refid="Base_Column_List"/>
+        from store_info where store_id=#{storeId} ;
     </select>
+    <update id="updateUndistWeight">
+        update  store_info set undist_weight=#{afterDist} where store_id=#{storeId} and undist_weight=#{beforeDist} ;
+    </update>
 </mapper>

@@ -1,6 +1,7 @@
 package com.demai.cornel.purcharse.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 import lombok.Data;
 
@@ -37,7 +38,7 @@ import lombok.Data;
     /**
      * 成交时间
      */
-    private Date dealTime;
+    private Timestamp dealTime;
 
     /**
      * 成交单价

@@ -293,7 +293,7 @@
                 freight_info_id= #{freightInfoId,jdbcType=VARCHAR}
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where out_id = #{outId,jdbcType=VARCHAR}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.StackOutInfo">
         <!--@mbg.generated-->

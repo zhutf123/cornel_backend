@@ -25,6 +25,7 @@ import java.util.List;
     private BigDecimal freightPrice = new BigDecimal(0);//运费
     private String transportType;//货运方式
     private BigDecimal inCome;//收益
+    private String reviewUser;//收益
 
     public static enum STATUS_ENUE implements IEmus {
         PARAM_ERROR(-1, "参数错误"), SUCCESS(0, "请求成功"), ORDER_INVALID(1, "订单无效"), USER_ERROR(2, "用户无权限"), SERVER_ERROR(3,
@@ -57,5 +58,6 @@ import java.util.List;
         this.freightPrice = new BigDecimal(0);
         this.inCome = new BigDecimal(0);
         this.optStatus = STATUS_ENUE.SUCCESS.getValue();
+        this.reviewUser="";
     }
 }

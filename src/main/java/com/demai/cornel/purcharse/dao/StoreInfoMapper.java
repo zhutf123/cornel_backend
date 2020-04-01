@@ -20,6 +20,9 @@ public interface StoreInfoMapper {
     StoreInfo selectByPrimaryKey(Integer id);
     StoreInfo selectByStoreId(String storeId);
 
+
+    int updateUndistWeight(@Param("storeId")String storeId,@Param("beforeDist")BigDecimal orDist,@Param("afterDist")BigDecimal afterDist);
+
     List<StoreInfo> selectStoreIdByCommodityId(String commodityId);
 
     int updateByPrimaryKeySelective(StoreInfo record);

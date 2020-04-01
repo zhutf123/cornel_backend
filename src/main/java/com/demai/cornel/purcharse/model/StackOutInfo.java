@@ -1,6 +1,7 @@
 package com.demai.cornel.purcharse.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import com.demai.cornel.dmEnum.IEmus;
@@ -74,12 +75,12 @@ import lombok.Data;
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private Timestamp updateTime;
 
     /**
      * 出货开始时间
      */
-    private Date startTime;
+    private Timestamp startTime;
 
     /**
      * 出货截止时间
