@@ -153,7 +153,7 @@ import java.util.*;
                             stringBuilder.toString().substring(0, stringBuilder.lastIndexOf("+")));
                 }
                 otherInfo.setInCome(saleOrder.getCommodityPrice().subtract(fiT.getPrice())
-                        .subtract(saleOrder.getBuyingPrice()));
+                        .subtract(storeInfo.getBuyingPrice()));
                 otherInfos.add(otherInfo);
             });
             adminGetSaleDetail1.setFreightAndIncome(otherInfos);
