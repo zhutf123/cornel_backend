@@ -126,6 +126,8 @@ import lombok.Data;
 
     private String freightInfoId;
 
+    private String storeKeeper;
+
     public static enum STATUS_ENUM implements IEmus {
         //        CANCLE(0, "取消"),
         //        UNDER_APPROVAL(1<<0, "待审核"),

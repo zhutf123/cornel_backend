@@ -73,7 +73,7 @@ import java.util.Map;
     }
 
     public static void main(String[] args) throws UnsupportedEncodingException {
-        String loaction = "北京市";
+        String loaction = "黑龙江省双鸭山市集贤县升昌镇友好村";
         BaiDuGeCodingResp baiDuGeCodingResp = BaiDuMapUtil.getGisByLocation(loaction);
         System.out.println("ok");
     }

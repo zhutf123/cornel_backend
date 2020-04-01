@@ -24,17 +24,12 @@ import java.util.stream.Collectors;
 /**
  * Create By zhutf 19-10-6 下午1:14
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Slf4j
-public class TaskInfo implements Serializable {
+@Data @NoArgsConstructor @AllArgsConstructor @Slf4j public class TaskInfo implements Serializable {
     private static final long serialVersionUID = 3690760337103210363L;
     private Long id;
     private String title;
     private String taskId;
     private String product;
-
 
     private BigDecimal weight;
 
@@ -74,8 +69,7 @@ public class TaskInfo implements Serializable {
 
     public static enum STATUS_ENUE {
 
-        TASK_INIT(1L, "添加任务"), TASK_CANCEL(1L << 1, "取消任务"), TASK_REVIEW_DENY(
-                1L << 3, "审核拒绝"),
+        TASK_INIT(1L, "添加任务"), TASK_CANCEL(1L << 1, "取消任务"), TASK_REVIEW_DENY(1L << 3, "审核拒绝"),
 
         TASK_ING(1L << 4, "任务进行中"),
 
@@ -101,19 +95,41 @@ public class TaskInfo implements Serializable {
 
     }
 
+    public static enum TASK_PREX_ENUE {
+
+        SALE("sale_", "搜买"), BUYER("buy_", "采购");
+
+        private String value;
+        private String expr;
+
+        private TASK_PREX_ENUE(String value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public String getExpr() {
+            return expr;
+        }
+
+    }
+
     public void setSubTaskTimeString(String subTaskTimeString) {
         if (Strings.isNullOrEmpty(subTaskTimeString)) {
             this.subTaskTimeString = subTaskTimeString;
             this.subTaskTime = (HashMap<String, Integer>) Collections.EMPTY_MAP;
         }
         List<SubTaskTime> list = JSON.parseArray(subTaskTimeString, SubTaskTime.class);// 将json字符串转化成list
-        this.subTaskTime = (list == null) ? (HashMap<String, Integer>) Collections.EMPTY_MAP
-                : list.stream().collect(Collectors.toMap(SubTaskTime::getTime, SubTaskTime::getCount));
+        this.subTaskTime = (list == null) ?
+                (HashMap<String, Integer>) Collections.EMPTY_MAP :
+                list.stream().collect(Collectors.toMap(SubTaskTime::getTime, SubTaskTime::getCount));
         this.subTaskTimeString = subTaskTimeString;
     }
 
-    @Data
-    public static class SubTaskTime {
+    @Data public static class SubTaskTime {
         private String time;
         private Integer count;
 
