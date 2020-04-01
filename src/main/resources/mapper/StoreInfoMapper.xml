@@ -21,7 +21,7 @@
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, commodity_id, location_id, buying_price, unit_price, weight, unit_weight, create_time,
-        "status", store_id,capital_cost,quote_id,undist_weight
+        "status", store_id,capital_cost,quote_id,undist_weight,capital_cost
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
