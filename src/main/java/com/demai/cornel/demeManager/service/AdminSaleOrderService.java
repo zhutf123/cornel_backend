@@ -62,7 +62,7 @@ import java.util.*;
         List<AdminGetSaleDetail> adminGetSaleDetail = new ArrayList<>(saleOrder.size());
         for (AdminGetSaleList list : saleOrder) {
             AdminGetSaleDetail adminGetSaleDetail1 = new AdminGetSaleDetail();
-            BeanUtils.copyProperties(saleOrder, adminGetSaleDetail1);
+            BeanUtils.copyProperties(list, adminGetSaleDetail1);
             if (Strings.isNullOrEmpty(list.getOutStackId())) {
                 continue;
             }
