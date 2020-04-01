@@ -27,7 +27,6 @@ import java.math.BigDecimal;
     private String status;
     @JsonIgnore
     private String outStackId;
-    private BigDecimal esInCome;
 
 
 }

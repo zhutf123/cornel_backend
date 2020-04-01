@@ -24,7 +24,7 @@ import java.util.List;
     private String freightId;//货运ID
     private BigDecimal freightPrice = new BigDecimal(0);//运费
     private String transportType;//货运方式
-    private BigDecimal inCome;//收益
+    private BigDecimal esInCome;//收益
     private String reviewUser;//收益
 
     public static enum STATUS_ENUE implements IEmus {
@@ -56,7 +56,7 @@ import java.util.List;
         this.freightId = "";
         this.transportType = "";
         this.freightPrice = new BigDecimal(0);
-        this.inCome = new BigDecimal(0);
+        this.esInCome = new BigDecimal(0);
         this.optStatus = STATUS_ENUE.SUCCESS.getValue();
         this.reviewUser="";
     }
