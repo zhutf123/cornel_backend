@@ -4,6 +4,7 @@ import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.model.LoanInfo;
 import com.demai.cornel.purcharse.dao.*;
 import com.demai.cornel.purcharse.model.*;
+import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +41,8 @@ import java.util.*;
      */
     public List<AdminGetSaleList> adminGetSaleByStatus(Integer status, Integer offSet, Integer pgSize) {
         List<AdminGetSaleList> saleDetails = saleOrderMapper
-                .AdminGetSaleOrderList(status,
-                        Optional.ofNullable(pgSize).orElse(10),Optional.ofNullable(offSet).orElse(0));
+                .AdminGetSaleOrderList(status, Optional.ofNullable(pgSize).orElse(10),
+                        Optional.ofNullable(offSet).orElse(0));
         return CollectionUtils.isEmpty(saleDetails) ? Collections.EMPTY_LIST : saleDetails;
     }
 
@@ -73,9 +74,9 @@ import java.util.*;
             return adminGetSaleDetail;
         }
         FreightInfo freightInfo = freightInfoMapper.selectByFreightId(stackOutInfo.getFreightInfoId());
-        if(freightInfo!=null && freightInfo.getTransportType()!=null ){
+        if (freightInfo != null && freightInfo.getTransportType() != null) {
             StringBuilder stringBuilder = new StringBuilder();
-            freightInfo.getTransportType().stream().forEach(x->{
+            freightInfo.getTransportType().stream().forEach(x -> {
                 stringBuilder.append(TransportType.typeOf(x).getExpr());
             });
             adminGetSaleDetail.setTransportType(stringBuilder.toString());
@@ -120,12 +121,13 @@ import java.util.*;
                     otherInfo.setFreightId(freightInfo.getFreightId());
                     otherInfo.setFreightPrice(freightInfo.getPrice());
                     //
-                    if(freightInfo!=null && freightInfo.getTransportType()!=null ){
+                    if (freightInfo != null && freightInfo.getTransportType() != null) {
                         StringBuilder stringBuilder = new StringBuilder("");
-                        freightInfo.getTransportType().stream().forEach(xT->{
+                        freightInfo.getTransportType().stream().forEach(xT -> {
                             stringBuilder.append(TransportType.typeOf(xT).getExpr()).append("+");
                         });
-                        otherInfo.setTransportType(stringBuilder.toString().substring(0,stringBuilder.lastIndexOf("+")));
+                        otherInfo.setTransportType(
+                                stringBuilder.toString().substring(0, stringBuilder.lastIndexOf("+")));
                     }
                     otherInfo.setInCome(saleOrder.getCommodityPrice().subtract(freightInfo.getPrice())
                             .subtract(x.getBuyingPrice()));
@@ -139,18 +141,69 @@ import java.util.*;
         return rest;
     }
 
-    public AdminReviewSaleResp adminReviewSaleStatus(Integer status, String saleId) {
-        //        if(Strings.isNullOrEmpty(saleId)){
+    public AdminReviewSaleResp adminReviewSale(AdminReviewSaleReq adminReviewSaleReq) {
+        //        if(adminReviewSaleReq==null || adminReviewSaleReq.getStatus()==null){
         //            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         //        }
-        //        SaleOrder saleOrder = saleOrderMapper.selectBySaleId(saleId);
+        //        SaleOrder saleOrder =saleOrderMapper.selectBySaleId(adminReviewSaleReq.getOrderId());
         //        if(saleOrder==null ){
-        //            log.warn("adminReviewSaleStatus fail due to ");
+        //            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.ORDER_UN_CHANGE.getValue()).build();
+        //        }
+        //        if(!saleOrder.getViewStatus().equals()){
         //            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
-        //
-        //        }|| saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.RUNNING.getValue())
-        //    }
+        //        }
+        //        SaleOrder saleOrderNew = new SaleOrder();
+        //        saleOrderNew.setReviewUser(CookieAuthUtils.getCurrentUser());
+        //        saleOrderNew.setOrderId(saleOrder.getOrderId());
+        //        if(adminReviewSaleReq.getStatus().equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())){
+        //            saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue());
+        //            saleOrderNew.setViewStatus(SaleOrder.STATUS_ENUM.REJECT_APPROVAL.getValue());
+        //        }
         return null;
-
     }
+
+    private boolean rejectSaleOrder(AdminReviewSaleReq adminReviewSaleReq) {
+        if (adminReviewSaleReq == null || adminReviewSaleReq.getStatus()
+                .equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())) {
+            return false;
+        }
+        SaleOrder saleOrderNew = new SaleOrder();
+        saleOrderNew.setOrderId(adminReviewSaleReq.getOrderId());
+        saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue());
+        saleOrderNew.setViewStatus(SaleOrder.STATUS_ENUM.REJECT_APPROVAL.getValue());
+        HashMap<String, String> reviewOpt = new HashMap<>(2);
+        reviewOpt.put("errCode", String.valueOf(adminReviewSaleReq.getErrCode()));
+        reviewOpt.put("errDesc", adminReviewSaleReq.getErrDesc());
+        saleOrderNew.setReviewOpt(reviewOpt);
+        int res = saleOrderMapper.updateByPrimaryKey(saleOrderNew);
+        if (res != 1) {
+            log.error("rejectSaleOrder err due to update db err");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean agreeSaleOrder(AdminReviewSaleReq adminReviewSaleReq, SaleOrder oldSaleOrder) {
+        if (adminReviewSaleReq == null || adminReviewSaleReq.getStatus()
+                .equals(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue())) {
+            return false;
+        }
+
+        SaleOrder saleOrderNew = new SaleOrder();
+        saleOrderNew.setOrderId(adminReviewSaleReq.getOrderId());
+        saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue());
+        saleOrderNew.setViewStatus(SaleOrder.STATUS_ENUM.PASS_APPROVAL.getValue());
+        StoreInfo storeInfo = storeInfoMapper.selectByStoreId(adminReviewSaleReq.getStoreId());
+        if (storeInfo == null || storeInfo.getUndistWeight().compareTo(oldSaleOrder.getWeight()) == -1) {
+            log.warn("agreeSaleOrder fail due to store insufficient");
+            return false;
+        }
+        StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(oldSaleOrder.getOutStackId());
+        if(stackOutInfo==null){
+
+        }
+
+        return true;
+    }
+
 }

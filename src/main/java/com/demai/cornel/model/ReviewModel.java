@@ -47,4 +47,36 @@ import java.util.Arrays;
                     .findAny().orElse(null);
         }
     }
+
+
+    public static enum SALE_ORDER_ERR implements IEmus {
+        STORE_ERR(1 << 0, "库存不足"),
+        DE_TIME_ERR(1 << 1, "运输时间"),
+        OTHER_ERR(1 << 2, "其他原因");
+
+        private int value;
+        private String expr;
+
+        private SALE_ORDER_ERR(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override public int getValue() {
+            return value;
+        }
+
+        @Override public String getExpr() {
+            return expr;
+        }
+
+        public static SALE_ORDER_ERR keyOf(int key) {
+            return Arrays.stream(SALE_ORDER_ERR.values()).filter(X -> X.getValue() == key).findAny().orElse(null);
+        }
+
+        public static SALE_ORDER_ERR exparOf(String value) {
+            return Arrays.stream(SALE_ORDER_ERR.values()).filter(X -> X.getExpr().equalsIgnoreCase(value))
+                    .findAny().orElse(null);
+        }
+    }
 }

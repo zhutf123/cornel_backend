@@ -3,6 +3,7 @@ package com.demai.cornel.purcharse.model;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 
 import com.demai.cornel.dmEnum.IEmus;
 import lombok.Data;
@@ -133,6 +134,9 @@ import lombok.Data;
 
     private Integer viewStatus;
     private BigDecimal esIncome;//预计收益
+
+    private String reviewUser;
+    private HashMap<String, String> reviewOpt;
 
     public static enum STATUS_ENUM implements IEmus {
         //        CANCLE(0, "取消"),

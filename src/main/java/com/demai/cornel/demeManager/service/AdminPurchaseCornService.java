@@ -1,9 +1,11 @@
 package com.demai.cornel.demeManager.service;
 
 import com.demai.cornel.demeManager.vo.*;
+import com.demai.cornel.model.ReviewModel;
 import com.demai.cornel.purcharse.dao.BuyerInfoMapper;
 import com.demai.cornel.purcharse.dao.OfferSheetMapper;
 import com.demai.cornel.purcharse.model.OfferSheet;
+import com.demai.cornel.purcharse.model.SaleOrder;
 import com.demai.cornel.purcharse.vo.GetSystemOfferResp;
 import com.demai.cornel.util.JacksonUtils;
 import com.google.common.base.Preconditions;
@@ -17,10 +19,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @Author binz.zhang
@@ -181,4 +180,19 @@ import java.util.UUID;
         }
         return true;
     }
+
+
+    public List<ReviewModel> getReviewErrOpt() {
+        List<ReviewModel> reviewModels = new ArrayList<>();
+        Arrays.stream(ReviewModel.SALE_ORDER_ERR.values()).forEach(x -> {
+            ReviewModel reviewModel = new ReviewModel();
+            reviewModel.setErrCode(x.getValue());
+            reviewModel.setDesc(x.getExpr());
+            reviewModels.add(reviewModel);
+        });
+        return reviewModels;
+    }
+
+
+
 }

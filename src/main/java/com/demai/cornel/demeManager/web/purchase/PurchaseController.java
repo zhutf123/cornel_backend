@@ -112,10 +112,18 @@ import javax.servlet.http.HttpServletResponse;
      * @return
      */
     @RequestMapping(value = "/review-sale.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult reviewSaleOrder(
-            @RequestBody String param) {
-        JSONObject receivedParam = JSON.parseObject(param);
-        Integer status = (Integer) receivedParam.get("status");
-        String offSet = (String) receivedParam.get("saleId");
+            @RequestBody AdminReviewSaleReq param) {
+        Preconditions.checkNotNull(param);
         return null;
     }
+
+    /**
+     * 获取错误类别
+     * @return
+     */
+    @RequestMapping(value = "/get-sale-err.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult getErrOption() {
+        return JsonResult.success(adminPurchaseCornService.getReviewErrOpt());
+    }
+
 }
