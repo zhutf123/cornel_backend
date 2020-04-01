@@ -50,7 +50,7 @@ import java.util.Date;
      * 创建时间
      */
     private Timestamp createTime;
-
+    private String storeKeeper;
     /**
      * 0无效 1有效
      */

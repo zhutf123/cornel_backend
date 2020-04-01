@@ -27,7 +27,6 @@
         <result column="cargo_id" jdbcType="VARCHAR" property="cargoId"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="freight_info_id" jdbcType="VARCHAR" property="freightInfoId"/>
-        <result column="store_keeper" jdbcType="VARCHAR" property="storeKeeper"/>
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -35,7 +34,7 @@
         id, commodity_id, out_id, operator_user, buyer_id, review_user_id, freight_price,
         order_price, unit_price, weight, unit_weight, create_time, update_time, start_time,
         end_time, from_location, receive_location, store_id, waybill_id, payment_type, payment_status,
-        cargo_id, "status",freight_info_id,store_keeper
+        cargo_id, "status",freight_info_id
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -144,9 +143,7 @@
             <if test="freightInfoId != null and freightInfoId != ''">
                 "freight_info_id",
             </if>
-            <if test="storeKeeper != null">
-                store_keeper,
-            </if>
+
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -221,9 +218,7 @@
             <if test="freightInfoId != null and freightInfoId != ''">
                 #{freightInfoId,jdbcType=VARCHAR} ,
             </if>
-            <if test="storeKeeper != null">
-                #{storeKeeper,jdbcType=VARCHAR} ,
-            </if>
+
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.StackOutInfo">
@@ -299,9 +294,7 @@
             <if test="freightInfoId != null and freightInfoId != ''">
                 freight_info_id= #{freightInfoId,jdbcType=VARCHAR}
             </if>
-            <if test="storeKeeper != null">
-                store_keeper=#{storeKeeper,jdbcType=VARCHAR} ,
-            </if>
+
         </set>
         where out_id = #{outId,jdbcType=VARCHAR}
     </update>

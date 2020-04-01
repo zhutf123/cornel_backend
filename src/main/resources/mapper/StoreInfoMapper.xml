@@ -17,12 +17,13 @@
         <result column="undist_weight" jdbcType="NUMERIC" property="undistWeight"/>
         <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
         <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
+        <result column="store_keeper" jdbcType="VARCHAR" property="storeKeeper"/>
 
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, commodity_id, location_id, buying_price, unit_price, weight, unit_weight, create_time,
-        "status", store_id,capital_cost,quote_id,undist_weight,capital_cost
+        "status", store_id,capital_cost,quote_id,undist_weight,capital_cost,store_keeper
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -90,6 +91,9 @@
             <if test="quoteId != null">
                 quote_id,
             </if>
+            <if test="storeKeeper != null">
+                store_keeper,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -130,6 +134,9 @@
             </if>
             <if test="quoteId != null">
                 #{quoteId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="storeKeeper != null">
+                #{storeKeeper,jdbcType=VARCHAR} ,
             </if>
         </trim>
     </insert>
@@ -172,6 +179,9 @@
             </if>
             <if test="quoteId != null">
                 quote_id=#{quoteId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="storeKeeper != null">
+                store_keeper=#{storeKeeper,jdbcType=VARCHAR} ,
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
