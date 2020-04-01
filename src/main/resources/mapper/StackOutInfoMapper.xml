@@ -27,6 +27,7 @@
         <result column="cargo_id" jdbcType="VARCHAR" property="cargoId"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="freight_info_id" jdbcType="VARCHAR" property="freightInfoId"/>
+        <result column="task_id" jdbcType="VARCHAR" property="taskId"/>
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -34,7 +35,7 @@
         id, commodity_id, out_id, operator_user, buyer_id, review_user_id, freight_price,
         order_price, unit_price, weight, unit_weight, create_time, update_time, start_time,
         end_time, from_location, receive_location, store_id, waybill_id, payment_type, payment_status,
-        cargo_id, "status",freight_info_id
+        cargo_id, "status",freight_info_id,task_id
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -143,6 +144,9 @@
             <if test="freightInfoId != null and freightInfoId != ''">
                 "freight_info_id",
             </if>
+            <if test="taskId != null and taskId != ''">
+                task_id,
+            </if>
 
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -218,7 +222,9 @@
             <if test="freightInfoId != null and freightInfoId != ''">
                 #{freightInfoId,jdbcType=VARCHAR} ,
             </if>
-
+            <if test="taskId != null and taskId != ''">
+                #{taskId,jdbcType=VARCHAR} ,
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.StackOutInfo">
@@ -292,9 +298,11 @@
                 "status" = #{status,jdbcType=INTEGER},
             </if>
             <if test="freightInfoId != null and freightInfoId != ''">
-                freight_info_id= #{freightInfoId,jdbcType=VARCHAR}
+                freight_info_id= #{freightInfoId,jdbcType=VARCHAR},
             </if>
-
+            <if test="taskId != null and taskId != ''">
+                task_id=#{taskId,jdbcType=VARCHAR}
+            </if>
         </set>
         where out_id = #{outId,jdbcType=VARCHAR}
     </update>
@@ -330,4 +338,7 @@
         <include refid="Base_Column_List"/>
         from stack_out_info where out_id=#{outId} ;
     </select>
+    <update id="updateTaskIdAndCargoId">
+       update stack_out_info set task_id=#{taskId,jdbcType=VARCHAR},cargo_id=#{cargoId,jdbcType=VARCHAR} where out_id=#{outId,jdbcType=VARCHAR} ;
+    </update>
 </mapper>

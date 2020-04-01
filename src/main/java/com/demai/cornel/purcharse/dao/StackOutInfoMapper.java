@@ -1,6 +1,7 @@
 package com.demai.cornel.purcharse.dao;
 
 import com.demai.cornel.purcharse.model.StackOutInfo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @Author binz.zhang
@@ -20,4 +21,7 @@ public interface StackOutInfoMapper {
     int updateByPrimaryKeySelective(StackOutInfo record);
 
     int updateByPrimaryKey(StackOutInfo record);
+
+    int updateTaskIdAndCargoId(@Param("taskId") String tsakId, @Param("cargoId") String cargoId,
+            @Param("outId") String outId);
 }

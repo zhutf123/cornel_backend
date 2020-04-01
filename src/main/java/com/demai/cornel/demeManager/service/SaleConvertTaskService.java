@@ -6,10 +6,7 @@ import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.model.UserInfo;
-import com.demai.cornel.purcharse.dao.BuyerInfoMapper;
-import com.demai.cornel.purcharse.dao.CargoInfoMapper;
-import com.demai.cornel.purcharse.dao.FreightInfoMapper;
-import com.demai.cornel.purcharse.dao.LocationInfoMapper;
+import com.demai.cornel.purcharse.dao.*;
 import com.demai.cornel.purcharse.model.*;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.TimeStampUtil;
@@ -33,6 +30,7 @@ import java.util.UUID;
     @Resource private BuyerInfoMapper buyerInfoMapper;
     @Resource private TaskInfoDao taskInfoDao;
     @Resource private CommodityDao commodityDao;
+    @Resource private StackOutInfoMapper stackOutInfoMapper;
 
     private static final String TIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
@@ -51,7 +49,7 @@ import java.util.UUID;
             log.error("sale order buildTask fail due to insert cargo into db err");
             return false;
         }
-
+        stackOutInfo.setCargoId(cargoInfo.getCargoId());
         FreightInfo freightInfo = freightInfoMapper.selectByFreightId(stackOutInfo.getFreightInfoId());
         if (freightInfo == null || freightInfo.getTransportType() == null) {
             log.error("sale order buildTask fail due to transport info err");
@@ -74,14 +72,21 @@ import java.util.UUID;
             log.error("sale order buildTask fail due to buyerInfo  user info cant found ");
             return false;
         }
-        Commodity commodity =commodityDao.getCommodityByCommodityId(saleOrder.getCommodityId());
+        Commodity commodity = commodityDao.getCommodityByCommodityId(saleOrder.getCommodityId());
         LocationInfo fromLocation = locationInfoMapper.selectByLocationId(saleOrder.getFromLocation());
+        LocationInfo toLocation = locationInfoMapper.selectByLocationId(stackOutInfo.getReceiveLocation());
+        if (fromLocation == null || toLocation == null) {
+            log.error("sale order buildTask fail due to from loc or to loc lock  from is {},to is {}",
+                    JacksonUtils.obj2String(fromLocation), JacksonUtils.obj2String(toLocation));
+            return false;
+        }
         TaskInfo taskInfo = new TaskInfo();
-        taskInfo.setTitle(commodity.getName()+"");
-        taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, stackOutInfo.getStartTime()));
+        taskInfo.setTitle(commodity.getName() + "-" + fromLocation.getLocation() + "-" + toLocation.getLocation());
+        taskInfo.setStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, stackOutInfo.getStartTime()));
+        taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, stackOutInfo.getEndTime()));
         taskInfo.setDistance(new BigDecimal(1000.00));
-        //taskInfo.setArr();
-        taskInfo.setDep(locationInfoMapper.selectByLocationId(saleOrder.getReceiveLocation()).getLocation());
+        taskInfo.setArr(toLocation.getLocation());
+        taskInfo.setDep(fromLocation.getLocation());
         taskInfo.setReceiverUserId(Sets.newHashSet(saleOrder.getBuyerId()));
         taskInfo.setReceiverMobile(buyerInfo.getMobile());
         taskInfo.setSendOutUserId(Sets.newHashSet(stackOutInfo.getStoreKeeper()));
@@ -98,7 +103,8 @@ import java.util.UUID;
             log.error("sale order buildTask fail due to insert task into db err");
             return false;
         }
-        stackOutInfo.setCargoId(cargoInfo.getCargoId());
+        stackOutInfoMapper
+                .updateTaskIdAndCargoId(taskInfo.getTaskId(), cargoInfo.getCargoId(), stackOutInfo.getOutId());
         return true;
     }
 }

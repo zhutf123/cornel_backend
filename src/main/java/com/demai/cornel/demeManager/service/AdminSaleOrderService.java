@@ -119,6 +119,7 @@ import java.util.*;
             log.debug("adminGetSaleDetail cannot find storeInfo from db ");
             return adminGetSaleDetail1;
         }
+
         FreightInfo freightInfo = freightInfoMapper.selectByFreightId(stackOutInfo.getFreightInfoId());
         if (freightInfo != null && freightInfo.getTransportType() != null) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -134,6 +135,29 @@ import java.util.*;
         adminGetSaleDetail1.setFreightPrice(stackOutInfo.getFreightPrice());
         LocationInfo loanInfo = locationInfoMapper.selectByLocationId(stackOutInfo.getFromLocation());
         adminGetSaleDetail1.setFromLocation(loanInfo == null ? "" : loanInfo.getLocation());
+
+        List<FreightInfo> freightInfos = freightInfoMapper
+                .selectFreights(saleOrder.getReceiveLocation(), stackOutInfo.getFromLocation());
+        if (freightInfos != null) {
+            List<AdminGetOutStackInfo.OtherInfo> otherInfos = new ArrayList<>(freightInfos.size());
+            freightInfos.stream().forEach(fiT -> {
+                AdminGetOutStackInfo.OtherInfo otherInfo = new AdminGetOutStackInfo.OtherInfo();
+                otherInfo.setFreightId(fiT.getFreightId());
+                otherInfo.setFreightPrice(fiT.getPrice());
+                if (fiT != null && fiT.getTransportType() != null) {
+                    StringBuilder stringBuilder = new StringBuilder("");
+                    fiT.getTransportType().stream().forEach(xT -> {
+                        stringBuilder.append(TransportType.typeOf(xT).getExpr()).append("+");
+                    });
+                    otherInfo.setTransportType(
+                            stringBuilder.toString().substring(0, stringBuilder.lastIndexOf("+")));
+                }
+                otherInfo.setInCome(saleOrder.getCommodityPrice().subtract(freightInfo.getPrice())
+                        .subtract(saleOrder.getBuyingPrice()));
+                otherInfos.add(otherInfo);
+            });
+            adminGetSaleDetail1.setFreightAndIncome(otherInfos);
+        }
         return adminGetSaleDetail1;
     }
 
@@ -188,30 +212,33 @@ import java.util.*;
     }
 
     public AdminReviewSaleResp adminReviewSale(AdminReviewSaleReq adminReviewSaleReq) {
-        //        if(adminReviewSaleReq==null || adminReviewSaleReq.getStatus()==null){
-        //            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
-        //        }
-        //        SaleOrder saleOrder =saleOrderMapper.selectBySaleId(adminReviewSaleReq.getOrderId());
-        //        if(saleOrder==null ){
-        //            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.ORDER_UN_CHANGE.getValue()).build();
-        //        }
-        //        if(!saleOrder.getViewStatus().equals()){
-        //            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
-        //        }
-        //        SaleOrder saleOrderNew = new SaleOrder();
-        //        saleOrderNew.setReviewUser(CookieAuthUtils.getCurrentUser());
-        //        saleOrderNew.setOrderId(saleOrder.getOrderId());
-        //        if(adminReviewSaleReq.getStatus().equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())){
-        //            saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue());
-        //            saleOrderNew.setViewStatus(SaleOrder.STATUS_ENUM.REJECT_APPROVAL.getValue());
-        //        }
+        if (adminReviewSaleReq == null || adminReviewSaleReq.getStatus() == null) {
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
+                    .build();
+        }
+        SaleOrder saleOrder = saleOrderMapper.selectBySaleId(adminReviewSaleReq.getOrderId());
+        if (saleOrder == null) {
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.ORDER_UN_CHANGE.getValue())
+                    .build();
+        }
+        if (!saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())) {
+            return rejectSaleOrder(adminReviewSaleReq);
+        }
+        SaleOrder saleOrderNew = new SaleOrder();
+        saleOrderNew.setReviewUser(CookieAuthUtils.getCurrentUser());
+        saleOrderNew.setOrderId(saleOrder.getOrderId());
+        if (adminReviewSaleReq.getStatus().equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())) {
+            saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue());
+            saleOrderNew.setViewStatus(SaleOrder.STATUS_ENUM.REJECT_APPROVAL.getValue());
+        }
         return null;
     }
 
-    private boolean rejectSaleOrder(AdminReviewSaleReq adminReviewSaleReq) {
+    private AdminReviewSaleResp rejectSaleOrder(AdminReviewSaleReq adminReviewSaleReq) {
         if (adminReviewSaleReq == null || adminReviewSaleReq.getStatus()
                 .equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())) {
-            return false;
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
+                    .build();
         }
         SaleOrder saleOrderNew = new SaleOrder();
         saleOrderNew.setOrderId(adminReviewSaleReq.getOrderId());
@@ -224,33 +251,35 @@ import java.util.*;
         int res = saleOrderMapper.updateByPrimaryKey(saleOrderNew);
         if (res != 1) {
             log.error("rejectSaleOrder err due to update db err");
-            return false;
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SERVER_ERR.getValue())
+                    .build();
         }
-        return true;
+        return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }
 
-    private boolean agreeSaleOrder(AdminReviewSaleReq adminReviewSaleReq, SaleOrder oldSaleOrder) {
+    private AdminReviewSaleResp agreeSaleOrder(AdminReviewSaleReq adminReviewSaleReq, SaleOrder oldSaleOrder) {
         if (adminReviewSaleReq == null || adminReviewSaleReq.getStatus()
                 .equals(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue())) {
-            return false;
+             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
+                    .build();
         }
 
-        SaleOrder saleOrderNew = new SaleOrder();
-        saleOrderNew.setOrderId(adminReviewSaleReq.getOrderId());
-        saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue());
-        saleOrderNew.setViewStatus(SaleOrder.STATUS_ENUM.PASS_APPROVAL.getValue());
-        StoreInfo storeInfo = storeInfoMapper.selectByStoreId(adminReviewSaleReq.getStoreId());
-        if (storeInfo == null || storeInfo.getUndistWeight().compareTo(oldSaleOrder.getWeight()) == -1) {
-            log.warn("agreeSaleOrder fail due to store insufficient");
-            return false;
-        }
-        StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(oldSaleOrder.getOutStackId());
-        if (stackOutInfo == null) {
-            StackOutInfo stackOutInfo1 = new StackOutInfo();
+//        SaleOrder saleOrderNew = new SaleOrder();
+//        saleOrderNew.setOrderId(adminReviewSaleReq.getOrderId());
+//        saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue());
+//        saleOrderNew.setViewStatus(SaleOrder.STATUS_ENUM.PASS_APPROVAL.getValue());
+//        StoreInfo storeInfo = storeInfoMapper.selectByStoreId(adminReviewSaleReq.getStoreId());
+//        if (storeInfo == null || storeInfo.getUndistWeight().compareTo(oldSaleOrder.getWeight()) == -1) {
+//            log.warn("agreeSaleOrder fail due to store insufficient");
+//            return false;
+//        }
+//        StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(oldSaleOrder.getOutStackId());
+//        if (stackOutInfo == null) {
+//            StackOutInfo stackOutInfo1 = new StackOutInfo();
+//
+//        }
 
-        }
-
-        return true;
+        return null;
     }
 
 }

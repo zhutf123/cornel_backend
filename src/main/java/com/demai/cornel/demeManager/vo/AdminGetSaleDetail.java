@@ -1,6 +1,7 @@
 package com.demai.cornel.demeManager.vo;
 
 import com.demai.cornel.dmEnum.IEmus;
+import com.demai.cornel.purcharse.model.FreightInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,15 +18,7 @@ import java.util.List;
 @Builder @AllArgsConstructor @Data public class AdminGetSaleDetail extends AdminGetSaleList {
 
     private Integer optStatus;
-    private String storeId; //库存ID
-    private String fromLocation;// 发货地
-    private BigDecimal buyingPrice;//货品买入价格
-    private BigDecimal capitalCost;// 资金使用成本
-    private String freightId;//货运ID
-    private BigDecimal freightPrice = new BigDecimal(0);//运费
-    private String transportType;//货运方式
-    private BigDecimal esInCome;//收益
-    private String reviewUser;//收益
+    private List<AdminGetOutStackInfo.OtherInfo> freightAndIncome;
 
     public static enum STATUS_ENUE implements IEmus {
         PARAM_ERROR(-1, "参数错误"), SUCCESS(0, "请求成功"), ORDER_INVALID(1, "订单无效"), USER_ERROR(2, "用户无权限"), SERVER_ERROR(3,
@@ -49,15 +42,15 @@ import java.util.List;
     }
 
     public AdminGetSaleDetail() {
-        this.storeId = "";
-        this.fromLocation = "";
-        this.buyingPrice = new BigDecimal(0);
-        this.capitalCost = new BigDecimal(0);
-        this.freightId = "";
-        this.transportType = "";
-        this.freightPrice = new BigDecimal(0);
-        this.esInCome = new BigDecimal(0);
+        this.setStoreId("");
+        this.setFromLocation("");
+        this.setBuyingPrice(new BigDecimal(0));
+        this.setCapitalCost(new BigDecimal(0));
+        this.setFreightId("");
+        this.setTransportType("");
+        this.setFreightPrice(new BigDecimal(0));
+        this.setEsInCome(new BigDecimal(0));
         this.optStatus = STATUS_ENUE.SUCCESS.getValue();
-        this.reviewUser="";
+        this.setReviewUser("");
     }
 }

@@ -85,7 +85,7 @@ import lombok.Data;
     /**
      * 出货截止时间
      */
-    private Date endTime;
+    private Timestamp endTime;
 
     /**
      * 发货地
@@ -127,6 +127,8 @@ import lombok.Data;
     private String freightInfoId;
 
     private String storeKeeper;
+
+    private String taskId;
 
     public static enum STATUS_ENUM implements IEmus {
         //        CANCLE(0, "取消"),
