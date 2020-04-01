@@ -16,6 +16,7 @@
         <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
         <result column="undist_weight" jdbcType="NUMERIC" property="undistWeight"/>
         <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+        <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
 
     </resultMap>
     <sql id="Base_Column_List">
