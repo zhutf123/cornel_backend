@@ -94,7 +94,6 @@
         s.contact_user_name,
         s.mobile,
         s.receive_start_time,
-        s.receive_location,
         s.receive_end_time,
         s.commodity_id,
         s.view_status AS status,
@@ -459,7 +458,7 @@
     <select id="selectSaleList" resultMap="admin_detail_map">
         select
         <include refid="admin_detail_List"/>
-        from sale_order s left join location_info l on l.location=s.receive_location
+        from sale_order s left join location_info l on l.location_id=s.receive_location
         left join commodity_list c on s.commodity_id=c.commodity_id where s.status!=0
         and order_id=#{orderId} ;
     </select>
