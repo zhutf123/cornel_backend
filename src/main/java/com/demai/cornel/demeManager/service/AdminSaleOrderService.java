@@ -112,7 +112,7 @@ import java.util.*;
             LocationInfo locationInfo = locationInfoMapper.selectByLocationId(x.getLocationId());
             temp.setFromLocation(locationInfo == null ? "" : locationInfo.getLocation());
             List<FreightInfo> freightInfos = freightInfoMapper
-                    .selectFreights(saleOrder.getFromLocation(), x.getLocationId());
+                    .selectFreights(saleOrder.getReceiveLocation(), x.getLocationId());
             if (freightInfos != null) {
                 List<AdminGetOutStackInfo.OtherInfo> otherInfos = new ArrayList<>(freightInfos.size());
                 freightInfos.stream().forEach(freightInfo -> {
