@@ -1,7 +1,9 @@
 package com.demai.cornel.demeManager.service;
 
+import com.demai.cornel.dao.CommodityDao;
 import com.demai.cornel.dao.TaskInfoDao;
 import com.demai.cornel.dao.UserInfoDao;
+import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.purcharse.dao.BuyerInfoMapper;
@@ -30,6 +32,7 @@ import java.util.UUID;
     @Resource private UserInfoDao userInfoDao;
     @Resource private BuyerInfoMapper buyerInfoMapper;
     @Resource private TaskInfoDao taskInfoDao;
+    @Resource private CommodityDao commodityDao;
 
     private static final String TIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
@@ -71,10 +74,13 @@ import java.util.UUID;
             log.error("sale order buildTask fail due to buyerInfo  user info cant found ");
             return false;
         }
+        Commodity commodity =commodityDao.getCommodityByCommodityId(saleOrder.getCommodityId());
+        LocationInfo fromLocation = locationInfoMapper.selectByLocationId(saleOrder.getFromLocation());
         TaskInfo taskInfo = new TaskInfo();
+        taskInfo.setTitle(commodity.getName()+"");
         taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, stackOutInfo.getStartTime()));
         taskInfo.setDistance(new BigDecimal(1000.00));
-        taskInfo.setArr(locationInfoMapper.selectByLocationId(saleOrder.getFromLocation()).getLocation());
+        //taskInfo.setArr();
         taskInfo.setDep(locationInfoMapper.selectByLocationId(saleOrder.getReceiveLocation()).getLocation());
         taskInfo.setReceiverUserId(Sets.newHashSet(saleOrder.getBuyerId()));
         taskInfo.setReceiverMobile(buyerInfo.getMobile());

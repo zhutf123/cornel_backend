@@ -10,6 +10,7 @@ import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.jdbc.TimestampUtils;
+import org.redisson.api.annotation.REntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +27,7 @@ import java.util.UUID;
     @Resource private StoreInfoMapper storeInfoMapper;
     @Resource private LocationInfoMapper locationInfoMapper;
     @Resource private FreightInfoMapper freightInfoMapper;
+    @Resource private SaleConvertTaskService saleConvertTaskService;
     private static final String TIME_TORMAT = "yyyy-MM-dd";
 
     public AdminReviewSaleResp updateSaleStackOutInfo(AdminReviewSaleReq reviewSaleReq, SaleOrder saleOrder,
@@ -37,49 +39,52 @@ import java.util.UUID;
                     .build();
         }
 
-        StackOutInfo oldStackInfo = stackOutInfoMapper.selectByOutId(saleOrder.getOutStackId());
+        StackOutInfo stackInfo = stackOutInfoMapper.selectByOutId(saleOrder.getOutStackId());
         boolean insert = false;
-        if (oldStackInfo == null) {
-            oldStackInfo = new StackOutInfo();
-            oldStackInfo.setOutId(UUID.randomUUID().toString());
+        if (stackInfo == null) {
+            stackInfo = new StackOutInfo();
+            stackInfo.setOutId(UUID.randomUUID().toString());
             insert = true;
         }
-        oldStackInfo.setFromLocation(storeInfo.getLocationId());
-        oldStackInfo.setReceiveLocation(saleOrder.getReceiveLocation());
-        oldStackInfo.setFreightInfoId(reviewSaleReq.getFreightId());
-        oldStackInfo.setUnitWeight(saleOrder.getUnitWeight());
-        oldStackInfo.setUnitPrice(saleOrder.getUnitPrice());
-        oldStackInfo.setFreightPrice(freightInfoMapper.selectByFreightId(reviewSaleReq.getFreightId()).getPrice());
-        oldStackInfo.setOrderPrice(saleOrder.getOrderPrice());
-        oldStackInfo.setCommodityId(saleOrder.getCommodityId());
-        oldStackInfo.setBuyerId(saleOrder.getBuyerId());
-        oldStackInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_TORMAT, reviewSaleReq.getOutStartTime()));
-        oldStackInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_TORMAT, reviewSaleReq.getOutStartTime()));
-        oldStackInfo.setOperatorUser(CookieAuthUtils.getCurrentUser());
-        oldStackInfo.setReceiveLocation(saleOrder.getReceiveLocation());
-        oldStackInfo.setWeight(saleOrder.getWeight());
-        oldStackInfo.setStatus(StackOutInfo.STATUS_ENUM.PASS_APPROVAL.getValue());
+        stackInfo.setFromLocation(storeInfo.getLocationId());
+        stackInfo.setReceiveLocation(saleOrder.getReceiveLocation());
+        stackInfo.setFreightInfoId(reviewSaleReq.getFreightId());
+        stackInfo.setUnitWeight(saleOrder.getUnitWeight());
+        stackInfo.setUnitPrice(saleOrder.getUnitPrice());
+        stackInfo.setFreightPrice(freightInfoMapper.selectByFreightId(reviewSaleReq.getFreightId()).getPrice());
+        stackInfo.setOrderPrice(saleOrder.getOrderPrice());
+        stackInfo.setCommodityId(saleOrder.getCommodityId());
+        stackInfo.setBuyerId(saleOrder.getBuyerId());
+        stackInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_TORMAT, reviewSaleReq.getOutStartTime()));
+        stackInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_TORMAT, reviewSaleReq.getOutStartTime()));
+        stackInfo.setOperatorUser(CookieAuthUtils.getCurrentUser());
+        stackInfo.setReceiveLocation(saleOrder.getReceiveLocation());
+        stackInfo.setWeight(saleOrder.getWeight());
+        stackInfo.setStatus(StackOutInfo.STATUS_ENUM.PASS_APPROVAL.getValue());
         int resUpdateSt = storeInfoMapper.updateUndistWeight(storeInfo.getStoreId(), storeInfo.getUndistWeight(),
                 storeInfo.getUndistWeight().subtract(saleOrder.getWeight()));
-        if(resUpdateSt!=1){
+        if (resUpdateSt != 1) {
             log.debug("updateSaleStackOutInfo fail due to UPDATE store undist store fail");
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SERVER_ERR.getValue())
                     .build();
         }
         int res;
         if (insert) {
-            res = stackOutInfoMapper.insertSelective(oldStackInfo);
+            res = stackOutInfoMapper.insertSelective(stackInfo);
         } else {
-            res = stackOutInfoMapper.updateByPrimaryKeySelective(oldStackInfo);
+            res = stackOutInfoMapper.updateByPrimaryKeySelective(stackInfo);
         }
         if (res != 1) {
             log.debug("updateSaleStackOutInfo fail due to UPDATE store lock");
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SERVER_ERR.getValue())
                     .build();
         }
-        newSaleOrder.setOutStackId(oldStackInfo.getOutId());
-        newSaleOrder.setFromLocation(oldStackInfo.getFromLocation());
-        return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SUCCESS.getValue()).build();
+        newSaleOrder.setOutStackId(stackInfo.getOutId());
+        newSaleOrder.setFromLocation(stackInfo.getFromLocation());
+        if (saleConvertTaskService.buildTask(stackInfo, saleOrder)) {
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SUCCESS.getValue()).build();
+        }
+        return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SERVER_ERR.getValue()).build();
     }
 
     /**
@@ -89,9 +94,9 @@ import java.util.UUID;
      * @param saleOrder
      * @return
      */
-//    public StackOutInfo buildNewStackOutInfo(AdminReviewSaleReq reviewSaleReq, SaleOrder saleOrder) {
-//        StackOutInfo stackOutInfo = new StackOutInfo();
-//        stackOutInfo.setFromLocation();
-//
-//    }
+    //    public StackOutInfo buildNewStackOutInfo(AdminReviewSaleReq reviewSaleReq, SaleOrder saleOrder) {
+    //        StackOutInfo stackOutInfo = new StackOutInfo();
+    //        stackOutInfo.setFromLocation();
+    //
+    //    }
 }

@@ -45,5 +45,4 @@ public interface SaleOrderMapper {
     List<AdminGetSaleList> AdminGetSaleOrderList(@Param("viewStatus") Integer viewStatus,
             @Param("pgSize") Integer pgSize, @Param("offset") Integer offSet);
 
-//    AdminGetSaleDetail adminGetSaleDetail(@Param("orderId") String orderId);
 }
