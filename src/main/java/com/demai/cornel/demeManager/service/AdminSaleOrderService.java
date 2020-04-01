@@ -152,7 +152,7 @@ import java.util.*;
                     otherInfo.setTransportType(
                             stringBuilder.toString().substring(0, stringBuilder.lastIndexOf("+")));
                 }
-                otherInfo.setInCome(saleOrder.getCommodityPrice().subtract(freightInfo.getPrice())
+                otherInfo.setInCome(saleOrder.getCommodityPrice().subtract(fiT.getPrice())
                         .subtract(saleOrder.getBuyingPrice()));
                 otherInfos.add(otherInfo);
             });
