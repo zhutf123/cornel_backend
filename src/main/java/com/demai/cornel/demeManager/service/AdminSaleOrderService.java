@@ -71,9 +71,6 @@ import java.util.*;
             StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(list.getOutStackId());
             if (stackOutInfo == null) {
                 stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(list);
-                int rds = stackOutInfo != null ?
-                        saleOrderMapper.updateStackOutStackId(list.getOrderId(), stackOutInfo.getOutId()) :
-                        0;
                 log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one bulid stack is {} ",
                         JacksonUtils.obj2String(stackOutInfo));
             }
@@ -124,12 +121,8 @@ import java.util.*;
         StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(saleOrder.getOutStackId());
         if (stackOutInfo == null) {
             stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(saleOrder);
-            int reD = stackOutInfo != null ?
-                    saleOrderMapper.updateStackOutStackId(saleOrder.getOrderId(), stackOutInfo.getOutId()) :
-                    0;
             log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one,build info is {}",
                     JacksonUtils.obj2String(stackOutInfo));
-            return adminGetSaleDetail1;
         }
         if (stackOutInfo == null) {
             log.debug("adminGetSaleDetail cannot find stackOutInfo from db ");
