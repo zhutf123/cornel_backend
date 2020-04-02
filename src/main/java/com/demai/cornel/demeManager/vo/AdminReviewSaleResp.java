@@ -2,12 +2,14 @@ package com.demai.cornel.demeManager.vo;
 
 import com.demai.cornel.dmEnum.IEmus;
 import lombok.Builder;
+import lombok.Data;
 
 /**
  * @Author binz.zhang
  * @Date: 2020-03-31    16:40
  */
 @Builder
+@Data
 public class AdminReviewSaleResp {
     private Integer optStatus;
 
