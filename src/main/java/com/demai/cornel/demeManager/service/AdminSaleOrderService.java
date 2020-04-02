@@ -65,16 +65,21 @@ import java.util.*;
             AdminGetSaleDetail adminGetSaleDetail1 = new AdminGetSaleDetail();
             BeanUtils.copyProperties(list, adminGetSaleDetail1);
             if (Strings.isNullOrEmpty(list.getOutStackId())) {
+                adminGetSaleDetail.add(adminGetSaleDetail1);
+
                 continue;
             }
             StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(list.getOutStackId());
             if (stackOutInfo == null) {
                 log.debug("adminGetSaleDetail cannot find stackOutInfo from db ");
+                adminGetSaleDetail.add(adminGetSaleDetail1);
+
                 continue;
             }
             StoreInfo storeInfo = storeInfoMapper.selectByStoreId(stackOutInfo.getStoreId());
             if (storeInfo == null) {
                 log.debug("adminGetSaleDetail cannot find storeInfo from db ");
+                adminGetSaleDetail.add(adminGetSaleDetail1);
                 continue;
             }
             FreightInfo freightInfo = freightInfoMapper.selectByFreightId(stackOutInfo.getFreightInfoId());
