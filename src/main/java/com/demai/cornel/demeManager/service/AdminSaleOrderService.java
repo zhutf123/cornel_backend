@@ -272,7 +272,7 @@ import java.util.*;
      * @return
      */
     private AdminReviewSaleResp rejectSaleOrder(AdminReviewSaleReq adminReviewSaleReq, SaleOrder saleOrderNew) {
-        if (adminReviewSaleReq == null || adminReviewSaleReq.getStatus()
+        if (adminReviewSaleReq == null || !adminReviewSaleReq.getStatus()
                 .equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())) {
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
                     .build();
