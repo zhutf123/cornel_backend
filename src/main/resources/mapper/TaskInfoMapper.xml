@@ -125,7 +125,7 @@
             <if test="depGis != null">dep_gis ,</if>
             <if test="arrGis != null">arr_gis ,</if>
             <if test="distance != null">distance ,</if>
-            <if test="unitPrice != null">unit_weight_price ,</if>
+            <if test="unitPrice != null">unit_price ,</if>
             <if test="estimatePrice != null">estimate_price ,</if>
             <if test="level != null">level ,</if>
             <if test="status != null">status ,</if>
