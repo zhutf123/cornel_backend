@@ -1,5 +1,6 @@
 package com.demai.cornel.demeManager.service;
 
+import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.dao.CommodityDao;
 import com.demai.cornel.dao.TaskInfoDao;
 import com.demai.cornel.dao.UserInfoDao;
@@ -31,7 +32,7 @@ import java.util.UUID;
     @Resource private TaskInfoDao taskInfoDao;
     @Resource private CommodityDao commodityDao;
     @Resource private StackOutInfoMapper stackOutInfoMapper;
-
+    @Resource private ServiceMobileConfig serviceMobileConfig;
     private static final String TIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
     public boolean buildTask(StackOutInfo stackOutInfo, SaleOrder saleOrder,StoreInfo storeInfo) {
@@ -82,6 +83,7 @@ import java.util.UUID;
         }
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setTitle(commodity.getName() + "-" + fromLocation.getLocation() + "-" + toLocation.getLocation());
+        taskInfo.setProduct(commodity.getName());
         taskInfo.setStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, stackOutInfo.getStartTime()));
         taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, stackOutInfo.getEndTime()));
         taskInfo.setDistance(new BigDecimal(1000.00));
@@ -99,6 +101,8 @@ import java.util.UUID;
         taskInfo.setEstimatePrice(stackOutInfo.getFreightPrice());
         taskInfo.setUnitPrice(saleOrder.getUnitPrice());
         taskInfo.setUndistWeight(saleOrder.getWeight());
+        taskInfo.setUnitDistance("km");
+        taskInfo.setServiceMobile(ServiceMobileConfig.serviceMobile.iterator().next());
         int resTask = taskInfoDao.save(taskInfo);
         if (resTask != 1) {
             log.error("sale order buildTask fail due to insert task into db err");

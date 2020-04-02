@@ -56,11 +56,12 @@ import java.util.UUID;
         stackInfo.setCommodityId(saleOrder.getCommodityId());
         stackInfo.setBuyerId(saleOrder.getBuyerId());
         stackInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_TORMAT, reviewSaleReq.getOutStartTime()));
-        stackInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_TORMAT, reviewSaleReq.getOutStartTime()));
+        stackInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_TORMAT, reviewSaleReq.getOutEndTime()));
         stackInfo.setOperatorUser(CookieAuthUtils.getCurrentUser());
         stackInfo.setReceiveLocation(saleOrder.getReceiveLocation());
         stackInfo.setWeight(saleOrder.getWeight());
         stackInfo.setStatus(StackOutInfo.STATUS_ENUM.PASS_APPROVAL.getValue());
+
         int resUpdateSt = storeInfoMapper.updateUndistWeight(storeInfo.getStoreId(), storeInfo.getUndistWeight(),
                 storeInfo.getUndistWeight().subtract(saleOrder.getWeight()));
         if (resUpdateSt != 1) {

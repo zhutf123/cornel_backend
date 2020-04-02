@@ -66,6 +66,7 @@ import java.util.stream.Collectors;
     private String unitPrice;
     private Set<String> receiverMobile;
     private Set<String> supplierMobile;
+    private String serviceMobile;
 
     public static enum STATUS_ENUE {
 
