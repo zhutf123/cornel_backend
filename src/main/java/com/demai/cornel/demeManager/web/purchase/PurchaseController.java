@@ -128,4 +128,8 @@ import javax.servlet.http.HttpServletResponse;
         return JsonResult.success(adminPurchaseCornService.getReviewErrOpt());
     }
 
+    @RequestMapping(value = "/review_pay.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult reviewPay(
+            @RequestBody AdminReviewPayReq adminReviewPayReq) {
+        return JsonResult.success(adminPurchaseCornService.reviewPay(adminReviewPayReq));
+    }
 }

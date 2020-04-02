@@ -139,7 +139,7 @@ import lombok.Data;
     private HashMap<String, String> reviewOpt;
 
     private String payReview;
-    private String payTime;
+    private Timestamp payTime;
     private BigDecimal actualPay;
     public static enum STATUS_ENUM implements IEmus {
         //        CANCLE(0, "取消"),

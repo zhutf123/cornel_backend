@@ -4,6 +4,7 @@ import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.model.ReviewModel;
 import com.demai.cornel.purcharse.dao.BuyerInfoMapper;
 import com.demai.cornel.purcharse.dao.OfferSheetMapper;
+import com.demai.cornel.purcharse.dao.SaleOrderMapper;
 import com.demai.cornel.purcharse.dao.SpecialSaleInfoMapper;
 import com.demai.cornel.purcharse.model.OfferSheet;
 import com.demai.cornel.purcharse.model.SaleOrder;
@@ -11,6 +12,7 @@ import com.demai.cornel.purcharse.model.SpecialSaleInfo;
 import com.demai.cornel.purcharse.vo.GetSystemOfferResp;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.TimeStampUtil;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -32,6 +34,8 @@ import java.util.*;
     @Resource private OfferSheetMapper offerSheetMapper;
     @Resource private BuyerInfoMapper buyerInfoMapper;
     @Resource private SpecialSaleInfoMapper specialSaleInfoMapper;
+    @Resource private SaleOrderMapper saleOrderMapper;
+    private static String TIME_FORMAT = "yyyy-MM-dd";
 
     /**
      * 管理员获取系统的报价list
@@ -199,4 +203,35 @@ import java.util.*;
         return reviewModels;
     }
 
+    public AdminReviewSaleResp reviewPay(AdminReviewPayReq adminReviewPayReq) {
+        if (adminReviewPayReq == null || adminReviewPayReq.getActualPay() == null || Strings
+                .isNullOrEmpty(adminReviewPayReq.getOrderId()) || Strings
+                .isNullOrEmpty(adminReviewPayReq.getPayTime())) {
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
+                    .build();
+        }
+        SaleOrder saleOrder = saleOrderMapper.selectBySaleId(adminReviewPayReq.getOrderId());
+        if (saleOrder == null) {
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.ORDER_INVALID.getValue())
+                    .build();
+        }
+        if (!saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.UNDER_PAY.getValue())) {
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.ORDER_UN_CHANGE.getValue())
+                    .build();
+        }
+
+        SaleOrder saleOrderNew = new SaleOrder();
+        saleOrderNew.setPaymentStatus(1);
+        saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.FINISH.getValue());
+        saleOrderNew.setStatus(SaleOrder.STATUS_ENUM.FINISH.getValue());
+        saleOrderNew.setPayReview(CookieAuthUtils.getCurrentUser());
+        saleOrderNew.setActualPay(adminReviewPayReq.getActualPay());
+        saleOrderNew.setPayTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, adminReviewPayReq.getPayTime()));
+        int res = saleOrderMapper.updateByPrimaryKeySelective(saleOrderNew);
+        if (res != 1) {
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SERVER_ERR.getValue())
+                    .build();
+        }
+        return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SUCCESS.getValue()).build();
+    }
 }
