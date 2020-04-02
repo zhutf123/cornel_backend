@@ -83,11 +83,11 @@ import javax.servlet.http.HttpServletResponse;
 
     /**
      * 管理员获取订单的详情 包括出货信息
+     *
      * @param param
      * @return
      */
-    @RequestMapping(value = "/get-order-detail.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody
-    public JsonResult adminGetOrderDerail(
+    @RequestMapping(value = "/get-order-detail.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult adminGetOrderDerail(
             @RequestBody String param) {
         JSONObject receivedParam = JSON.parseObject(param);
         String orderId = (String) receivedParam.get("orderId");
@@ -96,11 +96,12 @@ import javax.servlet.http.HttpServletResponse;
 
     /**
      * 获取出货的其他选择 可以选择出货地点以及出货方式
+     *
      * @param param
      * @return
      */
-    @RequestMapping(value = "/get-stack-option.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody
-    public JsonResult adminGetStackOp(@RequestBody String param) {
+    @RequestMapping(value = "/get-stack-option.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult adminGetStackOp(
+            @RequestBody String param) {
         JSONObject receivedParam = JSON.parseObject(param);
         String orderId = (String) receivedParam.get("orderId");
         return JsonResult.success(adminSaleOrderService.adminGetStackOption(orderId));
@@ -108,21 +109,22 @@ import javax.servlet.http.HttpServletResponse;
 
     /**
      * review 售卖订单
+     *
      * @param param
      * @return
      */
     @RequestMapping(value = "/review-sale.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult reviewSaleOrder(
             @RequestBody AdminReviewSaleReq param) {
         Preconditions.checkNotNull(param);
-        return null;
+        return JsonResult.success(adminSaleOrderService.adminReviewSale(param));
     }
 
     /**
      * 获取错误类别
+     *
      * @return
      */
-    @RequestMapping(value = "/get-sale-err.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult getErrOption() {
+    @RequestMapping(value = "/get-sale-err.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getErrOption() {
         return JsonResult.success(adminPurchaseCornService.getReviewErrOpt());
     }
 

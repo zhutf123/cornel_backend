@@ -37,4 +37,9 @@ import java.math.BigDecimal;
     private BigDecimal esInCome;//收益
     private String reviewUser;//收益
 
+    private String payReview;
+    private String payTime;
+    private BigDecimal actualPay;
+
+
 }

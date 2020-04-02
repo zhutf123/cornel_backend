@@ -138,6 +138,9 @@ import lombok.Data;
     private String reviewUser;
     private HashMap<String, String> reviewOpt;
 
+    private String payReview;
+    private String payTime;
+    private BigDecimal actualPay;
     public static enum STATUS_ENUM implements IEmus {
         //        CANCLE(0, "取消"),
         //        UNDER_APPROVAL(1<<0, "待审核"),
@@ -173,7 +176,7 @@ import lombok.Data;
         //        UNDER_RECEIVE(1<<3, "待接货"),
         //        FINISH(5, "订单完成");
         CANCLE(0, "取消"), UNDER_APPROVAL(1, "待审核"), PASS_APPROVAL(2, "审核通过"), REJECT_APPROVAL(3, "审核拒绝"), RUNNING(4,
-                "进行中"), FINISH(5, "已完成");
+                "进行中"), FINISH(5, "已完成"), UNDER_PAY(6, "待付款"), FINISH_PAY(7, "已付款");
 
         private int value;
         private String expr;

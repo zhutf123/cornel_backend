@@ -71,14 +71,17 @@
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
         <result column="out_stack_id" jdbcType="VARCHAR" property="outStackId"/>
         <result column="es_income" jdbcType="NUMERIC" property="esInCome"/>
-
+        <result column="actual_pay" jdbcType="NUMERIC" property="actualPay"/>
+        <result column="pay_review" jdbcType="VARCHAR" property="payReview"/>
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, "status", cargo_id, buyer_id, order_time, receive_start_time, payment_type, payment_status,
         freight_price, commodity_price, order_price, unit_price, weight, unit_weight, waybill_id,
         purchase_id, contact_user_name, mobile, receive_location, from_location, order_id,
-        offer_id, receive_end_time,commodity_id,out_stack_id,view_status
+        offer_id, receive_end_time,commodity_id,out_stack_id,view_status,actual_pay,pay_review,pay_time
     </sql>
 
 
@@ -100,6 +103,9 @@
         s.out_stack_id,
         s.es_income,
         s.view_status as status,
+        s.actual_pay,
+        s.pay_review,
+        s.pay_time,
         c.name as commodity_name ,
         l.location as receive_location
     </sql>

@@ -34,7 +34,7 @@ import java.util.UUID;
 
     private static final String TIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
-    public boolean buildTask(StackOutInfo stackOutInfo, SaleOrder saleOrder) {
+    public boolean buildTask(StackOutInfo stackOutInfo, SaleOrder saleOrder,StoreInfo storeInfo) {
         CargoInfo cargoInfo = new CargoInfo();
         cargoInfo.setCargoId(UUID.randomUUID().toString());
         cargoInfo.setUnitWeight(stackOutInfo.getUnitWeight());
@@ -89,7 +89,7 @@ import java.util.UUID;
         taskInfo.setDep(fromLocation.getLocation());
         taskInfo.setReceiverUserId(Sets.newHashSet(saleOrder.getBuyerId()));
         taskInfo.setReceiverMobile(buyerInfo.getMobile());
-        taskInfo.setSendOutUserId(Sets.newHashSet(stackOutInfo.getStoreKeeper()));
+        taskInfo.setSendOutUserId(Sets.newHashSet(storeInfo.getStoreKeeper()));
         taskInfo.setSupplierMobile(storeKeeper.getMobile());
         taskInfo.setTaskId(TaskInfo.TASK_PREX_ENUE.SALE.getValue() + UUID.randomUUID().toString());
         taskInfo.setStatus(TaskInfo.STATUS_ENUE.TASK_ING.getValue());

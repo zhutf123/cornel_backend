@@ -81,10 +81,18 @@ import java.util.UUID;
         }
         newSaleOrder.setOutStackId(stackInfo.getOutId());
         newSaleOrder.setFromLocation(stackInfo.getFromLocation());
-        if (saleConvertTaskService.buildTask(stackInfo, saleOrder)) {
-            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SUCCESS.getValue()).build();
+        newSaleOrder.setEsIncome(saleOrder.getCommodityPrice().subtract(storeInfo.getBuyingPrice()).subtract(stackInfo.getFreightPrice()));
+        if (!saleConvertTaskService.buildTask(stackInfo, saleOrder,storeInfo)) {
+            log.error(" updateSaleStackOutInfo 发布任务到大活宝失败 fail");
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SERVER_ERR.getValue()).build();
         }
-        return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SERVER_ERR.getValue()).build();
+        int reSl = saleOrderMapper.updateByPrimaryKeySelective(newSaleOrder);
+        if(reSl!=1){
+            log.error("updateSaleStackOutInfo fail due to UPDATE sale  fail");
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SERVER_ERR.getValue())
+                    .build();
+        }
+        return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }
 
     /**

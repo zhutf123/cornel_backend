@@ -25,6 +25,7 @@ import java.util.*;
     @Resource private StoreInfoMapper storeInfoMapper;
     @Resource private LocationInfoMapper locationInfoMapper;
     @Resource private FreightInfoMapper freightInfoMapper;
+    @Resource private SaleStackOutService saleStackOutService;
 
     public List<AdminGetSaleListResp> getSaleView() {
         List<AdminGetSaleListResp> saleListResps = saleOrderMapper.selectSaleView();
@@ -48,10 +49,10 @@ import java.util.*;
 
     /***
      * 管理员获取到订单的详情 包括出库的信息以及预计收益
-     * @param orderId
+     * @param
      * @return
      */
-    public List<AdminGetSaleDetail> adminGetSaleByStatus(Integer status, Integer offset, Integer pgSize) {
+    public List<AdminGetSaleList> adminGetSaleByStatus(Integer status, Integer offset, Integer pgSize) {
         List<AdminGetSaleList> saleOrder = saleOrderMapper
                 .AdminGetSaleOrderList(status, Optional.ofNullable(pgSize).orElse(10),
                         Optional.ofNullable(offset).orElse(0));
@@ -59,7 +60,7 @@ import java.util.*;
             log.warn("adminGetSaleDetail fail due to order invalid");
             return Collections.EMPTY_LIST;
         }
-        List<AdminGetSaleDetail> adminGetSaleDetail = new ArrayList<>(saleOrder.size());
+        List<AdminGetSaleList> adminGetSaleDetail = new ArrayList<>(saleOrder.size());
         for (AdminGetSaleList list : saleOrder) {
             AdminGetSaleDetail adminGetSaleDetail1 = new AdminGetSaleDetail();
             BeanUtils.copyProperties(list, adminGetSaleDetail1);
@@ -149,11 +150,10 @@ import java.util.*;
                     fiT.getTransportType().stream().forEach(xT -> {
                         stringBuilder.append(TransportType.typeOf(xT).getExpr()).append("+");
                     });
-                    otherInfo.setTransportType(
-                            stringBuilder.toString().substring(0, stringBuilder.lastIndexOf("+")));
+                    otherInfo.setTransportType(stringBuilder.toString().substring(0, stringBuilder.lastIndexOf("+")));
                 }
-                otherInfo.setInCome(saleOrder.getCommodityPrice().subtract(fiT.getPrice())
-                        .subtract(storeInfo.getBuyingPrice()));
+                otherInfo.setInCome(
+                        saleOrder.getCommodityPrice().subtract(fiT.getPrice()).subtract(storeInfo.getBuyingPrice()));
                 otherInfos.add(otherInfo);
             });
             adminGetSaleDetail1.setFreightAndIncome(otherInfos);
@@ -221,34 +221,48 @@ import java.util.*;
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.ORDER_UN_CHANGE.getValue())
                     .build();
         }
-        if (!saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())) {
-            return rejectSaleOrder(adminReviewSaleReq);
+        if (!saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.UNDER_APPROVAL.getValue()) || !saleOrder.getStatus()
+                .equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())) {
+            log.error("cur salder can update status cur viewstatus is {} status is {}", saleOrder.getViewStatus(),
+                    saleOrder.getStatus());
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.ORDER_UN_CHANGE.getValue())
+                    .build();
         }
         SaleOrder saleOrderNew = new SaleOrder();
         saleOrderNew.setReviewUser(CookieAuthUtils.getCurrentUser());
         saleOrderNew.setOrderId(saleOrder.getOrderId());
-        if (adminReviewSaleReq.getStatus().equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())) {
+        if (saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())) {
             saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue());
-            saleOrderNew.setViewStatus(SaleOrder.STATUS_ENUM.REJECT_APPROVAL.getValue());
+            saleOrderNew.setStatus(SaleOrder.STATUS_ENUM.REJECT_APPROVAL.getValue());
+            return rejectSaleOrder(adminReviewSaleReq, saleOrderNew);
+
         }
-        return null;
+        if (saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue())) {
+            saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue());
+            saleOrderNew.setStatus(SaleOrder.STATUS_ENUM.PASS_APPROVAL.getValue());
+            return agreeSaleOrder(adminReviewSaleReq, saleOrder, saleOrderNew);
+        }
+        return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
     }
 
-    private AdminReviewSaleResp rejectSaleOrder(AdminReviewSaleReq adminReviewSaleReq) {
+    /**
+     * 拒绝销售单
+     *
+     * @param adminReviewSaleReq
+     * @param saleOrderNew
+     * @return
+     */
+    private AdminReviewSaleResp rejectSaleOrder(AdminReviewSaleReq adminReviewSaleReq, SaleOrder saleOrderNew) {
         if (adminReviewSaleReq == null || adminReviewSaleReq.getStatus()
                 .equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())) {
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
                     .build();
         }
-        SaleOrder saleOrderNew = new SaleOrder();
-        saleOrderNew.setOrderId(adminReviewSaleReq.getOrderId());
-        saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue());
-        saleOrderNew.setViewStatus(SaleOrder.STATUS_ENUM.REJECT_APPROVAL.getValue());
         HashMap<String, String> reviewOpt = new HashMap<>(2);
         reviewOpt.put("errCode", String.valueOf(adminReviewSaleReq.getErrCode()));
         reviewOpt.put("errDesc", adminReviewSaleReq.getErrDesc());
         saleOrderNew.setReviewOpt(reviewOpt);
-        int res = saleOrderMapper.updateByPrimaryKey(saleOrderNew);
+        int res = saleOrderMapper.updateByPrimaryKeySelective(saleOrderNew);
         if (res != 1) {
             log.error("rejectSaleOrder err due to update db err");
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SERVER_ERR.getValue())
@@ -257,29 +271,22 @@ import java.util.*;
         return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }
 
-    private AdminReviewSaleResp agreeSaleOrder(AdminReviewSaleReq adminReviewSaleReq, SaleOrder oldSaleOrder) {
+    /**
+     * 同意销售单
+     *
+     * @param adminReviewSaleReq
+     * @param oldSaleOrder
+     * @param newSale
+     * @return
+     */
+    private AdminReviewSaleResp agreeSaleOrder(AdminReviewSaleReq adminReviewSaleReq, SaleOrder oldSaleOrder,
+            SaleOrder newSale) {
         if (adminReviewSaleReq == null || adminReviewSaleReq.getStatus()
                 .equals(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue())) {
-             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
+            return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
                     .build();
         }
-
-//        SaleOrder saleOrderNew = new SaleOrder();
-//        saleOrderNew.setOrderId(adminReviewSaleReq.getOrderId());
-//        saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue());
-//        saleOrderNew.setViewStatus(SaleOrder.STATUS_ENUM.PASS_APPROVAL.getValue());
-//        StoreInfo storeInfo = storeInfoMapper.selectByStoreId(adminReviewSaleReq.getStoreId());
-//        if (storeInfo == null || storeInfo.getUndistWeight().compareTo(oldSaleOrder.getWeight()) == -1) {
-//            log.warn("agreeSaleOrder fail due to store insufficient");
-//            return false;
-//        }
-//        StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(oldSaleOrder.getOutStackId());
-//        if (stackOutInfo == null) {
-//            StackOutInfo stackOutInfo1 = new StackOutInfo();
-//
-//        }
-
-        return null;
+        return saleStackOutService.updateSaleStackOutInfo(adminReviewSaleReq, oldSaleOrder, newSale);
     }
 
 }
