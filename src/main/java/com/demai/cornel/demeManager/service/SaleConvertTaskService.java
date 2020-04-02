@@ -62,7 +62,7 @@ import java.util.UUID;
                     JacksonUtils.obj2String(freightInfo.getTransportType()));
             return true;
         }
-        UserInfo storeKeeper = userInfoDao.getUserInfoByUserId(stackOutInfo.getStoreKeeper());
+        UserInfo storeKeeper = userInfoDao.getUserInfoByUserId(storeInfo.getStoreKeeper());
         if (storeKeeper == null) {
             log.error("sale order buildTask fail due to send out  user info cant found ");
             return false;
