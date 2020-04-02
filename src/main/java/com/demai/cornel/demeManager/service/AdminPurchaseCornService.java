@@ -222,6 +222,7 @@ import java.util.*;
 
         SaleOrder saleOrderNew = new SaleOrder();
         saleOrderNew.setPaymentStatus(1);
+        saleOrderNew.setOrderId(saleOrder.getOrderId());
         saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.FINISH.getValue());
         saleOrderNew.setStatus(SaleOrder.STATUS_ENUM.FINISH.getValue());
         saleOrderNew.setPayReview(CookieAuthUtils.getCurrentUser());
