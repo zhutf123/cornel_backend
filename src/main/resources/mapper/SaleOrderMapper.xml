@@ -29,6 +29,7 @@
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
         <result column="out_stack_id" jdbcType="VARCHAR" property="outStackId"/>
         <result column="view_status" jdbcType="INTEGER" property="viewStatus"/>
+        <result column="ex_info" jdbcType="VARCHAR" property="exInfo"/>
 
     </resultMap>
 
@@ -77,6 +78,7 @@
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
         <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+        <result column="ex_info" jdbcType="VARCHAR" property="exInfo"/>
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -84,7 +86,7 @@
         id, "status", cargo_id, buyer_id, order_time, receive_start_time, payment_type, payment_status,
         freight_price, commodity_price, order_price, unit_price, weight, unit_weight, waybill_id,
         purchase_id, contact_user_name, mobile, receive_location, from_location, order_id,
-        offer_id, receive_end_time,commodity_id,out_stack_id,view_status,actual_pay,pay_review,pay_time
+        offer_id, receive_end_time,commodity_id,out_stack_id,view_status,actual_pay,pay_review,pay_time,ex_info
     </sql>
 
 
@@ -110,6 +112,7 @@
         s.pay_review,
         s.pay_time,
         s.receive_location as receive_location_id,
+        s.ex_info,
         c.commodity_id,
         c.name as commodity_name ,
         l.location as receive_location
@@ -234,6 +237,9 @@
             <if test="viewStatus != null">
                 view_status,
             </if>
+            <if test="exInfo != null">
+                ex_info,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -313,6 +319,9 @@
             </if>
             <if test="viewStatus != null">
                 #{viewStatus} ,
+            </if>
+            <if test="exInfo != null">
+                #{exInfo} ,
             </if>
         </trim>
     </insert>
@@ -401,6 +410,9 @@
             <if test="reviewOpt != null">
                 review_opt =
                 hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}),
+            </if>
+            <if test="exInfo != null">
+                ex_info=#{exInfo} ,
             </if>
         </set>
         where order_id = #{orderId,jdbcType=VARCHAR}

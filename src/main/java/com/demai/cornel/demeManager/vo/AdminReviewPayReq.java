@@ -13,4 +13,5 @@ import java.math.BigDecimal;
     private BigDecimal actualPay;
     private String payReview;
     private String payTime;
+    private String exInfo;
 }

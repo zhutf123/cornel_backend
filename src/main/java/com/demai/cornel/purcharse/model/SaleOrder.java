@@ -141,6 +141,8 @@ import lombok.Data;
     private String payReview;
     private Timestamp payTime;
     private BigDecimal actualPay;
+    private String exInfo = "";
+
     public static enum STATUS_ENUM implements IEmus {
         //        CANCLE(0, "取消"),
         //        UNDER_APPROVAL(1<<0, "待审核"),

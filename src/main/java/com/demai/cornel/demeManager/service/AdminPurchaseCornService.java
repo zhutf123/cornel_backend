@@ -227,6 +227,7 @@ import java.util.*;
         saleOrderNew.setPayReview(CookieAuthUtils.getCurrentUser());
         saleOrderNew.setActualPay(adminReviewPayReq.getActualPay());
         saleOrderNew.setPayTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, adminReviewPayReq.getPayTime()));
+        saleOrderNew.setExInfo(Strings.isNullOrEmpty(adminReviewPayReq.getExInfo())?"":adminReviewPayReq.getExInfo());
         int res = saleOrderMapper.updateByPrimaryKeySelective(saleOrderNew);
         if (res != 1) {
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SERVER_ERR.getValue())
