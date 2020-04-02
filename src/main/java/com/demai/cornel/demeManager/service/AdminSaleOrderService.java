@@ -281,7 +281,7 @@ import java.util.*;
      */
     private AdminReviewSaleResp agreeSaleOrder(AdminReviewSaleReq adminReviewSaleReq, SaleOrder oldSaleOrder,
             SaleOrder newSale) {
-        if (adminReviewSaleReq == null || adminReviewSaleReq.getStatus()
+        if (adminReviewSaleReq == null || !adminReviewSaleReq.getStatus()
                 .equals(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue())) {
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
                     .build();
