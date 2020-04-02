@@ -232,13 +232,13 @@ import java.util.*;
         SaleOrder saleOrderNew = new SaleOrder();
         saleOrderNew.setReviewUser(CookieAuthUtils.getCurrentUser());
         saleOrderNew.setOrderId(saleOrder.getOrderId());
-        if (saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())) {
+        if (adminReviewSaleReq.getStatus().equals(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue())) {
             saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.REJECT_APPROVAL.getValue());
             saleOrderNew.setStatus(SaleOrder.STATUS_ENUM.REJECT_APPROVAL.getValue());
             return rejectSaleOrder(adminReviewSaleReq, saleOrderNew);
 
         }
-        if (saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue())) {
+        if (adminReviewSaleReq.getStatus().equals(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue())) {
             log.debug("agree sale order");
             saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue());
             saleOrderNew.setStatus(SaleOrder.STATUS_ENUM.PASS_APPROVAL.getValue());
