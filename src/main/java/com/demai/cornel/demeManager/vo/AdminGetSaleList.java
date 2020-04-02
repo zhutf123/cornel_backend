@@ -26,7 +26,7 @@ import java.math.BigDecimal;
     private String unitWeight;
     private String status;
 
-    private int showStackInfo=1;
+    private int showStackInfo=0;
     @JsonIgnore private String commodityId;
     @JsonIgnore private String receiveLocationId;
 

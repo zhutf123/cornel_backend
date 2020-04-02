@@ -67,10 +67,7 @@ import java.util.*;
         for (AdminGetSaleList list : saleOrder) {
             AdminGetSaleDetail adminGetSaleDetail1 = new AdminGetSaleDetail();
             BeanUtils.copyProperties(list, adminGetSaleDetail1);
-            if (Strings.isNullOrEmpty(list.getOutStackId())) {
-                adminGetSaleDetail.add(adminGetSaleDetail1);
-                continue;
-            }
+
             StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(list.getOutStackId());
             if (stackOutInfo == null) {
                 stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(list);
@@ -123,9 +120,7 @@ import java.util.*;
         }
         AdminGetSaleDetail adminGetSaleDetail1 = new AdminGetSaleDetail();
         BeanUtils.copyProperties(saleOrder, adminGetSaleDetail1);
-        if (Strings.isNullOrEmpty(saleOrder.getOutStackId())) {
-            return adminGetSaleDetail1;
-        }
+
         StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(saleOrder.getOutStackId());
         if (stackOutInfo == null) {
             stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(saleOrder);
