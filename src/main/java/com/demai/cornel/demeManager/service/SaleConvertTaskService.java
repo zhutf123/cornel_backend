@@ -91,7 +91,7 @@ import java.util.UUID;
         taskInfo.setReceiverMobile(buyerInfo.getMobile());
         taskInfo.setSendOutUserId(Sets.newHashSet(storeInfo.getStoreKeeper()));
         taskInfo.setSupplierMobile(storeKeeper.getMobile());
-        taskInfo.setTaskId(TaskInfo.TASK_PREX_ENUE.SALE.getValue() + UUID.randomUUID().toString());
+        taskInfo.setTaskId(TaskInfo.TASK_PREX_ENUE.SALE.getValue() + UUID.randomUUID().toString().replaceAll("-",""));
         taskInfo.setStatus(TaskInfo.STATUS_ENUE.TASK_ING.getValue());
         taskInfo.setUnitWeightPrice(freightInfo.getPrice());
         taskInfo.setWeight(saleOrder.getWeight());
