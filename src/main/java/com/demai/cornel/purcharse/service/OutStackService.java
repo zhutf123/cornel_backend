@@ -58,6 +58,7 @@ import java.util.UUID;
             return null;
         }
         StackOutInfo stackOutInfo = new StackOutInfo();
+        stackOutInfo.setStoreId(optimumStoreId.getStoreId());
         stackOutInfo.setOutId(UUID.randomUUID().toString());
         stackOutInfo.setBuyerId(saleOrder.getBuyerId());
         stackOutInfo.setCommodityId(saleOrder.getCommodityId());
