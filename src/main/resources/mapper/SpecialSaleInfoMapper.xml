@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.purcharse.dao.SpecialSaleInfoMapper">
+    <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.SpecialSaleInfo">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="location_id" jdbcType="VARCHAR" property="locationId"/>
+        <result column="price" jdbcType="NUMERIC" property="price"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
+        <result column="min_buy_weight" jdbcType="NUMERIC" property="minBuyWeight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="target_user_id" jdbcType="VARCHAR" property="targetUserId"/>
+        <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
+    </resultMap>
+
+    <resultMap id="list_resp" type="com.demai.cornel.purcharse.vo.GetSystemOfferResp">
+        <!--@mbg.generated-->
+        <result column="offer_id" jdbcType="VARCHAR" property="offerId"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="price" jdbcType="NUMERIC" property="price"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="min_buy_weight" jdbcType="NUMERIC" property="minBuyWeight"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="notice" property="notice" jdbcType="ARRAY" javaType="java.util.List"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringListTypeHandler"/>
+        <result column="target_user_id" jdbcType="VARCHAR" property="targetUserId"/>
+
+    </resultMap>
+    <sql id="column_list_resp">
+        <!--@mbg.generated-->
+        o.offer_id,
+        o.min_buy_weight,
+        o.unit_weight,
+        o.commodity_id,
+        o.target_user_id,
+        c.name as commodity_name,
+        o.price,
+        o.unit_price,
+        l.location,
+        c.commodity_properties,
+        o.notice
+    </sql>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, commodity_id, location_id, price, unit_price, "status", create_time, notice,
+        min_buy_weight, unit_weight, target_user_id, review_user
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from special_sale_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from special_sale_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.demai.cornel.purcharse.model.SpecialSaleInfo">
+        <!--@mbg.generated-->
+        insert into special_sale_info (id, commodity_id, location_id,
+        price, unit_price, "status",
+        create_time, notice, min_buy_weight,
+        unit_weight, target_user_id, review_user
+        )
+        values (#{id,jdbcType=INTEGER}, #{commodityId,jdbcType=VARCHAR}, #{locationId,jdbcType=VARCHAR},
+        #{price,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+        #{createTime,jdbcType=TIMESTAMP}, #{notice,jdbcType=VARCHAR}, #{minBuyWeight,jdbcType=NUMERIC},
+        #{unitWeight,jdbcType=VARCHAR}, #{targetUserId,jdbcType=VARCHAR}, #{reviewUser,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.SpecialSaleInfo">
+        <!--@mbg.generated-->
+        insert into special_sale_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="commodityId != null">
+                commodity_id,
+            </if>
+            <if test="locationId != null">
+                location_id,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="unitPrice != null">
+                unit_price,
+            </if>
+            <if test="status != null">
+                "status",
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="notice != null">
+                notice,
+            </if>
+            <if test="minBuyWeight != null">
+                min_buy_weight,
+            </if>
+            <if test="unitWeight != null">
+                unit_weight,
+            </if>
+            <if test="targetUserId != null">
+                target_user_id,
+            </if>
+            <if test="reviewUser != null">
+                review_user,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="commodityId != null">
+                #{commodityId,jdbcType=VARCHAR},
+            </if>
+            <if test="locationId != null">
+                #{locationId,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="notice != null">
+                #{notice,jdbcType=ARRAY,javaType=java.util.List,typeHandler=com.demai.cornel.databaseHandler.ArrayStringListTypeHandler},
+            </if>
+            <if test="minBuyWeight != null">
+                #{minBuyWeight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="targetUserId != null">
+                #{targetUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="reviewUser != null">
+                #{reviewUser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.SpecialSaleInfo">
+        <!--@mbg.generated-->
+        update special_sale_info
+        <set>
+            <if test="commodityId != null">
+                commodity_id = #{commodityId,jdbcType=VARCHAR},
+            </if>
+            <if test="locationId != null">
+                location_id = #{locationId,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                unit_price = #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                "status" = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="notice != null">
+                notice = #{notice,jdbcType=VARCHAR},
+            </if>
+            <if test="minBuyWeight != null">
+                min_buy_weight = #{minBuyWeight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                unit_weight = #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="targetUserId != null">
+                target_user_id = #{targetUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="reviewUser != null">
+                review_user = #{reviewUser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.SpecialSaleInfo">
+        <!--@mbg.generated-->
+        update special_sale_info
+        set commodity_id = #{commodityId,jdbcType=VARCHAR},
+        location_id = #{locationId,jdbcType=VARCHAR},
+        price = #{price,jdbcType=NUMERIC},
+        unit_price = #{unitPrice,jdbcType=VARCHAR},
+        "status" = #{status,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        notice = #{notice,jdbcType=VARCHAR},
+        min_buy_weight = #{minBuyWeight,jdbcType=NUMERIC},
+        unit_weight = #{unitWeight,jdbcType=VARCHAR},
+        target_user_id = #{targetUserId,jdbcType=VARCHAR},
+        review_user = #{reviewUser,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="getSystemOfferSheet" resultMap="list_resp">
+        select
+        <include refid="column_list_resp"/>
+        from special_sale_info o left join commodity_list c on o.commodity_id=c.commodity_id
+        left join location_info l on o.location_id=l.location_id
+        where o.status=1 and target_user_id=#{userId,jdbcType=VARCHAR} ;
+    </select>
+    <select id="selectSpecilaByCommodityIdAndUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from special_sale_info where target_user_id=#{userId,jdbcType=VARCHAR} and status!=0;
+    </select>
+    <update id="updateOfferStatusByCommodityIdAndUserId">
+       update special_sale_info set status=0  where commodity_id=#{commodityId,jdbcType=VARCHAR} and status!=0 and  target_user_id = #{userId,jdbcType=VARCHAR};
+  </update>
+</mapper>
