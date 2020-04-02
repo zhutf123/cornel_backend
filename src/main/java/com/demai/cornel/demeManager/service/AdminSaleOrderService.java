@@ -212,6 +212,7 @@ import java.util.*;
     }
 
     public AdminReviewSaleResp adminReviewSale(AdminReviewSaleReq adminReviewSaleReq) {
+        log.debug("adminReviewSale param is {}",JacksonUtils.obj2String(adminReviewSaleReq));
         if (adminReviewSaleReq == null || adminReviewSaleReq.getStatus() == null) {
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
                     .build();
@@ -238,6 +239,7 @@ import java.util.*;
 
         }
         if (saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue())) {
+            log.debug("agree sale order");
             saleOrderNew.setViewStatus(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue());
             saleOrderNew.setStatus(SaleOrder.STATUS_ENUM.PASS_APPROVAL.getValue());
             return agreeSaleOrder(adminReviewSaleReq, saleOrder, saleOrderNew);
@@ -283,6 +285,7 @@ import java.util.*;
             SaleOrder newSale) {
         if (adminReviewSaleReq == null || !adminReviewSaleReq.getStatus()
                 .equals(SaleOrder.STATUS_VIEW.PASS_APPROVAL.getValue())) {
+            log.debug("agreeSaleOrder fail due to param err");
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
                     .build();
         }
