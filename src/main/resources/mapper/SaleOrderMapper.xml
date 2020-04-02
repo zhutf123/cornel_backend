@@ -474,6 +474,9 @@
         left join commodity_list c on s.commodity_id=c.commodity_id where s.status!=0
         and order_id=#{orderId} ;
     </select>
+    <update id="updateStackOutStackId">
+       update sale_order set out_stack_id=#{outID,jdbcType=VARCHAR} where order_id=#{outID,jdbcType=VARCHAR} ;
+    </update>
     <!--    <select id="adminGetSaleDetail" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleDetail">-->
 
     <!--    </select>-->

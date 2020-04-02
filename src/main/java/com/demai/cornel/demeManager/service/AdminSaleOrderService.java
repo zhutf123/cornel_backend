@@ -29,6 +29,7 @@ import java.util.*;
     @Resource private FreightInfoMapper freightInfoMapper;
     @Resource private SaleStackOutService saleStackOutService;
     @Resource private OutStackService outStackService;
+
     public List<AdminGetSaleListResp> getSaleView() {
         List<AdminGetSaleListResp> saleListResps = saleOrderMapper.selectSaleView();
         return CollectionUtils.isEmpty(saleListResps) ? Collections.EMPTY_LIST : saleListResps;
@@ -73,7 +74,11 @@ import java.util.*;
             StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(list.getOutStackId());
             if (stackOutInfo == null) {
                 stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(list);
-                log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one bulid stack is {} ",JacksonUtils.obj2String(stackOutInfo));
+                int rds = stackOutInfo != null ?
+                        saleOrderMapper.updateStackOutStackId(list.getOrderId(), stackOutInfo.getOutId()) :
+                        0;
+                log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one bulid stack is {} ",
+                        JacksonUtils.obj2String(stackOutInfo));
             }
             if (stackOutInfo == null) {
                 log.debug("adminGetSaleDetail cannot find stackOutInfo from db and build one fail  ");
@@ -123,8 +128,12 @@ import java.util.*;
         }
         StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(saleOrder.getOutStackId());
         if (stackOutInfo == null) {
-            stackOutInfo  = outStackService.buildSystemDefaultOutStackInfo(saleOrder);
-            log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one,build info is {}",JacksonUtils.obj2String(stackOutInfo));
+            stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(saleOrder);
+            int reD = stackOutInfo != null ?
+                    saleOrderMapper.updateStackOutStackId(saleOrder.getOrderId(), stackOutInfo.getOutId()) :
+                    0;
+            log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one,build info is {}",
+                    JacksonUtils.obj2String(stackOutInfo));
             return adminGetSaleDetail1;
         }
         if (stackOutInfo == null) {
@@ -229,7 +238,7 @@ import java.util.*;
     }
 
     public AdminReviewSaleResp adminReviewSale(AdminReviewSaleReq adminReviewSaleReq) {
-        log.debug("adminReviewSale param is {}",JacksonUtils.obj2String(adminReviewSaleReq));
+        log.debug("adminReviewSale param is {}", JacksonUtils.obj2String(adminReviewSaleReq));
         if (adminReviewSaleReq == null || adminReviewSaleReq.getStatus() == null) {
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.PARAM_ERROR.getValue())
                     .build();

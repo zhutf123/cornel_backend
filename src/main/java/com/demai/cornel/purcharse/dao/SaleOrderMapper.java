@@ -45,4 +45,7 @@ public interface SaleOrderMapper {
     List<AdminGetSaleList> AdminGetSaleOrderList(@Param("viewStatus") Integer viewStatus,
             @Param("pgSize") Integer pgSize, @Param("offset") Integer offSet);
 
+
+
+    int updateStackOutStackId(@Param("orderId")String orderId,@Param("outID")String outId);
 }
