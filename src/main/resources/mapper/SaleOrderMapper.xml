@@ -75,6 +75,9 @@
         <result column="pay_review" jdbcType="VARCHAR" property="payReview"/>
         <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
@@ -106,6 +109,8 @@
         s.actual_pay,
         s.pay_review,
         s.pay_time,
+        s.receive_location as receive_location_id,
+        c.commodity_id,
         c.name as commodity_name ,
         l.location as receive_location
     </sql>
@@ -394,7 +399,8 @@
                 review_user = #{reviewUser,jdbcType=VARCHAR} ,
             </if>
             <if test="reviewOpt != null">
-                review_opt = hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}),
+                review_opt =
+                hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}),
             </if>
         </set>
         where order_id = #{orderId,jdbcType=VARCHAR}
@@ -468,14 +474,14 @@
         left join commodity_list c on s.commodity_id=c.commodity_id where s.status!=0
         and order_id=#{orderId} ;
     </select>
-<!--    <select id="adminGetSaleDetail" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleDetail">-->
-
-<!--    </select>-->
     <!--    <select id="adminGetSaleDetail" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleDetail">-->
-<!--        select-->
-<!--        <include refid="admin_detail_List"/>-->
-<!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->
-<!--        left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0-->
-<!--        order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;-->
-<!--    </select>-->
+
+    <!--    </select>-->
+    <!--    <select id="adminGetSaleDetail" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleDetail">-->
+    <!--        select-->
+    <!--        <include refid="admin_detail_List"/>-->
+    <!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->
+    <!--        left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0-->
+    <!--        order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;-->
+    <!--    </select>-->
 </mapper>

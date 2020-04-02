@@ -1,5 +1,6 @@
 package com.demai.cornel.purcharse.service;
 
+import com.demai.cornel.demeManager.vo.AdminGetSaleList;
 import com.demai.cornel.purcharse.dao.FreightInfoMapper;
 import com.demai.cornel.purcharse.dao.StackOutInfoMapper;
 import com.demai.cornel.purcharse.dao.StoreInfoMapper;
@@ -8,6 +9,7 @@ import com.demai.cornel.purcharse.model.SaleOrder;
 import com.demai.cornel.purcharse.model.StackOutInfo;
 import com.demai.cornel.purcharse.model.StoreInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,11 +27,11 @@ import java.util.UUID;
     @Resource private LocationService locationService;
     @Resource private StackOutInfoMapper stackOutInfoMapper;
 
-    public void buildSystemDefaultOutStackInfo(SaleOrder saleOrder) {
+    public StackOutInfo buildSystemDefaultOutStackInfo(SaleOrder saleOrder) {
         List<StoreInfo> storeInfos = storeInfoMapper
                 .selectStoreIdByCommodityIdAndWeight(saleOrder.getCommodityId(), saleOrder.getWeight());
         if (storeInfos == null || storeInfos.size() == 0) {
-            return;
+            return null;
         }
         BigDecimal minTotalPrice = null;
         StoreInfo optimumStoreId = null;
@@ -53,7 +55,7 @@ import java.util.UUID;
         }
         if (optimumStoreId == null) {
             log.warn("buildSystemDefaultOutStackInfo fail due to can not find the store");
-            return;
+            return null;
         }
         StackOutInfo stackOutInfo = new StackOutInfo();
         stackOutInfo.setOutId(UUID.randomUUID().toString());
@@ -69,10 +71,17 @@ import java.util.UUID;
         int res = stackOutInfoMapper.insertSelective(stackOutInfo);
         if (res != 1) {
             log.warn("buildSystemDefaultOutStackInfo fail due to insert stackOutInfo fail ");
-            return;
+            return null;
         }
         saleOrder.setOutStackId(stackOutInfo.getOutId());
         saleOrder.setEsIncome(saleOrder.getCommodityPrice().subtract(minTotalPrice));
+        return stackOutInfo;
     }
 
+    public StackOutInfo buildSystemDefaultOutStackInfo(AdminGetSaleList saleOrder) {
+        SaleOrder saleOrder1 = new SaleOrder();
+        BeanUtils.copyProperties(saleOrder, saleOrder1);
+        saleOrder1.setReceiveLocation(saleOrder.getReceiveLocationId());
+        return buildSystemDefaultOutStackInfo(saleOrder1);
+    }
 }

@@ -4,6 +4,7 @@ import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.model.LoanInfo;
 import com.demai.cornel.purcharse.dao.*;
 import com.demai.cornel.purcharse.model.*;
+import com.demai.cornel.purcharse.service.OutStackService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.google.common.base.Strings;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -26,7 +28,7 @@ import java.util.*;
     @Resource private LocationInfoMapper locationInfoMapper;
     @Resource private FreightInfoMapper freightInfoMapper;
     @Resource private SaleStackOutService saleStackOutService;
-
+    @Resource private OutStackService outStackService;
     public List<AdminGetSaleListResp> getSaleView() {
         List<AdminGetSaleListResp> saleListResps = saleOrderMapper.selectSaleView();
         return CollectionUtils.isEmpty(saleListResps) ? Collections.EMPTY_LIST : saleListResps;
@@ -66,15 +68,17 @@ import java.util.*;
             BeanUtils.copyProperties(list, adminGetSaleDetail1);
             if (Strings.isNullOrEmpty(list.getOutStackId())) {
                 adminGetSaleDetail.add(adminGetSaleDetail1);
-
                 continue;
             }
             StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(list.getOutStackId());
             if (stackOutInfo == null) {
-                log.debug("adminGetSaleDetail cannot find stackOutInfo from db ");
+                stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(list);
+                log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one bulid stack is {} ",JacksonUtils.obj2String(stackOutInfo));
+            }
+            if (stackOutInfo == null) {
+                log.debug("adminGetSaleDetail cannot find stackOutInfo from db and build one fail  ");
                 adminGetSaleDetail.add(adminGetSaleDetail1);
 
-                continue;
             }
             StoreInfo storeInfo = storeInfoMapper.selectByStoreId(stackOutInfo.getStoreId());
             if (storeInfo == null) {
@@ -97,7 +101,9 @@ import java.util.*;
             adminGetSaleDetail1.setFreightPrice(stackOutInfo.getFreightPrice());
             LocationInfo loanInfo = locationInfoMapper.selectByLocationId(stackOutInfo.getFromLocation());
             adminGetSaleDetail1.setFromLocation(loanInfo == null ? "" : loanInfo.getLocation());
+            adminGetSaleDetail1.setShowStackInfo(1);
             adminGetSaleDetail.add(adminGetSaleDetail1);
+
         }
         return adminGetSaleDetail;
 
@@ -116,6 +122,11 @@ import java.util.*;
             return adminGetSaleDetail1;
         }
         StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(saleOrder.getOutStackId());
+        if (stackOutInfo == null) {
+            stackOutInfo  = outStackService.buildSystemDefaultOutStackInfo(saleOrder);
+            log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one,build info is {}",JacksonUtils.obj2String(stackOutInfo));
+            return adminGetSaleDetail1;
+        }
         if (stackOutInfo == null) {
             log.debug("adminGetSaleDetail cannot find stackOutInfo from db ");
             return adminGetSaleDetail1;
@@ -162,6 +173,7 @@ import java.util.*;
                 otherInfos.add(otherInfo);
             });
             adminGetSaleDetail1.setFreightAndIncome(otherInfos);
+            adminGetSaleDetail1.setShowStackInfo(1);
         }
         return adminGetSaleDetail1;
     }

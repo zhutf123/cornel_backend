@@ -25,8 +25,12 @@ import java.math.BigDecimal;
     private String unitPrice;
     private String unitWeight;
     private String status;
-    @JsonIgnore
-    private String outStackId;
+
+    private int showStackInfo=1;
+    @JsonIgnore private String commodityId;
+    @JsonIgnore private String receiveLocationId;
+
+    @JsonIgnore private String outStackId;
     private String storeId; //库存ID
     private String fromLocation;// 发货地
     private BigDecimal buyingPrice;//货品买入价格
@@ -40,6 +44,5 @@ import java.math.BigDecimal;
     private String payReview;
     private String payTime;
     private BigDecimal actualPay;
-
 
 }
