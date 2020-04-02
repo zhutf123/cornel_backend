@@ -155,7 +155,7 @@ import java.util.*;
                 log.error("editSpecialOfferSheet fail due to quote not find");
                 return false;
             }
-            BeanUtils.copyProperties(oldOfferSys, newSpe)
+            BeanUtils.copyProperties(oldOfferSys, newSpe);
         } else {
             BeanUtils.copyProperties(oldOffer, newSpe);
             alreadyExist = true;
