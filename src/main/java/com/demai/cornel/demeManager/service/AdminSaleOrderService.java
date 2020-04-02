@@ -80,7 +80,7 @@ import java.util.*;
             if (stackOutInfo == null) {
                 log.debug("adminGetSaleDetail cannot find stackOutInfo from db and build one fail  ");
                 adminGetSaleDetail.add(adminGetSaleDetail1);
-
+                continue;
             }
             StoreInfo storeInfo = storeInfoMapper.selectByStoreId(stackOutInfo.getStoreId());
             if (storeInfo == null) {
