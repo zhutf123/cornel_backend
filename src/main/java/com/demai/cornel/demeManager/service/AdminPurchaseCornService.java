@@ -4,9 +4,12 @@ import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.model.ReviewModel;
 import com.demai.cornel.purcharse.dao.BuyerInfoMapper;
 import com.demai.cornel.purcharse.dao.OfferSheetMapper;
+import com.demai.cornel.purcharse.dao.SpecialSaleInfoMapper;
 import com.demai.cornel.purcharse.model.OfferSheet;
 import com.demai.cornel.purcharse.model.SaleOrder;
+import com.demai.cornel.purcharse.model.SpecialSaleInfo;
 import com.demai.cornel.purcharse.vo.GetSystemOfferResp;
+import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -28,6 +31,7 @@ import java.util.*;
 @Slf4j @Service public class AdminPurchaseCornService {
     @Resource private OfferSheetMapper offerSheetMapper;
     @Resource private BuyerInfoMapper buyerInfoMapper;
+    @Resource private SpecialSaleInfoMapper specialSaleInfoMapper;
 
     /**
      * 管理员获取系统的报价list
@@ -141,46 +145,48 @@ import java.util.*;
         if (!checkQuoteParam(quoteInfo)) {
             return false;
         }
-        OfferSheet oldOffer = offerSheetMapper
+        SpecialSaleInfo oldOffer = specialSaleInfoMapper
                 .selectSpecilaByCommodityIdAndUserId(quoteInfo.getCommodityId(), quoteInfo.getUserId());
+        SpecialSaleInfo newSpe = new SpecialSaleInfo();
         boolean alreadyExist = false;
         if (oldOffer == null) {
-            oldOffer = offerSheetMapper.selectByCommodityId(quoteInfo.getCommodityId());
+            OfferSheet oldOfferSys = offerSheetMapper.selectByCommodityId(quoteInfo.getCommodityId());
+            if (oldOfferSys == null) {
+                log.error("editSpecialOfferSheet fail due to quote not find");
+                return false;
+            }
+            BeanUtils.copyProperties(oldOfferSys, newSpe)
         } else {
+            BeanUtils.copyProperties(oldOffer, newSpe);
             alreadyExist = true;
         }
-        if (oldOffer == null) {
-            log.warn("edit special offer sheet fail due to old sheet not found");
-            return false;
-        }
-        OfferSheet newOff = new OfferSheet();
-        BeanUtils.copyProperties(oldOffer, newOff);
-        newOff.setOfferId(UUID.randomUUID().toString());
-        newOff.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        newOff.setTargetUserId(quoteInfo.getUserId());
-        newOff.setPrice(quoteInfo.getSelfQuote());
+        newSpe.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        newSpe.setReviewUser(CookieAuthUtils.getCurrentUser());
+        newSpe.setId(null);
+        newSpe.setPrice(quoteInfo.getSelfQuote());
+        newSpe.setTargetUserId(quoteInfo.getUserId());
+        newSpe.setStatus(1);
         if (alreadyExist) {
-            int res = offerSheetMapper
-                    .updateOfferStatusByCommodityIdAndUserId(newOff.getCommodityId(), newOff.getTargetUserId());
-            if (res != 0) {
+            int res = specialSaleInfoMapper
+                    .updateOfferStatusByCommodityIdAndUserId(newSpe.getCommodityId(), newSpe.getTargetUserId());
+            if (res == 0) {
                 log.warn("edit special offer sheet fail due to update old sheet fail ");
                 return false;
             }
-            int resInser = offerSheetMapper.insertSelective(newOff);
-            if (resInser != 0) {
+            int resInser = specialSaleInfoMapper.insertSelective(newSpe);
+            if (resInser != 1) {
                 log.warn("edit special offer sheet fail due to insert new sheet fail ");
                 return false;
             }
             return true;
         }
-        int resInser = offerSheetMapper.insertSelective(newOff);
-        if (resInser != 0) {
+        int resInser = specialSaleInfoMapper.insertSelective(newSpe);
+        if (resInser != 1) {
             log.warn("edit special offer sheet fail due to insert new sheet fail ");
             return false;
         }
         return true;
     }
-
 
     public List<ReviewModel> getReviewErrOpt() {
         List<ReviewModel> reviewModels = new ArrayList<>();
@@ -192,7 +198,5 @@ import java.util.*;
         });
         return reviewModels;
     }
-
-
 
 }

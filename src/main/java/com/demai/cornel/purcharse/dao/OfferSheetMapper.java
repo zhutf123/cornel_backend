@@ -1,7 +1,11 @@
 package com.demai.cornel.purcharse.dao;
 
 import com.demai.cornel.demeManager.vo.AdminGetSysOffResp;
-import com.demai.cornel.purcharse.model.OfferSheet;import com.demai.cornel.purcharse.vo.GetSystemOfferResp;import org.apache.ibatis.annotations.Param;import java.util.List;
+import com.demai.cornel.purcharse.model.OfferSheet;
+import com.demai.cornel.purcharse.vo.GetSystemOfferResp;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @Author binz.zhang
@@ -23,20 +27,20 @@ public interface OfferSheetMapper {
     List<GetSystemOfferResp> getSystemOfferSheet(@Param("offerId") String offerId, @Param("pgSize") Integer pgSize);
 
     List<AdminGetSysOffResp> adminGetSysOfferSheet();
+
     OfferSheet selectByOfferId(@Param("offerId") String offerId);
-
-
 
     OfferSheet selectByCommodityId(@Param("commodityId") String commodityId);
 
-
     int updateOfferStatusByCommodityId(@Param("commodityId") String commodityId);
 
+    int updateOfferStatusByCommodityIdAndUserId(@Param("commodityId") String commodityId,
+            @Param("userId") String userId);
 
-    int updateOfferStatusByCommodityIdAndUserId(@Param("commodityId") String commodityId,@Param("userId")String userId);
+    OfferSheet selectSpecilaByCommodityIdAndUserId(@Param("commodityId") String commodityId,
+            @Param("userId") String userId);
 
-
-    OfferSheet selectSpecilaByCommodityIdAndUserId(@Param("commodityId") String commodityId,@Param("userId")String userId);
-
+    List<GetSystemOfferResp> getSystemOfferSheetAndUserId(@Param("offerId") String offerId,
+            @Param("pgSize") Integer pgSize, @Param("userId") String userId);
 
 }

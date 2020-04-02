@@ -32,6 +32,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author binz.zhang
@@ -47,6 +48,8 @@ import java.util.*;
     @Resource private PurchaseInfoMapper purchaseInfoMapper;
     @Resource private WaybillInfoMapper waybillInfoMapper;
     @Resource private OrderInfoDao orderInfoDao;
+    @Resource private SpecialSaleInfoMapper specialSaleInfoMapper;
+
     @Resource private OutStackService outStackService;
     private static String TIME_FORMAT = "yyyy-MM-dd";
     private static List<BigDecimal> PURCHASE_BARGAIN = new ArrayList<>();
@@ -69,7 +72,29 @@ import java.util.*;
         List<GetSystemOfferResp> getSystemOfferReqs = offerSheetMapper
                 .getSystemOfferSheet(getSystemOfferReq.getOfferId(),
                         Optional.ofNullable(getSystemOfferReq.getPgSize()).orElse(10));
-        buildSystemQuoteDetail(getSystemOfferReqs);
+        if (getSystemOfferReq == null) {
+            return Collections.EMPTY_LIST;
+        }
+        List<GetSystemOfferResp> specialSale = specialSaleInfoMapper
+                .getSystemOfferSheet(CookieAuthUtils.getCurrentUser());
+        HashMap<String, BigDecimal> specialMap = new HashMap<>();
+        if (specialSale != null) {
+            specialMap = (HashMap<String, BigDecimal>) specialSale.stream()
+                    .collect(Collectors.toMap(GetSystemOfferResp::getCommodityId, GetSystemOfferResp::getPrice));
+        }
+        HashMap<String, BigDecimal> finalSpecialMap = specialMap;
+        getSystemOfferReqs.stream().forEach(x -> {
+            if (finalSpecialMap.containsKey(x.getCommodityId())) {
+                x.setPrice(finalSpecialMap.get(x.getCommodityId()));
+            }
+            List<GetSystemOfferResp.Detail> details = new LinkedList<>();
+            details.add(new GetSystemOfferResp.Detail("质量标准",
+                    Lists.newArrayList(GerQuoteListResp.convertProperties(x.getProperties()))));
+            details.add(new GetSystemOfferResp.Detail("单价",
+                    Lists.newArrayList(x.getPrice().toString() + " /" + x.getUnitPrice())));
+            details.add(new GetSystemOfferResp.Detail("注意事项", x.getNotice()));
+            x.setDetail(details);
+        });
         return CollectionUtils.isEmpty(getSystemOfferReqs) ? Lists.newArrayList() : getSystemOfferReqs;
 
     }

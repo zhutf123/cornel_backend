@@ -19,7 +19,7 @@ import java.util.Map;
     private String commodityId; // 商品ID
     private BigDecimal price;     //价格
     private String unitPrice; //价格单位
-    private String unitWeight="吨"; //价格单位
+    private String unitWeight = "吨"; //价格单位
     private String commodityName;  //商品名称
     private String location;//发货地
     private BigDecimal minBuyWeight;//最少购买量
@@ -27,7 +27,7 @@ import java.util.Map;
     private List<GetSystemOfferResp.Detail> detail; //报价详情
     @JsonIgnore private List<String> notice; //注意事项
     @JsonIgnore private Map<String, String> commodityProperties;
-
+    @JsonIgnore private String targetUserId;
 
     public void setCommodityProperties(Map<String, String> commodityProperties) {
         this.commodityProperties = commodityProperties;
@@ -38,6 +38,7 @@ import java.util.Map;
             });
         }
     }
+
     @Data public static class Detail {
         private String title;
         private Object values;
