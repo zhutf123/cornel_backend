@@ -93,6 +93,7 @@ import java.util.UUID;
         taskInfo.setSupplierMobile(storeKeeper.getMobile());
         taskInfo.setTaskId(TaskInfo.TASK_PREX_ENUE.SALE.getValue() + UUID.randomUUID().toString());
         taskInfo.setStatus(TaskInfo.STATUS_ENUE.TASK_ING.getValue());
+        taskInfo.setUnitWeightPrice(freightInfo.getPrice());
         taskInfo.setWeight(saleOrder.getWeight());
         taskInfo.setUnitWeight(saleOrder.getUnitWeight());
         taskInfo.setEstimatePrice(stackOutInfo.getFreightPrice());
