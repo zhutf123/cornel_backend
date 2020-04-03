@@ -697,20 +697,20 @@
     <select id="selectSaleView" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleListResp">
       select sum(order_price) as totalPrice,sum (weight) as totalWeight,count(*) as orderNum,view_status as status from sale_order where view_status!=0 group by view_status order by view_status;
     </select>
-    <select id="AdminGetSaleOrderList" resultMap="admin_detail_map">
-        select
-        <include refid="admin_detail_List"/>
-        from sale_order s left join location_info l on l.location_id=s.receive_location
-        left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0
-        order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;
-    </select>
-    <select id="selectSaleList" resultMap="admin_detail_map">
-        select
-        <include refid="admin_detail_List"/>
-        from sale_order s left join location_info l on l.location_id=s.receive_location
-        left join commodity_list c on s.commodity_id=c.commodity_id where s.status!=0
-        and order_id=#{orderId} ;
-    </select>
+<!--    <select id="AdminGetSaleOrderList" resultMap="admin_detail_map">-->
+<!--        select-->
+<!--        <include refid="admin_detail_List"/>-->
+<!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->
+<!--        left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0-->
+<!--        order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;-->
+<!--    </select>-->
+<!--    <select id="selectSaleList" resultMap="admin_detail_map">-->
+<!--        select-->
+<!--        <include refid="admin_detail_List"/>-->
+<!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->
+<!--        left join commodity_list c on s.commodity_id=c.commodity_id where s.status!=0-->
+<!--        and order_id=#{orderId} ;-->
+<!--    </select>-->
     <update id="updateStackOutStackId">
        update sale_order set out_stack_id=#{outID,jdbcType=VARCHAR} where order_id=#{outID,jdbcType=VARCHAR} ;
     </update>
