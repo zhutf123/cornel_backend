@@ -305,7 +305,7 @@
         l.location as receive_location,
         f.transport_type as transport_type_map,
         f.freight_id,
-        f.freight_price,
+        f.price as freight_price,
         st.location as from_location,
         stck.out_id as out_stack_id,
         st.buying_price,
