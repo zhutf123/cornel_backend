@@ -240,10 +240,16 @@ import java.util.concurrent.TransferQueue;
         }
         Set<String> type = Collections.EMPTY_SET;
         typeList.stream().forEach(x -> {
-            type.add(TransportType.exparOf(x).getType());
+            log.debug("..>>>>>>x =[{}]",x);
+            type.add(TransportType.exparOf(x.trim()).getType());
         });
         return type;
 
+    }
+
+    public static void main(String[] args) {
+       TransportType.TRANSPORT_TYPE_ENUM s= TransportType.exparOf("汽运");
+       System.out.println("ok");
     }
 
 }
