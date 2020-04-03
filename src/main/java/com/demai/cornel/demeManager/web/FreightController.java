@@ -73,12 +73,13 @@ import javax.annotation.Resource;
         return JsonResult.success(adminFreightService.getTransport());
     }
 
-    @RequestMapping(value = "/get-freight-type.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult adminGetFreightType() {
+        @RequestMapping(value = "/get-freight-type.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult adminGetFreightType() {
         return JsonResult.success(adminFreightService.getFreightInfo());
     }
 
     @RequestMapping(value = "/get-freight-detail.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult adminGetFreightInfo(
-            @Param("towerId") String towerId) {
+
+            @RequestBody @Param("towerId") String towerId) {
         return JsonResult.success(adminFreightService.adminGetFreight(towerId));
     }
 
