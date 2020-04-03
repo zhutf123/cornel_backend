@@ -13,7 +13,7 @@ import java.util.Set;
  */
 @Data public class AdminUpdateFreightReq {
 
-    private String towerID;
+    private String towerId;
     private String fromLocationId;
     private List<FreightUpdatelInfo> freightInfo;
 

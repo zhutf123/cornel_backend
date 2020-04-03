@@ -16,6 +16,7 @@ import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.gson.JsonObject;
 import com.hp.gagawa.java.elements.A;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -180,15 +181,17 @@ import java.util.concurrent.TransferQueue;
     }
 
     public AdminOperResp updateFreightInfo(AdminUpdateFreightReq adminUpdateFreightReq) {
+
+        log.debug("updateFreightInfo pram is {}",JacksonUtils.obj2String(adminUpdateFreightReq));
         if (adminUpdateFreightReq == null) {
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
-        if (Strings.isNullOrEmpty(adminUpdateFreightReq.getTowerID())
+        if (Strings.isNullOrEmpty(adminUpdateFreightReq.getTowerId())
                 || adminUpdateFreightReq.getFreightInfo() == null) {
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
         AdminGetFreightViewResp viewResp = dryTowerDao
-                .adminGetDryTowerFreiViewByTowerId(adminUpdateFreightReq.getTowerID());
+                .adminGetDryTowerFreiViewByTowerId(adminUpdateFreightReq.getTowerId());
         if (viewResp == null) {
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
@@ -231,6 +234,7 @@ import java.util.concurrent.TransferQueue;
             return null;
         }
         List<String> typeList = Splitter.on("+").splitToList(tranSportType);
+        log.debug("convertTranSportToSet type is {}", JacksonUtils.obj2String(typeList));
         if (typeList == null) {
             return null;
         }
