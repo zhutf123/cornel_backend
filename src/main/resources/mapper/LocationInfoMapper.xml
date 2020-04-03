@@ -85,6 +85,8 @@
                 #{locationDetail,jdbcType=VARCHAR},
             </if>
         </trim>
+        ON CONFLICT (location,location_area,location_detail)
+        do nothing;
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.LocationInfo">
         <!--@mbg.generated-->
@@ -205,8 +207,9 @@
             <if test="systemFlag != null">
                 #{systemFlag} ,
             </if>
-            ON CONFLICT (location,location_area,location_detail)
-            DO UPDATE systemFlag=#{systemFlag} ;
+
         </trim>
+        ON CONFLICT (location,location_area,location_detail)
+        DO UPDATE systemFlag=#{systemFlag} ;
     </insert>
 </mapper>
