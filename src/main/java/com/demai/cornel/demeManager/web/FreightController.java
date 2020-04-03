@@ -79,7 +79,9 @@ import javax.annotation.Resource;
 
     @RequestMapping(value = "/get-freight-detail.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult adminGetFreightInfo(
 
-            @RequestBody @Param("towerId") String towerId) {
+            @RequestBody  String param) {
+        JSONObject receivedParam = JSON.parseObject(param);
+        String  towerId = (String) receivedParam.get("towerId");
         return JsonResult.success(adminFreightService.adminGetFreight(towerId));
     }
 
