@@ -31,11 +31,11 @@ import java.util.Optional;
             return Collections.emptyList();
         }
         freightViewResps.stream().forEach(x -> {
-            x = freightInfoMapper.adminnGetOptFreightView(x.getLocationId());
-            if (x.getAverPrice() == null) {
+            AdminGetFreightViewResp adminGetFreightViewResp = freightInfoMapper.adminnGetOptFreightView(x.getLocationId());
+            if (adminGetFreightViewResp==null || adminGetFreightViewResp.getAverPrice() == null) {
                 x.setAverPrice(new BigDecimal(0));
             }
-            if (x.getMinPrice() == null) {
+            if (adminGetFreightViewResp==null || adminGetFreightViewResp.getMinPrice() == null) {
                 x.setMinPrice(new BigDecimal(0));
             }
         });
