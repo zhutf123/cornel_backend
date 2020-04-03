@@ -238,7 +238,7 @@ import java.util.concurrent.TransferQueue;
         if (typeList == null) {
             return null;
         }
-        Set<String> type = Collections.EMPTY_SET;
+        Set<String> type = new HashSet<>();
         typeList.stream().forEach(x -> {
             log.debug("..>>>>>>x =[{}]",x);
             type.add(TransportType.exparOf(x.trim()).getType());
@@ -248,8 +248,10 @@ import java.util.concurrent.TransferQueue;
     }
 
     public static void main(String[] args) {
-       TransportType.TRANSPORT_TYPE_ENUM s= TransportType.exparOf("汽运");
-       System.out.println("ok");
+
+        Set<String> type = new HashSet<>();
+        type.add(TransportType.exparOf("汽运").getType());
+
     }
 
 }
