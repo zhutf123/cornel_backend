@@ -172,6 +172,8 @@
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+
         <result column="weight" jdbcType="NUMERIC" property="weight"/>
         <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
         <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
