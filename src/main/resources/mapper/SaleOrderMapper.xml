@@ -720,7 +720,7 @@
         from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
         c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
         f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
-        where s.view_status=#{viewStatus} order by id desc offset #{offset,jdbcType=INTEGER} limit
+        where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
         #{pgSize,jdbcType=INTEGER};
     </select>
 
@@ -731,7 +731,7 @@
         from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
         c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
         f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
-        where s.view_status=#{viewStatus} order by id desc offset #{offset,jdbcType=INTEGER} limit
+        where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
         #{pgSize,jdbcType=INTEGER};
     </select>
 
@@ -742,7 +742,7 @@
         from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
         c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
         f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
-        where s.view_status=#{viewStatus} order by id desc offset #{offset,jdbcType=INTEGER} limit
+        where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
         #{pgSize,jdbcType=INTEGER};
     </select>
     <select id="AdminGetFinishSaleOrderList" resultMap="admin_finish_list">
@@ -751,7 +751,7 @@
         from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
         c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
         f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
-        where s.view_status=#{viewStatus} order by id desc offset #{offset,jdbcType=INTEGER} limit
+        where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
         #{pgSize,jdbcType=INTEGER};
     </select>
     <select id="adminGetUnRevSaleDetail" resultMap="admin_unre_detail">
