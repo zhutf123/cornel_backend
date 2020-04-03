@@ -198,7 +198,7 @@ import java.util.concurrent.TransferQueue;
         adminUpdateFreightReq.getFreightInfo().stream().forEach(x -> {
             FreightInfo freightInfo = new FreightInfo();
             freightInfo.setPrice(x.getTotalPrice());
-            freightInfo.setFromLocation(viewResp.getLocation());
+            freightInfo.setFromLocation(viewResp.getLocationId());
             freightInfo.setTransportType(convertTranSportToSet(x.getTransportType()));
             freightInfo.setExInfo(x.getExInfo() == null ? null : JSONObject.toJSONString(x.getExInfo()));
             freightInfo.setReviewUser(CookieAuthUtils.getCurrentUser());
