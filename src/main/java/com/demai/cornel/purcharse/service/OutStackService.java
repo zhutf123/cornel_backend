@@ -39,7 +39,7 @@ import java.util.UUID;
         FreightInfo optimumFreight = null;
         for (StoreInfo storeInfo : storeInfos) {
             FreightInfo freightInfo = locationService
-                    .getPriceOptimum(storeInfo.getLocationId(), saleOrder.getReceiveLocation());
+                    .getPriceOptimum(storeInfo.getLocationId(), saleOrder.getReceiveLocationId());
             if (freightInfo != null && freightInfo.getPrice() != null) {
                 BigDecimal totalPrice = storeInfo.getBuyingPrice().add(freightInfo.getPrice())
                         .add(storeInfo.getCapitalCost());
