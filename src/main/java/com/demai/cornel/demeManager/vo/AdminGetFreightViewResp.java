@@ -17,4 +17,6 @@ public class AdminGetFreightViewResp {
     private BigDecimal minPrice;//最小运费
     private String towerId;// 烘干塔ID
     private String location;
+    private String contactUser;
+    private String mobile;
 }
