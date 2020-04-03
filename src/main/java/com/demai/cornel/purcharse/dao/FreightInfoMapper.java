@@ -30,7 +30,6 @@ public interface FreightInfoMapper {
 
     List<FreightInfo> selectFreights(@Param("from") String from, @Param("to") String to);
 
-    List<AdminGetFreightViewResp> adminnGetFreightView(@Param("offset") Integer offset,
-            @Param("pgSize") Integer pgSzie);
+    AdminGetFreightViewResp adminnGetOptFreightView(@Param("fromLocationId")String fromLocationId);
 
 }

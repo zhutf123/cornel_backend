@@ -166,8 +166,8 @@
         <include refid="Base_Column_List"/>
         from freight_info where freight_id=#{FreightId} ;
     </select>
-    <select id="adminnGetFreightView" resultType="com.demai.cornel.demeManager.vo.AdminGetFreightViewResp">
-      select d.company as company,d.location as location,sum(f.price)/count(*) as aver_price,min(f.price) as min_price,d.tower_id as tower_id
-      from dry_tower d left join freight_info f on f.from_location=d.location_id where d.status=1 order by d.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;
+    <select id="adminnGetOptFreightView" resultType="com.demai.cornel.demeManager.vo.AdminGetFreightViewResp">
+      select sum(f.price)/count(*) as aver_price,min(f.price) as min_price
+       from freight_info where from_location=#{fromLocationId,jdbcType=VARCHAR} ;
     </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.demai.cornel.demeManager.service;
 
+import com.demai.cornel.dao.DryTowerDao;
 import com.demai.cornel.demeManager.vo.AdminGetFreightViewResp;
 import com.demai.cornel.purcharse.dao.FreightInfoMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -17,15 +18,20 @@ import java.util.Optional;
  */
 @Service @Slf4j public class AdminFreightService {
     @Resource private FreightInfoMapper freightInfoMapper;
+    @Resource private DryTowerDao dryTowerDao;
 
     public List<AdminGetFreightViewResp> adminGetFreightView(Integer offset, Integer pgSize) {
 
-        List<AdminGetFreightViewResp> freightViewResps = freightInfoMapper
-                .adminnGetFreightView(Optional.ofNullable(offset).orElse(0), Optional.ofNullable(pgSize).orElse(0));
+        List<AdminGetFreightViewResp> freightViewResps = dryTowerDao.adminGetDryTower(offset, pgSize);
+        if (freightViewResps == null) {
+            return Collections.EMPTY_LIST;
+        }
+
         if (freightViewResps == null) {
             return Collections.emptyList();
         }
         freightViewResps.stream().forEach(x -> {
+            x = freightInfoMapper.adminnGetOptFreightView(x.getLocationId());
             if (x.getAverPrice() == null) {
                 x.setAverPrice(new BigDecimal(0));
             }

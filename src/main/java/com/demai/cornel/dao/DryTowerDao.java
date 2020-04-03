@@ -1,5 +1,6 @@
 package com.demai.cornel.dao;
 
+import com.demai.cornel.demeManager.vo.AdminGetFreightViewResp;
 import com.demai.cornel.model.DryTower;
 import org.apache.ibatis.annotations.Param;
 
@@ -38,4 +39,6 @@ public interface DryTowerDao {
 
     List<DryTower> selectAllTower(@Param("towerId")String towerId,@Param("pgSize")Integer pgSize);
 
+
+    List<AdminGetFreightViewResp> adminGetDryTower(@Param("pgSize")Integer pgSize,@Param("offset")Integer offset);
 }
