@@ -7,6 +7,7 @@ import com.demai.cornel.purcharse.model.*;
 import com.demai.cornel.purcharse.service.OutStackService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.vo.JsonResult;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -29,7 +30,12 @@ import java.util.*;
     @Resource private FreightInfoMapper freightInfoMapper;
     @Resource private SaleStackOutService saleStackOutService;
     @Resource private OutStackService outStackService;
-
+    @Resource private AdminApprovedService adminApprovedService;
+    @Resource private AdminFinishService adminFinishService;
+    @Resource private AdminRejectSaleService adminRejectSaleService;
+    @Resource private AdminUnderPayService adminUnderPayService;
+    @Resource private SaleUnderReviewService saleUnderReviewService;
+    @Resource private AdminRuningSaleService adminRuningSaleService;
     public List<AdminGetSaleListResp> getSaleView() {
         List<AdminGetSaleListResp> saleListResps = saleOrderMapper.selectSaleView();
         return CollectionUtils.isEmpty(saleListResps) ? Collections.EMPTY_LIST : saleListResps;
@@ -55,124 +61,162 @@ import java.util.*;
      * @param
      * @return
      */
-    public List<AdminGetSaleList> adminGetSaleByStatus(Integer status, Integer offset, Integer pgSize) {
-        List<AdminGetSaleList> saleOrder = saleOrderMapper
-                .AdminGetSaleOrderList(status, Optional.ofNullable(pgSize).orElse(10),
-                        Optional.ofNullable(offset).orElse(0));
-        if (saleOrder == null) {
-            log.warn("adminGetSaleDetail fail due to order invalid");
-            return Collections.EMPTY_LIST;
+    public JsonResult adminGetSaleByStatus(Integer status, Integer offset, Integer pgSize) {
+        //        List<AdminGetSaleList> saleOrder = saleOrderMapper
+        //                .AdminGetSaleOrderList(status, Optional.ofNullable(pgSize).orElse(10),
+        //                        Optional.ofNullable(offset).orElse(0));
+        //        if (saleOrder == null) {
+        //            log.warn("adminGetSaleDetail fail due to order invalid");
+        //            return Collections.EMPTY_LIST;
+        //        }
+        //        List<AdminGetSaleList> adminGetSaleDetail = new ArrayList<>(saleOrder.size());
+        //        for (AdminGetSaleList list : saleOrder) {
+        //            AdminGetSaleDetail adminGetSaleDetail1 = new AdminGetSaleDetail();
+        //            BeanUtils.copyProperties(list, adminGetSaleDetail1);
+        //
+        //            StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(list.getOutStackId());
+        //            if (stackOutInfo == null) {
+        //                stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(list);
+        //                log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one bulid stack is {} ",
+        //                        JacksonUtils.obj2String(stackOutInfo));
+        //            }
+        //            if (stackOutInfo == null) {
+        //                log.debug("adminGetSaleDetail cannot find stackOutInfo from db and build one fail  ");
+        //                adminGetSaleDetail.add(adminGetSaleDetail1);
+        //                continue;
+        //            }
+        //            StoreInfo storeInfo = storeInfoMapper.selectByStoreId(stackOutInfo.getStoreId());
+        //            if (storeInfo == null) {
+        //                log.debug("adminGetSaleDetail cannot find storeInfo from db ");
+        //                adminGetSaleDetail.add(adminGetSaleDetail1);
+        //                continue;
+        //            }
+        //            FreightInfo freightInfo = freightInfoMapper.selectByFreightId(stackOutInfo.getFreightInfoId());
+        //            if (freightInfo != null && freightInfo.getTransportType() != null) {
+        //                StringBuilder stringBuilder = new StringBuilder();
+        //                freightInfo.getTransportType().stream().forEach(x -> {
+        //                    stringBuilder.append(TransportType.typeOf(x).getExpr());
+        //                });
+        //                adminGetSaleDetail1.setTransportType(stringBuilder.toString());
+        //            }
+        //            adminGetSaleDetail1.setStoreId(stackOutInfo.getStoreId());
+        //            adminGetSaleDetail1.setBuyingPrice(storeInfo.getBuyingPrice());
+        //            adminGetSaleDetail1.setCapitalCost(storeInfo.getCapitalCost());
+        //            adminGetSaleDetail1.setFreightId(stackOutInfo.getFreightInfoId());
+        //            adminGetSaleDetail1.setFreightPrice(stackOutInfo.getFreightPrice());
+        //            LocationInfo loanInfo = locationInfoMapper.selectByLocationId(stackOutInfo.getFromLocation());
+        //            adminGetSaleDetail1.setFromLocation(loanInfo == null ? "" : loanInfo.getLocation());
+        //            adminGetSaleDetail1.setShowStackInfo(1);
+        //            adminGetSaleDetail.add(adminGetSaleDetail1);
+        //        }
+        switch (status) {
+        case 1:
+            return saleUnderReviewService.adminGetSaleList(status, offset, pgSize);
+        case 2:
+            return adminApprovedService.adminGetSaleList(status, offset, pgSize);
+        case 3:
+            return adminRejectSaleService.adminGetSaleList(status, offset, pgSize);
+        case 4:
+            return adminRuningSaleService.adminGetSaleList(status, offset, pgSize);
+        case 5:
+            return adminUnderPayService.adminGetSaleList(status, offset, pgSize);
+        case 6:
+            return adminFinishService.adminGetSaleList(status, offset, pgSize);
+        case 7:
+            return adminFinishService.adminGetSaleList(status, offset, pgSize);
+        default:
+            throw new IllegalStateException("Unexpected value: " + status);
         }
-        List<AdminGetSaleList> adminGetSaleDetail = new ArrayList<>(saleOrder.size());
-        for (AdminGetSaleList list : saleOrder) {
-            AdminGetSaleDetail adminGetSaleDetail1 = new AdminGetSaleDetail();
-            BeanUtils.copyProperties(list, adminGetSaleDetail1);
-
-            StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(list.getOutStackId());
-            if (stackOutInfo == null) {
-                stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(list);
-                log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one bulid stack is {} ",
-                        JacksonUtils.obj2String(stackOutInfo));
-            }
-            if (stackOutInfo == null) {
-                log.debug("adminGetSaleDetail cannot find stackOutInfo from db and build one fail  ");
-                adminGetSaleDetail.add(adminGetSaleDetail1);
-                continue;
-            }
-            StoreInfo storeInfo = storeInfoMapper.selectByStoreId(stackOutInfo.getStoreId());
-            if (storeInfo == null) {
-                log.debug("adminGetSaleDetail cannot find storeInfo from db ");
-                adminGetSaleDetail.add(adminGetSaleDetail1);
-                continue;
-            }
-            FreightInfo freightInfo = freightInfoMapper.selectByFreightId(stackOutInfo.getFreightInfoId());
-            if (freightInfo != null && freightInfo.getTransportType() != null) {
-                StringBuilder stringBuilder = new StringBuilder();
-                freightInfo.getTransportType().stream().forEach(x -> {
-                    stringBuilder.append(TransportType.typeOf(x).getExpr());
-                });
-                adminGetSaleDetail1.setTransportType(stringBuilder.toString());
-            }
-            adminGetSaleDetail1.setStoreId(stackOutInfo.getStoreId());
-            adminGetSaleDetail1.setBuyingPrice(storeInfo.getBuyingPrice());
-            adminGetSaleDetail1.setCapitalCost(storeInfo.getCapitalCost());
-            adminGetSaleDetail1.setFreightId(stackOutInfo.getFreightInfoId());
-            adminGetSaleDetail1.setFreightPrice(stackOutInfo.getFreightPrice());
-            LocationInfo loanInfo = locationInfoMapper.selectByLocationId(stackOutInfo.getFromLocation());
-            adminGetSaleDetail1.setFromLocation(loanInfo == null ? "" : loanInfo.getLocation());
-            adminGetSaleDetail1.setShowStackInfo(1);
-            adminGetSaleDetail.add(adminGetSaleDetail1);
-
-        }
-        return adminGetSaleDetail;
 
     }
 
-    public AdminGetSaleDetail adminGetSaleDetail(String orderId) {
-        AdminGetSaleList saleOrder = saleOrderMapper.selectSaleList(orderId);
-        if (saleOrder == null) {
-            log.warn("adminGetSaleDetail fail due to order invalid");
-            return AdminGetSaleDetail.builder().optStatus(AdminGetSaleDetail.STATUS_ENUE.ORDER_INVALID.getValue())
-                    .build();
-        }
-        AdminGetSaleDetail adminGetSaleDetail1 = new AdminGetSaleDetail();
-        BeanUtils.copyProperties(saleOrder, adminGetSaleDetail1);
+    public JsonResult adminGetSaleDetail(String orderId) {
 
-        StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(saleOrder.getOutStackId());
-        if (stackOutInfo == null) {
-            stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(saleOrder);
-            log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one,build info is {}",
-                    JacksonUtils.obj2String(stackOutInfo));
-        }
-        if (stackOutInfo == null) {
-            log.debug("adminGetSaleDetail cannot find stackOutInfo from db ");
-            return adminGetSaleDetail1;
-        }
-        StoreInfo storeInfo = storeInfoMapper.selectByStoreId(stackOutInfo.getStoreId());
-        if (storeInfo == null) {
-            log.debug("adminGetSaleDetail cannot find storeInfo from db ");
-            return adminGetSaleDetail1;
-        }
+        Integer status = saleOrderMapper.selectSaleOrderViewStatus(orderId);
 
-        FreightInfo freightInfo = freightInfoMapper.selectByFreightId(stackOutInfo.getFreightInfoId());
-        if (freightInfo != null && freightInfo.getTransportType() != null) {
-            StringBuilder stringBuilder = new StringBuilder();
-            freightInfo.getTransportType().stream().forEach(x -> {
-                stringBuilder.append(TransportType.typeOf(x).getExpr());
-            });
-            adminGetSaleDetail1.setTransportType(stringBuilder.toString());
+        switch (status){
+        case 1:
+            return saleUnderReviewService.adminGetSaleDetail(orderId);
+        case 2:
+            return adminApprovedService.adminGetSaleDetail(orderId);
+        case 3:
+            return saleUnderReviewService.adminGetSaleDetail(orderId);
+        case 4:
+            return adminRuningSaleService.adminGetSaleDetail(orderId);
+        case 5:
+            return adminUnderPayService.adminGetSaleDetail(orderId);
+        case 6:
+            return adminFinishService.adminGetSaleDetail(orderId);
+        case 7:
+            return adminFinishService.adminGetSaleDetail(orderId);
+        default:
+            throw new IllegalStateException("Unexpected value: " + status);
         }
-        adminGetSaleDetail1.setStoreId(stackOutInfo.getStoreId());
-        adminGetSaleDetail1.setBuyingPrice(storeInfo.getBuyingPrice());
-        adminGetSaleDetail1.setCapitalCost(storeInfo.getCapitalCost());
-        adminGetSaleDetail1.setFreightId(stackOutInfo.getFreightInfoId());
-        adminGetSaleDetail1.setFreightPrice(stackOutInfo.getFreightPrice());
-        LocationInfo loanInfo = locationInfoMapper.selectByLocationId(stackOutInfo.getFromLocation());
-        adminGetSaleDetail1.setFromLocation(loanInfo == null ? "" : loanInfo.getLocation());
-
-        List<FreightInfo> freightInfos = freightInfoMapper
-                .selectFreights(stackOutInfo.getReceiveLocation(), stackOutInfo.getFromLocation());
-        if (freightInfos != null) {
-            List<AdminGetOutStackInfo.OtherInfo> otherInfos = new ArrayList<>(freightInfos.size());
-            freightInfos.stream().forEach(fiT -> {
-                AdminGetOutStackInfo.OtherInfo otherInfo = new AdminGetOutStackInfo.OtherInfo();
-                otherInfo.setFreightId(fiT.getFreightId());
-                otherInfo.setFreightPrice(fiT.getPrice());
-                if (fiT != null && fiT.getTransportType() != null) {
-                    StringBuilder stringBuilder = new StringBuilder("");
-                    fiT.getTransportType().stream().forEach(xT -> {
-                        stringBuilder.append(TransportType.typeOf(xT).getExpr()).append("+");
-                    });
-                    otherInfo.setTransportType(stringBuilder.toString().substring(0, stringBuilder.lastIndexOf("+")));
-                }
-                otherInfo.setInCome(
-                        saleOrder.getCommodityPrice().subtract(fiT.getPrice()).subtract(storeInfo.getBuyingPrice()));
-                otherInfos.add(otherInfo);
-            });
-            adminGetSaleDetail1.setFreightAndIncome(otherInfos);
-            adminGetSaleDetail1.setShowStackInfo(1);
-        }
-        return adminGetSaleDetail1;
+//        AdminGetSaleList saleOrder = saleOrderMapper.selectSaleList(orderId);
+//        if (saleOrder == null) {
+//            log.warn("adminGetSaleDetail fail due to order invalid");
+//            return AdminGetSaleDetail.builder().optStatus(AdminGetSaleDetail.STATUS_ENUE.ORDER_INVALID.getValue())
+//                    .build();
+//        }
+//        AdminGetSaleDetail adminGetSaleDetail1 = new AdminGetSaleDetail();
+//        BeanUtils.copyProperties(saleOrder, adminGetSaleDetail1);
+//
+//        StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(saleOrder.getOutStackId());
+//        if (stackOutInfo == null) {
+//            stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(saleOrder);
+//            log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one,build info is {}",
+//                    JacksonUtils.obj2String(stackOutInfo));
+//        }
+//        if (stackOutInfo == null) {
+//            log.debug("adminGetSaleDetail cannot find stackOutInfo from db ");
+//            return adminGetSaleDetail1;
+//        }
+//        StoreInfo storeInfo = storeInfoMapper.selectByStoreId(stackOutInfo.getStoreId());
+//        if (storeInfo == null) {
+//            log.debug("adminGetSaleDetail cannot find storeInfo from db ");
+//            return adminGetSaleDetail1;
+//        }
+//
+//        FreightInfo freightInfo = freightInfoMapper.selectByFreightId(stackOutInfo.getFreightInfoId());
+//        if (freightInfo != null && freightInfo.getTransportType() != null) {
+//            StringBuilder stringBuilder = new StringBuilder();
+//            freightInfo.getTransportType().stream().forEach(x -> {
+//                stringBuilder.append(TransportType.typeOf(x).getExpr());
+//            });
+//            adminGetSaleDetail1.setTransportType(stringBuilder.toString());
+//        }
+//        adminGetSaleDetail1.setStoreId(stackOutInfo.getStoreId());
+//        adminGetSaleDetail1.setBuyingPrice(storeInfo.getBuyingPrice());
+//        adminGetSaleDetail1.setCapitalCost(storeInfo.getCapitalCost());
+//        adminGetSaleDetail1.setFreightId(stackOutInfo.getFreightInfoId());
+//        adminGetSaleDetail1.setFreightPrice(stackOutInfo.getFreightPrice());
+//        LocationInfo loanInfo = locationInfoMapper.selectByLocationId(stackOutInfo.getFromLocation());
+//        adminGetSaleDetail1.setFromLocation(loanInfo == null ? "" : loanInfo.getLocation());
+//
+//        List<FreightInfo> freightInfos = freightInfoMapper
+//                .selectFreights(stackOutInfo.getReceiveLocation(), stackOutInfo.getFromLocation());
+//        if (freightInfos != null) {
+//            List<AdminGetOutStackInfo.OtherInfo> otherInfos = new ArrayList<>(freightInfos.size());
+//            freightInfos.stream().forEach(fiT -> {
+//                AdminGetOutStackInfo.OtherInfo otherInfo = new AdminGetOutStackInfo.OtherInfo();
+//                otherInfo.setFreightId(fiT.getFreightId());
+//                otherInfo.setFreightPrice(fiT.getPrice());
+//                if (fiT != null && fiT.getTransportType() != null) {
+//                    StringBuilder stringBuilder = new StringBuilder("");
+//                    fiT.getTransportType().stream().forEach(xT -> {
+//                        stringBuilder.append(TransportType.typeOf(xT).getExpr()).append("+");
+//                    });
+//                    otherInfo.setTransportType(stringBuilder.toString().substring(0, stringBuilder.lastIndexOf("+")));
+//                }
+//                otherInfo.setInCome(
+//                        saleOrder.getCommodityPrice().subtract(fiT.getPrice()).subtract(storeInfo.getBuyingPrice()));
+//                otherInfos.add(otherInfo);
+//            });
+//            adminGetSaleDetail1.setFreightAndIncome(otherInfos);
+//            adminGetSaleDetail1.setShowStackInfo(1);
+//        }
+//        return adminGetSaleDetail1;
+//        return null;
     }
 
     /**

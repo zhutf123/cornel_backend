@@ -1,6 +1,7 @@
 package com.demai.cornel.purcharse.service;
 
 import com.demai.cornel.demeManager.vo.AdminGetSaleList;
+import com.demai.cornel.demeManager.vo.AdminUnRevSaleDetail;
 import com.demai.cornel.purcharse.dao.FreightInfoMapper;
 import com.demai.cornel.purcharse.dao.StackOutInfoMapper;
 import com.demai.cornel.purcharse.dao.StoreInfoMapper;
@@ -27,7 +28,7 @@ import java.util.UUID;
     @Resource private LocationService locationService;
     @Resource private StackOutInfoMapper stackOutInfoMapper;
 
-    public StackOutInfo buildSystemDefaultOutStackInfo(SaleOrder saleOrder) {
+    public StackOutInfo buildSystemDefaultOutStackInfo(AdminUnRevSaleDetail saleOrder) {
         List<StoreInfo> storeInfos = storeInfoMapper
                 .selectStoreIdByCommodityIdAndWeight(saleOrder.getCommodityId(), saleOrder.getWeight());
         if (storeInfos == null || storeInfos.size() == 0) {
@@ -75,14 +76,18 @@ import java.util.UUID;
             return null;
         }
         saleOrder.setOutStackId(stackOutInfo.getOutId());
-        saleOrder.setEsIncome(saleOrder.getCommodityPrice().subtract(minTotalPrice));
+        saleOrder.setEsInCome(saleOrder.getCommodityPrice().subtract(minTotalPrice));
         return stackOutInfo;
     }
 
-    public StackOutInfo buildSystemDefaultOutStackInfo(AdminGetSaleList saleOrder) {
-        SaleOrder saleOrder1 = new SaleOrder();
-        BeanUtils.copyProperties(saleOrder, saleOrder1);
-        saleOrder1.setReceiveLocation(saleOrder.getReceiveLocationId());
-        return buildSystemDefaultOutStackInfo(saleOrder1);
-    }
+//    public StackOutInfo buildSystemDefaultOutStackInfo(AdminUnRevSaleDetail saleOrder) {
+//        SaleOrder saleOrder1 = new SaleOrder();
+//        BeanUtils.copyProperties(saleOrder, saleOrder1);
+//        saleOrder1.setReceiveLocation(saleOrder.getReceiveLocationId());
+//        StackOutInfo stackOutInfo = buildSystemDefaultOutStackInfo(saleOrder1);
+//        if(stackOutInfo!=null){
+//            saleOrder.setEsInCome(saleOrder1.getEsIncome());
+//            saleOrder.get(saleOrder1.getEsIncome());
+//        }
+//    }
 }

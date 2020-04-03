@@ -44,11 +44,13 @@ public interface SaleOrderMapper {
             @Param("pgSize") Integer pgSize, @Param("offset") Integer offSet);
 
 
+    Integer selectSaleOrderViewStatus(@Param("orderId") String orderId);
 
-    int updateStackOutStackId(@Param("orderId")String orderId,@Param("outID")String outId);
+    int updateStackOutStackId(@Param("orderId") String orderId, @Param("outID") String outId);
 
     /**
      * 管理员获取待审核订单list
+     *
      * @param viewStatus
      * @param pgSize
      * @param offSet
@@ -59,6 +61,7 @@ public interface SaleOrderMapper {
 
     /**
      * 管理员获取审核通过list
+     *
      * @param viewStatus
      * @param pgSize
      * @param offSet
@@ -67,4 +70,35 @@ public interface SaleOrderMapper {
     List<AdminAppSaleList> AdminGetAppSaleOrderList(@Param("viewStatus") Integer viewStatus,
             @Param("pgSize") Integer pgSize, @Param("offset") Integer offSet);
 
+    /**
+     * 管理员获取待支付list
+     *
+     * @param viewStatus
+     * @param pgSize
+     * @param offSet
+     * @return
+     */
+    List<AdminUnpaySaleList> AdminGetUnPaySaleOrderList(@Param("viewStatus") Integer viewStatus,
+            @Param("pgSize") Integer pgSize, @Param("offset") Integer offSet);
+
+    /**
+     * 管理员获取已完成list
+     *
+     * @param viewStatus
+     * @param pgSize
+     * @param offSet
+     * @return
+     */
+    List<AdminFinishSaleList> AdminGetFinishSaleOrderList(@Param("viewStatus") Integer viewStatus,
+            @Param("pgSize") Integer pgSize, @Param("offset") Integer offSet);
+
+
+
+    AdminUnRevSaleDetail adminGetUnRevSaleDetail(@Param("orderId") String orderId);
+
+
+    AdminAppSaleDetail adminGetAppSaleDetail(@Param("orderId") String orderId);
+
+
+    AdminFinishSaleDetail adminGetFinishSaleDetail(@Param("orderId") String orderId);
 }

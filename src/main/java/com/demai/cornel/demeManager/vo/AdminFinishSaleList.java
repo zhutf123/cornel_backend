@@ -1,8 +1,10 @@
 package com.demai.cornel.demeManager.vo;
 
+import com.demai.cornel.purcharse.model.TransportType;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 /**
  * @Author binz.zhang
@@ -20,5 +22,23 @@ import java.math.BigDecimal;
     private String payTime;//付款时间
     private BigDecimal actualPay;//实际付款金额
     private String exInfo;//其他信息
+
+    private Set<String> transportTypeMap;
+
+    public void setTransportTypeMap(Set<String> transportTypeMap) {
+        this.transportTypeMap = transportTypeMap;
+        if (transportTypeMap != null) {
+            StringBuilder stringBuilder = new StringBuilder();
+            transportTypeMap.stream().forEach(x -> {
+                TransportType.TRANSPORT_TYPE_ENUM stp = TransportType.typeOf(x);
+                if (stp != null) {
+                    stringBuilder.append(stp.getExpr()).append("+");
+                }
+            });
+            if (stringBuilder.toString().endsWith("+")) {
+                transportType = stringBuilder.substring(0, stringBuilder.lastIndexOf("+")).toString();
+            }
+        }
+    }
 
 }
