@@ -185,6 +185,9 @@
             <if test="systemFlag != null">
                 system_flag,
             </if>
+            <if test="status != null">
+                status,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 
@@ -203,7 +206,9 @@
             <if test="systemFlag != null">
                 #{systemFlag} ,
             </if>
-
+            <if test="status != null">
+                #{status} ,
+            </if>
         </trim>
         ON CONFLICT (location,location_area,location_detail)
         DO UPDATE systemFlag=#{systemFlag} ;

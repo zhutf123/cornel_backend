@@ -116,12 +116,20 @@ import java.util.concurrent.TransferQueue;
 
     }
 
-    public TransportType.TRANSPORT_TYPE_ENUM[] getTransport() {
-        return TransportType.TRANSPORT_TYPE_ENUM.values();
+    public List<String> getTransport() {
+        List<String> type = new ArrayList<>();
+        Arrays.stream(TransportType.TRANSPORT_TYPE_ENUM.values()).forEach(x -> {
+            type.add(x.getExpr());
+        });
+        return type;
     }
 
-    public FreightExInfo.TYPE_ENUE[] getFreightInfo() {
-        return FreightExInfo.TYPE_ENUE.values();
+    public List<AdminGetFreTypeResp> getFreightInfo() {
+        List<AdminGetFreTypeResp> typeResps = new ArrayList<>();
+        Arrays.stream(FreightExInfo.TYPE_ENUE.values()).forEach(x -> {
+            typeResps.add(new AdminGetFreTypeResp(x.getValue(), "", x.getType()));
+        });
+        return typeResps;
     }
 
     public AdminGetFreightResp adminGetFreight(String towerId) {
