@@ -1,5 +1,6 @@
 package com.demai.cornel.purcharse.dao;
 
+import com.demai.cornel.demeManager.vo.AdminLocationMode;
 import com.demai.cornel.purcharse.model.LocationInfo;import org.apache.ibatis.annotations.Param;import java.util.List;import java.util.Set;
 
 /**
@@ -24,4 +25,10 @@ public interface LocationInfoMapper {
     List<LocationInfo> getLocationInfoByLocationId(@Param("locationId") Set<String> locations);
 
     LocationInfo selectLocationIdByInfo(@Param("locationArea")String locationArea,@Param("locationDetail")String locationDetail,@Param("location")String location);
+
+   List<AdminLocationMode> getSystemLocation(@Param("offset")Integer offset,@Param("pgSize")Integer pgSize);
+    AdminLocationMode selectLocationModelByInfo(@Param("locationArea")String locationArea,@Param("locationDetail")String locationDetail,@Param("location")String location);
+
+
+    int insertSelectiveAdminLocationMode(AdminLocationMode locationMode);
 }

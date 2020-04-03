@@ -139,7 +139,9 @@
         and status=1;
     </select>
     <select id="getLocationInfoByLocationId" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/> from location_info where location_id in
+        select
+        <include refid="Base_Column_List"/>
+        from location_info where location_id in
         <if test="locationId!=null and locationId.size()&gt;0">
             <foreach close=")" collection="locationId" index="index" item="lo" open="(" separator=",">
                 #{lo}
@@ -154,4 +156,57 @@
         from location_info
         where location_id = #{locationId,jdbcType=VARCHAR} ;
     </select>
+    <select id="getSystemLocation" resultType="com.demai.cornel.demeManager.vo.AdminLocationMode">
+     select location ,location_area as locationArea,location_detail as locationDetail,location_id as locationId from location_info where status=1
+     and system_flag=1 order by id desc offset #{offset} limit #{pgSize,jdbcType=INTEGER} ;
+    </select>
+    <select id="selectLocationModelByInfo" resultType="com.demai.cornel.demeManager.vo.AdminLocationMode">
+     select location ,location_area as locationArea,location_detail as locationDetail,location_id as locationId,system_flag as systemFlag from location_info where status=1
+     and location=#{location} and location_area=#{locationArea,jdbcType=VARCHAR} and location_detail=#{locationDetail,jdbcType=VARCHAR} limit 1;
+    </select>
+    <insert id="insertSelectiveAdminLocationMode" parameterType="com.demai.cornel.demeManager.vo.AdminLocationMode">
+        insert into location_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="locationId != null">
+                location_id,
+            </if>
+            <if test="location != null">
+                "location",
+            </if>
+            <if test="locationArea != null">
+                location_area,
+            </if>
+            <if test="locationDetail != null">
+                location_detail,
+            </if>
+            <if test="systemFlag != null">
+                c,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="locationId != null">
+                #{locationId,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="locationArea != null">
+                #{locationArea,jdbcType=VARCHAR},
+            </if>
+            <if test="locationDetail != null">
+                #{locationDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="systemFlag != null">
+                #{systemFlag} ,
+            </if>
+            ON CONFLICT (location,location_area,location_detail)
+            DO UPDATE systemFlag=#{systemFlag} ;
+        </trim>
+    </insert>
 </mapper>

@@ -1,17 +1,18 @@
-package com.demai.cornel.purcharse.model;
+package com.demai.cornel.demeManager.model;
+
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
-import lombok.Data;
-
 /**
  * @Author binz.zhang
- * @Date: 2020-03-31    13:09
+ * @Date: 2020-04-03    21:23
  */
-@Data public class FreightInfo {
+@Data
+public class FreightWithToLocation {
     /**
      * 自增ID
      */
@@ -25,7 +26,7 @@ import lombok.Data;
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Timestamp createTime;
 
     /**
      * 起始地
@@ -59,6 +60,7 @@ import lombok.Data;
 
     private String exInfo;
 
-    private Timestamp updateTime;
-    private String reviewUser;
+    private String toLocationTx;
+
+    private String updateTime;
 }

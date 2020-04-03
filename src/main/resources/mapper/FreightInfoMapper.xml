@@ -13,11 +13,35 @@
         <result column="price" jdbcType="NUMERIC" property="price"/>
         <result column="cost_time" jdbcType="INTEGER" property="costTime"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="ex_info" jdbcType="VARCHAR" property="exInfo"/>
+    </resultMap>
+    <resultMap id="BaseResultMap_RE" type="com.demai.cornel.demeManager.model.FreightWithToLocation">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="freight_id" jdbcType="VARCHAR" property="freightId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
+        <result column="to_location" jdbcType="VARCHAR" property="toLocation"/>
+        <result column="transport_type" property="transportType" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="price" jdbcType="NUMERIC" property="price"/>
+        <result column="cost_time" jdbcType="INTEGER" property="costTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="ex_info" jdbcType="VARCHAR" property="exInfo"/>
+        <result column="to_location_tx" jdbcType="VARCHAR" property="toLocationTx"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, freight_id, create_time, from_location, to_location, transport_type, price, cost_time,
-        "status"
+        "status",ex_info
+    </sql>
+
+    <sql id="Base_Column_List_re">
+        <!--@mbg.generated-->
+        f.id, f.freight_id, f.create_time, f.from_location, f.to_location, f.transport_type, f.price, f.cost_time,
+        f.status,f.ex_info,l.location as to_location_tx,f.update_time
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -73,6 +97,9 @@
             <if test="status != null">
                 "status",
             </if>
+            <if test="exInfo != null">
+                ex_info,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -101,6 +128,9 @@
             </if>
             <if test="status != null">
                 #{status,jdbcType=INTEGER},
+            </if>
+            <if test="exInfo != null">
+                #{exInfo},
             </if>
         </trim>
     </insert>
@@ -131,6 +161,9 @@
             </if>
             <if test="status != null">
                 "status" = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="exInfo != null">
+                ex_info= #{exInfo},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -170,4 +203,13 @@
       select sum(price)/count(*) as averPrice,min(price) as minPrice
        from freight_info where from_location=#{fromLocationId,jdbcType=VARCHAR} limit 1;
     </select>
+    <select id="adminGetFreightWithToLocaByFromLoc" resultMap="BaseResultMap_RE">
+        select
+        <include refid="Base_Column_List_re"/>
+        from freight_info f left join location_info l on f.to_location=l.location_id where
+        from_location=#{fromLocation,jdbcType=VARCHAR} and f.status=1 order by id desc;
+    </select>
+    <update id="updateStatus">
+     update freight_info set status=0 where freight_id=#{freightId} ;
+    </update>
 </mapper>

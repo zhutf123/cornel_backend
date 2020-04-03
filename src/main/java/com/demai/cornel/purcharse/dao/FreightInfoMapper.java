@@ -1,5 +1,6 @@
 package com.demai.cornel.purcharse.dao;
 
+import com.demai.cornel.demeManager.model.FreightWithToLocation;
 import com.demai.cornel.demeManager.vo.AdminGetFreightViewResp;
 import com.demai.cornel.purcharse.model.FreightInfo;
 import org.apache.ibatis.annotations.Param;
@@ -18,6 +19,8 @@ public interface FreightInfoMapper {
 
     int insertSelective(FreightInfo record);
 
+    int updateStatus(@Param("freightId") String freightId);
+
     FreightInfo selectByPrimaryKey(Integer id);
 
     FreightInfo selectByFreightId(String FreightId);
@@ -30,6 +33,8 @@ public interface FreightInfoMapper {
 
     List<FreightInfo> selectFreights(@Param("from") String from, @Param("to") String to);
 
-    AdminGetFreightViewResp adminnGetOptFreightView(@Param("fromLocationId")String fromLocationId);
+    AdminGetFreightViewResp adminnGetOptFreightView(@Param("fromLocationId") String fromLocationId);
+
+    List<FreightWithToLocation> adminGetFreightWithToLocaByFromLoc(@Param("fromLocation") String fromLocationId);
 
 }

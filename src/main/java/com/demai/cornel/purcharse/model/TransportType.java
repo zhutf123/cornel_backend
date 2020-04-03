@@ -32,7 +32,8 @@ import java.util.Arrays;
     private Short status;
 
     public static enum TRANSPORT_TYPE_ENUM {
-        DIRECT("direct", "院内交货"), MOTOR("motor", "汽运"), RAIL("rail", "火车"), WATER("water", "水运"), OTHER("other", "其他");
+        DIRECT("direct", "院内交货"), MOTOR("motor", "汽运"), RAIL("rail", "K车"), WATER("water", "水运"), Open_top_car(
+                "top_car", "敞顶车"), OTHER("other", "其他");
         private String type;
         private String expr;
 

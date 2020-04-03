@@ -41,4 +41,7 @@ public interface DryTowerDao {
 
 
     List<AdminGetFreightViewResp> adminGetDryTower(@Param("pgSize")Integer pgSize,@Param("offset")Integer offset);
+
+    AdminGetFreightViewResp adminGetDryTowerFreiViewByTowerId(@Param("towerId")String towerID);
+
 }
