@@ -24,5 +24,6 @@ import java.util.Set;
         private BigDecimal totalPrice;
         private String transportType;
         private List<FreightExInfo> exInfo;
+        private Integer updateFlag;
     }
 }

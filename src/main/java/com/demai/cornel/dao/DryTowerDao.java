@@ -2,6 +2,8 @@ package com.demai.cornel.dao;
 
 import com.demai.cornel.demeManager.vo.AdminGetFreightViewResp;
 import com.demai.cornel.model.DryTower;
+import com.demai.cornel.model.LoanInfo;
+import com.demai.cornel.purcharse.model.LocationInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -44,4 +46,6 @@ public interface DryTowerDao {
 
     AdminGetFreightViewResp adminGetDryTowerFreiViewByTowerId(@Param("towerId")String towerID);
 
+
+    List<LocationInfo> getLocation();
 }

@@ -14,6 +14,9 @@
         <result column="cost_time" jdbcType="INTEGER" property="costTime"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="ex_info" jdbcType="VARCHAR" property="exInfo"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
+
     </resultMap>
     <resultMap id="BaseResultMap_RE" type="com.demai.cornel.demeManager.model.FreightWithToLocation">
         <!--@mbg.generated-->
@@ -30,12 +33,12 @@
         <result column="ex_info" jdbcType="VARCHAR" property="exInfo"/>
         <result column="to_location_tx" jdbcType="VARCHAR" property="toLocationTx"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
-                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, freight_id, create_time, from_location, to_location, transport_type, price, cost_time,
-        "status",ex_info
+        "status",ex_info,update_time,review_user
     </sql>
 
     <sql id="Base_Column_List_re">
@@ -100,6 +103,12 @@
             <if test="exInfo != null">
                 ex_info,
             </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="reviewUser != null">
+                review_user,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -131,6 +140,12 @@
             </if>
             <if test="exInfo != null">
                 #{exInfo},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP}  ,
+            </if>
+            <if test="reviewUser != null">
+                #{reviewUser,jdbcType=VARCHAR} ,
             </if>
         </trim>
     </insert>

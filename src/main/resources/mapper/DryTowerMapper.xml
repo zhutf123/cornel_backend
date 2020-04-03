@@ -285,4 +285,7 @@
     <select id="adminGetDryTowerFreiViewByTowerId" resultType="com.demai.cornel.demeManager.vo.AdminGetFreightViewResp">
             select tower_id as towerId,location,location_id as locationId,company from dry_tower where tower_id=#{towerId,jdbcType=VARCHAR}  ;
     </select>
+    <select id="getLocation" resultType="com.demai.cornel.purcharse.model.LocationInfo">
+        select location_detail as locationDetail,location as location,location_area as locationArea,location_id as locationId from dry_tower ;
+    </select>
 </mapper>

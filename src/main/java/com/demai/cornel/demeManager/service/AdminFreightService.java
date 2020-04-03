@@ -13,6 +13,7 @@ import com.demai.cornel.purcharse.model.LocationInfo;
 import com.demai.cornel.purcharse.model.TransportType;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.TimeStampUtil;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.hp.gagawa.java.elements.A;
@@ -21,8 +22,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.TransferQueue;
 
@@ -34,6 +37,18 @@ import java.util.concurrent.TransferQueue;
     @Resource private FreightInfoMapper freightInfoMapper;
     @Resource private DryTowerDao dryTowerDao;
     @Resource private LocationInfoMapper locationInfoMapper;
+
+    @PostConstruct public void init() {
+        List<LocationInfo> locationInfos = dryTowerDao.getLocation();
+        locationInfos.stream().forEach(x -> {
+            if (x.getLocationId() == null) {
+                x.setLocationId(UUID.randomUUID().toString());
+                locationInfoMapper.insertSelective(x);
+            }
+
+        });
+
+    }
 
     public List<AdminGetFreightViewResp> adminGetFreightView(Integer offset, Integer pgSize) {
         List<AdminGetFreightViewResp> freightViewResps = dryTowerDao.adminGetDryTower(pgSize, offset);
@@ -141,6 +156,9 @@ import java.util.concurrent.TransferQueue;
             temp.setToLocationId(x.getToLocation());
             temp.setTransportType(buildTransport(x.getTransportType()));
             temp.setTotalPrice(x.getPrice());
+            temp.setUpdateFlag(
+                    TimeStampUtil.timeStampConvertString("yyyy-MM-dd", new Timestamp(System.currentTimeMillis()))
+                            .equals(x.getUpdateTime()) ? 1 : 0);
             temp.setExInfo(Strings.isNullOrEmpty(x.getExInfo()) ?
                     Collections.EMPTY_LIST :
                     JSONObject.parseArray(x.getExInfo(), FreightExInfo.class));
@@ -175,7 +193,7 @@ import java.util.concurrent.TransferQueue;
 
             if (Strings.isNullOrEmpty(x.getFreightId())) {
                 int res = freightInfoMapper.insertSelective(freightInfo);
-            } else {
+            } else if (!x.getUpdateFlag().equals(1)) {
                 freightInfoMapper.updateStatus(x.getFreightId());
                 freightInfoMapper.insertSelective(freightInfo);
             }

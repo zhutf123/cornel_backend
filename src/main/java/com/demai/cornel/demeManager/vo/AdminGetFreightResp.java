@@ -22,6 +22,6 @@ import java.util.List;
         private BigDecimal totalPrice;
         private String transportType;
         private List<FreightExInfo> exInfo;
-        private Integer updateFlag;
+        private Integer updateFlag=0;
     }
 }
