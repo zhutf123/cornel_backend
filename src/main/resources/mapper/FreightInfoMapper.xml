@@ -8,7 +8,7 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
         <result column="to_location" jdbcType="VARCHAR" property="toLocation"/>
-        <result column="transport_type"  property="transportType" jdbcType="ARRAY" javaType="java.util.Set"
+        <result column="transport_type" property="transportType" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="price" jdbcType="NUMERIC" property="price"/>
         <result column="cost_time" jdbcType="INTEGER" property="costTime"/>
@@ -162,6 +162,12 @@
         or (from_location=#{to,jdbcType=VARCHAR} and to_location=#{from,jdbcType=VARCHAR}) and status!=0 order by price;
     </select>
     <select id="selectByFreightId" resultMap="BaseResultMap">
-       select <include refid="Base_Column_List"/> from freight_info where freight_id=#{FreightId} ;
+        select
+        <include refid="Base_Column_List"/>
+        from freight_info where freight_id=#{FreightId} ;
+    </select>
+    <select id="adminnGetFreightView" resultType="com.demai.cornel.demeManager.vo.AdminGetFreightViewResp">
+      select d.company as company,d.location as location,sum(f.price)/count(*) as aver_price,min(f.price) as min_price,d.tower_id as tower_id
+      from dry_tower d left join freight_info f on f.from_location=d.location_id where d.status=1 order by d.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;
     </select>
 </mapper>
