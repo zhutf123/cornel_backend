@@ -26,24 +26,24 @@ import java.math.BigDecimal;
     private String unitWeight;
     private String status;
 
-    private int showStackInfo=0;
-    @JsonIgnore private String commodityId;
-    @JsonIgnore private String receiveLocationId;
-
-    @JsonIgnore private String outStackId;
-    private String storeId; //库存ID
-    private String fromLocation;// 发货地
-    private BigDecimal buyingPrice;//货品买入价格
-    private BigDecimal capitalCost;// 资金使用成本
-    private String freightId;//货运ID
-    private BigDecimal freightPrice = new BigDecimal(0);//运费
-    private String transportType;//货运方式
-    private BigDecimal esInCome;//收益
-    private String reviewUser;//收益
-
-    private String payReview;
-    private String payTime;
-    private BigDecimal actualPay;
-    private String exInfo;
+//    private int showStackInfo=0;
+//    @JsonIgnore private String commodityId;
+//    @JsonIgnore private String receiveLocationId;
+//
+//    @JsonIgnore private String outStackId;
+//    private String storeId; //库存ID
+//    private String fromLocation;// 发货地
+//    private BigDecimal buyingPrice;//货品买入价格
+//    private BigDecimal capitalCost;// 资金使用成本
+//    private String freightId;//货运ID
+//    private BigDecimal freightPrice = new BigDecimal(0);//运费
+//    private String transportType;//货运方式
+//    private BigDecimal esInCome;//收益
+//    private String reviewUser;//收益
+//
+//    private String payReview;
+//    private String payTime;
+//    private BigDecimal actualPay;
+//    private String exInfo;
 
 }

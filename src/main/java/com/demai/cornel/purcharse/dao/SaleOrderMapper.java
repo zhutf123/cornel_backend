@@ -1,8 +1,6 @@
 package com.demai.cornel.purcharse.dao;
 
-import com.demai.cornel.demeManager.vo.AdminGetSaleDetail;
-import com.demai.cornel.demeManager.vo.AdminGetSaleList;
-import com.demai.cornel.demeManager.vo.AdminGetSaleListResp;
+import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.purcharse.model.SaleOrder;
 import com.demai.cornel.purcharse.vo.resp.GetSaleOrderListResp;
 import org.apache.ibatis.annotations.Param;
@@ -48,4 +46,25 @@ public interface SaleOrderMapper {
 
 
     int updateStackOutStackId(@Param("orderId")String orderId,@Param("outID")String outId);
+
+    /**
+     * 管理员获取待审核订单list
+     * @param viewStatus
+     * @param pgSize
+     * @param offSet
+     * @return
+     */
+    List<AdminUnRevSaleList> AdminGetUnRevSaleOrderList(@Param("viewStatus") Integer viewStatus,
+            @Param("pgSize") Integer pgSize, @Param("offset") Integer offSet);
+
+    /**
+     * 管理员获取审核通过list
+     * @param viewStatus
+     * @param pgSize
+     * @param offSet
+     * @return
+     */
+    List<AdminAppSaleList> AdminGetAppSaleOrderList(@Param("viewStatus") Integer viewStatus,
+            @Param("pgSize") Integer pgSize, @Param("offset") Integer offSet);
+
 }
