@@ -51,7 +51,7 @@ import java.util.Optional;
 
         StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(saleOrder.getOutStackId());
         if (stackOutInfo == null) {
-            stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(saleOrder);
+            stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(saleOrder,false);
             log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one,build info is {}",
                     JacksonUtils.obj2String(stackOutInfo));
         }

@@ -24,6 +24,7 @@ import java.util.Set;
     @JsonIgnore private String outStackId;
     private String storeId; //库存ID
     private String fromLocation;// 发货地
+    @JsonIgnore private String fromLocationId;
     private BigDecimal buyingPrice;//货品买入价格
     private BigDecimal capitalCost;// 资金使用成本
     private String freightId;//货运ID

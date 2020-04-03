@@ -18,6 +18,7 @@ public class AdminUnpaySaleList extends  AdminGetSaleList {
     private BigDecimal esInCome;//收益
     private String reviewUser;//收益
     private Set<String> transportTypeMap;
+    private String fromLocationId;// 发货地
 
     public void setTransportTypeMap(Set<String> transportTypeMap) {
         this.transportTypeMap = transportTypeMap;

@@ -58,6 +58,8 @@
         <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
         <result column="weight" jdbcType="NUMERIC" property="weight"/>
         <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
@@ -80,6 +82,8 @@
         <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
         <result column="weight" jdbcType="NUMERIC" property="weight"/>
         <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
@@ -97,6 +101,8 @@
         <result column="transport_type" jdbcType="VARCHAR" property="transportType"/>
         <result column="es_in_come" jdbcType="VARCHAR" property="esInCome"/>
         <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
+
         <result column="transport_type" property="transportTypeMap" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
     </resultMap>
@@ -109,6 +115,8 @@
         <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
         <result column="weight" jdbcType="NUMERIC" property="weight"/>
         <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
@@ -128,6 +136,8 @@
         <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
         <result column="transport_type" property="transportTypeMap" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
+
     </resultMap>
 
 
@@ -138,6 +148,8 @@
         <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
         <result column="weight" jdbcType="NUMERIC" property="weight"/>
         <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
@@ -162,6 +174,8 @@
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="actual_pay" jdbcType="NUMERIC" property="actualPay"/>
         <result column="ex_info" jdbcType="VARCHAR" property="exInfo"/>
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
+
     </resultMap>
 
     <resultMap id="admin_unre_detail" type="com.demai.cornel.demeManager.vo.AdminUnRevSaleDetail">
@@ -171,6 +185,8 @@
         <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
 
@@ -191,9 +207,9 @@
         <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
         <result column="transport_type" property="transportTypeMap" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
 
         <result column="out_stack_id" jdbcType="VARCHAR" property="outStackId"/>
-        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
         <result column="store_id" jdbcType="VARCHAR" property="storeId"/>
         <result column="buying_price" jdbcType="NUMERIC" property="buyingPrice"/>
         <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
@@ -226,7 +242,7 @@
         <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
         <result column="transport_type" property="transportTypeMap" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
-
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
         <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
         <result column="buying_price" jdbcType="NUMERIC" property="buyingPrice"/>
         <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
@@ -242,6 +258,7 @@
         <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
         <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
         <result column="weight" jdbcType="NUMERIC" property="weight"/>
         <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
@@ -251,7 +268,7 @@
         <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
-
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
         <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
         <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
@@ -308,10 +325,12 @@
         f.transport_type as transport_type_map,
         f.freight_id,
         f.price as freight_price,
-        st.location_id as from_location,
+        st.location_id as from_location_id,
         stck.out_id as out_stack_id,
         st.buying_price,
-        st.capital_cost
+        st.capital_cost,
+        stl.location as from_location,
+        stl.location_id,as from_location_id
     </sql>
 
     <sql id="admin_app_info">
@@ -699,20 +718,20 @@
     <select id="selectSaleView" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleListResp">
       select sum(order_price) as totalPrice,sum (weight) as totalWeight,count(*) as orderNum,view_status as status from sale_order where view_status!=0 group by view_status order by view_status;
     </select>
-<!--    <select id="AdminGetSaleOrderList" resultMap="admin_detail_map">-->
-<!--        select-->
-<!--        <include refid="admin_detail_List"/>-->
-<!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->
-<!--        left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0-->
-<!--        order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;-->
-<!--    </select>-->
-<!--    <select id="selectSaleList" resultMap="admin_detail_map">-->
-<!--        select-->
-<!--        <include refid="admin_detail_List"/>-->
-<!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->
-<!--        left join commodity_list c on s.commodity_id=c.commodity_id where s.status!=0-->
-<!--        and order_id=#{orderId} ;-->
-<!--    </select>-->
+    <!--    <select id="AdminGetSaleOrderList" resultMap="admin_detail_map">-->
+    <!--        select-->
+    <!--        <include refid="admin_detail_List"/>-->
+    <!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->
+    <!--        left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0-->
+    <!--        order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;-->
+    <!--    </select>-->
+    <!--    <select id="selectSaleList" resultMap="admin_detail_map">-->
+    <!--        select-->
+    <!--        <include refid="admin_detail_List"/>-->
+    <!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->
+    <!--        left join commodity_list c on s.commodity_id=c.commodity_id where s.status!=0-->
+    <!--        and order_id=#{orderId} ;-->
+    <!--    </select>-->
     <update id="updateStackOutStackId">
        update sale_order set out_stack_id=#{outID,jdbcType=VARCHAR} where order_id=#{outID,jdbcType=VARCHAR} ;
     </update>
@@ -732,7 +751,8 @@
         <include refid="admin_info"/>
         from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
         c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
-        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
         where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
         #{pgSize,jdbcType=INTEGER};
     </select>
@@ -743,7 +763,8 @@
         <include refid="admin_info"/>
         from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
         c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
-        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
         where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
         #{pgSize,jdbcType=INTEGER};
     </select>
@@ -752,7 +773,8 @@
         <include refid="admin_info"/>
         from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
         c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
-        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
         where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
         #{pgSize,jdbcType=INTEGER};
     </select>
@@ -761,7 +783,8 @@
         <include refid="admin_info"/>
         from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
         c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
-        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
         where s.order_id=#{orderId} ;
     </select>
     <select id="adminGetAppSaleDetail" resultMap="admin_app_detail">
@@ -769,7 +792,8 @@
         <include refid="admin_info"/>
         from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
         c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
-        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
         where s.order_id=#{orderId} ;
     </select>
     <select id="adminGetFinishSaleDetail" resultMap="admin_finish_detail">
@@ -777,7 +801,8 @@
         <include refid="admin_info"/>
         from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
         c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
-        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
         where s.order_id=#{orderId} ;
     </select>
     <select id="selectSaleOrderViewStatus" resultType="java.lang.Integer">

@@ -28,7 +28,7 @@ import java.util.UUID;
     @Resource private LocationService locationService;
     @Resource private StackOutInfoMapper stackOutInfoMapper;
 
-    public StackOutInfo buildSystemDefaultOutStackInfo(AdminUnRevSaleDetail saleOrder) {
+    public StackOutInfo buildSystemDefaultOutStackInfo(AdminUnRevSaleDetail saleOrder, boolean insterFlag) {
         List<StoreInfo> storeInfos = storeInfoMapper
                 .selectStoreIdByCommodityIdAndWeight(saleOrder.getCommodityId(), saleOrder.getWeight());
         if (storeInfos == null || storeInfos.size() == 0) {
@@ -70,17 +70,20 @@ import java.util.UUID;
         stackOutInfo.setOrderPrice(saleOrder.getOrderPrice());
         stackOutInfo.setUnitPrice(saleOrder.getUnitPrice());
         stackOutInfo.setUnitWeight(saleOrder.getUnitWeight());
-        int res = stackOutInfoMapper.insertSelective(stackOutInfo);
-        if (res != 1) {
-            log.warn("buildSystemDefaultOutStackInfo fail due to insert stackOutInfo fail ");
-            return null;
+        if (insterFlag) {
+            int res = stackOutInfoMapper.insertSelective(stackOutInfo);
+            if (res != 1) {
+                log.warn("buildSystemDefaultOutStackInfo fail due to insert stackOutInfo fail ");
+                return null;
+            }
         }
+
         saleOrder.setOutStackId(stackOutInfo.getOutId());
         saleOrder.setEsInCome(saleOrder.getCommodityPrice().subtract(minTotalPrice));
         return stackOutInfo;
     }
 
-    public StackOutInfo buildSystemDefaultOutStackInfo(SaleOrder saleOrder) {
+    public StackOutInfo buildSystemDefaultOutStackInfo(SaleOrder saleOrder, boolean insertFlag) {
         List<StoreInfo> storeInfos = storeInfoMapper
                 .selectStoreIdByCommodityIdAndWeight(saleOrder.getCommodityId(), saleOrder.getWeight());
         if (storeInfos == null || storeInfos.size() == 0) {
@@ -122,24 +125,26 @@ import java.util.UUID;
         stackOutInfo.setOrderPrice(saleOrder.getOrderPrice());
         stackOutInfo.setUnitPrice(saleOrder.getUnitPrice());
         stackOutInfo.setUnitWeight(saleOrder.getUnitWeight());
-        int res = stackOutInfoMapper.insertSelective(stackOutInfo);
-        if (res != 1) {
-            log.warn("buildSystemDefaultOutStackInfo fail due to insert stackOutInfo fail ");
-            return null;
+        if (insertFlag) {
+            int res = stackOutInfoMapper.insertSelective(stackOutInfo);
+            if (res != 1) {
+                log.warn("buildSystemDefaultOutStackInfo fail due to insert stackOutInfo fail ");
+                return null;
+            }
         }
         saleOrder.setOutStackId(stackOutInfo.getOutId());
         saleOrder.setEsIncome(saleOrder.getCommodityPrice().subtract(minTotalPrice));
         return stackOutInfo;
     }
 
-//    public StackOutInfo buildSystemDefaultOutStackInfo(AdminUnRevSaleDetail saleOrder) {
-//        SaleOrder saleOrder1 = new SaleOrder();
-//        BeanUtils.copyProperties(saleOrder, saleOrder1);
-//        saleOrder1.setReceiveLocation(saleOrder.getReceiveLocationId());
-//        StackOutInfo stackOutInfo = buildSystemDefaultOutStackInfo(saleOrder1);
-//        if(stackOutInfo!=null){
-//            saleOrder.setEsInCome(saleOrder1.getEsIncome());
-//            saleOrder.get(saleOrder1.getEsIncome());
-//        }
-//    }
+    //    public StackOutInfo buildSystemDefaultOutStackInfo(AdminUnRevSaleDetail saleOrder) {
+    //        SaleOrder saleOrder1 = new SaleOrder();
+    //        BeanUtils.copyProperties(saleOrder, saleOrder1);
+    //        saleOrder1.setReceiveLocation(saleOrder.getReceiveLocationId());
+    //        StackOutInfo stackOutInfo = buildSystemDefaultOutStackInfo(saleOrder1);
+    //        if(stackOutInfo!=null){
+    //            saleOrder.setEsInCome(saleOrder1.getEsIncome());
+    //            saleOrder.get(saleOrder1.getEsIncome());
+    //        }
+    //    }
 }

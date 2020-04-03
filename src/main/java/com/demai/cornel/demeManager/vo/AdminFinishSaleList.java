@@ -17,6 +17,7 @@ import java.util.Set;
     private String transportType;//货运方式
     private BigDecimal esInCome;//收益
     private String reviewUser;//收益
+    private String fromLocationId;// 发货地
 
     private String payReview;//财务确认人
     private String payTime;//付款时间

@@ -15,6 +15,8 @@ import java.util.Set;
 
 @Data public class AdminAppSaleList extends AdminGetSaleList {
     private String fromLocation;// 发货地
+    private String fromLocationId;// 发货地
+
     private String transportType;//货运方式
     private BigDecimal esInCome;//收益
     private String reviewUser;//收益
