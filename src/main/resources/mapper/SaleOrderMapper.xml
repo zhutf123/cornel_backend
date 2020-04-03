@@ -330,7 +330,7 @@
         st.buying_price,
         st.capital_cost,
         stl.location as from_location,
-        stl.location_id,as from_location_id
+        stl.location_id as from_location_id
     </sql>
 
     <sql id="admin_app_info">
@@ -359,7 +359,7 @@
         s.review_user,
         c.commodity_id,
         c.name as commodity_name ,
-        l.location as receive_location,
+        l.location as receive_location
 
 
     </sql>
