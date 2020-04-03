@@ -64,7 +64,7 @@ import java.util.UUID;
         stackOutInfo.setBuyerId(saleOrder.getBuyerId());
         stackOutInfo.setCommodityId(saleOrder.getCommodityId());
         stackOutInfo.setFromLocation(optimumStoreId.getLocationId());
-        stackOutInfo.setReceiveLocation(saleOrder.getReceiveLocation());
+        stackOutInfo.setReceiveLocation(saleOrder.getReceiveLocationId());
         stackOutInfo.setFreightPrice(optimumFreight.getPrice());
         stackOutInfo.setFreightInfoId(optimumFreight.getFreightId());
         stackOutInfo.setOrderPrice(saleOrder.getOrderPrice());
