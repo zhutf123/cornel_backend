@@ -306,7 +306,7 @@
         f.transport_type as transport_type_map,
         f.freight_id,
         f.price as freight_price,
-        st.location as from_location,
+        st.location_id as from_location,
         stck.out_id as out_stack_id,
         st.buying_price,
         st.capital_cost
