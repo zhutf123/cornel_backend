@@ -280,6 +280,6 @@
         order by dry_tower.id desc limit #{pgSize};
     </select>
     <select id="adminGetDryTower" resultType="com.demai.cornel.demeManager.vo.AdminGetFreightViewResp">
-     select tower_id,location,location_id,company from dry_tower where status=1 order by id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;
+     select tower_id as towerId,location,location_id as locationId,company from dry_tower where status=1 order by id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;
     </select>
 </mapper>
