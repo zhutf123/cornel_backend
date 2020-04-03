@@ -167,7 +167,7 @@
         from freight_info where freight_id=#{FreightId} ;
     </select>
     <select id="adminnGetOptFreightView" resultType="com.demai.cornel.demeManager.vo.AdminGetFreightViewResp">
-      select sum(price)/count(*) as aver_price,min(price) as min_price
+      select sum(price)/count(*) as averPrice,min(price) as minPrice
        from freight_info where from_location=#{fromLocationId,jdbcType=VARCHAR} limit 1;
     </select>
 </mapper>

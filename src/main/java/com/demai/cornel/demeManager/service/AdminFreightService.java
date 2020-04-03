@@ -34,9 +34,14 @@ import java.util.Optional;
             AdminGetFreightViewResp adminGetFreightViewResp = freightInfoMapper.adminnGetOptFreightView(x.getLocationId());
             if (adminGetFreightViewResp==null || adminGetFreightViewResp.getAverPrice() == null) {
                 x.setAverPrice(new BigDecimal(0));
+            }else {
+                x.setAverPrice(adminGetFreightViewResp.getAverPrice());
+
             }
             if (adminGetFreightViewResp==null || adminGetFreightViewResp.getMinPrice() == null) {
                 x.setMinPrice(new BigDecimal(0));
+            }else {
+                x.setMinPrice(adminGetFreightViewResp.getMinPrice());
             }
         });
         return freightViewResps;
