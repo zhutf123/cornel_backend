@@ -41,9 +41,11 @@ import java.util.concurrent.TransferQueue;
     @PostConstruct public void init() {
         List<LocationInfo> locationInfos = dryTowerDao.getLocation();
         locationInfos.stream().forEach(x -> {
+
             if (x.getLocationId() == null) {
                 x.setLocationId(UUID.randomUUID().toString());
                 locationInfoMapper.insertSelective(x);
+
             }
 
         });
@@ -86,7 +88,6 @@ import java.util.concurrent.TransferQueue;
         adminLocationMode.setLocation(Strings.isNullOrEmpty(adminLocationMode.getLocation()) ?
                 adminLocationMode.getLocationArea() + adminLocationMode.getLocationDetail() :
                 adminLocationMode.getLocation());
-
         AdminLocationMode alread = locationInfoMapper
                 .selectLocationModelByInfo(adminLocationMode.getLocationArea(), adminLocationMode.getLocationDetail(),
                         adminLocationMode.getLocation());
@@ -95,6 +96,7 @@ import java.util.concurrent.TransferQueue;
                     .locationId(alread.getLocationId()).build();
         }
         adminLocationMode.setSystemFlag(1);
+        adminLocationMode.setStatus(1);
         if (alread != null) {
             adminLocationMode.setLocationId(alread.getLocationId());
             if (locationInfoMapper.insertSelectiveAdminLocationMode(adminLocationMode) != 1) {

@@ -169,9 +169,7 @@
     <insert id="insertSelectiveAdminLocationMode" parameterType="com.demai.cornel.demeManager.vo.AdminLocationMode">
         insert into location_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
+
             <if test="locationId != null">
                 location_id,
             </if>
@@ -185,13 +183,11 @@
                 location_detail,
             </if>
             <if test="systemFlag != null">
-                c,
+                system_flag,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
+
             <if test="locationId != null">
                 #{locationId,jdbcType=VARCHAR},
             </if>

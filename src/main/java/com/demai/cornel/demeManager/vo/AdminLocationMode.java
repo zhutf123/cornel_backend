@@ -12,4 +12,5 @@ import lombok.Data;
     private String location;
     private String locationId;
     private Integer systemFlag = 0;
+    private Integer status=1;
 }
