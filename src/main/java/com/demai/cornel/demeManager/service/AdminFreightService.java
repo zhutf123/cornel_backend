@@ -22,7 +22,7 @@ import java.util.Optional;
 
     public List<AdminGetFreightViewResp> adminGetFreightView(Integer offset, Integer pgSize) {
 
-        List<AdminGetFreightViewResp> freightViewResps = dryTowerDao.adminGetDryTower(offset, pgSize);
+        List<AdminGetFreightViewResp> freightViewResps = dryTowerDao.adminGetDryTower( pgSize,offset);
         if (freightViewResps == null) {
             return Collections.EMPTY_LIST;
         }
