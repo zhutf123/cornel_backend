@@ -217,7 +217,9 @@
          update location_info
          set location_area=#{locationArea,jdbcType=VARCHAR} ,
          location_detail=#{locationDetail} ,
-         location=#{location}
+         location=#{location},
+         system_flag=1,
+         status=1,
          where location_id=#{locationId} ;
     </update>
 </mapper>
