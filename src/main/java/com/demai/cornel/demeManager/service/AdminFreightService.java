@@ -204,8 +204,8 @@ import java.util.concurrent.TransferQueue;
         if (viewResp == null) {
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
-        List<String> freight = new ArrayList<>();
         adminUpdateFreightReq.getDestinationList().stream().forEach(x -> {
+            List<String> freight = new ArrayList<>();
             if (x.getTransportList() != null) {
                 for (AdminUpdateFreightReq.TransportList transportList : x.getTransportList()) {
                     FreightInfo freightInfo = new FreightInfo();
