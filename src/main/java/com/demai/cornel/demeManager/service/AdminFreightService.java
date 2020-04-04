@@ -219,6 +219,7 @@ import java.util.concurrent.TransferQueue;
         if(fromFreight==null){
             fromFreight = new HashSet<>(1);
         }
+        Set<String> finalFromFreight = fromFreight;
         adminUpdateFreightReq.getDestinationList().stream().forEach(x -> {
             List<String> freight = new ArrayList<>();
             if (x.getTransportList() != null) {
@@ -238,9 +239,9 @@ import java.util.concurrent.TransferQueue;
                     } else if (transportList.getIsUpdate() != null && transportList.getIsUpdate().equals(1)) {
                         freightInfoMapper.updateStatus(transportList.getFreightId());
                         freightInfoMapper.insertSelective(freightInfo);
-                        fromFreight.remove(transportList.getFreightId());
+                        finalFromFreight.remove(transportList.getFreightId());
                     }
-                    fromFreight.remove(freightInfo.getFreightId());
+                    finalFromFreight.remove(freightInfo.getFreightId());
                 }
             }
 
