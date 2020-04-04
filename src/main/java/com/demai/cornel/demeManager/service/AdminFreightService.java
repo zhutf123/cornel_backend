@@ -216,6 +216,9 @@ import java.util.concurrent.TransferQueue;
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
         Set<String> fromFreight = freightInfoMapper.selectFreightIdByFromLocation(viewResp.getLocationId());
+        if(fromFreight==null){
+            fromFreight = new HashSet<>(1);
+        }
         adminUpdateFreightReq.getDestinationList().stream().forEach(x -> {
             List<String> freight = new ArrayList<>();
             if (x.getTransportList() != null) {
