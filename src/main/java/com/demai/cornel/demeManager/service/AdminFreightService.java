@@ -217,7 +217,7 @@ import java.util.concurrent.TransferQueue;
         }
         Set<String> fromFreight = freightInfoMapper.selectFreightIdByFromLocation(viewResp.getLocationId());
         if(fromFreight==null){
-            fromFreight = new HashSet<>(1);
+            fromFreight = new HashSet<>(0);
         }
         Set<String> finalFromFreight = fromFreight;
         adminUpdateFreightReq.getDestinationList().stream().forEach(x -> {
@@ -246,7 +246,9 @@ import java.util.concurrent.TransferQueue;
             }
 
         });
-        freightInfoMapper.updateFreightStatusByFreightIds(fromFreight);
+        if(finalFromFreight!=null && finalFromFreight.size()>0) {
+            freightInfoMapper.updateFreightStatusByFreightIds(finalFromFreight);
+        }
         return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }
 
