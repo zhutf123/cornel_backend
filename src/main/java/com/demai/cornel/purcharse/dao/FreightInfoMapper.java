@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author binz.zhang
@@ -36,5 +37,7 @@ public interface FreightInfoMapper {
     AdminGetFreightViewResp adminnGetOptFreightView(@Param("fromLocationId") String fromLocationId);
 
     List<FreightWithToLocation> adminGetFreightWithToLocaByFromLoc(@Param("fromLocation") String fromLocationId);
+
+  int updateStatusOtherFreightId(@Param("fromLocationId")List<String> freightId,@Param("fromLocation")String fromLocation,@Param("toLocation")String toLocation);
 
 }

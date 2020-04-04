@@ -204,6 +204,7 @@ import java.util.concurrent.TransferQueue;
         if (viewResp == null) {
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
+        List<String> freight = new ArrayList<>();
         adminUpdateFreightReq.getDestinationList().stream().forEach(x -> {
             if (x.getTransportList() != null) {
                 for (AdminUpdateFreightReq.TransportList transportList : x.getTransportList()) {
@@ -222,9 +223,11 @@ import java.util.concurrent.TransferQueue;
                     } else if (transportList.getIsUpdate() != null && transportList.getIsUpdate().equals(1)) {
                         freightInfoMapper.updateStatus(transportList.getFreightId());
                         freightInfoMapper.insertSelective(freightInfo);
+                        freight.add(transportList.getFreightId());
                     }
+                    freight.add(freightInfo.getFreightId());
                 }
-
+                freightInfoMapper.updateStatusOtherFreightId(freight,viewResp.getLocationId(),x.getToLocationId());
             }
 
         });

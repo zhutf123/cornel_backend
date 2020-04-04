@@ -219,7 +219,7 @@
     </select>
     <select id="adminnGetOptFreightView" resultType="com.demai.cornel.demeManager.vo.AdminGetFreightViewResp">
       select sum(price)/count(*) as averPrice,min(price) as minPrice
-       from freight_info where from_location=#{fromLocationId,jdbcType=VARCHAR} limit 1;
+       from freight_info where from_location=#{fromLocationId,jdbcType=VARCHAR} and status=1 limit 1 ;
     </select>
     <select id="adminGetFreightWithToLocaByFromLoc" resultMap="BaseResultMap_RE">
         select
@@ -229,5 +229,12 @@
     </select>
     <update id="updateStatus">
      update freight_info set status=0 where freight_id=#{freightId} ;
+    </update>
+
+    <update id="updateStatusOtherFreightId">
+        update freight_info set status=0 where from_location=#{fromLocation,jdbcType=VARCHAR} and to_location=#{toLocation,jdbcType=VARCHAR} and freight_id not  in
+        <foreach collection="fromLocationId" item="loId" open ="(" separator="," close=")" index="index">
+            #{loId}
+        </foreach>
     </update>
 </mapper>
