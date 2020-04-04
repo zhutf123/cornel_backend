@@ -90,6 +90,17 @@ import java.util.concurrent.TransferQueue;
         adminLocationMode.setLocation(Strings.isNullOrEmpty(adminLocationMode.getLocation()) ?
                 adminLocationMode.getLocationArea() + adminLocationMode.getLocationDetail() :
                 adminLocationMode.getLocation());
+
+        if (Strings.isNullOrEmpty(adminLocationMode.getLocationId())) {
+            return locationInfoMapper.updateLocationInfoByLocationId(adminLocationMode.getLocationArea(),
+                    adminLocationMode.getLocationDetail(), adminLocationMode.getLocation(),
+                    adminLocationMode.getLocationId()) == 1 ?
+                    AdminAddLocationResp.builder().optStatus(AdminAddLocationResp.STATUS_ENUE.SUCCESS.getValue())
+                            .build() :
+                    AdminAddLocationResp.builder().optStatus(AdminAddLocationResp.STATUS_ENUE.SERVER_ERR.getValue())
+                            .build();
+        }
+
         AdminLocationMode alread = locationInfoMapper
                 .selectLocationModelByInfo(adminLocationMode.getLocationArea(), adminLocationMode.getLocationDetail(),
                         adminLocationMode.getLocation());

@@ -29,6 +29,7 @@ public interface LocationInfoMapper {
    List<AdminLocationMode> getSystemLocation(@Param("offset")Integer offset,@Param("pgSize")Integer pgSize);
     AdminLocationMode selectLocationModelByInfo(@Param("locationArea")String locationArea,@Param("locationDetail")String locationDetail,@Param("location")String location);
 
+    int updateLocationInfoByLocationId(@Param("locationArea")String locationArea,@Param("locationDetail")String locationDetail,@Param("location")String location,@Param("locationId") String locationId);
 
     int insertSelectiveAdminLocationMode(AdminLocationMode locationMode);
 }

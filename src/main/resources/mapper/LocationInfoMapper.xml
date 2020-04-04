@@ -213,4 +213,11 @@
         ON CONFLICT (location,location_area,location_detail)
         DO UPDATE set system_flag=#{systemFlag} ;
     </insert>
+    <update id="updateLocationInfoByLocationId">
+         update location_info
+         set location_area=#{locationArea,jdbcType=VARCHAR} ,
+         location_detail=#{locationDetail} ,
+         location=#{location}
+         where location_id=#{locationId} ;
+    </update>
 </mapper>
