@@ -219,7 +219,7 @@
          location_detail=#{locationDetail} ,
          location=#{location},
          system_flag=1,
-         status=1,
+         status=1
          where location_id=#{locationId} ;
     </update>
 </mapper>
