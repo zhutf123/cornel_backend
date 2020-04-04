@@ -91,7 +91,7 @@ import java.util.concurrent.TransferQueue;
                 adminLocationMode.getLocationArea() + adminLocationMode.getLocationDetail() :
                 adminLocationMode.getLocation());
 
-        if (Strings.isNullOrEmpty(adminLocationMode.getLocationId())) {
+        if (!Strings.isNullOrEmpty(adminLocationMode.getLocationId().trim())) {
             return locationInfoMapper.updateLocationInfoByLocationId(adminLocationMode.getLocationArea(),
                     adminLocationMode.getLocationDetail(), adminLocationMode.getLocation(),
                     adminLocationMode.getLocationId()) == 1 ?
