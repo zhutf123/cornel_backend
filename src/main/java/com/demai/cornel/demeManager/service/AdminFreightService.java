@@ -239,8 +239,8 @@ import java.util.concurrent.TransferQueue;
                     } else if (transportList.getIsUpdate() != null && transportList.getIsUpdate().equals(1)) {
                         freightInfoMapper.updateStatus(transportList.getFreightId());
                         freightInfoMapper.insertSelective(freightInfo);
-                        finalFromFreight.remove(transportList.getFreightId());
                     }
+                    finalFromFreight.remove(Strings.isNullOrEmpty(transportList.getFreightId())?"":transportList.getFreightId());
                     finalFromFreight.remove(freightInfo.getFreightId());
                 }
             }
@@ -289,7 +289,10 @@ import java.util.concurrent.TransferQueue;
 
         Set<String> type = new HashSet<>();
         type.add(TransportType.exparOf("汽运").getType());
-
+        type.add("1");
+        type.add("2");
+        type.remove("1");
+        System.out.println(JacksonUtils.obj2String(type));
     }
 
 }
