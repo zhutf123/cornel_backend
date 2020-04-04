@@ -5,6 +5,7 @@ import com.demai.cornel.purcharse.model.TransportType;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,17 +14,21 @@ import java.util.List;
  */
 @Data public class AdminGetFreightResp extends AdminGetFreightViewResp {
 
-    private List<FreightDetailInfo> freightInfo;
+    private Collection<FreightDetailInfo> freightInfo;
 
     @Data public static class FreightDetailInfo {
-        private String freightId;
         private String toLocation;
         private String toLocationId;
+        private List<TransportList> transportList;
+    }
+
+    @Data public static class TransportList {
         private BigDecimal totalPrice;
         private String transportType;
+        private String freightId;
         private List<FreightExInfo> exInfo;
-        private Integer updateFlag=0;
         private String updateTime;
+        private Integer updateFlag = 0;
 
     }
 }

@@ -16,6 +16,7 @@ import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import com.hp.gagawa.java.elements.A;
 import lombok.extern.slf4j.Slf4j;
@@ -159,12 +160,10 @@ import java.util.concurrent.TransferQueue;
             rest.setFreightInfo(Collections.EMPTY_LIST);
             return rest;
         }
-        List<AdminGetFreightResp.FreightDetailInfo> freightDetailInfos = new ArrayList<>(ad.size());
+        HashMap<String, AdminGetFreightResp.FreightDetailInfo> mapRest = new HashMap<>();
         ad.stream().forEach(x -> {
-            AdminGetFreightResp.FreightDetailInfo temp = new AdminGetFreightResp.FreightDetailInfo();
+            AdminGetFreightResp.TransportList temp = new AdminGetFreightResp.TransportList();
             temp.setFreightId(x.getFreightId());
-            temp.setToLocation(x.getToLocationTx());
-            temp.setToLocationId(x.getToLocation());
             temp.setTransportType(buildTransport(x.getTransportType()));
             temp.setTotalPrice(x.getPrice());
             temp.setUpdateFlag(
@@ -174,16 +173,25 @@ import java.util.concurrent.TransferQueue;
             temp.setExInfo(Strings.isNullOrEmpty(x.getExInfo()) ?
                     Collections.EMPTY_LIST :
                     JSONObject.parseArray(x.getExInfo(), FreightExInfo.class));
-            freightDetailInfos.add(temp);
+
+            if (mapRest.containsKey(x.getToLocation())) {
+                mapRest.get(x.getToLocation()).getTransportList().add(temp);
+            } else {
+                AdminGetFreightResp.FreightDetailInfo freightDetailInfo = new AdminGetFreightResp.FreightDetailInfo();
+                freightDetailInfo.setToLocationId(x.getToLocation());
+                freightDetailInfo.setToLocationId(x.getToLocationTx());
+                freightDetailInfo.setTransportList(Lists.newArrayList(temp));
+                mapRest.put(x.getToLocation(), freightDetailInfo);
+            }
         });
-        rest.setFreightInfo(freightDetailInfos);
+        rest.setFreightInfo(mapRest.values());
         return rest;
 
     }
 
     public AdminOperResp updateFreightInfo(AdminUpdateFreightReq adminUpdateFreightReq) {
 
-        log.debug("updateFreightInfo pram is {}",JacksonUtils.obj2String(adminUpdateFreightReq));
+        log.debug("updateFreightInfo pram is {}", JacksonUtils.obj2String(adminUpdateFreightReq));
         if (adminUpdateFreightReq == null) {
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
@@ -242,7 +250,7 @@ import java.util.concurrent.TransferQueue;
         }
         Set<String> type = new HashSet<>();
         typeList.stream().forEach(x -> {
-            log.debug("..>>>>>>x =[{}]",x);
+            log.debug("..>>>>>>x =[{}]", x);
             type.add(TransportType.exparOf(x.trim()).getType());
         });
         return type;
