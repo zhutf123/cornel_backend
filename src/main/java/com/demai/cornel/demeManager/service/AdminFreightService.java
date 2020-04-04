@@ -149,7 +149,7 @@ import java.util.concurrent.TransferQueue;
         if (simpleInfo == null) {
             rest.setAverPrice(new BigDecimal(0));
             rest.setMinPrice(new BigDecimal(0));
-            rest.setFreightInfo(Collections.EMPTY_LIST);
+            rest.setDestinationList(Collections.EMPTY_LIST);
             return rest;
         } else {
             rest.setAverPrice(simpleInfo.getAverPrice());
@@ -157,7 +157,7 @@ import java.util.concurrent.TransferQueue;
         }
         List<FreightWithToLocation> ad = freightInfoMapper.adminGetFreightWithToLocaByFromLoc(viewResp.getLocationId());
         if (ad == null) {
-            rest.setFreightInfo(Collections.EMPTY_LIST);
+            rest.setDestinationList(Collections.EMPTY_LIST);
             return rest;
         }
         HashMap<String, AdminGetFreightResp.FreightDetailInfo> mapRest = new HashMap<>();
@@ -179,12 +179,12 @@ import java.util.concurrent.TransferQueue;
             } else {
                 AdminGetFreightResp.FreightDetailInfo freightDetailInfo = new AdminGetFreightResp.FreightDetailInfo();
                 freightDetailInfo.setToLocationId(x.getToLocation());
-                freightDetailInfo.setToLocationId(x.getToLocationTx());
+                freightDetailInfo.setToLocation(x.getToLocationTx());
                 freightDetailInfo.setTransportList(Lists.newArrayList(temp));
                 mapRest.put(x.getToLocation(), freightDetailInfo);
             }
         });
-        rest.setFreightInfo(mapRest.values());
+        rest.setDestinationList(mapRest.values());
         return rest;
 
     }

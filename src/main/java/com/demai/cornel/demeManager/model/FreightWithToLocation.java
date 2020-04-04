@@ -63,4 +63,8 @@ public class FreightWithToLocation {
     private String toLocationTx;
 
     private String updateTime;
+
+    private String toLocationArea;
+
+    private String toLocationDetail;
 }

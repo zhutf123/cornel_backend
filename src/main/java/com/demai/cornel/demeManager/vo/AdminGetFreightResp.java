@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Data public class AdminGetFreightResp extends AdminGetFreightViewResp {
 
-    private Collection<FreightDetailInfo> freightInfo;
+    private Collection<FreightDetailInfo> destinationList;
 
     @Data public static class FreightDetailInfo {
         private String toLocation;
