@@ -237,4 +237,13 @@
             #{loId}
         </foreach>
     </update>
+    <select id="selectFreightIdByFromLocation" resultType="java.lang.String">
+        select freight_id from freight_info where from_location=#{fromLocation,jdbcType=VARCHAR} and status=1;
+    </select>
+    <update id="updateFreightStatusByFreightIds">
+        update freight_info set status=0 where status=1 and freight_id  in
+        <foreach collection="freightIds" item="loId" open ="(" separator="," close=")" index="index">
+            #{loId}
+        </foreach>
+    </update>
 </mapper>

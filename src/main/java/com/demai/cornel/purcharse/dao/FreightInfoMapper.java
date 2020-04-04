@@ -38,6 +38,13 @@ public interface FreightInfoMapper {
 
     List<FreightWithToLocation> adminGetFreightWithToLocaByFromLoc(@Param("fromLocation") String fromLocationId);
 
+
+
+    Set<String> selectFreightIdByFromLocation(@Param("fromLocation")String fromLocation);
+
   int updateStatusOtherFreightId(@Param("fromLocationId")List<String> freightId,@Param("fromLocation")String fromLocation,@Param("toLocation")String toLocation);
+
+  int updateFreightStatusByFreightIds(@Param("freightIds")Set<String> freightId);
+
 
 }

@@ -204,6 +204,7 @@ import java.util.concurrent.TransferQueue;
         if (viewResp == null) {
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
+        Set<String> fromFreight = freightInfoMapper.selectFreightIdByFromLocation(viewResp.getLocationId());
         adminUpdateFreightReq.getDestinationList().stream().forEach(x -> {
             List<String> freight = new ArrayList<>();
             if (x.getTransportList() != null) {
@@ -223,14 +224,14 @@ import java.util.concurrent.TransferQueue;
                     } else if (transportList.getIsUpdate() != null && transportList.getIsUpdate().equals(1)) {
                         freightInfoMapper.updateStatus(transportList.getFreightId());
                         freightInfoMapper.insertSelective(freightInfo);
-                        freight.add(transportList.getFreightId());
+                        fromFreight.remove(transportList.getFreightId());
                     }
-                    freight.add(freightInfo.getFreightId());
+                    fromFreight.remove(freightInfo.getFreightId());
                 }
-                freightInfoMapper.updateStatusOtherFreightId(freight,viewResp.getLocationId(),x.getToLocationId());
             }
 
         });
+        freightInfoMapper.updateFreightStatusByFreightIds(fromFreight);
         return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }
 
