@@ -23,5 +23,7 @@ import java.util.List;
         private String transportType;
         private List<FreightExInfo> exInfo;
         private Integer updateFlag=0;
+        private String updateTime;
+
     }
 }

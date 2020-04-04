@@ -211,6 +211,6 @@
             </if>
         </trim>
         ON CONFLICT (location,location_area,location_detail)
-        D0 UPDATE set system_flag=#{systemFlag} ;
+        DO UPDATE set system_flag=#{systemFlag} ;
     </insert>
 </mapper>

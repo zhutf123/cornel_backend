@@ -170,6 +170,7 @@ import java.util.concurrent.TransferQueue;
             temp.setUpdateFlag(
                     TimeStampUtil.timeStampConvertString("yyyy-MM-dd", new Timestamp(System.currentTimeMillis()))
                             .equals(x.getUpdateTime()) ? 1 : 0);
+            temp.setUpdateTime(x.getUpdateTime());
             temp.setExInfo(Strings.isNullOrEmpty(x.getExInfo()) ?
                     Collections.EMPTY_LIST :
                     JSONObject.parseArray(x.getExInfo(), FreightExInfo.class));
