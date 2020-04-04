@@ -92,6 +92,7 @@ import java.util.concurrent.TransferQueue;
                 adminLocationMode.getLocation());
 
         if (!Strings.isNullOrEmpty(adminLocationMode.getLocationId())) {
+
             return locationInfoMapper.updateLocationInfoByLocationId(adminLocationMode.getLocationArea(),
                     adminLocationMode.getLocationDetail(), adminLocationMode.getLocation(),
                     adminLocationMode.getLocationId()) == 1 ?
@@ -216,7 +217,7 @@ import java.util.concurrent.TransferQueue;
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
         Set<String> fromFreight = freightInfoMapper.selectFreightIdByFromLocation(viewResp.getLocationId());
-        if(fromFreight==null){
+        if (fromFreight == null) {
             fromFreight = new HashSet<>(0);
         }
         Set<String> finalFromFreight = fromFreight;
@@ -240,13 +241,15 @@ import java.util.concurrent.TransferQueue;
                         freightInfoMapper.updateStatus(transportList.getFreightId());
                         freightInfoMapper.insertSelective(freightInfo);
                     }
-                    finalFromFreight.remove(Strings.isNullOrEmpty(transportList.getFreightId())?"":transportList.getFreightId());
+                    finalFromFreight.remove(Strings.isNullOrEmpty(transportList.getFreightId()) ?
+                            "" :
+                            transportList.getFreightId());
                     finalFromFreight.remove(freightInfo.getFreightId());
                 }
             }
 
         });
-        if(finalFromFreight!=null && finalFromFreight.size()>0) {
+        if (finalFromFreight != null && finalFromFreight.size() > 0) {
             freightInfoMapper.updateFreightStatusByFreightIds(finalFromFreight);
         }
         return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.SUCCESS.getValue()).build();
