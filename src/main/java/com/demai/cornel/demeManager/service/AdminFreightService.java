@@ -196,7 +196,7 @@ import java.util.concurrent.TransferQueue;
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
         if (Strings.isNullOrEmpty(adminUpdateFreightReq.getTowerId())
-                || adminUpdateFreightReq.getFreightInfo() == null) {
+                || adminUpdateFreightReq.getDestinationList() == null) {
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
         AdminGetFreightViewResp viewResp = dryTowerDao
@@ -204,22 +204,27 @@ import java.util.concurrent.TransferQueue;
         if (viewResp == null) {
             return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
-        adminUpdateFreightReq.getFreightInfo().stream().forEach(x -> {
-            FreightInfo freightInfo = new FreightInfo();
-            freightInfo.setPrice(x.getTotalPrice());
-            freightInfo.setFromLocation(viewResp.getLocationId());
-            freightInfo.setToLocation(x.getToLocationId());
-            freightInfo.setTransportType(convertTranSportToSet(x.getTransportType()));
-            freightInfo.setExInfo(x.getExInfo() == null ? null : JSONObject.toJSONString(x.getExInfo()));
-            freightInfo.setReviewUser(CookieAuthUtils.getCurrentUser());
-            freightInfo.setFreightId(UUID.randomUUID().toString());
+        adminUpdateFreightReq.getDestinationList().stream().forEach(x -> {
+           if(x.getTransportList()!=null){
+               for (AdminUpdateFreightReq.TransportList transportList:x.getTransportList()) {
+                   FreightInfo freightInfo = new FreightInfo();
+                   freightInfo.setPrice(transportList.getTotalPrice());
+                   freightInfo.setFromLocation(viewResp.getLocationId());
+                   freightInfo.setToLocation(x.getToLocationId());
+                   freightInfo.setTransportType(convertTranSportToSet(transportList.getTransportType()));
+                   freightInfo.setExInfo(transportList.getExInfo() == null ? null : JSONObject.toJSONString(transportList.getExInfo()));
+                   freightInfo.setReviewUser(CookieAuthUtils.getCurrentUser());
+                   freightInfo.setFreightId(UUID.randomUUID().toString());
+                   if (Strings.isNullOrEmpty(transportList.getFreightId())) {
+                       int res = freightInfoMapper.insertSelective(freightInfo);
+                   } else if (transportList.getIsUpdate().equals(1)) {
+                       freightInfoMapper.updateStatus(transportList.getFreightId());
+                       freightInfoMapper.insertSelective(freightInfo);
+                   }
+               }
 
-            if (Strings.isNullOrEmpty(x.getFreightId())) {
-                int res = freightInfoMapper.insertSelective(freightInfo);
-            } else if (!x.getUpdateFlag().equals(1)) {
-                freightInfoMapper.updateStatus(x.getFreightId());
-                freightInfoMapper.insertSelective(freightInfo);
-            }
+           }
+
         });
         return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }

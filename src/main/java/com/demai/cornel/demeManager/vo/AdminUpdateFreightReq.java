@@ -15,15 +15,19 @@ import java.util.Set;
 
     private String towerId;
     private String fromLocationId;
-    private List<FreightUpdatelInfo> freightInfo;
+    private List<FreightDetailInfo> destinationList;
 
-    @Data public static class FreightUpdatelInfo {
-        private String freightId;
+    @Data public static class FreightDetailInfo {
         private String toLocation;
         private String toLocationId;
+        private List<AdminUpdateFreightReq.TransportList> transportList;
+    }
+
+    @Data public static class TransportList {
         private BigDecimal totalPrice;
         private String transportType;
+        private String freightId;
         private List<FreightExInfo> exInfo;
-        private Integer updateFlag;
+        private Integer isUpdate;
     }
 }

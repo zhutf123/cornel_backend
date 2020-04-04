@@ -19,6 +19,8 @@ import java.util.List;
     @Data public static class FreightDetailInfo {
         private String toLocation;
         private String toLocationId;
+        private String toLocationArea;
+        private String toLocationDetail;
         private List<TransportList> transportList;
     }
 
