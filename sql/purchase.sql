@@ -79,8 +79,6 @@ comment on column buyer_info.update_time is '更新时间';
 
 comment on column buyer_info.frequently_address is '常用地址';
 
-alter table buyer_info
-    owner to postgres;
 
 create unique index buyer_info_id_uindex
     on buyer_info (id);
@@ -89,9 +87,7 @@ create unique index buyer_info_id_uindex
 -- 地理位置表
 create table location_info
 (
-    id            serial not null
-        constraint location_info_pk
-            primary key,
+    id            serial not null primary key,
     address_id    integer,
     address_detai varchar(40),
     address_gis   varchar(30),
@@ -106,8 +102,6 @@ comment on column location_info.address_detai is '位置';
 
 comment on column location_info.address_gis is '经纬度';
 
-alter table location_info
-    owner to postgres;
 
 create unique index location_info_id_uindex
     on location_info (id);
@@ -115,9 +109,7 @@ create unique index location_info_id_uindex
 -- 货品信息表
 create table cargo_id
 (
-    id              serial not null
-        constraint cargo_id_pk
-            primary key,
+    id              serial not null primary key,
     weight          numeric(10, 2),
     unit_weight     varchar(5),
     location_id     varchar(40),
@@ -148,8 +140,6 @@ comment on column cargo_id.commodity_id is '商品ID';
 
 comment on column cargo_id.status is '状态';
 
-alter table cargo_id
-    owner to postgres;
 
 create unique index cargo_id_id_uindex
     on cargo_id (id);
@@ -157,9 +147,7 @@ create unique index cargo_id_id_uindex
 -- 系统报价表
 create table offer_sheet
 (
-    id           serial      not null
-        constraint offer_sheet_pk
-            primary key,
+    id           serial      not null      primary key,
     commodity_id varchar(40) not null,
     address_id   varchar(40),
     price        numeric(10, 2),
@@ -184,8 +172,6 @@ comment on column offer_sheet.status is '0无效 1有效';
 
 comment on column offer_sheet.create_time is '创建时间';
 
-alter table offer_sheet
-    owner to postgres;
 
 create unique index offer_sheet_id_uindex
     on offer_sheet (id);
@@ -195,7 +181,6 @@ create unique index offer_sheet_id_uindex
 create table purchase_info
 (
     id            serial not null
-        constraint purchase_info_pk
             primary key,
     commodity_id  varchar(40),
     user_id       varchar(40),
@@ -236,8 +221,7 @@ comment on column purchase_info.status is '0 无效 1有效';
 
 comment on column purchase_info.create_time is '创建时间';
 
-alter table purchase_info
-    owner to postgres;
+
 
 create unique index purchase_info_id_uindex
     on purchase_info (id);
@@ -246,9 +230,7 @@ create unique index purchase_info_id_uindex
 -- 订单表
 create table sell_order
 (
-    id                    serial not null
-        constraint sell_order_pk
-            primary key,
+    id                    serial not null  primary key,
     status                integer,
     cargo_id              varchar(40),
     purchaser_id          varchar(40),
@@ -297,8 +279,6 @@ comment on column sell_order.uint_weight is '重量单位';
 
 comment on column sell_order.waybill_id is '运单列表';
 
-alter table sell_order
-    owner to postgres;
 
 create unique index sell_order_id_uindex
     on sell_order (id);
@@ -341,8 +321,6 @@ comment on column store_info.create_time is '创建时间';
 
 comment on column store_info.status is '0无效 1有效';
 
-alter table store_info
-    owner to postgres;
 
 create unique index store_info_id_uindex
     on store_info (id);
@@ -366,8 +344,6 @@ comment on column transport_type.transport_id is 'uuid ';
 
 comment on column transport_type.status is '0 无效 1有效';
 
-alter table transport_type
-    owner to postgres;
 
 create unique index transport_type_id_uindex
     on transport_type (id);
@@ -424,8 +400,7 @@ comment on column waybill_info.status is '状态 0待运输 1运输中 2 运输�
 
 comment on column waybill_info.update_time is '更新时间';
 
-alter table waybill_info
-    owner to postgres;
+
 
 create unique index waybill_info_id_uindex
     on waybill_info (id);
