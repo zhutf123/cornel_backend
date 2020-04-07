@@ -71,7 +71,7 @@ import java.util.concurrent.TimeUnit;
                     UserLoginResp.CODE_ENUE.SUCCESS.getValue(), param.getPhone(),
                     UserLoginResp.USER_STATUS_ENUE.UNREGISTERED.getValue());
         }
-        if (buyerInfo.getStatus() == null || buyerInfo.getStatus().equals(BuyerInfo.USER_STATUS.ENABLE.getValue())) {
+        if (buyerInfo.getStatus() == null || !buyerInfo.getStatus().equals(BuyerInfo.USER_STATUS.ENABLE.getValue())) {
             return new UserLoginResp(resp.getOpenid(), buyerInfo.getUserId(), 1,
                     UserLoginResp.CODE_ENUE.SUCCESS.getValue(), param.getPhone(),
                     UserLoginResp.USER_STATUS_ENUE.UNREGISTERED.getValue());
