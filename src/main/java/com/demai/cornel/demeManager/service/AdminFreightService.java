@@ -40,19 +40,19 @@ import java.util.concurrent.TransferQueue;
     @Resource private DryTowerDao dryTowerDao;
     @Resource private LocationInfoMapper locationInfoMapper;
 
-    @PostConstruct public void init() {
-        List<LocationInfo> locationInfos = dryTowerDao.getLocation();
-        locationInfos.stream().forEach(x -> {
-
-            if (x.getLocationId() == null) {
-                x.setLocationId(UUID.randomUUID().toString());
-                locationInfoMapper.insertSelective(x);
-
-            }
-
-        });
-
-    }
+//    @PostConstruct public void init() {
+//        List<LocationInfo> locationInfos = dryTowerDao.getLocation();
+//        locationInfos.stream().forEach(x -> {
+//
+//            if (x.getLocationId() == null) {
+//                x.setLocationId(UUID.randomUUID().toString());
+//                locationInfoMapper.insertSelective(x);
+//
+//            }
+//
+//        });
+//
+//    }
 
     public List<AdminGetFreightViewResp> adminGetFreightView(Integer offset, Integer pgSize) {
         List<AdminGetFreightViewResp> freightViewResps = dryTowerDao.adminGetDryTower(pgSize, offset);
