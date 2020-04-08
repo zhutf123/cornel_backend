@@ -26,7 +26,7 @@
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
         <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
-        <result column="reviewStatus" jdbcType="INTEGER" property="reviewStatus"/>
+        <result column="review_status" jdbcType="INTEGER" property="reviewStatus"/>
 
     </resultMap>
 
