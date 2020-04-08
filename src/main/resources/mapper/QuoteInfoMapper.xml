@@ -530,7 +530,7 @@
         <include refid="list_Resp_admin"/>
         from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on
         q.tower_id=d.tower_id
-        where q.status!=0 and q.tower_id=#{towerId,jdbcType=VARCHAR}
+        where q.status <![CDATA[>=]]> 4 and q.tower_id=#{towerId,jdbcType=VARCHAR}
         order by status asc,q.warehouse_time desc offset #{limit} limit #{pgSize};
     </select>
     <select id="adminGetQuoteDetail" resultMap="detailRespMapper_admin">
@@ -565,6 +565,14 @@
        select sum(shipment_weight*quote) as price_count,sum(shipment_weight) as total_weight, count(*) as order_count,
        sum(quote * shipment_weight) * 0.0535/365 * EXTRACT(DAY FROM now()-'2020-02-20') as total_interest from quote_info
        where status <![CDATA[>=]]>1 ;
+    </select>
+    <select id="opPdminGetQuoteList" resultMap="listRespMapper_admin">
+        select
+        <include refid="list_Resp_admin"/>
+        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on
+        q.tower_id=d.tower_id
+        where q.status!=0 and q.tower_id=#{towerId,jdbcType=VARCHAR}
+        order by status asc,q.warehouse_time desc offset #{limit} limit #{pgSize};
     </select>
 
 

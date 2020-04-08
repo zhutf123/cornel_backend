@@ -56,7 +56,12 @@ import java.util.UUID;
         Preconditions.checkNotNull(param);
         return JsonResult.success(adminCornService.getQuoteList(param, response));
     }
-
+    @CrossOrigin @RequestMapping(value = "/bussi-quote-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult OpgetQuoteList(
+            @RequestBody GetQuoteListReq param, HttpServletResponse response) {
+        Preconditions.checkNotNull(param);
+        return JsonResult.success(adminCornService.OpgetQuoteList(param, response));
+    }
     @CrossOrigin @RequestMapping(value = "/get-quote-detail.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteDetail(
             @RequestBody String param) {
         Preconditions.checkNotNull(param);
@@ -81,6 +86,8 @@ import java.util.UUID;
         Preconditions.checkNotNull(reviewQuoteReq);
         return JsonResult.success(adminCornService.getTowerList(reviewQuoteReq));
     }
+
+
 
     @CrossOrigin @RequestMapping(value = "/edit-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult editQuote(
             @RequestBody AdminEditQuoteReq adminEditQuoteReq) {

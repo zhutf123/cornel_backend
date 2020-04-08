@@ -38,6 +38,9 @@ public interface QuoteInfoDao {
 
     List<AdminGetQuoteListResp> adminGetQuoteList(@Param("limit") Integer quoteId, @Param("pgSize") Integer pgSize,@Param("towerId")String towerId);
 
+    List<AdminGetQuoteListResp> opPdminGetQuoteList(@Param("limit") Integer quoteId, @Param("pgSize") Integer pgSize,@Param("towerId")String towerId);
+
+
     GetOfferInfoResp getQuoteInfoById(@Param("quoteId") String quoteId);
 
     AdminGetQuteDetail adminGetQuoteDetail(@Param("quoteId") String quoteId);

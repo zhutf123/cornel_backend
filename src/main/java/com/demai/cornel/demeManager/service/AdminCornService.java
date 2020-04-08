@@ -101,6 +101,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return gerQuoteListResps;
     }
 
+    public List<AdminGetQuoteListResp> OpgetQuoteList(GetQuoteListReq getQuoteListReq, HttpServletResponse response) {
+
+        String userId = CookieAuthUtils.getCurrentUser();
+        String token = CookieAuthUtils.getCurrentUserToken();
+        if (!adminUserLoginService.checkAdminToken(token, userId)) {
+            return Collections.EMPTY_LIST;
+        }
+        if (getQuoteListReq.getPgSize() == null) {
+            getQuoteListReq.setPgSize(0);
+        }
+        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.opPdminGetQuoteList(getQuoteListReq.getPgSize(),
+                Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10), getQuoteListReq.getTowerId());
+        if (gerQuoteListResps == null) {
+            log.warn("admin get system quote empty");
+            return Collections.EMPTY_LIST;
+        }
+        return gerQuoteListResps;
+    }
+
     public AdminGetQuteDetail getQuteDetail(String quoteId) {
 
         String userId = CookieAuthUtils.getCurrentUser();
