@@ -11,7 +11,6 @@ import java.math.BigDecimal;
  */
 @Data public class ReviewQuoteReq {
     private String quoteId;
-    private Integer status;
     private Integer errCode;
     private String errDesc;
     private String warehouseTime;//出库时间

@@ -59,7 +59,7 @@ import java.util.HashMap;
         case (2):
             newQuoteInfo.setReviewStatus(QuoteInfo.REVEW_STATUS.REJECT.getValue());
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue());
-            if (quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue())) {
+            if (quoteReq.getOperaType().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue())) {
                 HashMap<String, String> reviewOpt = new HashMap<>(2);
                 reviewOpt.put("errCode", String.valueOf(quoteReq.getErrCode()));
                 reviewOpt.put("errDesc", quoteReq.getErrDesc());

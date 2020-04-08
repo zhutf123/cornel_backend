@@ -130,18 +130,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
     public ReviewQuoteResp adminReviewQuote(ReviewQuoteReq quoteReq) {
         String userId = CookieAuthUtils.getCurrentUser();
 
-        if (quoteReq == null || Strings.isNullOrEmpty(quoteReq.getQuoteId()) || quoteReq.getStatus() == null) {
+        if (quoteReq == null || Strings.isNullOrEmpty(quoteReq.getQuoteId())) {
             log.debug("review quote fail due to param error");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
 
-        if (!quoteReq.getStatus().equals(ReviewQuoteReq.OPERA_TYPE.APPROVEL.getValue()) && !quoteReq.getStatus()
-                .equals(ReviewQuoteReq.OPERA_TYPE.REJECT.getValue()) && !quoteReq.getStatus()
-                .equals(ReviewQuoteReq.OPERA_TYPE.EDIT.getValue())) {
-            log.debug("review quote fail due to param error quote status invalid ");
-            return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
-        }
-        if (quoteReq.getStatus().equals(ReviewQuoteReq.OPERA_TYPE.REJECT.getValue()) && (quoteReq.getErrCode() == null
+        if (quoteReq.getOperaType().equals(ReviewQuoteReq.OPERA_TYPE.REJECT.getValue()) && (quoteReq.getErrCode() == null
                 || Strings.isNullOrEmpty(quoteReq.getErrDesc()))) {
             log.debug("review quote fail due to param error reject quote must give the reason");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
