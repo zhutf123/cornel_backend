@@ -99,10 +99,9 @@ import java.util.HashMap;
             log.error("finaReviewQuote fail due to get quote from db err");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
-
-        if (!oldQuote.getReviewStatus().equals(QuoteInfo.REVEW_STATUS.UNDER_FINA.getValue())) {
-            log.error("finaReviewQuote fail due to  quote cur status is {} can not update ",
-                    oldQuote.getReviewStatus());
+        if (oldQuote.getStatus().compareTo(QuoteInfo.QUOTE_TATUS.UNDER_FIN_REVIEW.getValue())>0) {
+            log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ",
+                    oldQuote.getStatus());
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
         QuoteInfo newQuoteInfo = new QuoteInfo();
