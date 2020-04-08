@@ -48,7 +48,7 @@ import java.util.HashMap;
         if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue()) || !oldQuote.getStatus()
                 .equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue())) {
             log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ",
-                    oldQuote.getReviewStatus());
+                    oldQuote.getStatus());
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
         QuoteInfo newQuoteInfo = new QuoteInfo();

@@ -147,7 +147,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
     }
 
     public ReviewQuoteResp adminReviewQuote(ReviewQuoteReq quoteReq) {
-        String userId = CookieAuthUtils.getCurrentUser();
 
         if (quoteReq == null || Strings.isNullOrEmpty(quoteReq.getQuoteId())) {
             log.debug("review quote fail due to param error");
