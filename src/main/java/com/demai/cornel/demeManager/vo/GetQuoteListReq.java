@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 public class GetQuoteListReq {
 
-    private Integer limit;
+    private Integer offset;
     private Integer pgSize;
+    private String towerId;
+
 }

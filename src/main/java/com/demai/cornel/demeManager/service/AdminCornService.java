@@ -75,6 +75,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-02-20");
         days=Math.abs(now.getTime() - startDate.getTime())/(24*3600*1000);
         adminGetQueFinResp.setDays(days);
+        adminGetQueFinResp.setAvg_interest(adminGetQueFinResp.getTotal_interest().divide(new BigDecimal(days),2));
         return adminGetQueFinResp;
     }
 
@@ -85,11 +86,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
         if (!adminUserLoginService.checkAdminToken(token, userId)) {
             return Collections.EMPTY_LIST;
         }
-        if (getQuoteListReq.getLimit() == null) {
-            getQuoteListReq.setLimit(0);
+        if (getQuoteListReq.getPgSize() == null) {
+            getQuoteListReq.setPgSize(0);
         }
-        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(getQuoteListReq.getLimit(),
-                Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));
+        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(getQuoteListReq.getPgSize(),
+                Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10),getQuoteListReq.getTowerId());
         if (gerQuoteListResps == null) {
             log.warn("admin get system quote empty");
             return Collections.EMPTY_LIST;

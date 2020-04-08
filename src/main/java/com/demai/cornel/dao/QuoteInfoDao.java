@@ -7,6 +7,7 @@ import com.demai.cornel.demeManager.vo.AdminGetQuteDetail;
 import com.demai.cornel.model.QuoteInfo;
 import com.demai.cornel.vo.quota.GetOfferInfoResp;
 import com.demai.cornel.vo.quota.GetOfferListResp;
+import lombok.Data;
 import org.apache.ibatis.annotations.Param;
 
 import java.sql.Timestamp;
@@ -35,7 +36,7 @@ public interface QuoteInfoDao {
     List<GetOfferListResp> getSystemOwnerQuoteList(@Param("userId") String userId, @Param("quoteId") String quoteId,
             @Param("pgSize") Integer pgSize);
 
-    List<AdminGetQuoteListResp> adminGetQuoteList(@Param("limit") Integer quoteId, @Param("pgSize") Integer pgSize);
+    List<AdminGetQuoteListResp> adminGetQuoteList(@Param("limit") Integer quoteId, @Param("pgSize") Integer pgSize,@Param("towerId")String towerId);
 
     GetOfferInfoResp getQuoteInfoById(@Param("quoteId") String quoteId);
 
