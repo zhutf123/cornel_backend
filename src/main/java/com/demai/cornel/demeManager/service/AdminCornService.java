@@ -105,7 +105,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         if (getQuoteListReq.getPgSize() == null) {
             getQuoteListReq.setPgSize(0);
         }
-        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(getQuoteListReq.getPgSize(),
+        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(Optional.ofNullable(getQuoteListReq.getOffset()).orElse(0),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10), getQuoteListReq.getTowerId());
         if (gerQuoteListResps == null) {
             log.warn("admin get system quote empty");
@@ -122,9 +122,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
             return Collections.EMPTY_LIST;
         }
         if (getQuoteListReq.getPgSize() == null) {
-            getQuoteListReq.setPgSize(0);
+            getQuoteListReq.setPgSize(10);
         }
-        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.opPdminGetQuoteList(getQuoteListReq.getPgSize(),
+        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.opPdminGetQuoteList(Optional.ofNullable(getQuoteListReq.getOffset()).orElse(0),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10), getQuoteListReq.getTowerId());
         if (gerQuoteListResps == null) {
             log.warn("admin get system quote empty");

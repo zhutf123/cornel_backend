@@ -531,7 +531,7 @@
         from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on
         q.tower_id=d.tower_id
         where q.status <![CDATA[>=]]> 4 and q.tower_id=#{towerId,jdbcType=VARCHAR}
-        order by status asc,q.warehouse_time desc offset #{limit} limit #{pgSize};
+        order by status asc,q.warehouse_time desc offset #{offset} limit #{pgSize};
     </select>
     <select id="adminGetQuoteDetail" resultMap="detailRespMapper_admin">
         select
@@ -574,7 +574,7 @@
         from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on
         q.tower_id=d.tower_id
         where q.status!=0 and q.tower_id=#{towerId,jdbcType=VARCHAR}
-        order by status asc,q.warehouse_time desc offset #{limit} limit #{pgSize};
+        order by status asc,q.warehouse_time desc offset #{offset} limit #{pgSize};
     </select>
 
     <select id="optselectQuoteViewByTowerId" resultType="com.demai.cornel.demeManager.vo.AdminGetQuoteList$orderInfo">

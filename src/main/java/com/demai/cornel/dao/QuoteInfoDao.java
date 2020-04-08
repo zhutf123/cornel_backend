@@ -36,9 +36,9 @@ public interface QuoteInfoDao {
     List<GetOfferListResp> getSystemOwnerQuoteList(@Param("userId") String userId, @Param("quoteId") String quoteId,
             @Param("pgSize") Integer pgSize);
 
-    List<AdminGetQuoteListResp> adminGetQuoteList(@Param("limit") Integer quoteId, @Param("pgSize") Integer pgSize,@Param("towerId")String towerId);
+    List<AdminGetQuoteListResp> adminGetQuoteList(@Param("offset") Integer quoteId, @Param("pgSize") Integer pgSize,@Param("towerId")String towerId);
 
-    List<AdminGetQuoteListResp> opPdminGetQuoteList(@Param("limit") Integer quoteId, @Param("pgSize") Integer pgSize,@Param("towerId")String towerId);
+    List<AdminGetQuoteListResp> opPdminGetQuoteList(@Param("offset") Integer quoteId, @Param("pgSize") Integer pgSize,@Param("towerId")String towerId);
 
 
     GetOfferInfoResp getQuoteInfoById(@Param("quoteId") String quoteId);
