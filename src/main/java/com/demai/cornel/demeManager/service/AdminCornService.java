@@ -69,7 +69,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         if(adminGetQueFinResp==null){
             return null;
         }
-        adminGetQueFinResp.setAvg_price(adminGetQueFinResp.getPrice_count().divide(new BigDecimal(adminGetQueFinResp.getOrder_count())));
+        adminGetQueFinResp.setAvg_price(adminGetQueFinResp.getPrice_count().divide(new BigDecimal(adminGetQueFinResp.getOrder_count()),2));
         long days = 0;
         Date now = new Date(System.currentTimeMillis());
         Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-02-20");
