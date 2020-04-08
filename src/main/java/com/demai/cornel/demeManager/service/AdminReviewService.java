@@ -45,8 +45,7 @@ import java.util.HashMap;
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
 
-        if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue()) || !oldQuote.getStatus()
-                .equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue())) {
+        if (oldQuote.getStatus().compareTo(QuoteInfo.QUOTE_TATUS.SER_REVIEW_REFUSE.getValue())!=-1) {
             log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ",
                     oldQuote.getStatus());
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
@@ -56,6 +55,10 @@ import java.util.HashMap;
         switch (quoteReq.getOperaType()) {
         case (1):
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_FIN_REVIEW.getValue());
+            HashMap<String, String> reviewOptU = new HashMap<>(2);
+            reviewOptU.put("errCode", "0");
+            reviewOptU.put("errDesc", "");
+            newQuoteInfo.setReviewOpt(reviewOptU);
             break;
         case (2):
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.SER_REVIEW_REFUSE.getValue());
@@ -117,6 +120,10 @@ import java.util.HashMap;
             loanInfo.setActualPrice(finaReviewQuoteReq.getActualPrice());
             loanInfo.setStartInterest(
                     TimeStampUtil.stringConvertTimeStamp(TIME_FORMT, finaReviewQuoteReq.getStartInterest()));
+            HashMap<String, String> reviewOptU = new HashMap<>(2);
+            reviewOptU.put("errCode", "0");
+            reviewOptU.put("errDesc", "");
+            newQuoteInfo.setReviewOpt(reviewOptU);
             break;
         case (2):
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.FIN_REVIEW_REJECT.getValue());
