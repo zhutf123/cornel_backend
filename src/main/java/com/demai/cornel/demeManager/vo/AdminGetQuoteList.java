@@ -14,7 +14,7 @@ import java.util.List;
     private String tower_id;
     private List<orderInfo> tower_info;
 
-    @Data public  class orderInfo {
+    @Data public  static class orderInfo {
         private Long count;
         private Integer status;
         private String unit_price="元";
