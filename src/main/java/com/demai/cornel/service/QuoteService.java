@@ -100,7 +100,7 @@ import java.util.stream.Collectors;
         quoteInfo.setUserId(userId);
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.USER_DEFINE.getValue());
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
-        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
+        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
         quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
         quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
@@ -147,7 +147,7 @@ import java.util.stream.Collectors;
         }
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
-        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
+        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
         quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
         quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
@@ -192,7 +192,7 @@ import java.util.stream.Collectors;
                         + System.currentTimeMillis() % 100000);//为了排序加上当前时间时分秒作为时间戳
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
-        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
+        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
         quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
         quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));

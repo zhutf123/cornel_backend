@@ -31,7 +31,7 @@ import java.util.HashMap;
     //    @Resource private UserInfoDao userInfoDao;
     //    @Resource private SpecialQuoteMapper specialQuoteMapper;
     //    @Resource private AdminUserLoginService adminUserLoginService;
-        @Resource private LoanInfoMapper loanInfoMapper;
+    @Resource private LoanInfoMapper loanInfoMapper;
     //    @Resource private ImgService imgService;
 
     //    @Resource private ReviewLogMapper reviewLogMapper;
@@ -45,7 +45,8 @@ import java.util.HashMap;
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
 
-        if (!oldQuote.getReviewStatus().equals(QuoteInfo.REVEW_STATUS.UNDER_BUSS.getValue())) {
+        if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue()) || !oldQuote.getStatus()
+                .equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue())) {
             log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ",
                     oldQuote.getReviewStatus());
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
@@ -54,12 +55,11 @@ import java.util.HashMap;
         newQuoteInfo.setQuoteId(oldQuote.getQuoteId());
         switch (quoteReq.getOperaType()) {
         case (1):
-            newQuoteInfo.setReviewStatus(QuoteInfo.REVEW_STATUS.UNDER_USER_CONFIRM.getValue());
+            newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_FIN_REVIEW.getValue());
             break;
         case (2):
-            newQuoteInfo.setReviewStatus(QuoteInfo.REVEW_STATUS.REJECT.getValue());
-            newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue());
-            if (quoteReq.getOperaType().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue())) {
+            newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.SER_REVIEW_REFUSE.getValue());
+            if (quoteReq.getOperaType().equals(ReviewQuoteReq.OPERA_TYPE.REJECT.getValue())) {
                 HashMap<String, String> reviewOpt = new HashMap<>(2);
                 reviewOpt.put("errCode", String.valueOf(quoteReq.getErrCode()));
                 reviewOpt.put("errDesc", quoteReq.getErrDesc());
@@ -77,7 +77,7 @@ import java.util.HashMap;
             if (quoteReq.getShipmentWeight() != null) {
                 newQuoteInfo.setShipmentWeight(quoteReq.getShipmentWeight());
             }
-            newQuoteInfo.setReviewStatus(QuoteInfo.REVEW_STATUS.UNDER_USER_CONFIRM.getValue());
+            newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue());
             break;
         default:
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
@@ -105,8 +105,7 @@ import java.util.HashMap;
         QuoteInfo newQuoteInfo = new QuoteInfo();
         newQuoteInfo.setQuoteId(oldQuote.getQuoteId());
         if (oldQuote.getLoanId() == null || oldQuote.getLoanId().size() == 0) {
-            log.error("finaReviewQuote fail due to  quote cur NO loan info ",
-                    oldQuote.getReviewStatus());
+            log.error("finaReviewQuote fail due to  quote cur NO loan info ", oldQuote.getReviewStatus());
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.NO_LOAN_INFO.getValue()).build();
 
         }
@@ -114,15 +113,13 @@ import java.util.HashMap;
         loanInfo.setLoanId(oldQuote.getLoanId().iterator().next());
         switch (finaReviewQuoteReq.getOperaType()) {
         case (1):
-            newQuoteInfo.setReviewStatus(QuoteInfo.REVEW_STATUS.APPROVED.getValue());
-            newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW_PASS.getValue());
+            newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.FIN_REVIEW_PASS.getValue());
             loanInfo.setActualPrice(finaReviewQuoteReq.getActualPrice());
             loanInfo.setStartInterest(
                     TimeStampUtil.stringConvertTimeStamp(TIME_FORMT, finaReviewQuoteReq.getStartInterest()));
             break;
         case (2):
-            newQuoteInfo.setReviewStatus(QuoteInfo.REVEW_STATUS.REJECT.getValue());
-            newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue());
+            newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.FIN_REVIEW_REJECT.getValue());
             HashMap<String, String> reviewOpt = new HashMap<>(2);
             reviewOpt.put("errDesc", finaReviewQuoteReq.getErrDesc());
             newQuoteInfo.setReviewOpt(reviewOpt);

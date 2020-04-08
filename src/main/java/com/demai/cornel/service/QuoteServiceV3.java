@@ -95,7 +95,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
                         + System.currentTimeMillis() % 100000);//为了排序加上当前时间时分秒作为时间戳
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
-        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
+        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
         quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
         quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
@@ -130,7 +130,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.ORDER_INVALD.getValue());
             return offerQuoteResp;
         }
-        if (oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_PASS.getValue())) {
+        if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue())) {
             log.info("edit  quote info fail due to  quote STATUS can't update ");
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.ORDER_STATUS_INVALD.getValue());
             return offerQuoteResp;
@@ -170,7 +170,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
             imgService.updateQuoteImg(offerQuoteReq.getImgs(), offerQuoteReq.getQuoteId());
         }
         quoteInfo.setQuoteId(oldQuote.getQuoteId());
-        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.REVIEW.getValue());
+        quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         if (!Strings.isNullOrEmpty(offerQuoteReq.getStartTime())) {

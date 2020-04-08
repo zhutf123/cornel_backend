@@ -141,7 +141,15 @@ import java.util.Set;
     }
 
     public static enum QUOTE_TATUS implements IEmus {
-        CANCEL(-1, "取消"), REVIEW(1, "审核中"), REVIEW_PASS(2, "审核通过"), REVIEW_REFUSE(3, "审核拒绝");
+        //CANCEL(-1, "取消"), REVIEW(1, "审核中"), REVIEW_PASS(2, "审核通过"), REVIEW_REFUSE(3, "审核拒绝");
+        CANCEL(-1, "取消"),
+        UNDER_SER_REVIEW(1, "待业务人员审"),
+        SER_REVIEW_PASS(2, "业务人员修改通过,待用户确认"),
+        SER_REVIEW_REFUSE(3, "业务人员审核拒绝"),
+        UNDER_FIN_REVIEW(4, "待财务人员审核"),
+        FIN_REVIEW_PASS(5, "财务人员审核通过"),
+        FIN_REVIEW_REJECT(6, "财务人员拒绝");
+
         private int value;
         private String expr;
 
