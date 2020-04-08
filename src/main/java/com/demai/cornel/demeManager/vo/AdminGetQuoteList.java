@@ -15,7 +15,7 @@ import java.util.List;
     private List<orderInfo> tower_info;
 
     @Data public  class orderInfo {
-        private Integer count;
+        private long count;
         private Integer status;
         private String unit_price="元";
         private String unit_weight="吨";
