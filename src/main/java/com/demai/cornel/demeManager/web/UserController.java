@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.ref.PhantomReference;
+import java.text.ParseException;
 import java.util.UUID;
 
 /**
@@ -36,48 +37,24 @@ import java.util.UUID;
     @Resource private AdminUserLoginService adminUserLoginService;
     @Resource private AdminCornService adminCornService;
 
-    /***
-     * 给用户手机号 发送短信验证码 需要补充逻辑 在n分钟内，发送x条的限制
-     * 60s 内最大发3次
-     * @param phone 手机号
-     * @return
-     */
-    @RequestMapping(value = "/sendCode.json", method = RequestMethod.POST) @ResponseBody @AccessControl(value = "60_3") @CrossOrigin public JsonResult userLoginSendCode(
-            @RequestBody UserLoginSendMsgParam phone) {
-        try {
-            log.debug("send code access [{}]", JacksonUtils.obj2String(phone));
-            return JsonResult.successStatus(adminUserLoginService.sendLoginCodeMsg(phone.getPhone()));
-        } catch (Exception e) {
-            log.error("用户发送短信异常！", e);
-            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
-        }
+    @CrossOrigin @RequestMapping(value = "/get-quote-view.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteView(
+            @RequestBody String param, HttpServletResponse response) {
+        Preconditions.checkNotNull(param);
+        JSONObject receivedParam = JSON.parseObject(param);
+        Integer offset = (Integer) receivedParam.get("offset");
+        Integer pgSize = (Integer) receivedParam.get("pgSize");
+        return JsonResult.success(adminCornService.adminGetQuoteLists(offset, pgSize));
     }
 
-    /**
-     * @return
-     */
-    @RequestMapping(value = "/login.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @CrossOrigin @ResponseBody public JsonResult doUserLogin(
-            @RequestBody UserLoginParam param, HttpServletResponse response) {
-        try {
-            Preconditions.checkNotNull(param);
-            Preconditions.checkNotNull(param.getPhone());
-            Preconditions.checkNotNull(param.getMsgCode());
-            AdminLoginResp login = adminUserLoginService.doLogin(param,response);
-            if (login.getCode().compareTo(UserLoginResp.CODE_ENUE.SUCCESS.getValue()) == 0) {
-                return JsonResult.success(login);
-            } else {
-                return JsonResult.successStatus(UserLoginResp.CODE_ENUE.getByValue(login.getCode()));
-            }
-        } catch (Exception e) {
-            log.error("用户登录异常！", e);
-        }
-        return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    @RequestMapping(value = "/get-finc-info.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody
+    public JsonResult getFinInfo(@RequestBody String param, HttpServletResponse response) throws ParseException {
+        return JsonResult.success(adminCornService.adminGetQueFinInfo());
     }
 
     @CrossOrigin @RequestMapping(value = "/get-quote-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteList(
             @RequestBody GetQuoteListReq param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
-        return JsonResult.success(adminCornService.getQuoteList(param,response));
+        return JsonResult.success(adminCornService.getQuoteList(param, response));
     }
 
     @CrossOrigin @RequestMapping(value = "/get-quote-detail.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteDetail(
@@ -110,13 +87,13 @@ import java.util.UUID;
         return JsonResult.success(adminCornService.getSyQuLis());
     }
 
-    @CrossOrigin @RequestMapping(value = "/get-tower-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult getTowerQuote(@RequestBody AdGetTowQuLiReq adGetTowQuLiReq) {
+    @CrossOrigin @RequestMapping(value = "/get-tower-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getTowerQuote(
+            @RequestBody AdGetTowQuLiReq adGetTowQuLiReq) {
         Preconditions.checkNotNull(adGetTowQuLiReq);
         return JsonResult.success(adminCornService.getTowerQuoteList(adGetTowQuLiReq.getUserId()));
     }
-    @CrossOrigin @RequestMapping(value = "/get-err-opt.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult getErrOption() {
+
+    @CrossOrigin @RequestMapping(value = "/get-err-opt.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getErrOption() {
         return JsonResult.success(adminCornService.getReviewErrOpt());
     }
 

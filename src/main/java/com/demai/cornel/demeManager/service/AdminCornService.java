@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -47,7 +49,35 @@ import java.util.concurrent.atomic.AtomicBoolean;
     @Resource private AdminUserLoginService adminUserLoginService;
     @Resource private LoanInfoMapper loanInfoMapper;
     @Resource private ImgService imgService;
-private static AtomicBoolean atomicBoolean = new AtomicBoolean();
+    private static AtomicBoolean atomicBoolean = new AtomicBoolean();
+
+    public List<AdminGetQuoteList> adminGetQuoteLists(Integer offset, Integer pgSize) {
+        List<AdminGetQuoteList> quoteLists = dryTowerDao
+                .selectDrytower(Optional.ofNullable(offset).orElse(0), Optional.ofNullable(pgSize).orElse(10));
+        if (quoteLists == null) {
+            return Collections.EMPTY_LIST;
+        }
+        quoteLists.stream().forEach(x -> {
+            List<AdminGetQuoteList.orderInfo> orderInfos = quoteInfoDao.selectQuoteViewByTowerId(x.getTower_id());
+            x.setTower_info(orderInfos == null ? Collections.EMPTY_LIST : orderInfos);
+        });
+        return quoteLists;
+    }
+
+    public AdminGetQueFinResp adminGetQueFinInfo() throws ParseException {
+        AdminGetQueFinResp adminGetQueFinResp = quoteInfoDao.adminGetFinInfo();
+        if(adminGetQueFinResp==null){
+            return null;
+        }
+        adminGetQueFinResp.setAvg_price(adminGetQueFinResp.getPrice_count().divide(new BigDecimal(adminGetQueFinResp.getOrder_count())));
+        long days = 0;
+        Date now = new Date(System.currentTimeMillis());
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-02-20");
+        days=Math.abs(now.getTime() - startDate.getTime())/(24*3600*1000);
+        adminGetQueFinResp.setDays(days);
+        return adminGetQueFinResp;
+    }
+
     public List<AdminGetQuoteListResp> getQuoteList(GetQuoteListReq getQuoteListReq, HttpServletResponse response) {
 
         String userId = CookieAuthUtils.getCurrentUser();
@@ -55,17 +85,9 @@ private static AtomicBoolean atomicBoolean = new AtomicBoolean();
         if (!adminUserLoginService.checkAdminToken(token, userId)) {
             return Collections.EMPTY_LIST;
         }
-//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-//        if (adminUser == null) {
-//            log.warn("admin get  quote detail fail due to user error ");
-//            return Collections.EMPTY_LIST;
-//        }
         if (getQuoteListReq.getLimit() == null) {
             getQuoteListReq.setLimit(0);
         }
-       // adminUserLoginService.resetTokenExprieTime(userId, token);
-        response.addCookie(adminUserLoginService.clearPathCookie());
-        response.addCookie(adminUserLoginService.buildCkey(userId, token));
         List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(getQuoteListReq.getLimit(),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));
         if (gerQuoteListResps == null) {
@@ -83,22 +105,17 @@ private static AtomicBoolean atomicBoolean = new AtomicBoolean();
             return AdminGetQuteDetail.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
         AdminGetQuteDetail quoteInfo = quoteInfoDao.adminGetQuoteDetail(quoteId);
-//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-//        if (adminUser == null) {
-//            log.warn("admin get  quote detail fail due to user error ");
-//            return AdminGetQuteDetail.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
-//        }
-
         if (quoteInfo == null) {
             log.warn("admin get  quote detail ");
             return AdminGetQuteDetail.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.ORDER_INVALID.getValue())
                     .build();
         }
-        if(quoteInfo.getLoanId()==null){
+        if (quoteInfo.getLoanId() == null) {
             quoteInfo.setLoanPrice(new BigDecimal(0.0));
-        }else {
-            List<LoanInfo> loanInfos =  loanInfoMapper.getLoanByLoanIds(quoteInfo.getLoanId());
-            quoteInfo.setLoanPrice(loanInfos==null || loanInfos.size()==0 ? new BigDecimal(0):loanInfos.get(0).getPrice());
+        } else {
+            List<LoanInfo> loanInfos = loanInfoMapper.getLoanByLoanIds(quoteInfo.getLoanId());
+            quoteInfo.setLoanPrice(
+                    loanInfos == null || loanInfos.size() == 0 ? new BigDecimal(0) : loanInfos.get(0).getPrice());
         }
         quoteInfo.setImgInfo(imgService.getQuoteImgs(quoteId));
         quoteInfo.setDryWetRadio(GetDryWetRadioResp.dryWetRadio);
@@ -122,11 +139,6 @@ private static AtomicBoolean atomicBoolean = new AtomicBoolean();
             log.debug("review quote fail due to param error quote status invalid ");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
-//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-//        if (adminUser == null) {
-//            log.warn("review quote failfail due to user error ");
-//            return ReviewQuoteResp.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
-//        }
         if (quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue()) && (
                 quoteReq.getErrCode() == null || Strings.isNullOrEmpty(quoteReq.getErrDesc()))) {
             log.debug("review quote fail due to param error reject quote must give the reason");
@@ -159,11 +171,6 @@ private static AtomicBoolean atomicBoolean = new AtomicBoolean();
         if (!adminUserLoginService.checkAdminToken(token, userId)) {
             return Collections.EMPTY_LIST;
         }
-//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-//        if (adminUser == null) {
-//            log.debug("cur user {} no auth get tower list", CookieAuthUtils.getCurrentUser());
-//            return Collections.EMPTY_LIST;
-//        }
         List<DryTower> towers = dryTowerDao.selectAllTower(adminGetTowerReq.getTowerId(),
                 Optional.ofNullable(adminGetTowerReq.getPgSize()).orElse(10));
         if (towers == null || towers.size() == 0) {
@@ -195,12 +202,6 @@ private static AtomicBoolean atomicBoolean = new AtomicBoolean();
             return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue())
                     .build();
         }
-//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-//        if (adminUser == null) {
-//            log.debug("cur user {} no auth EDIT quote", CookieAuthUtils.getCurrentUser());
-//            return AdminEditQuoteResp.builder().optStatus(AdminEditQuoteResp.STATUS_ENUE.USER_ERROR.getValue()).build();
-//        }
-
         for (AdminEditQuoteReq.quoteInfo x : adminGetTowerReq.getQuoteInfos()) {
             if (x.getSystemFlag() != null && x.getSystemFlag().equals(1)) {
                 editSystemQuote(x);
@@ -271,11 +272,6 @@ private static AtomicBoolean atomicBoolean = new AtomicBoolean();
         if (!adminUserLoginService.checkAdminToken(token, userId)) {
             return Collections.EMPTY_LIST;
         }
-//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-//        if (adminUser == null) {
-//            log.debug("cur user {} no auth  getSyQuLis list", CookieAuthUtils.getCurrentUser());
-//            return Collections.EMPTY_LIST;
-//        }
         List<AdminGetSyQuLis> systemQuote = systemQuoteDao.adminGetSystemList();
         if (systemQuote == null) {
             log.debug("cur user {}  get system quote list empty", CookieAuthUtils.getCurrentUser());
@@ -290,11 +286,6 @@ private static AtomicBoolean atomicBoolean = new AtomicBoolean();
         if (!adminUserLoginService.checkAdminToken(token, userId)) {
             return Collections.EMPTY_LIST;
         }
-//        AdminUser adminUser = adminUserMapper.selectUserByUserId(CookieAuthUtils.getCurrentUser());
-//        if (adminUser == null) {
-//            log.debug("cur user {} no auth  AdminGetTowerQuLiResp list", CookieAuthUtils.getCurrentUser());
-//            return Collections.EMPTY_LIST;
-//        }
         List<SpecialQuote> specialQuote = specialQuoteMapper.selectSpecialQuoteByTargetUserId(towerUserId);
         if (specialQuote == null) {
             log.debug("cur user {}  get AdminGetTowerQuLiResp list empty", CookieAuthUtils.getCurrentUser());

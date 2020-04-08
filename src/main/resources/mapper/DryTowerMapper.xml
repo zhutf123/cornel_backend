@@ -288,4 +288,8 @@
     <select id="getLocation" resultType="com.demai.cornel.purcharse.model.LocationInfo">
         select location_detail as locationDetail,location as location,location_area as locationArea,location_id as locationId from dry_tower ;
     </select>
+    <select id="selectDrytower" resultType="com.demai.cornel.demeManager.vo.AdminGetQuoteList">
+      select tower_id,company from dry_tower  where status=1 and company is not null order by id desc offset #{offset} limit #{pgSize,jdbcType=INTEGER};
+    </select>
+
 </mapper>

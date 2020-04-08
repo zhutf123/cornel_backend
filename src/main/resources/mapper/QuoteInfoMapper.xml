@@ -91,7 +91,8 @@
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="company" jdbcType="VARCHAR" property="company"/>
 
-        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
     </resultMap>
     <resultMap id="detailRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuteDetail">
         <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
@@ -105,8 +106,10 @@
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
-        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="company" jdbcType="VARCHAR" property="company"/>
         <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
@@ -365,7 +368,8 @@
                 #{wetWeight,jdbcType=DECIMAL} ,
             </if>
             <if test="loanId != null">
-                #{loanId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,
+                #{loanId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+                ,
             </if>
         </trim>
     </insert>
@@ -431,7 +435,8 @@
                 review_user = #{reviewUser,jdbcType=VARCHAR} ,
             </if>
             <if test="reviewOpt != null">
-                review_opt = hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}),
+                review_opt =
+                hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}),
             </if>
             <if test="warehouseTime != null">
                 warehouse_time=#{warehouseTime,jdbcType=TIMESTAMP},
@@ -440,7 +445,7 @@
                 cargo_status=#{cargoStatus,jdbcType=INTEGER} ,
             </if>
             <if test="wetWeight != null">
-               wet_weight= #{wetWeight,jdbcType=DECIMAL} ,
+                wet_weight= #{wetWeight,jdbcType=DECIMAL} ,
             </if>
             <if test="loanId != null">
                 loan_id=#{loanId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
@@ -474,7 +479,8 @@
     <select id="getOwnerQuoteList" resultMap="get_quote_list">
         select
         <include refid="get_offer_list"/>
-        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and q.status != -1 and
+        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and
+        q.status != -1 and
         q.system_flag=0
         <if test="quoteId != null and quoteId != ''">
             and q.id <![CDATA[<=]]> (select id from quote_info where quoteId=#{quoteId,jdbcType=VARCHAR} )
@@ -487,7 +493,8 @@
     <select id="getSystemOwnerQuoteList" resultMap="get_quote_list">
         select
         <include refid="get_offer_list"/>
-        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and q.status != -1 and
+        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and
+        q.status != -1 and
         q.system_flag=1
         <if test="quoteId != null and quoteId != ''">
             and q.id <![CDATA[<=]]> (select id from quote_info where quoteId=#{quoteId,jdbcType=VARCHAR} )
@@ -510,21 +517,25 @@
     <select id="adminGetQuoteList" resultMap="listRespMapper_admin">
         select
         <include refid="list_Resp_admin"/>
-        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on q.tower_id=d.tower_id
-         where q.status!=0
+        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on
+        q.tower_id=d.tower_id
+        where q.status!=0
         order by status asc,q.warehouse_time desc offset #{limit} limit #{pgSize};
     </select>
     <select id="adminGetQuoteDetail" resultMap="detailRespMapper_admin">
-      select <include refid="detail_Resp_admin"/>
-        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on q.tower_id=d.tower_id
+        select
+        <include refid="detail_Resp_admin"/>
+        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on
+        q.tower_id=d.tower_id
         where q.status!=0
         and q.quote_id=#{quoteId,jdbcType=VARCHAR}
     </select>
     <select id="getSystemOwnerQuoteListV2" resultMap="get_quote_list">
-            select
-            <include refid="get_offer_list"/>
-            from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and q.status != -1 and
-            q.system_flag=1
+        select
+        <include refid="get_offer_list"/>
+        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and
+        q.status != -1 and
+        q.system_flag=1
         <if test="time != null">
             and
             q.warehouse_time <![CDATA[<]]> #{time,jdbcType=TIMESTAMP}
@@ -533,7 +544,16 @@
             and
             q.warehouse_time <![CDATA[<=]]> (select max(warehouse_time) from quote_info limit 1)
         </if>
-            order by q.warehouse_time desc limit #{pgSize} ;
+        order by q.warehouse_time desc limit #{pgSize} ;
+    </select>
+    <select id="selectQuoteViewByTowerId" resultType="com.demai.cornel.demeManager.vo.AdminGetQuoteList$orderInfo">
+       select count(*) as count,status as status,sum(shipment_weight*quote) as total,sum(shipment_weight) as weight
+       from quote_info where tower_id=#{towerId,jdbcType=VARCHAR} and status <![CDATA[>=]]>1  group by status order by status asc;
+    </select>
+    <select id="adminGetFinInfo" resultType="com.demai.cornel.demeManager.vo.AdminGetQueFinResp">
+       select sum(shipment_weight*quote) as price_count,sum(shipment_weight) as total_weight, count(*) as order_count,
+       sum(a.quote * a.shipment_weight) * 0.0535/365 * EXTRACT(DAY FROM now()-'2020-02-20') as total_interest from quote_info
+       where status <![CDATA[>=]]>1 ;
     </select>
 
 
