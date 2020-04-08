@@ -65,12 +65,17 @@ import java.util.UUID;
         return JsonResult.success(adminCornService.getQuteDetail(quoteId));
     }
 
-    @CrossOrigin @RequestMapping(value = "/review-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult reviewQuote(
+    @CrossOrigin @RequestMapping(value = "/opera-review-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult reviewQuote(
             @RequestBody ReviewQuoteReq reviewQuoteReq) {
         Preconditions.checkNotNull(reviewQuoteReq);
         return JsonResult.success(adminCornService.adminReviewQuote(reviewQuoteReq));
     }
 
+    @CrossOrigin @RequestMapping(value = "/fina-review-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult finaReviewFina(@RequestBody FinaReviewQuoteReq reviewQuoteReq) {
+        Preconditions.checkNotNull(reviewQuoteReq);
+        return JsonResult.success(adminCornService.finceReviewQuote(reviewQuoteReq));
+    }
     @CrossOrigin @RequestMapping(value = "/get-tower-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getTowerList(
             @RequestBody AdminGetTowerReq reviewQuoteReq) {
         Preconditions.checkNotNull(reviewQuoteReq);

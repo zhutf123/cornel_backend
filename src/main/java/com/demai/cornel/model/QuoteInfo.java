@@ -13,8 +13,7 @@ import java.util.Set;
  * @Author binz.zhang
  * @Date: 2020-01-06    11:58
  */
-@Data
-public class QuoteInfo {
+@Data public class QuoteInfo {
     /**
      * 自增ID
      */
@@ -111,11 +110,15 @@ public class QuoteInfo {
     private BigDecimal wetWeight;//湿粮重量
     private Set<String> loanId;//贷款ID
 
-    private HashMap<String,String>reviewOpt;
+    private HashMap<String, String> reviewOpt;
+
+    private Integer reviewStatus;// 审核的具体状态
+
     /**
      * 结束时间
      */
     private Timestamp endTime;
+
     public static enum SYSTEM_STATUS implements IEmus {
         SYSTEM(1, "参数错误"), USER_DEFINE(0, "用户发起订单");
 
@@ -136,9 +139,9 @@ public class QuoteInfo {
         }
 
     }
+
     public static enum QUOTE_TATUS implements IEmus {
-        CANCEL(-1, "取消"), REVIEW(1, "审核中"),
-        REVIEW_PASS(2, "审核通过"), REVIEW_REFUSE(3, "审核拒绝");
+        CANCEL(-1, "取消"), REVIEW(1, "审核中"), REVIEW_PASS(2, "审核通过"), REVIEW_REFUSE(3, "审核拒绝");
         private int value;
         private String expr;
 
@@ -155,7 +158,9 @@ public class QuoteInfo {
             return expr;
         }
 
-    }public static enum CARGO_STATUS implements IEmus {
+    }
+
+    public static enum CARGO_STATUS implements IEmus {
         futures(2, "等待货物入库"), spot(1, "现货");
         private int value;
         private String expr;
@@ -175,4 +180,24 @@ public class QuoteInfo {
 
     }
 
+    public static enum REVEW_STATUS implements IEmus {
+        UNDER_BUSS(1, "待业务人员审批"), UNDER_USER_CONFIRM(2, "待用户确认"), UNDER_FINA(3, "待财务人员审批"), REJECT(4, "审核拒绝"), APPROVED(
+                5, "审核通过");
+        private int value;
+        private String expr;
+
+        private REVEW_STATUS(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override public int getValue() {
+            return value;
+        }
+
+        @Override public String getExpr() {
+            return expr;
+        }
+
+    }
 }

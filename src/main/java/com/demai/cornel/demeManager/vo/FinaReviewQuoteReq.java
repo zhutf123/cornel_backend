@@ -3,25 +3,22 @@ package com.demai.cornel.demeManager.vo;
 import com.demai.cornel.dmEnum.IEmus;
 import lombok.Data;
 
+import java.lang.annotation.Documented;
 import java.math.BigDecimal;
 
 /**
  * @Author binz.zhang
- * @Date: 2020-03-08    14:23
+ * @Date: 2020-04-08    19:43
  */
-@Data public class ReviewQuoteReq {
+@Data public class FinaReviewQuoteReq {
     private String quoteId;
-    private Integer status;
-    private Integer errCode;
     private String errDesc;
-    private String warehouseTime;//出库时间
-    private BigDecimal shipmentWeight;//出库时间
-    private BigDecimal quote; //报价
     private Integer operaType;
-    private Object changeLog;
+    private BigDecimal actualPrice;//实际放款金额
+    private String startInterest;//起息日
 
     public static enum OPERA_TYPE implements IEmus {
-        APPROVEL(1, "通过审批"), REJECT(2, "拒绝审批"), EDIT(2, "修改订单状态");
+        APPROVEL(1, "通过审批"), REJECT(2, "拒绝审批");
         private int value;
         private String expr;
 
@@ -39,5 +36,4 @@ import java.math.BigDecimal;
         }
 
     }
-
 }

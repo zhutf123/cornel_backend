@@ -20,7 +20,11 @@ public class ReviewQuoteResp {
         PARAM_ERROR(-1, "参数错误"),
         SUCCESS(0, "请求成功"),
         ORDER_INVALID(1, "订单无效"),
-        USER_ERROR(2, "用户无权限");
+        USER_ERROR(2, "用户无权限"),
+        ORDER_STATAUS_INVALID(3 ,"订单状态不可修改"),
+        SERVER_ERR(4 ,"服务异常"),
+        NO_LOAN_INFO(5,"没有贷款信息");
+
 
         private int value;
         private String expr;

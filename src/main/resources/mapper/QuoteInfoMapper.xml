@@ -26,6 +26,8 @@
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
         <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
+        <result column="reviewStatus" jdbcType="INTEGER" property="reviewStatus"/>
+
     </resultMap>
 
     <resultMap id="get_quote_list" type="com.demai.cornel.vo.quota.GetOfferListResp">
@@ -121,7 +123,7 @@
         <!--@mbg.generated-->
         id, commodity_id, "quote", unit_price, shipment_weight, unit_weight, start_time,
         update_time, "status", "desc", system_flag, bargain_status, user_id, "location",
-        user_name, quote_id, tower_id, mobile, end_time,cargo_status,wet_weight,loan_id
+        user_name, quote_id, tower_id, mobile, end_time,cargo_status,wet_weight,loan_id,review_status
     </sql>
 
     <sql id="get_offer_list">
@@ -176,7 +178,7 @@
         q.warehouse_time,
         c.commodity_id,
         c.name as commodity_name,
-        d.company,
+        d.company
     </sql>
     <sql id="detail_Resp_admin">
         q.quote_id,
@@ -299,6 +301,9 @@
             <if test="loanId != null">
                 loan_id,
             </if>
+            <if test=" reviewStatus != null">
+                review_status,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -370,6 +375,9 @@
             <if test="loanId != null">
                 #{loanId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
                 ,
+            </if>
+            <if test=" reviewStatus != null">
+                #{reviewStatus},
             </if>
         </trim>
     </insert>
@@ -449,6 +457,9 @@
             </if>
             <if test="loanId != null">
                 loan_id=#{loanId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+            </if>
+            <if test=" reviewStatus != null">
+                review_status= #{reviewStatus},
             </if>
         </set>
         where quote_id = #{quoteId,jdbcType=VARCHAR}

@@ -4,8 +4,10 @@ import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.demai.cornel.controller.quota.DryTowerController;
 import com.demai.cornel.dao.*;
 import com.demai.cornel.demeManager.dao.AdminUserMapper;
+import com.demai.cornel.demeManager.dao.ReviewLogMapper;
 import com.demai.cornel.demeManager.dao.SpecialQuoteMapper;
 import com.demai.cornel.demeManager.model.AdminUser;
+import com.demai.cornel.demeManager.model.ReviewLog;
 import com.demai.cornel.demeManager.model.SpecialQuote;
 import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.model.*;
@@ -22,6 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestBody;
+import sun.plugin.javascript.JSObject;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -49,7 +53,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
     @Resource private AdminUserLoginService adminUserLoginService;
     @Resource private LoanInfoMapper loanInfoMapper;
     @Resource private ImgService imgService;
-    private static AtomicBoolean atomicBoolean = new AtomicBoolean();
+    @Resource private AdminReviewService adminReviewService;
+    @Resource private ReviewLogMapper reviewLogMapper;
 
     public List<AdminGetQuoteList> adminGetQuoteLists(Integer offset, Integer pgSize) {
         List<AdminGetQuoteList> quoteLists = dryTowerDao
@@ -66,16 +71,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
     public AdminGetQueFinResp adminGetQueFinInfo() throws ParseException {
         AdminGetQueFinResp adminGetQueFinResp = quoteInfoDao.adminGetFinInfo();
-        if(adminGetQueFinResp==null){
+        if (adminGetQueFinResp == null) {
             return null;
         }
-        adminGetQueFinResp.setAvg_price(adminGetQueFinResp.getPrice_count().divide(new BigDecimal(adminGetQueFinResp.getOrder_count()),2));
+        adminGetQueFinResp.setAvg_price(
+                adminGetQueFinResp.getPrice_count().divide(new BigDecimal(adminGetQueFinResp.getOrder_count()), 2));
         long days = 0;
         Date now = new Date(System.currentTimeMillis());
         Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-02-20");
-        days=Math.abs(now.getTime() - startDate.getTime())/(24*3600*1000);
+        days = Math.abs(now.getTime() - startDate.getTime()) / (24 * 3600 * 1000);
         adminGetQueFinResp.setDays(days);
-        adminGetQueFinResp.setAvg_interest(adminGetQueFinResp.getTotal_interest().divide(new BigDecimal(days),2));
+        adminGetQueFinResp.setAvg_interest(adminGetQueFinResp.getTotal_interest().divide(new BigDecimal(days), 2));
         return adminGetQueFinResp;
     }
 
@@ -90,7 +96,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
             getQuoteListReq.setPgSize(0);
         }
         List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(getQuoteListReq.getPgSize(),
-                Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10),getQuoteListReq.getTowerId());
+                Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10), getQuoteListReq.getTowerId());
         if (gerQuoteListResps == null) {
             log.warn("admin get system quote empty");
             return Collections.EMPTY_LIST;
@@ -126,44 +132,66 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
     public ReviewQuoteResp adminReviewQuote(ReviewQuoteReq quoteReq) {
         String userId = CookieAuthUtils.getCurrentUser();
-        String token = CookieAuthUtils.getCurrentUserToken();
-        if (!adminUserLoginService.checkAdminToken(token, userId)) {
-            return ReviewQuoteResp.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.USER_ERROR.getValue()).build();
-        }
+
         if (quoteReq == null || Strings.isNullOrEmpty(quoteReq.getQuoteId()) || quoteReq.getStatus() == null) {
             log.debug("review quote fail due to param error");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
 
-        if (!quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_PASS.getValue()) && !quoteReq.getStatus()
-                .equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue())) {
+        if (!quoteReq.getStatus().equals(ReviewQuoteReq.OPERA_TYPE.APPROVEL.getValue()) && !quoteReq.getStatus()
+                .equals(ReviewQuoteReq.OPERA_TYPE.REJECT.getValue()) && !quoteReq.getStatus()
+                .equals(ReviewQuoteReq.OPERA_TYPE.EDIT.getValue())) {
             log.debug("review quote fail due to param error quote status invalid ");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
-        if (quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue()) && (
-                quoteReq.getErrCode() == null || Strings.isNullOrEmpty(quoteReq.getErrDesc()))) {
+        if (quoteReq.getStatus().equals(ReviewQuoteReq.OPERA_TYPE.REJECT.getValue()) && (quoteReq.getErrCode() == null
+                || Strings.isNullOrEmpty(quoteReq.getErrDesc()))) {
             log.debug("review quote fail due to param error reject quote must give the reason");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
-
-        QuoteInfo quoteInfo = new QuoteInfo();
-        quoteInfo.setQuoteId(quoteReq.getQuoteId());
-        quoteInfo.setStatus(quoteReq.getStatus());
-        quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        quoteInfo.setReviewUser(CookieAuthUtils.getCurrentUser());
-        if (quoteReq.getStatus().equals(QuoteInfo.QUOTE_TATUS.REVIEW_REFUSE.getValue())) {
-            HashMap<String, String> reviewOpt = new HashMap<>(2);
-            reviewOpt.put("errCode", String.valueOf(quoteReq.getErrCode()));
-            reviewOpt.put("errDesc", quoteReq.getErrDesc());
-            quoteInfo.setReviewOpt(reviewOpt);
+        ReviewLog reviewLog = new ReviewLog();
+        reviewLog.setOperatorTime(new Timestamp(System.currentTimeMillis()));
+        reviewLog.setOperatorUser(CookieAuthUtils.getCurrentUser());
+        reviewLog.setOperatorType(ReviewLog.OPERATOR_TYPE_ENUM.business.getValue());
+        reviewLog.setOptType(quoteReq.getOperaType());
+        reviewLog.setOrderId(quoteReq.getQuoteId());
+        reviewLog.setChangeContent(JacksonUtils.obj2String(quoteReq.getChangeLog()));
+        //reviewLog.setReviewOpt(quoteReq.ge);
+        ReviewQuoteResp quoteResp = adminReviewService.bussiReviewQuote(quoteReq);
+        if (quoteResp.getOptStatus().equals(ReviewQuoteResp.STATUS_ENUE.SUCCESS.getValue())) {
+            reviewLogMapper.insertSelective(reviewLog);
         }
-        int res = quoteInfoDao.updateByPrimaryKeySelective(quoteInfo);
-        if (res != 1) {
-            log.warn("review quote failfail due to update db fail");
-            return ReviewQuoteResp.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.SERVER_ERROR.getValue()).build();
-        }
-        return ReviewQuoteResp.builder().optStatus(AdminGetQuteDetail.STATUS_ENUE.SUCCESS.getValue()).build();
+        return quoteResp;
+    }
 
+    public ReviewQuoteResp finceReviewQuote(FinaReviewQuoteReq finaReviewQuoteReq) {
+        String userId = CookieAuthUtils.getCurrentUser();
+
+        if (finaReviewQuoteReq == null || Strings.isNullOrEmpty(finaReviewQuoteReq.getQuoteId())
+                || finaReviewQuoteReq.getOperaType() == null) {
+            log.debug("review quote fail due to param error");
+            return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
+
+        if (finaReviewQuoteReq.getOperaType().equals(FinaReviewQuoteReq.OPERA_TYPE.APPROVEL.getValue()) && (
+                finaReviewQuoteReq.getActualPrice() == null || Strings
+                        .isNullOrEmpty(finaReviewQuoteReq.getStartInterest()))) {
+            log.debug("review quote fail due to param error quote status invalid ");
+            return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
+
+        ReviewLog reviewLog = new ReviewLog();
+        reviewLog.setOperatorTime(new Timestamp(System.currentTimeMillis()));
+        reviewLog.setOperatorUser(CookieAuthUtils.getCurrentUser());
+        reviewLog.setOperatorType(ReviewLog.OPERATOR_TYPE_ENUM.Financial.getValue());
+        reviewLog.setOptType(finaReviewQuoteReq.getOperaType());
+        reviewLog.setOrderId(finaReviewQuoteReq.getQuoteId());
+        //reviewLog.setReviewOpt(quoteReq.ge);
+        ReviewQuoteResp quoteResp = adminReviewService.finaReviewQuote(finaReviewQuoteReq);
+        if (quoteResp.getOptStatus().equals(ReviewQuoteResp.STATUS_ENUE.SUCCESS.getValue())) {
+            reviewLogMapper.insertSelective(reviewLog);
+        }
+        return quoteResp;
     }
 
     public List<AdminGetTowerListResp> getTowerList(AdminGetTowerReq adminGetTowerReq) {
