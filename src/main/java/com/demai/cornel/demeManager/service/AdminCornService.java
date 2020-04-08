@@ -66,6 +66,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return quoteLists;
     }
 
+    public List<AdminGetQuoteList> oPadminGetQuoteLists(Integer offset, Integer pgSize) {
+        List<AdminGetQuoteList> quoteLists = dryTowerDao
+                .selectDrytower(Optional.ofNullable(offset).orElse(0), Optional.ofNullable(pgSize).orElse(10));
+        if (quoteLists == null) {
+            return Collections.EMPTY_LIST;
+        }
+        quoteLists.stream().forEach(x -> {
+            List<AdminGetQuoteList.orderInfo> orderInfos = quoteInfoDao.selectQuoteViewByTowerId(x.getTower_id());
+            x.setTower_info(orderInfos == null ? Collections.EMPTY_LIST : orderInfos);
+        });
+        return quoteLists;
+    }
+
     public AdminGetQueFinResp adminGetQueFinInfo() throws ParseException {
         AdminGetQueFinResp adminGetQueFinResp = quoteInfoDao.adminGetFinInfo();
         if (adminGetQueFinResp == null) {

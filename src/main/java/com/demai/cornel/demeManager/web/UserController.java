@@ -46,6 +46,14 @@ import java.util.UUID;
         return JsonResult.success(adminCornService.adminGetQuoteLists(offset, pgSize));
     }
 
+    @CrossOrigin @RequestMapping(value = "/get-quote-view-op.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult oPgetQuoteView(@RequestBody String param, HttpServletResponse response) {
+        Preconditions.checkNotNull(param);
+        JSONObject receivedParam = JSON.parseObject(param);
+        Integer offset = (Integer) receivedParam.get("offset");
+        Integer pgSize = (Integer) receivedParam.get("pgSize");
+        return JsonResult.success(adminCornService.oPadminGetQuoteLists(offset, pgSize));
+    }
     @RequestMapping(value = "/get-finc-info.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody
     public JsonResult getFinInfo(@RequestBody String param, HttpServletResponse response) throws ParseException {
         return JsonResult.success(adminCornService.adminGetQueFinInfo());
