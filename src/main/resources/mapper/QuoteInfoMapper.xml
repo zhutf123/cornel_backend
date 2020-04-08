@@ -559,14 +559,14 @@
     </select>
     <select id="selectQuoteViewByTowerId" resultType="com.demai.cornel.demeManager.vo.AdminGetQuoteList$orderInfo">
        select count(*) as count,status as status,sum(shipment_weight*quote) as total,sum(shipment_weight) as weight
-       from quote_info where tower_id=#{towerId,jdbcType=VARCHAR} and status <![CDATA[>=]]>1  group by status order by status asc;
+       from quote_info where tower_id=#{towerId,jdbcType=VARCHAR} and status <![CDATA[>=]]>4  group by status order by status asc;
     </select>
 
 
     <select id="adminGetFinInfo" resultType="com.demai.cornel.demeManager.vo.AdminGetQueFinResp">
        select sum(shipment_weight*quote) as price_count,sum(shipment_weight) as total_weight, count(*) as order_count,
        sum(quote * shipment_weight) * 0.0535/365 * EXTRACT(DAY FROM now()-'2020-02-20') as total_interest from quote_info
-       where status <![CDATA[>=]]>4 ;
+       where status <![CDATA[>=]]>1 ;
     </select>
     <select id="opPdminGetQuoteList" resultMap="listRespMapper_admin">
         select
@@ -577,5 +577,9 @@
         order by status asc,q.warehouse_time desc offset #{limit} limit #{pgSize};
     </select>
 
+    <select id="optselectQuoteViewByTowerId" resultType="com.demai.cornel.demeManager.vo.AdminGetQuoteList$orderInfo">
+       select count(*) as count,status as status,sum(shipment_weight*quote) as total,sum(shipment_weight) as weight
+       from quote_info where tower_id=#{towerId,jdbcType=VARCHAR} and status <![CDATA[>=]]>1  group by status order by status asc;
+    </select>
 
 </mapper>

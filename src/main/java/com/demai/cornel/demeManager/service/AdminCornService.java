@@ -73,7 +73,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
             return Collections.EMPTY_LIST;
         }
         quoteLists.stream().forEach(x -> {
-            List<AdminGetQuoteList.orderInfo> orderInfos = quoteInfoDao.selectQuoteViewByTowerId(x.getTower_id());
+            List<AdminGetQuoteList.orderInfo> orderInfos = quoteInfoDao.optselectQuoteViewByTowerId(x.getTower_id());
             x.setTower_info(orderInfos == null ? Collections.EMPTY_LIST : orderInfos);
         });
         return quoteLists;

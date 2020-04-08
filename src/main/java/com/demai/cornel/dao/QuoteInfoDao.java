@@ -54,5 +54,8 @@ public interface QuoteInfoDao {
     List<AdminGetQuoteList.orderInfo> selectQuoteViewByTowerId(@Param("towerId") String towerId);
 
 
+    List<AdminGetQuoteList.orderInfo> optselectQuoteViewByTowerId(@Param("towerId") String towerId);
+
+
     AdminGetQueFinResp adminGetFinInfo();
 }
