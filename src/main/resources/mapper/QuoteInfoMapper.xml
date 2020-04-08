@@ -552,7 +552,7 @@
     </select>
     <select id="adminGetFinInfo" resultType="com.demai.cornel.demeManager.vo.AdminGetQueFinResp">
        select sum(shipment_weight*quote) as price_count,sum(shipment_weight) as total_weight, count(*) as order_count,
-       sum(a.quote * a.shipment_weight) * 0.0535/365 * EXTRACT(DAY FROM now()-'2020-02-20') as total_interest from quote_info
+       sum(quote * shipment_weight) * 0.0535/365 * EXTRACT(DAY FROM now()-'2020-02-20') as total_interest from quote_info
        where status <![CDATA[>=]]>1 ;
     </select>
 
