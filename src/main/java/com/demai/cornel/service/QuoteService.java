@@ -382,8 +382,12 @@ import java.util.stream.Collectors;
             try {
                 if (reviewLog != null && reviewLog.getChangeContent() != null) {
                     x.setChangeLog(JSON.parseArray(reviewLog.getChangeContent(), String.class));
+                }else {
+                    x.setChangeLog(Collections.EMPTY_LIST);
+
                 }
             }catch (Exception e){
+                x.setChangeLog(Collections.EMPTY_LIST);
                 log.error("parse change log err changelog is {}",reviewLog.getChangeContent());
             }
             x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
@@ -451,9 +455,13 @@ import java.util.stream.Collectors;
         try {
             if (reviewLog != null && reviewLog.getChangeContent() != null) {
                 getOfferInfoResp.setChangeLog(JSON.parseArray(reviewLog.getChangeContent(), String.class));
+            }else {
+                getOfferInfoResp.setChangeLog(Collections.EMPTY_LIST);
             }
         }catch (Exception e){
             log.error("parse change log err changelog is {}",reviewLog.getChangeContent());
+            getOfferInfoResp.setChangeLog(Collections.EMPTY_LIST);
+
         }
 
         return getOfferInfoResp;
