@@ -47,8 +47,8 @@ import java.util.HashMap;
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
 
-        if (oldQuote.getStatus().intValue() != QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue()
-                || oldQuote.getStatus().intValue() != QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue()) {
+        if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue()) || !oldQuote.getStatus()
+                .equals(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue())) {
             log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ", oldQuote.getStatus());
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
@@ -103,7 +103,7 @@ import java.util.HashMap;
             log.error("finaReviewQuote fail due to get quote from db err");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
-        if (oldQuote.getStatus().intValue()!=QuoteInfo.QUOTE_TATUS.UNDER_FIN_REVIEW.getValue()) {
+        if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.UNDER_FIN_REVIEW.getValue())) {
             log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ", oldQuote.getStatus());
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
@@ -148,5 +148,6 @@ import java.util.HashMap;
         }
         return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }
+
 
 }

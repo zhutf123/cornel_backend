@@ -141,7 +141,7 @@ import java.util.Set;
 
     }
 
-    public static enum QUOTE_TATUS implements IEmus {
+    public static enum QUOTE_TATUS  {
         //CANCEL(-1, "取消"), REVIEW(1, "审核中"), REVIEW_PASS(2, "审核通过"), REVIEW_REFUSE(3, "审核拒绝");
         CANCEL(-1, "取消"),
         UNDER_SER_REVIEW(1, "待业务人员审"),
@@ -159,11 +159,11 @@ import java.util.Set;
             this.expr = expr;
         }
 
-        @Override public int getValue() {
+        public Integer getValue() {
             return value;
         }
 
-        @Override public String getExpr() {
+       public String getExpr() {
             return expr;
         }
 
