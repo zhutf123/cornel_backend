@@ -62,8 +62,9 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.DRY_TOWER_ERROR.getValue());
             return offerQuoteResp;
         }
-        if(offerQuoteReq.getCargoStatus().equals(QuoteInfo.CARGO_STATUS.spot.getValue())){
-            offerQuoteReq.setWarehouseTime(TimeStampUtil.timeStampConvertString("yyyy-MM-dd",new Timestamp(System.currentTimeMillis())));
+        if (offerQuoteReq.getCargoStatus().equals(QuoteInfo.CARGO_STATUS.spot.getValue())) {
+            offerQuoteReq.setWarehouseTime(
+                    TimeStampUtil.timeStampConvertString("yyyy-MM-dd", new Timestamp(System.currentTimeMillis())));
         }
         QuoteInfo quoteInfo = new QuoteInfo();
         BeanUtils.copyProperties(offerQuoteReq, quoteInfo);
@@ -188,10 +189,10 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
         int res = 0;
         try {
             res = quoteInfoDao.updateByPrimaryKeySelective(quoteInfo);
-        }catch (Exception e){
-            log.error("update quote order fail du to update db fail",2);
+        } catch (Exception e) {
+            log.error("update quote order fail du to update db fail", 2);
         }
-        if(res!=1){
+        if (res != 1) {
             log.error("update quote order fail du to update db fail");
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SERVER_ERROR.getValue());
             return offerQuoteResp;
@@ -212,9 +213,10 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
                 .getNearestCommodityPriceTime(CookieAuthUtils.getCurrentUser(), req.getCommodityId());
         Timestamp syNeT = systemQuoteDao.getNearestCommodityPriceTime(req.getCommodityId());
 
-        if(spNeT==null && syNeT==null){
+        if (spNeT == null && syNeT == null) {
             log.debug("GetQuotePriceResp get fail due to spNeT and syNeT all is null");
-            return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.COMMODITY_ERROR.getValue()).build();
+            return GetQuotePriceResp.builder().optResult(GetQuotePriceResp.STATUS_ENUE.COMMODITY_ERROR.getValue())
+                    .build();
         }
         if (spNeT == null) {
             getQuotePriceResp.setStartTime(TimeStampUtil.timeStampConvertString("yyyy-MM-dd", syNeT));
@@ -234,7 +236,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
                 getQuotePriceResp.setQuote(quote);
             }
         }
-        if(getQuotePriceResp.getQuote()==null ){
+        if (getQuotePriceResp.getQuote() == null) {
             getQuotePriceResp.setOptResult(GetQuotePriceResp.STATUS_ENUE.TIME_ERR.getValue());
             return getQuotePriceResp;
         }
@@ -254,22 +256,23 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
                     .build();
         }
 
-        double dryWetRadio = ((30.0 / 100) - (14.5 / 100))*1.2;
+        double dryWetRadio = ((30.0 / 100) - (14.5 / 100)) * 1.2;
         BigDecimal dryWeight = calculateDryReq.getWetWeight()
                 .subtract(calculateDryReq.getWetWeight().multiply(new BigDecimal(dryWetRadio)));
 
         return CalculateDryWeiResp.builder().optResult(CalculateDryWeiResp.STATUS_ENUE.SUCCESS.getValue()).
-                dryWeight(dryWeight.setScale(2,ROUND_HALF_UP)).wetWeight(calculateDryReq.getWetWeight()).build();
+                dryWeight(dryWeight.setScale(2, ROUND_HALF_UP)).wetWeight(calculateDryReq.getWetWeight()).build();
 
     }
 
     private boolean checkQuote(SystemQuoteV2Req offerQuoteReq) {
-        if(offerQuoteReq == null || offerQuoteReq.getCommodityId() == null || Strings
+        if (offerQuoteReq == null || offerQuoteReq.getCommodityId() == null || Strings
                 .isNullOrEmpty(offerQuoteReq.getTowerId()) || offerQuoteReq.getShipmentWeight() == null
-                || offerQuoteReq.getQuote() == null ){
+                || offerQuoteReq.getQuote() == null) {
             return false;
         }
-        if(offerQuoteReq.getCargoStatus().equals(QuoteInfo.CARGO_STATUS.futures.getValue()) && offerQuoteReq.getWetWeight()==null){
+        if (offerQuoteReq.getCargoStatus().equals(QuoteInfo.CARGO_STATUS.futures.getValue())
+                && offerQuoteReq.getWetWeight() == null) {
             return false;
         }
         return true;
@@ -312,8 +315,8 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
                 log.error("update loan err due to update loan db err");
                 return false;
             }
-        }catch (Exception e){
-            log.error("update laodn into db error",e);
+        } catch (Exception e) {
+            log.error("update laodn into db error", e);
             return false;
         }
         newQuote.setLoanId(oldQuoteInfo.getLoanId());
@@ -328,4 +331,31 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
         loanInfo.setPrice(price);
         return loanInfo;
     }
+
+    public ConfirmOrderResp confirmOrder(ConfirmOrderReq confirmOrderReq) {
+        if (confirmOrderReq == null || Strings.isNullOrEmpty(confirmOrderReq.getWarehouseTime())
+                || confirmOrderReq.getQuote() == null || Strings.isNullOrEmpty(confirmOrderReq.getQuoteId())||confirmOrderReq.getQuote()==null){
+            return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
+        }
+        QuoteInfo quoteInfo = quoteInfoDao.selectByPrimaryKey(confirmOrderReq.getQuoteId());
+        if(quoteInfo==null){
+            return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.ORDER_ERROR.getValue()).build();
+        }
+        if(!quoteInfo.getStatus().equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue())){
+            return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.ORDER_UNCHANGE.getValue()).build();
+        }
+
+        if(!quoteInfo.getUserId().equals(CookieAuthUtils.getCurrentUser())){
+            return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.USER_ERROR.getValue()).build();
+        }
+        int res = quoteInfoDao.userConfirmOrderInfo(confirmOrderReq.getQuoteId(),TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,confirmOrderReq.getWarehouseTime()),
+                confirmOrderReq.getQuote(),confirmOrderReq.getShipmentWeight(),QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue(),QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
+
+        if(res!=1){
+            log.error("user confirm order info fail db info is {},user update info is {}",JacksonUtils.obj2String(quoteInfo),JacksonUtils.obj2String(confirmOrderReq));
+            return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.SERVER_ERR.getValue()).build();
+        }
+        return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.SUCCESS.getValue()).status(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue()).build();
+    }
+
 }

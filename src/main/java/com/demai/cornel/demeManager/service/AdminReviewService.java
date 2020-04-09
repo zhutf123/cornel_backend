@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 /**
@@ -38,6 +39,7 @@ import java.util.HashMap;
 
     private static final String TIME_FORMT = "yyyy-MM-dd";
 
+    /*业务审核烘干塔订单*/
     public ReviewQuoteResp bussiReviewQuote(ReviewQuoteReq quoteReq) {
         QuoteInfo oldQuote = quoteInfoDao.selectByPrimaryKey(quoteReq.getQuoteId());
         if (oldQuote == null) {
@@ -45,22 +47,22 @@ import java.util.HashMap;
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
 
-        if (oldQuote.getStatus().compareTo(QuoteInfo.QUOTE_TATUS.SER_REVIEW_REFUSE.getValue())!=-1) {
-            log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ",
-                    oldQuote.getStatus());
+        if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue()) || !oldQuote.getStatus()
+                .equals(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue())) {
+            log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ", oldQuote.getStatus());
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
         QuoteInfo newQuoteInfo = new QuoteInfo();
         newQuoteInfo.setQuoteId(oldQuote.getQuoteId());
         switch (quoteReq.getOperaType()) {
-        case (1):
+        case (1):/*同意订单，直接流转到待财务审核，把之前的审核错误信息清除*/
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_FIN_REVIEW.getValue());
             HashMap<String, String> reviewOptU = new HashMap<>(2);
             reviewOptU.put("errCode", "0");
             reviewOptU.put("errDesc", "");
             newQuoteInfo.setReviewOpt(reviewOptU);
             break;
-        case (2):
+        case (2):/*拒绝，订单直接流转到拒绝。保留审核错误信息提示*/
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.SER_REVIEW_REFUSE.getValue());
             if (quoteReq.getOperaType().equals(ReviewQuoteReq.OPERA_TYPE.REJECT.getValue())) {
                 HashMap<String, String> reviewOpt = new HashMap<>(2);
@@ -69,13 +71,15 @@ import java.util.HashMap;
                 newQuoteInfo.setReviewOpt(reviewOpt);
             }
             break;
-        case (3):
+        case (3):/*修改了用户订单的部分信息，状态流转到待用户确认*/
             if (quoteReq.getQuote() != null) {
                 newQuoteInfo.setQuote(quoteReq.getQuote());
             }
             if (quoteReq.getWarehouseTime() != null) {
-                newQuoteInfo.setWarehouseTime(
-                        TimeStampUtil.stringConvertTimeStamp(TIME_FORMT, quoteReq.getWarehouseTime()));
+                Timestamp warehouseTime = new Timestamp(
+                        TimeStampUtil.stringConvertTimeStamp(TIME_FORMT, quoteReq.getWarehouseTime()).getTime()
+                                + System.currentTimeMillis() % 100000);//为了排序加上当前时间时分秒作为时间戳
+                newQuoteInfo.setWarehouseTime(warehouseTime);
             }
             if (quoteReq.getShipmentWeight() != null) {
                 newQuoteInfo.setShipmentWeight(quoteReq.getShipmentWeight());
@@ -99,9 +103,8 @@ import java.util.HashMap;
             log.error("finaReviewQuote fail due to get quote from db err");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
-        if (!(oldQuote.getStatus().compareTo(QuoteInfo.QUOTE_TATUS.UNDER_FIN_REVIEW.getValue())>=0)) {
-            log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ",
-                    oldQuote.getStatus());
+        if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.UNDER_FIN_REVIEW.getValue())) {
+            log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ", oldQuote.getStatus());
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
         QuoteInfo newQuoteInfo = new QuoteInfo();
@@ -114,7 +117,7 @@ import java.util.HashMap;
         LoanInfo loanInfo = new LoanInfo();
         loanInfo.setLoanId(oldQuote.getLoanId().iterator().next());
         switch (finaReviewQuoteReq.getOperaType()) {
-        case (1):
+        case (1):/*同意，保存贷款信息，订单状态流转到财务审核通过*/
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.FIN_REVIEW_PASS.getValue());
             loanInfo.setActualPrice(finaReviewQuoteReq.getActualPrice());
             loanInfo.setStartInterest(
@@ -124,7 +127,7 @@ import java.util.HashMap;
             reviewOptU.put("errDesc", "");
             newQuoteInfo.setReviewOpt(reviewOptU);
             break;
-        case (2):
+        case (2):/*拒绝状态流转到财务审核拒绝*/
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.FIN_REVIEW_REJECT.getValue());
             HashMap<String, String> reviewOpt = new HashMap<>(2);
             reviewOpt.put("errDesc", finaReviewQuoteReq.getErrDesc());

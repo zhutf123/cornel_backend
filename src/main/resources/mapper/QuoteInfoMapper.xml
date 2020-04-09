@@ -581,5 +581,13 @@
        select count(*) as count,status as status,sum(shipment_weight*quote) as total,sum(shipment_weight) as weight
        from quote_info where tower_id=#{towerId,jdbcType=VARCHAR} and status <![CDATA[>=]]>1  group by status order by status asc;
     </select>
+    <select id="userConfirmOrderInfo" resultType="int">
+     update quote_info set status=#{updateStatus} where
+     quote_id=#{quoteId,jdbcType=VARCHAR}
+     and quote=#{quote}
+     and status=#{orginStatus}
+     and shipment_weight=#{shipmetWeight}
+     and date(warehouse_time)=data (#{wareTime,jdbcType=TIMESTAMP} );
+    </select>
 
 </mapper>

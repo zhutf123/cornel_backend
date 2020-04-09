@@ -53,6 +53,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
     @Resource private AdminReviewService adminReviewService;
     @Resource private ReviewLogMapper reviewLogMapper;
 
+    /*财务人员获取指定烘干塔下的订单预览*/
     public List<AdminGetQuoteList> adminGetQuoteLists(Integer offset, Integer pgSize) {
         List<AdminGetQuoteList> quoteLists = dryTowerDao
                 .selectDrytower(Optional.ofNullable(offset).orElse(0), Optional.ofNullable(pgSize).orElse(10));
@@ -66,6 +67,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return quoteLists;
     }
 
+    /*业务人员获取指定烘干塔下面的订单预览*/
     public List<AdminGetQuoteList> oPadminGetQuoteLists(Integer offset, Integer pgSize) {
         List<AdminGetQuoteList> quoteLists = dryTowerDao
                 .selectDrytower(Optional.ofNullable(offset).orElse(0), Optional.ofNullable(pgSize).orElse(10));
@@ -95,18 +97,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return adminGetQueFinResp;
     }
 
+    /*财务人员获取指定烘干塔下的订单list*/
     public List<AdminGetQuoteListResp> getQuoteList(GetQuoteListReq getQuoteListReq, HttpServletResponse response) {
 
-        String userId = CookieAuthUtils.getCurrentUser();
-        String token = CookieAuthUtils.getCurrentUserToken();
-        if (!adminUserLoginService.checkAdminToken(token, userId)) {
-            return Collections.EMPTY_LIST;
-        }
         if (getQuoteListReq.getPgSize() == null) {
             getQuoteListReq.setPgSize(0);
         }
-        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.adminGetQuoteList(Optional.ofNullable(getQuoteListReq.getOffset()).orElse(0),
-                Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10), getQuoteListReq.getTowerId());
+        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao
+                .adminGetQuoteList(Optional.ofNullable(getQuoteListReq.getOffset()).orElse(0),
+                        Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10), getQuoteListReq.getTowerId());
         if (gerQuoteListResps == null) {
             log.warn("admin get system quote empty");
             return Collections.EMPTY_LIST;
@@ -114,18 +113,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return gerQuoteListResps;
     }
 
+    /*业务员获取指定烘干塔下的订单list*/
     public List<AdminGetQuoteListResp> OpgetQuoteList(GetQuoteListReq getQuoteListReq, HttpServletResponse response) {
-
-        String userId = CookieAuthUtils.getCurrentUser();
-        String token = CookieAuthUtils.getCurrentUserToken();
-        if (!adminUserLoginService.checkAdminToken(token, userId)) {
-            return Collections.EMPTY_LIST;
-        }
         if (getQuoteListReq.getPgSize() == null) {
             getQuoteListReq.setPgSize(10);
         }
-        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao.opPdminGetQuoteList(Optional.ofNullable(getQuoteListReq.getOffset()).orElse(0),
-                Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10), getQuoteListReq.getTowerId());
+        List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao
+                .opPdminGetQuoteList(Optional.ofNullable(getQuoteListReq.getOffset()).orElse(0),
+                        Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10), getQuoteListReq.getTowerId());
         if (gerQuoteListResps == null) {
             log.warn("admin get system quote empty");
             return Collections.EMPTY_LIST;
@@ -159,6 +154,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return quoteInfo;
     }
 
+    /*业务人员审核烘干塔订单*/
     public ReviewQuoteResp adminReviewQuote(ReviewQuoteReq quoteReq) {
 
         if (quoteReq == null || Strings.isNullOrEmpty(quoteReq.getQuoteId())) {
@@ -166,8 +162,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
 
-        if (quoteReq.getOperaType().equals(ReviewQuoteReq.OPERA_TYPE.REJECT.getValue()) && (quoteReq.getErrCode() == null
-                || Strings.isNullOrEmpty(quoteReq.getErrDesc()))) {
+        if (quoteReq.getOperaType().equals(ReviewQuoteReq.OPERA_TYPE.REJECT.getValue()) && (
+                quoteReq.getErrCode() == null || Strings.isNullOrEmpty(quoteReq.getErrDesc()))) {
             log.debug("review quote fail due to param error reject quote must give the reason");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
@@ -185,6 +181,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return quoteResp;
     }
 
+    /*业务人员审核订单*/
     public ReviewQuoteResp finceReviewQuote(FinaReviewQuoteReq finaReviewQuoteReq) {
         String userId = CookieAuthUtils.getCurrentUser();
 
