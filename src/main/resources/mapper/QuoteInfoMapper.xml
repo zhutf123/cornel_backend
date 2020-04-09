@@ -27,6 +27,7 @@
         <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
         <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
         <result column="review_status" jdbcType="INTEGER" property="reviewStatus"/>
+        <result column="wet_weight" jdbcType="NUMERIC" property="reviewStatus"/>
 
     </resultMap>
 
@@ -78,6 +79,7 @@
         <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
         <result column="review_opt" property="reviewOpt" jdbcType="OTHER"
                 javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="wet_price" property="wetPrice" jdbcType="NUMERIC"/>
     </resultMap>
 
     <resultMap id="listRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuoteListResp">
@@ -123,7 +125,7 @@
         <!--@mbg.generated-->
         id, commodity_id, "quote", unit_price, shipment_weight, unit_weight, start_time,
         update_time, "status", "desc", system_flag, bargain_status, user_id, "location",
-        user_name, quote_id, tower_id, mobile, end_time,cargo_status,wet_weight,loan_id,review_status
+        user_name, quote_id, tower_id, mobile, end_time,cargo_status,wet_weight,loan_id,review_status,wet_weight
     </sql>
 
     <sql id="get_offer_list">
@@ -162,7 +164,8 @@
     q.wet_weight,
     q.cargo_status,
     q.loan_id,
-    q.review_opt
+    q.review_opt,
+    q.wet_price
   </sql>
 
     <sql id="list_Resp_admin">
@@ -304,6 +307,9 @@
             <if test=" reviewStatus != null">
                 review_status,
             </if>
+            <if test=" wetWeight != null">
+                wet_weight,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -378,6 +384,9 @@
             </if>
             <if test=" reviewStatus != null">
                 #{reviewStatus},
+            </if>
+            <if test=" wetWeight != null">
+                #{wetWeight,jdbcType=DECIMAL},
             </if>
         </trim>
     </insert>

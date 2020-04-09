@@ -16,5 +16,6 @@ public class SystemQuoteV2Req extends SystemQuoteReq {
     private Integer cargoStatus;// 货物状态1现货 2等待货物入库
     private BigDecimal wetWeight;//湿粮重量
     private BigDecimal loanPrice; //贷款金额
+    private BigDecimal wetPrice;
     private List<ImgInfoReq> imgs;
 }
