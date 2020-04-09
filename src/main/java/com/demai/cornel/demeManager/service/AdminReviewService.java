@@ -10,6 +10,7 @@ import com.demai.cornel.demeManager.vo.ReviewQuoteResp;
 import com.demai.cornel.model.LoanInfo;
 import com.demai.cornel.model.QuoteInfo;
 import com.demai.cornel.service.ImgService;
+import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -122,17 +123,17 @@ import java.util.HashMap;
         case (1):/*同意，保存贷款信息，订单状态流转到财务审核通过*/
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.FIN_REVIEW_PASS.getValue());
             loanInfo.setActualPrice(finaReviewQuoteReq.getActualPrice());
+            loanInfo.setReviewUserId(CookieAuthUtils.getCurrentUser());
+            loanInfo.setStatus(LoanInfo.STATUS.PROVER.getValue());
             loanInfo.setStartInterest(
                     TimeStampUtil.stringConvertTimeStamp(TIME_FORMT, finaReviewQuoteReq.getStartInterest()));
             loanInfo.setPrice(finaReviewQuoteReq.getActualPrice());
-            HashMap<String, String> reviewOptU = new HashMap<>(2);
-            reviewOptU.put("errCode", "0");
-            reviewOptU.put("errDesc", "");
-            newQuoteInfo.setReviewOpt(reviewOptU);
             break;
         case (2):/*拒绝状态流转到财务审核拒绝*/
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.FIN_REVIEW_REJECT.getValue());
+            loanInfo.setStatus(LoanInfo.STATUS.REJECT.getValue());
             HashMap<String, String> reviewOpt = new HashMap<>(2);
+
             reviewOpt.put("errDesc", finaReviewQuoteReq.getErrDesc());
             newQuoteInfo.setReviewOpt(reviewOpt);
             break;

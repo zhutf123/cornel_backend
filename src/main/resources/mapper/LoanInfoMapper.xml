@@ -208,6 +208,9 @@
             <if test="startInterest != null">
                 start_interest =  #{startInterest},
             </if>
+            <if test="actualPrice != null">
+                actual_price =  #{actualPrice},
+            </if>
         </set>
         where loan_id = #{loanId,jdbcType=INTEGER}
     </update>
