@@ -71,20 +71,20 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
         String userId = CookieAuthUtils.getCurrentUser();
         quoteInfo.setLocation(dryTower.getLocation());
         quoteInfo.setUserId(userId);
-        if (offerQuoteReq.getLoanPrice() != null) {
-            LoanInfo loanInfo = new LoanInfo();
-            loanInfo.setApplyUserId(CookieAuthUtils.getCurrentUser());
-            loanInfo.setApplyTime(new Timestamp(System.currentTimeMillis()));
-            loanInfo.setLoanId(UUID.randomUUID().toString());
-            loanInfo.setPrice(offerQuoteReq.getLoanPrice());
-            int res = loanInfoMapper.insertSelective(loanInfo);
-            if (res != 1) {
-                log.error("insert loan info into db error ");
-                offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SERVER_ERROR.getValue());
-                return offerQuoteResp;
-            }
-            quoteInfo.setLoanId(Sets.newHashSet(loanInfo.getLoanId()));
+        // if (offerQuoteReq.getLoanPrice() != null) {
+        LoanInfo loanInfo = new LoanInfo();
+        loanInfo.setApplyUserId(CookieAuthUtils.getCurrentUser());
+        loanInfo.setApplyTime(new Timestamp(System.currentTimeMillis()));
+        loanInfo.setLoanId(UUID.randomUUID().toString());
+        loanInfo.setPrice(offerQuoteReq.getLoanPrice() == null ? new BigDecimal(0) : offerQuoteReq.getLoanPrice());
+        int res = loanInfoMapper.insertSelective(loanInfo);
+        if (res != 1) {
+            log.error("insert loan info into db error ");
+            offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SERVER_ERROR.getValue());
+            return offerQuoteResp;
         }
+        quoteInfo.setLoanId(Sets.newHashSet(loanInfo.getLoanId()));
+        // }
         if (Strings.isNullOrEmpty(offerQuoteReq.getMobile())) {
             UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
             if (!CollectionUtils.isEmpty(userInfo.getMobile())) {
@@ -335,28 +335,33 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
 
     public ConfirmOrderResp confirmOrder(ConfirmOrderReq confirmOrderReq) {
         if (confirmOrderReq == null || Strings.isNullOrEmpty(confirmOrderReq.getShowWarehouseTime())
-                || confirmOrderReq.getQuote() == null || Strings.isNullOrEmpty(confirmOrderReq.getQuoteId())||confirmOrderReq.getQuote()==null){
+                || confirmOrderReq.getQuote() == null || Strings.isNullOrEmpty(confirmOrderReq.getQuoteId())
+                || confirmOrderReq.getQuote() == null) {
             return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
         QuoteInfo quoteInfo = quoteInfoDao.selectByPrimaryKey(confirmOrderReq.getQuoteId());
-        if(quoteInfo==null){
+        if (quoteInfo == null) {
             return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.ORDER_ERROR.getValue()).build();
         }
-        if(!quoteInfo.getStatus().equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue())){
+        if (!quoteInfo.getStatus().equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue())) {
             return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.ORDER_UNCHANGE.getValue()).build();
         }
 
-        if(!quoteInfo.getUserId().equals(CookieAuthUtils.getCurrentUser())){
+        if (!quoteInfo.getUserId().equals(CookieAuthUtils.getCurrentUser())) {
             return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
-        int res = quoteInfoDao.userConfirmOrderInfo(confirmOrderReq.getQuoteId(),TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,confirmOrderReq.getShowWarehouseTime()),
-                confirmOrderReq.getQuote(),confirmOrderReq.getShipmentWeight(),QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue(),QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
+        int res = quoteInfoDao.userConfirmOrderInfo(confirmOrderReq.getQuoteId(),
+                TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, confirmOrderReq.getShowWarehouseTime()),
+                confirmOrderReq.getQuote(), confirmOrderReq.getShipmentWeight(),
+                QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue(), QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
 
-        if(res!=1){
-            log.error("user confirm order info fail db info is {},user update info is {}",JacksonUtils.obj2String(quoteInfo),JacksonUtils.obj2String(confirmOrderReq));
+        if (res != 1) {
+            log.error("user confirm order info fail db info is {},user update info is {}",
+                    JacksonUtils.obj2String(quoteInfo), JacksonUtils.obj2String(confirmOrderReq));
             return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.SERVER_ERR.getValue()).build();
         }
-        return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.SUCCESS.getValue()).status(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue()).build();
+        return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.SUCCESS.getValue())
+                .status(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue()).build();
     }
 
 }
