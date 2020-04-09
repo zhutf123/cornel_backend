@@ -47,11 +47,11 @@ import java.util.HashMap;
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
 
-        if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue()) || !oldQuote.getStatus()
-                .equals(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue())) {
-            log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ", oldQuote.getStatus());
-            return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
-        }
+//        if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue()) || !oldQuote.getStatus()
+//                .equals(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue())) {
+//            log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ", oldQuote.getStatus());
+//            return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
+//        }
         QuoteInfo newQuoteInfo = new QuoteInfo();
         newQuoteInfo.setQuoteId(oldQuote.getQuoteId());
         switch (quoteReq.getOperaType()) {
