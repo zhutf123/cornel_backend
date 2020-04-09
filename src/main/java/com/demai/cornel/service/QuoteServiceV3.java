@@ -334,7 +334,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
     }
 
     public ConfirmOrderResp confirmOrder(ConfirmOrderReq confirmOrderReq) {
-        if (confirmOrderReq == null || Strings.isNullOrEmpty(confirmOrderReq.getWarehouseTime())
+        if (confirmOrderReq == null || Strings.isNullOrEmpty(confirmOrderReq.getShowWarehouseTime())
                 || confirmOrderReq.getQuote() == null || Strings.isNullOrEmpty(confirmOrderReq.getQuoteId())||confirmOrderReq.getQuote()==null){
             return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
@@ -349,7 +349,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
         if(!quoteInfo.getUserId().equals(CookieAuthUtils.getCurrentUser())){
             return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
-        int res = quoteInfoDao.userConfirmOrderInfo(confirmOrderReq.getQuoteId(),TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,confirmOrderReq.getWarehouseTime()),
+        int res = quoteInfoDao.userConfirmOrderInfo(confirmOrderReq.getQuoteId(),TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT,confirmOrderReq.getShowWarehouseTime()),
                 confirmOrderReq.getQuote(),confirmOrderReq.getShipmentWeight(),QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue(),QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
 
         if(res!=1){

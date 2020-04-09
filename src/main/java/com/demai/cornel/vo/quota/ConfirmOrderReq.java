@@ -15,4 +15,5 @@ public class ConfirmOrderReq {
     private String  warehouseTime;
     private String quoteId;
     private BigDecimal quote;
+    private String showWarehouseTime;
 }
