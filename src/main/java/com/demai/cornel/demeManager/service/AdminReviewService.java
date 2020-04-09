@@ -47,9 +47,11 @@ import java.util.HashMap;
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
 
-        if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue()) || !oldQuote.getStatus()
+        if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue()) && !oldQuote.getStatus()
                 .equals(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue())) {
-            log.error("bussiReviewQuote fail due to  quote cur status is {} can not update ", oldQuote.getStatus());
+            log.error("bussiReviewQuote fail due to  quote cur status is {} can not update {},{}", oldQuote.getStatus(),
+                    QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue(),
+                    QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.ORDER_INVALID.getValue()).build();
         }
         QuoteInfo newQuoteInfo = new QuoteInfo();
@@ -148,6 +150,5 @@ import java.util.HashMap;
         }
         return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }
-
 
 }
