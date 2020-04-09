@@ -183,8 +183,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
     /*业务人员审核订单*/
     public ReviewQuoteResp finceReviewQuote(FinaReviewQuoteReq finaReviewQuoteReq) {
-        String userId = CookieAuthUtils.getCurrentUser();
-
         if (finaReviewQuoteReq == null || Strings.isNullOrEmpty(finaReviewQuoteReq.getQuoteId())
                 || finaReviewQuoteReq.getOperaType() == null) {
             log.debug("review quote fail due to param error");
@@ -197,7 +195,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
             log.debug("review quote fail due to param error quote status invalid ");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
-
         ReviewLog reviewLog = new ReviewLog();
         reviewLog.setOperatorTime(new Timestamp(System.currentTimeMillis()));
         reviewLog.setOperatorUser(CookieAuthUtils.getCurrentUser());

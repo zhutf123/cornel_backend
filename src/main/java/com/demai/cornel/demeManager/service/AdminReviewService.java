@@ -124,6 +124,7 @@ import java.util.HashMap;
             loanInfo.setActualPrice(finaReviewQuoteReq.getActualPrice());
             loanInfo.setStartInterest(
                     TimeStampUtil.stringConvertTimeStamp(TIME_FORMT, finaReviewQuoteReq.getStartInterest()));
+            loanInfo.setPrice(finaReviewQuoteReq.getActualPrice());
             HashMap<String, String> reviewOptU = new HashMap<>(2);
             reviewOptU.put("errCode", "0");
             reviewOptU.put("errDesc", "");
