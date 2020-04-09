@@ -151,10 +151,10 @@ import java.util.Set;
         FIN_REVIEW_PASS(5, "财务人员审核通过"),
         FIN_REVIEW_REJECT(6, "财务人员拒绝");
 
-        private int value;
+        private Integer value;
         private String expr;
 
-        private QUOTE_TATUS(int value, String expr) {
+        private QUOTE_TATUS(Integer value, String expr) {
             this.value = value;
             this.expr = expr;
         }
@@ -171,10 +171,10 @@ import java.util.Set;
 
     public static enum CARGO_STATUS implements IEmus {
         futures(2, "等待货物入库"), spot(1, "现货");
-        private int value;
+        private Integer value;
         private String expr;
 
-        private CARGO_STATUS(int value, String expr) {
+        private CARGO_STATUS(Integer value, String expr) {
             this.value = value;
             this.expr = expr;
         }
@@ -192,10 +192,10 @@ import java.util.Set;
     public static enum REVEW_STATUS implements IEmus {
         UNDER_BUSS(1, "待业务人员审批"), UNDER_USER_CONFIRM(2, "待用户确认"), UNDER_FINA(3, "待财务人员审批"), REJECT(4, "审核拒绝"), APPROVED(
                 5, "审核通过");
-        private int value;
+        private Integer value;
         private String expr;
 
-        private REVEW_STATUS(int value, String expr) {
+        private REVEW_STATUS(Integer value, String expr) {
             this.value = value;
             this.expr = expr;
         }
