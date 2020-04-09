@@ -3,7 +3,9 @@ package com.demai.cornel.service;
 import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dao.*;
+import com.demai.cornel.demeManager.dao.ReviewLogMapper;
 import com.demai.cornel.demeManager.dao.SpecialQuoteMapper;
+import com.demai.cornel.demeManager.model.ReviewLog;
 import com.demai.cornel.demeManager.model.SpecialQuote;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.*;
@@ -54,6 +56,7 @@ import java.util.stream.Collectors;
     @Resource private ImgService imgService;
     @Resource private OpterReviewService opterReviewService;
     private static String TIME_FORMAT = "yyyy-MM-dd";
+    @Resource private ReviewLogMapper reviewLogMapper;
 
     /**
      * 我要报价 不是从list 过来的 而是是我要报价的按钮
@@ -351,20 +354,31 @@ import java.util.stream.Collectors;
             serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
         }
         String finalServiceMobile = serviceMobile;
+
         getOfferListResps.stream().forEach(x -> {
-            if(x.getLoanId()!=null) {
+            if (x.getLoanId() != null) {
                 List<LoanInfo> loanInfos = loanInfoMapper.getLoanByLoanIds(x.getLoanId());
-                if(loanInfos!=null && loanInfos.iterator().next().getStatus().equals(LoanInfo.STATUS.PROVER.getValue())){
+                if (loanInfos != null && loanInfos.iterator().next().getStatus()
+                        .equals(LoanInfo.STATUS.PROVER.getValue())) {
                     x.setShowLoan(0);//先统一关闭
                     LoanInfoSimple loanInfoSimple = new LoanInfoSimple();
                     BeanUtils.copyProperties(loanInfos.iterator().next(), loanInfoSimple);
-                    loanInfoSimple.setApplyTime(loanInfos.iterator().next().getApplyTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,loanInfos.iterator().next().getApplyTime()));
-                    loanInfoSimple.setLendingTime(loanInfos.iterator().next().getLendingTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,loanInfos.iterator().next().getLendingTime()));
+                    loanInfoSimple.setApplyTime(loanInfos.iterator().next().getApplyTime() == null ?
+                            null :
+                            TimeStampUtil
+                                    .timeStampConvertString(TIME_FORMAT, loanInfos.iterator().next().getApplyTime()));
+                    loanInfoSimple.setLendingTime(loanInfos.iterator().next().getLendingTime() == null ?
+                            null :
+                            TimeStampUtil
+                                    .timeStampConvertString(TIME_FORMAT, loanInfos.iterator().next().getLendingTime()));
                     x.setLoanInfo(Lists.newArrayList(loanInfoSimple));
-                }else {
+                } else {
                     x.setLoanInfo(Collections.EMPTY_LIST);
                 }
             }
+            ReviewLog reviewLog = reviewLogMapper
+                    .selectByOrderId(x.getQuoteId(), ReviewLog.OPERATOR_TYPE_ENUM.business.getValue());
+            x.setChangeLog(reviewLog!=null&&reviewLog.getChangeContent()!=null?reviewLog.getChangeContent():"");
             x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
             x.setServiceMobile(finalServiceMobile);
         });
@@ -408,8 +422,12 @@ import java.util.stream.Collectors;
                 getOfferInfoResp.setLoanInfo(loanInfos.stream().map(x -> {
                     LoanInfoSimple loanInfoSimple = new LoanInfoSimple();
                     BeanUtils.copyProperties(x, loanInfoSimple);
-                    loanInfoSimple.setApplyTime(x.getApplyTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,x.getApplyTime()));
-                    loanInfoSimple.setLendingTime(x.getLendingTime()==null ? null:TimeStampUtil.timeStampConvertString(TIME_FORMAT,x.getLendingTime()));
+                    loanInfoSimple.setApplyTime(x.getApplyTime() == null ?
+                            null :
+                            TimeStampUtil.timeStampConvertString(TIME_FORMAT, x.getApplyTime()));
+                    loanInfoSimple.setLendingTime(x.getLendingTime() == null ?
+                            null :
+                            TimeStampUtil.timeStampConvertString(TIME_FORMAT, x.getLendingTime()));
                     return loanInfoSimple;
                 }).collect(Collectors.toList()));
                 getOfferInfoResp.setLoanPrice(loanInfos.get(0).getPrice());
@@ -418,9 +436,12 @@ import java.util.stream.Collectors;
             }
         }
         getOfferInfoResp.setReviewInfo(opterReviewService.towerReviewConvert(getOfferInfoResp.getReviewOpt()));
-        List<ImgInfoReq> imgInfoReqs =imgService.getQuoteImgs(quoteId);
+        List<ImgInfoReq> imgInfoReqs = imgService.getQuoteImgs(quoteId);
         getOfferInfoResp.setImgInfo(imgInfoReqs);
         getOfferInfoResp.setServiceMobile(serviceMobile);
+        ReviewLog reviewLog = reviewLogMapper
+                .selectByOrderId(quoteId, ReviewLog.OPERATOR_TYPE_ENUM.business.getValue());
+        getOfferInfoResp.setChangeLog(reviewLog!=null&&reviewLog.getChangeContent()!=null?reviewLog.getChangeContent():"");
         return getOfferInfoResp;
     }
 

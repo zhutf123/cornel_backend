@@ -88,6 +88,8 @@ import java.util.stream.Collectors;
     private ReviewOptResp reviewInfo;
     @JsonIgnore
     private HashMap<String,String> reviewOpt;
+
+    private String changeLog;
     public void setWarehouseTime(Timestamp warehouseTime) {
         this.warehouseTime = warehouseTime;
         this.showWarehouseTime = TimeStampUtil.timeStampConvertString("yyyy-MM-dd",warehouseTime);

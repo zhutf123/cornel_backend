@@ -26,5 +26,6 @@ import java.util.Set;
     private BigDecimal loanPrice;
     private List<ImgInfoReq> imgInfo;
     private BigDecimal wetPrice;
+    private String changeLog;
     //private List<LoanInfoSimple> loanInfo;
 }

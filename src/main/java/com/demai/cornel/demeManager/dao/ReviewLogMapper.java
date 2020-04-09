@@ -1,6 +1,7 @@
 package com.demai.cornel.demeManager.dao;
 
 import com.demai.cornel.demeManager.model.ReviewLog;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @Author binz.zhang
@@ -18,4 +19,7 @@ public interface ReviewLogMapper {
     int updateByPrimaryKeySelective(ReviewLog record);
 
     int updateByPrimaryKey(ReviewLog record);
+
+    ReviewLog selectByOrderId(@Param("orderId") String orderId,@Param("operatorType")Integer operatorType);
+
 }
