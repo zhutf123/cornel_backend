@@ -113,6 +113,7 @@ import java.util.Set;
     private HashMap<String, String> reviewOpt;
 
     private Integer reviewStatus;// 审核的具体状态
+    private BigDecimal wetPrice;//湿粮重量
 
     /**
      * 结束时间

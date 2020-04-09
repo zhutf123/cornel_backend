@@ -27,7 +27,7 @@
         <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
         <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
         <result column="review_status" jdbcType="INTEGER" property="reviewStatus"/>
-        <result column="wet_weight" jdbcType="NUMERIC" property="reviewStatus"/>
+        <result column="wet_price" jdbcType="NUMERIC" property="wetPrice"/>
 
     </resultMap>
 
@@ -307,8 +307,8 @@
             <if test=" reviewStatus != null">
                 review_status,
             </if>
-            <if test=" wetWeight != null">
-                wet_weight,
+            <if test=" wetPrice != null">
+                wet_price,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -385,8 +385,8 @@
             <if test=" reviewStatus != null">
                 #{reviewStatus},
             </if>
-            <if test=" wetWeight != null">
-                #{wetWeight,jdbcType=DECIMAL},
+            <if test=" wetPrice != null">
+                #{wetPrice,jdbcType=DECIMAL},
             </if>
         </trim>
     </insert>

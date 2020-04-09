@@ -102,7 +102,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
         quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         quoteInfo.setWarehouseTime(warehouseTime);
-        quoteInfo.setWetWeight(offerQuoteReq.getWetPrice());
+        quoteInfo.setWetPrice(offerQuoteReq.getWetPrice());
         int resInserQu = quoteInfoDao.insertSelective(quoteInfo);
         if (resInserQu != 1) {
             log.error("insert quote info  into db error ");
