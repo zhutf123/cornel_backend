@@ -173,7 +173,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         reviewLog.setOperatorType(ReviewLog.OPERATOR_TYPE_ENUM.business.getValue());
         reviewLog.setOptType(quoteReq.getOperaType());
         reviewLog.setOrderId(quoteReq.getQuoteId());
-        reviewLog.setChangeContent(quoteReq.getChangeLog());
+        reviewLog.setChangeContent(JacksonUtils.obj2String(quoteReq.getChangeLog()));
         ReviewQuoteResp quoteResp = adminReviewService.bussiReviewQuote(quoteReq);
         if (quoteResp.getOptStatus().equals(ReviewQuoteResp.STATUS_ENUE.SUCCESS.getValue())) {
             reviewLogMapper.insertSelective(reviewLog);

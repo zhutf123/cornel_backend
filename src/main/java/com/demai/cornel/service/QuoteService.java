@@ -1,5 +1,6 @@
 package com.demai.cornel.service;
 
+import com.alibaba.fastjson.JSON;
 import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dao.*;
@@ -378,7 +379,13 @@ import java.util.stream.Collectors;
             }
             ReviewLog reviewLog = reviewLogMapper
                     .selectByOrderId(x.getQuoteId(), ReviewLog.OPERATOR_TYPE_ENUM.business.getValue());
-            x.setChangeLog(reviewLog!=null&&reviewLog.getChangeContent()!=null?reviewLog.getChangeContent():"");
+            try {
+                if (reviewLog != null && reviewLog.getChangeContent() != null) {
+                    x.setChangeLog(JSON.parseArray(reviewLog.getChangeContent(), String.class));
+                }
+            }catch (Exception e){
+                log.error("parse change log err changelog is {}",reviewLog.getChangeContent());
+            }
             x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
             x.setServiceMobile(finalServiceMobile);
         });
@@ -441,7 +448,14 @@ import java.util.stream.Collectors;
         getOfferInfoResp.setServiceMobile(serviceMobile);
         ReviewLog reviewLog = reviewLogMapper
                 .selectByOrderId(quoteId, ReviewLog.OPERATOR_TYPE_ENUM.business.getValue());
-        getOfferInfoResp.setChangeLog(reviewLog!=null&&reviewLog.getChangeContent()!=null?reviewLog.getChangeContent():"");
+        try {
+            if (reviewLog != null && reviewLog.getChangeContent() != null) {
+                getOfferInfoResp.setChangeLog(JSON.parseArray(reviewLog.getChangeContent(), String.class));
+            }
+        }catch (Exception e){
+            log.error("parse change log err changelog is {}",reviewLog.getChangeContent());
+        }
+
         return getOfferInfoResp;
     }
 
