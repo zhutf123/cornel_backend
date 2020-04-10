@@ -24,4 +24,7 @@ public interface SpecialQuoteMapper {
     BigDecimal getNearestCommodityPrice(@Param("userId")String userId,@Param("commodityId")String commodityId,@Param("time") Date time);
 
     Timestamp getNearestCommodityPriceTime(@Param("userId")String userId,@Param("commodityId")String commodityId);
+
+
+    SpecialQuote selectSpecialQuoteByCommodityId(@Param("userId")String userId,@Param("commodityId")String commodityId);
 }

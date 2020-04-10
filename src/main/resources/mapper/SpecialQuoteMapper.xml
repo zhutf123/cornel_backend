@@ -139,4 +139,11 @@
         commodity_id=#{commodityId,jdbcType=VARCHAR}
         order by create_time  asc limit 1;
     </select>
+    <select id="selectSpecialQuoteByCommodityId" resultMap="BaseResultMap">
+        select
+        <include refid="base_cloumn"/>
+        from special_quote where commodity_id=#{commodityId,jdbcType=VARCHAR} and
+        target_user_id=#{userId,jdbcType=VARCHAR} and status=1
+        order by create_time desc limit 1;
+    </select>
 </mapper>

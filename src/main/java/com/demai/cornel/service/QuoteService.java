@@ -300,11 +300,12 @@ import java.util.stream.Collectors;
             clickSystemQuoteResp.setMobile(userInfo.getMobile().iterator().next());
         }
         SystemQuote systemQuote = systemQuoteDao.getSystemQuoteByCommodityId(commodityId);
+        SpecialQuote specialQuote = specialQuoteMapper.selectSpecialQuoteByCommodityId(commodityId,userId);
         clickSystemQuoteResp.setCommodity(commodity);
         clickSystemQuoteResp.setShipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT);
         clickSystemQuoteResp.setUnitWeight(systemQuote.getUnitWeight());
         clickSystemQuoteResp.setUnitPrice(systemQuote.getUnitPrice());
-        clickSystemQuoteResp.setQuote(systemQuote.getQuote());
+        clickSystemQuoteResp.setQuote(specialQuote==null?systemQuote.getQuote():specialQuote.getQuote());
         clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>();
         if (!CollectionUtils.isEmpty(ownDryInfo)) {
