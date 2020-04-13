@@ -323,7 +323,7 @@ import java.util.stream.Collectors;
         }
         List<GetSaleOrderListResp> getSaleOrderListResps = saleOrderMapper
                 .getSaleOrderList(getSaleOrderListReq.getOrderId(), getSaleOrderListReq.getPgSize(),
-                        getSaleOrderListReq.getOrderType());
+                        getSaleOrderListReq.getOrderType(),CookieAuthUtils.getCurrentUser());
 
         if (getSaleOrderListReq == null) {
             log.debug("getSaleOrderListRespList fail due to get result  empty");

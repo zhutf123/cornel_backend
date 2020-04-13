@@ -700,7 +700,7 @@
         select
         <include refid="Base_Column_List"/>
         from sale_order where
-        status=((status <![CDATA[ & ]]> #{status} ))
+        status=((status <![CDATA[ & ]]> #{status} )) and buyer_id=#{userId,jdbcType=VARCHAR}
         <if test="orderId != null and orderId != ''">
             and id  <![CDATA[<=]]> (select id from sale_order where offer_id=#{orderId} )
         </if>

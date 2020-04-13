@@ -29,7 +29,7 @@ public interface SaleOrderMapper {
     SaleOrder selectSaleOrderByCargoId(@Param("cargoId") String cargoId);
 
     List<GetSaleOrderListResp> getSaleOrderList(@Param("orderId") String orderId, @Param("pgSize") Integer pgSize,
-            @Param("status") Integer status);
+            @Param("status") Integer status,@Param("userId")String userId);
 
     int updateSaleStatus(@Param("orderId") String orderId, @Param("status") Integer status);
 
