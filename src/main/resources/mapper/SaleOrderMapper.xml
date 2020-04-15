@@ -741,6 +741,7 @@
         from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
         c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
         f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
+        left join location_info stl on st.location_id=stl.location_id
         where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
         #{pgSize,jdbcType=INTEGER};
     </select>
