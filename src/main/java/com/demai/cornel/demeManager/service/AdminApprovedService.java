@@ -49,6 +49,16 @@ import java.util.Optional;
                     AdminAppSaleDetail.builder().optStatus(AdminAppSaleDetail.STATUS_ENUE.ORDER_INVALID.getValue())
                             .build());
         }
+        if (saleDetail != null && saleDetail.getTransportTypeMap() != null) {
+            StringBuilder stringBuilder = new StringBuilder("");
+            saleDetail.getTransportTypeMap().stream().forEach(xT -> {
+                stringBuilder.append(TransportType.typeOf(xT).getExpr()).append("+");
+            });
+            saleDetail.setTransportType(stringBuilder.toString());
+        }
+        if(saleDetail.getShippProcess()!=null){
+
+        }
         saleDetail.setOptStatus(AdminAppSaleDetail.STATUS_ENUE.SUCCESS.getValue());
         return JsonResult.success(saleDetail);
     }

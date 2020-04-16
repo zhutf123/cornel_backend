@@ -1,5 +1,6 @@
 package com.demai.cornel.demeManager.vo;
 
+import com.demai.cornel.demeManager.model.ShippProcess;
 import com.demai.cornel.dmEnum.IEmus;
 import com.demai.cornel.purcharse.model.TransportType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,6 +35,16 @@ import java.util.Set;
     private String reviewUser;//收益
     private Set<String> transportTypeMap;
     private Integer shockFlag=0;//0 成功 1 库存不足 2无货运信息
+
+    private String shippProcessKey;
+    private Integer shippProcess;//出库顺序
+
+    public void setShippProcess(Integer shippProcess) {
+        this.shippProcess = shippProcess;
+        ShippProcess.TYPE type = ShippProcess.TYPE.keyOf(shippProcess);
+        this.shippProcessKey = type == null ? "" : type.getExpr();
+    }
+
     public void setTransportTypeMap(Set<String> transportTypeMap) {
         this.transportTypeMap = transportTypeMap;
         if (transportTypeMap != null) {

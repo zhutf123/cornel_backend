@@ -1,7 +1,10 @@
 package com.demai.cornel.demeManager.model;
 
 import com.demai.cornel.dmEnum.IEmus;
+import com.demai.cornel.model.ReviewModel;
 import lombok.Data;
+
+import java.util.Arrays;
 
 /**
  * @Author binz.zhang
@@ -34,5 +37,14 @@ import lombok.Data;
             return expr;
         }
 
+        public static TYPE keyOf(int key) {
+            return Arrays.stream(TYPE.values()).filter(X -> X.getValue() == key).findAny()
+                    .orElse(null);
+        }
+
+        public static TYPE exparOf(String value) {
+            return Arrays.stream(TYPE.values())
+                    .filter(X -> X.getExpr().equalsIgnoreCase(value)).findAny().orElse(null);
+        }
     }
 }

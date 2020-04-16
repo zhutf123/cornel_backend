@@ -5,6 +5,7 @@ import com.demai.cornel.demeManager.vo.AdminFinishSaleDetail;
 import com.demai.cornel.demeManager.vo.AdminFinishSaleList;
 import com.demai.cornel.demeManager.vo.AdminUnpaySaleList;
 import com.demai.cornel.purcharse.dao.*;
+import com.demai.cornel.purcharse.model.TransportType;
 import com.demai.cornel.purcharse.service.OutStackService;
 import com.demai.cornel.vo.JsonResult;
 import lombok.Data;
@@ -21,9 +22,7 @@ import java.util.Optional;
  * @Date: 2020-04-03    11:01
  */
 /*管理员获取到已完成订单的详情的接口*/
-@Service
-@Slf4j
-public class AdminFinishService {
+@Service @Slf4j public class AdminFinishService {
     @Resource private StackOutInfoMapper stackOutInfoMapper;
     @Resource private StoreInfoMapper storeInfoMapper;
     @Resource private LocationInfoMapper locationInfoMapper;
@@ -31,7 +30,6 @@ public class AdminFinishService {
     @Resource private SaleStackOutService saleStackOutService;
     @Resource private OutStackService outStackService;
     @Resource private SaleOrderMapper saleOrderMapper;
-
 
     public JsonResult adminGetSaleList(Integer status, Integer offset, Integer pgSize) {
         List<AdminFinishSaleList> saleOrder = saleOrderMapper
@@ -43,6 +41,7 @@ public class AdminFinishService {
         }
         return JsonResult.success(saleOrder);
     }
+
     public JsonResult adminGetSaleDetail(String orderId) {
         AdminFinishSaleDetail saleDetail = saleOrderMapper.adminGetFinishSaleDetail(orderId);
         if (saleDetail == null) {
@@ -50,6 +49,20 @@ public class AdminFinishService {
             return JsonResult.success(
                     AdminAppSaleDetail.builder().optStatus(AdminAppSaleDetail.STATUS_ENUE.ORDER_INVALID.getValue())
                             .build());
+        }
+        if (saleDetail != null && saleDetail.getTransportTypeMap() != null) {
+            StringBuilder stringBuilder = new StringBuilder("");
+            saleDetail.getTransportTypeMap().stream().forEach(xT -> {
+                stringBuilder.append(TransportType.typeOf(xT).getExpr()).append("+");
+            });
+            saleDetail.setTransportType(stringBuilder.toString());
+        }
+        if (saleDetail != null && saleDetail.getTransportTypeMap() != null) {
+            StringBuilder stringBuilder = new StringBuilder("");
+            saleDetail.getTransportTypeMap().stream().forEach(xT -> {
+                stringBuilder.append(TransportType.typeOf(xT).getExpr()).append("+");
+            });
+            saleDetail.setTransportType(stringBuilder.toString());
         }
         saleDetail.setOptStatus(AdminAppSaleDetail.STATUS_ENUE.SUCCESS.getValue());
         return JsonResult.success(saleDetail);

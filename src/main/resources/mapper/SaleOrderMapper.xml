@@ -215,6 +215,7 @@
         <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
         <result column="freight_id" jdbcType="VARCHAR" property="freightId"/>
         <result column="freight_price" jdbcType="NUMERIC" property="freightPrice"/>
+        <result column="shipp_process" jdbcType="INTEGER" property="shippProcess"/>
 
     </resultMap>
     <resultMap id="admin_app_detail" type="com.demai.cornel.demeManager.vo.AdminAppSaleDetail">
@@ -661,6 +662,9 @@
             </if>
             <if test="exInfo != null">
                 ex_info=#{exInfo} ,
+            </if>
+            <if test="esIncome != null">
+                es_income=#{esIncome,jdbcType=DECIMAL}
             </if>
         </set>
         where order_id = #{orderId,jdbcType=VARCHAR}

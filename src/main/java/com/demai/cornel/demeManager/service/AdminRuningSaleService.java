@@ -3,6 +3,7 @@ package com.demai.cornel.demeManager.service;
 import com.demai.cornel.demeManager.vo.AdminAppSaleDetail;
 import com.demai.cornel.demeManager.vo.AdminAppSaleList;
 import com.demai.cornel.purcharse.dao.*;
+import com.demai.cornel.purcharse.model.TransportType;
 import com.demai.cornel.purcharse.service.OutStackService;
 import com.demai.cornel.vo.JsonResult;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,13 @@ public class AdminRuningSaleService {
             return JsonResult.success(
                     AdminAppSaleDetail.builder().optStatus(AdminAppSaleDetail.STATUS_ENUE.ORDER_INVALID.getValue())
                             .build());
+        }
+        if (saleDetail != null && saleDetail.getTransportTypeMap() != null) {
+            StringBuilder stringBuilder = new StringBuilder("");
+            saleDetail.getTransportTypeMap().stream().forEach(xT -> {
+                stringBuilder.append(TransportType.typeOf(xT).getExpr()).append("+");
+            });
+            saleDetail.setTransportType(stringBuilder.toString());
         }
         saleDetail.setOptStatus(AdminAppSaleDetail.STATUS_ENUE.SUCCESS.getValue());
         return JsonResult.success(saleDetail);
