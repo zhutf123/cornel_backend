@@ -247,7 +247,7 @@
         <result column="buying_price" jdbcType="NUMERIC" property="buyingPrice"/>
         <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
         <result column="freight_price" jdbcType="NUMERIC" property="freightPrice"/>
-
+        <result column="shipp_process" jdbcType="INTEGER" property="shippProcess"/>
     </resultMap>
 
 
@@ -286,6 +286,7 @@
         <result column="buying_price" jdbcType="NUMERIC" property="buyingPrice"/>
         <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
         <result column="freight_price" jdbcType="NUMERIC" property="freightPrice"/>
+        <result column="shipp_process" jdbcType="INTEGER" property="shippProcess"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
@@ -326,6 +327,7 @@
         f.freight_id,
         f.price as freight_price,
         st.location_id as from_location_id,
+        st.shipp_process ,
         stck.out_id as out_stack_id,
         st.buying_price,
         st.capital_cost,

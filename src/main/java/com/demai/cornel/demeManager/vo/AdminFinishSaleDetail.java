@@ -18,7 +18,7 @@ public class AdminFinishSaleDetail extends AdminFinishSaleList{
     private BigDecimal freightPrice;
     private BigDecimal capitalCost;// 资金使用成本
     private Integer optStatus;
-
+    private Integer shippProcess;
     public static enum STATUS_ENUE implements IEmus {
         PARAM_ERROR(-1, "参数错误"), SUCCESS(0, "请求成功"), ORDER_INVALID(1, "订单无效"), USER_ERROR(2, "用户无权限"), SERVER_ERROR(3,
                 "服务器异常");

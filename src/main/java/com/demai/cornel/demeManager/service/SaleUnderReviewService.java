@@ -85,7 +85,7 @@ import java.util.Optional;
         saleOrder.setFromLocation(loanInfo == null ? "" : loanInfo.getLocation());
 
         List<FreightInfo> freightInfos = locationService
-                .getAllFreightInfos(stackOutInfo.getReceiveLocation(), stackOutInfo.getFromLocation());
+                .getAllFreightInfos(stackOutInfo.getFromLocation(), stackOutInfo.getReceiveLocation());
         if (freightInfos != null) {
             List<AdminGetOutStackInfo.OtherInfo> otherInfos = new ArrayList<>(freightInfos.size());
             freightInfos.stream().forEach(fiT -> {

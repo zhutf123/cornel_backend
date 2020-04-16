@@ -16,6 +16,7 @@ import java.math.BigDecimal;
     private BigDecimal buyingPrice;
     private BigDecimal freightPrice;
     private BigDecimal capitalCost;// 资金使用成本
+    private BigDecimal shippProcess;//出库顺序
     private Integer optStatus;
 
     public static enum STATUS_ENUE implements IEmus {
