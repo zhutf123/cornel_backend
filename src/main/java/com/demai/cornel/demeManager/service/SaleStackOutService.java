@@ -61,6 +61,7 @@ import java.util.UUID;
         stackInfo.setOperatorUser(CookieAuthUtils.getCurrentUser());
         stackInfo.setReceiveLocation(saleOrder.getReceiveLocation());
         stackInfo.setWeight(saleOrder.getWeight());
+        stackInfo.setStoreId(reviewSaleReq.getStoreId());
         stackInfo.setStatus(StackOutInfo.STATUS_ENUM.PASS_APPROVAL.getValue());
         stackInfo.setShippProcess(reviewSaleReq.getShippProcess());
         int resUpdateSt = storeInfoMapper.updateUndistWeight(storeInfo.getStoreId(), storeInfo.getUndistWeight(),
