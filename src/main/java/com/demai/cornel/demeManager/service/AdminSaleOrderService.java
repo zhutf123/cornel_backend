@@ -282,7 +282,7 @@ import java.util.*;
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.ORDER_UN_CHANGE.getValue())
                     .build();
         }
-        if (!saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.UNDER_APPROVAL.getValue()) || !saleOrder.getStatus()
+        if (!saleOrder.getViewStatus().equals(SaleOrder.STATUS_VIEW.UNDER_APPROVAL.getValue()) && !saleOrder.getStatus()
                 .equals(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue())) {
             log.error("cur salder can update status cur viewstatus is {} status is {}", saleOrder.getViewStatus(),
                     saleOrder.getStatus());
