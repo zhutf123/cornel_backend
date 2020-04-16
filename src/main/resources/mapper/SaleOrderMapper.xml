@@ -664,7 +664,16 @@
                 ex_info=#{exInfo} ,
             </if>
             <if test="esIncome != null">
-                es_income=#{esIncome,jdbcType=DECIMAL}
+                es_income=#{esIncome,jdbcType=DECIMAL},
+            </if>
+            <if test="actualPay != null">
+                actual_pay=#{actualPay} ,
+            </if>
+            <if test="payTime != null">
+                pay_time=#{payTime,jdbcType=TIMESTAMP} ,
+            </if>
+            <if test="payReview != null and payReview != ''">
+                pay_review=#{payReview,jdbcType=VARCHAR}
             </if>
         </set>
         where order_id = #{orderId,jdbcType=VARCHAR}
