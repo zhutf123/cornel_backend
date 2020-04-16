@@ -133,6 +133,7 @@ import lombok.Data;
 
     private Integer shippProcess;//1 先发货后出库 2 先出库后发货
 
+
     public static enum STATUS_ENUM implements IEmus {
         //        CANCLE(0, "取消"),
         //        UNDER_APPROVAL(1<<0, "待审核"),

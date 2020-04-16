@@ -32,6 +32,7 @@ import java.util.UUID;
         List<StoreInfo> storeInfos = storeInfoMapper
                 .selectStoreIdByCommodityIdAndWeight(saleOrder.getCommodityId(), saleOrder.getWeight());
         if (storeInfos == null || storeInfos.size() == 0) {
+            saleOrder.setShockFlag(1);
             return null;
         }
         BigDecimal minTotalPrice = null;
@@ -55,6 +56,7 @@ import java.util.UUID;
             }
         }
         if (optimumStoreId == null) {
+            saleOrder.setShockFlag(2);
             log.warn("buildSystemDefaultOutStackInfo fail due to can not find the store");
             return null;
         }

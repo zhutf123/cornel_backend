@@ -33,7 +33,7 @@ import java.util.Set;
     private BigDecimal esInCome;//收益
     private String reviewUser;//收益
     private Set<String> transportTypeMap;
-
+    private Integer shockFlag=0;//0 成功 1 库存不足 2无货运信息
     public void setTransportTypeMap(Set<String> transportTypeMap) {
         this.transportTypeMap = transportTypeMap;
         if (transportTypeMap != null) {

@@ -64,6 +64,7 @@ import java.util.Optional;
         }
         StoreInfo storeInfo = storeInfoMapper.selectByStoreId(stackOutInfo.getStoreId());
         if (storeInfo == null) {
+            saleOrder.setShockFlag(1);
             log.debug("adminGetSaleDetail cannot find storeInfo from db ");
             return JsonResult.success(saleOrder);
         }
@@ -106,6 +107,7 @@ import java.util.Optional;
             saleOrder.setFreightAndIncome(otherInfos);
             saleOrder.setShowStackInfo(1);
         }
+        saleOrder.setShockFlag(0);
         return JsonResult.success(saleOrder);
     }
 }
