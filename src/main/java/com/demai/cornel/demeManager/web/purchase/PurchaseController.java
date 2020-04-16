@@ -132,4 +132,16 @@ import javax.servlet.http.HttpServletResponse;
             @RequestBody AdminReviewPayReq adminReviewPayReq) {
         return JsonResult.success(adminPurchaseCornService.reviewPay(adminReviewPayReq));
     }
+
+    /**
+     *  获取出货流程
+     * @param adminReviewPayReq
+     * @return
+     */
+    @RequestMapping(value = "/shipp_way.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult shippWay() {
+        return JsonResult.success(adminPurchaseCornService.getShippWay());
+    }
+
+
 }

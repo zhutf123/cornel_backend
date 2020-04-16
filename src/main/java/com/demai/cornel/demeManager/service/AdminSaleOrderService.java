@@ -4,6 +4,7 @@ import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.model.LoanInfo;
 import com.demai.cornel.purcharse.dao.*;
 import com.demai.cornel.purcharse.model.*;
+import com.demai.cornel.purcharse.service.LocationService;
 import com.demai.cornel.purcharse.service.OutStackService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
@@ -29,7 +30,7 @@ import java.util.*;
     @Resource private LocationInfoMapper locationInfoMapper;
     @Resource private FreightInfoMapper freightInfoMapper;
     @Resource private SaleStackOutService saleStackOutService;
-    @Resource private OutStackService outStackService;
+    @Resource private LocationService locationService;
     @Resource private AdminApprovedService adminApprovedService;
     @Resource private AdminFinishService adminFinishService;
     @Resource private AdminRejectSaleService adminRejectSaleService;
@@ -109,20 +110,21 @@ import java.util.*;
         //            adminGetSaleDetail1.setShowStackInfo(1);
         //            adminGetSaleDetail.add(adminGetSaleDetail1);
         //        }
+
         switch (status) {
-        case 1:
+        case 1://待业务审核
             return saleUnderReviewService.adminGetSaleList(status, offset, pgSize);
-        case 2:
+        case 2://业务审核通过
             return adminApprovedService.adminGetSaleList(status, offset, pgSize);
-        case 3:
+        case 3://审核拒绝
             return adminRejectSaleService.adminGetSaleList(status, offset, pgSize);
-        case 4:
+        case 4:// 进行中
             return adminRuningSaleService.adminGetSaleList(status, offset, pgSize);
-        case 5:
+        case 5:// 待付款
             return adminUnderPayService.adminGetSaleList(status, offset, pgSize);
-        case 6:
+        case 6://已付款
             return adminFinishService.adminGetSaleList(status, offset, pgSize);
-        case 7:
+        case 7:// 已完成
             return adminFinishService.adminGetSaleList(status, offset, pgSize);
         default:
             throw new IllegalStateException("Unexpected value: " + status);
@@ -240,8 +242,8 @@ import java.util.*;
             temp.setStoreId(x.getStoreId());
             LocationInfo locationInfo = locationInfoMapper.selectByLocationId(x.getLocationId());
             temp.setFromLocation(locationInfo == null ? "" : locationInfo.getLocation());
-            List<FreightInfo> freightInfos = freightInfoMapper
-                    .selectFreights(saleOrder.getReceiveLocation(), x.getLocationId());
+            List<FreightInfo> freightInfos = locationService
+                    .getAllFreightInfos(saleOrder.getReceiveLocation(), x.getLocationId());
             if (freightInfos != null) {
                 List<AdminGetOutStackInfo.OtherInfo> otherInfos = new ArrayList<>(freightInfos.size());
                 freightInfos.stream().forEach(freightInfo -> {

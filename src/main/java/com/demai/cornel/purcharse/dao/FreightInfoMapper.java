@@ -32,7 +32,11 @@ public interface FreightInfoMapper {
 
     FreightInfo selectMinPriceRoute(@Param("from") String from, @Param("to") String to);
 
-    List<FreightInfo> selectFreights(@Param("from") String from, @Param("to") String to);
+//    List<FreightInfo> selectFreights(@Param("from") String from, @Param("to") String to);
+
+    List<FreightInfo> selectFreightsByLocationArea(@Param("from") String fromLocationArea, @Param("to") String toLocationArea);
+
+
 
     AdminGetFreightViewResp adminnGetOptFreightView(@Param("fromLocationId") String fromLocationId);
 

@@ -47,7 +47,8 @@
     <sql id="Base_Column_List_re">
         <!--@mbg.generated-->
         f.id, f.freight_id, f.create_time, f.from_location, f.to_location, f.transport_type, f.price, f.cost_time,
-        f.status,f.ex_info,l.location as to_location_tx,f.update_time,l.location_area as to_location_area,l.location_detail as to_location_detail
+        f.status,f.ex_info,l.location as to_location_tx,f.update_time,l.location_area as
+        to_location_area,l.location_detail as to_location_detail
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -112,6 +113,24 @@
             <if test="reviewUser != null">
                 review_user,
             </if>
+            <if test="fromLocationArea">
+                from_location_area,
+            </if>
+            <if test="fromLocationDetail != null and fromLocationDetail != ''">
+                from_location_detail,
+            </if>
+            <if test="fromLocationTex != null and fromLocationTex != ''">
+                from_location_tex,
+            </if>
+            <if test="toLocationArea != null and toLocationArea != ''">
+                to_location_area,
+            </if>
+            <if test="toLocationDetail != null and toLocationDetail != ''">
+                to_location_detail,
+            </if>
+            <if test="toLocationTex != null and toLocationTex != ''">
+                to_location_tex,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -145,10 +164,28 @@
                 #{exInfo},
             </if>
             <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP}  ,
+                #{updateTime,jdbcType=TIMESTAMP} ,
             </if>
             <if test="reviewUser != null">
                 #{reviewUser,jdbcType=VARCHAR} ,
+            </if>
+            <if test="fromLocationArea">
+                #{fromLocationArea,jdbcType=VARCHAR} ,
+            </if>
+            <if test="fromLocationDetail != null and fromLocationDetail != ''">
+                #{fromLocationDetail,jdbcType=VARCHAR} ,
+            </if>
+            <if test="fromLocationTex != null and fromLocationTex != ''">
+                #{fromLocationTex,jdbcType=VARCHAR} ,
+            </if>
+            <if test="toLocationArea != null and toLocationArea != ''">
+                #{toLocationArea,jdbcType=VARCHAR} ,
+            </if>
+            <if test="toLocationDetail != null and toLocationDetail != ''">
+                #{toLocationDetail,jdbcType=VARCHAR} ,
+            </if>
+            <if test="toLocationTex != null and toLocationTex != ''">
+                #{toLocationTex,jdbcType=VARCHAR} ,
             </if>
         </trim>
     </insert>
@@ -202,8 +239,8 @@
     <select id="selectMinPriceRoute" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from freight_info where (from_location=#{from,jdbcType=VARCHAR} and to_location=#{to,jdbcType=VARCHAR})
-        or (from_location=#{to,jdbcType=VARCHAR} and to_location=#{from,jdbcType=VARCHAR}) and status!=0 order by price
+        from freight_info where from_location_area=#{from,jdbcType=VARCHAR} and to_location_area=#{to,jdbcType=VARCHAR}
+        and status!=0 order by price
         limit 1;
     </select>
     <select id="selectFreights" resultMap="BaseResultMap">
@@ -211,6 +248,12 @@
         <include refid="Base_Column_List"/>
         from freight_info where (from_location=#{from,jdbcType=VARCHAR} and to_location=#{to,jdbcType=VARCHAR})
         or (from_location=#{to,jdbcType=VARCHAR} and to_location=#{from,jdbcType=VARCHAR}) and status!=0 order by price;
+    </select>
+    <select id="selectFreightsByLocationArea" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from freight_info where from_location_area=#{from,jdbcType=VARCHAR} and to_location_area=#{to,jdbcType=VARCHAR}
+        and status!=0 order by price;
     </select>
     <select id="selectByFreightId" resultMap="BaseResultMap">
         select
@@ -232,8 +275,9 @@
     </update>
 
     <update id="updateStatusOtherFreightId">
-        update freight_info set status=0 where from_location=#{fromLocation,jdbcType=VARCHAR} and to_location=#{toLocation,jdbcType=VARCHAR} and freight_id not  in
-        <foreach collection="fromLocationId" item="loId" open ="(" separator="," close=")" index="index">
+        update freight_info set status=0 where from_location=#{fromLocation,jdbcType=VARCHAR} and
+        to_location=#{toLocation,jdbcType=VARCHAR} and freight_id not in
+        <foreach collection="fromLocationId" item="loId" open="(" separator="," close=")" index="index">
             #{loId}
         </foreach>
     </update>
@@ -241,8 +285,8 @@
         select freight_id from freight_info where from_location=#{fromLocation,jdbcType=VARCHAR} and status=1;
     </select>
     <update id="updateFreightStatusByFreightIds">
-        update freight_info set status=0 where status=1 and freight_id  in
-        <foreach collection="freightIds" item="loId" open ="(" separator="," close=")" index="index">
+        update freight_info set status=0 where status=1 and freight_id in
+        <foreach collection="freightIds" item="loId" open="(" separator="," close=")" index="index">
             #{loId}
         </foreach>
     </update>

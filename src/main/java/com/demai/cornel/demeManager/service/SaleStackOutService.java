@@ -1,5 +1,6 @@
 package com.demai.cornel.demeManager.service;
 
+import com.demai.cornel.demeManager.model.ShippProcess;
 import com.demai.cornel.demeManager.vo.AdminReviewSaleReq;
 import com.demai.cornel.demeManager.vo.AdminReviewSaleResp;
 import com.demai.cornel.purcharse.dao.*;
@@ -61,7 +62,7 @@ import java.util.UUID;
         stackInfo.setReceiveLocation(saleOrder.getReceiveLocation());
         stackInfo.setWeight(saleOrder.getWeight());
         stackInfo.setStatus(StackOutInfo.STATUS_ENUM.PASS_APPROVAL.getValue());
-
+        stackInfo.setShippProcess(reviewSaleReq.getShippProcess());
         int resUpdateSt = storeInfoMapper.updateUndistWeight(storeInfo.getStoreId(), storeInfo.getUndistWeight(),
                 storeInfo.getUndistWeight().subtract(saleOrder.getWeight()));
         if (resUpdateSt != 1) {
@@ -83,7 +84,10 @@ import java.util.UUID;
         newSaleOrder.setOutStackId(stackInfo.getOutId());
         newSaleOrder.setFromLocation(stackInfo.getFromLocation());
         newSaleOrder.setEsIncome(saleOrder.getCommodityPrice().subtract(storeInfo.getBuyingPrice()).subtract(stackInfo.getFreightPrice()));
-        if (!saleConvertTaskService.buildTask(stackInfo, saleOrder,storeInfo)) {
+        if(reviewSaleReq.getShippProcess().equals(ShippProcess.TYPE.DELIVE_PAY.getValue())){
+            newSaleOrder.setViewStatus(SaleOrder.STATUS_VIEW.UNDER_PAY.getValue());
+        }
+        if (reviewSaleReq.getShippProcess().equals(ShippProcess.TYPE.DELIVE_PAY.getValue()) && !saleConvertTaskService.buildTask(stackInfo, saleOrder,storeInfo)) {
             log.error(" updateSaleStackOutInfo 发布任务到大活宝失败 fail");
             return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SERVER_ERR.getValue()).build();
         }

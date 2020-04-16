@@ -228,6 +228,9 @@ import java.util.concurrent.TransferQueue;
                     FreightInfo freightInfo = new FreightInfo();
                     freightInfo.setPrice(transportList.getTotalPrice());
                     freightInfo.setFromLocation(viewResp.getLocationId());
+                    LocationInfo fromLocationInfo  = locationInfoMapper.selectByLocationId(viewResp.getLocationId());
+                    LocationInfo toLocationInfo  = locationInfoMapper.selectByLocationId(x.getToLocationId());
+
                     freightInfo.setToLocation(x.getToLocationId());
                     freightInfo.setTransportType(convertTranSportToSet(transportList.getTransportType()));
                     freightInfo.setExInfo(transportList.getExInfo() == null ?
@@ -235,6 +238,12 @@ import java.util.concurrent.TransferQueue;
                             JSONObject.toJSONString(transportList.getExInfo()));
                     freightInfo.setReviewUser(CookieAuthUtils.getCurrentUser());
                     freightInfo.setFreightId(UUID.randomUUID().toString());
+                    freightInfo.setFromLocationArea(fromLocationInfo.getLocationArea());
+                    freightInfo.setFromLocationDetail(fromLocationInfo.getLocationDetail());
+                    freightInfo.setFromLocationTex(fromLocationInfo.getLocation());
+                    freightInfo.setToLocationArea(toLocationInfo.getLocationArea());
+                    freightInfo.setToLocationDetail(toLocationInfo.getLocationDetail());
+                    freightInfo.setToLocationTex(toLocationInfo.getLocation());
                     if (Strings.isNullOrEmpty(transportList.getFreightId())) {
                         int res = freightInfoMapper.insertSelective(freightInfo);
                     } else if (transportList.getIsUpdate() != null && transportList.getIsUpdate().equals(1)) {

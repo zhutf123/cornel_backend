@@ -61,4 +61,14 @@ import lombok.Data;
 
     private Timestamp updateTime;
     private String reviewUser;
+
+    private String fromLocationArea;
+    private String fromLocationDetail;
+    private String fromLocationTex;
+
+    private String toLocationArea;
+    private String toLocationDetail;
+    private String toLocationTex;
+
+
 }

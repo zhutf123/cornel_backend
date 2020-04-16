@@ -3,6 +3,7 @@ package com.demai.cornel.demeManager.service;
 import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.purcharse.dao.*;
 import com.demai.cornel.purcharse.model.*;
+import com.demai.cornel.purcharse.service.LocationService;
 import com.demai.cornel.purcharse.service.OutStackService;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.JsonResult;
@@ -29,6 +30,7 @@ import java.util.Optional;
     @Resource private FreightInfoMapper freightInfoMapper;
     @Resource private SaleStackOutService saleStackOutService;
     @Resource private OutStackService outStackService;
+    @Resource private LocationService locationService;
 
     public JsonResult adminGetSaleList(Integer status, Integer offset, Integer pgSize) {
         List<AdminUnRevSaleList> saleOrder = saleOrderMapper
@@ -45,13 +47,14 @@ import java.util.Optional;
         AdminUnRevSaleDetail saleOrder = saleOrderMapper.adminGetUnRevSaleDetail(orderId);
         if (saleOrder == null) {
             log.warn("adminGetSaleDetail fail due to order invalid");
-            return JsonResult.success(AdminGetSaleDetail.builder().optStatus(AdminGetSaleDetail.STATUS_ENUE.ORDER_INVALID.getValue())
-                    .build());
+            return JsonResult.success(
+                    AdminGetSaleDetail.builder().optStatus(AdminGetSaleDetail.STATUS_ENUE.ORDER_INVALID.getValue())
+                            .build());
         }
 
         StackOutInfo stackOutInfo = stackOutInfoMapper.selectByOutId(saleOrder.getOutStackId());
         if (stackOutInfo == null) {
-            stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(saleOrder,false);
+            stackOutInfo = outStackService.buildSystemDefaultOutStackInfo(saleOrder, false);
             log.debug("adminGetSaleDetail cannot find stackOutInfo from db so try to build one,build info is {}",
                     JacksonUtils.obj2String(stackOutInfo));
         }
@@ -81,8 +84,8 @@ import java.util.Optional;
         LocationInfo loanInfo = locationInfoMapper.selectByLocationId(stackOutInfo.getFromLocation());
         saleOrder.setFromLocation(loanInfo == null ? "" : loanInfo.getLocation());
 
-        List<FreightInfo> freightInfos = freightInfoMapper
-                .selectFreights(stackOutInfo.getReceiveLocation(), stackOutInfo.getFromLocation());
+        List<FreightInfo> freightInfos = locationService
+                .getAllFreightInfos(stackOutInfo.getReceiveLocation(), stackOutInfo.getFromLocation());
         if (freightInfos != null) {
             List<AdminGetOutStackInfo.OtherInfo> otherInfos = new ArrayList<>(freightInfos.size());
             freightInfos.stream().forEach(fiT -> {

@@ -297,7 +297,7 @@ import java.util.stream.Collectors;
         // todo 订单总价格 需要加上运费
         saleOrder.setOrderPrice(saleOrder.getCommodityPrice().multiply(saleOrder.getCommodityPrice()));
         saleOrder.setStatus(SaleOrder.STATUS_ENUM.UNDER_APPROVAL.getValue());
-        outStackService.buildSystemDefaultOutStackInfo(saleOrder,true);
+        //outStackService.buildSystemDefaultOutStackInfo(saleOrder,true);
         int ret = saleOrderMapper.insertSelective(saleOrder);
         if (ret != 1) {
             return BuyOfferResp.builder().status(BuyOfferResp.STATUS_ENUE.SERVER_ERROR.getValue()).build();

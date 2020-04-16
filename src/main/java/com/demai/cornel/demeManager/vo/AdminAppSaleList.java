@@ -13,12 +13,12 @@ import java.util.Set;
  */
 /*管理员获取已同意订单的list*/
 
-@Data public class AdminAppSaleList extends AdminGetSaleList {
+@Data public class  AdminAppSaleList extends AdminGetSaleList {
     private String fromLocation;// 发货地
     private String fromLocationId;// 发货地
 
     private String transportType;//货运方式
-    private BigDecimal esInCome;//收益
+    private BigDecimal esInCome;//预计收益
     private String reviewUser;//收益
 
     private Set<String> transportTypeMap;

@@ -18,4 +18,5 @@ import java.math.BigDecimal;
     private String outEndTime;
     private Integer errCode;
     private String errDesc;
+    private Integer shippProcess;//交货顺序 1先付款后交货；2先付款后交货
 }

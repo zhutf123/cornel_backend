@@ -1,5 +1,6 @@
 package com.demai.cornel.demeManager.service;
 
+import com.demai.cornel.demeManager.model.ShippProcess;
 import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.model.ReviewModel;
 import com.demai.cornel.purcharse.dao.BuyerInfoMapper;
@@ -9,6 +10,7 @@ import com.demai.cornel.purcharse.dao.SpecialSaleInfoMapper;
 import com.demai.cornel.purcharse.model.OfferSheet;
 import com.demai.cornel.purcharse.model.SaleOrder;
 import com.demai.cornel.purcharse.model.SpecialSaleInfo;
+import com.demai.cornel.purcharse.model.TransportType;
 import com.demai.cornel.purcharse.vo.GetSystemOfferResp;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
@@ -236,4 +238,13 @@ import java.util.*;
         }
         return AdminReviewSaleResp.builder().optStatus(AdminReviewSaleResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }
+    public List<ShippProcess> getShippWay(){
+        List<ShippProcess>shippProcesses = new LinkedList<>();
+        Arrays.stream(ShippProcess.TYPE.values()).forEach(x->{
+            shippProcesses.add(new ShippProcess(x.getExpr(),x.getValue()));
+        });
+        return shippProcesses;
+    }
+
+
 }
