@@ -327,7 +327,7 @@
         f.freight_id,
         f.price as freight_price,
         st.location_id as from_location_id,
-        st.shipp_process ,
+        stck.shipp_process ,
         stck.out_id as out_stack_id,
         st.buying_price,
         st.capital_cost,
