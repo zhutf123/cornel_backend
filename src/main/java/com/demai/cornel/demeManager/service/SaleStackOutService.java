@@ -85,7 +85,7 @@ import java.util.UUID;
         newSaleOrder.setOutStackId(stackInfo.getOutId());
         newSaleOrder.setFromLocation(stackInfo.getFromLocation());
         newSaleOrder.setEsIncome(saleOrder.getCommodityPrice().subtract(storeInfo.getBuyingPrice()).subtract(stackInfo.getFreightPrice()));
-        if(reviewSaleReq.getShippProcess().equals(ShippProcess.TYPE.DELIVE_PAY.getValue())){
+        if(reviewSaleReq.getShippProcess().equals(ShippProcess.TYPE.PAY_DELIVE.getValue())){
             newSaleOrder.setViewStatus(SaleOrder.STATUS_VIEW.UNDER_PAY.getValue());
         }
         if (reviewSaleReq.getShippProcess().equals(ShippProcess.TYPE.DELIVE_PAY.getValue()) && !saleConvertTaskService.buildTask(stackInfo, saleOrder,storeInfo)) {
