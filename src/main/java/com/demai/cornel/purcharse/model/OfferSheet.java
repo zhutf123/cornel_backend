@@ -41,7 +41,7 @@ public class OfferSheet {
     /**
      * 0无效 1有效
      */
-    private Short status;
+    private short status;
 
     /**
      * 创建时间

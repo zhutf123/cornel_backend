@@ -236,7 +236,7 @@
       select <include refid="admin_get_buyer"/>
       from buyer_info b
       left join company_info c on b.company_id=c.company_id
-      left join location_info l on b.default_location = c.location_id
+      left join location_info l on b.default_location = l.location_id
       where b.status !=0  order by b.id desc offset #{offset} limit #{pgSzie} ;
 
     </select>

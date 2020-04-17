@@ -153,8 +153,9 @@ import java.util.*;
         newOff.setOfferId(UUID.randomUUID().toString());
         newOff.setCreateTime(new Timestamp(System.currentTimeMillis()));
         newOff.setPrice(quoteInfo.getSelfQuote());
+        newOff.setStatus((short) 1);
         int res = offerSheetMapper.updateOfferStatusByCommodityId(newOff.getCommodityId());
-        if (res != 0) {
+        if (res == 0) {
             log.warn("edit system offer sheet fail due to update old sheet fail ");
             return false;
         }
