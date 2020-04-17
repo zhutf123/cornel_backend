@@ -106,6 +106,7 @@ import java.util.*;
             AdminGetTowerQuLiResp adminGetTowerQuLiResp = new AdminGetTowerQuLiResp();
             BeanUtils.copyProperties(x, adminGetTowerQuLiResp);
             adminGetTowerQuLiResp.setCommodityName(commodity.getName());
+            adminGetTowerQuLiResp.setQuote(x.getPrice());
             resps.add(adminGetTowerQuLiResp);
         });
         return resps;
