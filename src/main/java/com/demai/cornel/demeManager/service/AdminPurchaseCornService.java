@@ -1,7 +1,10 @@
 package com.demai.cornel.demeManager.service;
 
+import com.demai.cornel.dao.CommodityDao;
 import com.demai.cornel.demeManager.model.ShippProcess;
+import com.demai.cornel.demeManager.model.SpecialQuote;
 import com.demai.cornel.demeManager.vo.*;
+import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.ReviewModel;
 import com.demai.cornel.purcharse.dao.BuyerInfoMapper;
 import com.demai.cornel.purcharse.dao.OfferSheetMapper;
@@ -37,6 +40,8 @@ import java.util.*;
     @Resource private BuyerInfoMapper buyerInfoMapper;
     @Resource private SpecialSaleInfoMapper specialSaleInfoMapper;
     @Resource private SaleOrderMapper saleOrderMapper;
+    @Resource private CommodityDao commodityDao;
+
     private static String TIME_FORMAT = "yyyy-MM-dd";
 
     /**
@@ -87,6 +92,23 @@ import java.util.*;
         }
         return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.SUCCESS.getValue()).build();
 
+    }
+
+    public List<AdminGetTowerQuLiResp> getBuyerQuoteList(String buyerId) {
+        List<SpecialSaleInfo> specialQuote = specialSaleInfoMapper.selectSpecilaByUserId(buyerId);
+        if (specialQuote == null) {
+            log.debug("cur user {}  get getBuyerQuoteList list empty", CookieAuthUtils.getCurrentUser());
+            return Collections.EMPTY_LIST;
+        }
+        List<AdminGetTowerQuLiResp> resps = new ArrayList<>();
+        specialQuote.stream().forEach(x -> {
+            Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
+            AdminGetTowerQuLiResp adminGetTowerQuLiResp = new AdminGetTowerQuLiResp();
+            BeanUtils.copyProperties(x, adminGetTowerQuLiResp);
+            adminGetTowerQuLiResp.setCommodityName(commodity.getName());
+            resps.add(adminGetTowerQuLiResp);
+        });
+        return resps;
     }
 
     /**

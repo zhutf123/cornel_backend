@@ -57,12 +57,27 @@ import javax.servlet.http.HttpServletResponse;
     }
 
     /**
+     * 获取买家端的报价情况
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/get-buyer-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getBuyerQuote(
+            @RequestBody String param) {
+        Preconditions.checkNotNull(param);
+        JSONObject receivedParam = JSON.parseObject(param);
+        String buyerId = (String) receivedParam.get("buyerId");
+        return JsonResult.success(adminPurchaseCornService.getBuyerQuoteList(buyerId));
+    }
+
+    /**
      * 管理员获取下单列表view
      *
      * @param
      * @return
      */
-    @RequestMapping(value = "/get-order-view.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getOrderView() {
+    @RequestMapping(value = "/get-order-view.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")@ResponseBody
+
+    public JsonResult getOrderView() {
         return JsonResult.success(adminSaleOrderService.getSaleView());
     }
 
@@ -134,14 +149,13 @@ import javax.servlet.http.HttpServletResponse;
     }
 
     /**
-     *  获取出货流程
+     * 获取出货流程
+     *
      * @param adminReviewPayReq
      * @return
      */
-    @RequestMapping(value = "/shipp_way.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult shippWay() {
+    @RequestMapping(value = "/shipp_way.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult shippWay() {
         return JsonResult.success(adminPurchaseCornService.getShippWay());
     }
-
 
 }

@@ -28,6 +28,8 @@ public interface SpecialSaleInfoMapper {
     SpecialSaleInfo selectSpecilaByCommodityIdAndUserId(@Param("commodityId") String commodityId,
             @Param("userId") String userId);
 
+    List<SpecialSaleInfo> selectSpecilaByUserId(@Param("userId") String userId);
+
     int updateOfferStatusByCommodityIdAndUserId(@Param("commodityId") String commodityId,
             @Param("userId") String userId);
 }
