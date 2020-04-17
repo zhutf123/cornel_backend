@@ -11,6 +11,7 @@ import com.demai.cornel.demeManager.model.ReviewLog;
 import com.demai.cornel.demeManager.model.SpecialQuote;
 import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.model.*;
+import com.demai.cornel.purcharse.model.StoreInfo;
 import com.demai.cornel.service.ImgService;
 import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
@@ -52,6 +53,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
     @Resource private ImgService imgService;
     @Resource private AdminReviewService adminReviewService;
     @Resource private ReviewLogMapper reviewLogMapper;
+    @Resource private StoreService storeService;
 
     /*财务人员获取指定烘干塔下的订单预览*/
     public List<AdminGetQuoteList> adminGetQuoteLists(Integer offset, Integer pgSize) {
@@ -177,6 +179,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
         ReviewQuoteResp quoteResp = adminReviewService.bussiReviewQuote(quoteReq);
         if (quoteResp.getOptStatus().equals(ReviewQuoteResp.STATUS_ENUE.SUCCESS.getValue())) {
             reviewLogMapper.insertSelective(reviewLog);
+        }
+        if (!storeService.convertStore(quoteReq.getQuoteId())) {
+            log.debug("quote convert store fail");
+        } else {
+            log.debug("quote convert store sucess");
         }
         return quoteResp;
     }
