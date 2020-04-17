@@ -81,11 +81,11 @@ import java.util.*;
         }
         for (AdminEditSysOfferReq.quoteInfo x : req.getQuoteInfos()) {
             if (x.getSystemFlag() == null || !x.getSystemFlag().equals(1)) {
-                if (editSpecialOfferSheet(x)) {
+                if (!editSpecialOfferSheet(x)) {
                     return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
                 }
             } else {
-                if (editSystemOfferSheet(x)) {
+                if (!editSystemOfferSheet(x)) {
                     return AdminOperResp.builder().optStatus(AdminOperResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
                 }
             }
@@ -202,12 +202,6 @@ import java.util.*;
                 log.warn("edit special offer sheet fail due to update old sheet fail ");
                 return false;
             }
-            int resInser = specialSaleInfoMapper.insertSelective(newSpe);
-            if (resInser != 1) {
-                log.warn("edit special offer sheet fail due to insert new sheet fail ");
-                return false;
-            }
-            return true;
         }
         int resInser = specialSaleInfoMapper.insertSelective(newSpe);
         if (resInser != 1) {
