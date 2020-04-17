@@ -17,6 +17,8 @@ import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.DryTower;
 import com.demai.cornel.model.UserInfo;
+import com.demai.cornel.purcharse.dao.LocationInfoMapper;
+import com.demai.cornel.purcharse.model.LocationInfo;
 import com.demai.cornel.util.*;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.JsonResult;
@@ -55,6 +57,7 @@ import lombok.extern.slf4j.Slf4j;
     @Resource private UserInfoDao userInfoDao;
     @Resource private CommodityDao commodityDao;
     @Resource private ImgService imgService;
+    @Resource private LocationInfoMapper locationInfoMapper;
 
     /**
      * 根据用户烘干塔用户id 订单状态查询任务订单
@@ -368,6 +371,15 @@ import lombok.extern.slf4j.Slf4j;
         }
         if (dryTower.getDefaultFlag() != null && dryTower.getDefaultFlag().equals(1)) {
             dryTowerDao.updateTowerNonDefaultFlag(CookieAuthUtils.getCurrentUser());
+        }
+        if(!Strings.isNullOrEmpty(dryTower.getLocation())){
+            LocationInfo locationInfo = new LocationInfo();
+            locationInfo.setLocationArea(dryTower.getLocationArea());
+            locationInfo.setLocationDetail(dryTower.getLocationDetail());
+            locationInfo.setLocation(dryTower.getLocation());
+            locationInfo.setLocationId(UUID.randomUUID().toString());
+            locationInfoMapper.insertSelective(locationInfo);
+            dryTower.setLocationId(locationInfo.getLocationId());
         }
         int rest = dryTowerDao.updateByPrimaryKeySelective(dryTower);
         if (rest == 0) {

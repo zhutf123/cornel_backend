@@ -17,6 +17,9 @@ public interface LocationInfoMapper {
     LocationInfo selectByPrimaryKey(Integer id);
     LocationInfo selectByLocationId(@Param("locationId") String locationId);
 
+    LocationInfo selectByLocation(@Param("location") String location);
+
+
     int updateByPrimaryKeySelective(LocationInfo record);
 
     int updateByPrimaryKey(LocationInfo record);

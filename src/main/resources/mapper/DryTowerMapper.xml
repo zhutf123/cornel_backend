@@ -22,13 +22,15 @@
         <result column="default_flag" jdbcType="INTEGER" property="defaultFlag"/>
         <result column="contact_user_id" property="contactUserId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="location_id" jdbcType="VARCHAR" property="locationId"/>
+
 
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         tower_id,id, company, commodity_id, location, area, shipment_weight,
         create_time, "status", capacity_store, load_lorry_num, load_lorry_cost, bind_user_id
-        ,default_flag,location_area,location_detail,contact_user_id
+        ,default_flag,location_area,location_detail,contact_user_id,location_id
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -221,9 +223,11 @@
                 location_detail=#{locationDetail,jdbcType=VARCHAR} ,
             </if>
             <if test="contactUserId != null">
-                contact_user_id=#{contactUserId,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+                contact_user_id=#{contactUserId,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
-
+            <if test="locationId != null">
+                location_id=#{locationId,jdbcType=VARCHAR}
+            </if>
         </set>
         where tower_id = #{towerId,jdbcType=VARCHAR}
     </update>

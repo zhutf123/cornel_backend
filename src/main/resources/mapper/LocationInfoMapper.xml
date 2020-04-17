@@ -218,4 +218,11 @@
          status=1
          where location_id=#{locationId} ;
     </update>
+    <select id="selectByLocation" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from location_info
+        where location = #{location,jdbcType=VARCHAR} ;
+    </select>
 </mapper>

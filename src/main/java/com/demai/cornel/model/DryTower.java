@@ -95,6 +95,8 @@ public class DryTower {
      */
     private Integer defaultFlag;
 
+    private String locationId;
+
     /**
      * 烘干塔联系人ID
      */
