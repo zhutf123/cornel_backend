@@ -227,7 +227,7 @@
     <select id="selectSpecilaByCommodityIdAndUserId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from special_sale_info where target_user_id=#{userId,jdbcType=VARCHAR} and status!=0;
+        from special_sale_info where target_user_id=#{userId,jdbcType=VARCHAR} and commodity_id=#{commodityId,jdbcType=VARCHAR} and  status!=0;
     </select>
     <update id="updateOfferStatusByCommodityIdAndUserId">
        update special_sale_info set status=0  where commodity_id=#{commodityId,jdbcType=VARCHAR} and status!=0 and  target_user_id = #{userId,jdbcType=VARCHAR};
