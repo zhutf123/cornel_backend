@@ -141,6 +141,9 @@ import java.util.*;
      * @return
      */
     @Transactional public boolean editSystemOfferSheet(AdminEditSysOfferReq.quoteInfo quoteInfo) {
+        if(quoteInfo==null || quoteInfo.getSelfQuote()==null){
+            return true;
+        }
         if (!checkQuoteParam(quoteInfo)) {
             return false;
         }
@@ -173,6 +176,10 @@ import java.util.*;
      * 修改针对个人的报价
      */
     @Transactional public boolean editSpecialOfferSheet(AdminEditSysOfferReq.quoteInfo quoteInfo) {
+        if(quoteInfo==null || quoteInfo.getSelfQuote()==null){
+            return true;
+        }
+
         if (!checkQuoteParam(quoteInfo)) {
             return false;
         }
