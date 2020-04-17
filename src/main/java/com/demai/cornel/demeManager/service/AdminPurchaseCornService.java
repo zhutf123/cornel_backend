@@ -160,7 +160,7 @@ import java.util.*;
             return false;
         }
         int resInser = offerSheetMapper.insertSelective(newOff);
-        if (resInser != 0) {
+        if (resInser == 0) {
             log.warn("edit system offer sheet fail due to insert new sheet fail ");
             return false;
         }
