@@ -159,6 +159,7 @@ import java.util.*;
             log.warn("edit system offer sheet fail due to update old sheet fail ");
             return false;
         }
+        newOff.setId(null);
         int resInser = offerSheetMapper.insertSelective(newOff);
         if (resInser == 0) {
             log.warn("edit system offer sheet fail due to insert new sheet fail ");
