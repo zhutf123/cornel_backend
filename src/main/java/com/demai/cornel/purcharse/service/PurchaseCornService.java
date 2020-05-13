@@ -221,6 +221,12 @@ import java.util.stream.Collectors;
         clickSystemOfferResp.setReceiveEndTime(
                 DateFormatUtils.getAfterTime(System.currentTimeMillis(), DateFormatUtils.ISO_DATE_PATTERN, 15));
         //todo 加入抢单逻辑
+        SpecialSaleInfo specialSaleInfo = specialSaleInfoMapper
+                .selectSpecilaByCommodityIdAndUserId(clickSystemOfferResp.getCommodity().getCommodityId(),
+                        CookieAuthUtils.getCurrentUser());
+        if (specialSaleInfo != null && specialSaleInfo.getPrice() != null) {
+            clickSystemOfferResp.setPrice(specialSaleInfo.getPrice());
+        }
         return clickSystemOfferResp;
 
     }
@@ -323,7 +329,7 @@ import java.util.stream.Collectors;
         }
         List<GetSaleOrderListResp> getSaleOrderListResps = saleOrderMapper
                 .getSaleOrderList(getSaleOrderListReq.getOrderId(), getSaleOrderListReq.getPgSize(),
-                        getSaleOrderListReq.getOrderType(),CookieAuthUtils.getCurrentUser());
+                        getSaleOrderListReq.getOrderType(), CookieAuthUtils.getCurrentUser());
 
         if (getSaleOrderListReq == null) {
             log.debug("getSaleOrderListRespList fail due to get result  empty");
