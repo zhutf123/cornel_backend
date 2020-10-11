@@ -300,7 +300,7 @@ import java.util.stream.Collectors;
             clickSystemQuoteResp.setMobile(userInfo.getMobile().iterator().next());
         }
         SystemQuote systemQuote = systemQuoteDao.getSystemQuoteByCommodityId(commodityId);
-        SpecialQuote specialQuote = specialQuoteMapper.selectSpecialQuoteByCommodityId(commodityId,userId);
+        SpecialQuote specialQuote = specialQuoteMapper.selectSpecialQuoteByCommodityId(userId,commodityId);
         clickSystemQuoteResp.setCommodity(commodity);
         clickSystemQuoteResp.setShipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT);
         clickSystemQuoteResp.setUnitWeight(systemQuote.getUnitWeight());
