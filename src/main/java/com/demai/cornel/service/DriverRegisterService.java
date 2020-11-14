@@ -36,13 +36,21 @@ import java.util.UUID;
  * @Author binz.zhang
  * @Date: 2020-01-17    11:10
  */
-@Service @Slf4j public class DriverRegisterService {
-    @Resource private UserInfoDao userInfoDao;
-    @Resource private ImgInfoDao imgInfoDao;
-    @Resource private CarTypeInfoDao carTypeInfoDao;
-    @Resource private CarOptService carOptService;
-    @Resource private LorryInfoDao lorryInfoDao;
-    @Resource private ImgService imgService;
+@Service
+@Slf4j
+public class DriverRegisterService {
+    @Resource
+    private UserInfoDao userInfoDao;
+    @Resource
+    private ImgInfoDao imgInfoDao;
+    @Resource
+    private CarTypeInfoDao carTypeInfoDao;
+    @Resource
+    private CarOptService carOptService;
+    @Resource
+    private LorryInfoDao lorryInfoDao;
+    @Resource
+    private ImgService imgService;
 
     /**
      * 司机完善个人信息
@@ -63,7 +71,7 @@ import java.util.UUID;
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue());
             return driverCpllUserInfoResp;
         }
-        if(!PhoneUtil.isPhone(driverCpllUserInfoReq.getMobile())){
+        if (!PhoneUtil.isPhone(driverCpllUserInfoReq.getMobile())) {
             log.debug("driver register complete fail due to tel format error ");
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PHONE_ERROR.getValue());
             return driverCpllUserInfoResp;
@@ -95,7 +103,8 @@ import java.util.UUID;
      * @param driverCpllCarReq
      * @return
      */
-    @Transactional public DriverCpllCarResp driverCompleteCarInfo(DriverCpllCarReq driverCpllCarReq) {
+    @Transactional
+    public DriverCpllCarResp driverCompleteCarInfo(DriverCpllCarReq driverCpllCarReq) {
         log.debug("driver register complete user info user info is [{}]", JacksonUtils.obj2String(driverCpllCarReq));
         Preconditions.checkNotNull(driverCpllCarReq);
         LorryInfo lorryInfo = new LorryInfo();

@@ -291,6 +291,7 @@ import lombok.extern.slf4j.Slf4j;
                 BeanUtils.copyProperties(dryTower, dryTowerInsert);
                 BeanUtils.copyProperties(x, dryTowerInsert);
                 dryTowerInsert.setContactUserId(Sets.newHashSet(finalContactUserId, CookieAuthUtils.getCurrentUser()));
+                dryTowerInsert.setCompany();
                 dryTowerDao.insertSelective(dryTowerInsert);
             });
 
