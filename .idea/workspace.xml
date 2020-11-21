@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="58e638f3-fd86-4dd8-a4b7-44638d327680" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/demeManager/service/AdminCornService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/demeManager/service/AdminCornService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/demeManager/web/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/demeManager/web/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/SystemQuoteMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/SystemQuoteMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/SupplierTaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/SupplierTaskService.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +116,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1605937913486</updated>
-      <workItem from="1605937915045" duration="14872000" />
+      <workItem from="1605937915045" duration="15788000" />
     </task>
     <servers />
   </component>
