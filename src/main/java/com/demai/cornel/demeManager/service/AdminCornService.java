@@ -23,6 +23,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.hp.gagawa.java.elements.A;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -322,17 +324,30 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return true;
     }
 
-    public List<AdminGetSyQuLis> getSyQuLis() {
+    public List<AdminGetSyQuLis> getSyQuLis(String towerUserId) {
         String userId = CookieAuthUtils.getCurrentUser();
         String token = CookieAuthUtils.getCurrentUserToken();
         if (!adminUserLoginService.checkAdminToken(token, userId)) {
             return Collections.EMPTY_LIST;
-        }
+        }   
         List<AdminGetSyQuLis> systemQuote = systemQuoteDao.adminGetSystemList();
-        if (systemQuote == null) {
+        if (CollectionUtils.isEmpty(systemQuote)) {
             log.debug("cur user {}  get system quote list empty", CookieAuthUtils.getCurrentUser());
             return Collections.EMPTY_LIST;
         }
+
+        if (StringUtils.isNotEmpty(towerUserId)){
+            systemQuote.stream().forEach(x -> {
+                SpecialQuote specialQuote = specialQuoteMapper
+                        .selectSpecialQuoteByCommodityId(towerUserId, x.getCommodityId());
+                if (specialQuote!=null){
+                    x.setQuote(specialQuote.getQuote());
+                    x.setUnitPrice(specialQuote.getUnitPrice());
+                    x.setUnitWeight(specialQuote.getUnitWeight());
+                }
+            });
+        }
+
         return systemQuote;
     }
 
@@ -343,7 +358,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
             return Collections.EMPTY_LIST;
         }
         List<SpecialQuote> specialQuote = specialQuoteMapper.selectSpecialQuoteByTargetUserId(towerUserId);
-        if (specialQuote == null) {
+        if (CollectionUtils.isEmpty(specialQuote)) {
             log.debug("cur user {}  get AdminGetTowerQuLiResp list empty", CookieAuthUtils.getCurrentUser());
             return Collections.EMPTY_LIST;
         }

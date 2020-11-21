@@ -232,7 +232,9 @@
     <select id="adminGetSystemList" resultMap="listRespMapper_admin">
       select
       <include refid="list_Resp"/>
-     from system_quote s inner join commodity_list c on s.commodity_id=c.commodity_id where s.status=1;
+     from system_quote s inner join commodity_list c on s.commodity_id=c.commodity_id
+     where s.status=1
+     and c.status=1
     </select>
 
     <update id="updateCommoditySystemInvalid">

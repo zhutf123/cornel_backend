@@ -115,8 +115,9 @@ import java.util.UUID;
     }
 
     /*获取系统报价*/
-    @CrossOrigin @RequestMapping(value = "/get-system-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getSystemQuote() {
-        return JsonResult.success(adminCornService.getSyQuLis());
+    @CrossOrigin @RequestMapping(value = "/get-system-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getSystemQuote(
+            @RequestBody AdGetTowQuLiReq adGetTowQuLiReq) {
+        return JsonResult.success(adminCornService.getSyQuLis(adGetTowQuLiReq.getUserId()));
     }
 
     /*获取烘干塔信息*/
