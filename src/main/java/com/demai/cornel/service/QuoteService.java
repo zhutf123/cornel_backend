@@ -185,6 +185,7 @@ import java.util.stream.Collectors;
         String userId = CookieAuthUtils.getCurrentUser();
         quoteInfo.setLocation(dryTower.getLocation());
         quoteInfo.setUserId(userId);
+        quoteInfo.setSysQuote(offerQuoteReq.getSysQuote());
         if (Strings.isNullOrEmpty(offerQuoteReq.getMobile())) {
             UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
             if (!CollectionUtils.isEmpty(userInfo.getMobile())) {

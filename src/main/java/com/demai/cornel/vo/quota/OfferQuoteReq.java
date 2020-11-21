@@ -28,6 +28,10 @@ public class OfferQuoteReq {
      **/
     private BigDecimal quote;
     /**
+     *系统提供报价
+     */
+    private BigDecimal sysQuote;
+    /**
      * 金额单位
      **/
     private String unitPrice = "元";
