@@ -89,7 +89,7 @@ public class SendMsgService {
         Integer result = SEND_MSG_CODE.PARAM_ERROR.getValue();
         try {
             result = doSendMsg(Lists.newArrayList(phone),
-                    "{\"product\":" + productName + ", \"price\": " + prices.doubleValue() + "}",
+                    "{\"product\":\"" + productName + "\", \"price\": " + prices.doubleValue() + "}",
                     configProperties.loginValidcodeId);
             if (log.isDebugEnabled()) {
                 log.debug("send msg to phone: {},{}", phone.toString() , result);
