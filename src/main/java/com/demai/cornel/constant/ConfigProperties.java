@@ -35,9 +35,14 @@ import org.springframework.stereotype.Component;
      */
     public @Value("${ali-config.accessSecret}") String AliAccessSecret;
     /**
-     * 阿里api访问  secret
+     * 发送登陆验证码模版id
      */
     public @Value("${ali-config.loginValidcodeId}") String loginValidcodeId;
+
+    /**
+     * 发送价格变化短息模版id
+     */
+    public @Value("${ali-config.priceChangeCodeId}") String priceChangeCodeId;
 
     public @Value("${upload.location}") String uploadLocation;
     public @Value("${upload.downloadHost}") String downloadHost;

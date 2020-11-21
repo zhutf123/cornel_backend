@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -71,6 +72,24 @@ public class SendMsgService {
                 "{\"code\":"+paramValue+"}", configProperties.loginValidcodeId);
         if(log.isDebugEnabled()){
             log.debug("send code to phone: {},{}", phone, result);
+        }
+        return result;
+    }
+
+
+    /***
+     * 给烘干塔发送价格变化提醒
+     *
+     * @param phone
+     * @param productName  产品名称
+     * @param prices  报价
+     */
+    public Integer sendPriceChangeMsg(String phone, String productName, BigDecimal prices) {
+        Integer result = doSendMsg(Lists.newArrayList(phone),
+                "{\"product\":" + productName + ", \"price\": " + prices.doubleValue() + "}",
+                configProperties.loginValidcodeId);
+        if (log.isDebugEnabled()) {
+            log.debug("send msg to phone: {},{}", phone, result);
         }
         return result;
     }

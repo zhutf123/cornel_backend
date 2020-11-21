@@ -92,6 +92,7 @@ ali-config:
   accessKeyId: LTAI4FjjDZfU5McHXiDEH2Uk
   accessSecret: 1C6KdK5kBZurVkFTSqp8wPE2mvJpBB
   loginValidcodeId: SMS_176539582
+  priceChangeCodeId: SMS_205606465
 
 datasources:
   dm-master:
