@@ -150,8 +150,12 @@ import lombok.Data;
         //        DELIVER_ING(1<<2, "运输中"),
         //        UNDER_RECEIVE(1<<3, "待接货"),
         //        FINISH(5, "订单完成");
-        CANCLE(0, "取消"), UNDER_APPROVAL(1 << 0, "待审核"), REJECT_APPROVAL(1 << 1, "审核拒绝"), PASS_APPROVAL(1 << 2,
-                "审核通过"), RUNNING(1 << 3, "进行中"), FINISH(1 << 4, "已完成");
+        CANCLE(0, "取消"),
+        UNDER_APPROVAL(1 << 0, "待审核"),
+        REJECT_APPROVAL(1 << 1, "审核拒绝"),
+        PASS_APPROVAL(1 << 2,"审核通过"),
+        RUNNING(1 << 3, "进行中"),
+        FINISH(1 << 4, "已完成");
 
         private int value;
         private String expr;
@@ -171,8 +175,14 @@ import lombok.Data;
     }
 
     public static enum STATUS_VIEW implements IEmus {
-        CANCLE(0, "取消"), UNDER_APPROVAL(1, "待审核"), PASS_APPROVAL(2, "审核通过"), REJECT_APPROVAL(3, "审核拒绝"), RUNNING(4,
-                "进行中"), UNDER_PAY(5, "待付款"), FINISH_PAY(6, "已付款"), FINISH(7, "已完成");
+        CANCLE(0, "取消"),
+        UNDER_APPROVAL(1, "待审核"),
+        PASS_APPROVAL(2, "审核通过"),
+        REJECT_APPROVAL(3, "审核拒绝"),
+        RUNNING(4,"进行中"),
+        UNDER_PAY(5, "待付款"),
+        FINISH_PAY(6, "已付款"),
+        FINISH(7, "已完成");
 
         private int value;
         private String expr;
