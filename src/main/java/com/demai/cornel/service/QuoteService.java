@@ -305,7 +305,14 @@ import java.util.stream.Collectors;
         clickSystemQuoteResp.setShipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT);
         clickSystemQuoteResp.setUnitWeight(systemQuote.getUnitWeight());
         clickSystemQuoteResp.setUnitPrice(systemQuote.getUnitPrice());
-        clickSystemQuoteResp.setQuote(specialQuote==null?systemQuote.getQuote():specialQuote.getQuote());
+        clickSystemQuoteResp.setQuote(systemQuote.getQuote());
+        if (specialQuote != null){
+            clickSystemQuoteResp.setUnitWeight(specialQuote.getUnitWeight());
+            clickSystemQuoteResp.setUnitPrice(specialQuote.getUnitPrice());
+            clickSystemQuoteResp.setQuote(specialQuote.getQuote());
+        }
+
+
         clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>();
         if (!CollectionUtils.isEmpty(ownDryInfo)) {
