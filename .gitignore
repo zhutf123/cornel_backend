@@ -1,6 +1,7 @@
 # kdiff3 ignore
 *.orig
 
+.idea/workspace.xml
 # maven ignore
 target/
 
