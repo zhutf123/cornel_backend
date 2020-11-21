@@ -3,12 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="58e638f3-fd86-4dd8-a4b7-44638d327680" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ConfigProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/constant/ConfigProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/demeManager/service/AdminCornService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/demeManager/service/AdminCornService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/SendMsgService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/demai/cornel/service/SendMsgService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources.beta/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources.beta/application-default.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources.dev/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources.dev/application-default.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources.local/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources.local/application-default.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources.prod/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources.prod/application-default.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/SystemQuoteMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/SystemQuoteMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application-default.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application-default.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/logback-spring.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -75,6 +74,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AdminCornService" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.demai.cornel.demeManager.service.AdminCornService" />
+      <module name="cornel_backend" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.demai.cornel.demeManager.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
@@ -91,6 +104,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.AdminCornService" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration>$USER_HOME$/.subversion</configuration>
@@ -102,7 +120,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1605937913486</updated>
-      <workItem from="1605937915045" duration="8030000" />
+      <workItem from="1605937915045" duration="11157000" />
     </task>
     <servers />
   </component>

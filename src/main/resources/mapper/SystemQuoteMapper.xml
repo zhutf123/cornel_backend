@@ -234,6 +234,7 @@
       <include refid="list_Resp"/>
      from system_quote s inner join commodity_list c on s.commodity_id=c.commodity_id where s.status=1;
     </select>
+
     <update id="updateCommoditySystemInvalid">
        update system_quote set status = 0 where commodity_id=#{commodityId,jdbcType=VARCHAR}
     </update>

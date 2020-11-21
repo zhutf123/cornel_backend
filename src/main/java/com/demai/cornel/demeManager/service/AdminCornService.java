@@ -13,6 +13,7 @@ import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.model.*;
 import com.demai.cornel.purcharse.model.StoreInfo;
 import com.demai.cornel.service.ImgService;
+import com.demai.cornel.service.SendMsgService;
 import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
@@ -44,7 +45,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
     @Resource private CommodityDao commodityDao;
     @Resource private QuoteInfoDao quoteInfoDao;
 
-    @Resource private AdminUserMapper adminUserMapper;
     @Resource private DryTowerDao dryTowerDao;
     @Resource private UserInfoDao userInfoDao;
     @Resource private SpecialQuoteMapper specialQuoteMapper;
@@ -54,6 +54,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
     @Resource private AdminReviewService adminReviewService;
     @Resource private ReviewLogMapper reviewLogMapper;
     @Resource private StoreService storeService;
+    @Resource private SendMsgService sendMsgService;
 
     /*财务人员获取指定烘干塔下的订单预览*/
     public List<AdminGetQuoteList> adminGetQuoteLists(Integer offset, Integer pgSize) {
@@ -281,6 +282,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
         specialQuote.setTargetTowerId(quoteInfo.getTowerId());
 
         specialQuote.setQuote(quoteInfo.getSelfQuote());
+        Commodity commodity = commodityDao.getCommodityByCommodityId(specialQuote.getCommodityId());
+        UserInfo userInfo = userInfoDao.getUserInfoByUserId(quoteInfo.getUserId());
+        sendMsgService.sendPriceChangeMsg(userInfo.getMobile(), commodity.getName(), specialQuote.getQuote());
+
 
         specialQuoteMapper.updateCommodityIdquoteStatus(quoteInfo.getCommodityId(), quoteInfo.getUserId());
         int res = specialQuoteMapper.insertSelective(specialQuote);

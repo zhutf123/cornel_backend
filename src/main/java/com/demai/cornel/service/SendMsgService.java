@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Create By zhutf 19-11-1 上午12:36
@@ -84,13 +85,19 @@ public class SendMsgService {
      * @param productName  产品名称
      * @param prices  报价
      */
-    public Integer sendPriceChangeMsg(String phone, String productName, BigDecimal prices) {
-        Integer result = doSendMsg(Lists.newArrayList(phone),
-                "{\"product\":" + productName + ", \"price\": " + prices.doubleValue() + "}",
-                configProperties.loginValidcodeId);
-        if (log.isDebugEnabled()) {
-            log.debug("send msg to phone: {},{}", phone, result);
+    public Integer sendPriceChangeMsg(Set<String> phone, String productName, BigDecimal prices) {
+        Integer result = SEND_MSG_CODE.PARAM_ERROR.getValue();
+        try {
+            result = doSendMsg(Lists.newArrayList(phone),
+                    "{\"product\":" + productName + ", \"price\": " + prices.doubleValue() + "}",
+                    configProperties.loginValidcodeId);
+            if (log.isDebugEnabled()) {
+                log.debug("send msg to phone: {},{}", phone.toString() , result);
+            }
+        } catch (Exception e){
+
         }
+
         return result;
     }
 
