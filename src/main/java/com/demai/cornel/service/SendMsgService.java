@@ -90,7 +90,7 @@ public class SendMsgService {
         try {
             result = doSendMsg(Lists.newArrayList(phone),
                     "{\"product\":\"" + productName + "\", \"price\": " + prices.doubleValue() + "}",
-                    configProperties.loginValidcodeId);
+                    configProperties.priceChangeCodeId);
             if (log.isDebugEnabled()) {
                 log.debug("send msg to phone: {},{}", phone.toString() , result);
             }
