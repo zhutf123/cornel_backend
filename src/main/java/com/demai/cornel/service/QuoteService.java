@@ -269,7 +269,7 @@ import java.util.stream.Collectors;
      * @return
      */
     public BargainRange getBargainRange(String commodityId) {
-        return BargainRange.builder().upper("+5").down("-5").build();
+        return BargainRange.builder().upper(6).down(6).unit(5).build();
     }
 
     /**

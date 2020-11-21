@@ -10,7 +10,17 @@ import lombok.Data;
 @Data
 @Builder
 public class BargainRange {
-    private String upper; // +5元
-    private String down;// -5
+    /**
+     * 线上次数
+     */
+    private Integer upper = 6;
+    /***
+     *  向下次数
+     */
+    private Integer down = 6;
+    /***
+     *   每次变更的金额 ，默认5
+     */
+    private Integer unit = 5;
 
 }
