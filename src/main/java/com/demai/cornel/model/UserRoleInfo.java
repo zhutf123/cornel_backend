@@ -19,6 +19,6 @@ public class UserRoleInfo implements Serializable {
     private String roleId;
     private Integer status;
     private Map<String, String> extInfo;
-    private Date createTime;
-    private Date operateTime;
+    private String createTime;
+    private String operateTime;
 }

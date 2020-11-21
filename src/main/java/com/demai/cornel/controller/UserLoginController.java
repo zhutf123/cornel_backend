@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.demai.cornel.annotation.AccessControl;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
+import com.demai.cornel.service.UserService;
+import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.vo.user.UserAddReq;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +37,8 @@ public class UserLoginController {
 
     @Resource
     private UserLoginService userLoginService;
+    @Resource
+    private UserService userService;
 
     /***
      * 给用户手机号 发送短信验证码 需要补充逻辑 在n分钟内，发送x条的限制
@@ -41,11 +46,12 @@ public class UserLoginController {
      * @param phone 手机号
      * @return
      */
-    @RequestMapping(value = "/sendCode", method = RequestMethod.POST)
+    @RequestMapping(value = "/sendCode.json", method = RequestMethod.POST)
     @ResponseBody
-//    @AccessControl(value = "60_3")
+    @AccessControl(value = "60_3")
     public JsonResult userLoginSendCode(@RequestBody UserLoginSendMsgParam phone) {
         try {
+            log.debug("send code access [{}]", JacksonUtils.obj2String(phone));
             return JsonResult.successStatus(userLoginService.sendLoginCodeMsg(phone.getPhone()));
         } catch (Exception e) {
             log.error("用户发送短信异常！", e);
@@ -57,7 +63,7 @@ public class UserLoginController {
      *
      * @return
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "/login.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     @ResponseBody
     public JsonResult doUserLogin(@RequestBody UserLoginParam param, HttpServletResponse response) {
         try {
@@ -75,6 +81,29 @@ public class UserLoginController {
             log.error("用户登录异常！", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+    }
+
+    @RequestMapping(value = "/update-user.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public JsonResult addUser(@RequestBody UserAddReq param) {
+        try {
+            Preconditions.checkNotNull(param);
+            return JsonResult.success(userService.updateUserInfo(param));
+        } catch (Exception e) {
+            log.error("用户登录异常！", e);
+        }
+        return JsonResult.success(ResponseStatusEnum.NETWORK_ERROR);
+    }
+
+    @RequestMapping(value = "/get-user.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public JsonResult getUserInfo() {
+        try {
+            return JsonResult.success(userService.getUserInfoResp());
+        } catch (Exception e) {
+            log.error("用户登录异常！", e);
+        }
+        return JsonResult.success(ResponseStatusEnum.NETWORK_ERROR);
     }
 
 }

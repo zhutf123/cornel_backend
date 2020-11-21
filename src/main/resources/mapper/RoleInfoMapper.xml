@@ -3,14 +3,14 @@
 
 <mapper namespace="com.demai.cornel.dao.RoleInfoDao">
     <resultMap type="com.demai.cornel.model.RoleInfo" id="roleInfoResultMap">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="role_id" property="roleId" />
-        <result column="status" property="status" />
-        <result column="ext_info" property="extInfo" />
-        <result column="acl_code" property="aclCode" />
-        <result column="create_time" property="createTime" />
-        <result column="operate_time" property="operateTime" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="role_id" property="roleId"/>
+        <result column="status" property="status"/>
+        <result column="ext_info" property="extInfo"/>
+        <result column="acl_code" property="aclCode"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
     </resultMap>
 
     <sql id="main_column">
@@ -27,37 +27,37 @@
     <update id="update" parameterType="com.demai.cornel.model.RoleInfo">
         update role_info
         <trim prefix="set" suffixOverrides=",">
-            <if test="name != null"> name = #{name},</if>
-            <if test="roleId != null"> role_id = #{roleId},</if>
-            <if test="status != null"> status = #{status},</if>
-            <if test="extInfo != null"> ext_info = #{extInfo},</if>
-            <if test="aclCode != null"> acl_code = #{aclCode},</if>
-            <if test="createTime != null"> create_time = #{createTime},</if>
-            <if test="operateTime != null"> operate_time = #{operateTime},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="roleId != null">role_id = #{roleId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="extInfo != null">ext_info = #{extInfo},</if>
+            <if test="aclCode != null">acl_code = #{aclCode},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
         </trim>
         where id = #{id}
     </update>
 
-    <insert id="save" parameterType="com.demai.cornel.model.RoleInfo" useGeneratedKeys="true" keyProperty="id" >
+    <insert id="save" parameterType="com.demai.cornel.model.RoleInfo" useGeneratedKeys="true" keyProperty="id">
         insert into role_info(
         <trim suffixOverrides=",">
-            <if test="name != null"> name ,</if>
-            <if test="roleId != null"> role_id ,</if>
-            <if test="status != null"> status ,</if>
-            <if test="extInfo != null"> ext_info ,</if>
-            <if test="aclCode != null"> acl_code ,</if>
-            <if test="createTime != null"> create_time ,</if>
-            <if test="operateTime != null"> operate_time ,</if>
+            <if test="name != null">name ,</if>
+            <if test="roleId != null">role_id ,</if>
+            <if test="status != null">status ,</if>
+            <if test="extInfo != null">ext_info ,</if>
+            <if test="aclCode != null">acl_code ,</if>
+            <if test="createTime != null">create_time ,</if>
+            <if test="operateTime != null">operate_time ,</if>
         </trim>
         )values(
         <trim suffixOverrides=",">
-            <if test="name != null"> #{name} ,</if>
-            <if test="roleId != null"> #{roleId} ,</if>
-            <if test="status != null"> #{status} ,</if>
-            <if test="extInfo != null"> #{extInfo} ,</if>
-            <if test="aclCode != null"> #{aclCode} ,</if>
-            <if test="createTime != null"> #{createTime} ,</if>
-            <if test="operateTime != null"> #{operateTime} ,</if>
+            <if test="name != null">#{name} ,</if>
+            <if test="roleId != null">#{roleId} ,</if>
+            <if test="status != null">#{status} ,</if>
+            <if test="extInfo != null">#{extInfo} ,</if>
+            <if test="aclCode != null">#{aclCode} ,</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="operateTime != null">#{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
         </trim>
         )
     </insert>

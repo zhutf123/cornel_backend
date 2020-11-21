@@ -3,6 +3,7 @@
  */
 package com.demai.cornel.util;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -394,5 +395,17 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
                 sqlTimestamp.getMinutes(),
                 sqlTimestamp.getSeconds(),
                 sqlTimestamp.getNanos());
+    }
+
+    /**
+     * 检查开始时间是否在当前时间之前
+     * @param startTime "2019-11-07 12:00-13:00"
+     * @return
+     */
+    public static Boolean checkStartTimeBeforeNow(String startTime) {
+        String[] st = startTime.split(" ");
+        String endTime = Joiner.on(" ").join(st[0], st[1].split("-")[1]);
+        Date date = DateFormatUtils.parse(endTime,DateFormatUtils.ISO_DATETIME_NOSEC_PATTERN);
+        return date.before(new Date());
     }
 }

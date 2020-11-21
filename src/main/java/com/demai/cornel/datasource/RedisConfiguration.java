@@ -36,7 +36,7 @@ public class RedisConfiguration {
         org.springframework.core.env.PropertySource<?> propertySource = abstractEnvironment.getPropertySources().get("applicationConfig: [classpath:/application-default.yml]");
         if (null != propertySource) {
             RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(propertySource);
-            redisClusterConfiguration.setPassword(password);
+          //redisClusterConfiguration.setPassword(password);
             LettuceConnectionFactory redisConnectionFactory = new LettuceConnectionFactory(redisClusterConfiguration);
             return redisConnectionFactory;
         }
@@ -59,8 +59,13 @@ public class RedisConfiguration {
         }
         Config config = new Config();
         config.useClusterServers()
-                .setPassword(String.valueOf(propertySource.getProperty("spring.redis.cluster.password")))
+                //.setPassword(String.valueOf(propertySource.getProperty("spring.redis.cluster.password")))
                 .addNodeAddress(nodeList.toArray(new String[nodeList.size()]));
+
+        if (log.isDebugEnabled()) {
+            log.debug("获取nodeList:{}", JsonUtil.toJson(config));
+        }
+
         RedissonClient redissonClient = Redisson.create(config);
         return redissonClient;
     }

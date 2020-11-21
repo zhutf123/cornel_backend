@@ -3,6 +3,7 @@ package com.demai.cornel.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,9 +41,9 @@ public class UserInfo implements Serializable {
     private String urgentMobileS;
     private Integer status;
     private Map<String, String> extInfo;
-    private Date lastLoginTime;
-    private Date createTime;
-    private Date operateTime;
+    private String lastLoginTime;
+    private String createTime;
+    private String operateTime;
 
     public Set<String> getMobile() {
         return mobile;
@@ -52,12 +53,42 @@ public class UserInfo implements Serializable {
      * 出去权限 用户的角色
      */
     public static enum ROLE_ENUE implements IEmus {
-        DRIVER(0, "司机"), ADMIN(1, "后台人员"), OPERATOR(2, "操作员"), WAREHOUSE(3, "仓库管理员");
+        DRIVER(1, "司机"),
+        SUPPLIER(2, "烘干塔"),
+        DELIVERY(3, "港口"),
+        ADMIN(4, "系统管理员"),
+        OPERATOR(5, "操作员") ,
+        BUYER(6, "买家") ;
+
 
         private int value;
         private String expr;
 
         private ROLE_ENUE(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+
+        @Override
+        public String getExpr() {
+            return expr;
+        }
+
+    }
+
+    public static enum USER_STATUS implements IEmus {
+        INVALID(0, "无效的"),
+        ENABLE(1, "使用中"),
+        PENDING(2, "待注册");
+        private int value;
+        private String expr;
+
+        private USER_STATUS(int value, String expr) {
             this.value = value;
             this.expr = expr;
         }

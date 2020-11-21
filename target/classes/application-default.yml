@@ -1,4 +1,4 @@
-debug: true
+debug: false
 
 #redis 集群模式
 spring:
@@ -9,6 +9,18 @@ spring:
       password: cornel00147258
       timeout: 5
 
+jetcache:
+  statIntervalMinutes: 1
+  areaInCacheName: false
+  local:
+    default:
+      type: caffeine
+      limit: 100
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      expireAfterWriteInMillis: 60000
+
 caching:
   types:
     - CAFFEINE
@@ -18,34 +30,53 @@ caching:
   configs:
     hblist:
       caffeine:
-        spec: maximumSize=5000,expireAfterAccess=30m,recordStats
-      redis:
-        timeToLive: 30m
-    flist:
-      caffeine:
-        spec: maximumSize=5000,expireAfterAccess=15m,refreshAfterWrite=10m,recordStats
-        cacheNullValues: false
-      redis:
-        timeToLive: 15m
-        cacheNullValues: false
-
+        spec: maximumSize=5000,expireAfterWrite=15m,recordStats
+#       cacheNullValues: false
 we-chat:
-   code2session: https://api.weixin.qq.com/sns/jscode2session?appid={appId}&secret={appSecret}&js_code={jscode}&grant_type=authorization_code
-   appId: wx5bde5e1ca69bd7f6
-   appSecret: 80dc07ef341d0c59314d935378075068
+  code2session: https://api.weixin.qq.com/sns/jscode2session?appid={appId}&secret={appSecret}&js_code={jscode}&grant_type=authorization_code
+  appId: wx5bde5e1ca69bd7f6
+  appSecret: 80dc07ef341d0c59314d935378075068
+we-chat-driver:
+  code2session: https://api.weixin.qq.com/sns/jscode2session?appid={appId}&secret={appSecret}&js_code={jscode}&grant_type=authorization_code
+  appId: wxbcb8b37ff9f2ce18
+  appSecret: 0ba267b4ad3f37bd0e591d557e5144aa
+
 
 ali-config:
-    accessKeyId: LTAI4FrsE2fex1MYUNFFYBKG
-    accessSecret: hfkMjTSyoZhGqksvk3fq4QUNw0zOqo
+    accessKeyId: LTAI4FjjDZfU5McHXiDEH2Uk
+    accessSecret: 1C6KdK5kBZurVkFTSqp8wPE2mvJpBB
     loginValidcodeId: SMS_176539582
 
 datasources:
   dm-master:
     driverClassName: org.postgresql.Driver
-    jdbcUrl: jdbc:postgresql://150.242.184.16:7654/cornel_product
-    username: postgres
-    password: cornel*..123
+    jdbcUrl: 'jdbc:postgresql://192.168.0.103:7654/cornel_beta'
+    username: cornel_beta
+    password: a9e43160-7d34-4a9d-8120-f605b111ce59
     maximumPoolSize: 5
     idleTimeout: 600000
     maxLifetime: 1800000
 
+xxl:
+  job:
+    admin:
+      addresses: http://182.92.1.233:9528
+    accessToken: ''
+    executor:
+      appname: cornel
+      ip: 182.92.1.233
+      port: 9999
+      logpath: '/home/www/cornel_web/logs/'
+      logretentiondays: 10
+baidu:
+  ak: 1EBYcarYLWPnnpUbrX4SUxQwtLSjgvF0
+service:
+  mobileList: 13551151842,13551151842
+banner:
+  download: https://beta.demeteria.com/banner/download.json?key=1.png,https://beta.demeteria.com/banner/download.json?key=2.png
+  purchaseBanner: https://beta.demeteria.com/banner/download.json?key=3.png,https://beta.demeteria.com/banner/download.json?key=4.png
+upload:
+  location: /home/www/upload/
+  downloadHost: https://beta.demeteria.com
+car-config:
+  carlicetype: 本人,他人,公司

@@ -7,22 +7,32 @@
         <result column="title" property="title"/>
         <result column="product" property="product"/>
         <result column="weight" property="weight"/>
+        <result column="unit_weight" property="unitWeight"/>
         <result column="task_id" property="taskId"/>
         <result column="unaccept_weight" property="unacceptWeight"/>
         <result column="undist_weight" property="undistWeight"/>
-        <result column="start_time" property="startTime"/>
-        <result column="end_time" property="endTime"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="unit_cost_time" property="unitCostTime"/>
         <result column="dep" property="dep"/>
         <result column="arr" property="arr"/>
+        <result column="dep_gis" property="depGis"/>
+        <result column="arr_gis" property="arrGis"/>
         <result column="distance" property="distance"/>
+        <result column="unit_distance" property="unitDistance"/>
+        <result column="unit_weight_price" property="unitWeightPrice"/>
         <result column="unit_price" property="unitPrice"/>
         <result column="estimate_price" property="estimatePrice"/>
         <result column="level" property="level"/>
         <result column="status" property="status"/>
         <result column="ext_info" property="extInfo"/>
-        <result column="create_time" property="createTime"/>
-        <result column="operate_time" property="operateTime"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="subtask_time" property="subTaskTimeString"/>
+        <result column="receiver_user_id" property="receiverUserId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="send_out_user_id" property="sendOutUserId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
     </resultMap>
 
     <sql id="main_column">
@@ -31,7 +41,7 @@
         task_id,
         product,
         weight,
-        unit,
+        unit_weight,
         unaccept_weight,
         undist_weight,
         start_time,
@@ -39,16 +49,21 @@
         unit_cost_time,
         dep,
         arr,
-        --dep_gis,
-        --arr_gis,
+        ST_AsText(dep_gis) as dep_gis,
+        ST_AsText(arr_gis) as arr_gis,
         distance,
+        unit_distance,
         unit_price,
         estimate_price,
         level,
         status,
         ext_info,
         create_time,
-        operate_time
+        operate_time,
+        subtask_time,
+        receiver_user_id,
+        send_out_user_id,
+        unit_weight_price
     </sql>
 
     <update id="update" parameterType="com.demai.cornel.model.TaskInfo">
@@ -58,22 +73,35 @@
             <if test="taskId != null">task_id = #{taskId},</if>
             <if test="product != null">product = #{product},</if>
             <if test="weight != null">weight = #{weight},</if>
-            <if test="unit != null">unit = #{unit},</if>
+            <if test="unitWeight != null">unit_weight = #{unitWeight},</if>
             <if test="unacceptWeight != null">unaccept_weight = #{unacceptWeight},</if>
             <if test="undistWeight != null">undist_weight = #{undistWeight},</if>
-            <if test="startTime != null">start_time = #{startTime},</if>
-            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="startTime != null">start_time = #{startTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="endTime != null">end_time = #{endTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
             <if test="unitCostTime != null">unit_cost_time = #{unitCostTime},</if>
             <if test="dep != null">dep = #{dep},</if>
             <if test="arr != null">arr = #{arr},</if>
+            <if test="depGis != null">dep_gis = point(#{depGis}),</if>
+            <if test="arrGis != null">arr_gis = point(#{arrGis}),</if>
             <if test="distance != null">distance = #{distance},</if>
             <if test="unitPrice != null">unit_price = #{unitPrice},</if>
             <if test="estimatePrice != null">estimate_price = #{estimatePrice},</if>
             <if test="level != null">level = #{level},</if>
             <if test="status != null">status = #{status},</if>
             <if test="extInfo != null">ext_info = #{extInfo},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="subTaskTimeString != null">subtask_time = #{subTaskTimeString},</if>
+            <if test="sendOutUserId != null">send_out_user_id =
+                #{sendOutUserId,jdbcType=ARRAY,javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
+            <if test="receiverUserId != null">receiver_user_id =
+                #{receiverUserId,jdbcType=ARRAY, javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
+            <if test="unitDistance != null">unit_distance = #{unitDistance},</if>
+            <if test="unitWeightPrice != null">unit_weight_price = #{unitWeightPrice},</if>
+
         </trim>
         where id = #{id}
     </update>
@@ -85,7 +113,7 @@
             <if test="taskId != null">task_id ,</if>
             <if test="product != null">product ,</if>
             <if test="weight != null">weight ,</if>
-            <if test="unit != null">unit ,</if>
+            <if test="unitWeight != null">unit_weight ,</if>
             <if test="unacceptWeight != null">unaccept_weight ,</if>
             <if test="undistWeight != null">undist_weight ,</if>
 
@@ -94,6 +122,8 @@
             <if test="unitCostTime != null">unit_cost_time ,</if>
             <if test="dep != null">dep ,</if>
             <if test="arr != null">arr ,</if>
+            <if test="depGis != null">dep_gis ,</if>
+            <if test="arrGis != null">arr_gis ,</if>
             <if test="distance != null">distance ,</if>
             <if test="unitPrice != null">unit_price ,</if>
             <if test="estimatePrice != null">estimate_price ,</if>
@@ -102,6 +132,13 @@
             <if test="extInfo != null">ext_info ,</if>
             <if test="createTime != null">create_time ,</if>
             <if test="operateTime != null">operate_time ,</if>
+            <if test="subTaskTimeString != null">subtask_time,</if>
+            <if test="sendOutUserId != null">send_out_user_id,</if>
+            <if test="receiverUserId != null">receiver_user_id,</if>
+            <if test="unitDistance != null">unit_distance,</if>
+            <if test="unitWeightPrice != null">unit_weight_price,</if>
+            <if test="receiverMobile != null">receiver_mobile,</if>
+            <if test="supplierMobile != null">supplier_mobile,</if>
         </trim>
         )values(
         <trim suffixOverrides=",">
@@ -109,22 +146,37 @@
             <if test="taskId != null">#{taskId},</if>
             <if test="product != null">#{product} ,</if>
             <if test="weight != null">#{weight} ,</if>
-            <if test="unit != null">#{unit} ,</if>
+            <if test="unitWeight != null">#{unitWeight} ,</if>
             <if test="unacceptWeight != null">#{unacceptWeight} ,</if>
             <if test="undistWeight != null">#{undistWeight} ,</if>
-            <if test="startTime != null">#{startTime} ,</if>
-            <if test="endTime != null">#{endTime} ,</if>
+            <if test="startTime != null">#{startTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="endTime != null">#{endTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
             <if test="unitCostTime != null">#{unitCostTime} ,</if>
             <if test="dep != null">#{dep} ,</if>
             <if test="arr != null">#{arr} ,</if>
+            <if test="depGis != null">point(#{depGis}) ,</if>
+            <if test="arrGis != null">point(#{arrGis}) ,</if>
             <if test="distance != null">#{distance} ,</if>
             <if test="unitPrice != null">#{unitPrice} ,</if>
             <if test="estimatePrice != null">#{estimatePrice} ,</if>
             <if test="level != null">#{level} ,</if>
             <if test="status != null">#{status} ,</if>
             <if test="extInfo != null">#{extInfo} ,</if>
-            <if test="createTime != null">#{createTime} ,</if>
-            <if test="operateTime != null">#{operateTime} ,</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="operateTime != null">#{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="subTaskTimeString != null">#{subTaskTimeString} ,</if>
+            <if test="sendOutUserId != null">
+                #{sendOutUserId,jdbcType=ARRAY, javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+                ,
+            </if>
+            <if test="receiverUserId != null">
+                #{receiverUserId,jdbcType=ARRAY, javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+                ,
+            </if>
+            <if test="unitDistance != null">#{unitDistance},</if>
+            <if test="unitWeightPrice != null">#{unitWeightPrice},</if>
+            <if test="receiverMobile != null">#{receiverMobile,jdbcType=ARRAY, javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,</if>
+            <if test="supplierMobile != null">#{supplierMobile,jdbcType=ARRAY, javaType=java.util.Set, typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,</if>
         </trim>
         )
     </insert>
@@ -135,8 +187,18 @@
         FROM task_info where task_id=#{taskId};
     </select>
 
-    <update id="updateTaskUnDistWeight">
-        update task_info set undist_weight=#{unDistWeight} where task_id=#{taskId}
+    <update id="updateTaskUnDistWeightAndSelectTime">
+        update task_info set undist_weight=#{unDistWeight},subtask_time=#{selectTime} where task_id=#{taskId}
     </update>
+
+    <select id="getTaskOrderListByStatus" parameterType="map" resultMap="taskInfoResultMap">
+        SELECT
+        <include refid="main_column"/>
+        FROM task_info where supplier_id=#{supplierId}
+        and status=#{status}
+    </select>
+    <select id="getTaskUnacceptWeight" resultType="java.math.BigDecimal">
+        select unaccept_weight from task_info where task_id=#{taskId};
+    </select>
 
 </mapper>

@@ -5,6 +5,7 @@ spring:
     admin:
       enabled: true
     name: cornel_backend
+
 #  profiles:
 #    active:
 #      - dev

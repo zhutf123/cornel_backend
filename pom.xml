@@ -34,7 +34,9 @@
         <mysql.connector.java.version>5.1.36</mysql.connector.java.version>
         <vs.rate.client.api.version>2.3.17</vs.rate.client.api.version>
         <aliyun.java.sdk.version>4.0.3</aliyun.java.sdk.version>
-        <xxl.job.core>1.9.2</xxl.job.core>
+        <xxl.job.core>2.1.2</xxl.job.core>
+        <httpclient.version>4.5.1</httpclient.version>
+        <httpcore.version>4.4.3</httpcore.version>
     </properties>
 
     <repositories>
@@ -58,6 +60,13 @@
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl.job.core}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-job-core -->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>2.1.2</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.aliyun</groupId>
                 <artifactId>aliyun-java-sdk-core</artifactId>
@@ -526,6 +535,22 @@
             <artifactId>spring-restdocs-mockmvc</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpcore</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>${httpcore.version}</version>
+        </dependency>
     </dependencies>
 
     <distributionManagement>
@@ -537,7 +562,6 @@
     </distributionManagement>
     <build>
         <finalName>cornel_backend</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -627,8 +651,17 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>${env.resources}</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
     <profiles>
@@ -640,9 +673,45 @@
             <id>beta</id>
             <properties>
                 <deploy.type>beta</deploy.type>
-                <deploy.group>beta</deploy.group>
+                <deploy.group></deploy.group>
                 <env.profile.name>beta</env.profile.name>
+                <env.resources>src/main/resources.beta</env.resources>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>dev</id>
+            <properties>
+                <deploy.type>dev</deploy.type>
+                <deploy.group></deploy.group>
+                <env.profile.name>dev</env.profile.name>
+                <env.resources>src/main/resources.dev</env.resources>
+
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <properties>
+                <deploy.type>prod</deploy.type>
+                <deploy.group></deploy.group>
+                <env.profile.name>prod</env.profile.name>
+                <env.resources>src/main/resources.prod</env.resources>
+
+            </properties>
+        </profile>
+        <profile>
+            <id>local</id>
+            <properties>
+                <deploy.type>local</deploy.type>
+                <deploy.group></deploy.group>
+                <env.profile.name>local</env.profile.name>
+                <env.resources>src/main/resources.local</env.resources>
+
             </properties>
         </profile>
     </profiles>
+
+
+
 </project>

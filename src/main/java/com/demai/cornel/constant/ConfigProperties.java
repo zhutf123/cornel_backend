@@ -7,25 +7,39 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component
-public class ConfigProperties implements Serializable {
+@Component public class ConfigProperties implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigProperties.class);
 
-    /** 获取openid 请求接口 */
+    /**
+     * 获取openid 请求接口
+     */
     public @Value("${we-chat.code2session}") String weChatCode2SessionPath;
 
-    /** 小程序 appId */
+    /**
+     * 小程序 appId
+     */
     public @Value("${we-chat.appId}") String appId;
 
-    /** 小程序 appSecret */
+    /**
+     * 小程序 appSecret
+     */
     public @Value("${we-chat.appSecret}") String appSecret;
 
-    /** 阿里api访问 id */
+    /**
+     * 阿里api访问 id
+     */
     public @Value("${ali-config.accessKeyId}") String AliAccessKeyId;
-    /** 阿里api访问  secret*/
+    /**
+     * 阿里api访问  secret
+     */
     public @Value("${ali-config.accessSecret}") String AliAccessSecret;
-    /** 阿里api访问  secret*/
+    /**
+     * 阿里api访问  secret
+     */
     public @Value("${ali-config.loginValidcodeId}") String loginValidcodeId;
+
+    public @Value("${upload.location}") String uploadLocation;
+    public @Value("${upload.downloadHost}") String downloadHost;
 
 }

@@ -5,6 +5,7 @@ package com.demai.cornel.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class RoleInfo implements Serializable {
     private String aclCode;
     private Integer status;
     private Map<String, String> extInfo;
-    private Date createTime;
-    private Date operateTime;
+    private String createTime;
+    private String operateTime;
 
 }

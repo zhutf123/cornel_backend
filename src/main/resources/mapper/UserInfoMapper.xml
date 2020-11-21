@@ -7,7 +7,7 @@
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="user_id" property="userId"/>
-        <result column="open_id" property="openId" jdbcType="ARRAY"
+        <result column="open_id" property="openId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="gender" property="gender"/>
         <result column="role" property="role"/>
@@ -17,7 +17,7 @@
         <result column="id_type" property="idType"/>
         <result column="id_card" property="idCard"/>
         <result column="term_validity" property="termValidity"/>
-        <result column="mobile" property="mobile" jdbcType="ARRAY"
+        <result column="mobile" property="mobile" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="lorry" property="lorry"/>
         <result column="order_nums" property="orderNums"/>
@@ -31,9 +31,8 @@
         <result column="status" property="status"/>
         <result column="ext_info" property="extInfo"/>
         <result column="last_login_time" property="lastLoginTime"/>
-        <result column="create_time" property="createTime"/>
-        <result column="operate_time" property="operateTime"/>
-        <result column="with" property="with"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
     </resultMap>
 
     <sql id="main_column">
@@ -65,13 +64,14 @@
         create_time,
         operate_time
     </sql>
-
     <update id="update" parameterType="com.demai.cornel.model.UserInfo">
         update user_info
         <trim prefix="set" suffixOverrides=",">
             <if test="name != null">name = #{name},</if>
             <if test="userId != null">user_id = #{userId},</if>
-            <if test="openId != null">open_id =  #{openId,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},</if>
+            <if test="openId != null">open_id =
+                #{openId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
             <if test="role != null">role = #{role},</if>
             <if test="gender != null">gender = #{gender},</if>
             <if test="birthday != null">birthday = #{birthday},</if>
@@ -80,7 +80,9 @@
             <if test="idType != null">id_type = #{idType},</if>
             <if test="idCard != null">id_card = #{idCard},</if>
             <if test="termValidity != null">term_validity = #{termValidity},</if>
-            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="mobile != null">mobile =
+                #{mobile,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
             <if test="lorry != null">lorry = #{lorry},</if>
             <if test="orderNums != null">order_nums = #{orderNums},</if>
             <if test="score != null">score = #{score},</if>
@@ -92,11 +94,11 @@
             <if test="urgentMobileS != null">urgent_mobile_s = #{urgentMobileS},</if>
             <if test="status != null">status = #{status},</if>
             <if test="extInfo != null">ext_info = #{extInfo},</if>
-            <if test="lastLoginTime != null">last_login_time = #{lastLoginTime},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="lastLoginTime != null">last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
         </trim>
-        where id = #{id}
+        where user_id = #{userId,jdbcType=VARCHAR}
     </update>
 
     <insert id="save" parameterType="com.demai.cornel.model.UserInfo" useGeneratedKeys="true" keyProperty="id">
@@ -134,7 +136,7 @@
             <if test="name != null">#{name} ,</if>
             <if test="userId != null">#{userId} ,</if>
             <if test="openId != null">
-                #{openId,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,
+                #{openId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ,
             </if>
             <if test="gender != null">#{gender} ,</if>
             <if test="role != null">#{role} ,</if>
@@ -145,7 +147,7 @@
             <if test="idCard != null">#{idCard} ,</if>
             <if test="termValidity != null">#{termValidity} ,</if>
             <if test="mobile != null">
-                #{mobile,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+                #{mobile,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
             </if>
             <if test="lorry != null">#{lorry} ,</if>
             <if test="orderNums != null">#{orderNums} ,</if>
@@ -158,9 +160,9 @@
             <if test="urgentMobileS != null">#{urgentMobileS} ,</if>
             <if test="status != null">#{status} ,</if>
             <if test="extInfo != null">#{extInfo} ,</if>
-            <if test="lastLoginTime != null">#{lastLoginTime} ,</if>
-            <if test="createTime != null">#{createTime} ,</if>
-            <if test="operateTime != null">#{operateTime} ,</if>
+            <if test="lastLoginTime != null">#{lastLoginTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="operateTime != null">#{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
         </trim>
         )
     </insert>
@@ -172,32 +174,84 @@
         where status=1 and <![CDATA[ mobile @> array[#{phone}] ]]>
         limit 1
     </select>
+    <select id="getUserInfoNoDriverByPhone" parameterType="String" resultMap="userInfoResultMap">
+        SELECT
+        <include refid="main_column"/>
+        from user_info
+        where status=1 and <![CDATA[ mobile @> array[#{phone}] ]]> and role !=1
+        limit 1
+    </select>
+
+    <select id="getDriverInfoByPhone" parameterType="String" resultMap="userInfoResultMap">
+        SELECT
+        <include refid="main_column"/>
+        from user_info
+        where status=1 and <![CDATA[ mobile @> array[#{phone}] ]]> and role =1
+        limit 1
+    </select>
+    <select id="getDryTowerUserInfoByPhone" parameterType="String" resultMap="userInfoResultMap">
+        SELECT
+        <include refid="main_column"/>
+        from user_info
+        where status=1 and <![CDATA[ mobile @> array[#{phone}] ]]> and role=2
+        limit 1
+    </select>
     <select id="getUsersInfoByPhones" resultMap="userInfoResultMap">
         SELECT
         <include refid="main_column"/>
         from user_info
-        where status=1 and <![CDATA[ mobile && #{phones,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>;
+        where status=1 and
+        <![CDATA[ mobile && #{phones,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>
+        ;
     </select>
-   <select id="getUserDefaultLorryByTels" resultType="com.demai.cornel.model.UserDistOrderModel">
+    <select id="getUserDefaultLorryByTels" resultType="com.demai.cornel.model.UserDistOrderModel">
        SELECT u.user_id as userId,u.name as userName,u.id_type as idType,u.id_card as idCard,l.carry_weight as carryWeight ,l.plate_number as plateNumber
-       FROM user_info as  u left join lorry_info as l on u.id_card=l.id_card and u.id_type=l.id_type where l.status=1 and l.default_flag=1
-       and u.status=1 and <![CDATA[ u.mobile && #{phones,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler} ]]>
-   </select>
+       FROM user_info as  u inner join lorry_info as l on u.id_card=l.id_card and u.id_type=l.id_type where l.status=1 and l.default_flag=1
+       and u.status=1 and <![CDATA[ u.mobile && #{phones,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+        ]]>
+    </select>
 
     <select id="getUsersLorryInfoByPlateNumber" resultType="com.demai.cornel.model.UserDistOrderModel">
-       SELECT u.user_id as userId,u.name as userName,u.id_type as idType,u.id_card as idCard,l.carry_weight as carryWeight ,l.plate_number as plateNumber,u.mobile[1] as tel
-       FROM lorry_info as l  left join user_info as u on l.id_card=u.id_card and l.id_type=u.id_type  where l.plate_number in
-            <if test="platNumbers!=null and platNumbers.size()>0">
-                <foreach collection="platNumbers" item="platNumber" index="index" open="(" separator="," close=")">
-                    #{platNumber}
-                </foreach>
-            </if>
+        SELECT u.user_id as userId,u.name as userName,u.id_type as idType,u.id_card as idCard,l.carry_weight as
+        carryWeight ,l.plate_number as plateNumber,u.mobile[1] as tel
+        FROM lorry_info as l inner join user_info as u on l.id_card=u.id_card and l.id_type=u.id_type where
+        l.plate_number in
+        <if test="platNumbers!=null and platNumbers.size()>0">
+            <foreach collection="platNumbers" item="platNumber" index="index" open="(" separator="," close=")">
+                #{platNumber}
+            </foreach>
+        </if>
         and l.status=1 and u.status=1;
     </select>
 
     <update id="updateUserOpenIdByUid">
-        update user_info set open_id= #{openIds,jdbcType=ARRAY,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+        update user_info set open_id= #{openIds,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
         where id=#{userId}
     </update>
+    <select id="getUserInfoByUserId" resultMap="userInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from user_info where user_id=#{userId} and status=1;
+    </select>
+
+    <select id="getSupplierUserInfoByUserId" resultMap="userInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from user_info where user_id=#{userId} and status=1 and role=2;
+    </select>
+
+
+    <select id="getUserNameByUserId" resultType="java.lang.String">
+        select name from user_info where user_id=#{userID};
+    </select>
+
+    <select id="getSupplyUserInfoByPhone" resultMap="userInfoResultMap">
+        SELECT
+        <include refid="main_column"/>
+        from user_info
+        where status=1 and <![CDATA[ mobile @> array[#{phone}] ]]> and role =2
+        limit 1
+    </select>
+
 
 </mapper>

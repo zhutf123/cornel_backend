@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.purcharse.dao.SaleOrderMapper">
+    <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.SaleOrder">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="cargo_id" jdbcType="VARCHAR" property="cargoId"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="order_time" jdbcType="TIMESTAMP" property="orderTime"/>
+        <result column="receive_start_time" jdbcType="TIMESTAMP" property="receiveStartTime"/>
+        <result column="payment_type" jdbcType="VARCHAR" property="paymentType"/>
+        <result column="payment_status" jdbcType="INTEGER" property="paymentStatus"/>
+        <result column="freight_price" jdbcType="NUMERIC" property="freightPrice"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="waybill_id" jdbcType="VARCHAR" property="waybillId"/>
+        <result column="purchase_id" jdbcType="VARCHAR" property="purchaseId"/>
+        <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="offer_id" jdbcType="VARCHAR" property="offerId"/>
+        <result column="receive_end_time" jdbcType="TIMESTAMP" property="receiveEndTime"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="out_stack_id" jdbcType="VARCHAR" property="outStackId"/>
+        <result column="view_status" jdbcType="INTEGER" property="viewStatus"/>
+        <result column="ex_info" jdbcType="VARCHAR" property="exInfo"/>
+
+    </resultMap>
+
+
+    <resultMap id="BaseResultMap_list" type="com.demai.cornel.purcharse.vo.resp.GetSaleOrderListResp">
+        <!--@mbg.generated-->
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="freight_price" jdbcType="NUMERIC" property="freightPrice"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+    </resultMap>
+
+    <resultMap id="unreview_list" type="com.demai.cornel.demeManager.vo.AdminUnRevSaleList">
+        <!--@mbg.generated-->
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
+
+    <resultMap id="admin_app_list" type="com.demai.cornel.demeManager.vo.AdminAppSaleList">
+        <!--@mbg.generated-->
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
+        <result column="transport_type" jdbcType="VARCHAR" property="transportType"/>
+        <result column="es_in_come" jdbcType="VARCHAR" property="esInCome"/>
+        <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
+
+        <result column="transport_type" property="transportTypeMap" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+    </resultMap>
+
+
+    <resultMap id="admin_unpay_list" type="com.demai.cornel.demeManager.vo.AdminUnpaySaleList">
+        <!--@mbg.generated-->
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
+        <result column="transport_type" jdbcType="VARCHAR" property="transportType"/>
+        <result column="es_in_come" jdbcType="VARCHAR" property="esInCome"/>
+        <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
+        <result column="transport_type" property="transportTypeMap" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
+
+    </resultMap>
+
+
+    <resultMap id="admin_finish_list" type="com.demai.cornel.demeManager.vo.AdminFinishSaleList">
+        <!--@mbg.generated-->
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
+        <result column="transport_type" jdbcType="VARCHAR" property="transportType"/>
+        <result column="es_in_come" jdbcType="VARCHAR" property="esInCome"/>
+        <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
+        <result column="transport_type" property="transportTypeMap" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="pay_review" jdbcType="VARCHAR" property="payReview"/>
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="actual_pay" jdbcType="NUMERIC" property="actualPay"/>
+        <result column="ex_info" jdbcType="VARCHAR" property="exInfo"/>
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
+
+    </resultMap>
+
+    <resultMap id="admin_unre_detail" type="com.demai.cornel.demeManager.vo.AdminUnRevSaleDetail">
+        <!--@mbg.generated-->
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
+        <result column="transport_type" jdbcType="VARCHAR" property="transportType"/>
+        <result column="es_in_come" jdbcType="VARCHAR" property="esInCome"/>
+        <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
+        <result column="transport_type" property="transportTypeMap" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
+
+        <result column="out_stack_id" jdbcType="VARCHAR" property="outStackId"/>
+        <result column="store_id" jdbcType="VARCHAR" property="storeId"/>
+        <result column="buying_price" jdbcType="NUMERIC" property="buyingPrice"/>
+        <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
+        <result column="freight_id" jdbcType="VARCHAR" property="freightId"/>
+        <result column="freight_price" jdbcType="NUMERIC" property="freightPrice"/>
+        <result column="shipp_process" jdbcType="INTEGER" property="shippProcess"/>
+
+    </resultMap>
+    <resultMap id="admin_app_detail" type="com.demai.cornel.demeManager.vo.AdminAppSaleDetail">
+        <!--@mbg.generated-->
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
+        <result column="transport_type" jdbcType="VARCHAR" property="transportType"/>
+        <result column="es_in_come" jdbcType="VARCHAR" property="esInCome"/>
+        <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
+        <result column="transport_type" property="transportTypeMap" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+        <result column="buying_price" jdbcType="NUMERIC" property="buyingPrice"/>
+        <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
+        <result column="freight_price" jdbcType="NUMERIC" property="freightPrice"/>
+        <result column="shipp_process" jdbcType="INTEGER" property="shippProcess"/>
+    </resultMap>
+
+
+    <resultMap id="admin_finish_detail" type="com.demai.cornel.demeManager.vo.AdminFinishSaleDetail">
+        <!--@mbg.generated-->
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="receive_location" jdbcType="VARCHAR" property="receiveLocation"/>
+        <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="weight" jdbcType="NUMERIC" property="weight"/>
+        <result column="commodity_price" jdbcType="NUMERIC" property="commodityPrice"/>
+        <result column="order_price" jdbcType="NUMERIC" property="orderPrice"/>
+        <result column="receive_start_time" property="receiveStartTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="receive_end_time" property="receiveEndTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="from_location_id" jdbcType="VARCHAR" property="fromLocationId"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="from_location" jdbcType="VARCHAR" property="fromLocation"/>
+        <result column="transport_type" jdbcType="VARCHAR" property="transportType"/>
+        <result column="es_in_come" jdbcType="VARCHAR" property="esInCome"/>
+        <result column="review_user" jdbcType="VARCHAR" property="reviewUser"/>
+        <result column="transport_type" property="transportTypeMap" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="pay_review" jdbcType="VARCHAR" property="payReview"/>
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimerHandlerWithSecond"/>
+        <result column="actual_pay" jdbcType="NUMERIC" property="actualPay"/>
+        <result column="ex_info" jdbcType="VARCHAR" property="exInfo"/>
+        <result column="buying_price" jdbcType="NUMERIC" property="buyingPrice"/>
+        <result column="capital_cost" jdbcType="NUMERIC" property="capitalCost"/>
+        <result column="freight_price" jdbcType="NUMERIC" property="freightPrice"/>
+        <result column="shipp_process" jdbcType="INTEGER" property="shippProcess"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, "status", cargo_id, buyer_id, order_time, receive_start_time, payment_type, payment_status,
+        freight_price, commodity_price, order_price, unit_price, weight, unit_weight, waybill_id,
+        purchase_id, contact_user_name, mobile, receive_location, from_location, order_id,
+        offer_id, receive_end_time,commodity_id,out_stack_id,view_status,actual_pay,pay_review,pay_time,ex_info
+    </sql>
+
+
+    <sql id="admin_info">
+        <!--@mbg.generated-->
+        s.order_id,
+        s.buyer_id,
+        s.commodity_price,
+        s.order_price,
+        s.unit_price,
+        s.weight,
+        s.unit_weight,
+        s.contact_user_name,
+        s.mobile,
+        s.receive_start_time,
+        s.receive_end_time,
+        s.commodity_id,
+        s.view_status AS status,
+        s.out_stack_id,
+        s.es_income,
+        s.view_status as status,
+        s.actual_pay,
+        s.pay_review,
+        s.pay_time,
+        s.receive_location as receive_location_id,
+        s.ex_info,
+        c.commodity_id,
+        c.name as commodity_name ,
+        l.location as receive_location,
+        f.transport_type as transport_type_map,
+        f.freight_id,
+        f.price as freight_price,
+        st.location_id as from_location_id,
+        stck.shipp_process ,
+        stck.out_id as out_stack_id,
+        st.buying_price,
+        st.capital_cost,
+        stl.location as from_location,
+        stl.location_id as from_location_id
+    </sql>
+
+    <sql id="admin_app_info">
+        <!--@mbg.generated-->
+        s.order_id,
+        s.buyer_id,
+        s.commodity_price,
+        s.order_price,
+        s.unit_price,
+        s.weight,
+        s.unit_weight,
+        s.contact_user_name,
+        s.mobile,
+        s.receive_start_time,
+        s.receive_end_time,
+        s.commodity_id,
+        s.view_status AS status,
+        s.out_stack_id,
+        s.es_income,
+        s.view_status as status,
+        s.actual_pay,
+        s.pay_review,
+        s.pay_time,
+        s.receive_location as receive_location_id,
+        s.ex_info,
+        s.review_user,
+        c.commodity_id,
+        c.name as commodity_name ,
+        l.location as receive_location
+
+
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from sale_order
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectBySaleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from sale_order
+        where order_id = #{orderId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from sale_order
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
+        <!--@mbg.generated-->
+        insert into sale_order (id, "status", cargo_id,
+        buyer_id, order_time, receive_start_time,
+        payment_type, payment_status, freight_price,
+        commodity_price, order_price, unit_price,
+        weight, unit_weight, waybill_id,
+        purchase_id, contact_user_name, mobile,
+        receive_location, from_location, order_id,
+        offer_id, receive_end_time,commodity_id)
+        values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{cargoId,jdbcType=VARCHAR},
+        #{buyerId,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, #{receiveStartTime,jdbcType=TIMESTAMP},
+        #{paymentType,jdbcType=VARCHAR}, #{paymentStatus,jdbcType=INTEGER}, #{freightPrice,jdbcType=NUMERIC},
+        #{commodityPrice,jdbcType=NUMERIC}, #{orderPrice,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR},
+        #{weight,jdbcType=NUMERIC}, #{unitWeight,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR},
+        #{purchaseId,jdbcType=VARCHAR}, #{contactUserName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+        #{receiveLocation,jdbcType=VARCHAR}, #{fromLocation,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR},
+        #{offerId,jdbcType=VARCHAR}, #{receiveEndTime,jdbcType=TIMESTAMP}, #{commodityId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
+        <!--@mbg.generated-->
+        insert into sale_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="status != null">
+                "status",
+            </if>
+            <if test="cargoId != null">
+                cargo_id,
+            </if>
+            <if test="buyerId != null">
+                buyer_id,
+            </if>
+            <if test="orderTime != null">
+                order_time,
+            </if>
+            <if test="receiveStartTime != null">
+                receive_start_time,
+            </if>
+            <if test="paymentType != null">
+                payment_type,
+            </if>
+            <if test="paymentStatus != null">
+                payment_status,
+            </if>
+            <if test="freightPrice != null">
+                freight_price,
+            </if>
+            <if test="commodityPrice != null">
+                commodity_price,
+            </if>
+            <if test="orderPrice != null">
+                order_price,
+            </if>
+            <if test="unitPrice != null">
+                unit_price,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="unitWeight != null">
+                unit_weight,
+            </if>
+            <if test="waybillId != null">
+                waybill_id,
+            </if>
+            <if test="purchaseId != null">
+                purchase_id,
+            </if>
+            <if test="contactUserName != null">
+                contact_user_name,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="receiveLocation != null">
+                receive_location,
+            </if>
+            <if test="fromLocation != null">
+                from_location,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="offerId != null">
+                offer_id,
+            </if>
+            <if test="receiveEndTime != null">
+                receive_end_time,
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                commodity_id,
+            </if>
+            <if test="outStackId != null and outStackId != ''">
+                out_stack_id,
+            </if>
+            <if test="viewStatus != null">
+                view_status,
+            </if>
+            <if test="exInfo != null">
+                ex_info,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="cargoId != null">
+                #{cargoId,jdbcType=VARCHAR},
+            </if>
+            <if test="buyerId != null">
+                #{buyerId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTime != null">
+                #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="receiveStartTime != null">
+                #{receiveStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="paymentType != null">
+                #{paymentType,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentStatus != null">
+                #{paymentStatus,jdbcType=INTEGER},
+            </if>
+            <if test="freightPrice != null">
+                #{freightPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="commodityPrice != null">
+                #{commodityPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="orderPrice != null">
+                #{orderPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="waybillId != null">
+                #{waybillId,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseId != null">
+                #{purchaseId,jdbcType=VARCHAR},
+            </if>
+            <if test="contactUserName != null">
+                #{contactUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveLocation != null">
+                #{receiveLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="fromLocation != null">
+                #{fromLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="offerId != null">
+                #{offerId,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveEndTime != null">
+                #{receiveEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                #{commodityId,jdbcType=VARCHAR},
+            </if>
+            <if test="outStackId != null and outStackId != ''">
+                #{outStackId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="viewStatus != null">
+                #{viewStatus} ,
+            </if>
+            <if test="exInfo != null">
+                #{exInfo} ,
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
+        <!--@mbg.generated-->
+        update sale_order
+        <set>
+            <if test="status != null">
+                "status" = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="cargoId != null">
+                cargo_id = #{cargoId,jdbcType=VARCHAR},
+            </if>
+            <if test="buyerId != null">
+                buyer_id = #{buyerId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTime != null">
+                order_time = #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="receiveStartTime != null">
+                receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="paymentType != null">
+                payment_type = #{paymentType,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentStatus != null">
+                payment_status = #{paymentStatus,jdbcType=INTEGER},
+            </if>
+            <if test="freightPrice != null">
+                freight_price = #{freightPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="commodityPrice != null">
+                commodity_price = #{commodityPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="orderPrice != null">
+                order_price = #{orderPrice,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                unit_price = #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                unit_weight = #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="waybillId != null">
+                waybill_id = #{waybillId,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseId != null">
+                purchase_id = #{purchaseId,jdbcType=VARCHAR},
+            </if>
+            <if test="contactUserName != null">
+                contact_user_name = #{contactUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveLocation != null">
+                receive_location = #{receiveLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="fromLocation != null">
+                from_location = #{fromLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="offerId != null">
+                offer_id = #{offerId,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveEndTime != null">
+                receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                commodity_id=#{commodityId} ,
+            </if>
+            <if test="outStackId != null and outStackId != ''">
+                out_stack_id = #{outStackId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="viewStatus != null">
+                view_status = #{viewStatus},
+            </if>
+            <if test="reviewUser != null">
+                review_user = #{reviewUser,jdbcType=VARCHAR} ,
+            </if>
+            <if test="reviewOpt != null">
+                review_opt =
+                hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}),
+            </if>
+            <if test="exInfo != null">
+                ex_info=#{exInfo} ,
+            </if>
+            <if test="esIncome != null">
+                es_income=#{esIncome,jdbcType=DECIMAL},
+            </if>
+            <if test="actualPay != null">
+                actual_pay=#{actualPay} ,
+            </if>
+            <if test="payTime != null">
+                pay_time=#{payTime,jdbcType=TIMESTAMP} ,
+            </if>
+            <if test="payReview != null and payReview != ''">
+                pay_review=#{payReview,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where order_id = #{orderId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.SaleOrder">
+        <!--@mbg.generated-->
+        update sale_order
+        set "status" = #{status,jdbcType=INTEGER},
+        cargo_id = #{cargoId,jdbcType=VARCHAR},
+        buyer_id = #{buyerId,jdbcType=VARCHAR},
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+        receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
+        payment_type = #{paymentType,jdbcType=VARCHAR},
+        payment_status = #{paymentStatus,jdbcType=INTEGER},
+        freight_price = #{freightPrice,jdbcType=NUMERIC},
+        commodity_price = #{commodityPrice,jdbcType=NUMERIC},
+        order_price = #{orderPrice,jdbcType=NUMERIC},
+        unit_price = #{unitPrice,jdbcType=VARCHAR},
+        weight = #{weight,jdbcType=NUMERIC},
+        unit_weight = #{unitWeight,jdbcType=VARCHAR},
+        waybill_id = #{waybillId,jdbcType=VARCHAR},
+        purchase_id = #{purchaseId,jdbcType=VARCHAR},
+        contact_user_name = #{contactUserName,jdbcType=VARCHAR},
+        mobile = #{mobile,jdbcType=VARCHAR},
+        receive_location = #{receiveLocation,jdbcType=VARCHAR},
+        from_location = #{fromLocation,jdbcType=VARCHAR},
+        order_id = #{orderId,jdbcType=VARCHAR},
+        offer_id = #{offerId,jdbcType=VARCHAR},
+        receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP},
+        commodity_id = #{cargoId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectSaleOrderByCargoId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sale_order where cargo_id=#{cargoId,jdbcType=VARCHAR} ;
+    </select>
+    <select id="getSaleOrderList" resultMap="BaseResultMap_list">
+        select
+        <include refid="Base_Column_List"/>
+        from sale_order where
+        status=((status <![CDATA[ & ]]> #{status} )) and buyer_id=#{userId,jdbcType=VARCHAR}
+        <if test="orderId != null and orderId != ''">
+            and id  <![CDATA[<=]]> (select id from sale_order where offer_id=#{orderId} )
+        </if>
+        <if test="orderId == null or orderId == ''">
+            and id  <![CDATA[<=]]> (select max(id) from sale_order)
+        </if>
+        order by id desc limit #{pgSize} ;
+    </select>
+    <update id="updateSaleStatus">
+        update sale_order set status=#{status} where order_id=#{orderId} ;
+    </update>
+    <select id="getSaleIdByPurchaseId" resultType="java.lang.String">
+       select order_id from sale_order where purchase_id=#{purchaseId,jdbcType=VARCHAR} ;
+    </select>
+    <select id="selectSaleView" resultType="com.demai.cornel.demeManager.vo.AdminGetSaleListResp">
+      select sum(order_price) as totalPrice,sum (weight) as totalWeight,count(*) as orderNum,view_status as status from sale_order where view_status!=0 group by view_status order by view_status;
+    </select>
+    <!--    <select id="AdminGetSaleOrderList" resultMap="admin_detail_map">-->
+    <!--        select-->
+    <!--        <include refid="admin_detail_List"/>-->
+    <!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->
+    <!--        left join commodity_list c on s.commodity_id=c.commodity_id where view_status=#{viewStatus} and s.status!=0-->
+    <!--        order by s.id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;-->
+    <!--    </select>-->
+    <!--    <select id="selectSaleList" resultMap="admin_detail_map">-->
+    <!--        select-->
+    <!--        <include refid="admin_detail_List"/>-->
+    <!--        from sale_order s left join location_info l on l.location_id=s.receive_location-->
+    <!--        left join commodity_list c on s.commodity_id=c.commodity_id where s.status!=0-->
+    <!--        and order_id=#{orderId} ;-->
+    <!--    </select>-->
+    <update id="updateStackOutStackId">
+       update sale_order set out_stack_id=#{outID,jdbcType=VARCHAR} where order_id=#{outID,jdbcType=VARCHAR} ;
+    </update>
+    <select id="AdminGetUnRevSaleOrderList" resultMap="unreview_list">
+        select
+        <include refid="admin_info"/>
+        from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
+        c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id
+        left join location_info stl on st.location_id=stl.location_id
+        where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
+        #{pgSize,jdbcType=INTEGER};
+    </select>
+
+
+    <select id="AdminGetAppSaleOrderList" resultMap="admin_app_list">
+        select
+        <include refid="admin_info"/>
+        from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
+        c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
+        where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
+        #{pgSize,jdbcType=INTEGER};
+    </select>
+
+
+    <select id="AdminGetUnPaySaleOrderList" resultMap="admin_unpay_list">
+        select
+        <include refid="admin_info"/>
+        from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
+        c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
+        where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
+        #{pgSize,jdbcType=INTEGER};
+    </select>
+    <select id="AdminGetFinishSaleOrderList" resultMap="admin_finish_list">
+        select
+        <include refid="admin_info"/>
+        from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
+        c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
+        where s.view_status=#{viewStatus} order by s.id desc offset #{offset,jdbcType=INTEGER} limit
+        #{pgSize,jdbcType=INTEGER};
+    </select>
+    <select id="adminGetUnRevSaleDetail" resultMap="admin_unre_detail">
+        select
+        <include refid="admin_info"/>
+        from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
+        c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
+        where s.order_id=#{orderId} ;
+    </select>
+    <select id="adminGetAppSaleDetail" resultMap="admin_app_detail">
+        select
+        <include refid="admin_info"/>
+        from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
+        c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
+        where s.order_id=#{orderId} ;
+    </select>
+    <select id="adminGetFinishSaleDetail" resultMap="admin_finish_detail">
+        select
+        <include refid="admin_info"/>
+        from sale_order s left join location_info l on s.receive_location=l.location_id left join commodity_list c on
+        c.commodity_id=s.commodity_id left join stack_out_info stck on s.out_stack_id=stck.out_id left join freight_info
+        f on stck.freight_info_id=f.freight_id left join store_info st on stck.store_id=st.store_id left join
+        location_info stl on st.location_id=stl.location_id
+        where s.order_id=#{orderId} ;
+    </select>
+    <select id="selectSaleOrderViewStatus" resultType="java.lang.Integer">
+       SELECT view_status FROM sale_order WHERE order_id=#{orderId} ;
+    </select>
+
+
+</mapper>

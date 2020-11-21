@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.DistOrderInfoDao">
+    <resultMap type="com.demai.cornel.model.DistOrderInfo" id="notifyInfoResultMap">
+        <id column="id" property="id"/>
+        <id column="user_id" property="userId"/>
+        <result column="task_id" property="taskId"/>
+        <result column="job_no" property="jobNo"/>
+        <result column="job_status" property="jobStatus"/>
+        <result column="operation_time" property="operationTime"
+                jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+
+        <result column="expire_time" property="expireTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+
+        <result column="order_id" property="orderId"/>
+        <result column="dist_weight" property="distWeight"/>
+    </resultMap>
+
+    <resultMap id="distTaskOrderReqMapper" type="com.demai.cornel.model.DistTaskOrderReq">
+        <id column="id" property="id"/>
+        <result column="task_id" property="taskId"/>
+        <result column="title" property="title"/>
+        <result column="dep" property="dep"/>
+        <result column="arr" property="arr"/>
+        <result column="weight" property="weight"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+
+        <result column="distance" property="distance"/>
+        <result column="unit_distance" property="unitDistance"/>
+        <result column="unit_weight_price" property="unitWeightPrice"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="unit_weight" property="unitWeight"/>
+        <result column="status" property="taskStatus"/>
+        <result column="undist_weight" property="undistWeight"/>
+        <result column="receiver_mobile" property="receiverMobile"/>
+        <result column="supplier_mobile" property="supplierMobileSet"/>
+
+        
+
+    </resultMap>
+
+    <sql id="main_column">
+        id,
+        task_id,
+        user_id,
+        job_no,
+        job_status,
+        operation_time,
+        create_time,
+        expire_time,
+        order_id,
+        dist_weight
+    </sql>
+
+    <sql id="dist_task_order_req">
+        id,
+        task_id,
+        title,
+        dep,
+        arr,
+        weight,
+        start_time,
+        end_time,
+        distance,
+        unit_distance,
+        unit_weight_price,
+        unit_price,
+        unit_weight,
+        status,
+        undist_weight,
+        receiver_mobile,
+        supplier_mobile
+    </sql>
+
+    <update id="update" parameterType="com.demai.cornel.model.DistOrderInfo">
+        update dist_order_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="jobNo != null">job_no = #{jobNo},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="jobStatus != null">job_status = #{jobStatus},</if>
+            <if test="operationTime != null">operation_time = #{operationTime,jdbcType=TIMESTAMP,javaType=java.lang.String,
+           typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,
+           typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="expireTime != null">expire_time = #{expireTime,jdbcType=TIMESTAMP,javaType=java.lang.String,
+           typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="distWeight != null">dist_weight = #{distWeight},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.demai.cornel.model.DistOrderInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into dist_order_info(
+        <trim suffixOverrides=",">
+            <if test="taskId != null">task_id ,</if>
+            <if test="userId != null">user_id ,</if>
+            <if test="jobNo != null">job_no ,</if>
+            <if test="jobStatus != null">job_status ,</if>
+            <if test="operationTime != null">operation_time ,</if>
+            <if test="createTime != null">create_time ,</if>
+            <if test="expireTime != null">expire_time ,</if>
+            <if test="orderId != null">order_id ,</if>
+            <if test="distWeight != null">dist_weight ,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="taskId != null">#{taskId} ,</if>
+            <if test="userId != null">#{userId} ,</if>
+            <if test="jobNo != null">#{jobNo} ,</if>
+            <if test="jobStatus != null">#{jobStatus} ,</if>
+            <if test="operationTime != null">#{operationTime,jdbcType=TIMESTAMP,javaType=java.lang.String,
+           typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,
+           typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="expireTime != null">#{expireTime,jdbcType=TIMESTAMP,javaType=java.lang.String,
+           typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="orderId != null">#{orderId} ,</if>
+            <if test="distWeight != null">#{distWeight} ,</if>
+
+        </trim>
+        )
+    </insert>
+
+    <select id="getTaskCurrJobNo" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT job_no FROM dist_order_info WHERE task_id=#{taskId} order by job_no desc limit 1;
+    </select>
+
+    <select id="getExpireNotify" resultMap="notifyInfoResultMap">
+        SELECT
+        <include refid="main_column"/>
+        FROM dist_order_info where expire_time <![CDATA[ >= ]]> #{curTime};
+    </select>
+    <select id="getDistOrderListByUserID" resultMap="distTaskOrderReqMapper">
+        SELECT
+         <include refid="dist_task_order_req"/>
+     from task_info
+        where
+        <if test="curId != null">
+            task_info.id  <![CDATA[<]]> #{curId}
+        </if>
+        <if test="curId == null">
+            task_info.id  <![CDATA[<=]]> (select max(id) from task_info limit 1)
+        </if>
+        order by task_info.id desc limit #{pgSize};
+    </select>
+
+</mapper>

@@ -1,0 +1,134 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.register {
+    position: absolute;
+    right: 0;
+    top: 120px;
+    width: 450px;
+    height: 600px;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.01);
+    overflow: hidden;
+}
+
+.register-main {
+    background: url(../img/class-new-banner.png) no-repeat top center;
+    width: 100%;
+    height: 800px;
+}
+
+.register-box {
+    width: 1198px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.register h1 {
+    height: 60px;
+    background: #FF6B3D;
+    font-size: 22px;
+    line-height: 60px;
+    padding: 0 24px;
+    font-weight: normal;
+    color: #fff;
+    display: flex;
+    margin-bottom: 40px;
+}
+
+
+.register ul {
+    display: flex;
+    padding: 12px 0;
+    list-style: none outside none;
+}
+
+.first_li {
+    margin-right: 10px;
+    text-align: right;
+    width: 130px;
+    font-size: 16px;
+    color: #333;
+    line-height: 35px;
+}
+
+.second_li {
+    margin-right: 10px;
+    text-align: right;
+    width: 95px;
+    font-size: 16px;
+    color: #333;
+    line-height: 35px;
+}
+
+.register li:last-child {
+    display: flex;
+    flex: 1;
+    padding-right: 50px;
+}
+
+
+.register p {
+    display: flex;
+    line-height: 12px;
+    font-size: 14px;
+    padding: 10px 0;
+    padding-left: 110px;
+}
+
+.reg ul {
+    display: flex;
+    height: auto;
+    padding: 8px 0;
+}
+
+.register li[class=reg-bank] {
+    flex-wrap: wrap;
+    display: flex;
+    padding-right: 0;
+    margin-left: -18px;
+}
+
+.reg-bank div {
+    display: flex;
+    margin: 0 5px 5px 0;
+}
+
+
+.reg-bank .current img {
+    border: 1px solid #14b343;
+}
+
+input[type=radio]{
+    margin: 10px 0 0;
+    margin-top: 1px \9;
+    line-height: normal;
+}
+
+input[type=checkbox] {
+    margin: 1px 0 0;
+    margin-top: 1px \9;
+    line-height: normal;
+}
+
+.new_btn {
+    width: 280px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: #FF6B3D;
+    font-size: 16px;
+    color: #fff;
+    border: 0;
+    border-radius: 6px;
+    margin: 20px 0 0 70px;
+    float: left;
+}
+
+.agree:hover, .agree:link, .agree:visited{
+    color: blue;
+    text-decoration: none;
+}

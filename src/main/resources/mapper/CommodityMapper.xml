@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.CommodityDao">
+
+    <resultMap type="com.demai.cornel.model.Commodity" id="commodityMapper">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="commodity_id" property="commodityId"/>
+        <result column="status" property="status"/>
+        <result column="system_flag" property="systemFlag"/>
+        <result column="bind_user_id" property="bindUserId"/>
+    </resultMap>
+
+    <resultMap type="com.demai.cornel.vo.commodity.GetCommodityListResp" id="commodityListMapper">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="commodity_id" property="commodityId"/>
+        <result column="status" property="status"/>
+        <result column="system_flag" property="systemFlag"/>
+        <result column="bind_user_id" property="bindUserId"/>
+        <result column="quote" property="quote"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="min_shipment_weight" property="shipmentWeight"/>
+        <result column="unit_weight" property="unitWeight"/>
+    </resultMap>
+
+    <resultMap type="com.demai.cornel.purcharse.vo.resp.BuyerCommitListResp" id="commodityListBuyMapper">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="commodity_id" property="commodityId"/>
+        <result column="status" property="status"/>
+        <result column="system_flag" property="systemFlag"/>
+        <result column="bind_user_id" property="bindUserId"/>
+        <result column="quote" property="quote"/>
+        <result column="unit_price" property="unitPrice"/>
+    </resultMap>
+
+    <sql id="main_column">
+        id,
+        name,
+        commodity_properties,
+        commodity_id,
+        status,
+        system_flag,
+        bind_user_id
+    </sql>
+    <sql id="main_column_buyer">
+        id,
+        name,
+        commodity_properties,
+        commodity_id,
+        status,
+        system_flag,
+        bind_user_id,
+        unit_price,
+        re_sale_price as quote
+    </sql>
+    <sql id="commodity_list_column">
+        c.id,
+        c.name,
+        c.commodity_properties,
+        c.commodity_id,
+        c.status,
+        c.system_flag,
+        c.bind_user_id,
+        s.quote,
+        s.unit_price,
+        s.min_shipment_weight,
+        s.unit_weight
+    </sql>
+
+
+    <insert id="save" parameterType="com.demai.cornel.model.Commodity" useGeneratedKeys="true" keyProperty="id">
+        insert into commodity_list(
+        <trim suffixOverrides=",">
+            <if test="id != null">id ,</if>
+            <if test="name != null">name ,</if>
+            <if test="commodityProperties != null">commodity_properties,</if>
+            <if test="commodityId != null">commodity_id,</if>
+            <if test="status != null">status ,</if>
+            <if test="systemFlag != null">system_flag ,</if>
+            <if test="bindUserId != null">bind_user_id,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="id != null">#{id} ,</if>
+            <if test="name != null">#{name} ,</if>
+            <if test="commodityProperties != null">
+                hstore(#{commodityProperties,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler})
+                ,
+            </if>
+            <if test="commodityId != null">#{commodityId} ,</if>
+            <if test="status != null">#{status}</if>
+            <if test="systemFlag != null">#{systemFlag} ,</if>
+            <if test="bindUserId != null">#{bindUserId},</if>
+        </trim>
+        )
+    </insert>
+    <select id="getCommdityList" resultMap="commodityListMapper">
+        select
+        <include refid="commodity_list_column"/>
+        from commodity_list c left join system_quote s on c.commodity_id=s.commodity_id where c.status=1 and (c.system_flag=1 or ((c.system_flag=0 and c.bind_user_id=#{userId}))) and s.status=1
+        order by c.id desc;
+    </select>
+    <select id="getCommodityByCommodityId" resultMap="commodityMapper">
+        select
+        <include refid="main_column"/>
+        from commodity_list where commodity_id=#{commodityId} ;
+    </select>
+    <select id="getCommodityByIds" resultMap="commodityMapper">
+       select
+       <include refid="main_column"/>
+       from commodity_list where
+        <if test="commodityIds != null and commodityIds.size()>0">
+        commodity_id in
+        <foreach collection="commodityIds" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+        </if>
+        <if test="commodityIds == null and commodityIds.size()==0">
+         1 = 0
+        </if>
+
+    </select>
+    <select id="buyerGetCommodityList" resultMap="commodityListBuyMapper">
+        select
+        <include refid="main_column_buyer"/>
+        from commodity_list c where c.status=1 and (c.system_flag=1 or ((c.system_flag=0 and c.bind_user_id=#{userId})))
+        order by c.id desc;
+    </select>
+    <select id="buyerGetCommodity" resultMap="commodityListBuyMapper">
+        select
+        <include refid="main_column_buyer"/>
+        from commodity_list c where c.status=1 and commodity_id=#{commodityId} ;
+    </select>
+</mapper>

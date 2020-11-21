@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demai.cornel.dao.CarTypeInfoDao">
+
+    <resultMap type="com.demai.cornel.model.CarTypeInfo" id="userInfoResultMap">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="car_desc" property="carDesc" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="main_column">
+        id,
+        name,
+        car_desc ,
+        status,
+        create_time
+    </sql>
+
+    <insert id="insert" parameterType="com.demai.cornel.model.CarTypeInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into car_type(
+        <trim suffixOverrides=",">
+            <if test="id != null">id ,</if>
+            <if test="name != null">name ,</if>
+            <if test="carDesc != null">car_desc ,</if>
+            <if test="status != null">status ,</if>
+            <if test="createTime != null">create_time ,</if>
+        </trim>
+        )values(
+        <trim suffixOverrides=",">
+            <if test="id != null">#{id} ,</if>
+            <if test="name != null">#{name} ,</if>
+            <if test="carDesc != null">#{carDesc} ,</if>
+            <if test="status != null">#{status} ,</if>
+            <if test="createTime != null">#{createTime} ,</if>
+        </trim>
+        )
+    </insert>
+    <select id="selectAllCarType" resultMap="userInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from car_type where status=1 order by id desc;
+    </select>
+
+
+</mapper>

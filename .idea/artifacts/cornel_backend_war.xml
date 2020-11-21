@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="cornel_backend:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="cornel_backend.war">
-      <element id="artifact" artifact-name="cornel_backend:war exploded" />
-    </root>
-  </artifact>
-</component>

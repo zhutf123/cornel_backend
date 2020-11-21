@@ -24,8 +24,7 @@ import static com.demai.cornel.util.CookieAuthUtils.KEY_USER_NAME;
  * Created by binz.zhang on 2019/1/4.
  * 获取用户信息
  */
-@Slf4j
-@CustomInterceptor(order = 2, addPathPatterns = {"/**"})
+@Slf4j @CustomInterceptor(order = 2, addPathPatterns = { "/**" }, excludePathPatterns = { "/check.jsp" })
 public class CookieInterceptor implements HandlerInterceptor {
 
 
@@ -33,6 +32,9 @@ public class CookieInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         try {
             String cKey = CookieUtils.getCookieValue(request, ContextConsts.COOKIE_CKEY_NAME);
+            if(Strings.isNullOrEmpty(cKey)){
+                cKey = CookieUtils.getCookieValue(request, ContextConsts.COOKIE_CKEY_NAME_TALK);
+            }
             if (Strings.isNullOrEmpty(cKey)) {
                 log.warn("request not attach user cKey info");
                 Map<String,String> defaultUserMap = Maps.newHashMap();

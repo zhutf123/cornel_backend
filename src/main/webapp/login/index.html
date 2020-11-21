@@ -1,0 +1,155 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+		<meta charset="UTF-8">
+		<title>北京得麦科技有限公司</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="renderer" content="webkit">
+
+		<!-- 新 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/static/css/common.css">
+		<link rel="stylesheet" href="/static/css/index.css"> 
+		<link rel="stylesheet" href="/static/css/news.css"> 
+		<!-- icon -->
+		<link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+		
+    <link rel="stylesheet" href="/static/css/login.css">
+
+
+
+	</head>
+
+	<body>
+		<div class="all">
+			<div class="mess-dialog">
+				<h1>温馨提示</h1>
+				<span class="fa fa-times"></span>
+				<p>本网站资讯仅供网站会员浏览，会员服务费5元/月；普通用户浏览本公司资讯需按条收取资讯浏览费，1元/条</p>
+                立即购买
+			</div>
+		</div>
+		<!--heard-->
+		<div class="header container">
+			<div class="header-logo">
+				<a href="/">
+					北京得麦科技有限公司
+				</a>
+			</div>
+			<div class="row-nav">
+				<!-- 导航 -->
+				 <div class="header-nav">
+                    <ul class="row">
+                        <li class="col-md-6">
+                            <a href="/index">
+                                <span>首页</span>
+                            </a>
+                        </li>
+                        <li class="header-nav-item col-md-6">
+							<a href="/info">
+								<span>行业资讯</span>							
+							</a>
+                        </li>
+                    </ul>
+                </div>
+
+    <!--登录按钮-->
+            <div class="login-button">
+                <div class="row">
+                    
+                        <span class="login-in col-md-6"><a href="/login">登录</a></span>
+                        <span class="login-free col-md-6"><a href="/register">注册</a></span>
+                    
+                </div>
+            </div>
+
+			</div>
+		</div>
+		<div class="content">
+			
+    <div class="login-main">
+        <div class="login-box">
+            <div class="login">
+                 <form action="." method=POST id="loginForm">
+                    <input type='hidden' name='csrfmiddlewaretoken' value='QXGLy89kEUe5LXxXul5PkVfHAIgTo4Qjfbt0XU1S4CLGIAeTHgfeHfCrfgHJtvbD' />
+                    <h1>登录</h1>
+                    <br>
+                    <ul>
+                        <li>账号</li>
+                        <li><input type="text" id="username" name="username" style="width: 200px"></li>
+                    </ul>
+                    <br>
+                    <ul>
+                        <li>密码</li>
+                        <li><input type="password" id="password" name="password" style="width: 200px"></li>
+                    </ul>
+                    <br>
+                    <input type="submit" value="登录"  class="new_btn">
+                         <a  href="/register/" class="new_btn">注册</a>
+                 </form>
+            </div>
+        </div>
+    </div>
+
+		</div>
+		
+
+		<!--footer -->
+		<div class="footer-box">
+			<div class="footer-box-content">
+				<div class="footer-box-top">
+					<div class="footer-box-top-left">
+						<div class="footer-box-top-left-one common-footer-box">
+							<p>北京得麦科技有限公司</p>
+							<p>公司地址 : 北京市海淀区清河嘉园东区甲1楼号五层501-98号</p>
+							<p>座机号 : 010-84532609</p>
+						</div>
+					</div>
+
+				</div>
+				<!-- 底部的税号 -->
+				<div class="footer-box-bottom">
+					<p>
+                        <a href="http://beian.miit.gov.cn">京ICP备19054297号-1</a>
+					</p>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="/static/js/jQuery.js"></script>
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script>
+		(function(){
+			$docmentHeight = $(window).height();
+			$(".all").height($docmentHeight);
+			$('.fa-times').click(function(){
+				$('.all').hide();
+			})
+			$('.news-left-top').click(function(){
+				$('.all').show();
+			})
+			$('.news-warp-center-item').click(function(){
+				$('.all').show();
+			})
+
+		})()
+	</script>
+	
+<script>
+     window.onload=function(){
+        ('')
+    };
+
+</script>
+
+
+</html>
+

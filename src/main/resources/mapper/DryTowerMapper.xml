@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.dao.DryTowerDao">
+    <resultMap id="BaseResultMap" type="com.demai.cornel.model.DryTower">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="tower_id" jdbcType="VARCHAR" property="towerId"/>
+        <result column="company" jdbcType="VARCHAR" property="company"/>
+        <result column="commodity_id" property="commodityId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="location_area" jdbcType="VARCHAR" property="locationArea"/>
+        <result column="location_detail" jdbcType="VARCHAR" property="locationDetail"/>
+        <result column="area" jdbcType="NUMERIC" property="area"/>
+        <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="capacity_store" jdbcType="NUMERIC" property="capacityStore"/>
+        <result column="load_lorry_num" jdbcType="INTEGER" property="loadLorryNum"/>
+        <result column="load_lorry_cost" jdbcType="NUMERIC" property="loadLorryCost"/>
+        <result column="bind_user_id" jdbcType="VARCHAR" property="bindUserId"/>
+        <result column="default_flag" jdbcType="INTEGER" property="defaultFlag"/>
+        <result column="contact_user_id" property="contactUserId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="location_id" jdbcType="VARCHAR" property="locationId"/>
+
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        tower_id,id, company, commodity_id, location, area, shipment_weight,
+        create_time, "status", capacity_store, load_lorry_num, load_lorry_cost, bind_user_id
+        ,default_flag,location_area,location_detail,contact_user_id,location_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from dry_tower
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from dry_tower
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.demai.cornel.model.DryTower">
+        <!--@mbg.generated-->
+        insert into dry_tower (tower_id,id, company,
+        commodity_id, location,
+        area, shipment_weight, create_time,
+        status, capacity_store, load_lorry_num,
+        load_lorry_cost, bind_user_id,default_flag,location_area,location_detail,contact_user_id
+        )
+        values (#{towerId,jdbcType=VARCHAR},#{id,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR},
+        #{commodityId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+        #{location,jdbcType=VARCHAR},#{area,jdbcType=NUMERIC}, #{shipmentWeight,jdbcType=NUMERIC},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{status,jdbcType=INTEGER}, #{capacityStore,jdbcType=NUMERIC}, #{loadLorryNum,jdbcType=INTEGER},
+        #{loadLorryCost,jdbcType=NUMERIC}, #{bindUserId,jdbcType=VARCHAR},
+        #{defaultFlag,jdbcType=INTEGER},#{locationArea,jdbcType=VARCHAR},
+        #{locationDetail,jdbcType=VARCHAR},#{locationDetail,jdbcType=VARCHAR},#{contactUserId javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.demai.cornel.model.DryTower">
+        <!--@mbg.generated-->
+        insert into dry_tower
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="towerId != null">
+                tower_id,
+            </if>
+            <if test="company != null">
+                company,
+            </if>
+            <if test="commodityId != null">
+                commodity_id,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="area != null">
+                area,
+            </if>
+            <if test="shipmentWeight != null">
+                shipment_weight,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="capacityStore != null">
+                capacity_store,
+            </if>
+            <if test="loadLorryNum != null">
+                load_lorry_num,
+            </if>
+            <if test="loadLorryCost != null">
+                load_lorry_cost,
+            </if>
+            <if test="bindUserId != null">
+                bind_user_id,
+            </if>
+            <if test="defaultFlag != null">
+                default_flag,
+            </if>
+            <if test="locationArea != null">
+                location_area,
+            </if>
+            <if test="locationDetail != null">
+                location_detail,
+            </if>
+            <if test="contactUserId != null">
+                contact_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="towerId != null">
+                #{towerId,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityId != null">
+                #{commodityId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                #{area,jdbcType=NUMERIC},
+            </if>
+            <if test="shipmentWeight != null">
+                #{shipmentWeight,jdbcType=NUMERIC},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="capacityStore != null">
+                #{capacityStore,jdbcType=NUMERIC},
+            </if>
+            <if test="loadLorryNum != null">
+                #{loadLorryNum,jdbcType=INTEGER},
+            </if>
+            <if test="loadLorryCost != null">
+                #{loadLorryCost,jdbcType=NUMERIC},
+            </if>
+            <if test="bindUserId != null">
+                #{bindUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultFlag != null">
+                #{defaultFlag,jdbcType=INTEGER} ,
+            </if>
+            <if test="locationArea != null">
+                #{locationArea,jdbcType=VARCHAR} ,
+            </if>
+            <if test="locationDetail != null">
+                #{locationDetail,jdbcType=VARCHAR} ,
+            </if>
+            <if test="contactUserId != null">
+                #{contactUserId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.model.DryTower">
+        <!--@mbg.generated-->
+        update dry_tower
+        <set>
+            <if test="towerId != null">
+                tower_id = #{towerId,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                company = #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityId != null">
+                commodity_id =
+                #{commodityId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
+            <if test="location != null">
+                location = #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                area = #{area,jdbcType=NUMERIC},
+            </if>
+            <if test="shipmentWeight != null">
+                shipment_weight = #{shipmentWeight,jdbcType=NUMERIC},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="capacityStore != null">
+                capacity_store = #{capacityStore,jdbcType=NUMERIC},
+            </if>
+            <if test="loadLorryNum != null">
+                load_lorry_num = #{loadLorryNum,jdbcType=INTEGER},
+            </if>
+            <if test="loadLorryCost != null">
+                load_lorry_cost = #{loadLorryCost,jdbcType=NUMERIC},
+            </if>
+            <if test="bindUserId != null">
+                bind_user_id = #{bindUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultFlag != null">
+                default_flag = #{defaultFlag,jdbcType=INTEGER} ,
+            </if>
+            <if test="locationArea != null">
+                location_area=#{locationArea,jdbcType=VARCHAR} ,
+            </if>
+            <if test="locationDetail != null">
+                location_detail=#{locationDetail,jdbcType=VARCHAR} ,
+            </if>
+            <if test="contactUserId != null">
+                contact_user_id=#{contactUserId,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+            </if>
+            <if test="locationId != null">
+                location_id=#{locationId,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where tower_id = #{towerId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.demai.cornel.model.DryTower">
+        <!--@mbg.generated-->
+        update dry_tower
+        set company = #{company,jdbcType=VARCHAR},
+        tower_id = #{towerId,jdbcType=VARCHAR},
+        commodity_id =
+        #{commodityId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+        location = #{location,jdbcType=VARCHAR},
+        area = #{area,jdbcType=NUMERIC},
+        shipment_weight = #{shipmentWeight,jdbcType=NUMERIC},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        status = #{status,jdbcType=INTEGER},
+        capacity_store = #{capacityStore,jdbcType=NUMERIC},
+        load_lorry_num = #{loadLorryNum,jdbcType=INTEGER},
+        load_lorry_cost = #{loadLorryCost,jdbcType=NUMERIC},
+        bind_user_id = #{bindUserId,jdbcType=VARCHAR},
+        default_flag = #{defaultFlag,jdbcType=INTEGER},
+        location_area = #{locationArea,jdbcType=VARCHAR},
+        location_detail = #{locationDetail,jdbcType=VARCHAR},
+        contact_user_id=#{contactUserId,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="getLocationByUserId" resultType="java.lang.String">
+       select location from dry_tower where bind_user_id=#{userID} limit 1;
+    </select>
+    <select id="selectDryTowerByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dry_tower where bind_user_id=#{userID} and status=1 order by default_flag desc,id desc ;
+    </select>
+    <select id="selectByTowerId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dry_tower where tower_id=#{towerId,jdbcType=VARCHAR} ;
+    </select>
+    <delete id="updateTowerNonDefaultFlag">
+     update dry_tower set default_flag=0 where bind_user_id=#{userID} ;
+    </delete>
+    <select id="selectAllTower" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dry_tower where status=1
+        <if test="towerId != null and towerId != ''">
+            and
+            dry_tower.id <![CDATA[<]]> (select id from dry_tower where tower_id=#{towerId})
+        </if>
+        <if test="towerId == null or towerId == ''">
+            and
+            dry_tower.id <![CDATA[<=]]> (select max(id) from dry_tower limit 1)
+        </if>
+        order by dry_tower.id desc limit #{pgSize};
+    </select>
+    <select id="adminGetDryTower" resultType="com.demai.cornel.demeManager.vo.AdminGetFreightViewResp">
+     select tower_id as towerId,location,location_id as locationId,company from dry_tower where status=1 order by id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;
+    </select>
+    <select id="adminGetDryTowerFreiViewByTowerId" resultType="com.demai.cornel.demeManager.vo.AdminGetFreightViewResp">
+            select tower_id as towerId,location,location_id as locationId,company ,contacts_name as contactUser,contact_mobile as mobile from dry_tower where tower_id=#{towerId,jdbcType=VARCHAR}  ;
+    </select>
+    <select id="getLocation" resultType="com.demai.cornel.purcharse.model.LocationInfo">
+        select location_detail as locationDetail,location as location,location_area as locationArea,location_id as locationId from dry_tower ;
+    </select>
+    <select id="selectDrytower" resultType="com.demai.cornel.demeManager.vo.AdminGetQuoteList">
+      select tower_id,company from dry_tower  where status=1 and company is not null order by id desc offset #{offset} limit #{pgSize,jdbcType=INTEGER};
+    </select>
+
+</mapper>

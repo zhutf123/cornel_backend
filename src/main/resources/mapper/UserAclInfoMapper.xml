@@ -8,8 +8,8 @@
         <result column="acl_code" property="aclCode"/>
         <result column="status" property="status"/>
         <result column="ext_info" property="extInfo"/>
-        <result column="create_time" property="createTime"/>
-        <result column="operate_time" property="operateTime"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" javaType="java.lang.String" typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
     </resultMap>
 
     <sql id="main_column">
@@ -29,8 +29,8 @@
             <if test="aclCode != null">aclCode = #{aclCode},</if>
             <if test="status != null">status = #{status},</if>
             <if test="extInfo != null">ext_info = #{extInfo},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
+            <if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},</if>
         </trim>
         where id = #{id}
     </update>
@@ -51,8 +51,8 @@
             <if test="aclCode != null">#{aclCode} ,</if>
             <if test="status != null">#{status} ,</if>
             <if test="extInfo != null">#{extInfo} ,</if>
-            <if test="createTime != null">#{createTime} ,</if>
-            <if test="operateTime != null">#{operateTime} ,</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
+            <if test="operateTime != null">#{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler} ,</if>
         </trim>
         )
     </insert>

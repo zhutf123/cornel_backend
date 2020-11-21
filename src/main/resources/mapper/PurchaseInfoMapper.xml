@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.purcharse.dao.PurchaseInfoMapper">
+  <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.PurchaseInfo">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="commodity_id" jdbcType="VARCHAR" property="commodityId" />
+    <result column="buyer_id" jdbcType="VARCHAR" property="buyerId" />
+    <result column="price" jdbcType="NUMERIC" property="price" />
+    <result column="weight" jdbcType="NUMERIC" property="weight" />
+    <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />
+    <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight" />
+    <result column="receive_location_id" jdbcType="VARCHAR" property="receiveLocationId" />
+    <result column="receive_start_time" jdbcType="TIMESTAMP" property="receiveStartTime" />
+    <result column="receive_end_time" jdbcType="TIMESTAMP" property="receiveEndTime" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="contact_user_name" jdbcType="VARCHAR" property="contactUserName" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="purchase_id" jdbcType="VARCHAR" property="purchaseId" />
+  </resultMap>
+
+
+<!--  <resultMap id="BaseResultMap_list" type="com.demai.cornel.purcharse.vo.resp.GetPurchaseListResp">-->
+<!--    &lt;!&ndash;@mbg.generated&ndash;&gt;-->
+<!--    <result column="commodity_id" jdbcType="VARCHAR" property="commodityId" />-->
+<!--    <result column="weight" jdbcType="NUMERIC" property="weight" />-->
+<!--    <result column="unit_price" jdbcType="VARCHAR" property="unitPrice" />-->
+<!--    <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight" />-->
+<!--    <result column="receive_start_time" jdbcType="TIMESTAMP" property="receiveStartTime" />-->
+<!--    <result column="receive_end_time" jdbcType="TIMESTAMP" property="receiveEndTime" />-->
+<!--    <result column="status" jdbcType="SMALLINT" property="status" />-->
+<!--  </resultMap>-->
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, commodity_id, buyer_id, price, weight, unit_price, unit_weight, receive_location_id, 
+    receive_start_time, receive_end_time, "status", create_time, contact_user_name, mobile, 
+    purchase_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <!--@mbg.generated-->
+  select
+  <include refid="Base_Column_List" />
+  from purchase_info
+  where id = #{id,jdbcType=INTEGER}
+</select>
+  <select id="selectByPurchaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from purchase_info
+    where purchase_id = #{purchaseId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from purchase_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.demai.cornel.purcharse.model.PurchaseInfo">
+    <!--@mbg.generated-->
+    insert into purchase_info (id, commodity_id, buyer_id, 
+      price, weight, unit_price, 
+      unit_weight, receive_location_id, receive_start_time, 
+      receive_end_time, "status", create_time, 
+      contact_user_name, mobile, purchase_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{commodityId,jdbcType=VARCHAR}, #{buyerId,jdbcType=VARCHAR}, 
+      #{price,jdbcType=NUMERIC}, #{weight,jdbcType=NUMERIC}, #{unitPrice,jdbcType=VARCHAR}, 
+      #{unitWeight,jdbcType=VARCHAR}, #{receiveLocationId,jdbcType=VARCHAR}, #{receiveStartTime,jdbcType=TIMESTAMP}, 
+      #{receiveEndTime,jdbcType=TIMESTAMP}, #{status,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{contactUserName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{purchaseId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.PurchaseInfo">
+    <!--@mbg.generated-->
+    insert into purchase_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="buyerId != null">
+        buyer_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="unitPrice != null">
+        unit_price,
+      </if>
+      <if test="unitWeight != null">
+        unit_weight,
+      </if>
+      <if test="receiveLocationId != null">
+        receive_location_id,
+      </if>
+      <if test="receiveStartTime != null">
+        receive_start_time,
+      </if>
+      <if test="receiveEndTime != null">
+        receive_end_time,
+      </if>
+      <if test="status != null">
+        "status",
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="contactUserName != null">
+        contact_user_name,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="purchaseId != null">
+        purchase_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerId != null">
+        #{buyerId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=NUMERIC},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=NUMERIC},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="unitWeight != null">
+        #{unitWeight,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveLocationId != null">
+        #{receiveLocationId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveStartTime != null">
+        #{receiveStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveEndTime != null">
+        #{receiveEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactUserName != null">
+        #{contactUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseId != null">
+        #{purchaseId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.PurchaseInfo">
+    <!--@mbg.generated-->
+    update purchase_info
+    <set>
+      <if test="commodityId != null">
+        commodity_id = #{commodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerId != null">
+        buyer_id = #{buyerId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=NUMERIC},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=NUMERIC},
+      </if>
+      <if test="unitPrice != null">
+        unit_price = #{unitPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="unitWeight != null">
+        unit_weight = #{unitWeight,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveLocationId != null">
+        receive_location_id = #{receiveLocationId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveStartTime != null">
+        receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveEndTime != null">
+        receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        "status" = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactUserName != null">
+        contact_user_name = #{contactUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseId != null">
+        purchase_id = #{purchaseId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where purchase_id = #{purchaseId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.PurchaseInfo">
+    <!--@mbg.generated-->
+    update purchase_info
+    set commodity_id = #{commodityId,jdbcType=VARCHAR},
+      buyer_id = #{buyerId,jdbcType=VARCHAR},
+      price = #{price,jdbcType=NUMERIC},
+      weight = #{weight,jdbcType=NUMERIC},
+      unit_price = #{unitPrice,jdbcType=VARCHAR},
+      unit_weight = #{unitWeight,jdbcType=VARCHAR},
+      receive_location_id = #{receiveLocationId,jdbcType=VARCHAR},
+      receive_start_time = #{receiveStartTime,jdbcType=TIMESTAMP},
+      receive_end_time = #{receiveEndTime,jdbcType=TIMESTAMP},
+      "status" = #{status,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      contact_user_name = #{contactUserName,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      purchase_id = #{purchaseId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="getPurcharseList" resultMap="BaseResultMap">
+     select
+     <include refid="Base_Column_List"/>
+     from purchase_info where buyer_id=#{buyserId} and status!=0
+     <if test="purchaseId != null and purchaseId != ''">
+       and id <![CDATA[<]]> (select id from purchase_info where purchase_id=#{purchaseId,jdbcType=VARCHAR} )
+     </if>
+      <if test="purchaseId == null or purchaseId == ''">
+        and id <![CDATA[<=]]> (select max (id) from purchase_info )
+      </if>
+       order by id desc limit #{pgSize,jdbcType=INTEGER}
+    </select>
+  <delete id="updateStatus">
+    update purchase_info set status=#{status} where purchase_id=#{purchaseId,jdbcType=VARCHAR}
+  </delete>
+  <select id="getPurchaseNum" resultType="int">
+      select count(*) from purchase_info where status!=0 and buyer_id=#{userId,jdbcType=VARCHAR}
+  </select>
+</mapper>

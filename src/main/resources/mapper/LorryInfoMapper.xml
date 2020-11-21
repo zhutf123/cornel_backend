@@ -19,34 +19,52 @@
         <result column="id_card" property="idCard"/>
         <result column="status" property="status"/>
         <result column="ext_info" property="extInfo"/>
-        <result column="create_time" property="createTime"/>
-        <result column="operate_time" property="operateTime"/>
+        <result column="create_time" property="createTime"
+                jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+
+        <result column="operate_time" property="operateTime"
+                jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
         <result column="default_flag" property="defaultFlag"/>
+        <result column="unit_weight" property="unitWeight"/>
+        <result column="over_carry_weight" property="overCarryWeight"/>
+        <result column="engine_no" property="engineNo"/>
+        <result column="car_lice_owner" property="carLiceOwner"/>
+        <result column="user_id" property="userId"/>
+        <result column="lorry_id" property="lorryId"/>
 
     </resultMap>
 
     <sql id="main_column">
-        id,
-        lorry_type,
-        company,
-        weight,
-        carry_weight,
-        length,
-        width,
-        buy_time,
-        mileage,
-        plate_number,
-        frame_number,
-        id_type,
-        id_card,
-        status,
-        ext_info,
-        create_time,
-        operate_time,
-        default_flag
+        lorry_info.id,
+        lorry_info.lorry_type,
+        lorry_info.company,
+        lorry_info.weight,
+        lorry_info.carry_weight,
+        lorry_info.length,
+        lorry_info.width,
+        lorry_info.buy_time,
+        lorry_info.mileage,
+        lorry_info.plate_number,
+        lorry_info.frame_number,
+        lorry_info.id_type,
+        lorry_info.id_card,
+        lorry_info.status,
+        lorry_info.ext_info,
+        lorry_info.create_time,
+        lorry_info.operate_time,
+        lorry_info.default_flag,
+        lorry_info.unit_weight,
+        lorry_info.over_carry_weight,
+        lorry_info.engine_no,
+        lorry_info.car_lice_owner,
+        lorry_info.user_id,
+        lorry_info.lorry_id
+
     </sql>
 
-    <update id="update" parameterType="com.demai.cornel.model.LorryInfo">
+    <update id="updatupdateByLorryId" parameterType="com.demai.cornel.model.LorryInfo">
         update lorry_info
         <trim prefix="set" suffixOverrides=",">
             <if test="lorryType != null">lorry_type = #{lorryType},</if>
@@ -63,11 +81,21 @@
             <if test="idCard != null">id_card = #{idCard},</if>
             <if test="status != null">status = #{status},</if>
             <if test="extInfo != null">ext_info = #{extInfo},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="createTime != null">create_time =
+                #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
+            <if test="operateTime != null">operate_time =
+                #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler},
+            </if>
             <if test="default_flag != null">default_flag = #{defaultFlag},</if>
+            <if test="unitWeight != null">unit_weight = #{unitWeight},</if>
+            <if test="engineNo != null">engine_no = #{engineNo},</if>
+            <if test="carLiceOwner != null">car_lice_owner = #{carLiceOwner},</if>
+            <if test="userId != null">user_id = #{userId} ,</if>
+            <if test="lorryId != null">lorry_id = #{lorryId} ,</if>
+
         </trim>
-        where id = #{id}
+        where lorry_id = #{lorryId}
     </update>
 
     <insert id="save" parameterType="com.demai.cornel.model.LorryInfo" useGeneratedKeys="true" keyProperty="id">
@@ -90,6 +118,13 @@
             <if test="createTime != null">create_time ,</if>
             <if test="operateTime != null">operate_time ,</if>
             <if test="defaultFlag != null">default_flag ,</if>
+            <if test="unitWeight != null">unit_weight ,</if>
+            <if test="engineNo != null">engine_no,</if>
+            <if test="carLiceOwner != null">car_lice_owner,</if>
+            <if test="userId != null">user_id ,</if>
+            <if test="lorryId != null">lorry_id ,</if>
+            <if test="overCarryWeight != null">over_carry_weight ,</if>
+            <if test="unitWeight != null">unit_weight ,</if>
 
         </trim>
         )values(
@@ -108,11 +143,103 @@
             <if test="idCard != null">#{idCard} ,</if>
             <if test="status != null">#{status} ,</if>
             <if test="extInfo != null">#{extInfo} ,</if>
-            <if test="createTime != null">#{createTime} ,</if>
-            <if test="operateTime != null">#{operateTime} ,</if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
+            <if test="operateTime != null">
+                #{operateTime,jdbcType=TIMESTAMP,javaType=java.lang.String,typeHandler=com.demai.cornel.databaseHandler.JodaDatetimeHandler}
+                ,
+            </if>
             <if test="defaultFlag != null">#{defaultFlag} ,</if>
-
+            <if test="unitWeight != null">#{unitWeight},</if>
+            <if test="engineNo != null">#{engineNo},</if>
+            <if test="carLiceOwner != null">#{carLiceOwner},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="lorryId != null">#{lorryId},</if>
+            <if test="overCarryWeight != null">#{overCarryWeight} ,</if>
+            <if test="unitWeight != null">#{unitWeight} ,</if>
         </trim>
         )
     </insert>
+    <select id="getDefaultLorryByUserId" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info inner join user_info on user_info.id_type=lorry_info.id_type and
+        user_info.id_card=lorry_info.id_card
+        where lorry_info.status!=3 and user_info.user_id=#{userId} and lorry_info.default_flag=1;
+    </select>
+    <select id="getAvailableLorryByUserId" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info inner join user_info on user_info.id_type=lorry_info.id_type and
+        user_info.id_card=lorry_info.id_card
+        where lorry_info.status!=3 and user_info.user_id=#{userId} order by lorry_info.weight desc limit 1;
+    </select>
+    <select id="getAllLorryByUserId" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info inner join user_info on user_info.id_type=lorry_info.id_type and
+        user_info.id_card=lorry_info.id_card
+        where lorry_info.status!=0 and user_info.user_id=#{userId};
+    </select>
+    <select id="getAllLorrySimpleInfoByUserId" resultType="com.demai.cornel.model.TaskInfoReq$LorryInfoBean">
+        select
+        lorry_info.lorry_id as lorryId,
+        lorry_info.plate_number as plateNumber,
+        lorry_info.carry_weight as carryWeight,
+        lorry_info.default_flag as defaultSelect,
+        lorry_info.unit_weight as unitWeight,
+        lorry_info.over_carry_weight as overCarryWight,
+        lorry_info.status as carStatus
+        from lorry_info inner join user_info on user_info.id_type=lorry_info.id_type and
+        user_info.id_card=lorry_info.id_card
+        where lorry_info.status!=0 and user_info.user_id=#{userId};
+    </select>
+    <select id="getAllLorryInfoByUserId" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info
+        where status!=0 and user_id=#{userId} order by id desc;
+    </select>
+
+    <select id="getLorryByLorryID" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info
+        where lorry_id=#{lorryId}
+    </select>
+    <update id="updateLorryStatus">
+
+        update lorry_info set status=#{status} where lorry_id=#{lorryId};
+    </update>
+    <select id="getLorryInfoByFlaNoEngNoFraNo" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info where plate_number=#{plateNo} and frame_number=#{frameNo} and engine_no=#{engineNo} and status=1 limit 1;
+    </select>
+
+    <select id="getLorryByStringLorryID" resultMap="lorryInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from lorry_info
+        where lorry_id=#{lorryId}
+    </select>
+    <update id="updateCarCornInfo" parameterType="com.demai.cornel.model.CarCornInfo">
+        update lorry_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="lorryType != null">lorry_type = #{lorryType},</if>
+            <if test="carryWeight != null">carry_weight = #{carryWeight},</if>
+            <if test="plateNumber != null">plate_number = #{plateNumber},</if>
+            <if test="frameNumber != null">frame_number = #{frameNumber},</if>
+            <if test="engineNo != null">engine_no = #{engineNo},</if>
+            <if test="overCarryWight != null">over_carry_weight = #{overCarryWight},</if>
+            <if test="carLiceOwner != null">car_lice_owner = #{carLiceOwner},</if>
+        </trim>
+        where lorry_id = #{lorryId}
+    </update>
+    <select id="getAllIdleLorry" resultMap="lorryInfoResultMap">
+     select <include refid="main_column"/> from lorry_info where status=2 order  by carry_weight desc;
+    </select>
+
 </mapper>

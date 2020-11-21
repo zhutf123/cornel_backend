@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.purcharse.dao.LocationInfoMapper">
+    <resultMap id="BaseResultMap" type="com.demai.cornel.purcharse.model.LocationInfo">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="location_id" jdbcType="VARCHAR" property="locationId"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="location_gis" jdbcType="VARCHAR" property="locationGis"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="location_area" jdbcType="VARCHAR" property="locationArea"/>
+        <result column="location_detail" jdbcType="VARCHAR" property="locationDetail"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, location_id, "location", location_gis, "status", location_area, location_detail
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from location_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from location_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.demai.cornel.purcharse.model.LocationInfo">
+        <!--@mbg.generated-->
+        insert into location_info (id, location_id, "location",
+        location_gis, "status", location_area,
+        location_detail)
+        values (#{id,jdbcType=INTEGER}, #{locationId,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR},
+        #{locationGis,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{locationArea,jdbcType=VARCHAR},
+        #{locationDetail,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.LocationInfo">
+        <!--@mbg.generated-->
+        insert into location_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="locationId != null">
+                location_id,
+            </if>
+            <if test="location != null">
+                "location",
+            </if>
+            <if test="locationGis != null">
+                location_gis,
+            </if>
+            <if test="status != null">
+                "status",
+            </if>
+            <if test="locationArea != null">
+                location_area,
+            </if>
+            <if test="locationDetail != null">
+                location_detail,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="locationId != null">
+                #{locationId,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="locationGis != null">
+                #{locationGis,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="locationArea != null">
+                #{locationArea,jdbcType=VARCHAR},
+            </if>
+            <if test="locationDetail != null">
+                #{locationDetail,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.LocationInfo">
+        <!--@mbg.generated-->
+        update location_info
+        <set>
+            <if test="locationId != null">
+                location_id = #{locationId,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                "location" = #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="locationGis != null">
+                location_gis = #{locationGis,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                "status" = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="locationArea != null">
+                location_area = #{locationArea,jdbcType=VARCHAR},
+            </if>
+            <if test="locationDetail != null">
+                location_detail = #{locationDetail,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where location_id = #{locationId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.LocationInfo">
+        <!--@mbg.generated-->
+        update location_info
+        set location_id = #{locationId,jdbcType=VARCHAR},
+        "location" = #{location,jdbcType=VARCHAR},
+        location_gis = #{locationGis,jdbcType=VARCHAR},
+        "status" = #{status,jdbcType=INTEGER},
+        location_area = #{locationArea,jdbcType=VARCHAR},
+        location_detail = #{locationDetail,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="getLocationByLocationId" resultType="java.lang.String">
+        select location from location_info where location_id in
+        <if test="locationId!=null and locationId.size()&gt;0">
+            <foreach close=")" collection="locationId" index="index" item="lo" open="(" separator=",">
+                #{lo}
+            </foreach>
+        </if>
+        and status=1;
+    </select>
+    <select id="selectLocationIdByInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from location_info where location_area=#{locationArea,jdbcType=VARCHAR} and
+        location_detail=#{locationDetail,jdbcType=VARCHAR} and location = #{location}
+        and status=1;
+    </select>
+    <select id="getLocationInfoByLocationId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from location_info where location_id in
+        <if test="locationId!=null and locationId.size()&gt;0">
+            <foreach close=")" collection="locationId" index="index" item="lo" open="(" separator=",">
+                #{lo}
+            </foreach>
+        </if>
+        and status=1;
+    </select>
+    <select id="selectByLocationId" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from location_info
+        where location_id = #{locationId,jdbcType=VARCHAR} ;
+    </select>
+    <select id="getSystemLocation" resultType="com.demai.cornel.demeManager.vo.AdminLocationMode">
+     select location ,location_area as locationArea,location_detail as locationDetail,location_id as locationId from location_info where status=1
+     and system_flag=1 order by id desc offset #{offset} limit #{pgSize,jdbcType=INTEGER} ;
+    </select>
+    <select id="selectLocationModelByInfo" resultType="com.demai.cornel.demeManager.vo.AdminLocationMode">
+     select location ,location_area as locationArea,location_detail as locationDetail,location_id as locationId,system_flag as systemFlag from location_info where status=1
+     and location=#{location} and location_area=#{locationArea,jdbcType=VARCHAR} and location_detail=#{locationDetail,jdbcType=VARCHAR} limit 1;
+    </select>
+    <insert id="insertSelectiveAdminLocationMode" parameterType="com.demai.cornel.demeManager.vo.AdminLocationMode">
+        insert into location_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="locationId != null">
+                location_id,
+            </if>
+            <if test="location != null">
+                "location",
+            </if>
+            <if test="locationArea != null">
+                location_area,
+            </if>
+            <if test="locationDetail != null">
+                location_detail,
+            </if>
+            <if test="systemFlag != null">
+                system_flag,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="locationId != null">
+                #{locationId,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="locationArea != null">
+                #{locationArea,jdbcType=VARCHAR},
+            </if>
+            <if test="locationDetail != null">
+                #{locationDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="systemFlag != null">
+                #{systemFlag} ,
+            </if>
+            <if test="status != null">
+                #{status} ,
+            </if>
+        </trim>
+    </insert>
+    <update id="updateLocationInfoByLocationId">
+         update location_info
+         set location_area=#{locationArea,jdbcType=VARCHAR} ,
+         location_detail=#{locationDetail} ,
+         location=#{location},
+         system_flag=1,
+         status=1
+         where location_id=#{locationId} ;
+    </update>
+    <select id="selectByLocation" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from location_info
+        where location = #{location,jdbcType=VARCHAR} ;
+    </select>
+</mapper>

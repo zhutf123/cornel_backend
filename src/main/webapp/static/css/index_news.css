@@ -1,0 +1,25 @@
+.news-warp-center-item-left,.news-warp-center-item .news-warp-center-item-left img{
+    height: 330px;
+}
+.news-warp-center-item-right{
+    margin-top: 50px;
+}
+.news-warp-center li:nth-child(2n-1) .news-give-like{
+    right:30px;
+}
+.news-warp-center li:nth-child(2n-1) .news-warp-center-item-left img{
+    margin-right: 0;
+}
+.news-warp-center li:nth-child(2n-1) .news-warp-center-item-right{
+    padding-left: 0;
+    padding-right: 30px;
+}
+
+.header .header-nav .row li:nth-child(1) a:link span{
+    cursor: pointer;
+    border-bottom:3px solid rgb(245,82,46);
+}
+.header .header-nav .row li:nth-child(1) a:visited span{
+    cursor: pointer;
+    border-bottom:3px solid rgb(245,82,46);
+}

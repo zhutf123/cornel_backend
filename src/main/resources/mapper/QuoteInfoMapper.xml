@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demai.cornel.dao.QuoteInfoDao">
+    <resultMap id="BaseResultMap" type="com.demai.cornel.model.QuoteInfo">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="commodity_id" jdbcType="INTEGER" property="commodityId"/>
+        <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="desc" jdbcType="VARCHAR" property="desc"/>
+        <result column="system_flag" jdbcType="INTEGER" property="systemFlag"/>
+        <result column="bargain_status" jdbcType="INTEGER" property="bargainStatus"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+        <result column="tower_id" jdbcType="VARCHAR" property="towerId"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
+        <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
+        <result column="review_status" jdbcType="INTEGER" property="reviewStatus"/>
+        <result column="wet_price" jdbcType="NUMERIC" property="wetPrice"/>
+
+    </resultMap>
+
+    <resultMap id="get_quote_list" type="com.demai.cornel.vo.quota.GetOfferListResp">
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+        <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP"/>
+        <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
+        <result column="review_opt" property="reviewOpt" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+    </resultMap>
+    <resultMap id="get_quote_info" type="com.demai.cornel.vo.quota.GetOfferInfoResp">
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="commodity_properties" property="commodityProperties" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+        <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP"/>
+
+        <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
+        <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
+        <result column="review_opt" property="reviewOpt" jdbcType="OTHER"
+                javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="wet_price" property="wetPrice" jdbcType="NUMERIC"/>
+    </resultMap>
+
+    <resultMap id="listRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuoteListResp">
+        <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="company" jdbcType="VARCHAR" property="company"/>
+
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+    </resultMap>
+    <resultMap id="detailRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuteDetail">
+        <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
+        <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
+        <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
+        <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
+        <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="company" jdbcType="VARCHAR" property="company"/>
+        <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
+                typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+        <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, commodity_id, "quote", unit_price, shipment_weight, unit_weight, start_time,
+        update_time, "status", "desc", system_flag, bargain_status, user_id, "location",
+        user_name, quote_id, tower_id, mobile, end_time,cargo_status,wet_weight,loan_id,review_status,wet_weight
+    </sql>
+
+    <sql id="get_offer_list">
+    c.name as commodity_name,
+    c.commodity_properties,
+    c.commodity_id,
+    q.quote_id,
+    q.quote,
+    q.unit_price,
+    q.shipment_weight,
+    q.unit_weight,
+    q.start_time,
+    q.end_time,
+    q.status,
+    q.warehouse_time,
+    q.loan_id,
+    q.cargo_status,
+    q.review_opt
+  </sql>
+    <sql id="get_offer_info">
+    c.name as commodity_name,
+    c.commodity_properties,
+    c.commodity_id,
+    q.quote_id,
+    q.quote,
+    q.unit_price,
+    q.shipment_weight,
+    q.unit_weight,
+    q.start_time,
+    q.end_time,
+    q.status,
+    q.user_name,
+    q.mobile,
+    q.location,
+    q.warehouse_time,
+    q.wet_weight,
+    q.cargo_status,
+    q.loan_id,
+    q.review_opt,
+    q.wet_price
+  </sql>
+
+    <sql id="list_Resp_admin">
+        q.quote_id,
+        q.quote,
+        q.unit_price,
+        q.unit_weight,
+        q.status,
+        q.mobile,
+        q.shipment_weight,
+        q.user_name,
+        q.user_id,
+        q.warehouse_time,
+        c.commodity_id,
+        c.name as commodity_name,
+        d.company
+    </sql>
+    <sql id="detail_Resp_admin">
+        q.quote_id,
+        q.quote,
+        q.unit_price,
+        q.unit_weight,
+        q.status,
+        q.mobile,
+        q.shipment_weight,
+        q.user_name,
+        q.create_time,
+        q.user_id,
+        q.location,
+        q.warehouse_time,
+        c.commodity_id,
+        c.name as commodity_name,
+        d.company,
+        q.loan_id,
+        q.wet_weight
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from quote_info
+        where quote_id = #{quoteId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from quote_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.demai.cornel.model.QuoteInfo">
+        <!--@mbg.generated-->
+        insert into quote_info (id, commodity_id, "quote",
+        unit_price, shipment_weight, unit_weight,
+        start_time, update_time, "status",
+        "desc", system_flag, bargain_status,
+        user_id, "location", user_name,
+        quote_id, tower_id, mobile,
+        end_time)
+        values (#{id,jdbcType=INTEGER}, #{commodityId,jdbcType=INTEGER}, #{quote,jdbcType=NUMERIC},
+        #{unitPrice,jdbcType=VARCHAR}, #{shipmentWeight,jdbcType=NUMERIC}, #{unitWeight,jdbcType=VARCHAR},
+        #{startTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+        #{desc,jdbcType=VARCHAR}, #{systemFlag,jdbcType=INTEGER}, #{bargainStatus,jdbcType=INTEGER},
+        #{userId,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+        #{quoteId,jdbcType=VARCHAR}, #{towerId,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+        #{endTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.demai.cornel.model.QuoteInfo">
+        <!--@mbg.generated-->
+        insert into quote_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="commodityId != null">
+                commodity_id,
+            </if>
+            <if test="quote != null">
+                "quote",
+            </if>
+            <if test="unitPrice != null">
+                unit_price,
+            </if>
+            <if test="shipmentWeight != null">
+                shipment_weight,
+            </if>
+            <if test="unitWeight != null">
+                unit_weight,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="status != null">
+                "status",
+            </if>
+            <if test="desc != null">
+                "desc",
+            </if>
+            <if test="systemFlag != null">
+                system_flag,
+            </if>
+            <if test="bargainStatus != null">
+                bargain_status,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="location != null">
+                "location",
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="quoteId != null">
+                quote_id,
+            </if>
+            <if test="towerId != null">
+                tower_id,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="warehouseTime != null">
+                warehouse_time,
+            </if>
+            <if test="cargoStatus != null">
+                cargo_status,
+            </if>
+            <if test="wetWeight != null">
+                wet_weight,
+            </if>
+            <if test="loanId != null">
+                loan_id,
+            </if>
+            <if test=" reviewStatus != null">
+                review_status,
+            </if>
+            <if test=" wetPrice != null">
+                wet_price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="commodityId != null">
+                #{commodityId,jdbcType=INTEGER},
+            </if>
+            <if test="quote != null">
+                #{quote,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="shipmentWeight != null">
+                #{shipmentWeight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="desc != null">
+                #{desc,jdbcType=VARCHAR},
+            </if>
+            <if test="systemFlag != null">
+                #{systemFlag,jdbcType=INTEGER},
+            </if>
+            <if test="bargainStatus != null">
+                #{bargainStatus,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="quoteId != null">
+                #{quoteId,jdbcType=VARCHAR},
+            </if>
+            <if test="towerId != null">
+                #{towerId,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="warehouseTime != null">
+                #{warehouseTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cargoStatus != null">
+                #{cargoStatus,jdbcType=INTEGER} ,
+            </if>
+            <if test="wetWeight != null">
+                #{wetWeight,jdbcType=DECIMAL} ,
+            </if>
+            <if test="loanId != null">
+                #{loanId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+                ,
+            </if>
+            <if test=" reviewStatus != null">
+                #{reviewStatus},
+            </if>
+            <if test=" wetPrice != null">
+                #{wetPrice,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.model.QuoteInfo">
+        <!--@mbg.generated-->
+        update quote_info
+        <set>
+            <if test="commodityId != null">
+                commodity_id = #{commodityId,jdbcType=INTEGER},
+            </if>
+            <if test="quote != null">
+                "quote" = #{quote,jdbcType=NUMERIC},
+            </if>
+            <if test="unitPrice != null">
+                unit_price = #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="shipmentWeight != null">
+                shipment_weight = #{shipmentWeight,jdbcType=NUMERIC},
+            </if>
+            <if test="unitWeight != null">
+                unit_weight = #{unitWeight,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                "status" = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="desc != null">
+                "desc" = #{desc,jdbcType=VARCHAR},
+            </if>
+            <if test="systemFlag != null">
+                system_flag = #{systemFlag,jdbcType=INTEGER},
+            </if>
+            <if test="bargainStatus != null">
+                bargain_status = #{bargainStatus,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                "location" = #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="quoteId != null">
+                quote_id = #{quoteId,jdbcType=VARCHAR},
+            </if>
+            <if test="towerId != null">
+                tower_id = #{towerId,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reviewUser != null">
+                review_user = #{reviewUser,jdbcType=VARCHAR} ,
+            </if>
+            <if test="reviewOpt != null">
+                review_opt =
+                hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}),
+            </if>
+            <if test="warehouseTime != null">
+                warehouse_time=#{warehouseTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cargoStatus != null">
+                cargo_status=#{cargoStatus,jdbcType=INTEGER} ,
+            </if>
+            <if test="wetWeight != null">
+                wet_weight= #{wetWeight,jdbcType=DECIMAL} ,
+            </if>
+            <if test="loanId != null">
+                loan_id=#{loanId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+            </if>
+            <if test=" reviewStatus != null">
+                review_status= #{reviewStatus},
+            </if>
+        </set>
+        where quote_id = #{quoteId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.demai.cornel.model.QuoteInfo">
+        <!--@mbg.generated-->
+        update quote_info
+        set commodity_id = #{commodityId,jdbcType=INTEGER},
+        "quote" = #{quote,jdbcType=NUMERIC},
+        unit_price = #{unitPrice,jdbcType=VARCHAR},
+        shipment_weight = #{shipmentWeight,jdbcType=NUMERIC},
+        unit_weight = #{unitWeight,jdbcType=VARCHAR},
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        "status" = #{status,jdbcType=INTEGER},
+        "desc" = #{desc,jdbcType=VARCHAR},
+        system_flag = #{systemFlag,jdbcType=INTEGER},
+        bargain_status = #{bargainStatus,jdbcType=INTEGER},
+        user_id = #{userId,jdbcType=VARCHAR},
+        "location" = #{location,jdbcType=VARCHAR},
+        user_name = #{userName,jdbcType=VARCHAR},
+        quote_id = #{quoteId,jdbcType=VARCHAR},
+        tower_id = #{towerId,jdbcType=VARCHAR},
+        mobile = #{mobile,jdbcType=VARCHAR},
+        end_time = #{endTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="getOwnerQuoteList" resultMap="get_quote_list">
+        select
+        <include refid="get_offer_list"/>
+        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and
+        q.status != -1 and
+        q.system_flag=0
+        <if test="quoteId != null and quoteId != ''">
+            and q.id <![CDATA[<=]]> (select id from quote_info where quoteId=#{quoteId,jdbcType=VARCHAR} )
+        </if>
+        <if test="quoteId == null or quoteId == ''">
+            and q.id <![CDATA[<=]]> (select max(id) from quote_info)
+        </if>
+        order by q.id desc limit #{pgSize} ;
+    </select>
+    <select id="getSystemOwnerQuoteList" resultMap="get_quote_list">
+        select
+        <include refid="get_offer_list"/>
+        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and
+        q.status != -1 and
+        q.system_flag=1
+        <if test="quoteId != null and quoteId != ''">
+            and q.id <![CDATA[<=]]> (select id from quote_info where quoteId=#{quoteId,jdbcType=VARCHAR} )
+        </if>
+        <if test="quoteId == null or quoteId == ''">
+            and q.id <![CDATA[<=]]> (select max(id) from quote_info)
+        </if>
+        order by q.id desc limit #{pgSize} ;
+    </select>
+    <select id="getQuoteInfoById" resultMap="get_quote_info">
+        select
+        <include refid="get_offer_info"/>
+        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where
+        q.quote_id=#{quoteId,jdbcType=VARCHAR} ;
+    </select>
+    <delete id="updateStatusByQuoteIdAndUserId">
+      update quote_info set status=#{status} where quote_id=#{quoteId,jdbcType=VARCHAR} and  user_id=#{userId,jdbcType=VARCHAR} ;
+    </delete>
+
+    <select id="adminGetQuoteList" resultMap="listRespMapper_admin">
+        select
+        <include refid="list_Resp_admin"/>
+        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on
+        q.tower_id=d.tower_id
+        where q.status <![CDATA[>=]]> 4 and q.tower_id=#{towerId,jdbcType=VARCHAR}
+        order by status asc,q.warehouse_time desc offset #{offset} limit #{pgSize};
+    </select>
+    <select id="adminGetQuoteDetail" resultMap="detailRespMapper_admin">
+        select
+        <include refid="detail_Resp_admin"/>
+        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on
+        q.tower_id=d.tower_id
+        where q.status!=0
+        and q.quote_id=#{quoteId,jdbcType=VARCHAR}
+    </select>
+    <select id="getSystemOwnerQuoteListV2" resultMap="get_quote_list">
+        select
+        <include refid="get_offer_list"/>
+        from quote_info q left join commodity_list c on q.commodity_id=c.commodity_id where q.user_id=#{userId} and
+        q.status != -1 and
+        q.system_flag=1
+        <if test="time != null">
+            and
+            q.warehouse_time <![CDATA[<]]> #{time,jdbcType=TIMESTAMP}
+        </if>
+        <if test="time == null">
+            and
+            q.warehouse_time <![CDATA[<=]]> (select max(warehouse_time) from quote_info limit 1)
+        </if>
+        order by q.warehouse_time desc limit #{pgSize} ;
+    </select>
+    <select id="selectQuoteViewByTowerId" resultType="com.demai.cornel.demeManager.vo.AdminGetQuoteList$orderInfo">
+       select count(*) as count,status as status,sum(shipment_weight*quote) as total,sum(shipment_weight) as weight
+       from quote_info where tower_id=#{towerId,jdbcType=VARCHAR} and status <![CDATA[>=]]>4  group by status order by status asc;
+    </select>
+
+
+    <select id="adminGetFinInfo" resultType="com.demai.cornel.demeManager.vo.AdminGetQueFinResp">
+       select sum(shipment_weight*quote) as price_count,sum(shipment_weight) as total_weight, count(*) as order_count,
+       sum(quote * shipment_weight) * 0.0535/365 * EXTRACT(DAY FROM now()-'2020-02-20') as total_interest from quote_info
+       where status <![CDATA[>=]]>1 ;
+    </select>
+    <select id="opPdminGetQuoteList" resultMap="listRespMapper_admin">
+        select
+        <include refid="list_Resp_admin"/>
+        from quote_info q inner join commodity_list c on q.commodity_id=c.commodity_id left join dry_tower d on
+        q.tower_id=d.tower_id
+        where q.status!=0 and q.tower_id=#{towerId,jdbcType=VARCHAR}
+        order by status asc,q.warehouse_time desc offset #{offset} limit #{pgSize};
+    </select>
+
+    <select id="optselectQuoteViewByTowerId" resultType="com.demai.cornel.demeManager.vo.AdminGetQuoteList$orderInfo">
+       select count(*) as count,status as status,sum(shipment_weight*quote) as total,sum(shipment_weight) as weight
+       from quote_info where tower_id=#{towerId,jdbcType=VARCHAR} and status <![CDATA[>=]]>1  group by status order by status asc;
+    </select>
+    <update id="userConfirmOrderInfo">
+     update quote_info set status=#{updateStatus} where
+     quote_id=#{quoteId,jdbcType=VARCHAR}
+     and quote=#{quote}
+     and status=#{orginStatus}
+     and shipment_weight=#{shipmetWeight}
+     and date(warehouse_time)=date(#{wareTime,jdbcType=TIMESTAMP} );
+    </update>
+
+
+</mapper>
