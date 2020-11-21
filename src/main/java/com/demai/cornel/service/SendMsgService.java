@@ -95,7 +95,7 @@ public class SendMsgService {
                 log.debug("send msg to phone: {},{}", phone.toString() , result);
             }
         } catch (Exception e){
-
+              log.error("发送短信失败", e);
         }
 
         return result;
