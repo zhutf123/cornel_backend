@@ -77,6 +77,10 @@ import java.util.stream.Collectors;
      * 报价的状态 1 有效 0 无效
      */
     private Integer status;
+    /***
+     * 报价状态显示
+     */
+    private String statusDesc;
 
     private String serviceMobile;
     private Timestamp warehouseTime;

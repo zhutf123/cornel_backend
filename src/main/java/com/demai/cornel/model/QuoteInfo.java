@@ -190,8 +190,13 @@ import java.util.Set;
     }
 
     public static enum REVEW_STATUS implements IEmus {
-        UNDER_BUSS(1, "待业务人员审批"), UNDER_USER_CONFIRM(2, "待用户确认"), UNDER_FINA(3, "待财务人员审批"), REJECT(4, "审核拒绝"), APPROVED(
-                5, "审核通过");
+        //待业务人员审核
+        UNDER_BUSS(1, "待审批"),
+        UNDER_USER_CONFIRM(2, "待用户确认"),
+        //待财务人员审批
+        UNDER_FINA(3, "待审批"),
+        REJECT(4, "审核拒绝"),
+        APPROVED(5, "审核通过");
         private Integer value;
         private String expr;
 
@@ -206,6 +211,15 @@ import java.util.Set;
 
         @Override public String getExpr() {
             return expr;
+        }
+
+        public static REVEW_STATUS getViewStatusByValue(int value){
+            for (REVEW_STATUS  v : REVEW_STATUS.values()){
+                if (v.getValue() == value){
+                    return v;
+                }
+            }
+            return null;
         }
 
     }

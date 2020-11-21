@@ -347,7 +347,7 @@ import java.util.stream.Collectors;
         List<GetOfferListResp> getOfferListResps = quoteInfoDao
                 .getSystemOwnerQuoteListV2(CookieAuthUtils.getCurrentUser(), getSysQuoListV2Req.getTime(),
                         getSysQuoListV2Req.getPgSize());
-        if (getOfferListResps == null) {
+        if (CollectionUtils.isEmpty(getOfferListResps)) {
             getOfferListResps = Collections.EMPTY_LIST;
         }
         String serviceMobile = "";
@@ -391,6 +391,8 @@ import java.util.stream.Collectors;
                 x.setChangeLog(Collections.EMPTY_LIST);
                 log.error("parse change log err changelog is {}",reviewLog.getChangeContent());
             }
+            QuoteInfo.REVEW_STATUS viewStatus = QuoteInfo.REVEW_STATUS.getViewStatusByValue(x.getStatus());
+            x.setStatusDesc(viewStatus != null ? viewStatus.getExpr() : "");
             x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
             x.setServiceMobile(finalServiceMobile);
         });
