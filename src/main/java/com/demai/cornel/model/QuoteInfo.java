@@ -108,7 +108,14 @@ import java.util.Set;
      * 联系电话
      */
     private String mobile;
+    /***
+     * 业务审核人员id
+     */
     private String reviewUser;
+    /***
+     * 财务审核人员id
+     */
+    private String financeUser;
     private Timestamp warehouseTime;
     /***
      * 业务审核时间

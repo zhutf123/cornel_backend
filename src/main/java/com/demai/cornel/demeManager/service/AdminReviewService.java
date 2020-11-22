@@ -105,7 +105,7 @@ import java.util.HashMap;
         return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }
 
-    public ReviewQuoteResp finaReviewQuote(FinaReviewQuoteReq finaReviewQuoteReq) {
+    public ReviewQuoteResp finaReviewQuote(FinaReviewQuoteReq finaReviewQuoteReq, String operator) {
         QuoteInfo oldQuote = quoteInfoDao.selectByPrimaryKey(finaReviewQuoteReq.getQuoteId());
         if (oldQuote == null) {
             log.error("finaReviewQuote fail due to get quote from db err");
@@ -133,6 +133,10 @@ import java.util.HashMap;
             loanInfo.setStartInterest(
                     TimeStampUtil.stringConvertTimeStamp(TIME_FORMT, finaReviewQuoteReq.getStartInterest()));
             loanInfo.setPrice(finaReviewQuoteReq.getActualPrice());
+
+            newQuoteInfo.setFinanceUser(operator);
+            newQuoteInfo.setFinanceUserTime(new Timestamp(System.currentTimeMillis()));
+
             break;
         case (2):/*拒绝状态流转到财务审核拒绝*/
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.FIN_REVIEW_REJECT.getValue());
@@ -141,6 +145,9 @@ import java.util.HashMap;
 
             reviewOpt.put("errDesc", finaReviewQuoteReq.getErrDesc());
             newQuoteInfo.setReviewOpt(reviewOpt);
+
+            newQuoteInfo.setFinanceUser(operator);
+            newQuoteInfo.setFinanceUserTime(new Timestamp(System.currentTimeMillis()));
             break;
         default:
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();

@@ -228,7 +228,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         reviewLog.setOptType(finaReviewQuoteReq.getOperaType());
         reviewLog.setOrderId(finaReviewQuoteReq.getQuoteId());
         //reviewLog.setReviewOpt(quoteReq.ge);
-        ReviewQuoteResp quoteResp = adminReviewService.finaReviewQuote(finaReviewQuoteReq);
+        ReviewQuoteResp quoteResp = adminReviewService.finaReviewQuote(finaReviewQuoteReq, CookieAuthUtils.getCurrentUser());
         if (quoteResp.getOptStatus().equals(ReviewQuoteResp.STATUS_ENUE.SUCCESS.getValue())) {
             reviewLogMapper.insertSelective(reviewLog);
         }
