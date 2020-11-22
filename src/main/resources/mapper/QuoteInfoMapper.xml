@@ -98,6 +98,13 @@
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="company" jdbcType="VARCHAR" property="company"/>
+        <result column="review_user_id" jdbcType="VARCHAR" property="reviewUserId"/>
+        <result column="finance_user_id" jdbcType="VARCHAR" property="financeUserId"/>
+        <result column="review_user_time" property="reviewUserTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+
+        <result column="finance_user_time" property="financeUserTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
 
         <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
@@ -122,6 +129,15 @@
         <result column="company" jdbcType="VARCHAR" property="company"/>
         <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
+
+        <result column="review_user_id" jdbcType="VARCHAR" property="reviewUserId"/>
+        <result column="finance_user_id" jdbcType="VARCHAR" property="financeUserId"/>
+        <result column="review_user_time" property="reviewUserTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+
+        <result column="finance_user_time" property="financeUserTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
+                typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+
         <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
 
     </resultMap>
@@ -187,6 +203,10 @@
         q.user_name,
         q.user_id,
         q.warehouse_time,
+        q.review_user as review_user_id,
+        q.finance_user as finance_user_id,
+        q.review_user_time,
+        q.finance_user_time,
         c.commodity_id,
         c.name as commodity_name,
         d.company

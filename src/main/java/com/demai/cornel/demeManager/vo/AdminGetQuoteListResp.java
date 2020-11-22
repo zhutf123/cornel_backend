@@ -3,6 +3,7 @@ package com.demai.cornel.demeManager.vo;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * @Author binz.zhang
@@ -34,5 +35,29 @@ public class AdminGetQuoteListResp {
     private String mobile;
     private Integer status;
     private String company;//公司名称
+    /**
+     * 业务审核人id
+     */
+    private String reviewUserId;
+    /**
+     * 业务审核人
+     */
+    private String reviewUser;
+    /***
+     * 业务审核时间
+     */
+    private String reviewUserTime;
+    /***
+     * 财务审核时间
+     */
+    private String financeUserTime;
+    /**
+     * 业务审核人id
+     */
+    private String financeUserId;
+    /***
+     * 财务审核人
+     */
+    private String financeUser;
 
 }

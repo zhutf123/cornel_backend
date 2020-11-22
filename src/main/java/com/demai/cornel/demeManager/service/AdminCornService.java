@@ -17,6 +17,7 @@ import com.demai.cornel.service.SendMsgService;
 import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
 import com.demai.cornel.vo.quota.GetDryWetRadioResp;
 import com.google.common.base.Strings;
@@ -126,10 +127,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
         List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao
                 .opPdminGetQuoteList(Optional.ofNullable(getQuoteListReq.getOffset()).orElse(0),
                         Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10), getQuoteListReq.getTowerId());
-        if (gerQuoteListResps == null) {
+        if (CollectionUtils.isEmpty(gerQuoteListResps)) {
             log.warn("admin get system quote empty");
             return Collections.EMPTY_LIST;
         }
+        gerQuoteListResps.stream().forEach(res ->{
+            if(StringUtil.isNotEmpty(res.getReviewUserId())){
+                UserInfo info = userInfoDao.getUserInfoByUserId(res.getReviewUserId());
+                if (info!=null){
+                    res.setReviewUser(info.getName());
+                }
+            }
+
+            if(StringUtil.isNotEmpty(res.getFinanceUserId())){
+                UserInfo info = userInfoDao.getUserInfoByUserId(res.getFinanceUserId());
+                if (info!=null){
+                    res.setFinanceUser(info.getName());
+                }
+            }
+        });
         return gerQuoteListResps;
     }
 
