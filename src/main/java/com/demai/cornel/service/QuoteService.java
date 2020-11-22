@@ -307,7 +307,7 @@ import java.util.stream.Collectors;
         clickSystemQuoteResp.setUnitWeight(systemQuote.getUnitWeight());
         clickSystemQuoteResp.setUnitPrice(systemQuote.getUnitPrice());
         clickSystemQuoteResp.setQuote(systemQuote.getQuote());
-        clickSystemQuoteResp.setQuote(systemQuote.getQuote());
+        clickSystemQuoteResp.setSysQuote(systemQuote.getQuote());
         if (specialQuote != null){
             clickSystemQuoteResp.setUnitWeight(specialQuote.getUnitWeight());
             clickSystemQuoteResp.setUnitPrice(specialQuote.getUnitPrice());
