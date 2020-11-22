@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -41,7 +42,7 @@ import java.util.HashMap;
     private static final String TIME_FORMT = "yyyy-MM-dd";
 
     /*业务审核烘干塔订单*/
-    public ReviewQuoteResp bussiReviewQuote(ReviewQuoteReq quoteReq) {
+    public ReviewQuoteResp bussiReviewQuote(ReviewQuoteReq quoteReq, String operator) {
         QuoteInfo oldQuote = quoteInfoDao.selectByPrimaryKey(quoteReq.getQuoteId());
         if (oldQuote == null) {
             log.error("bussiReviewQuote fail due to get quote from db err");
@@ -63,6 +64,8 @@ import java.util.HashMap;
             HashMap<String, String> reviewOptU = new HashMap<>(2);
             reviewOptU.put("errCode", "0");
             reviewOptU.put("errDesc", "");
+            newQuoteInfo.setReviewUser(operator);
+            newQuoteInfo.setReviewUserTime(new Timestamp(System.currentTimeMillis()));
             newQuoteInfo.setReviewOpt(reviewOptU);
             break;
         case (2):/*拒绝，订单直接流转到拒绝。保留审核错误信息提示*/
@@ -71,6 +74,8 @@ import java.util.HashMap;
                 HashMap<String, String> reviewOpt = new HashMap<>(2);
                 reviewOpt.put("errCode", String.valueOf(quoteReq.getErrCode()));
                 reviewOpt.put("errDesc", quoteReq.getErrDesc());
+                newQuoteInfo.setReviewUser(operator);
+                newQuoteInfo.setReviewUserTime(new Timestamp(System.currentTimeMillis()));
                 newQuoteInfo.setReviewOpt(reviewOpt);
             }
             break;

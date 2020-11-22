@@ -489,6 +489,9 @@
             <if test="reviewUser != null">
                 review_user = #{reviewUser,jdbcType=VARCHAR} ,
             </if>
+            <if test="reviewUserTime != null">
+                review_user_time=#{reviewUserTime,jdbcType=TIMESTAMP},
+            </if>
             <if test="reviewOpt != null">
                 review_opt =
                 hstore(#{reviewOpt,jdbcType=OTHER,javaType=java.util.HashMap,typeHandler=com.demai.cornel.databaseHandler.HstoreExtTypeHandler}),

@@ -195,7 +195,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         reviewLog.setOptType(quoteReq.getOperaType());
         reviewLog.setOrderId(quoteReq.getQuoteId());
         reviewLog.setChangeContent(JacksonUtils.obj2String(quoteReq.getChangeLog()));
-        ReviewQuoteResp quoteResp = adminReviewService.bussiReviewQuote(quoteReq);
+        ReviewQuoteResp quoteResp = adminReviewService.bussiReviewQuote(quoteReq, CookieAuthUtils.getCurrentUser());
         if (quoteResp.getOptStatus().equals(ReviewQuoteResp.STATUS_ENUE.SUCCESS.getValue())) {
             reviewLogMapper.insertSelective(reviewLog);
         }

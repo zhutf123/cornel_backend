@@ -110,6 +110,14 @@ import java.util.Set;
     private String mobile;
     private String reviewUser;
     private Timestamp warehouseTime;
+    /***
+     * 业务审核时间
+     */
+    private Timestamp reviewUserTime;
+    /***
+     * 财务审核时间
+     */
+    private Timestamp financeUserTime;
 
     private Integer cargoStatus;// 货物状态
     private BigDecimal wetWeight;//湿粮重量
