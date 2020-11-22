@@ -458,6 +458,8 @@ import java.util.stream.Collectors;
                 getOfferInfoResp.setLoanInfo(Collections.EMPTY_LIST);
             }
         }
+        QuoteInfo.REVEW_STATUS viewStatus = QuoteInfo.REVEW_STATUS.getViewStatusByValue(getOfferInfoResp.getStatus());
+        getOfferInfoResp.setStatusDesc(viewStatus != null ? viewStatus.getExpr() : "");
         getOfferInfoResp.setReviewInfo(opterReviewService.towerReviewConvert(getOfferInfoResp.getReviewOpt()));
         List<ImgInfoReq> imgInfoReqs = imgService.getQuoteImgs(quoteId);
         getOfferInfoResp.setImgInfo(imgInfoReqs);
