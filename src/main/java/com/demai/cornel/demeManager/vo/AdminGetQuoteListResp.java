@@ -12,6 +12,11 @@ import java.math.BigDecimal;
 public class AdminGetQuoteListResp {
     private BigDecimal shipmentWeight;
     private BigDecimal quote;
+    /**
+     /**
+     *系统提供报价
+     */
+    private BigDecimal sysQuote;
     private String unitWeight;
     private String unitPrice;
     private String commodityId;

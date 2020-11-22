@@ -6,6 +6,7 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="commodity_id" jdbcType="INTEGER" property="commodityId"/>
         <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="sys_quote" jdbcType="NUMERIC" property="sysQuote"/>
         <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
         <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
         <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
@@ -38,6 +39,7 @@
                 javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
         <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
         <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="sys_quote" jdbcType="NUMERIC" property="sysQuote"/>
         <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
         <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
         <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
@@ -60,6 +62,7 @@
                 javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
         <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
         <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="sys_quote" jdbcType="NUMERIC" property="sysQuote"/>
         <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
         <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
         <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
@@ -86,6 +89,7 @@
         <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
         <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="sys_quote" jdbcType="NUMERIC" property="sysQuote"/>
         <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
         <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
         <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
@@ -102,6 +106,7 @@
         <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
         <result column="quote" jdbcType="NUMERIC" property="quote"/>
+        <result column="sys_quote" jdbcType="NUMERIC" property="sysQuote"/>
         <result column="unit_price" jdbcType="VARCHAR" property="unitPrice"/>
         <result column="shipment_weight" jdbcType="NUMERIC" property="shipmentWeight"/>
         <result column="unit_weight" jdbcType="VARCHAR" property="unitWeight"/>
@@ -123,7 +128,7 @@
 
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, commodity_id, "quote", unit_price, shipment_weight, unit_weight, start_time,
+        id, commodity_id, "quote","sys_quote", unit_price, shipment_weight, unit_weight, start_time,
         update_time, "status", "desc", system_flag, bargain_status, user_id, "location",
         user_name, quote_id, tower_id, mobile, end_time,cargo_status,wet_weight,loan_id,review_status,wet_weight
     </sql>
@@ -134,6 +139,7 @@
     c.commodity_id,
     q.quote_id,
     q.quote,
+    q.sys_quote,
     q.unit_price,
     q.shipment_weight,
     q.unit_weight,
@@ -151,6 +157,7 @@
     c.commodity_id,
     q.quote_id,
     q.quote,
+    q.sys_quote,
     q.unit_price,
     q.shipment_weight,
     q.unit_weight,
@@ -171,6 +178,7 @@
     <sql id="list_Resp_admin">
         q.quote_id,
         q.quote,
+        q.sys_quote,
         q.unit_price,
         q.unit_weight,
         q.status,
@@ -186,6 +194,7 @@
     <sql id="detail_Resp_admin">
         q.quote_id,
         q.quote,
+        q.sys_quote,
         q.unit_price,
         q.unit_weight,
         q.status,
@@ -243,6 +252,9 @@
             </if>
             <if test="quote != null">
                 "quote",
+            </if>
+            <if test="sysQuote != null">
+                "sys_quote",
             </if>
             <if test="unitPrice != null">
                 unit_price,
@@ -320,6 +332,9 @@
             </if>
             <if test="quote != null">
                 #{quote,jdbcType=NUMERIC},
+            </if>
+            <if test="sysQuote != null">
+                #{sysQuote,jdbcType=NUMERIC},
             </if>
             <if test="unitPrice != null">
                 #{unitPrice,jdbcType=VARCHAR},
@@ -400,6 +415,9 @@
             <if test="quote != null">
                 "quote" = #{quote,jdbcType=NUMERIC},
             </if>
+            <if test="sysQuote != null">
+                "sys_quote" = #{sysQuote,jdbcType=NUMERIC},
+            </if>
             <if test="unitPrice != null">
                 unit_price = #{unitPrice,jdbcType=VARCHAR},
             </if>
@@ -478,6 +496,7 @@
         update quote_info
         set commodity_id = #{commodityId,jdbcType=INTEGER},
         "quote" = #{quote,jdbcType=NUMERIC},
+        "sys_quote" = #{sysQuote,jdbcType=NUMERIC},
         unit_price = #{unitPrice,jdbcType=VARCHAR},
         shipment_weight = #{shipmentWeight,jdbcType=NUMERIC},
         unit_weight = #{unitWeight,jdbcType=VARCHAR},

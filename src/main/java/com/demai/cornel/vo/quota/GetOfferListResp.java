@@ -47,6 +47,11 @@ import java.util.stream.Collectors;
      * 报价金额
      */
     private BigDecimal quote;
+    /**
+     /**
+     *系统提供报价
+     */
+    private BigDecimal sysQuote;
 
     /**
      * 金额单位
