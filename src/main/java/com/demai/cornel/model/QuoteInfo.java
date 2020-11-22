@@ -199,9 +199,10 @@ import java.util.Set;
         UNDER_BUSS(1, "待审批"),
         UNDER_USER_CONFIRM(2, "待用户确认"),
         //待财务人员审批
-        UNDER_FINA(3, "待审批"),
-        REJECT(4, "审核拒绝"),
-        APPROVED(5, "审核通过");
+        UNDER_FINA(3, "审核拒绝"),
+        REJECT(4, "待审批"),
+        APPROVED(5, "审核通过"),
+        FIN_REVIEW_REJECT(6, "审核拒绝");
         private Integer value;
         private String expr;
 
