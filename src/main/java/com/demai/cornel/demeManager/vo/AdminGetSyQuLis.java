@@ -13,6 +13,7 @@ public class AdminGetSyQuLis {
     private String commodityId;
     private String commodityName;
     private BigDecimal quote;
+    private BigDecimal sysQuote;
     private String unitPrice;
     private String unitWeight;
 }

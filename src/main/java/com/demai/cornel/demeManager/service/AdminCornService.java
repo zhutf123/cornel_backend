@@ -356,7 +356,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
             systemQuote.stream().forEach(x -> {
                 SpecialQuote specialQuote = specialQuoteMapper
                         .selectSpecialQuoteByCommodityId(towerUserId, x.getCommodityId());
-                if (specialQuote!=null){
+                x.setSysQuote(x.getQuote());
+                if (specialQuote != null) {
                     x.setQuote(specialQuote.getQuote());
                     x.setUnitPrice(specialQuote.getUnitPrice());
                     x.setUnitWeight(specialQuote.getUnitWeight());
