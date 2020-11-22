@@ -307,12 +307,13 @@ import java.util.stream.Collectors;
         clickSystemQuoteResp.setUnitWeight(systemQuote.getUnitWeight());
         clickSystemQuoteResp.setUnitPrice(systemQuote.getUnitPrice());
         clickSystemQuoteResp.setQuote(systemQuote.getQuote());
+        clickSystemQuoteResp.setQuote(systemQuote.getQuote());
         if (specialQuote != null){
             clickSystemQuoteResp.setUnitWeight(specialQuote.getUnitWeight());
             clickSystemQuoteResp.setUnitPrice(specialQuote.getUnitPrice());
             clickSystemQuoteResp.setQuote(specialQuote.getQuote());
+            clickSystemQuoteResp.setSysQuote(specialQuote.getQuote());
         }
-
 
         clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>();

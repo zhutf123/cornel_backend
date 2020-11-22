@@ -25,6 +25,11 @@ public class ClickSystemQuoteResp {
     private Commodity commodity; //货品
     private BigDecimal shipmentWeight;  //出货量
     private BigDecimal quote;
+    /**
+     /**
+     *系统提供报价
+     */
+    private BigDecimal sysQuote;
     private String unitWeight; //出货量单位
     private String unitPrice; //价格单位
     private Integer status;
