@@ -226,7 +226,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
             getQuotePriceResp.setStartTime(TimeStampUtil.timeStampConvertString("yyyy-MM-dd", nearTime));
         }
 
-        Date time = Date.valueOf(req.getTime());
+        Date time = new Date(System.currentTimeMillis());
         BigDecimal quote = specialQuoteMapper
                 .getNearestCommodityPrice(CookieAuthUtils.getCurrentUser(), req.getCommodityId(), time);
         if (quote != null) {
