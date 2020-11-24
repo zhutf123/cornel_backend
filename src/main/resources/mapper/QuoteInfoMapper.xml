@@ -75,7 +75,7 @@
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP"/>
-
+        <result column="tower_id" jdbcType="VARCHAR" property="towerId"/>
         <result column="loan_id" property="loanId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
@@ -188,7 +188,8 @@
     q.cargo_status,
     q.loan_id,
     q.review_opt,
-    q.wet_price
+    q.wet_price,
+    q.tower_id
   </sql>
 
     <sql id="list_Resp_admin">

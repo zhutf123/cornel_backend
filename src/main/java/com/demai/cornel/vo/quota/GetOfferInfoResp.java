@@ -27,5 +27,9 @@ import java.util.Set;
     private List<ImgInfoReq> imgInfo;
     private BigDecimal wetPrice;
     private List<String> changeLog;
+    /**
+     * 烘干塔ID
+     */
+    private String towerId;
     //private List<LoanInfoSimple> loanInfo;
 }
