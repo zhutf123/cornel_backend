@@ -41,6 +41,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
+
 /**
  * @Author binz.zhang
  * @Date: 2019-12-31    13:50
@@ -221,7 +223,7 @@ import java.util.stream.Collectors;
         String userId = CookieAuthUtils.getCurrentUser();
         String location = dryTowerDao.getLocationByUserId(userId);
         return OfferQuoteReq.builder().location(location).
-                shipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT).unitPrice(ContextConsts.DEFAULT_UNIT_PRICE)
+                shipmentWeight(MIN_SHIPMENT_WEIGHT).unitPrice(ContextConsts.DEFAULT_UNIT_PRICE)
                 .unitWeight(ContextConsts.DEFAULT_UNIT_WEIGHT).build();
 
     }
@@ -305,12 +307,14 @@ import java.util.stream.Collectors;
         SystemQuote systemQuote = systemQuoteDao.getSystemQuoteByCommodityId(commodityId);
         SpecialQuote specialQuote = specialQuoteMapper.selectSpecialQuoteByCommodityId(userId,commodityId);
         clickSystemQuoteResp.setCommodity(commodity);
-        clickSystemQuoteResp.setShipmentWeight(specialQuote.getMinShipmentWeight());
+        clickSystemQuoteResp.setShipmentWeight(
+                systemQuote.getMinShipmentWeight() != null ? systemQuote.getMinShipmentWeight() : MIN_SHIPMENT_WEIGHT);
         clickSystemQuoteResp.setUnitWeight(systemQuote.getUnitWeight());
         clickSystemQuoteResp.setUnitPrice(systemQuote.getUnitPrice());
         clickSystemQuoteResp.setQuote(systemQuote.getQuote());
         clickSystemQuoteResp.setSysQuote(systemQuote.getQuote());
         if (specialQuote != null){
+            clickSystemQuoteResp.setShipmentWeight(specialQuote.getMinShipmentWeight());
             clickSystemQuoteResp.setUnitWeight(specialQuote.getUnitWeight());
             clickSystemQuoteResp.setUnitPrice(specialQuote.getUnitPrice());
             clickSystemQuoteResp.setQuote(specialQuote.getQuote());
