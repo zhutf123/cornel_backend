@@ -485,7 +485,8 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         }
         
         List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByUserId(CookieAuthUtils.getCurrentUser());
-        List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>();
+        log.info("sssssssssss:{}==={}",JsonUtil.toJson(ownDryInfo),CookieAuthUtils.getCurrentUser());
+        List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = Lists.newArrayList();
         if (!CollectionUtils.isEmpty(ownDryInfo)) {
             ownDryInfo.stream().forEach(x -> {
                 dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getTowerId()), x.getLocation(),
