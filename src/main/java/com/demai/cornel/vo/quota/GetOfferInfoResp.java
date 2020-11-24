@@ -32,4 +32,9 @@ import java.util.Set;
      */
     private String towerId;
     //private List<LoanInfoSimple> loanInfo;
+
+    private List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo;
+
 }
+
+

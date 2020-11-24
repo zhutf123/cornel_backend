@@ -483,6 +483,16 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
             getOfferInfoResp.setChangeLog(Collections.EMPTY_LIST);
 
         }
+        
+        List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByUserId(CookieAuthUtils.getCurrentUser());
+        List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(ownDryInfo)) {
+            ownDryInfo.stream().forEach(x -> {
+                dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getTowerId()), x.getLocation(),
+                        x.getLocationArea(), x.getLocationDetail()));
+            });
+        }
+        getOfferInfoResp.setDryTowerInfo(dryTowerInfo);
 
         return getOfferInfoResp;
     }
