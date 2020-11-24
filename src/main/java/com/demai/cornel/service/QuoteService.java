@@ -303,7 +303,7 @@ import java.util.stream.Collectors;
         SystemQuote systemQuote = systemQuoteDao.getSystemQuoteByCommodityId(commodityId);
         SpecialQuote specialQuote = specialQuoteMapper.selectSpecialQuoteByCommodityId(userId,commodityId);
         clickSystemQuoteResp.setCommodity(commodity);
-        clickSystemQuoteResp.setShipmentWeight(ContextConsts.MIN_SHIPMENT_WEIGHT);
+        clickSystemQuoteResp.setShipmentWeight(specialQuote.getMinShipmentWeight());
         clickSystemQuoteResp.setUnitWeight(systemQuote.getUnitWeight());
         clickSystemQuoteResp.setUnitPrice(systemQuote.getUnitPrice());
         clickSystemQuoteResp.setQuote(systemQuote.getQuote());
