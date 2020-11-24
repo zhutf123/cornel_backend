@@ -133,7 +133,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
             return offerQuoteResp;
         }
         if (!oldQuote.getStatus().equals(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue())) {
-            log.info("edit  quote info fail due to  quote STATUS can't update ");
+            log.info("edit quote info fail due to  quote STATUS can't update ");
             offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.ORDER_STATUS_INVALD.getValue());
             return offerQuoteResp;
         }
