@@ -16,6 +16,7 @@ import com.demai.cornel.service.ImgService;
 import com.demai.cornel.service.SendMsgService;
 import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.vo.quota.GerQuoteListResp;
@@ -112,10 +113,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
         List<AdminGetQuoteListResp> gerQuoteListResps = quoteInfoDao
                 .adminGetQuoteList(Optional.ofNullable(getQuoteListReq.getOffset()).orElse(0),
                         Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10), getQuoteListReq.getTowerId());
-        if (gerQuoteListResps == null) {
+        if (CollectionUtils.isEmpty(gerQuoteListResps)) {
             log.warn("admin get system quote empty");
             return Collections.EMPTY_LIST;
         }
+        gerQuoteListResps.stream().forEach(res ->{
+            res.setWarehouseTime(DateFormatUtils.format(DateFormatUtils.parseDateTime(res.getWarehouseTime())));
+        });
+
         return gerQuoteListResps;
     }
 
@@ -132,6 +137,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
             return Collections.EMPTY_LIST;
         }
         gerQuoteListResps.stream().forEach(res ->{
+            res.setWarehouseTime(DateFormatUtils.format(DateFormatUtils.parseDateTime(res.getWarehouseTime())));
             if(StringUtil.isNotEmpty(res.getReviewUserId())){
                 UserInfo info = userInfoDao.getUserInfoByUserId(res.getReviewUserId());
                 if (info!=null){
@@ -172,6 +178,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         quoteInfo.setImgInfo(imgService.getQuoteImgs(quoteId));
         quoteInfo.setDryWetRadio(GetDryWetRadioResp.dryWetRadio);
         quoteInfo.setOptStatus(AdminGetQuteDetail.STATUS_ENUE.SUCCESS.getValue());
+        quoteInfo.setWarehouseTime(DateFormatUtils.format(DateFormatUtils.parseDateTime(quoteInfo.getWarehouseTime())));
         return quoteInfo;
     }
 
