@@ -116,13 +116,12 @@ import java.util.HashMap;
         }
         QuoteInfo newQuoteInfo = new QuoteInfo();
         newQuoteInfo.setQuoteId(oldQuote.getQuoteId());
-        if (oldQuote.getLoanId() == null || oldQuote.getLoanId().size() == 0) {
-            log.error("finaReviewQuote fail due to  quote cur NO loan info ", oldQuote.getReviewStatus());
-            return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.NO_LOAN_INFO.getValue()).build();
-
-        }
         LoanInfo loanInfo = new LoanInfo();
-        loanInfo.setLoanId(oldQuote.getLoanId().iterator().next());
+        if (!(oldQuote.getLoanId() == null || oldQuote.getLoanId().size() == 0)) {
+            log.error("finaReviewQuote fail due to  quote cur NO loan info ", oldQuote.getReviewStatus());
+            loanInfo.setLoanId(oldQuote.getLoanId().iterator().next());
+        }
+        
         switch (finaReviewQuoteReq.getOperaType()) {
         case (1):/*同意，保存贷款信息，订单状态流转到财务审核通过*/
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.FIN_REVIEW_PASS.getValue());
