@@ -342,12 +342,12 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         clickSystemQuoteResp.setCommodity(commodity);
         clickSystemQuoteResp.setShipmentWeight(
                 systemQuote.getMinShipmentWeight() != null ? systemQuote.getMinShipmentWeight() : MIN_SHIPMENT_WEIGHT);
-        clickSystemQuoteResp.setUnitWeight(systemQuote.getUnitWeight());
+        //clickSystemQuoteResp.setUnitWeight(systemQuote.getUnitWeight());
         clickSystemQuoteResp.setUnitPrice(systemQuote.getUnitPrice());
         clickSystemQuoteResp.setQuote(systemQuote.getQuote());
         clickSystemQuoteResp.setSysQuote(systemQuote.getQuote());
         if (specialQuote != null){
-            clickSystemQuoteResp.setShipmentWeight(specialQuote.getMinShipmentWeight());
+            //clickSystemQuoteResp.setShipmentWeight(specialQuote.getMinShipmentWeight());
             clickSystemQuoteResp.setUnitWeight(specialQuote.getUnitWeight());
             clickSystemQuoteResp.setUnitPrice(specialQuote.getUnitPrice());
             clickSystemQuoteResp.setQuote(specialQuote.getQuote());
