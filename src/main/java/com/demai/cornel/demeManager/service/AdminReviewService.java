@@ -10,6 +10,7 @@ import com.demai.cornel.demeManager.vo.ReviewQuoteResp;
 import com.demai.cornel.model.LoanInfo;
 import com.demai.cornel.model.QuoteInfo;
 import com.demai.cornel.service.ImgService;
+import com.demai.cornel.service.QuoteService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,7 @@ import java.util.HashMap;
     //    @Resource private SpecialQuoteMapper specialQuoteMapper;
     //    @Resource private AdminUserLoginService adminUserLoginService;
     @Resource private LoanInfoMapper loanInfoMapper;
+    @Resource private QuoteService quoteService;
     //    @Resource private ImgService imgService;
 
     //    @Resource private ReviewLogMapper reviewLogMapper;
@@ -84,10 +86,7 @@ import java.util.HashMap;
                 newQuoteInfo.setQuote(quoteReq.getQuote());
             }
             if (quoteReq.getWarehouseTime() != null) {
-                Timestamp warehouseTime = new Timestamp(
-                        TimeStampUtil.stringConvertTimeStamp(TIME_FORMT, quoteReq.getWarehouseTime()).getTime()
-                                + System.currentTimeMillis() % 100000);//为了排序加上当前时间时分秒作为时间戳
-                newQuoteInfo.setWarehouseTime(warehouseTime);
+                newQuoteInfo.setWarehouseTime(quoteService.getWarehouseTime(quoteReq.getWarehouseTime()));
             }
             if (quoteReq.getShipmentWeight() != null) {
                 newQuoteInfo.setShipmentWeight(quoteReq.getShipmentWeight());

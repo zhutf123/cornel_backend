@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.demai.cornel.service.QuoteService.DATE_TIME_FORMAT;
+
 /**
  * @Author binz.zhang
  * @Date: 2020-02-19    11:36
@@ -43,14 +45,14 @@ import java.util.UUID;
 
     @Resource private SaleOrderMapper saleOrderMapper;
 
-    private static final String TIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
+
 
     public String cargoConvertTask(String saleOrderId) {
         SaleOrder saleOrder = saleOrderMapper.selectBySaleId(saleOrderId);
         Commodity commodity = commodityDao.getCommodityByCommodityId(saleOrder.getCommodityId());
         TaskInfo taskInfo = new TaskInfo();
         //taskInfo.setUnitWeight(saleOrder.getUintWeight());
-        taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveEndTime()));
+        taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(DATE_TIME_FORMAT, saleOrder.getReceiveEndTime()));
         taskInfo.setDistance(new BigDecimal(1000.00));
         taskInfo.setDistance(new BigDecimal(1000.00));
         taskInfo.setArr(locationInfoMapper.selectByLocationId(saleOrder.getFromLocation()).getLocation());

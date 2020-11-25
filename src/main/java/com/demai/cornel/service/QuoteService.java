@@ -3,42 +3,64 @@ package com.demai.cornel.service;
 import com.alibaba.fastjson.JSON;
 import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.constant.ContextConsts;
-import com.demai.cornel.dao.*;
+import com.demai.cornel.dao.CommodityDao;
+import com.demai.cornel.dao.DryTowerDao;
+import com.demai.cornel.dao.LoanInfoMapper;
+import com.demai.cornel.dao.QuoteInfoDao;
+import com.demai.cornel.dao.SystemQuoteDao;
+import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.demeManager.dao.ReviewLogMapper;
 import com.demai.cornel.demeManager.dao.SpecialQuoteMapper;
 import com.demai.cornel.demeManager.model.ReviewLog;
 import com.demai.cornel.demeManager.model.SpecialQuote;
-import com.demai.cornel.holder.UserHolder;
-import com.demai.cornel.model.*;
+import com.demai.cornel.model.BargainRange;
+import com.demai.cornel.model.Commodity;
+import com.demai.cornel.model.DryTower;
+import com.demai.cornel.model.ImgInfoReq;
+import com.demai.cornel.model.LoanInfo;
+import com.demai.cornel.model.QuoteInfo;
+import com.demai.cornel.model.SystemQuote;
+import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.DateUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import com.demai.cornel.util.json.JsonUtil;
-import com.demai.cornel.vo.quota.*;
-import com.demai.cornel.vo.task.GetOrderListReq;
-import com.google.common.base.Function;
+import com.demai.cornel.vo.quota.ClickSystemQuoteResp;
+import com.demai.cornel.vo.quota.GerQuoteListResp;
+import com.demai.cornel.vo.quota.GetOfferInfoResp;
+import com.demai.cornel.vo.quota.GetOfferListResp;
+import com.demai.cornel.vo.quota.GetQuoteListReq;
+import com.demai.cornel.vo.quota.GetSysQuoListV2Req;
+import com.demai.cornel.vo.quota.LoanInfoSimple;
+import com.demai.cornel.vo.quota.OfferQuoteReq;
+import com.demai.cornel.vo.quota.OfferQuoteResp;
+import com.demai.cornel.vo.quota.SystemQuoteReq;
+import com.demai.cornel.vo.quota.SystemQuoteV2Req;
+import com.demai.cornel.vo.quota.UserDefineQuoteReq;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.postgresql.jdbc.TimestampUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
@@ -59,7 +81,8 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
     @Resource private LoanInfoMapper loanInfoMapper;
     @Resource private ImgService imgService;
     @Resource private OpterReviewService opterReviewService;
-    private static String TIME_FORMAT = "yyyy-MM-dd";
+    public static String DATE_TIME_FORMAT = "yyyy-MM-dd";
+    public static final String TIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
     @Resource private ReviewLogMapper reviewLogMapper;
 
     /**
@@ -109,8 +132,8 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
-        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
-        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         quoteInfo.setWarehouseTime(new Timestamp(System.currentTimeMillis()));
         quoteInfoDao.insertSelective(quoteInfo);
@@ -156,8 +179,8 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
-        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
-        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         quoteInfo.setWarehouseTime(new Timestamp(System.currentTimeMillis()));
 
@@ -195,23 +218,33 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
                 quoteInfo.setMobile(userInfo.getMobile().iterator().next());
             }
         }
-        Timestamp warehouseTime = new Timestamp(
-                TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getWarehouseTime()).getTime()
-                        + System.currentTimeMillis() % 100000);//为了排序加上当前时间时分秒作为时间戳
+        
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
-        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
-        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        quoteInfo.setWarehouseTime(warehouseTime);
+        quoteInfo.setWarehouseTime(getWarehouseTime(offerQuoteReq.getWarehouseTime()));
         log.info("save qute info:{}", JsonUtil.toJson(quoteInfo));
         quoteInfoDao.insertSelective(quoteInfo);
         offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
         offerQuoteResp.setQuoteId(quoteInfo.getQuoteId());
         return offerQuoteResp;
+    }
+
+    public Timestamp getWarehouseTime(String warehouseDate) {
+        Date date = DateUtils.now();
+        int hour = date.getHours();
+        int min = date.getMinutes();
+        int sec = date.getSeconds();
+        Timestamp warehouseTime = new Timestamp(TimeStampUtil
+                .stringConvertTimeStamp(TIME_FORMAT, warehouseDate + " " + hour + ":" + min + ":" + sec)
+                .getTime());
+        return warehouseTime;
+
     }
 
     /**
@@ -383,11 +416,11 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
                     loanInfoSimple.setApplyTime(loanInfos.iterator().next().getApplyTime() == null ?
                             null :
                             TimeStampUtil
-                                    .timeStampConvertString(TIME_FORMAT, loanInfos.iterator().next().getApplyTime()));
+                                    .timeStampConvertString(DATE_TIME_FORMAT, loanInfos.iterator().next().getApplyTime()));
                     loanInfoSimple.setLendingTime(loanInfos.iterator().next().getLendingTime() == null ?
                             null :
                             TimeStampUtil
-                                    .timeStampConvertString(TIME_FORMAT, loanInfos.iterator().next().getLendingTime()));
+                                    .timeStampConvertString(DATE_TIME_FORMAT, loanInfos.iterator().next().getLendingTime()));
                     x.setLoanInfo(Lists.newArrayList(loanInfoSimple));
                 } else {
                     x.setLoanInfo(Collections.EMPTY_LIST);
@@ -453,10 +486,10 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
                     BeanUtils.copyProperties(x, loanInfoSimple);
                     loanInfoSimple.setApplyTime(x.getApplyTime() == null ?
                             null :
-                            TimeStampUtil.timeStampConvertString(TIME_FORMAT, x.getApplyTime()));
+                            TimeStampUtil.timeStampConvertString(DATE_TIME_FORMAT, x.getApplyTime()));
                     loanInfoSimple.setLendingTime(x.getLendingTime() == null ?
                             null :
-                            TimeStampUtil.timeStampConvertString(TIME_FORMAT, x.getLendingTime()));
+                            TimeStampUtil.timeStampConvertString(DATE_TIME_FORMAT, x.getLendingTime()));
                     return loanInfoSimple;
                 }).collect(Collectors.toList()));
                 getOfferInfoResp.setLoanPrice(loanInfos.get(0).getPrice());

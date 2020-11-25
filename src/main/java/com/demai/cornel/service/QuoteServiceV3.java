@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.UUID;
 
+import static com.demai.cornel.service.QuoteService.DATE_TIME_FORMAT;
 import static java.math.BigDecimal.ROUND_HALF_UP;
 
 /**
@@ -45,7 +46,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
     @Resource private SpecialQuoteMapper specialQuoteMapper;
     @Resource private LoanInfoMapper loanInfoMapper;
     @Resource private ImgService imgService;
-    private static String TIME_FORMAT = "yyyy-MM-dd";
+    @Resource private QuoteService quoteService;
 
     public OfferQuoteResp offerSystemQuoteV2(SystemQuoteV2Req offerQuoteReq) {
         OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
@@ -91,15 +92,13 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
                 quoteInfo.setMobile(userInfo.getMobile().iterator().next());
             }
         }
-        Timestamp warehouseTime = new Timestamp(
-                TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getWarehouseTime()).getTime()
-                        + System.currentTimeMillis() % 100000);//为了排序加上当前时间时分秒作为时间戳
+        Timestamp warehouseTime = quoteService.getWarehouseTime(offerQuoteReq.getWarehouseTime());
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
-        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
-        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         quoteInfo.setWarehouseTime(warehouseTime);
         quoteInfo.setWetPrice(offerQuoteReq.getWetPrice());
@@ -176,16 +175,13 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         if (!Strings.isNullOrEmpty(offerQuoteReq.getStartTime())) {
-            quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getStartTime()));
+            quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getStartTime()));
         }
         if (!Strings.isNullOrEmpty(offerQuoteReq.getEndTime())) {
-            quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getEndTime()));
+            quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getEndTime()));
         }
         if (!Strings.isNullOrEmpty(offerQuoteReq.getWarehouseTime())) {
-            Timestamp warehouseTime = new Timestamp(
-                    TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offerQuoteReq.getWarehouseTime()).getTime()
-                            + System.currentTimeMillis() % 100000);//为了排序加上当前时间时分秒作为时间戳
-            quoteInfo.setWarehouseTime(warehouseTime);
+            quoteInfo.setWarehouseTime(quoteService.getWarehouseTime(offerQuoteReq.getWarehouseTime()));
         }
         int res = 0;
         try {
@@ -351,7 +347,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
             return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
         int res = quoteInfoDao.userConfirmOrderInfo(confirmOrderReq.getQuoteId(),
-                TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, confirmOrderReq.getShowWarehouseTime()),
+                TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, confirmOrderReq.getShowWarehouseTime()),
                 confirmOrderReq.getQuote(), confirmOrderReq.getShipmentWeight(),
                 QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue(), QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
 
