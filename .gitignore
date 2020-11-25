@@ -15,8 +15,8 @@ refs/
 .classpath
 
 # idea ignore
-#.idea/
-#.idea/workspace.xml
+.idea/
+.idea/workspace.xml
 *.ipr
 *.iml
 *.iws
