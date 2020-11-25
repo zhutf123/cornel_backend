@@ -270,7 +270,7 @@
     <select id="selectByQuoteId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from dry_tower left join quote_info on quote_info.tower_id=dry_tower.tower_id where quote_info.quote_id=#{quoteId,jdbcType=VARCHAR} ;
+        from dry_tower where tower_id in(select tower_id from quote_info where quote_info.quote_id=#{quoteId,jdbcType=VARCHAR}) ;
     </select>
 
     <delete id="updateTowerNonDefaultFlag">
