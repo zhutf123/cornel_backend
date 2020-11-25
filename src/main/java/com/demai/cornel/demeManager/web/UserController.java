@@ -42,7 +42,7 @@ import java.util.UUID;
             @RequestBody String param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
         JSONObject receivedParam = JSON.parseObject(param);
-        Integer offset = (Integer) receivedParam.get("offset");
+        Integer offset = (Integer) receivedParam.get("limit");
         Integer pgSize = (Integer) receivedParam.get("pgSize");
         return JsonResult.success(adminCornService.adminGetQuoteLists(offset, pgSize));
     }
