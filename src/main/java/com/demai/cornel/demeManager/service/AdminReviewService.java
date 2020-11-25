@@ -7,10 +7,12 @@ import com.demai.cornel.demeManager.dao.SpecialQuoteMapper;
 import com.demai.cornel.demeManager.vo.FinaReviewQuoteReq;
 import com.demai.cornel.demeManager.vo.ReviewQuoteReq;
 import com.demai.cornel.demeManager.vo.ReviewQuoteResp;
+import com.demai.cornel.model.DryTower;
 import com.demai.cornel.model.LoanInfo;
 import com.demai.cornel.model.QuoteInfo;
 import com.demai.cornel.service.ImgService;
 import com.demai.cornel.service.QuoteService;
+import com.demai.cornel.service.SendMsgService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -26,20 +28,10 @@ import java.util.HashMap;
  * @Date: 2020-04-08    19:11
  */
 @Slf4j @Service public class AdminReviewService {
-    //    @Resource private SystemQuoteDao systemQuoteDao;
-    //    @Resource private CommodityDao commodityDao;
     @Resource private QuoteInfoDao quoteInfoDao;
-
-    //    @Resource private AdminUserMapper adminUserMapper;
-    //    @Resource private DryTowerDao dryTowerDao;
-    //    @Resource private UserInfoDao userInfoDao;
-    //    @Resource private SpecialQuoteMapper specialQuoteMapper;
-    //    @Resource private AdminUserLoginService adminUserLoginService;
+    @Resource private DryTowerDao dryTowerDao;
     @Resource private LoanInfoMapper loanInfoMapper;
     @Resource private QuoteService quoteService;
-    //    @Resource private ImgService imgService;
-
-    //    @Resource private ReviewLogMapper reviewLogMapper;
 
     private static final String TIME_FORMT = "yyyy-MM-dd";
 
@@ -69,6 +61,10 @@ import java.util.HashMap;
             newQuoteInfo.setReviewUser(operator);
             newQuoteInfo.setReviewUserTime(new Timestamp(System.currentTimeMillis()));
             newQuoteInfo.setReviewOpt(reviewOptU);
+            DryTower dryTower = dryTowerDao.selectByQuoteId(quoteReq.getQuoteId());
+            if (dryTower != null){
+                quoteService.sendNotifyToOp(SendMsgService.SEND_MSG_TYPE.FIN_OP, dryTower.getCompany());
+            }
             break;
         case (2):/*拒绝，订单直接流转到拒绝。保留审核错误信息提示*/
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.SER_REVIEW_REFUSE.getValue());

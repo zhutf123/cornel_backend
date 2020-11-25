@@ -61,7 +61,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
     @Resource private ReviewLogMapper reviewLogMapper;
     @Resource private StoreService storeService;
     @Resource private SendMsgService sendMsgService;
-    @Resource private QuoteService quoteService;
 
     /*财务人员获取指定烘干塔下的订单预览*/
     public List<AdminGetQuoteList> adminGetQuoteLists(Integer offset, Integer pgSize) {
@@ -213,11 +212,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
             log.debug("quote convert store fail");
         } else {
             log.debug("quote convert store sucess");
-        }
-
-        DryTower dryTower = dryTowerDao.selectByQuoteId(quoteReq.getQuoteId());
-        if (dryTower != null){
-            quoteService.sendNotifyToOp(SendMsgService.SEND_MSG_TYPE.FIN_OP, dryTower.getCompany());
         }
         return quoteResp;
     }
