@@ -245,7 +245,7 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         return offerQuoteResp;
     }
 
-    private void sendNotifyToOp(SendMsgService.SEND_MSG_TYPE opType,String company){
+    public void sendNotifyToOp(SendMsgService.SEND_MSG_TYPE opType,String company){
         Set<String> phones = Sets.newHashSet();
         String key = null;
         List<UserInfo> userInfos = null;

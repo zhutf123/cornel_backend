@@ -38,6 +38,8 @@ public interface DryTowerDao {
 
     DryTower selectByTowerId(@Param("towerId") String towerId);
 
+    DryTower selectByQuoteId(@Param("quoteId") String quoteId);
+
     int updateTowerNonDefaultFlag(@Param("userID") String userId);
 
     List<DryTower> selectAllTower(@Param("towerId") String towerId, @Param("pgSize") Integer pgSize);
