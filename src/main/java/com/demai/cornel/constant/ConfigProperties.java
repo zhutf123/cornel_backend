@@ -44,6 +44,16 @@ import org.springframework.stereotype.Component;
      */
     public @Value("${ali-config.priceChangeCodeId}") String priceChangeCodeId;
 
+    /**
+     * 发送价格变化短息模版id
+     */
+    public @Value("${ali-config.notifyBusinessOp}") String notifyBusinessOp;
+
+    /**
+     * 发送价格变化短息模版id
+     */
+    public @Value("${ali-config.notifyFinanceOp}") String notifyFinanceOp;
+
     public @Value("${upload.location}") String uploadLocation;
     public @Value("${upload.downloadHost}") String downloadHost;
 

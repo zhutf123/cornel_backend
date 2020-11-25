@@ -40,5 +40,8 @@ public interface UserInfoDao {
 
     String getUserNameByUserId(@Param("userID") String userId);
 
+    List<UserInfo> getBusOpUserInfo();
+
+    List<UserInfo> getFinanceOpUserInfo();
 
 }

@@ -253,5 +253,18 @@
         limit 1
     </select>
 
+    <select id="getBusOpUserInfo" resultMap="userInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from user_info where status=1 and user_id in(select user_id from user_role_info
+        where status=1 and role_id=4);
+    </select>
+
+    <select id="getFinanceOpUserInfo" resultMap="userInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from user_info where status=1 and user_id in(select user_id from user_role_info
+        where status=1 and role_id=5);
+    </select>
 
 </mapper>

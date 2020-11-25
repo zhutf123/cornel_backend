@@ -2,6 +2,7 @@ package com.demai.cornel.service;
 
 import com.alibaba.fastjson.JSON;
 import com.demai.cornel.config.ServiceMobileConfig;
+import com.demai.cornel.constant.ConfigProperties;
 import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dao.CommodityDao;
 import com.demai.cornel.dao.DryTowerDao;
@@ -9,6 +10,7 @@ import com.demai.cornel.dao.LoanInfoMapper;
 import com.demai.cornel.dao.QuoteInfoDao;
 import com.demai.cornel.dao.SystemQuoteDao;
 import com.demai.cornel.dao.UserInfoDao;
+import com.demai.cornel.dao.UserRoleInfoDao;
 import com.demai.cornel.demeManager.dao.ReviewLogMapper;
 import com.demai.cornel.demeManager.dao.SpecialQuoteMapper;
 import com.demai.cornel.demeManager.model.ReviewLog;
@@ -41,8 +43,10 @@ import com.demai.cornel.vo.quota.UserDefineQuoteReq;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.ibatis.annotations.Case;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +64,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -84,6 +89,10 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
     public static String DATE_TIME_FORMAT = "yyyy-MM-dd";
     public static final String TIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
     @Resource private ReviewLogMapper reviewLogMapper;
+    @Resource
+    private SendMsgService sendMsgService;
+    @Resource
+    private ConfigProperties configProperties;
 
     /**
      * 我要报价 不是从list 过来的 而是是我要报价的按钮
@@ -218,7 +227,7 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
                 quoteInfo.setMobile(userInfo.getMobile().iterator().next());
             }
         }
-        
+        sendNotifyToOp(SendMsgService.SEND_MSG_TYPE.BUS_OP, dryTower.getCompany());
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
@@ -229,10 +238,35 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         quoteInfo.setWarehouseTime(getWarehouseTime(offerQuoteReq.getWarehouseTime()));
         log.info("save qute info:{}", JsonUtil.toJson(quoteInfo));
         quoteInfoDao.insertSelective(quoteInfo);
+        
         offerQuoteResp.setStatus(OfferQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         offerQuoteResp.setQuoteStatus(quoteInfo.getStatus());
         offerQuoteResp.setQuoteId(quoteInfo.getQuoteId());
         return offerQuoteResp;
+    }
+
+    private void sendNotifyToOp(SendMsgService.SEND_MSG_TYPE opType,String company){
+        Set<String> phones = Sets.newHashSet();
+        String key = null;
+        List<UserInfo> userInfos = null;
+        switch (opType){
+        case BUS_OP:
+            userInfos = userInfoDao.getBusOpUserInfo();
+            key = configProperties.notifyBusinessOp;
+            break;
+        case FIN_OP:
+            userInfos = userInfoDao.getFinanceOpUserInfo();
+            key = configProperties.notifyFinanceOp;
+            break;
+        }
+        
+        if (CollectionUtils.isNotEmpty(userInfos)){
+            userInfos.stream().forEach(user ->phones.addAll(user.getMobile()));
+        }
+        
+        if (CollectionUtils.isNotEmpty(phones)){
+            sendMsgService.sendNotifyMsgToOp(phones, key, company);
+        }
     }
 
     public Timestamp getWarehouseTime(String warehouseDate) {

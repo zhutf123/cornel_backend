@@ -9,7 +9,8 @@ import com.demai.cornel.model.UserRoleInfo;
  * Create By zhutf 19-10-6 下午1:18
  */
 public interface UserRoleInfoDao {
-    public void update(UserRoleInfo userRoleInfo);
+    void update(UserRoleInfo userRoleInfo);
 
-    public void save(UserRoleInfo userRoleInfo);
+    void save(UserRoleInfo userRoleInfo);
+    
 }

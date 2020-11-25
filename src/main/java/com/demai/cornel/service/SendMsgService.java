@@ -12,6 +12,7 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.demai.cornel.constant.ConfigProperties;
+import com.demai.cornel.dmEnum.CarLiceTypeEnum;
 import com.demai.cornel.dmEnum.IEmus;
 import com.demai.cornel.util.json.JsonUtil;
 import com.google.common.base.Joiner;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +37,31 @@ public class SendMsgService {
 
     @Resource
     private ConfigProperties configProperties;
+
+    public static enum SEND_MSG_TYPE {
+        BUS_OP(1, "通知业务人员"), FIN_OP(2, "通知财务人员");
+        private Integer type;
+        private String desc;
+
+        SEND_MSG_TYPE(Integer type, String desc) {
+            this.desc = desc;
+            this.type = type;
+        }
+
+        public Integer getType() {
+            return this.type;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public static SEND_MSG_TYPE typeOf(Integer type) {
+            return Arrays.stream(SEND_MSG_TYPE.values()).filter(typeEnum -> typeEnum.getType().equals(type)).findAny()
+                    .orElse(null);
+        }
+
+    }
 
     private static int phone_max_size = 1000;
 
@@ -96,6 +123,29 @@ public class SendMsgService {
             }
         } catch (Exception e){
               log.error("发送短信失败", e);
+        }
+
+        return result;
+    }
+
+
+    /***
+     * 给烘干塔发送价格变化提醒
+     *
+     * @param phone
+     * @param key  短信key
+     */
+    public Integer sendNotifyMsgToOp(Set<String> phone, String key, String company) {
+        Integer result = SEND_MSG_CODE.PARAM_ERROR.getValue();
+        try {
+            result = doSendMsg(Lists.newArrayList(phone),
+                    "{\"company\":\"" + company + "\""+ "}",
+                    key);
+            if (log.isDebugEnabled()) {
+                log.debug("send msg to phone: {},{}", phone.toString() , result);
+            }
+        } catch (Exception e){
+            log.error("发送短信失败", e);
         }
 
         return result;
