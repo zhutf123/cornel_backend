@@ -42,6 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Create By zhutf  19-11-10  上午9:33
+ * @author tfzhu
  */
 @Controller
 @RequestMapping("/delivery")
@@ -218,7 +219,7 @@ public class DeliveryCornController {
     }
     /**
      * 司机测 编辑车辆的关键信息
-     * @param param
+     * @param carCornInfo
      * @return
      */
     @RequestMapping(value = "/edit-carinfo.json", method = RequestMethod.POST)
@@ -229,7 +230,7 @@ public class DeliveryCornController {
     }
     /**
      * 司机测 编辑个人的关键信息
-     * @param param
+     * @param  driverCornInfo
      * @return
      */
     @RequestMapping(value = "/edit-userinfo.json", method = RequestMethod.POST)
