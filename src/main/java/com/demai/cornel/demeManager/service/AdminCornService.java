@@ -25,6 +25,7 @@ import com.demai.cornel.vo.quota.GerQuoteListResp;
 import com.demai.cornel.vo.quota.GetDryWetRadioResp;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.hp.gagawa.java.elements.A;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -301,9 +302,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
         specialQuote.setQuote(quoteInfo.getSelfQuote());
         Commodity commodity = commodityDao.getCommodityByCommodityId(specialQuote.getCommodityId());
-        UserInfo userInfo = userInfoDao.getUserInfoByUserId(quoteInfo.getUserId());
-        sendMsgService.sendPriceChangeMsg(userInfo.getMobile(), commodity.getName(), specialQuote.getQuote());
-
+        DryTower tower = dryTowerDao.selectByQuoteId(quoteInfo.getTowerId());
+        Set<String> userIds = tower.getContactUserId();
+        userIds.add(tower.getBindUserId());
+        List<UserInfo> userInfo = userInfoDao.getUserInfoByUserIds(userIds);
+        Set<String> mobiles = Sets.newHashSet();
+        userInfo.forEach(user -> {mobiles.addAll(user.getMobile());});
+        sendMsgService.sendPriceChangeMsg(mobiles, commodity.getName(), specialQuote.getQuote());
 
         specialQuoteMapper.updateCommodityIdquoteStatus(quoteInfo.getCommodityId(), quoteInfo.getUserId());
         int res = specialQuoteMapper.insertSelective(specialQuote);

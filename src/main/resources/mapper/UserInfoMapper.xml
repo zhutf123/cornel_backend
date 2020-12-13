@@ -234,6 +234,16 @@
         from user_info where user_id=#{userId} and status=1;
     </select>
 
+    <select id="getUserInfoByUserIds" resultMap="userInfoResultMap">
+        select
+        <include refid="main_column"/>
+        from user_info where status=1 and user_id in
+        <foreach collection="userIds" item="item" open="(" separator="," close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+
     <select id="getSupplierUserInfoByUserId" resultMap="userInfoResultMap">
         select
         <include refid="main_column"/>
