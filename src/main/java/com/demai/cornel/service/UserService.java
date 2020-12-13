@@ -9,12 +9,14 @@ import com.demai.cornel.vo.user.SupplierGetUserInfoResp;
 import com.demai.cornel.vo.user.UserAddReq;
 import com.demai.cornel.vo.user.UserAddUserResp;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -78,4 +80,17 @@ import java.util.UUID;
         return supplierGetUserInfoResp;
     }
 
+    /**
+     * 获取当前用户的角色id
+     * @return
+     */
+    public List<Integer> getUserRoleId(){
+        List<Integer> roles = Lists.newArrayList();
+        UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
+        if(userInfo==null){
+            throw new RuntimeException();
+        }
+        
+        return roles;
+    }
 }
