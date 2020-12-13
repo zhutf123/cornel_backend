@@ -197,17 +197,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
             log.debug("review quote fail due to param error reject quote must give the reason");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.PARAM_ERROR.getValue()).build();
         }
-        ReviewLog reviewLog = new ReviewLog();
-        reviewLog.setOperatorTime(new Timestamp(System.currentTimeMillis()));
-        reviewLog.setOperatorUser(CookieAuthUtils.getCurrentUser());
-        reviewLog.setOperatorType(ReviewLog.OPERATOR_TYPE_ENUM.business.getValue());
-        reviewLog.setOptType(quoteReq.getOperaType());
-        reviewLog.setOrderId(quoteReq.getQuoteId());
-        reviewLog.setChangeContent(JacksonUtils.obj2String(quoteReq.getChangeLog()));
+
         ReviewQuoteResp quoteResp = adminReviewService.bussiReviewQuote(quoteReq, CookieAuthUtils.getCurrentUser());
-        if (quoteResp.getOptStatus().equals(ReviewQuoteResp.STATUS_ENUE.SUCCESS.getValue())) {
-            reviewLogMapper.insertSelective(reviewLog);
-        }
         if (!storeService.convertStore(quoteReq.getQuoteId())) {
             log.debug("quote convert store fail");
         } else {

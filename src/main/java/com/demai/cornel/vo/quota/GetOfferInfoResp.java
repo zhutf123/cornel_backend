@@ -2,6 +2,7 @@ package com.demai.cornel.vo.quota;
 
 import com.demai.cornel.model.ImgInfoReq;
 import com.demai.cornel.model.LoanInfo;
+import com.demai.cornel.model.QuoteInfo;
 import com.demai.cornel.model.ReviewOptResp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -26,7 +27,7 @@ import java.util.Set;
     private BigDecimal loanPrice;
     private List<ImgInfoReq> imgInfo;
     private BigDecimal wetPrice;
-    private List<String> changeLog;
+    private List<QuoteInfo.ChangeLogInfo> changeLog;
     /**
      * 烘干塔ID
      */
@@ -34,6 +35,8 @@ import java.util.Set;
     //private List<LoanInfoSimple> loanInfo;
 
     private List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo;
+
+
 
 }
 

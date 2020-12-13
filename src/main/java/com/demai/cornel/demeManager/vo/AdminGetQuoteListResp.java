@@ -60,4 +60,10 @@ public class AdminGetQuoteListResp {
      */
     private String financeUser;
 
+
+    /**
+     * 前值
+     */
+    private String frontValue;
+
 }

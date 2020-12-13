@@ -1,6 +1,7 @@
 package com.demai.cornel.demeManager.vo;
 
 import com.demai.cornel.dmEnum.IEmus;
+import com.demai.cornel.model.QuoteInfo;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -18,7 +19,7 @@ import java.util.List;
     private BigDecimal shipmentWeight;//出库时间
     private BigDecimal quote; //报价
     private Integer operaType;
-    private List<String> changeLog;
+    private List<QuoteInfo.ChangeLogInfo> changeLog;
 
     public static enum OPERA_TYPE implements IEmus {
         APPROVEL(1, "通过审批"), REJECT(2, "拒绝审批"), EDIT(2, "修改订单状态");

@@ -98,7 +98,13 @@ import java.util.stream.Collectors;
     @JsonIgnore
     private HashMap<String,String> reviewOpt;
 
-    private List<String> changeLog;
+    private List<QuoteInfo.ChangeLogInfo> changeLog;
+
+    /**
+     * 前值
+     */
+    private String frontValue;
+
     public void setWarehouseTime(Timestamp warehouseTime) {
         this.warehouseTime = warehouseTime;
         this.showWarehouseTime = TimeStampUtil.timeStampConvertString("yyyy-MM-dd",warehouseTime);

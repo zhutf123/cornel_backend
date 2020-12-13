@@ -29,6 +29,7 @@
         <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
         <result column="review_status" jdbcType="INTEGER" property="reviewStatus"/>
         <result column="wet_price" jdbcType="NUMERIC" property="wetPrice"/>
+        <result column="front_value" jdbcType="VARCHAR" property="frontValue"/>
 
     </resultMap>
 
@@ -54,6 +55,7 @@
         <result column="cargo_status" property="cargoStatus" jdbcType="INTEGER"/>
         <result column="review_opt" property="reviewOpt" jdbcType="OTHER"
                 javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
+        <result column="front_value" jdbcType="VARCHAR" property="frontValue"/>
     </resultMap>
     <resultMap id="get_quote_info" type="com.demai.cornel.vo.quota.GetOfferInfoResp">
         <result column="commodity_id" jdbcType="VARCHAR" property="commodityId"/>
@@ -83,6 +85,7 @@
         <result column="review_opt" property="reviewOpt" jdbcType="OTHER"
                 javaType="java.util.HashMap" typeHandler="com.demai.cornel.databaseHandler.HstoreExtTypeHandler"/>
         <result column="wet_price" property="wetPrice" jdbcType="NUMERIC"/>
+        <result column="front_value" jdbcType="VARCHAR" property="frontValue"/>
     </resultMap>
 
     <resultMap id="listRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuoteListResp">
@@ -108,6 +111,7 @@
 
         <result column="warehouse_time" property="warehouseTime" jdbcType="TIMESTAMP" javaType="java.lang.String"
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
+        <result column="front_value" jdbcType="VARCHAR" property="frontValue"/>
     </resultMap>
     <resultMap id="detailRespMapper_admin" type="com.demai.cornel.demeManager.vo.AdminGetQuteDetail">
         <result column="quote_id" jdbcType="VARCHAR" property="quoteId"/>
@@ -139,6 +143,7 @@
                 typeHandler="com.demai.cornel.databaseHandler.JodaDatetimeHandler"/>
 
         <result column="wet_weight" property="wetWeight" jdbcType="NUMERIC"/>
+        <result column="front_value" jdbcType="VARCHAR" property="frontValue"/>
 
     </resultMap>
 
@@ -146,7 +151,7 @@
         <!--@mbg.generated-->
         id, commodity_id, "quote","sys_quote", unit_price, shipment_weight, unit_weight, start_time,
         update_time, "status", "desc", system_flag, bargain_status, user_id, "location",
-        user_name, quote_id, tower_id, mobile, end_time,cargo_status,wet_weight,loan_id,review_status,wet_weight
+        user_name, quote_id, tower_id, mobile, end_time,cargo_status,wet_weight,loan_id,review_status,wet_weight,front_value
     </sql>
 
     <sql id="get_offer_list">
@@ -165,7 +170,8 @@
     q.warehouse_time,
     q.loan_id,
     q.cargo_status,
-    q.review_opt
+    q.review_opt,
+    q.front_value
   </sql>
     <sql id="get_offer_info">
     c.name as commodity_name,
@@ -189,7 +195,8 @@
     q.loan_id,
     q.review_opt,
     q.wet_price,
-    q.tower_id
+    q.tower_id,
+    q.front_value
   </sql>
 
     <sql id="list_Resp_admin">
@@ -208,6 +215,7 @@
         q.finance_user as finance_user_id,
         q.review_user_time,
         q.finance_user_time,
+        q.front_value,
         c.commodity_id,
         c.name as commodity_name,
         d.company
@@ -230,7 +238,8 @@
         c.name as commodity_name,
         d.company,
         q.loan_id,
-        q.wet_weight
+        q.wet_weight,
+        q.front_value
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -515,8 +524,11 @@
             <if test="loanId != null">
                 loan_id=#{loanId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler = com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
             </if>
-            <if test=" reviewStatus != null">
+            <if test="reviewStatus != null">
                 review_status= #{reviewStatus},
+            </if>
+            <if test="frontValue !=null">
+                front_value =#{frontValue},
             </if>
         </set>
         where quote_id = #{quoteId,jdbcType=VARCHAR}

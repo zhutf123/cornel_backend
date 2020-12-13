@@ -3,6 +3,7 @@ package com.demai.cornel.model;
 import com.demai.cornel.dmEnum.IEmus;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -135,6 +136,8 @@ import java.util.Set;
     private Integer reviewStatus;// 审核的具体状态
     private BigDecimal wetPrice;//湿粮重量
 
+    private String frontValue;
+
     /**
      * 结束时间
      */
@@ -244,4 +247,24 @@ import java.util.Set;
         }
 
     }
+
+    /***
+     * 操作人员的操作记录内容
+     */
+    @Data
+    public static class ChangeLogInfo implements Serializable{
+        /**
+         * 属性前值
+         * */
+        private String frontValue;
+        /***
+         * 属性当前值
+         */
+        private String value;
+        /***
+         * 描述
+         */
+        private String desc;
+    }
+
 }

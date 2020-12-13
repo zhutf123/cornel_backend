@@ -15,6 +15,7 @@ import com.demai.cornel.service.QuoteService;
 import com.demai.cornel.service.SendMsgService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.TimeStampUtil;
+import com.demai.cornel.util.json.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -87,6 +88,7 @@ import java.util.HashMap;
             if (quoteReq.getShipmentWeight() != null) {
                 newQuoteInfo.setShipmentWeight(quoteReq.getShipmentWeight());
             }
+            newQuoteInfo.setFrontValue(JsonUtil.toJson(oldQuote));
             newQuoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue());
             break;
         default:

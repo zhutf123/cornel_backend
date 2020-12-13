@@ -460,19 +460,7 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
                     x.setLoanInfo(Collections.EMPTY_LIST);
                 }
             }
-            ReviewLog reviewLog = reviewLogMapper
-                    .selectByOrderId(x.getQuoteId(), ReviewLog.OPERATOR_TYPE_ENUM.business.getValue());
-            try {
-                if (reviewLog != null && reviewLog.getChangeContent() != null) {
-                    x.setChangeLog(JSON.parseArray(reviewLog.getChangeContent(), String.class));
-                }else {
-                    x.setChangeLog(Collections.EMPTY_LIST);
-
-                }
-            }catch (Exception e){
-                x.setChangeLog(Collections.EMPTY_LIST);
-                log.error("parse change log err changelog is {}",reviewLog.getChangeContent());
-            }
+            x.setChangeLog(buildChangeLog(x.getFrontValue()));
             QuoteInfo.REVEW_STATUS viewStatus = QuoteInfo.REVEW_STATUS.getViewStatusByValue(x.getStatus());
             x.setStatusDesc(viewStatus != null ? viewStatus.getExpr() : "");
             x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
@@ -480,6 +468,15 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         });
         return getOfferListResps;
 
+    }
+
+    /***
+     * 构建订单信息修改内容
+     */
+    public List<QuoteInfo.ChangeLogInfo> buildChangeLog(String frontValue){
+        List<QuoteInfo.ChangeLogInfo> result = Lists.newArrayList();
+
+        return result;
     }
 
     public List<GetOfferListResp> getSystemOfferListRespList(String quoteId, Integer pgSize) {
@@ -537,22 +534,8 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         List<ImgInfoReq> imgInfoReqs = imgService.getQuoteImgs(quoteId);
         getOfferInfoResp.setImgInfo(imgInfoReqs);
         getOfferInfoResp.setServiceMobile(serviceMobile);
-        ReviewLog reviewLog = reviewLogMapper
-                .selectByOrderId(quoteId, ReviewLog.OPERATOR_TYPE_ENUM.business.getValue());
-        try {
-            if (reviewLog != null && reviewLog.getChangeContent() != null) {
-                getOfferInfoResp.setChangeLog(JSON.parseArray(reviewLog.getChangeContent(), String.class));
-            }else {
-                getOfferInfoResp.setChangeLog(Collections.EMPTY_LIST);
-            }
-        }catch (Exception e){
-            log.error("parse change log err changelog is {}",reviewLog.getChangeContent());
-            getOfferInfoResp.setChangeLog(Collections.EMPTY_LIST);
-
-        }
-        
+        buildChangeLog(getOfferInfoResp.getFrontValue());
         List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByUserId(CookieAuthUtils.getCurrentUser());
-        log.info("sssssssssss:{}==={}",JsonUtil.toJson(ownDryInfo),CookieAuthUtils.getCurrentUser());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = Lists.newArrayList();
         if (!CollectionUtils.isEmpty(ownDryInfo)) {
             ownDryInfo.stream().forEach(x -> {
@@ -565,7 +548,7 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         return getOfferInfoResp;
     }
 
-    public OfferQuoteResp cancleQuote(String quoteId) {
+    public OfferQuoteResp cancelQuote(String quoteId) {
         int result = quoteInfoDao.updateStatusByQuoteIdAndUserId(quoteId, CookieAuthUtils.getCurrentUser(),
                 QuoteInfo.QUOTE_TATUS.CANCEL.getValue());
         OfferQuoteResp offerQuoteResp = new OfferQuoteResp();
