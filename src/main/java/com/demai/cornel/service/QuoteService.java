@@ -1,6 +1,5 @@
 package com.demai.cornel.service;
 
-import com.alibaba.fastjson.JSON;
 import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.constant.ConfigProperties;
 import com.demai.cornel.constant.ContextConsts;
@@ -10,10 +9,8 @@ import com.demai.cornel.dao.LoanInfoMapper;
 import com.demai.cornel.dao.QuoteInfoDao;
 import com.demai.cornel.dao.SystemQuoteDao;
 import com.demai.cornel.dao.UserInfoDao;
-import com.demai.cornel.dao.UserRoleInfoDao;
 import com.demai.cornel.demeManager.dao.ReviewLogMapper;
 import com.demai.cornel.demeManager.dao.SpecialQuoteMapper;
-import com.demai.cornel.demeManager.model.ReviewLog;
 import com.demai.cornel.demeManager.model.SpecialQuote;
 import com.demai.cornel.model.BargainRange;
 import com.demai.cornel.model.Commodity;
@@ -48,7 +45,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.ibatis.annotations.Case;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +52,6 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -90,7 +85,6 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
     @Resource private LoanInfoMapper loanInfoMapper;
     @Resource private ImgService imgService;
     @Resource private OpterReviewService opterReviewService;
-    @Resource private ReviewLogMapper reviewLogMapper;
     @Resource
     private SendMsgService sendMsgService;
     @Resource
@@ -304,9 +298,9 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
      * @return
      */
     public List<GerQuoteListResp> getSystemQuoteList(GetQuoteListReq getQuoteListReq) {
-        List<GerQuoteListResp> gerQuoteListResps = systemQuoteDao.getNewSystemQuote(getQuoteListReq.getQuoteId(),
+        List<GerQuoteListResp> gerQuoteListResp = systemQuoteDao.getNewSystemQuote(getQuoteListReq.getQuoteId(),
                 Optional.ofNullable(getQuoteListReq.getPgSize()).orElse(10));
-        if (gerQuoteListResps == null) {
+        if (CollectionUtils.isEmpty(gerQuoteListResp)) {
             log.warn("get system quote empty");
             return Collections.EMPTY_LIST;
         }
@@ -319,14 +313,14 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
         }
         if (bigDecimalHashMap != null) {
             Map<String, BigDecimal> finalBigDecimalHashMap = bigDecimalHashMap;
-            gerQuoteListResps.stream().forEach(x -> {
+            gerQuoteListResp.stream().forEach(x -> {
                 if (finalBigDecimalHashMap.get(x.getCommodityId()) != null) {
                     x.setQuote(finalBigDecimalHashMap.get(x.getCommodityId()));
                 }
             });
         }
-        buildSystemQuoteDetail(gerQuoteListResps);
-        return gerQuoteListResps;
+        buildSystemQuoteDetail(gerQuoteListResp);
+        return gerQuoteListResp;
 
     }
 
@@ -339,10 +333,9 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
     /**
      * 获取议价的范围
      *
-     * @param commodityId
      * @return
      */
-    public BargainRange getBargainRange(String commodityId) {
+    public BargainRange getBargainRange() {
         return BargainRange.builder().upper(6).down(6).unit(5).build();
     }
 
@@ -392,7 +385,7 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
 
         clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(ownDryInfo)) {
+        if (CollectionUtils.isNotEmpty(ownDryInfo)) {
             ownDryInfo.stream().forEach(x -> {
                 dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getTowerId()), x.getLocation(),
                         x.getLocationArea(), x.getLocationDetail()));
@@ -406,10 +399,10 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
         if (pgSize == null) {
             pgSize = 10;
         }
-        List<GetOfferListResp> getOfferListResps = quoteInfoDao
+        List<GetOfferListResp> getOfferListResp = quoteInfoDao
                 .getOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
-        if (getOfferListResps == null) {
-            getOfferListResps = Collections.EMPTY_LIST;
+        if (CollectionUtils.isEmpty(getOfferListResp)) {
+            return Collections.EMPTY_LIST;
         }
         String serviceMobile = "";
         if (ServiceMobileConfig.serviceMobile != null) {
@@ -417,11 +410,11 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
             serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
         }
         String finalServiceMobile = serviceMobile;
-        getOfferListResps.stream().forEach(x -> {
+        getOfferListResp.stream().forEach(x -> {
             x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
             x.setServiceMobile(finalServiceMobile);
         });
-        return getOfferListResps;
+        return getOfferListResp;
     }
 
     public List<GetOfferListResp> getSystemOfferListRespListV2(GetSysQuoListV2Req getSysQuoListV2Req) {
