@@ -515,10 +515,10 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
         if (pgSize == null) {
             pgSize = 10;
         }
-        List<GetOfferListResp> getOfferListResps = quoteInfoDao
+        List<GetOfferListResp> getOfferListResp = quoteInfoDao
                 .getSystemOwnerQuoteList(CookieAuthUtils.getCurrentUser(), quoteId, pgSize);
-        if (getOfferListResps == null) {
-            getOfferListResps = Collections.EMPTY_LIST;
+        if (CollectionUtils.isEmpty(getOfferListResp)) {
+            return Collections.EMPTY_LIST;
         }
         String serviceMobile = "";
         if (ServiceMobileConfig.serviceMobile != null) {
@@ -526,10 +526,10 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
             serviceMobile = ServiceMobileConfig.serviceMobile.get(r.nextInt(ServiceMobileConfig.serviceMobile.size()));
         }
         String finalServiceMobile = serviceMobile;
-        getOfferListResps.stream().forEach(x -> {
+        getOfferListResp.stream().forEach(x -> {
             x.setServiceMobile(finalServiceMobile);
         });
-        return getOfferListResps;
+        return getOfferListResp;
 
     }
 
