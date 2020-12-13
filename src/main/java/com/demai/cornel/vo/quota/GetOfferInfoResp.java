@@ -27,7 +27,6 @@ import java.util.Set;
     private BigDecimal loanPrice;
     private List<ImgInfoReq> imgInfo;
     private BigDecimal wetPrice;
-    private List<QuoteInfo.ChangeLogInfo> changeLog;
     /**
      * 烘干塔ID
      */
