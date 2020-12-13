@@ -1,7 +1,10 @@
 package com.demai.cornel.service;
 
+import com.demai.cornel.dao.RoleInfoDao;
 import com.demai.cornel.dao.UserInfoDao;
+import com.demai.cornel.dao.UserRoleInfoDao;
 import com.demai.cornel.model.UserInfo;
+import com.demai.cornel.model.UserRoleInfo;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.PhoneUtil;
@@ -12,12 +15,14 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @Author binz.zhang
@@ -26,6 +31,7 @@ import java.util.UUID;
 @Service @Slf4j public class UserService {
 
     @Resource private UserInfoDao userInfoDao;
+    @Resource private UserRoleInfoDao userRoleInfoDao;
 
     //todo 这一块更新需要补全
     public UserAddUserResp updateUserInfo(UserAddReq userAddReq) {
@@ -82,15 +88,14 @@ import java.util.UUID;
 
     /**
      * 获取当前用户的角色id
+     *
      * @return
      */
-    public List<Integer> getUserRoleId(){
-        List<Integer> roles = Lists.newArrayList();
-        UserInfo userInfo = userInfoDao.getUserInfoByUserId(CookieAuthUtils.getCurrentUser());
-        if(userInfo==null){
-            throw new RuntimeException();
+    public List<String> getUserRoleId() {
+        List<UserRoleInfo> userRoleInfos = userRoleInfoDao.getRolesByUserId(CookieAuthUtils.getCurrentUser());
+        if (CollectionUtils.isEmpty(userRoleInfos)) {
+            return Lists.newArrayList();
         }
-        
-        return roles;
+        return userRoleInfos.stream().map(role -> role.getRoleId()).collect(Collectors.toList());
     }
 }

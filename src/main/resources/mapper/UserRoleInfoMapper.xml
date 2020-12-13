@@ -57,4 +57,10 @@
         </trim>
         )
     </insert>
+
+    <select id="getRolesByUserId" resultMap="userRoleInfoResultMap" >
+        select <include refid="main_column"/>
+        from user_role_info
+        where user_id=#{userId} and status=1;
+    </select>
 </mapper>

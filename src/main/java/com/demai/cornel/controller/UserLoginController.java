@@ -108,7 +108,7 @@ public class UserLoginController {
 
     @RequestMapping(value = "/check-user.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult checkAdminRoleUser() {
         try {
-            return JsonResult.success(userService.getUserInfoResp());
+            return JsonResult.success(userService.getUserRoleId());
         } catch (Exception e) {
             log.error("检测用户信息异常！", e);
         }
