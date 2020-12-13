@@ -484,6 +484,7 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
                         .frontValue(oldQuote.getQuote())
                         .value(quoteInfo.getQuote())
                         .desc("报价金额发生变化")
+                        .code("quote")
                         .build());
             }
 
@@ -492,6 +493,7 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
                         .frontValue(oldQuote.getShipmentWeight())
                         .value(quoteInfo.getShipmentWeight())
                         .desc("出货量发生变化")
+                        .code("weight")
                         .build());
             }
 
@@ -500,7 +502,9 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
                 result.add(QuoteInfo.ChangeLogInfo.builder().
                         frontValue(oldQuote.getShipmentWeight())
                         .value(quoteInfo.getShipmentWeight())
-                        .desc("入库时间发生变化").build());
+                        .desc("入库时间发生变化")
+                        .code("time")
+                        .build());
             }
 
         }

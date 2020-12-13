@@ -267,6 +267,10 @@ import java.util.Set;
          * 描述
          */
         private String desc;
+        /***
+         * 变更内容code
+         */
+        private String code;
     }
 
 }
