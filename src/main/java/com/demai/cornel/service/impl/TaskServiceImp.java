@@ -6,6 +6,7 @@ import com.demai.cornel.model.*;
 import com.demai.cornel.service.ITaskService;
 import com.demai.cornel.service.OrderService;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.GenerateCodeUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.json.JsonUtil;
@@ -169,8 +170,7 @@ import java.util.List;
             if (date == null) {
                 return null;
             }
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            return simpleDateFormat.format(new Date(date.getTime()));
+            return DateFormatUtils.formatDateTime(new Date(date.getTime()));
         }catch (Exception e){
 
             return null;

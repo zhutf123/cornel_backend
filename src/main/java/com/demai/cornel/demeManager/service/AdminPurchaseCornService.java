@@ -16,6 +16,7 @@ import com.demai.cornel.purcharse.model.SpecialSaleInfo;
 import com.demai.cornel.purcharse.model.TransportType;
 import com.demai.cornel.purcharse.vo.GetSystemOfferResp;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import com.google.common.base.Preconditions;
@@ -41,8 +42,6 @@ import java.util.*;
     @Resource private SpecialSaleInfoMapper specialSaleInfoMapper;
     @Resource private SaleOrderMapper saleOrderMapper;
     @Resource private CommodityDao commodityDao;
-
-    private static String TIME_FORMAT = "yyyy-MM-dd";
 
     /**
      * 管理员获取系统的报价list
@@ -255,7 +254,7 @@ import java.util.*;
         saleOrderNew.setStatus(SaleOrder.STATUS_ENUM.FINISH.getValue());
         saleOrderNew.setPayReview(CookieAuthUtils.getCurrentUser());
         saleOrderNew.setActualPay(adminReviewPayReq.getActualPay());
-        saleOrderNew.setPayTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, adminReviewPayReq.getPayTime()));
+        saleOrderNew.setPayTime(TimeStampUtil.stringConvertTimeStamp(DateFormatUtils.ISO_DATE_PATTERN, adminReviewPayReq.getPayTime()));
         saleOrderNew.setExInfo(Strings.isNullOrEmpty(adminReviewPayReq.getExInfo())?"":adminReviewPayReq.getExInfo());
         int res = saleOrderMapper.updateByPrimaryKeySelective(saleOrderNew);
         if (res != 1) {

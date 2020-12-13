@@ -99,7 +99,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
                 adminGetQueFinResp.getPrice_count().divide(new BigDecimal(adminGetQueFinResp.getOrder_count()), 2));
         long days = 0;
         Date now = new Date(System.currentTimeMillis());
-        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-02-20");
+        Date startDate = DateFormatUtils.parse("2020-02-20");
         days = Math.abs(now.getTime() - startDate.getTime()) / (24 * 3600 * 1000);
         adminGetQueFinResp.setDays(days);
         adminGetQueFinResp.setAvg_interest(adminGetQueFinResp.getTotal_interest().divide(new BigDecimal(days), 2));

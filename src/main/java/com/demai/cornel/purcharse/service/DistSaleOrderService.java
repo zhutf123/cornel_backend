@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.demai.cornel.service.QuoteService.DATE_TIME_FORMAT;
+import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
 
 /**
  * @Author binz.zhang
@@ -52,7 +52,7 @@ import static com.demai.cornel.service.QuoteService.DATE_TIME_FORMAT;
         Commodity commodity = commodityDao.getCommodityByCommodityId(saleOrder.getCommodityId());
         TaskInfo taskInfo = new TaskInfo();
         //taskInfo.setUnitWeight(saleOrder.getUintWeight());
-        taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(DATE_TIME_FORMAT, saleOrder.getReceiveEndTime()));
+        taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(ISO_DATE_PATTERN, saleOrder.getReceiveEndTime()));
         taskInfo.setDistance(new BigDecimal(1000.00));
         taskInfo.setDistance(new BigDecimal(1000.00));
         taskInfo.setArr(locationInfoMapper.selectByLocationId(saleOrder.getFromLocation()).getLocation());

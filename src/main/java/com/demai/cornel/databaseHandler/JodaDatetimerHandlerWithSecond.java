@@ -1,5 +1,6 @@
 package com.demai.cornel.databaseHandler;
 
+import com.demai.cornel.util.DateFormatUtils;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
@@ -28,7 +29,7 @@ public class JodaDatetimerHandlerWithSecond extends BaseTypeHandler<String> {
         if (timestamp == null) {
             return null;
         }
-        return  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
+        return  new SimpleDateFormat(DateFormatUtils.ISO_DATETIME_PATTERN).format(timestamp);
     }
 
     @Override public String getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
@@ -41,6 +42,6 @@ public class JodaDatetimerHandlerWithSecond extends BaseTypeHandler<String> {
         if (timestamp == null) {
             return null;
         }
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
+        return new SimpleDateFormat(DateFormatUtils.ISO_DATETIME_PATTERN).format(timestamp);
     }
 }

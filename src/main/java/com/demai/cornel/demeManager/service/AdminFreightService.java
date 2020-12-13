@@ -12,6 +12,7 @@ import com.demai.cornel.purcharse.model.FreightInfo;
 import com.demai.cornel.purcharse.model.LocationInfo;
 import com.demai.cornel.purcharse.model.TransportType;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import com.google.common.base.Splitter;
@@ -179,7 +180,7 @@ import java.util.concurrent.TransferQueue;
             temp.setTransportType(buildTransport(x.getTransportType()));
             temp.setTotalPrice(x.getPrice());
             temp.setUpdateFlag(
-                    TimeStampUtil.timeStampConvertString("yyyy-MM-dd", new Timestamp(System.currentTimeMillis()))
+                    TimeStampUtil.timeStampConvertString(DateFormatUtils.ISO_DATE_PATTERN, new Timestamp(System.currentTimeMillis()))
                             .equals(x.getUpdateTime()) ? 1 : 0);
             temp.setUpdateTime(x.getUpdateTime());
             temp.setExInfo(Strings.isNullOrEmpty(x.getExInfo()) ?

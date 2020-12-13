@@ -4,6 +4,7 @@ import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.QuoteInfo;
 import com.demai.cornel.model.ReviewOptResp;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -107,7 +108,7 @@ import java.util.stream.Collectors;
 
     public void setWarehouseTime(Timestamp warehouseTime) {
         this.warehouseTime = warehouseTime;
-        this.showWarehouseTime = TimeStampUtil.timeStampConvertString("yyyy-MM-dd",warehouseTime);
+        this.showWarehouseTime = DateFormatUtils.format(warehouseTime);
     }
 
     public void setCommodityProperties(Map<String, String> commodityProperties) {

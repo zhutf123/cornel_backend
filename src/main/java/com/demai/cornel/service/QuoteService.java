@@ -71,6 +71,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
+import static com.demai.cornel.util.DateFormatUtils.ISO_DATETIME_PATTERN;
+import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
 
 /**
  * @Author binz.zhang
@@ -88,8 +90,6 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
     @Resource private LoanInfoMapper loanInfoMapper;
     @Resource private ImgService imgService;
     @Resource private OpterReviewService opterReviewService;
-    public static String DATE_TIME_FORMAT = "yyyy-MM-dd";
-    public static final String TIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
     @Resource private ReviewLogMapper reviewLogMapper;
     @Resource
     private SendMsgService sendMsgService;
@@ -143,8 +143,8 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
-        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getStartTime()));
-        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(ISO_DATE_PATTERN, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(ISO_DATE_PATTERN, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         quoteInfo.setWarehouseTime(new Timestamp(System.currentTimeMillis()));
         quoteInfoDao.insertSelective(quoteInfo);
@@ -190,8 +190,8 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
-        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getStartTime()));
-        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(ISO_DATE_PATTERN, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(ISO_DATE_PATTERN, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         quoteInfo.setWarehouseTime(new Timestamp(System.currentTimeMillis()));
 
@@ -234,8 +234,8 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
-        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getStartTime()));
-        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(ISO_DATE_PATTERN, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(ISO_DATE_PATTERN, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         quoteInfo.setWarehouseTime(getWarehouseTime(offerQuoteReq.getWarehouseTime()));
         log.info("save qute info:{}", JsonUtil.toJson(quoteInfo));
@@ -277,7 +277,7 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         int min = date.getMinutes();
         int sec = date.getSeconds();
         Timestamp warehouseTime = new Timestamp(TimeStampUtil
-                .stringConvertTimeStamp(TIME_FORMAT, warehouseDate + " " + hour + ":" + min + ":" + sec)
+                .stringConvertTimeStamp(ISO_DATETIME_PATTERN, warehouseDate + " " + hour + ":" + min + ":" + sec)
                 .getTime());
         return warehouseTime;
 
@@ -452,11 +452,11 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
                     loanInfoSimple.setApplyTime(loanInfos.iterator().next().getApplyTime() == null ?
                             null :
                             TimeStampUtil
-                                    .timeStampConvertString(DATE_TIME_FORMAT, loanInfos.iterator().next().getApplyTime()));
+                                    .timeStampConvertString(ISO_DATE_PATTERN, loanInfos.iterator().next().getApplyTime()));
                     loanInfoSimple.setLendingTime(loanInfos.iterator().next().getLendingTime() == null ?
                             null :
                             TimeStampUtil
-                                    .timeStampConvertString(DATE_TIME_FORMAT, loanInfos.iterator().next().getLendingTime()));
+                                    .timeStampConvertString(ISO_DATE_PATTERN, loanInfos.iterator().next().getLendingTime()));
                     x.setLoanInfo(Lists.newArrayList(loanInfoSimple));
                 } else {
                     x.setLoanInfo(Collections.EMPTY_LIST);
@@ -545,10 +545,10 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
                     BeanUtils.copyProperties(x, loanInfoSimple);
                     loanInfoSimple.setApplyTime(x.getApplyTime() == null ?
                             null :
-                            TimeStampUtil.timeStampConvertString(DATE_TIME_FORMAT, x.getApplyTime()));
+                            TimeStampUtil.timeStampConvertString(ISO_DATE_PATTERN, x.getApplyTime()));
                     loanInfoSimple.setLendingTime(x.getLendingTime() == null ?
                             null :
-                            TimeStampUtil.timeStampConvertString(DATE_TIME_FORMAT, x.getLendingTime()));
+                            TimeStampUtil.timeStampConvertString(ISO_DATE_PATTERN, x.getLendingTime()));
                     return loanInfoSimple;
                 }).collect(Collectors.toList()));
                 getOfferInfoResp.setLoanPrice(loanInfos.get(0).getPrice());
@@ -600,8 +600,8 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
     private List<Date> getIntervalDate(String start, String end) {
         List<Date> dateList = new ArrayList<>();
         try {
-            Date d1 = new SimpleDateFormat("yyyy-MM-dd").parse(start);//定义起始日期
-            Date d2 = new SimpleDateFormat("yyyy-MM-dd").parse(end);//定义结束日期
+            Date d1 = DateFormatUtils.parse(start);//定义起始日期
+            Date d2 = DateFormatUtils.parse(end);//定义结束日期
             if (d1.after(d2)) {
                 log.info("get the interval date fail due to the start after end");
                 throw new IllegalArgumentException("get the interval date fail due to the start after end");

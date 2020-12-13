@@ -51,7 +51,6 @@ import java.util.stream.Collectors;
     @Resource private SpecialSaleInfoMapper specialSaleInfoMapper;
 
     @Resource private OutStackService outStackService;
-    private static String TIME_FORMAT = "yyyy-MM-dd";
     private static List<BigDecimal> PURCHASE_BARGAIN = new ArrayList<>();
 
     static {
@@ -139,8 +138,8 @@ import java.util.stream.Collectors;
         }
         PurchaseInfo purchaseInfo = new PurchaseInfo();
         BeanUtils.copyProperties(param, purchaseInfo);
-        Timestamp receiveStart = TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, param.getReceiveStartTime());
-        Timestamp receiveEnd = TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, param.getReceiveEndTime());
+        Timestamp receiveStart = TimeStampUtil.stringConvertTimeStamp(DateFormatUtils.ISO_DATE_PATTERN, param.getReceiveStartTime());
+        Timestamp receiveEnd = TimeStampUtil.stringConvertTimeStamp(DateFormatUtils.ISO_DATE_PATTERN, param.getReceiveEndTime());
         purchaseInfo.setReceiveStartTime(receiveStart);
         purchaseInfo.setReceiveEndTime(receiveEnd);
         purchaseInfo.setBuyerId(userId);
@@ -294,8 +293,8 @@ import java.util.stream.Collectors;
         saleOrder.setOrderId(UUID.randomUUID().toString());
         saleOrder.setBuyerId(CookieAuthUtils.getCurrentUser());
         saleOrder.setReceiveLocation(offer.getReceiveLocationId());
-        saleOrder.setReceiveStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offer.getReceiveStartTime()));
-        saleOrder.setReceiveEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, offer.getReceiveStartTime()));
+        saleOrder.setReceiveStartTime(TimeStampUtil.stringConvertTimeStamp(DateFormatUtils.ISO_DATE_PATTERN, offer.getReceiveStartTime()));
+        saleOrder.setReceiveEndTime(TimeStampUtil.stringConvertTimeStamp(DateFormatUtils.ISO_DATE_PATTERN, offer.getReceiveStartTime()));
         if (offerSheet != null) {
             saleOrder.setFromLocation(offerSheet.getLocationId());
         }
@@ -477,12 +476,12 @@ import java.util.stream.Collectors;
         BeanUtils.copyProperties(purchaseInfo, purchaseInfoUp);
         if (!Strings.isNullOrEmpty(purchaseInfo.getReceiveStartTime())) {
             purchaseInfoUp.setReceiveStartTime(
-                    TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, purchaseInfo.getReceiveStartTime()));
+                    TimeStampUtil.stringConvertTimeStamp(DateFormatUtils.ISO_DATE_PATTERN, purchaseInfo.getReceiveStartTime()));
 
         }
         if (!Strings.isNullOrEmpty(purchaseInfo.getReceiveEndTime())) {
             purchaseInfoUp.setReceiveEndTime(
-                    TimeStampUtil.stringConvertTimeStamp(TIME_FORMAT, purchaseInfo.getReceiveEndTime()));
+                    TimeStampUtil.stringConvertTimeStamp(DateFormatUtils.ISO_DATE_PATTERN, purchaseInfo.getReceiveEndTime()));
         }
         int res = purchaseInfoMapper.updateByPrimaryKeySelective(purchaseInfoUp);
         if (res != 1) {
@@ -602,9 +601,9 @@ import java.util.stream.Collectors;
         getPurchaseDetailResp.setCommodity(commodityDao.buyerGetCommodity(purchaseInfo.getCommodityId()));
         getPurchaseDetailResp.setOrderPrice(purchaseInfo.getPrice().multiply(purchaseInfo.getWeight()));
         getPurchaseDetailResp.setReceiveStartTime(
-                TimeStampUtil.timeStampConvertString(TIME_FORMAT, purchaseInfo.getReceiveStartTime()));
+                TimeStampUtil.timeStampConvertString(DateFormatUtils.ISO_DATE_PATTERN, purchaseInfo.getReceiveStartTime()));
         getPurchaseDetailResp
-                .setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, purchaseInfo.getReceiveEndTime()));
+                .setReceiveEndTime(TimeStampUtil.timeStampConvertString(DateFormatUtils.ISO_DATE_PATTERN, purchaseInfo.getReceiveEndTime()));
         getPurchaseDetailResp.setOptStatus(GetPurchaseDetailResp.STATUS_ENUE.SUCCESS.getValue());
         getPurchaseDetailResp.setSaleId(saleOrderMapper.getSaleIdByPurchaseId(purchaseId));
         LocationInfo locationInfo = locationInfoMapper.selectByLocationId(purchaseInfo.getReceiveLocationId());
@@ -653,9 +652,9 @@ import java.util.stream.Collectors;
             getPurchaseListResp.setCommodity(commodityDao.buyerGetCommodity(x.getCommodityId()));
             getPurchaseListResp.setOrderPrice(getPurchaseListResp.getCommodityPrice().multiply(x.getWeight()));
             getPurchaseListResp
-                    .setReceiveStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, x.getReceiveStartTime()));
+                    .setReceiveStartTime(TimeStampUtil.timeStampConvertString(DateFormatUtils.ISO_DATE_PATTERN, x.getReceiveStartTime()));
             getPurchaseListResp
-                    .setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, x.getReceiveEndTime()));
+                    .setReceiveEndTime(TimeStampUtil.timeStampConvertString(DateFormatUtils.ISO_DATE_PATTERN, x.getReceiveEndTime()));
             getPurchaseListResp.setSaleId(saleOrderMapper.getSaleIdByPurchaseId(x.getPurchaseId()));
             getPurchaseListResps.add(getPurchaseListResp);
         });
@@ -701,14 +700,14 @@ import java.util.stream.Collectors;
         //            getSaleDetailResp.setCarTotalNum(getSaleDetailResp.getCarInfo().size());
         //        }
 
-        getSaleDetailResp.setOrderTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getOrderTime()));
+        getSaleDetailResp.setOrderTime(TimeStampUtil.timeStampConvertString(DateFormatUtils.ISO_DATE_PATTERN, saleOrder.getOrderTime()));
         getSaleDetailResp.setCommodity(commodityDao.getCommodityByCommodityId(getSaleDetailResp.getCommodityId()));
         getSaleDetailResp.setContactUserName(saleOrder.getContactUserName());
         getSaleDetailResp.setContactMobile(saleOrder.getMobile());
         getSaleDetailResp.setReceiveStartTime(
-                TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveStartTime()));
+                TimeStampUtil.timeStampConvertString(DateFormatUtils.ISO_DATE_PATTERN, saleOrder.getReceiveStartTime()));
         getSaleDetailResp
-                .setReceiveEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, saleOrder.getReceiveEndTime()));
+                .setReceiveEndTime(TimeStampUtil.timeStampConvertString(DateFormatUtils.ISO_DATE_PATTERN, saleOrder.getReceiveEndTime()));
 
         LocationInfo locationInfo = locationInfoMapper.selectByLocationId(saleOrder.getReceiveLocation());
         if (locationInfo == null) {

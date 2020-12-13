@@ -9,6 +9,7 @@ import com.demai.cornel.model.TaskInfo;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.purcharse.dao.*;
 import com.demai.cornel.purcharse.model.*;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import com.google.common.collect.Sets;
@@ -33,7 +34,6 @@ import java.util.UUID;
     @Resource private CommodityDao commodityDao;
     @Resource private StackOutInfoMapper stackOutInfoMapper;
     @Resource private ServiceMobileConfig serviceMobileConfig;
-    private static final String TIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
     public boolean buildTask(StackOutInfo stackOutInfo, SaleOrder saleOrder,StoreInfo storeInfo) {
         CargoInfo cargoInfo = new CargoInfo();
@@ -84,8 +84,8 @@ import java.util.UUID;
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setTitle(commodity.getName() + "-" + fromLocation.getLocation() + "-" + toLocation.getLocation());
         taskInfo.setProduct(commodity.getName());
-        taskInfo.setStartTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, stackOutInfo.getStartTime()));
-        taskInfo.setEndTime(TimeStampUtil.timeStampConvertString(TIME_FORMAT, stackOutInfo.getEndTime()));
+        taskInfo.setStartTime(DateFormatUtils.formatDateTime(stackOutInfo.getStartTime()));
+        taskInfo.setEndTime(DateFormatUtils.formatDateTime( stackOutInfo.getEndTime()));
         taskInfo.setDistance(new BigDecimal(1000.00));
         taskInfo.setArr(toLocation.getLocation());
         taskInfo.setDep(fromLocation.getLocation());

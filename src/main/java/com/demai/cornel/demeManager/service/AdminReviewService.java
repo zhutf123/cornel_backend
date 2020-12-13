@@ -14,6 +14,7 @@ import com.demai.cornel.service.ImgService;
 import com.demai.cornel.service.QuoteService;
 import com.demai.cornel.service.SendMsgService;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,8 +34,6 @@ import java.util.HashMap;
     @Resource private DryTowerDao dryTowerDao;
     @Resource private LoanInfoMapper loanInfoMapper;
     @Resource private QuoteService quoteService;
-
-    private static final String TIME_FORMT = "yyyy-MM-dd";
 
     /*业务审核烘干塔订单*/
     public ReviewQuoteResp bussiReviewQuote(ReviewQuoteReq quoteReq, String operator) {
@@ -127,7 +126,7 @@ import java.util.HashMap;
             loanInfo.setReviewUserId(CookieAuthUtils.getCurrentUser());
             loanInfo.setStatus(LoanInfo.STATUS.PROVER.getValue());
             loanInfo.setStartInterest(
-                    TimeStampUtil.stringConvertTimeStamp(TIME_FORMT, finaReviewQuoteReq.getStartInterest()));
+                    TimeStampUtil.stringConvertTimeStamp(DateFormatUtils.ISO_DATE_PATTERN, finaReviewQuoteReq.getStartInterest()));
             loanInfo.setPrice(finaReviewQuoteReq.getActualPrice());
 
             newQuoteInfo.setFinanceUser(operator);

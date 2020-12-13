@@ -8,6 +8,7 @@ import com.demai.cornel.purcharse.model.SaleOrder;
 import com.demai.cornel.purcharse.model.StackOutInfo;
 import com.demai.cornel.purcharse.model.StoreInfo;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.jdbc.TimestampUtils;
@@ -29,7 +30,6 @@ import java.util.UUID;
     @Resource private LocationInfoMapper locationInfoMapper;
     @Resource private FreightInfoMapper freightInfoMapper;
     @Resource private SaleConvertTaskService saleConvertTaskService;
-    private static final String TIME_TORMAT = "yyyy-MM-dd";
 
     public AdminReviewSaleResp updateSaleStackOutInfo(AdminReviewSaleReq reviewSaleReq, SaleOrder saleOrder,
             SaleOrder newSaleOrder) {
@@ -56,8 +56,8 @@ import java.util.UUID;
         stackInfo.setOrderPrice(saleOrder.getOrderPrice());
         stackInfo.setCommodityId(saleOrder.getCommodityId());
         stackInfo.setBuyerId(saleOrder.getBuyerId());
-        stackInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(TIME_TORMAT, reviewSaleReq.getOutStartTime()));
-        stackInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(TIME_TORMAT, reviewSaleReq.getOutEndTime()));
+        stackInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DateFormatUtils.ISO_DATE_PATTERN, reviewSaleReq.getOutStartTime()));
+        stackInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(DateFormatUtils.ISO_DATE_PATTERN, reviewSaleReq.getOutEndTime()));
         stackInfo.setOperatorUser(CookieAuthUtils.getCurrentUser());
         stackInfo.setReceiveLocation(saleOrder.getReceiveLocation());
         stackInfo.setWeight(saleOrder.getWeight());

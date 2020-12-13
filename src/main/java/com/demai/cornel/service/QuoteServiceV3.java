@@ -7,6 +7,7 @@ import com.demai.cornel.model.LoanInfo;
 import com.demai.cornel.model.QuoteInfo;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.TimeStampUtil;
 import com.demai.cornel.vo.quota.*;
@@ -29,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.UUID;
 
-import static com.demai.cornel.service.QuoteService.DATE_TIME_FORMAT;
+import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
 import static java.math.BigDecimal.ROUND_HALF_UP;
 
 /**
@@ -64,8 +65,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
             return offerQuoteResp;
         }
         if (offerQuoteReq.getCargoStatus().equals(QuoteInfo.CARGO_STATUS.spot.getValue())) {
-            offerQuoteReq.setWarehouseTime(
-                    TimeStampUtil.timeStampConvertString("yyyy-MM-dd", new Timestamp(System.currentTimeMillis())));
+            offerQuoteReq.setWarehouseTime(DateFormatUtils.format(new Timestamp(System.currentTimeMillis())));
         }
         QuoteInfo quoteInfo = new QuoteInfo();
         BeanUtils.copyProperties(offerQuoteReq, quoteInfo);
@@ -97,8 +97,8 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
         quoteInfo.setUserName(userInfoDao.getUserNameByUserId(userId));
         quoteInfo.setStatus(QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
         quoteInfo.setQuoteId(UUID.randomUUID().toString());
-        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getStartTime()));
-        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getEndTime()));
+        quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(ISO_DATE_PATTERN, offerQuoteReq.getStartTime()));
+        quoteInfo.setEndTime(TimeStampUtil.stringConvertTimeStamp(ISO_DATE_PATTERN, offerQuoteReq.getEndTime()));
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         quoteInfo.setWarehouseTime(warehouseTime);
         quoteInfo.setWetPrice(offerQuoteReq.getWetPrice());
@@ -175,10 +175,10 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
         quoteInfo.setSystemFlag(QuoteInfo.SYSTEM_STATUS.SYSTEM.getValue());
         quoteInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         if (!Strings.isNullOrEmpty(offerQuoteReq.getStartTime())) {
-            quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getStartTime()));
+            quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(ISO_DATE_PATTERN, offerQuoteReq.getStartTime()));
         }
         if (!Strings.isNullOrEmpty(offerQuoteReq.getEndTime())) {
-            quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, offerQuoteReq.getEndTime()));
+            quoteInfo.setStartTime(TimeStampUtil.stringConvertTimeStamp(ISO_DATE_PATTERN, offerQuoteReq.getEndTime()));
         }
         if (!Strings.isNullOrEmpty(offerQuoteReq.getWarehouseTime())) {
             quoteInfo.setWarehouseTime(quoteService.getWarehouseTime(offerQuoteReq.getWarehouseTime()));
@@ -216,10 +216,10 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
                     .build();
         }
         if (spNeT == null) {
-            getQuotePriceResp.setStartTime(TimeStampUtil.timeStampConvertString("yyyy-MM-dd", syNeT));
+            getQuotePriceResp.setStartTime(DateFormatUtils.format(syNeT));
         } else {
             Timestamp nearTime = spNeT.before(syNeT) ? spNeT : syNeT;
-            getQuotePriceResp.setStartTime(TimeStampUtil.timeStampConvertString("yyyy-MM-dd", nearTime));
+            getQuotePriceResp.setStartTime(DateFormatUtils.format(nearTime));
         }
 
         Date time = new Date(System.currentTimeMillis());
@@ -347,7 +347,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
             return ConfirmOrderResp.builder().optResult(ConfirmOrderResp.STATUS_ENUE.USER_ERROR.getValue()).build();
         }
         int res = quoteInfoDao.userConfirmOrderInfo(confirmOrderReq.getQuoteId(),
-                TimeStampUtil.stringConvertTimeStamp(DATE_TIME_FORMAT, confirmOrderReq.getShowWarehouseTime()),
+                TimeStampUtil.stringConvertTimeStamp(ISO_DATE_PATTERN, confirmOrderReq.getShowWarehouseTime()),
                 confirmOrderReq.getQuote(), confirmOrderReq.getShipmentWeight(),
                 QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue(), QuoteInfo.QUOTE_TATUS.UNDER_SER_REVIEW.getValue());
 

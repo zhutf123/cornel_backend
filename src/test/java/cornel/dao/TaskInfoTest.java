@@ -42,8 +42,7 @@ public class TaskInfoTest extends BaseTest {
         taskInfo.setUnitWeight("KG");
         taskInfo.setUnacceptWeight(new BigDecimal(2000));
         String s = "2019-11-08 23:59:59";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        java.util.Date d1 = sdf.parse(s);
+        java.util.Date d1 = DateFormatUtils.parseDateTime(s);
         taskInfo.setEndTime(DateFormatUtils.formatDateTime(new Date(System.currentTimeMillis())));
         taskInfo.setDep("大连");
         taskInfo.setArr("连云港");

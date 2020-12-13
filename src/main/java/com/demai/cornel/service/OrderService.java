@@ -301,11 +301,10 @@ import java.util.concurrent.TimeUnit;
 
         orderInfoDao.updateShipmentStatusByOldStatus(orderInfoUpdate);
 
-        SimpleDateFormat sft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         operationOrderResp.setOrderId(orderId);
         operationOrderResp.setOpResult(OperationOrderResp.SUPPLIER_RESP_STATUS_ENUE.SUCCESS.getValue());
 
-        operationOrderResp.setSendOutTime(sft.format(curDate).toString());
+        operationOrderResp.setSendOutTime(DateFormatUtils.formatDateTime(curDate));
         operationOrderResp.setOrderStatus(arriveStatus);
         return operationOrderResp;
     }

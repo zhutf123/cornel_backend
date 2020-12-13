@@ -28,7 +28,6 @@ public class SaleOrderStackService {
     @Resource private OrderInfoDao orderInfoDao;
     @Resource private TaskInfoDao taskInfoDao;
 
-    private static final String TIME_TORMAT = "yyyy-MM-dd";
 
 
 //    public boolean checkSalerOrderStatus(String driverOrderId){
