@@ -1,6 +1,7 @@
 package com.demai.cornel.model;
 
 import com.demai.cornel.dmEnum.IEmus;
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -252,15 +253,16 @@ import java.util.Set;
      * 操作人员的操作记录内容
      */
     @Data
+    @Builder
     public static class ChangeLogInfo implements Serializable{
         /**
          * 属性前值
          * */
-        private String frontValue;
+        private Object frontValue;
         /***
          * 属性当前值
          */
-        private String value;
+        private Object value;
         /***
          * 描述
          */

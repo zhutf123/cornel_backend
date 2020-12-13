@@ -24,8 +24,10 @@ import com.demai.cornel.model.QuoteInfo;
 import com.demai.cornel.model.SystemQuote;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.DateFormatUtils;
 import com.demai.cornel.util.DateUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.TimeStampUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.quota.ClickSystemQuoteResp;
@@ -460,7 +462,7 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
                     x.setLoanInfo(Collections.EMPTY_LIST);
                 }
             }
-            x.setChangeLog(buildChangeLog(x.getFrontValue()));
+            x.setChangeLog(buildChangeLog(x.getFrontValue(), x));
             QuoteInfo.REVEW_STATUS viewStatus = QuoteInfo.REVEW_STATUS.getViewStatusByValue(x.getStatus());
             x.setStatusDesc(viewStatus != null ? viewStatus.getExpr() : "");
             x.setReviewInfo(opterReviewService.towerReviewConvert(x.getReviewOpt()));
@@ -473,9 +475,35 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
     /***
      * 构建订单信息修改内容
      */
-    public List<QuoteInfo.ChangeLogInfo> buildChangeLog(String frontValue){
+    public List<QuoteInfo.ChangeLogInfo> buildChangeLog(String frontValue, GetOfferListResp quoteInfo) {
         List<QuoteInfo.ChangeLogInfo> result = Lists.newArrayList();
+        if (StringUtil.isNotEmpty(frontValue)) {
+            QuoteInfo oldQuote = JsonUtil.fromJson(frontValue, QuoteInfo.class);
+            if(!(oldQuote.getQuote().compareTo(quoteInfo.getQuote()) == 0)){
+                result.add(QuoteInfo.ChangeLogInfo.builder()
+                        .frontValue(oldQuote.getQuote())
+                        .value(quoteInfo.getQuote())
+                        .desc("报价金额发生变化")
+                        .build());
+            }
 
+            if(!(oldQuote.getShipmentWeight().compareTo(quoteInfo.getShipmentWeight()) == 0)){
+                result.add(QuoteInfo.ChangeLogInfo.builder()
+                        .frontValue(oldQuote.getShipmentWeight())
+                        .value(quoteInfo.getShipmentWeight())
+                        .desc("出货量发生变化")
+                        .build());
+            }
+
+            String startTime = DateFormatUtils.formatDateTime(oldQuote.getStartTime());
+            if (!startTime.equals(quoteInfo.getStartTime())) {
+                result.add(QuoteInfo.ChangeLogInfo.builder().
+                        frontValue(oldQuote.getShipmentWeight())
+                        .value(quoteInfo.getShipmentWeight())
+                        .desc("入库时间发生变化").build());
+            }
+
+        }
         return result;
     }
 
@@ -534,7 +562,7 @@ import static com.demai.cornel.constant.ContextConsts.MIN_SHIPMENT_WEIGHT;
         List<ImgInfoReq> imgInfoReqs = imgService.getQuoteImgs(quoteId);
         getOfferInfoResp.setImgInfo(imgInfoReqs);
         getOfferInfoResp.setServiceMobile(serviceMobile);
-        buildChangeLog(getOfferInfoResp.getFrontValue());
+        buildChangeLog(getOfferInfoResp.getFrontValue(), getOfferInfoResp);
         List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByUserId(CookieAuthUtils.getCurrentUser());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = Lists.newArrayList();
         if (!CollectionUtils.isEmpty(ownDryInfo)) {
