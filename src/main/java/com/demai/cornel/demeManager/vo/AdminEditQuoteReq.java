@@ -1,5 +1,6 @@
 package com.demai.cornel.demeManager.vo;
 
+import com.demai.cornel.dmEnum.IEmus;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -22,7 +23,31 @@ public class AdminEditQuoteReq {
         private String unitWeight="吨";
         private String userId;
         private String towerId;
-        private Integer systemFlag; // 0 或者null 为针对烘干塔的报价 1是系统报价
+        private Integer systemFlag;
+    }
+
+    /***
+     * 资源报价类型
+     */
+    public static enum QUOTE_FLAG implements IEmus {
+        SPECIAL_FLAG(0, "针对烘干塔报价"),
+        SYSTEM_FLAG(1 , "系统全局报价");
+
+        private int value;
+        private String expr;
+
+        QUOTE_FLAG(int value, String expr) {
+            this.value = value;
+            this.expr = expr;
+        }
+
+        @Override public int getValue() {
+            return value;
+        }
+
+        @Override public String getExpr() {
+            return expr;
+        }
     }
 
 }

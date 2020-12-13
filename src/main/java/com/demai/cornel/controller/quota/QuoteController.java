@@ -109,9 +109,7 @@ import javax.annotation.Resource;
      */
     @RequestMapping(value = "/bargain-range.json", method = RequestMethod.POST) @ResponseBody public JsonResult getBargainRange(
             @RequestBody String param) {
-        JSONObject receivedParam = JSON.parseObject(param);
-        String commodityId = (String) receivedParam.get("commodityId");
-        return JsonResult.success(quoteService.getBargainRange(commodityId));
+        return JsonResult.success(quoteService.getBargainRange());
     }
 
     /**

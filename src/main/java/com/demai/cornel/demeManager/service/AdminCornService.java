@@ -273,7 +273,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
                     .build();
         }
         for (AdminEditQuoteReq.quoteInfo x : adminGetTowerReq.getQuoteInfos()) {
-            if (x.getSystemFlag() != null && x.getSystemFlag().equals(1)) {
+            if (x.getSystemFlag() != null && x.getSystemFlag() == AdminEditQuoteReq.QUOTE_FLAG.SYSTEM_FLAG.getValue()) {
                 editSystemQuote(x);
             } else {
                 editSpecialUserQuote(x);
