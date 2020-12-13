@@ -77,7 +77,7 @@ import java.util.stream.Collectors;
         List<GetSystemOfferResp> specialSale = specialSaleInfoMapper
                 .getSystemOfferSheet(CookieAuthUtils.getCurrentUser());
         HashMap<String, BigDecimal> specialMap = new HashMap<>();
-        if (specialSale != null) {
+        if (!CollectionUtils.isEmpty(specialSale )) {
             specialMap = (HashMap<String, BigDecimal>) specialSale.stream()
                     .collect(Collectors.toMap(GetSystemOfferResp::getCommodityId, GetSystemOfferResp::getPrice));
         }

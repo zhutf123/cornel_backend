@@ -384,15 +384,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
             log.debug("cur user {}  get AdminGetTowerQuLiResp list empty", CookieAuthUtils.getCurrentUser());
             return Collections.EMPTY_LIST;
         }
-        List<AdminGetTowerQuLiResp> resps = new ArrayList<>();
+        List<AdminGetTowerQuLiResp> resp = new ArrayList<>();
         specialQuote.stream().forEach(x -> {
             Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             AdminGetTowerQuLiResp adminGetTowerQuLiResp = new AdminGetTowerQuLiResp();
             BeanUtils.copyProperties(x, adminGetTowerQuLiResp);
             adminGetTowerQuLiResp.setCommodityName(commodity.getName());
-            resps.add(adminGetTowerQuLiResp);
+            resp.add(adminGetTowerQuLiResp);
         });
-        return resps;
+        return resp;
     }
 
     public List<ReviewModel> getReviewErrOpt() {

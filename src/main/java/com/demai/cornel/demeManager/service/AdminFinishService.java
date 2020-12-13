@@ -23,12 +23,7 @@ import java.util.Optional;
  */
 /*管理员获取到已完成订单的详情的接口*/
 @Service @Slf4j public class AdminFinishService {
-    @Resource private StackOutInfoMapper stackOutInfoMapper;
-    @Resource private StoreInfoMapper storeInfoMapper;
-    @Resource private LocationInfoMapper locationInfoMapper;
-    @Resource private FreightInfoMapper freightInfoMapper;
-    @Resource private SaleStackOutService saleStackOutService;
-    @Resource private OutStackService outStackService;
+
     @Resource private SaleOrderMapper saleOrderMapper;
 
     public JsonResult adminGetSaleList(Integer status, Integer offset, Integer pgSize) {

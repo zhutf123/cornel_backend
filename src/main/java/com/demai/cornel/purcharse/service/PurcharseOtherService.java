@@ -20,6 +20,7 @@ import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -142,11 +143,11 @@ import java.util.*;
 
 
     public List<BuyerCommitListResp>getCommodityList(){
-        List<BuyerCommitListResp> buyerCommitListResps = commodityDao.buyerGetCommodityList(CookieAuthUtils.getCurrentUser());
-        if(buyerCommitListResps==null){
+        List<BuyerCommitListResp> buyerCommitListResp = commodityDao.buyerGetCommodityList(CookieAuthUtils.getCurrentUser());
+        if(CollectionUtils.isEmpty(buyerCommitListResp)){
             return Collections.EMPTY_LIST;
         }
-        buyerCommitListResps.stream().forEach(x->{
+        buyerCommitListResp.stream().forEach(x->{
             List<StoreInfo> storeInfo = storeInfoMapper.selectStoreIdByCommodityId(x.getCommodityId());
             if(storeInfo==null||storeInfo.size()==0){
                 x.setReceiveStartTime(DateFormatUtils.getAfterTime(System.currentTimeMillis(), DateFormatUtils.ISO_DATE_PATTERN, 10));
@@ -156,7 +157,7 @@ import java.util.*;
                 x.setReceiveEndTime(DateFormatUtils.getAfterTime(System.currentTimeMillis(), DateFormatUtils.ISO_DATE_PATTERN, 10));
             }
         });
-        return buyerCommitListResps;
+        return buyerCommitListResp;
 
     }
 

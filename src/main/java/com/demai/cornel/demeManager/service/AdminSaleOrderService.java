@@ -38,8 +38,8 @@ import java.util.*;
     @Resource private SaleUnderReviewService saleUnderReviewService;
     @Resource private AdminRuningSaleService adminRuningSaleService;
     public List<AdminGetSaleListResp> getSaleView() {
-        List<AdminGetSaleListResp> saleListResps = saleOrderMapper.selectSaleView();
-        return CollectionUtils.isEmpty(saleListResps) ? Collections.EMPTY_LIST : saleListResps;
+        List<AdminGetSaleListResp> saleListResp = saleOrderMapper.selectSaleView();
+        return CollectionUtils.isEmpty(saleListResp) ? Collections.EMPTY_LIST : saleListResp;
     }
 
     /**

@@ -1,11 +1,16 @@
 package com.demai.cornel.demeManager.service;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.dao.DryTowerDao;
 import com.demai.cornel.demeManager.model.FreightExInfo;
 import com.demai.cornel.demeManager.model.FreightWithToLocation;
-import com.demai.cornel.demeManager.vo.*;
+import com.demai.cornel.demeManager.vo.AdminAddLocationResp;
+import com.demai.cornel.demeManager.vo.AdminGetFreTypeResp;
+import com.demai.cornel.demeManager.vo.AdminGetFreightResp;
+import com.demai.cornel.demeManager.vo.AdminGetFreightViewResp;
+import com.demai.cornel.demeManager.vo.AdminLocationMode;
+import com.demai.cornel.demeManager.vo.AdminOperResp;
+import com.demai.cornel.demeManager.vo.AdminUpdateFreightReq;
 import com.demai.cornel.purcharse.dao.FreightInfoMapper;
 import com.demai.cornel.purcharse.dao.LocationInfoMapper;
 import com.demai.cornel.purcharse.model.FreightInfo;
@@ -18,19 +23,23 @@ import com.demai.cornel.util.TimeStampUtil;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.gson.JsonObject;
-import com.hp.gagawa.java.elements.A;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.*;
-import java.util.concurrent.TransferQueue;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * @Author binz.zhang
@@ -41,29 +50,13 @@ import java.util.concurrent.TransferQueue;
     @Resource private DryTowerDao dryTowerDao;
     @Resource private LocationInfoMapper locationInfoMapper;
 
-//    @PostConstruct public void init() {
-//        List<LocationInfo> locationInfos = dryTowerDao.getLocation();
-//        locationInfos.stream().forEach(x -> {
-//
-//            if (x.getLocationId() == null) {
-//                x.setLocationId(UUID.randomUUID().toString());
-//                locationInfoMapper.insertSelective(x);
-//
-//            }
-//
-//        });
-//
-//    }
-
     public List<AdminGetFreightViewResp> adminGetFreightView(Integer offset, Integer pgSize) {
-        List<AdminGetFreightViewResp> freightViewResps = dryTowerDao.adminGetDryTower(pgSize, offset);
-        if (freightViewResps == null) {
+        List<AdminGetFreightViewResp> freightViewResp = dryTowerDao.adminGetDryTower(pgSize, offset);
+        if (CollectionUtils.isEmpty(freightViewResp)) {
             return Collections.EMPTY_LIST;
         }
-        if (freightViewResps == null) {
-            return Collections.emptyList();
-        }
-        freightViewResps.stream().forEach(x -> {
+
+        freightViewResp.stream().forEach(x -> {
             AdminGetFreightViewResp adminGetFreightViewResp = freightInfoMapper
                     .adminnGetOptFreightView(x.getLocationId());
             x.setAverPrice((adminGetFreightViewResp == null || adminGetFreightViewResp.getAverPrice() == null) ?
@@ -73,13 +66,13 @@ import java.util.concurrent.TransferQueue;
                     new BigDecimal(0) :
                     adminGetFreightViewResp.getMinPrice());
         });
-        return freightViewResps;
+        return freightViewResp;
     }
 
     public List<AdminLocationMode> getSystemLocationList(Integer offset, Integer pgSize) {
         List<AdminLocationMode> locationModes = locationInfoMapper
                 .getSystemLocation(Optional.ofNullable(offset).orElse(0), Optional.ofNullable(pgSize).orElse(10));
-        return locationModes == null ? Collections.EMPTY_LIST : locationModes;
+        return CollectionUtils.isEmpty(locationModes) ? Collections.EMPTY_LIST : locationModes;
     }
 
     public AdminAddLocationResp adminAddLocation(AdminLocationMode adminLocationMode) {
@@ -140,11 +133,11 @@ import java.util.concurrent.TransferQueue;
     }
 
     public List<AdminGetFreTypeResp> getFreightInfo() {
-        List<AdminGetFreTypeResp> typeResps = new ArrayList<>();
+        List<AdminGetFreTypeResp> typeResp = Lists.newArrayList();
         Arrays.stream(FreightExInfo.TYPE_ENUE.values()).forEach(x -> {
-            typeResps.add(new AdminGetFreTypeResp(x.getValue(), "", x.getType()));
+            typeResp.add(new AdminGetFreTypeResp(x.getValue(), "", x.getType()));
         });
-        return typeResps;
+        return typeResp;
     }
 
     public AdminGetFreightResp adminGetFreight(String towerId) {
@@ -223,7 +216,6 @@ import java.util.concurrent.TransferQueue;
         }
         Set<String> finalFromFreight = fromFreight;
         adminUpdateFreightReq.getDestinationList().stream().forEach(x -> {
-            List<String> freight = new ArrayList<>();
             if (x.getTransportList() != null) {
                 for (AdminUpdateFreightReq.TransportList transportList : x.getTransportList()) {
                     FreightInfo freightInfo = new FreightInfo();

@@ -95,20 +95,20 @@ import java.util.*;
 
     public List<AdminGetTowerQuLiResp> getBuyerQuoteList(String buyerId) {
         List<SpecialSaleInfo> specialQuote = specialSaleInfoMapper.selectSpecilaByUserId(buyerId);
-        if (specialQuote == null) {
+        if (CollectionUtils.isEmpty(specialQuote)) {
             log.debug("cur user {}  get getBuyerQuoteList list empty", CookieAuthUtils.getCurrentUser());
             return Collections.EMPTY_LIST;
         }
-        List<AdminGetTowerQuLiResp> resps = new ArrayList<>();
+        List<AdminGetTowerQuLiResp> resp = new ArrayList<>();
         specialQuote.stream().forEach(x -> {
             Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
             AdminGetTowerQuLiResp adminGetTowerQuLiResp = new AdminGetTowerQuLiResp();
             BeanUtils.copyProperties(x, adminGetTowerQuLiResp);
             adminGetTowerQuLiResp.setCommodityName(commodity.getName());
             adminGetTowerQuLiResp.setQuote(x.getPrice());
-            resps.add(adminGetTowerQuLiResp);
+            resp.add(adminGetTowerQuLiResp);
         });
-        return resps;
+        return resp;
     }
 
     /**

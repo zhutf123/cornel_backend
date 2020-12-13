@@ -12,6 +12,7 @@ import com.demai.cornel.purcharse.model.StoreInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ import java.util.UUID;
     public StackOutInfo buildSystemDefaultOutStackInfo(AdminUnRevSaleDetail saleOrder, boolean insterFlag) {
         List<StoreInfo> storeInfos = storeInfoMapper
                 .selectStoreIdByCommodityIdAndWeight(saleOrder.getCommodityId(), saleOrder.getWeight());
-        if (storeInfos == null || storeInfos.size() == 0) {
+        if (CollectionUtils.isEmpty(storeInfos)) {
             saleOrder.setShockFlag(1);
             return null;
         }
@@ -88,7 +89,7 @@ import java.util.UUID;
     public StackOutInfo buildSystemDefaultOutStackInfo(SaleOrder saleOrder, boolean insertFlag) {
         List<StoreInfo> storeInfos = storeInfoMapper
                 .selectStoreIdByCommodityIdAndWeight(saleOrder.getCommodityId(), saleOrder.getWeight());
-        if (storeInfos == null || storeInfos.size() == 0) {
+        if (CollectionUtils.isEmpty(storeInfos)) {
             return null;
         }
         BigDecimal minTotalPrice = null;

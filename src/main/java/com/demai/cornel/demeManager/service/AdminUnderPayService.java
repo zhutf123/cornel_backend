@@ -9,6 +9,7 @@ import com.demai.cornel.vo.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class AdminUnderPayService {
         List<AdminUnpaySaleList> saleOrder = saleOrderMapper
                 .AdminGetUnPaySaleOrderList(status, Optional.ofNullable(pgSize).orElse(10),
                         Optional.ofNullable(offset).orElse(0));
-        if (saleOrder == null) {
+        if (CollectionUtils.isEmpty(saleOrder)) {
             log.warn("SaleUnderReviewService--adminGetSaleList fail due to order invalid");
             return JsonResult.success(Collections.EMPTY_LIST);
         }

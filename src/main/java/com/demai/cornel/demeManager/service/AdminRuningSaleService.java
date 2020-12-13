@@ -8,6 +8,7 @@ import com.demai.cornel.purcharse.service.OutStackService;
 import com.demai.cornel.vo.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Collections;
@@ -33,7 +34,7 @@ public class AdminRuningSaleService {
         List<AdminAppSaleList> saleOrder = saleOrderMapper
                 .AdminGetAppSaleOrderList(status, Optional.ofNullable(pgSize).orElse(10),
                         Optional.ofNullable(offset).orElse(0));
-        if (saleOrder == null) {
+        if (CollectionUtils.isEmpty(saleOrder)) {
             log.warn("SaleUnderReviewService--adminGetSaleList fail due to order invalid");
             return JsonResult.success(Collections.EMPTY_LIST);
         }
