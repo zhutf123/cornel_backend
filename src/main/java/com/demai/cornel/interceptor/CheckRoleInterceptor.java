@@ -90,12 +90,5 @@ public class CheckRoleInterceptor implements HandlerInterceptor {
             Object o, Exception e) throws Exception {
     }
 
-    @Data
-    @Builder
-    public static class RequestMethodParam2MD5 implements Serializable {
-        private String url;
-        private String method;
-        private String params;
-    }
 
 }
