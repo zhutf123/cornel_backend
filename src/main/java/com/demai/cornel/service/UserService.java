@@ -1,6 +1,5 @@
 package com.demai.cornel.service;
 
-import com.demai.cornel.dao.RoleInfoDao;
 import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.dao.UserRoleInfoDao;
 import com.demai.cornel.model.UserInfo;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

@@ -28,12 +28,12 @@ import java.util.Map;
 @CustomInterceptor(order = 3, addPathPatterns = {"/**"})
 public class AuthCheckInterceptor implements HandlerInterceptor {
 
-    @Autowired
-    private UrlAclServiceImpl urlAclService;
+//    @Autowired
+//    private UrlAclServiceImpl urlAclService;
 
 
-    @Autowired
-    private UserInfoDao userInfoDao;
+//    @Autowired
+//    private UserInfoDao userInfoDao;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
