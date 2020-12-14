@@ -52,7 +52,7 @@ public class CheckRoleInterceptor implements HandlerInterceptor {
         String url = request.getRequestURI();
         String checkRole = accessControl.checkRole();
         if (StringUtils.isBlank(checkRole)) {
-            return Boolean.TRUE;
+            return Boolean.FALSE;
         }
         if (log.isDebugEnabled()) {
             log.debug("url:{} method：{} checkRole:{}", url, method.getMethod().getName(), checkRole);
