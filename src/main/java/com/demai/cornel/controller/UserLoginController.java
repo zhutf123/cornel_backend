@@ -4,17 +4,25 @@
 package com.demai.cornel.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.demai.cornel.annotation.AccessControl;
+import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.service.UserService;
+import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.CookieUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.vo.user.UserAddReq;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.collections.MapUtils;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +34,10 @@ import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.user.UserLoginParam;
 import com.demai.cornel.vo.user.UserLoginResp;
 import com.google.common.base.Preconditions;
+
+import java.util.Map;
+
+import static com.demai.cornel.util.CookieAuthUtils.KEY_USER_NAME;
 
 /**
  * Create By zhutf 19-10-31 上午10:43
@@ -107,9 +119,19 @@ public class UserLoginController {
     }
 
     @RequestMapping(value = "/check-user.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult checkAdminRoleUser(@RequestBody UserAddReq param) {
+    @ResponseBody public JsonResult checkAdminRoleUser(HttpServletRequest request) {
         try {
-            return JsonResult.success(userService.getUserRoleId(param.getUserId()));
+
+            String cKey = CookieUtils.getCookieValue(request, ContextConsts.COOKIE_CKEY_NAME);
+            if(Strings.isNullOrEmpty(cKey)){
+                cKey = CookieUtils.getCookieValue(request, ContextConsts.COOKIE_CKEY_NAME_TALK);
+            }
+            Map<String, String> userInfoMap = CookieAuthUtils.getUserFromCKey(cKey);
+            if (MapUtils.isNotEmpty(userInfoMap)) {
+                return JsonResult.success(userService.getUserRoleId(userInfoMap.get(KEY_USER_NAME)));
+            }
+            JsonResult.success(Lists.newArrayList());
+
         } catch (Exception e) {
             log.error("检测用户信息异常！", e);
         }
