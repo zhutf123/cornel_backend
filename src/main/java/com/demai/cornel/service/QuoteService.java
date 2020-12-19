@@ -470,6 +470,9 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
      */
     public List<QuoteInfo.ChangeLogInfo> buildChangeLog(String frontValue, GetOfferListResp quoteInfo) {
         List<QuoteInfo.ChangeLogInfo> result = Lists.newArrayList();
+        if (!quoteInfo.getStatus().equals(QuoteInfo.QUOTE_TATUS.SER_REVIEW_PASS.getValue())){
+            return result;
+        }
         if (StringUtil.isNotEmpty(frontValue)) {
             QuoteInfo oldQuote = JsonUtil.fromJson(frontValue, QuoteInfo.class);
             if(!(oldQuote.getQuote().compareTo(quoteInfo.getQuote()) == 0)){
