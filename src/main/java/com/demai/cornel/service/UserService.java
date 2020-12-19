@@ -2,6 +2,7 @@ package com.demai.cornel.service;
 
 import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.dao.UserRoleInfoDao;
+import com.demai.cornel.model.RoleInfo;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.model.UserRoleInfo;
 import com.demai.cornel.util.CookieAuthUtils;
@@ -13,6 +14,7 @@ import com.demai.cornel.vo.user.UserAddUserResp;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
@@ -95,5 +97,32 @@ import java.util.stream.Collectors;
             return Lists.newArrayList();
         }
         return userRoleInfos.stream().map(role -> role.getRoleId()).collect(Collectors.toList());
+    }
+
+
+    /**
+     * 获取当前用户的角色id
+     * @param userId 用户id
+     * @param type_enum 需要有权限的操作人
+     * @return
+     */
+    public Boolean checkUserRole(String userId, RoleInfo.ROLE_TYPE_ENUM type_enum) {
+        List<String> routeId = getUserRoleId(userId);
+        Boolean result = Boolean.FALSE;
+        if (CollectionUtils.isNotEmpty(routeId)){
+            switch (type_enum){
+            case BUS_OP:
+                if (routeId.contains(RoleInfo.ROLE_TYPE_ENUM.BUS_OP.getRouteId())){
+                    result = Boolean.TRUE;
+                }
+                break;
+            case FIN_OP:
+                if (routeId.contains(RoleInfo.ROLE_TYPE_ENUM.FIN_OP.getRouteId())){
+                    result = Boolean.TRUE;
+                }
+                break;
+            }
+        }
+        return result;
     }
 }

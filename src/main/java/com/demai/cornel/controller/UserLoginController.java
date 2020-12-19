@@ -15,6 +15,7 @@ import com.demai.cornel.service.UserService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.CookieUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.vo.user.UserAddReq;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import com.google.common.base.Strings;
@@ -122,8 +123,8 @@ public class UserLoginController {
     @RequestMapping(value = "/check-user.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     @ResponseBody public JsonResult checkAdminRoleUser(HttpServletRequest request) {
         try {
-            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
-            if (!curUser.startsWith("UNKNOW_")) {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+            if (StringUtil.isNotEmpty(curUser)) {
                 return JsonResult.success(userService.getUserRoleId(curUser));
             }
             JsonResult.success(Lists.newArrayList());

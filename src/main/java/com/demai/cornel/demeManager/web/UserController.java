@@ -7,9 +7,13 @@ import com.demai.cornel.demeManager.service.AdminCornService;
 import com.demai.cornel.demeManager.service.AdminUserLoginService;
 import com.demai.cornel.demeManager.vo.*;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.holder.UserHolder;
+import com.demai.cornel.model.RoleInfo;
+import com.demai.cornel.service.UserService;
 import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
+import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.user.UserLoginParam;
 import com.demai.cornel.vo.user.UserLoginResp;
@@ -17,6 +21,7 @@ import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +31,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.ref.PhantomReference;
 import java.text.ParseException;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -36,6 +42,7 @@ import java.util.UUID;
 
     @Resource private AdminUserLoginService adminUserLoginService;
     @Resource private AdminCornService adminCornService;
+    @Resource private UserService userService;
 
     /*财务人员获取审核的view 就是小工具最外层的视图页面*/
     @CrossOrigin @RequestMapping(value = "/get-quote-view.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteView(
@@ -67,6 +74,14 @@ import java.util.UUID;
     @CrossOrigin @RequestMapping(value = "/get-quote-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteList(
             @RequestBody GetQuoteListReq param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+        if (StringUtil.isEmpty(curUser)) {
+            return JsonResult.success(Lists.newArrayList());
+        }
+        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.FIN_OP)){
+            log.info("非财务人员，无权查看订单列表");
+            return JsonResult.success(Lists.newArrayList());
+        }
         return JsonResult.success(adminCornService.getQuoteList(param, response));
     }
 
@@ -74,6 +89,15 @@ import java.util.UUID;
     @CrossOrigin @RequestMapping(value = "/bussi-quote-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult OpgetQuoteList(
             @RequestBody GetQuoteListReq param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+        if (StringUtil.isEmpty(curUser)) {
+            return JsonResult.success(Lists.newArrayList());
+        }
+        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
+            log.info("非业务人员，无权查看订单列表");
+            return JsonResult.success(Lists.newArrayList());
+        }
+        
         return JsonResult.success(adminCornService.OpgetQuoteList(param, response));
     }
 
@@ -83,6 +107,14 @@ import java.util.UUID;
         Preconditions.checkNotNull(param);
         JSONObject receivedParam = JSON.parseObject(param);
         String quoteId = (String) receivedParam.get("quoteId");
+//        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+//        if (StringUtil.isEmpty(curUser)) {
+//            return JsonResult.success(null);
+//        }
+//        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
+//            log.info("非业务人员，无权查看订单详情");
+//            return JsonResult.success(null);
+//        }
         return JsonResult.success(adminCornService.getQuteDetail(quoteId));
     }
 
@@ -90,6 +122,14 @@ import java.util.UUID;
     @CrossOrigin @RequestMapping(value = "/opera-review-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult reviewQuote(
             @RequestBody ReviewQuoteReq reviewQuoteReq) {
         Preconditions.checkNotNull(reviewQuoteReq);
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+        if (StringUtil.isEmpty(curUser)) {
+            return JsonResult.success(Lists.newArrayList());
+        }
+        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
+            log.info("非业务人员，无权查看订单列表");
+            return JsonResult.success(Lists.newArrayList());
+        }
         return JsonResult.success(adminCornService.adminReviewQuote(reviewQuoteReq));
     }
 
@@ -97,6 +137,14 @@ import java.util.UUID;
     @CrossOrigin @RequestMapping(value = "/fina-review-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult finaReviewFina(
             @RequestBody FinaReviewQuoteReq reviewQuoteReq) {
         Preconditions.checkNotNull(reviewQuoteReq);
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+        if (StringUtil.isEmpty(curUser)) {
+            return JsonResult.success(Lists.newArrayList());
+        }
+        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.FIN_OP)){
+            log.info("非财务人员，无权查看订单列表");
+            return JsonResult.success(Lists.newArrayList());
+        }
         return JsonResult.success(adminCornService.finceReviewQuote(reviewQuoteReq));
     }
 
@@ -111,6 +159,14 @@ import java.util.UUID;
     @CrossOrigin @RequestMapping(value = "/edit-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult editQuote(
             @RequestBody AdminEditQuoteReq adminEditQuoteReq) {
         Preconditions.checkNotNull(adminEditQuoteReq);
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+        if (StringUtil.isEmpty(curUser)) {
+            return JsonResult.success(Lists.newArrayList());
+        }
+        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
+            log.info("非业务人员，无权查看订单列表");
+            return JsonResult.success(Lists.newArrayList());
+        }
         return JsonResult.success(adminCornService.editQuote(adminEditQuoteReq));
     }
 
