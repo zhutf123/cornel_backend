@@ -107,22 +107,23 @@ import java.util.stream.Collectors;
      * @return
      */
     public Boolean checkUserRole(String userId, RoleInfo.ROLE_TYPE_ENUM type_enum) {
-        List<String> routeId = getUserRoleId(userId);
-        Boolean result = Boolean.FALSE;
-        if (CollectionUtils.isNotEmpty(routeId)){
-            switch (type_enum){
-            case BUS_OP:
-                if (routeId.contains(RoleInfo.ROLE_TYPE_ENUM.BUS_OP.getRouteId())){
-                    result = Boolean.TRUE;
-                }
-                break;
-            case FIN_OP:
-                if (routeId.contains(RoleInfo.ROLE_TYPE_ENUM.FIN_OP.getRouteId())){
-                    result = Boolean.TRUE;
-                }
-                break;
-            }
-        }
-        return result;
+        return Boolean.TRUE;
+//        List<String> routeId = getUserRoleId(userId);
+//        Boolean result = Boolean.FALSE;
+//        if (CollectionUtils.isNotEmpty(routeId)){
+//            switch (type_enum){
+//            case BUS_OP:
+//                if (routeId.contains(RoleInfo.ROLE_TYPE_ENUM.BUS_OP.getRouteId())){
+//                    result = Boolean.TRUE;
+//                }
+//                break;
+//            case FIN_OP:
+//                if (routeId.contains(RoleInfo.ROLE_TYPE_ENUM.FIN_OP.getRouteId())){
+//                    result = Boolean.TRUE;
+//                }
+//                break;
+//            }
+//        }
+//        return result;
     }
 }

@@ -48,6 +48,14 @@ import java.util.UUID;
     @CrossOrigin @RequestMapping(value = "/get-quote-view.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getQuoteView(
             @RequestBody String param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+        if (StringUtil.isEmpty(curUser)) {
+            return JsonResult.success(Lists.newArrayList());
+        }
+        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.FIN_OP)){
+            log.info("非财务人员，无权查看订单列表");
+            return JsonResult.success(Lists.newArrayList());
+        }
         JSONObject receivedParam = JSON.parseObject(param);
         Integer offset = (Integer) receivedParam.get("limit");
         Integer pgSize = (Integer) receivedParam.get("pgSize");
@@ -58,6 +66,14 @@ import java.util.UUID;
     @CrossOrigin @RequestMapping(value = "/get-quote-view-op.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult oPgetQuoteView(
             @RequestBody String param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+        if (StringUtil.isEmpty(curUser)) {
+            return JsonResult.success(null);
+        }
+        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
+            log.info("非财务人员，无权查看订单列表");
+            return JsonResult.success(null);
+        }
         JSONObject receivedParam = JSON.parseObject(param);
         Integer offset = (Integer) receivedParam.get("offset");
         Integer pgSize = (Integer) receivedParam.get("pgSize");
@@ -67,6 +83,14 @@ import java.util.UUID;
     /*财务人员获取财务预览信息*/
     @RequestMapping(value = "/get-finc-info.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getFinInfo(
             @RequestBody String param, HttpServletResponse response) throws ParseException {
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+        if (StringUtil.isEmpty(curUser)) {
+            return JsonResult.success(null);
+        }
+        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.FIN_OP)){
+            log.info("非财务人员，无权查看订单列表");
+            return JsonResult.success(null);
+        }
         return JsonResult.success(adminCornService.adminGetQueFinInfo());
     }
 
@@ -107,14 +131,6 @@ import java.util.UUID;
         Preconditions.checkNotNull(param);
         JSONObject receivedParam = JSON.parseObject(param);
         String quoteId = (String) receivedParam.get("quoteId");
-//        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
-//        if (StringUtil.isEmpty(curUser)) {
-//            return JsonResult.success(null);
-//        }
-//        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
-//            log.info("非业务人员，无权查看订单详情");
-//            return JsonResult.success(null);
-//        }
         return JsonResult.success(adminCornService.getQuteDetail(quoteId));
     }
 
