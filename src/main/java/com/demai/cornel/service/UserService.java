@@ -89,8 +89,8 @@ import java.util.stream.Collectors;
      *
      * @return
      */
-    public List<String> getUserRoleId() {
-        List<UserRoleInfo> userRoleInfos = userRoleInfoDao.getRolesByUserId(CookieAuthUtils.getCurrentUser());
+    public List<String> getUserRoleId(String userId) {
+        List<UserRoleInfo> userRoleInfos = userRoleInfoDao.getRolesByUserId(userId);
         if (CollectionUtils.isEmpty(userRoleInfos)) {
             return Lists.newArrayList();
         }

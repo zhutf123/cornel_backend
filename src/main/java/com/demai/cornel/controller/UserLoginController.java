@@ -106,9 +106,10 @@ public class UserLoginController {
         return JsonResult.success(ResponseStatusEnum.NETWORK_ERROR);
     }
 
-    @RequestMapping(value = "/check-user.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult checkAdminRoleUser() {
+    @RequestMapping(value = "/check-user.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    @ResponseBody public JsonResult checkAdminRoleUser(@RequestBody UserAddReq param) {
         try {
-            return JsonResult.success(userService.getUserRoleId());
+            return JsonResult.success(userService.getUserRoleId(param.getUserId()));
         } catch (Exception e) {
             log.error("检测用户信息异常！", e);
         }
