@@ -36,6 +36,7 @@ import com.demai.cornel.vo.user.UserLoginResp;
 import com.google.common.base.Preconditions;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static com.demai.cornel.util.CookieAuthUtils.KEY_USER_NAME;
 
@@ -121,17 +122,11 @@ public class UserLoginController {
     @RequestMapping(value = "/check-user.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     @ResponseBody public JsonResult checkAdminRoleUser(HttpServletRequest request) {
         try {
-
-            String cKey = CookieUtils.getCookieValue(request, ContextConsts.COOKIE_CKEY_NAME);
-            if(Strings.isNullOrEmpty(cKey)){
-                cKey = CookieUtils.getCookieValue(request, ContextConsts.COOKIE_CKEY_NAME_TALK);
-            }
-            Map<String, String> userInfoMap = CookieAuthUtils.getUserFromCKey(cKey);
-            if (MapUtils.isNotEmpty(userInfoMap)) {
-                return JsonResult.success(userService.getUserRoleId(userInfoMap.get(KEY_USER_NAME)));
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+            if (!curUser.startsWith("UNKNOW_")) {
+                return JsonResult.success(userService.getUserRoleId(curUser));
             }
             JsonResult.success(Lists.newArrayList());
-
         } catch (Exception e) {
             log.error("检测用户信息异常！", e);
         }
