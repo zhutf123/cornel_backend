@@ -302,7 +302,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
         specialQuote.setQuote(quoteInfo.getSelfQuote());
         Commodity commodity = commodityDao.getCommodityByCommodityId(specialQuote.getCommodityId());
-        DryTower tower = dryTowerDao.selectByQuoteId(quoteInfo.getTowerId());
+        DryTower tower = dryTowerDao.selectByTowerId(quoteInfo.getTowerId());
         Set<String> userIds = tower.getContactUserId();
         userIds.add(tower.getBindUserId());
         List<UserInfo> userInfo = userInfoDao.getUserInfoByUserIds(userIds);
