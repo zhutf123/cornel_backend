@@ -15,6 +15,7 @@ import com.demai.cornel.service.QuoteService;
 import com.demai.cornel.service.SendMsgService;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.DateFormatUtils;
+import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.util.TimeStampUtil;
 import com.demai.cornel.util.json.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -152,11 +153,14 @@ import java.util.HashMap;
             log.error("finaReviewQuote fail due to  quote  update DB fail");
             return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.SERVER_ERR.getValue()).build();
         }
-        int resL = loanInfoMapper.updateByPrimaryKeySelective(loanInfo);
-        if (resL != 1) {
-            log.error("finaReviewQuote fail due to  quote  update LOAN DB fail");
-            return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.SERVER_ERR.getValue()).build();
+        if (StringUtil.isNotEmpty(loanInfo.getLoanId())) {
+            int resL = loanInfoMapper.updateByPrimaryKeySelective(loanInfo);
+            if (resL != 1) {
+                log.error("finaReviewQuote fail due to  quote  update LOAN DB fail");
+                return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.SERVER_ERR.getValue()).build();
+            }
         }
+
         return ReviewQuoteResp.builder().optStatus(ReviewQuoteResp.STATUS_ENUE.SUCCESS.getValue()).build();
     }
 
