@@ -31,7 +31,17 @@ public class CompanyService {
         companyInfo.setLicenseUrl(param.getLicenseUrl());
         companyInfoMapper.insertSelective(companyInfo);
         return companyInfo.getCompanyId();
-        
+    }
+
+
+    public String updateCompanyInfo(CompanyParam param){
+        CompanyInfo companyInfo = new CompanyInfo();
+        companyInfo.setCompanyName(param.getCompanyName());
+        companyInfo.setUserId(param.getUserId());
+        companyInfo.setLicenseUrl(param.getLicenseUrl());
+        companyInfo.setCompanyId(param.getCompanyId());
+        companyInfoMapper.updateByPrimaryKeySelective(companyInfo);
+        return companyInfo.getCompanyId();
     }
 
 }

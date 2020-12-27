@@ -119,7 +119,9 @@
       <if test="licenseUrl != null">
           #{licenseUrl,jdbcType=VARCHAR},
       </if>
-
+        <if test="licenseUrl != null">
+            license_url,
+        </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.CompanyInfo">
@@ -159,24 +161,11 @@
       <if test="locationId != null">
         location_id = #{locationId,jdbcType=VARCHAR},
       </if>
+        <if test="licenseUrl != null">
+            #{licenseUrl,jdbcType=VARCHAR},
+        </if>
     </set>
     where company_id = #{companyId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.demai.cornel.purcharse.model.CompanyInfo">
-    <!--@mbg.generated-->
-    update company_info
-    set company_id = #{companyId,jdbcType=VARCHAR},
-      company_name = #{companyName,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      "status" = #{status,jdbcType=INTEGER},
-      contact_user = #{contactUser,jdbcType=VARCHAR},
-      contact_tel = #{contactTel,jdbcType=VARCHAR},
-      main_project = #{mainProject,jdbcType=VARCHAR},
-      main_req = #{mainReq,jdbcType=VARCHAR},
-      daily_consume = #{dailyConsume,jdbcType=NUMERIC},
-      location_id = #{locationId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectBycompanyId" resultMap="BaseResultMap">
     select

@@ -18,4 +18,5 @@ public class CompanyParam implements Serializable {
     private String userId;
     private String companyName;
     private String licenseUrl;
+    private String companyId;
 }
