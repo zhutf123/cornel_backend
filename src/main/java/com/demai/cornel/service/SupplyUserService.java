@@ -253,6 +253,7 @@ import java.util.concurrent.TimeUnit;
         userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
         if (StringUtil.isEmpty(supplierCplUserInfoReq.getUserId())){
             userInfo.setUserId(CookieAuthUtils.getCurrentUser());
+            supplierCplUserInfoReq.setUserId(userInfo.getUserId());
         }
         BeanUtils.copyProperties(supplierCplUserInfoReq, userInfo);
 
