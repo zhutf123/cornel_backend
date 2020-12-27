@@ -22,6 +22,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class SupplierInfoResp {
+    private Long id;
     private Integer status;
     private String userId;
     private String userName;

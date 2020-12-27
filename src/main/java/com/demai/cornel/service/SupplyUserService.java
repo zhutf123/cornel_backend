@@ -35,6 +35,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -79,6 +80,7 @@ import java.util.concurrent.TimeUnit;
         userInfos.forEach(userInfo -> {
             SupplierInfoResp supplierInfoResp = new SupplierInfoResp();
             supplierInfoResp.setUserId(userInfo.getUserId());
+            supplierInfoResp.setId(userInfo.getId());
             supplierInfoResp.setIdCard(userInfo.getIdCard());
             supplierInfoResp.setUserName(userInfo.getName());
             supplierInfoResp.setServiceMobile(ServiceMobileConfig.serviceMobile.get(0));
@@ -89,6 +91,7 @@ import java.util.concurrent.TimeUnit;
             supplierInfoResp.setImgs(imgService.getUserImgs(userInfo.getUserId()));
             result.add(supplierInfoResp);
         });
+        result.sort(Comparator.comparing(SupplierInfoResp::getId).reversed());
         return result;
     }
 
