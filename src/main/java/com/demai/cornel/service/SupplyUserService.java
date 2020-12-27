@@ -97,7 +97,15 @@ import java.util.concurrent.TimeUnit;
 
         if (userInfo != null) {
             userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
-            userInfoDao.update(userInfo);
+            UserInfo infoTmp = new UserInfo();
+            userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
+            infoTmp.setUserId(userInfo.getUserId());
+            infoTmp.setMobile(Sets.newHashSet(supplierCplUserInfoReq.getMobile()));
+            infoTmp.setRole(UserInfo.ROLE_ENUE.SUPPLIER.getValue());
+            infoTmp.setIdCard(supplierCplUserInfoReq.getIdCard());
+            infoTmp.setIdType(supplierCplUserInfoReq.getIdType());
+            infoTmp.setName(supplierCplUserInfoReq.getName());
+            userInfoDao.update(infoTmp);
         } else {
             userInfo = new UserInfo();
             userInfo.setMobile(Sets.newHashSet(supplierCplUserInfoReq.getMobile()));

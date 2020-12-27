@@ -5,7 +5,7 @@ package com.demai.cornel.dmEnum;
  * @Date: 2020-01-19    19:12
  */
 public enum IdTypeEnum implements IEmus{
-    IDCARD(1, "S身份证"), DRIVER_LICE(1, "驾驶证");
+    IDCARD(1, "S身份证"), DRIVER_LICE(2, "驾驶证");
     private int value;
     private String expr;
 
