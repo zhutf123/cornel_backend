@@ -3,6 +3,7 @@
  */
 package com.demai.cornel.service;
 
+import com.demai.cornel.dao.DryTowerDao;
 import com.demai.cornel.purcharse.dao.CompanyInfoMapper;
 import com.demai.cornel.purcharse.model.CompanyInfo;
 import com.demai.cornel.vo.user.CompanyParam;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class CompanyService {
 
     @Resource CompanyInfoMapper companyInfoMapper;
+    @Resource DryTowerDao dryTowerDao;
 
     public String addCompanyInfo(CompanyParam param){
         CompanyInfo companyInfo = new CompanyInfo();
@@ -40,6 +42,7 @@ public class CompanyService {
         companyInfo.setLicenseUrl(param.getLicenseUrl());
         companyInfo.setCompanyId(param.getCompanyId());
         companyInfoMapper.updateByPrimaryKeySelective(companyInfo);
+        dryTowerDao.updateCompanyInfoByCompId(param.getCompanyName(), param.getCompanyId());
         return companyInfo.getCompanyId();
     }
 

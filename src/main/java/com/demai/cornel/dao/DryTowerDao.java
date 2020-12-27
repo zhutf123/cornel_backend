@@ -16,15 +16,11 @@ import java.util.List;
 public interface DryTowerDao {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(DryTower record);
-
     int insertSelective(DryTower record);
 
     DryTower selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(DryTower record);
-
-    int updateByPrimaryKey(DryTower record);
 
     String getLocationByUserId(@Param("userID") String userId);
 
@@ -51,4 +47,6 @@ public interface DryTowerDao {
     List<LocationInfo> getLocation();
 
     List<AdminGetQuoteList> selectDrytower(@Param("offset") Integer offset, @Param("pgSize") Integer pgSize);
+
+    void updateCompanyInfoByCompId(@Param("company") String company, @Param("companyId") String companyId);
 }

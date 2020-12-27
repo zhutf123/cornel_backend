@@ -24,6 +24,11 @@ public class AddDryTowerReq {
     private String company;
 
     /**
+     * 公司名称id
+     */
+    private String companyId;
+
+    /**
      * 主营品种
      */
     private Set<String> commodityId;

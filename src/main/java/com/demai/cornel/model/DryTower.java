@@ -30,6 +30,8 @@ public class DryTower {
     */
     private String company;
 
+    private String companyId;
+
     /**
     * 主营品种
     */

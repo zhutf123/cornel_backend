@@ -19,6 +19,7 @@ import com.demai.cornel.model.DryTower;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.purcharse.dao.CompanyInfoMapper;
 import com.demai.cornel.purcharse.dao.LocationInfoMapper;
+import com.demai.cornel.purcharse.model.CompanyInfo;
 import com.demai.cornel.purcharse.model.LocationInfo;
 import com.demai.cornel.util.*;
 import com.demai.cornel.util.json.JsonUtil;
@@ -419,6 +420,11 @@ import lombok.extern.slf4j.Slf4j;
         dryTower.setContactUserId(Sets.newHashSet(CookieAuthUtils.getCurrentUser()));
         if (addDryTowerReq.getDefaultFlag().equals(1)) {
             dryTowerDao.updateTowerNonDefaultFlag(CookieAuthUtils.getCurrentUser());
+        }
+        CompanyInfo companyInfo = companyInfoMapper.selectBycompanyId(addDryTowerReq.getCompanyId());
+        if (companyInfo != null){
+            dryTower.setCompany(companyInfo.getCompanyName());
+            dryTower.setCompanyId(companyInfo.getCompanyId());
         }
         dryTowerDao.insertSelective(dryTower);
         return TowerOperaResp.builder().towerId(dryTower.getTowerId())

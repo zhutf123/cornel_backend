@@ -23,14 +23,14 @@
         <result column="contact_user_id" property="contactUserId" jdbcType="ARRAY" javaType="java.util.Set"
                 typeHandler="com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler"/>
         <result column="location_id" jdbcType="VARCHAR" property="locationId"/>
-
-
+        <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
     </resultMap>
+    
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         tower_id,id, company, commodity_id, location, area, shipment_weight,
         create_time, "status", capacity_store, load_lorry_num, load_lorry_cost, bind_user_id
-        ,default_flag,location_area,location_detail,contact_user_id,location_id
+        ,default_flag,location_area,location_detail,contact_user_id,location_id, company_id
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -44,24 +44,7 @@
         delete from dry_tower
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.demai.cornel.model.DryTower">
-        <!--@mbg.generated-->
-        insert into dry_tower (tower_id,id, company,
-        commodity_id, location,
-        area, shipment_weight, create_time,
-        status, capacity_store, load_lorry_num,
-        load_lorry_cost, bind_user_id,default_flag,location_area,location_detail,contact_user_id
-        )
-        values (#{towerId,jdbcType=VARCHAR},#{id,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR},
-        #{commodityId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
-        #{location,jdbcType=VARCHAR},#{area,jdbcType=NUMERIC}, #{shipmentWeight,jdbcType=NUMERIC},
-        #{createTime,jdbcType=TIMESTAMP},
-        #{status,jdbcType=INTEGER}, #{capacityStore,jdbcType=NUMERIC}, #{loadLorryNum,jdbcType=INTEGER},
-        #{loadLorryCost,jdbcType=NUMERIC}, #{bindUserId,jdbcType=VARCHAR},
-        #{defaultFlag,jdbcType=INTEGER},#{locationArea,jdbcType=VARCHAR},
-        #{locationDetail,jdbcType=VARCHAR},#{locationDetail,jdbcType=VARCHAR},#{contactUserId javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
-        )
-    </insert>
+   
     <insert id="insertSelective" parameterType="com.demai.cornel.model.DryTower">
         <!--@mbg.generated-->
         insert into dry_tower
@@ -74,6 +57,9 @@
             </if>
             <if test="company != null">
                 company,
+            </if>
+            <if test="companyId != null">
+                company_id,
             </if>
             <if test="commodityId != null">
                 commodity_id,
@@ -127,6 +113,9 @@
             </if>
             <if test="company != null">
                 #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=VARCHAR},
             </if>
             <if test="commodityId != null">
                 #{commodityId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
@@ -182,6 +171,9 @@
             <if test="company != null">
                 company = #{company,jdbcType=VARCHAR},
             </if>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=VARCHAR},
+            </if>
             <if test="commodityId != null">
                 commodity_id =
                 #{commodityId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
@@ -231,28 +223,7 @@
         </set>
         where tower_id = #{towerId,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.demai.cornel.model.DryTower">
-        <!--@mbg.generated-->
-        update dry_tower
-        set company = #{company,jdbcType=VARCHAR},
-        tower_id = #{towerId,jdbcType=VARCHAR},
-        commodity_id =
-        #{commodityId,jdbcType=ARRAY,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
-        location = #{location,jdbcType=VARCHAR},
-        area = #{area,jdbcType=NUMERIC},
-        shipment_weight = #{shipmentWeight,jdbcType=NUMERIC},
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-        status = #{status,jdbcType=INTEGER},
-        capacity_store = #{capacityStore,jdbcType=NUMERIC},
-        load_lorry_num = #{loadLorryNum,jdbcType=INTEGER},
-        load_lorry_cost = #{loadLorryCost,jdbcType=NUMERIC},
-        bind_user_id = #{bindUserId,jdbcType=VARCHAR},
-        default_flag = #{defaultFlag,jdbcType=INTEGER},
-        location_area = #{locationArea,jdbcType=VARCHAR},
-        location_detail = #{locationDetail,jdbcType=VARCHAR},
-        contact_user_id=#{contactUserId,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
+    
     <select id="getLocationByUserId" resultType="java.lang.String">
        select location from dry_tower where bind_user_id=#{userID} limit 1;
     </select>
@@ -294,7 +265,7 @@
      select tower_id as towerId,location,location_id as locationId,company from dry_tower where status=1 order by id desc offset #{offset,jdbcType=INTEGER} limit #{pgSize,jdbcType=INTEGER} ;
     </select>
     <select id="adminGetDryTowerFreiViewByTowerId" resultType="com.demai.cornel.demeManager.vo.AdminGetFreightViewResp">
-            select tower_id as towerId,location,location_id as locationId,company ,contacts_name as contactUser,contact_mobile as mobile from dry_tower where tower_id=#{towerId,jdbcType=VARCHAR}  ;
+        select tower_id as towerId,location,location_id as locationId,company ,contacts_name as contactUser,contact_mobile as mobile from dry_tower where tower_id=#{towerId,jdbcType=VARCHAR}  ;
     </select>
     <select id="getLocation" resultType="com.demai.cornel.purcharse.model.LocationInfo">
         select location_detail as locationDetail,location as location,location_area as locationArea,location_id as locationId from dry_tower ;
@@ -302,5 +273,9 @@
     <select id="selectDrytower" resultType="com.demai.cornel.demeManager.vo.AdminGetQuoteList">
       select tower_id,company from dry_tower  where status=1 and company is not null order by id desc offset #{offset} limit #{pgSize,jdbcType=INTEGER};
     </select>
+
+    <update id="updateCompanyInfoByCompId">
+        update dry_tower set company=#{company} where company_id =#{companyId}
+    </update>
 
 </mapper>
