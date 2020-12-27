@@ -1,7 +1,9 @@
 package com.demai.cornel.service;
 
+import com.demai.cornel.dao.DryTowerDao;
 import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.model.DryTower;
 import com.demai.cornel.model.OpCorn;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.*;
@@ -11,6 +13,7 @@ import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
 import com.demai.cornel.vo.delivery.DriverCpllUserInfoResp;
 import com.demai.cornel.vo.delivery.SupplierCplUserInfoReq;
 import com.demai.cornel.vo.delivery.SupplierCpllUserInfoResp;
+import com.demai.cornel.vo.delivery.SupplierOtherUserInfoReq;
 import com.demai.cornel.vo.user.UserLoginParam;
 import com.demai.cornel.vo.user.UserLoginResp;
 import com.google.common.base.Joiner;
@@ -44,9 +47,56 @@ public class SupplyUserService {
     private SendMsgService sendMsgService;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
-
     @Resource
     private ImgService imgService;
+    @Resource
+    private DryTowerDao dryTowerDao;
+
+    public Boolean addOtherUserInfo(SupplierOtherUserInfoReq supplierCplUserInfoReq){
+
+        UserInfo userInfoInit = new UserInfo();
+        userInfoInit.setMobile(Sets.newHashSet(supplierCplUserInfoReq.getMobile()));
+        userInfoInit.setUserId(UUID.randomUUID().toString());
+        userInfoInit.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
+        userInfoInit.setRole(UserInfo.ROLE_ENUE.SUPPLIER.getValue());
+        userInfoDao.save(userInfoInit);
+
+        SupplierCpllUserInfoResp driverCpllUserInfoResp = new SupplierCpllUserInfoResp();
+        Preconditions.checkNotNull(supplierCplUserInfoReq);
+        if (Strings.isNullOrEmpty(supplierCplUserInfoReq.getIdCard()) || Strings
+                .isNullOrEmpty(supplierCplUserInfoReq.getName()) || Strings
+                .isNullOrEmpty(supplierCplUserInfoReq.getMobile()) || CollectionUtils
+                .isEmpty(supplierCplUserInfoReq.getImgs())) {
+            log.debug("supplier register complete fail due to param lock");
+            driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue());
+            return Boolean.FALSE;
+        }
+        if(!PhoneUtil.isPhone(supplierCplUserInfoReq.getMobile())){
+            log.debug("supplier register complete fail due to tel format error ");
+            driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PHONE_ERROR.getValue());
+            return Boolean.FALSE;
+        }
+        BeanUtils.copyProperties(supplierCplUserInfoReq, userInfoInit);
+        if (CollectionUtils.isEmpty(supplierCplUserInfoReq.getImgs())) {
+            log.debug("supplier complete user info img is empty");
+        }
+        imgService.saveUserInfoImgs(supplierCplUserInfoReq.getImgs(), userInfoInit.getUserId());
+        driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue());
+        driverCpllUserInfoResp.setUserId(supplierCplUserInfoReq.getUserId());
+        driverCpllUserInfoResp.setName(supplierCplUserInfoReq.getName());
+        log.debug("supplier complete user info [{}]", JacksonUtils.obj2String(driverCpllUserInfoResp));
+        //修改烘干塔联系人id
+        DryTower dryTower = dryTowerDao.selectByTowerId(supplierCplUserInfoReq.getTowerId());
+        if (dryTower == null) {
+            return Boolean.FALSE;
+        }
+        DryTower dryTowerTmp = new DryTower();
+        dryTowerTmp.setTowerId(dryTower.getTowerId());
+        dryTower.getContactUserId().add(userInfoInit.getUserId());
+        dryTowerTmp.setContactUserId(dryTower.getContactUserId());
+        dryTowerDao.updateByPrimaryKeySelective(dryTowerTmp);
+        return Boolean.TRUE;
+    }
 
     public UserLoginResp doLogin(UserLoginParam param) {
         // valid msg code

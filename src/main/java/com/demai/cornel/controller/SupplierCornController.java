@@ -18,6 +18,7 @@ import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
 import com.demai.cornel.vo.delivery.SupplierCplUserInfoReq;
+import com.demai.cornel.vo.delivery.SupplierOtherUserInfoReq;
 import com.demai.cornel.vo.order.GetOrderInfoReq;
 import com.demai.cornel.vo.order.OperationOrderReq;
 import com.demai.cornel.vo.order.OperationOrderResp;
@@ -95,7 +96,7 @@ import java.util.Optional;
         try {
             return JsonResult.success(supplyUserService.supplierCompleteUserInfo(param));
         } catch (Exception e) {
-            log.error("司机完善个人信息失败！", e);
+            log.error("修改烘干塔联系人失败！", e);
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
@@ -305,6 +306,18 @@ import java.util.Optional;
     @ResponseBody public JsonResult updateUserInfo(@RequestBody SupplierCplUserInfoReq param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
         return JsonResult.success(supplyUserService.updateUserCornInfo(param));
+    }
+
+    /**
+     * 添加其他联系人
+     * @param param
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/add-otherUser.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult addOtherUserInfo(@RequestBody SupplierOtherUserInfoReq param, HttpServletResponse response) {
+        Preconditions.checkNotNull(param);
+        return JsonResult.success(supplyUserService.addOtherUserInfo(param));
     }
 
 }
