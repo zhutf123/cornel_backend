@@ -11,3 +11,6 @@ alter table company_info add column license_url varchar(40);
 comment on column company_info.license_url is '证件url';
 
 
+alter table dry_tower add column company_id varchar(40);
+comment on column dry_tower.company_id is '公司id';
+
