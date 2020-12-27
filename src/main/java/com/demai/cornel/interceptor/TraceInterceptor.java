@@ -39,8 +39,7 @@ public class TraceInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
         long cost = System.currentTimeMillis() - NumberUtils.toLong(MDC.get(ContextConsts.MDC_START_TIME));
-        log.info("request uri {} cost {} ms",
-                MDC.get(ContextConsts.MDC_URI), cost);
+        log.info("request uri {} param:{} cost {} ms", MDC.get(ContextConsts.MDC_URI), o.toString(), cost);
         MDC.remove(ContextConsts.MDC_URI);
         MDC.remove(ContextConsts.MDC_USER);
         MDC.remove(ContextConsts.MDC_TRACE_ID);
