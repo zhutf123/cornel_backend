@@ -25,7 +25,16 @@ public class CompanyService {
     @Resource DryTowerDao dryTowerDao;
 
     public String addCompanyInfo(CompanyParam param){
-        CompanyInfo companyInfo = new CompanyInfo();
+        CompanyInfo companyInfo = companyInfoMapper.selectByUserId(param.getUserId());
+        if (companyInfo != null){
+            CompanyInfo companyInfoTmp = new CompanyInfo();
+            companyInfoTmp.setCompanyName(param.getCompanyName());
+            companyInfoTmp.setLicenseUrl(param.getLicenseUrl());
+            companyInfoTmp.setCompanyId(companyInfo.getCompanyId());
+            companyInfoMapper.updateByPrimaryKeySelective(companyInfoTmp);
+            return companyInfo.getCompanyId();
+        }
+        companyInfo = new CompanyInfo();
         companyInfo.setCompanyName(param.getCompanyName());
         companyInfo.setCompanyId(UUID.randomUUID().toString());
         companyInfo.setUserId(param.getUserId());
