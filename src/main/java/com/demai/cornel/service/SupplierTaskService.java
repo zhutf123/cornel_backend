@@ -17,6 +17,7 @@ import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.DryTower;
 import com.demai.cornel.model.UserInfo;
+import com.demai.cornel.purcharse.dao.CompanyInfoMapper;
 import com.demai.cornel.purcharse.dao.LocationInfoMapper;
 import com.demai.cornel.purcharse.model.LocationInfo;
 import com.demai.cornel.util.*;
@@ -58,6 +59,7 @@ import lombok.extern.slf4j.Slf4j;
     @Resource private CommodityDao commodityDao;
     @Resource private ImgService imgService;
     @Resource private LocationInfoMapper locationInfoMapper;
+    @Resource private CompanyInfoMapper companyInfoMapper;
 
     /**
      * 根据用户烘干塔用户id 订单状态查询任务订单
@@ -445,6 +447,7 @@ import lombok.extern.slf4j.Slf4j;
             supplierInfoResp.setTowerInfos(Collections.EMPTY_LIST);
             return JsonResult.success(supplierInfoResp);
         }
+        supplierInfoResp.setCompanyInfo(companyInfoMapper.selectByUserId(userId));
         List<SupplierInfoResp.TowerInfo> towerInfos = new ArrayList<>(dryTowers.size());
         dryTowers.stream().forEach(x -> {
             SupplierInfoResp.TowerInfo towerInfo = new SupplierInfoResp.TowerInfo();

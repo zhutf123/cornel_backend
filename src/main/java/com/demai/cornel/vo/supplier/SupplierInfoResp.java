@@ -3,6 +3,7 @@ package com.demai.cornel.vo.supplier;
 import com.demai.cornel.dmEnum.IEmus;
 import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.ImgInfoReq;
+import com.demai.cornel.purcharse.model.CompanyInfo;
 import com.demai.cornel.vo.user.UserLoginResp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class SupplierInfoResp {
     List<TowerInfo> towerInfos;
     private Integer userNum;
     private List<ImgInfoReq> imgs;
+    private CompanyInfo companyInfo;
 
     @Data public static class TowerInfo {
         List<Commodity> commoditys;

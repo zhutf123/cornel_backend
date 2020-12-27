@@ -13,8 +13,8 @@ public interface CompanyInfoMapper {
     CompanyInfo selectByPrimaryKey(Integer id);
     CompanyInfo selectBycompanyId(String companyId);
 
-
     int updateByPrimaryKeySelective(CompanyInfo record);
 
-    int updateByPrimaryKey(CompanyInfo record);
+    CompanyInfo selectByUserId(String userId);
+
 }
