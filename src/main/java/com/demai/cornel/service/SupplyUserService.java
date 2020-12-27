@@ -103,6 +103,9 @@ import java.util.concurrent.TimeUnit;
             userInfo.setMobile(Sets.newHashSet(supplierCplUserInfoReq.getMobile()));
             userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
             userInfo.setRole(UserInfo.ROLE_ENUE.SUPPLIER.getValue());
+            userInfo.setIdCard(supplierCplUserInfoReq.getIdCard());
+            userInfo.setIdType(supplierCplUserInfoReq.getIdType());
+            userInfo.setName(supplierCplUserInfoReq.getName());
             userInfo.setUserId(UUID.randomUUID().toString());
             userInfoDao.save(userInfo);
         }
