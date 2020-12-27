@@ -1,6 +1,7 @@
 package com.demai.cornel.purcharse.dao;
 
 import com.demai.cornel.purcharse.model.CompanyInfo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @Author binz.zhang
@@ -11,7 +12,8 @@ public interface CompanyInfoMapper {
     int insertSelective(CompanyInfo record);
 
     CompanyInfo selectByPrimaryKey(Integer id);
-    CompanyInfo selectBycompanyId(String companyId);
+    
+    CompanyInfo selectBycompanyId(@Param("companyId") String companyId);
 
     int updateByPrimaryKeySelective(CompanyInfo record);
 
