@@ -256,7 +256,8 @@ import java.util.concurrent.TimeUnit;
             supplierCplUserInfoReq.setUserId(userInfo.getUserId());
         }
         BeanUtils.copyProperties(supplierCplUserInfoReq, userInfo);
-        userInfo.getMobile().add(supplierCplUserInfoReq.getMobile());
+        Set<String> mobiles = Sets.newHashSet(supplierCplUserInfoReq.getMobile());
+        userInfo.setMobile(mobiles);
 
         int res = userInfoDao.update(userInfo);
         if (res == 0) {
