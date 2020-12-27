@@ -91,6 +91,7 @@ import java.util.Optional;
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
+
     @RequestMapping(value = "/comp-userinfo.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult completeUserInfo(
             @RequestBody SupplierCplUserInfoReq param, HttpServletResponse response) {
         try {
@@ -100,6 +101,7 @@ import java.util.Optional;
         }
         return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
     }
+
     /**
      * 烘干塔列表
      *
@@ -296,42 +298,63 @@ import java.util.Optional;
     @RequestMapping(value = "/user-info.json", method = RequestMethod.POST) @ResponseBody public JsonResult getUserInfo() {
         return JsonResult.success(supplierTaskService.getSupplierInfo());
     }
+
     /**
      * 更新个人信息
+     *
      * @param param
      * @param response
      * @return
      */
-    @RequestMapping(value = "/edit-userinfo.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult updateUserInfo(@RequestBody SupplierCplUserInfoReq param, HttpServletResponse response) {
+    @RequestMapping(value = "/edit-userinfo.json", method = RequestMethod.POST) @ResponseBody public JsonResult updateUserInfo(
+            @RequestBody SupplierCplUserInfoReq param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
         return JsonResult.success(supplyUserService.updateUserCornInfo(param));
     }
 
     /**
      * 添加其他联系人
+     *
      * @param param
      * @param response
      * @return
      */
-    @RequestMapping(value = "/add-otherUser.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult addOtherUserInfo(@RequestBody SupplierOtherUserInfoReq param, HttpServletResponse response) {
+    @RequestMapping(value = "/add-otherUser.json", method = RequestMethod.POST) @ResponseBody public JsonResult addOtherUserInfo(
+            @RequestBody SupplierOtherUserInfoReq param, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
         return JsonResult.success(supplyUserService.addOtherUserInfo(param));
     }
 
-
     /**
      * 添加其他联系人
+     *
      * @param towerId
      * @param response
      * @return
      */
-    @RequestMapping(value = "/get-otherUsers.json", method = RequestMethod.POST)
-    @ResponseBody public JsonResult getOtherUserInfo(@RequestBody String towerId, HttpServletResponse response) {
+    @RequestMapping(value = "/get-otherUsers.json", method = RequestMethod.POST) @ResponseBody public JsonResult getOtherUserInfo(
+            @RequestBody String towerId, HttpServletResponse response) {
         Preconditions.checkNotNull(towerId);
         String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
         return JsonResult.success(supplyUserService.getOtherUserInfo(curUser, towerId));
+    }
+
+    /**
+     * 删除其他联系人
+     *
+     * @param towerId
+     * @param userId
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/remove-otherUser.json", method = RequestMethod.POST) @ResponseBody public JsonResult removeOtherUserInfo(
+            @RequestBody String towerId, String userId, HttpServletResponse response) {
+        Preconditions.checkNotNull(towerId);
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+        if (curUser.equals(userId)){
+            JsonResult.success(Boolean.FALSE);
+        }
+        return JsonResult.success(supplyUserService.removeOtherUser(curUser, towerId, userId));
     }
 
 }

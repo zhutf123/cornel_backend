@@ -44,26 +44,32 @@ import java.util.concurrent.TimeUnit;
  * @Author binz.zhang
  * @Date: 2020-02-05    20:46
  */
-@Service
-@Slf4j
-public class SupplyUserService {
-    @Resource
-    private UserInfoDao userInfoDao;
-    @Resource
-    private WeChatService weChatService;
-    @Resource
-    private SendMsgService sendMsgService;
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
-    @Resource
-    private ImgService imgService;
-    @Resource
-    private DryTowerDao dryTowerDao;
+@Service @Slf4j public class SupplyUserService {
+    @Resource private UserInfoDao userInfoDao;
+    @Resource private WeChatService weChatService;
+    @Resource private SendMsgService sendMsgService;
+    @Resource private StringRedisTemplate stringRedisTemplate;
+    @Resource private ImgService imgService;
+    @Resource private DryTowerDao dryTowerDao;
 
-    public List<SupplierInfoResp> getOtherUserInfo(String curUser, String towerId){
+    public Boolean removeOtherUser(String curUser, String towerId, String userId) {
+        DryTower dryTower = dryTowerDao.selectByTowerId(towerId);
+        if (dryTower == null || !dryTower.getBindUserId().equals(curUser)) {
+            return Boolean.FALSE;
+        }
+        DryTower dryTowerTmp = new DryTower();
+        dryTowerTmp.setTowerId(dryTower.getTowerId());
+        dryTower.getContactUserId().remove(userId);
+        dryTowerTmp.setContactUserId(dryTower.getContactUserId());
+        dryTowerDao.updateByPrimaryKeySelective(dryTowerTmp);
+        userInfoDao.updateUserInfoOffline(userId);
+        return Boolean.TRUE;
+    }
+
+    public List<SupplierInfoResp> getOtherUserInfo(String curUser, String towerId) {
         List<SupplierInfoResp> result = Lists.newArrayList();
         DryTower dryTower = dryTowerDao.selectByTowerId(towerId);
-        if (dryTower==null || !dryTower.getBindUserId().equals(curUser)){
+        if (dryTower == null || !dryTower.getBindUserId().equals(curUser)) {
             return result;
         }
         Set<String> userIds = dryTower.getContactUserId();
@@ -86,7 +92,7 @@ public class SupplyUserService {
         return result;
     }
 
-    public Boolean addOtherUserInfo(SupplierOtherUserInfoReq supplierCplUserInfoReq){
+    public Boolean addOtherUserInfo(SupplierOtherUserInfoReq supplierCplUserInfoReq) {
         UserInfo userInfoInit = new UserInfo();
         userInfoInit.setMobile(Sets.newHashSet(supplierCplUserInfoReq.getMobile()));
         userInfoInit.setUserId(UUID.randomUUID().toString());
@@ -104,7 +110,7 @@ public class SupplyUserService {
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue());
             return Boolean.FALSE;
         }
-        if(!PhoneUtil.isPhone(supplierCplUserInfoReq.getMobile())){
+        if (!PhoneUtil.isPhone(supplierCplUserInfoReq.getMobile())) {
             log.debug("supplier register complete fail due to tel format error ");
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PHONE_ERROR.getValue());
             return Boolean.FALSE;
@@ -171,8 +177,6 @@ public class SupplyUserService {
                 UserLoginResp.USER_STATUS_ENUE.REGISTERED.getValue());
     }
 
-
-
     /***
      * 给用户发送登录验证码 -1 查不到用户 0 成功 2 发送失败，稍后重试
      *
@@ -180,20 +184,17 @@ public class SupplyUserService {
      */
     public Integer sendLoginCodeMsg(String phone) {
         Integer validCode = GenRandomCodeUtil.genRandomCode(6);
-        if(phone.equals("13439679479")){
+        if (phone.equals("13439679479")) {
             validCode = 888888;
         }
-        stringRedisTemplate.opsForValue().set(Joiner.on("_").join(phone, "loginValid"), String.valueOf(validCode), 300,
-                TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue()
+                .set(Joiner.on("_").join(phone, "loginValid"), String.valueOf(validCode), 300, TimeUnit.SECONDS);
         Integer sendResult = sendMsgService.sendLoginValid(phone, validCode);
         if (sendResult.compareTo(SendMsgService.SEND_MSG_CODE.SUCCESS.getValue()) == 0) {
             return ResponseStatusEnum.SUCCESS.getValue();
         }
         return ResponseStatusEnum.NETWORK_ERROR.getValue();
     }
-
-
-
 
     /***
      * 验证该手机号的登录验证码
@@ -203,10 +204,10 @@ public class SupplyUserService {
      */
     public Boolean checkLoginMsgCode(String phone, String msgCode) {
         String code = stringRedisTemplate.opsForValue().get(Joiner.on("_").join(phone, "loginValid"));
-        if (StringUtil.isBlank(code)){
+        if (StringUtil.isBlank(code)) {
             return Boolean.FALSE;
         }
-        if (msgCode.equalsIgnoreCase(code)){
+        if (msgCode.equalsIgnoreCase(code)) {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
@@ -225,7 +226,7 @@ public class SupplyUserService {
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PARAM_ERROR.getValue());
             return driverCpllUserInfoResp;
         }
-        if(!PhoneUtil.isPhone(supplierCplUserInfoReq.getMobile())){
+        if (!PhoneUtil.isPhone(supplierCplUserInfoReq.getMobile())) {
             log.debug("supplier register complete fail due to tel format error ");
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PHONE_ERROR.getValue());
             return driverCpllUserInfoResp;
@@ -250,7 +251,6 @@ public class SupplyUserService {
         log.debug("supplier complete user info [{}]", JacksonUtils.obj2String(driverCpllUserInfoResp));
         return driverCpllUserInfoResp;
     }
-
 
     public OpCorn updateUserCornInfo(SupplierCplUserInfoReq driverCornInfo) {
         if (driverCornInfo == null) {

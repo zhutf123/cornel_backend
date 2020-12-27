@@ -277,4 +277,8 @@
         where status=1 and role_id='5');
     </select>
 
+    <update id="updateUserInfoOffline" parameterType="string">
+        update user_info set status=2 where user_id=#{userId}
+    </update>
+
 </mapper>

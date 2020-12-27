@@ -46,4 +46,7 @@ public interface UserInfoDao {
 
     List<UserInfo> getFinanceOpUserInfo();
 
+    void updateUserInfoOffline(@Param("userId")String userId);
+
+
 }
