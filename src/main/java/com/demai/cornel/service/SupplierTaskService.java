@@ -457,6 +457,8 @@ import lombok.extern.slf4j.Slf4j;
             }
             towerInfos.add(towerInfo);
         });
+        supplierInfoResp.setUserNum(CollectionUtils.isNotEmpty(dryTowers.get(0).getContactUserId()) ?
+                (dryTowers.get(0).getContactUserId().size() -1) : 0 );
         supplierInfoResp.setTowerInfos(towerInfos);
         supplierInfoResp.setImgs(imgService.getUserImgs(userInfo.getUserId()));
         log.debug("supplier get user info return [{}]", JacksonUtils.obj2String(supplierInfoResp));

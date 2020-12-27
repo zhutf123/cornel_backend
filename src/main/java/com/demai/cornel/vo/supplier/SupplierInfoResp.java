@@ -28,6 +28,7 @@ public class SupplierInfoResp {
     private String idCard;
     private String serviceMobile;
     List<TowerInfo> towerInfos;
+    private Integer userNum;
     private List<ImgInfoReq> imgs;
 
     @Data public static class TowerInfo {
