@@ -28,24 +28,7 @@
     from company_info
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    <!--@mbg.generated-->
-    delete from company_info
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.demai.cornel.purcharse.model.CompanyInfo">
-    <!--@mbg.generated-->
-    insert into company_info (id, company_id, company_name, 
-      create_time, update_time, "status", 
-      contact_user, contact_tel, main_project, 
-      main_req, daily_consume, location_id
-      )
-    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{contactUser,jdbcType=VARCHAR}, #{contactTel,jdbcType=VARCHAR}, #{mainProject,jdbcType=VARCHAR}, 
-      #{mainReq,jdbcType=VARCHAR}, #{dailyConsume,jdbcType=NUMERIC}, #{locationId,jdbcType=VARCHAR}
-      )
-  </insert>
+  
   <insert id="insertSelective" parameterType="com.demai.cornel.purcharse.model.CompanyInfo">
     <!--@mbg.generated-->
     insert into company_info
@@ -86,6 +69,12 @@
       <if test="locationId != null">
         location_id,
       </if>
+      <if test="userId != null">
+          user_id,
+      </if>
+      <if test="licenseUrl != null">
+          license_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -124,6 +113,13 @@
       <if test="locationId != null">
         #{locationId,jdbcType=VARCHAR},
       </if>
+      <if test="userId != null">
+          #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseUrl != null">
+          #{licenseUrl,jdbcType=VARCHAR},
+      </if>
+
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.CompanyInfo">

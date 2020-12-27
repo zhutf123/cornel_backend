@@ -7,10 +7,7 @@ import com.demai.cornel.purcharse.model.CompanyInfo;
  * @Date: 2020-02-20    00:00
  */
 public interface CompanyInfoMapper {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(CompanyInfo record);
-
+    
     int insertSelective(CompanyInfo record);
 
     CompanyInfo selectByPrimaryKey(Integer id);

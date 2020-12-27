@@ -73,4 +73,8 @@ import lombok.Data;
     private String locationId;
 
     private String location;
+
+    private String userId;
+
+    private String licenseUrl;
 }

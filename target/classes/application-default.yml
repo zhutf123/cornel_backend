@@ -2,12 +2,18 @@ debug: false
 
 #redis 集群模式
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 50MB
   redis:
     cluster:
-      nodes: 192.168.0.107:6379,192.168.0.107:6380,192.168.0.107:6381,192.168.0.107:6382,192.168.0.107:6383,192.168.0.107:6384
+      nodes: 192.168.0.107:6379,192.168.0.107:6380,192.168.0.107:6381
       max-redirects: 5
       password: cornel00147258
       timeout: 5
+
 
 jetcache:
   statIntervalMinutes: 1
@@ -20,6 +26,18 @@ jetcache:
       valueEncoder: java
       valueDecoder: java
       expireAfterWriteInMillis: 60000
+# remote 需要适配下公司sedis或者redis集群
+#  remote:
+#    default:
+#      type: redis.lettuce
+#      keyConvertor: fastjson
+#      valueEncoder: java
+#      valueDecoder: java
+#      uri:
+#        - redis://l-schrd2.vc.beta.cn0:6379
+#        - redis://l-schrd2.vc.beta.cn0:7379
+#      password:
+#        - schrd
 
 caching:
   types:
@@ -30,8 +48,46 @@ caching:
   configs:
     hblist:
       caffeine:
-        spec: maximumSize=5000,expireAfterWrite=15m,recordStats
-#        cacheNullValues: false
+        spec: maximumSize=5000,expireAfterAccess=10s,recordStats
+    flist:
+      caffeine:
+        spec: maximumSize=5000,expireAfterAccess=15m,refreshAfterWrite=10m,recordStats
+      redis:
+        timeToLive: 15m
+    #    make-price-info:
+    #      caffeine:
+    #        spec: maximumSize=5000,expireAfterAccess=30m,recordStats
+    #    check-abroad-cache:
+    #      caffeine:
+    #        spec: maximumSize=5000,expireAfterAccess=30m,recordStats
+    near-city-info-cache:
+      caffeine:
+        spec: maximumSize=1000,expireAfterWrite=5h,recordStats
+    fh-py-flight-list:
+      caffeine:
+        spec: maximumSize=5000,expireAfterWrite=5m,recordStats
+    dist-hotel-base-info:
+      caffeine:
+        spec: maximumSize=50000,expireAfterWrite=1m,recordStats
+    hotel-can-sell-suppliers:
+      caffeine:
+        spec: maximumSize=100000,expireAfterWrite=5s,recordStats
+    hotel-room-type-en-name-map:
+      caffeine:
+        spec: maximumSize=200000,expireAfterWrite=6h,recordStats
+    hotel-comment-tag:
+      caffeine:
+        spec: maximumSize=10000,expireAfterWrite=6h,recordStats
+    fh-py-res-config:
+      caffeine:
+        spec: maximumSize=10000,expireAfterWrite=30m,recordStats
+    fh-online-hotel:
+      caffeine:
+        spec: maximumSize=10000,expireAfterWrite=5m,recordStats
+    fh-hotel-simple-base-info:
+      caffeine:
+        spec: maximumSize=100000,expireAfterWrite=30m,recordStats
+        cacheNullValues: false
 
 we-chat:
   code2session: https://api.weixin.qq.com/sns/jscode2session?appid={appId}&secret={appSecret}&js_code={jscode}&grant_type=authorization_code
@@ -47,9 +103,6 @@ ali-config:
   accessKeyId: LTAI4FjjDZfU5McHXiDEH2Uk
   accessSecret: 1C6KdK5kBZurVkFTSqp8wPE2mvJpBB
   loginValidcodeId: SMS_176539582
-  priceChangeCodeId: SMS_205821111
-  notifyBusinessOp: SMS_205826428
-  notifyFinanceOp: SMS_205811656
 
 datasources:
   dm-master:
@@ -60,7 +113,6 @@ datasources:
     maximumPoolSize: 5
     idleTimeout: 600000
     maxLifetime: 1800000
-
 xxl:
   job:
     admin:
@@ -75,12 +127,12 @@ xxl:
 baidu:
   ak: 1EBYcarYLWPnnpUbrX4SUxQwtLSjgvF0
 service:
-  mobileList: 18904015597,18904015597
+  mobileList: 18904015597
 banner:
-  download: https://beta.demeteria.com/banner/download.json?key=1.png,https://beta.demeteria.com/banner/download.json?key=2.png
+  download: https://demeteria.com/banner/download.json?key=1.png,https://demeteria.com/banner/download.json?key=2.png
   purchaseBanner: https://beta.demeteria.com/banner/download.json?key=3.png,https://beta.demeteria.com/banner/download.json?key=4.png
 upload:
-  location: /home/update/
+  location: :
   downloadHost: https://demeteria.com
 car-config:
   carlicetype: 本人,他人,公司
