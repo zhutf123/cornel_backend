@@ -17,6 +17,7 @@ public interface UserInfoDao {
 
     public UserInfo getDryTowerUserInfoByPhone(@Param("phone") String phone);
 
+    public UserInfo getUserInfoByPhone(@Param("phone") String phone);
 
     public UserInfo getUserInfoNoDriverByPhone(@Param("phone") String phone);
 

@@ -196,6 +196,17 @@
         where status=1 and <![CDATA[ mobile @> array[#{phone}] ]]> and role=2
         limit 1
     </select>
+
+    <select id="getUserInfoByPhone" parameterType="String" resultMap="userInfoResultMap">
+        SELECT
+        <include refid="main_column"/>
+        from user_info
+        where <![CDATA[ mobile @> array[#{phone}] ]]> and role=2
+        limit 1
+    </select>
+
+
+
     <select id="getUsersInfoByPhones" resultMap="userInfoResultMap">
         SELECT
         <include refid="main_column"/>

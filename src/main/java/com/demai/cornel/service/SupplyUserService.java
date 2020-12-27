@@ -93,12 +93,19 @@ import java.util.concurrent.TimeUnit;
     }
 
     public Boolean addOtherUserInfo(SupplierOtherUserInfoReq supplierCplUserInfoReq) {
-        UserInfo userInfoInit = new UserInfo();
-        userInfoInit.setMobile(Sets.newHashSet(supplierCplUserInfoReq.getMobile()));
-        userInfoInit.setUserId(UUID.randomUUID().toString());
-        userInfoInit.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
-        userInfoInit.setRole(UserInfo.ROLE_ENUE.SUPPLIER.getValue());
-        userInfoDao.save(userInfoInit);
+        UserInfo userInfo = userInfoDao.getUserInfoByPhone(supplierCplUserInfoReq.getMobile());
+
+        if (userInfo != null) {
+            userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
+            userInfoDao.update(userInfo);
+        } else {
+            userInfo = new UserInfo();
+            userInfo.setMobile(Sets.newHashSet(supplierCplUserInfoReq.getMobile()));
+            userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
+            userInfo.setRole(UserInfo.ROLE_ENUE.SUPPLIER.getValue());
+            userInfo.setUserId(UUID.randomUUID().toString());
+            userInfoDao.save(userInfo);
+        }
 
         SupplierCpllUserInfoResp driverCpllUserInfoResp = new SupplierCpllUserInfoResp();
         Preconditions.checkNotNull(supplierCplUserInfoReq);
@@ -115,11 +122,11 @@ import java.util.concurrent.TimeUnit;
             driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.PHONE_ERROR.getValue());
             return Boolean.FALSE;
         }
-        BeanUtils.copyProperties(supplierCplUserInfoReq, userInfoInit);
+        //BeanUtils.copyProperties(supplierCplUserInfoReq, userInfoInit);
         if (CollectionUtils.isEmpty(supplierCplUserInfoReq.getImgs())) {
             log.debug("supplier complete user info img is empty");
         }
-        imgService.saveUserInfoImgs(supplierCplUserInfoReq.getImgs(), userInfoInit.getUserId());
+        imgService.saveUserInfoImgs(supplierCplUserInfoReq.getImgs(), userInfo.getUserId());
         driverCpllUserInfoResp.setOptResult(DriverCpllUserInfoResp.STATUS.SUCCESS.getValue());
         driverCpllUserInfoResp.setUserId(supplierCplUserInfoReq.getUserId());
         driverCpllUserInfoResp.setName(supplierCplUserInfoReq.getName());
@@ -131,7 +138,7 @@ import java.util.concurrent.TimeUnit;
         }
         DryTower dryTowerTmp = new DryTower();
         dryTowerTmp.setTowerId(dryTower.getTowerId());
-        dryTower.getContactUserId().add(userInfoInit.getUserId());
+        dryTower.getContactUserId().add(userInfo.getUserId());
         dryTowerTmp.setContactUserId(dryTower.getContactUserId());
         dryTowerDao.updateByPrimaryKeySelective(dryTowerTmp);
         return Boolean.TRUE;
