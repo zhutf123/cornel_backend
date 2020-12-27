@@ -121,9 +121,6 @@
       <if test="licenseUrl != null">
           #{licenseUrl,jdbcType=VARCHAR},
       </if>
-        <if test="licenseUrl != null">
-            license_url,
-        </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.demai.cornel.purcharse.model.CompanyInfo">
