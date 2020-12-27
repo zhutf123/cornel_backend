@@ -474,8 +474,7 @@ import lombok.extern.slf4j.Slf4j;
         return JsonResult.success(supplierInfoResp);
 
     }
-    public GetSupplierCornInfoResp getSupplierInfo() {
-        String userId = CookieAuthUtils.getCurrentUser();
+    public GetSupplierCornInfoResp getSupplierInfo(String userId) {
         GetSupplierCornInfoResp supplierCornInfoResp = new GetSupplierCornInfoResp();
 
         UserInfo userInfo = userInfoDao.getSupplierUserInfoByUserId(userId);

@@ -296,7 +296,16 @@ import java.util.Optional;
     }
 
     @RequestMapping(value = "/user-info.json", method = RequestMethod.POST) @ResponseBody public JsonResult getUserInfo() {
-        return JsonResult.success(supplierTaskService.getSupplierInfo());
+        String userId = CookieAuthUtils.getCurrentUser();
+        return JsonResult.success(supplierTaskService.getSupplierInfo(userId));
+    }
+
+    @RequestMapping(value = "/other-userInfo.json", method = RequestMethod.POST) @ResponseBody
+    public JsonResult getOtherUserInfo(@RequestBody String param) {
+        Preconditions.checkNotNull(param);
+        JSONObject receivedParam = JSON.parseObject(param);
+        String userId = (String)receivedParam.get("userId");
+        return JsonResult.success(supplierTaskService.getSupplierInfo(userId));
     }
 
     /**
