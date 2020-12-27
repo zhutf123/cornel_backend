@@ -3,6 +3,8 @@
  */
 package com.demai.cornel.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.purcharse.dao.CompanyInfoMapper;
@@ -37,9 +39,11 @@ import java.util.Optional;
      * @return
      */
     @RequestMapping(value = "/get.json", method = RequestMethod.POST) @ResponseBody public JsonResult addCompany(
-            @RequestBody String companyId) {
+            @RequestBody String param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+            JSONObject receivedParam = JSON.parseObject(param);
+            String companyId = (String) receivedParam.get("companyId");
             CompanyInfo companyInfo = companyInfoMapper.selectBycompanyId(companyId);
             if (!companyInfo.getUserId().equals(curUser)) {
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);

@@ -328,13 +328,15 @@ import java.util.Optional;
     /**
      * 添加其他联系人
      *
-     * @param towerId
+     * @param param
      * @param response
      * @return
      */
     @RequestMapping(value = "/get-otherUsers.json", method = RequestMethod.POST) @ResponseBody public JsonResult getOtherUserInfo(
-            @RequestBody String towerId, HttpServletResponse response) {
-        Preconditions.checkNotNull(towerId);
+            @RequestBody String param, HttpServletResponse response) {
+        Preconditions.checkNotNull(param);
+        JSONObject receivedParam = JSON.parseObject(param);
+        String towerId = (String)receivedParam.get("towerId");
         String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
         return JsonResult.success(supplyUserService.getOtherUserInfo(curUser, towerId));
     }
@@ -342,14 +344,16 @@ import java.util.Optional;
     /**
      * 删除其他联系人
      *
-     * @param towerId
-     * @param userId
+     * @param param
      * @param response
      * @return
      */
     @RequestMapping(value = "/remove-otherUser.json", method = RequestMethod.POST) @ResponseBody public JsonResult removeOtherUserInfo(
-            @RequestBody String towerId, String userId, HttpServletResponse response) {
-        Preconditions.checkNotNull(towerId);
+            @RequestBody String param, HttpServletResponse response) {
+        Preconditions.checkNotNull(param);
+        JSONObject receivedParam = JSON.parseObject(param);
+        String towerId = (String)receivedParam.get("towerId");
+        String userId = (String)receivedParam.get("userId");
         String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
         if (curUser.equals(userId)){
             JsonResult.success(Boolean.FALSE);
