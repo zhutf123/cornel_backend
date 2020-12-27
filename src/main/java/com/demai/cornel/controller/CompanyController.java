@@ -5,8 +5,11 @@ package com.demai.cornel.controller;
 
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
+import com.demai.cornel.purcharse.dao.CompanyInfoMapper;
+import com.demai.cornel.purcharse.model.CompanyInfo;
 import com.demai.cornel.service.CompanyService;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.user.CompanyParam;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,27 @@ import java.util.Optional;
 @Controller @RequestMapping("/company") @Slf4j public class CompanyController {
 
     @Resource private CompanyService companyService;
+    @Resource CompanyInfoMapper companyInfoMapper;
+
+    /***
+     * 添加公司信息， 返回注册id
+     * @return
+     */
+    @RequestMapping(value = "/get.json", method = RequestMethod.POST) @ResponseBody public JsonResult addCompany(
+            @RequestBody String companyId) {
+        try {
+            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+            CompanyInfo companyInfo = companyInfoMapper.selectBycompanyId(companyId);
+            if (!companyInfo.getUserId().equals(curUser)) {
+                return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+            }
+            log.debug("query company info :{}", JsonUtil.toJson(companyInfo));
+            return JsonResult.success(companyInfo);
+        } catch (Exception e) {
+            log.error("添加公司信息异常！", e);
+            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
+        }
+    }
 
     /***
      * 添加公司信息， 返回注册id
@@ -36,7 +60,7 @@ import java.util.Optional;
             @RequestBody CompanyParam param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
-            if (param.getUserId().equals(curUser)) {
+            if (!param.getUserId().equals(curUser)) {
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }
 
@@ -57,7 +81,7 @@ import java.util.Optional;
             @RequestBody CompanyParam param) {
         try {
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
-            if (param.getUserId().equals(curUser)) {
+            if (!param.getUserId().equals(curUser)) {
                 return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
             }
 

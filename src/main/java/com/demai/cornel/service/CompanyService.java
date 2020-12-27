@@ -6,7 +6,6 @@ package com.demai.cornel.service;
 import com.demai.cornel.purcharse.dao.CompanyInfoMapper;
 import com.demai.cornel.purcharse.model.CompanyInfo;
 import com.demai.cornel.vo.user.CompanyParam;
-import groovy.util.logging.Commons;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

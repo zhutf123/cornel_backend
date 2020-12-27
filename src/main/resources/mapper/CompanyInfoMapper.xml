@@ -15,11 +15,13 @@
     <result column="main_req" jdbcType="VARCHAR" property="mainReq" />
     <result column="daily_consume" jdbcType="NUMERIC" property="dailyConsume" />
     <result column="location_id" jdbcType="VARCHAR" property="locationId" />
+      <result column="user_id" jdbcType="VARCHAR" property="userId" />
+      <result column="license_url" jdbcType="VARCHAR" property="licenseUrl" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, company_id, company_name, create_time, update_time, "status", contact_user, contact_tel, 
-    main_project, main_req, daily_consume, location_id
+    main_project, main_req, daily_consume, location_id,user_id, license_url
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
