@@ -166,14 +166,7 @@
         </trim>
         )
     </insert>
-
-    <select id="getUserInfoByPhone" parameterType="String" resultMap="userInfoResultMap">
-        SELECT
-        <include refid="main_column"/>
-        from user_info
-        where status=1 and <![CDATA[ mobile @> array[#{phone}] ]]>
-        limit 1
-    </select>
+    
     <select id="getUserInfoNoDriverByPhone" parameterType="String" resultMap="userInfoResultMap">
         SELECT
         <include refid="main_column"/>
