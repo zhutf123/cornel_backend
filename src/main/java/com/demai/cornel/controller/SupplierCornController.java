@@ -320,4 +320,18 @@ import java.util.Optional;
         return JsonResult.success(supplyUserService.addOtherUserInfo(param));
     }
 
+
+    /**
+     * 添加其他联系人
+     * @param towerId
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/get-otherUsers.json", method = RequestMethod.POST)
+    @ResponseBody public JsonResult getOtherUserInfo(@RequestBody String towerId, HttpServletResponse response) {
+        Preconditions.checkNotNull(towerId);
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse("UNKNOW_");
+        return JsonResult.success(supplyUserService.getOtherUserInfo(curUser, towerId));
+    }
+
 }

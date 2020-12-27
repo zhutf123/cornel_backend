@@ -1,24 +1,29 @@
 package com.demai.cornel.service;
 
+import com.demai.cornel.config.ServiceMobileConfig;
 import com.demai.cornel.dao.DryTowerDao;
 import com.demai.cornel.dao.UserInfoDao;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
+import com.demai.cornel.model.Commodity;
 import com.demai.cornel.model.DryTower;
 import com.demai.cornel.model.OpCorn;
 import com.demai.cornel.model.UserInfo;
 import com.demai.cornel.util.*;
 import com.demai.cornel.util.json.JsonUtil;
+import com.demai.cornel.vo.JsonResult;
 import com.demai.cornel.vo.WeChat.WechatCode2SessionResp;
 import com.demai.cornel.vo.delivery.DriverCpllUserInfoReq;
 import com.demai.cornel.vo.delivery.DriverCpllUserInfoResp;
 import com.demai.cornel.vo.delivery.SupplierCplUserInfoReq;
 import com.demai.cornel.vo.delivery.SupplierCpllUserInfoResp;
 import com.demai.cornel.vo.delivery.SupplierOtherUserInfoReq;
+import com.demai.cornel.vo.supplier.SupplierInfoResp;
 import com.demai.cornel.vo.user.UserLoginParam;
 import com.demai.cornel.vo.user.UserLoginResp;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -28,6 +33,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -52,8 +60,33 @@ public class SupplyUserService {
     @Resource
     private DryTowerDao dryTowerDao;
 
-    public Boolean addOtherUserInfo(SupplierOtherUserInfoReq supplierCplUserInfoReq){
+    public List<SupplierInfoResp> getOtherUserInfo(String curUser, String towerId){
+        List<SupplierInfoResp> result = Lists.newArrayList();
+        DryTower dryTower = dryTowerDao.selectByTowerId(towerId);
+        if (dryTower==null || !dryTower.getBindUserId().equals(curUser)){
+            return result;
+        }
+        Set<String> userIds = dryTower.getContactUserId();
+        userIds.remove(curUser);
 
+        List<UserInfo> userInfos = userInfoDao.getUserInfoByUserIds(userIds);
+        userInfos.forEach(userInfo -> {
+            SupplierInfoResp supplierInfoResp = new SupplierInfoResp();
+            supplierInfoResp.setUserId(userInfo.getUserId());
+            supplierInfoResp.setIdCard(userInfo.getIdCard());
+            supplierInfoResp.setUserName(userInfo.getName());
+            supplierInfoResp.setServiceMobile(ServiceMobileConfig.serviceMobile.get(0));
+            if (userInfo.getMobile() != null || userInfo.getMobile().size() > 0) {
+                supplierInfoResp.setMobile(userInfo.getMobile().iterator().next());
+            }
+            supplierInfoResp.setStatus(SupplierInfoResp.CODE_ENUE.SUCCESS.getValue());
+            supplierInfoResp.setImgs(imgService.getUserImgs(userInfo.getUserId()));
+            result.add(supplierInfoResp);
+        });
+        return result;
+    }
+
+    public Boolean addOtherUserInfo(SupplierOtherUserInfoReq supplierCplUserInfoReq){
         UserInfo userInfoInit = new UserInfo();
         userInfoInit.setMobile(Sets.newHashSet(supplierCplUserInfoReq.getMobile()));
         userInfoInit.setUserId(UUID.randomUUID().toString());
