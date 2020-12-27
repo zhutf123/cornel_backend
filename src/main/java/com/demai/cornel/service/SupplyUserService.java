@@ -250,9 +250,12 @@ import java.util.concurrent.TimeUnit;
             return driverCpllUserInfoResp;
         }
         UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(supplierCplUserInfoReq, userInfo);
         userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
-        userInfo.setUserId(CookieAuthUtils.getCurrentUser());
+        if (StringUtil.isEmpty(supplierCplUserInfoReq.getUserId())){
+            userInfo.setUserId(CookieAuthUtils.getCurrentUser());
+        }
+        BeanUtils.copyProperties(supplierCplUserInfoReq, userInfo);
+
         int res = userInfoDao.update(userInfo);
         if (res == 0) {
             log.debug("supplier register complete fail due to update user info fail");
