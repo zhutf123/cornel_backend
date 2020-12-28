@@ -160,9 +160,9 @@
       <if test="locationId != null">
         location_id = #{locationId,jdbcType=VARCHAR},
       </if>
-        <if test="licenseUrl != null">
-            #{licenseUrl,jdbcType=VARCHAR},
-        </if>
+     <if test="licenseUrl != null">
+         license_url =#{licenseUrl,jdbcType=VARCHAR},
+     </if>
     </set>
     where company_id = #{companyId,jdbcType=VARCHAR}
   </update>
