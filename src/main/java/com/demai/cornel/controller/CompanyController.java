@@ -76,25 +76,5 @@ import java.util.Optional;
             return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
         }
     }
-
-    /***
-     * 添加公司信息， 返回注册id
-     * @return
-     */
-    @RequestMapping(value = "/update.json", method = RequestMethod.POST) @ResponseBody public JsonResult updateCompany(
-            @RequestBody CompanyParam param) {
-        try {
-            String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
-            if (!param.getUserId().equals(curUser)) {
-                return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
-            }
-
-            String companyId = companyService.updateCompanyInfo(param);
-            log.debug("add company success  company name={},companyId is {}", param.getCompanyName(), companyId);
-            return JsonResult.success(companyId);
-        } catch (Exception e) {
-            log.error("修改公司信息异常！", e);
-            return JsonResult.successStatus(ResponseStatusEnum.NETWORK_ERROR);
-        }
-    }
+    
 }
