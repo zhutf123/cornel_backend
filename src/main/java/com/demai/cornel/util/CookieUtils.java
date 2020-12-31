@@ -45,6 +45,7 @@ public class CookieUtils {
         Cookie[] cookies;
         if (ArrayUtils.isNotEmpty(cookies = request.getCookies())) {
             for (Cookie cookie : cookies) {
+                cookie.setMaxAge(24 * 60 * 60);
                 response.addCookie(cookie);
             }
         }
