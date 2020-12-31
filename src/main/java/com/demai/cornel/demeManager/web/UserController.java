@@ -3,6 +3,7 @@ package com.demai.cornel.demeManager.web;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.annotation.AccessControl;
+import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.demeManager.service.AdminCornService;
 import com.demai.cornel.demeManager.service.AdminUserLoginService;
 import com.demai.cornel.demeManager.vo.*;
@@ -12,6 +13,7 @@ import com.demai.cornel.model.RoleInfo;
 import com.demai.cornel.service.UserService;
 import com.demai.cornel.util.Base64Utils;
 import com.demai.cornel.util.CookieAuthUtils;
+import com.demai.cornel.util.CookieUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.vo.JsonResult;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.ref.PhantomReference;
 import java.text.ParseException;
@@ -64,15 +67,17 @@ import java.util.UUID;
 
     /*业务人员获取审核的view*/
     @CrossOrigin @RequestMapping(value = "/get-quote-view-op.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult oPgetQuoteView(
-            @RequestBody String param, HttpServletResponse response) {
+            @RequestBody String param, HttpServletRequest request, HttpServletResponse response) {
         Preconditions.checkNotNull(param);
+        String cKey = CookieUtils.getCookieValue(request, ContextConsts.COOKIE_CKEY_NAME);
+        log.info("ckey = {}", cKey);
         String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
         if (StringUtil.isEmpty(curUser)) {
-            return JsonResult.success(null);
+            return JsonResult.success(Lists.newArrayList());
         }
         if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
             log.info("非业务人员，无权查看订单列表：{}:{}",curUser,RoleInfo.ROLE_TYPE_ENUM.BUS_OP.getDesc());
-            return JsonResult.success(null);
+            return JsonResult.success(Lists.newArrayList());
         }
         JSONObject receivedParam = JSON.parseObject(param);
         Integer offset = (Integer) receivedParam.get("offset");
