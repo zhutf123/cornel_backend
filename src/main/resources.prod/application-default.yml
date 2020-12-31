@@ -48,8 +48,8 @@ ali-config:
   accessSecret: 1C6KdK5kBZurVkFTSqp8wPE2mvJpBB
   loginValidcodeId: SMS_176539582
   priceChangeCodeId: SMS_205821111
-  notifyBusinessOp: SMS_205826428
-  notifyFinanceOp: SMS_205811656
+  notifyBusinessOp: SMS_208580390
+  notifyFinanceOp: SMS_208580389
 
 datasources:
   dm-master:
