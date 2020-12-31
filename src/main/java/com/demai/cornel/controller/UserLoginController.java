@@ -144,11 +144,14 @@ public class UserLoginController {
             @RequestParam(value = "key", required = true) String key, HttpServletResponse response) {
         try {
             Map<String, String> userInfoMap = CookieAuthUtils.getUserFromCKey(key);
+            log.info("get ckey info {}", key);
             String curUser = null;
             if (MapUtils.isNotEmpty(userInfoMap)) {
                 UserHolder.set(userInfoMap);
                 curUser = userInfoMap.get(KEY_USER_NAME);
             }
+            log.info("get curUser info {}", curUser);
+
             if (StringUtil.isNotEmpty(curUser)) {
                 List<String> roleIds = userService.getUserRoleId(curUser);
                 if (!CollectionUtils.isEmpty(roleIds)) {
