@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.collections.MapUtils;
+import org.redisson.reactive.ReactiveProxyBuilder;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -121,8 +122,9 @@ public class UserLoginController {
     }
 
     @RequestMapping(value = "/check-user.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    @ResponseBody public JsonResult checkAdminRoleUser(HttpServletRequest request) {
+    @ResponseBody public JsonResult checkAdminRoleUser(HttpServletRequest request,  HttpServletResponse response) {
         try {
+            CookieUtils.copyCookie(request, response);
             String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
             if (StringUtil.isNotEmpty(curUser)) {
                 return JsonResult.success(userService.getUserRoleId(curUser));

@@ -6,6 +6,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by binz.zhang on 2019/1/4.
@@ -37,5 +38,15 @@ public class CookieUtils {
             return cookie.getValue();
         }
         return null;
+    }
+
+
+    public static void copyCookie(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies;
+        if (ArrayUtils.isNotEmpty(cookies = request.getCookies())) {
+            for (Cookie cookie : cookies) {
+                response.addCookie(cookie);
+            }
+        }
     }
 }
