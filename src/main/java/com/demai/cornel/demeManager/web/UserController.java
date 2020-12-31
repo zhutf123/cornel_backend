@@ -53,7 +53,7 @@ import java.util.UUID;
             return JsonResult.success(Lists.newArrayList());
         }
         if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.FIN_OP)){
-            log.info("非财务人员，无权查看订单列表");
+            log.info("非财务人员，无权查看订单列表：{}:{}",curUser,RoleInfo.ROLE_TYPE_ENUM.FIN_OP.getDesc());
             return JsonResult.success(Lists.newArrayList());
         }
         JSONObject receivedParam = JSON.parseObject(param);
@@ -71,7 +71,7 @@ import java.util.UUID;
             return JsonResult.success(null);
         }
         if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
-            log.info("非财务人员，无权查看订单列表");
+            log.info("非业务人员，无权查看订单列表：{}:{}",curUser,RoleInfo.ROLE_TYPE_ENUM.BUS_OP.getDesc());
             return JsonResult.success(null);
         }
         JSONObject receivedParam = JSON.parseObject(param);
@@ -88,7 +88,7 @@ import java.util.UUID;
             return JsonResult.success(null);
         }
         if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.FIN_OP)){
-            log.info("非财务人员，无权查看订单列表");
+            log.info("非财务人员，无权查看订单列表：{}:{}",curUser,RoleInfo.ROLE_TYPE_ENUM.FIN_OP.getDesc());
             return JsonResult.success(null);
         }
         return JsonResult.success(adminCornService.adminGetQueFinInfo());
@@ -103,7 +103,7 @@ import java.util.UUID;
             return JsonResult.success(Lists.newArrayList());
         }
         if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.FIN_OP)){
-            log.info("非财务人员，无权查看订单列表");
+            log.info("非财务人员，无权查看订单列表：{}:{}",curUser,RoleInfo.ROLE_TYPE_ENUM.FIN_OP.getDesc());
             return JsonResult.success(Lists.newArrayList());
         }
         return JsonResult.success(adminCornService.getQuoteList(param, response));
@@ -118,7 +118,7 @@ import java.util.UUID;
             return JsonResult.success(Lists.newArrayList());
         }
         if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
-            log.info("非业务人员，无权查看订单列表");
+            log.info("非业务人员，无权查看订单列表：{}:{}",curUser,RoleInfo.ROLE_TYPE_ENUM.BUS_OP.getDesc());
             return JsonResult.success(Lists.newArrayList());
         }
         
@@ -143,7 +143,7 @@ import java.util.UUID;
             return JsonResult.success(Lists.newArrayList());
         }
         if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
-            log.info("非业务人员，无权查看订单列表");
+            log.info("非业务人员，无权查看订单列表：{}:{}",curUser,RoleInfo.ROLE_TYPE_ENUM.BUS_OP.getDesc());
             return JsonResult.success(Lists.newArrayList());
         }
         return JsonResult.success(adminCornService.adminReviewQuote(reviewQuoteReq));
@@ -158,7 +158,7 @@ import java.util.UUID;
             return JsonResult.success(Lists.newArrayList());
         }
         if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.FIN_OP)){
-            log.info("非财务人员，无权查看订单列表");
+            log.info("非财务人员，无权查看订单列表：{}:{}",curUser,RoleInfo.ROLE_TYPE_ENUM.FIN_OP.getDesc());
             return JsonResult.success(Lists.newArrayList());
         }
         return JsonResult.success(adminCornService.finceReviewQuote(reviewQuoteReq));
@@ -180,7 +180,7 @@ import java.util.UUID;
             return JsonResult.success(Lists.newArrayList());
         }
         if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
-            log.info("非业务人员，无权查看订单列表");
+            log.info("非业务人员，无权查看订单列表：{}:{}",curUser,RoleInfo.ROLE_TYPE_ENUM.BUS_OP.getDesc());
             return JsonResult.success(Lists.newArrayList());
         }
         return JsonResult.success(adminCornService.editQuote(adminEditQuoteReq));

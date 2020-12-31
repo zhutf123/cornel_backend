@@ -8,6 +8,7 @@ import com.demai.cornel.model.UserRoleInfo;
 import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.PhoneUtil;
+import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.user.SupplierGetUserInfoResp;
 import com.demai.cornel.vo.user.UserAddReq;
 import com.demai.cornel.vo.user.UserAddUserResp;
@@ -109,6 +110,7 @@ import java.util.stream.Collectors;
     public Boolean checkUserRole(String userId, RoleInfo.ROLE_TYPE_ENUM type_enum) {
         List<String> routeId = getUserRoleId(userId);
         Boolean result = Boolean.FALSE;
+        log.info("check user role :{} -{}",userId, JsonUtil.toJson(routeId));
         if (CollectionUtils.isNotEmpty(routeId)){
             switch (type_enum){
             case BUS_OP:
