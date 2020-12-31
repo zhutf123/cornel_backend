@@ -18,6 +18,7 @@ import com.demai.cornel.util.CookieAuthUtils;
 import com.demai.cornel.util.CookieUtils;
 import com.demai.cornel.util.JacksonUtils;
 import com.demai.cornel.util.StringUtil;
+import com.demai.cornel.util.json.JsonUtil;
 import com.demai.cornel.vo.user.UserAddReq;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import com.google.common.base.Strings;
@@ -146,8 +147,9 @@ public class UserLoginController {
     @RequestMapping(value = "/setV.json", method = RequestMethod.GET) @ResponseBody public JsonResult setUserCookieInfo(
             @RequestParam(value = "key", required = true) String key, HttpServletResponse response) {
         try {
-            Map<String, String> userInfoMap = CookieAuthUtils.getUserFromCKey(key);
             log.info("get ckey info {}", key);
+            Map<String, String> userInfoMap = CookieAuthUtils.getUserFromCKey(key);
+            log.info("get ckey info {}", JsonUtil.toJson(userInfoMap));
             String curUser = null;
             if (MapUtils.isNotEmpty(userInfoMap)) {
                 UserHolder.set(userInfoMap);
@@ -161,6 +163,7 @@ public class UserLoginController {
                     Cookie cookie = new Cookie(ContextConsts.COOKIE_CKEY_NAME, key);
                     cookie.setMaxAge(24 * 60 * 60);
                     cookie.setDomain(configProperties.cookieDomain);
+                    cookie.setPath("/");
                     response.addCookie(cookie);
                 }
             }

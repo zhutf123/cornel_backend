@@ -2,7 +2,9 @@ package com.demai.cornel.util;
 
 import com.demai.cornel.holder.UserHolder;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Map;
 
@@ -34,6 +36,9 @@ public class CookieAuthUtils {
     public static Map<String, String> getUserFromCKey(String cKey) {
         String decodeCkey = new String(Base64Utils.decode(cKey));
         log.debug("decode cKey is {}", decodeCkey);
+        if (StringUtils.isBlank(decodeCkey)){
+            return Maps.newHashMap();
+        }
         return Splitter.on(CKEY_SPLIT).trimResults().withKeyValueSeparator(CKEY_KEY_JOINER).split(decodeCkey);
     }
 
