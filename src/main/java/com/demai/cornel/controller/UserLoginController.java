@@ -157,6 +157,7 @@ public class UserLoginController {
                 if (!CollectionUtils.isEmpty(roleIds)) {
                     Cookie cookie = new Cookie(ContextConsts.COOKIE_CKEY_NAME, key);
                     cookie.setMaxAge(24 * 60 * 60);
+                    cookie.setPath("beta.demeteria.com");
                     response.addCookie(cookie);
                 }
             }
