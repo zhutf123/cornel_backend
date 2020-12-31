@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.demai.cornel.annotation.AccessControl;
+import com.demai.cornel.constant.ConfigProperties;
 import com.demai.cornel.constant.ContextConsts;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
@@ -59,6 +60,8 @@ public class UserLoginController {
     private UserLoginService userLoginService;
     @Resource
     private UserService userService;
+    @Resource
+    private ConfigProperties configProperties;
 
     /***
      * 给用户手机号 发送短信验证码 需要补充逻辑 在n分钟内，发送x条的限制
@@ -157,7 +160,7 @@ public class UserLoginController {
                 if (!CollectionUtils.isEmpty(roleIds)) {
                     Cookie cookie = new Cookie(ContextConsts.COOKIE_CKEY_NAME, key);
                     cookie.setMaxAge(24 * 60 * 60);
-                    cookie.setPath("beta.demeteria.com");
+                    cookie.setDomain(configProperties.cookieDomain);
                     response.addCookie(cookie);
                 }
             }

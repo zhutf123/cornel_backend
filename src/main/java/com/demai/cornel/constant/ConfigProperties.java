@@ -57,4 +57,7 @@ import org.springframework.stereotype.Component;
     public @Value("${upload.location}") String uploadLocation;
     public @Value("${upload.downloadHost}") String downloadHost;
 
+
+    public @Value("${cookie.domain}") String cookieDomain;
+
 }
