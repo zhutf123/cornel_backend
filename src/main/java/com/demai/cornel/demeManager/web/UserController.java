@@ -173,6 +173,14 @@ import java.util.UUID;
     @CrossOrigin @RequestMapping(value = "/get-tower-list.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getTowerList(
             @RequestBody AdminGetTowerReq reviewQuoteReq) {
         Preconditions.checkNotNull(reviewQuoteReq);
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+        if (StringUtil.isEmpty(curUser)) {
+            return JsonResult.success(Lists.newArrayList());
+        }
+        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
+            log.info("非业务人员，无权查看订单列表：{}:{}",curUser,RoleInfo.ROLE_TYPE_ENUM.BUS_OP.getDesc());
+            return JsonResult.success(Lists.newArrayList());
+        }
         return JsonResult.success(adminCornService.getTowerList(reviewQuoteReq));
     }
 
@@ -194,6 +202,14 @@ import java.util.UUID;
     /*获取系统报价*/
     @CrossOrigin @RequestMapping(value = "/get-system-quote.json", method = RequestMethod.POST, produces = "application/json; charset=utf-8") @ResponseBody public JsonResult getSystemQuote(
             @RequestBody AdGetTowQuLiReq adGetTowQuLiReq) {
+        String curUser = Optional.ofNullable(UserHolder.getValue(CookieAuthUtils.KEY_USER_NAME)).orElse(null);
+        if (StringUtil.isEmpty(curUser)) {
+            return JsonResult.success(Lists.newArrayList());
+        }
+        if(!userService.checkUserRole(curUser, RoleInfo.ROLE_TYPE_ENUM.BUS_OP)){
+            log.info("非业务人员，无权查看订单列表：{}:{}",curUser,RoleInfo.ROLE_TYPE_ENUM.BUS_OP.getDesc());
+            return JsonResult.success(Lists.newArrayList());
+        }
         return JsonResult.success(adminCornService.getSyQuLis(adGetTowQuLiReq.getUserId()));
     }
 
