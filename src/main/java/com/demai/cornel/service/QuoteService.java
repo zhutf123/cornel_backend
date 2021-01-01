@@ -496,8 +496,8 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
             String startTime = DateFormatUtils.formatDateTime(oldQuote.getStartTime());
             if (!startTime.equals(quoteInfo.getStartTime())) {
                 result.add(QuoteInfo.ChangeLogInfo.builder().
-                        frontValue(oldQuote.getShipmentWeight())
-                        .value(quoteInfo.getShipmentWeight())
+                        frontValue(oldQuote.getStartTime())
+                        .value(quoteInfo.getStartTime())
                         .desc("入库时间发生变化")
                         .code("time")
                         .build());
