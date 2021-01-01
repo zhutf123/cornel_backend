@@ -562,7 +562,7 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
         List<ImgInfoReq> imgInfoReqs = imgService.getQuoteImgs(quoteId);
         getOfferInfoResp.setImgInfo(imgInfoReqs);
         getOfferInfoResp.setServiceMobile(serviceMobile);
-        buildChangeLog(getOfferInfoResp.getFrontValue(), getOfferInfoResp);
+        getOfferInfoResp.setChangeLog(buildChangeLog(getOfferInfoResp.getFrontValue(), getOfferInfoResp));
         List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByUserId(CookieAuthUtils.getCurrentUser());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = Lists.newArrayList();
         if (!CollectionUtils.isEmpty(ownDryInfo)) {
@@ -572,7 +572,7 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
             });
         }
         getOfferInfoResp.setDryTowerInfo(dryTowerInfo);
-
+        log.info("quote info:{}", JsonUtil.toJson(getOfferInfoResp));
         return getOfferInfoResp;
     }
 
