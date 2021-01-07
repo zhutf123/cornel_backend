@@ -354,7 +354,7 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
             return ClickSystemQuoteResp.builder().status(ClickSystemQuoteResp.STATUS_ENUE.USER_ERROR.getValue())
                     .build();
         }
-        List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByUserId(userId);
+        List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByContactUserId(userId);
 
         Commodity commodity = commodityDao.getCommodityByCommodityId(commodityId);
         if (commodity == null) {
@@ -563,7 +563,7 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
         getOfferInfoResp.setImgInfo(imgInfoReqs);
         getOfferInfoResp.setServiceMobile(serviceMobile);
         getOfferInfoResp.setChangeLog(buildChangeLog(getOfferInfoResp.getFrontValue(), getOfferInfoResp));
-        List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByUserId(CookieAuthUtils.getCurrentUser());
+        List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByContactUserId(CookieAuthUtils.getCurrentUser());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = Lists.newArrayList();
         if (!CollectionUtils.isEmpty(ownDryInfo)) {
             ownDryInfo.stream().forEach(x -> {

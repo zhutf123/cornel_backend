@@ -54,7 +54,7 @@ ali-config:
 datasources:
   dm-master:
     driverClassName: org.postgresql.Driver
-    jdbcUrl: 'jdbc:postgresql://192.168.0.107:5432/cornel_beta'
+    jdbcUrl: 'jdbc:postgresql://192.168.0.107:5432/cornel_product'
     username: cornel_prd
     password: a9e43160-7d34-4a9d-8120-f605b111ce59
     maximumPoolSize: 5
@@ -86,4 +86,4 @@ car-config:
   carlicetype: 本人,他人,公司
 
 cookie:
-  domain: beta.demeteria.com
+  domain: demeteria.com

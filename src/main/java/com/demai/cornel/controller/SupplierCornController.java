@@ -6,6 +6,7 @@ package com.demai.cornel.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.demai.cornel.annotation.AccessControl;
+import com.demai.cornel.dao.DryTowerDao;
 import com.demai.cornel.dmEnum.ResponseStatusEnum;
 import com.demai.cornel.holder.UserHolder;
 import com.demai.cornel.model.DryTower;
@@ -52,6 +53,7 @@ import java.util.Optional;
     @Resource private SupplierTaskService supplierTaskService;
 
     @Resource private SupplyUserService supplyUserService;
+    @Resource private DryTowerDao dryTowerDao;
 
     /***
      * 给用户手机号 发送短信验证码 需要补充逻辑 在n分钟内，发送x条的限制
@@ -247,7 +249,7 @@ import java.util.Optional;
      * @return
      */
     @RequestMapping(value = "/get-tower.json", method = RequestMethod.POST) @ResponseBody public JsonResult getDryTowerByUserId() {
-        return JsonResult.success(supplierTaskService.getTowerInfoByUserId(CookieAuthUtils.getCurrentUser()));
+        return JsonResult.success(dryTowerDao.selectDryTowerByContactUserId(CookieAuthUtils.getCurrentUser()));
     }
 
     /**

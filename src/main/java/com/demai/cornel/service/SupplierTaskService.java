@@ -328,16 +328,6 @@ import lombok.extern.slf4j.Slf4j;
     }
 
     /**
-     * 获取指定人下面的烘干塔列表
-     *
-     * @param userId
-     * @return
-     */
-    public List<DryTower> getTowerInfoByUserId(String userId) {
-        return dryTowerDao.selectDryTowerByUserId(userId);
-    }
-
-    /**
      * 根据烘干塔ID 获取烘干塔信息
      *
      * @param towerId
@@ -448,7 +438,7 @@ import lombok.extern.slf4j.Slf4j;
             supplierInfoResp.setMobile(userInfo.getMobile().iterator().next());
         }
         supplierInfoResp.setStatus(SupplierInfoResp.CODE_ENUE.SUCCESS.getValue());
-        List<DryTower> dryTowers = dryTowerDao.selectDryTowerByUserId(userId);
+        List<DryTower> dryTowers = dryTowerDao.selectDryTowerByContactUserId(userId);
         if (dryTowers == null) {
             supplierInfoResp.setTowerInfos(Collections.EMPTY_LIST);
             return JsonResult.success(supplierInfoResp);
