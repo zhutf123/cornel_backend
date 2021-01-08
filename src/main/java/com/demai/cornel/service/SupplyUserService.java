@@ -97,7 +97,7 @@ import java.util.concurrent.TimeUnit;
 
     public Boolean addOtherUserInfo(SupplierOtherUserInfoReq supplierCplUserInfoReq) {
         UserInfo userInfo = userInfoDao.getUserInfoByPhone(supplierCplUserInfoReq.getMobile());
-
+        Boolean update = Boolean.FALSE;
         if (userInfo != null) {
             userInfo.setStatus(UserInfo.USER_STATUS.ENABLE.getValue());
             UserInfo infoTmp = new UserInfo();
@@ -109,6 +109,7 @@ import java.util.concurrent.TimeUnit;
             infoTmp.setIdType(supplierCplUserInfoReq.getIdType());
             infoTmp.setName(supplierCplUserInfoReq.getName());
             userInfoDao.update(infoTmp);
+            update = Boolean.TRUE;
         } else {
             userInfo = new UserInfo();
             userInfo.setMobile(Sets.newHashSet(supplierCplUserInfoReq.getMobile()));
@@ -150,6 +151,21 @@ import java.util.concurrent.TimeUnit;
         if (dryTower == null) {
             return Boolean.FALSE;
         }
+        if (update){
+            List<DryTower> towers = dryTowerDao.selectDryTowerByContactUserId(Sets.newHashSet(userInfo.getUserId()));
+            if (CollectionUtils.isNotEmpty(towers)){
+                UserInfo finalUserInfo = userInfo;
+                towers.stream().forEach(tower ->{
+                    DryTower dryTowerT = new DryTower();
+                    dryTowerT.setTowerId(tower.getTowerId());
+                    Set<String> userInfos = tower.getContactUserId();
+                    userInfos.remove(finalUserInfo.getUserId());
+                    dryTowerT.setContactUserId(tower.getContactUserId());
+                    dryTowerDao.updateByPrimaryKeySelective(dryTowerT);
+                });
+            }
+        }
+        
         DryTower dryTowerTmp = new DryTower();
         dryTowerTmp.setTowerId(dryTower.getTowerId());
         dryTower.getContactUserId().add(userInfo.getUserId());
