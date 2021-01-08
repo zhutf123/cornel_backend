@@ -8,6 +8,7 @@ import com.demai.cornel.purcharse.dao.CompanyInfoMapper;
 import com.demai.cornel.purcharse.model.CompanyInfo;
 import com.demai.cornel.util.StringUtil;
 import com.demai.cornel.vo.user.CompanyParam;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class CompanyService {
     @Resource DryTowerDao dryTowerDao;
 
     public String addCompanyInfo(CompanyParam param){
-        CompanyInfo companyInfo = companyInfoMapper.selectByUserId(param.getUserId());
+        CompanyInfo companyInfo = companyInfoMapper.selectByUserId(Sets.newHashSet(param.getUserId()));
         if (companyInfo != null){
             if (!companyInfo.getUserId().equals(param.getUserId())){
                  return StringUtil.EMPTY;

@@ -177,7 +177,14 @@
         select
         <include refid="Base_Column_List" />
         from company_info
-        where user_id = #{userId,jdbcType=VARCHAR}
+        where company_id in (
+          select
+            company_id
+          from dry_tower
+          where
+         contact_user_id <![CDATA[ @> ]]> (#{userID,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler})::varchar[]
+        and status=1 order by default_flag desc,id desc limit 1
+        )
     </select>
 
 

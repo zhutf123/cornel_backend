@@ -8,6 +8,7 @@ import com.demai.cornel.purcharse.model.LocationInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author binz.zhang
@@ -22,7 +23,7 @@ public interface DryTowerDao {
 
     int updateByPrimaryKeySelective(DryTower record);
 
-    String getLocationByUserId(@Param("userID") String userId);
+    String getLocationByUserId(@Param("userID") Set<String> userId);
 
     /**
      * 获取指定人下面的烘干塔信息 排序方式默认烘干塔在前 后面按时间倒序排列
@@ -40,7 +41,7 @@ public interface DryTowerDao {
      * @param userId
      * @return
      */
-    List<DryTower> selectDryTowerByContactUserId(@Param("userID") String userId);
+    List<DryTower> selectDryTowerByContactUserId(@Param("userID") Set<String> userId);
 
     DryTower selectByTowerId(@Param("towerId") String towerId);
 

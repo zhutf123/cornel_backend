@@ -223,13 +223,14 @@
         </set>
         where tower_id = #{towerId,jdbcType=VARCHAR}
     </update>
-    
+
     <select id="getLocationByUserId" resultType="java.lang.String">
-       select location from dry_tower
-       where
-         contact_user_id=#{userID,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
-         and status=1  order by default_flag desc,id desc limit 1;
+        select location from dry_tower
+        where
+            contact_user_id <![CDATA[ @> ]]> #{userID,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
+            and status=1  order by default_flag desc,id desc limit 1;
     </select>
+
     <select id="selectDryTowerByUserId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -241,7 +242,7 @@
         <include refid="Base_Column_List"/>
         from dry_tower
         where
-          contact_user_id=#{userID,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler},
+        contact_user_id <![CDATA[ @> ]]> #{userID,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
           and status=1 order by default_flag desc,id desc ;
     </select>
     

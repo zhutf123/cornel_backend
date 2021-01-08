@@ -284,7 +284,7 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
      */
     public OfferQuoteReq clickQuoteRest() {
         String userId = CookieAuthUtils.getCurrentUser();
-        String location = dryTowerDao.getLocationByUserId(userId);
+        String location = dryTowerDao.getLocationByUserId(Sets.newHashSet(userId));
         return OfferQuoteReq.builder().location(location).
                 shipmentWeight(MIN_SHIPMENT_WEIGHT).unitPrice(ContextConsts.DEFAULT_UNIT_PRICE)
                 .unitWeight(ContextConsts.DEFAULT_UNIT_WEIGHT).build();
@@ -354,7 +354,7 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
             return ClickSystemQuoteResp.builder().status(ClickSystemQuoteResp.STATUS_ENUE.USER_ERROR.getValue())
                     .build();
         }
-        List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByContactUserId(userId);
+        List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByContactUserId(Sets.newHashSet(userId));
 
         Commodity commodity = commodityDao.getCommodityByCommodityId(commodityId);
         if (commodity == null) {
@@ -563,7 +563,7 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
         getOfferInfoResp.setImgInfo(imgInfoReqs);
         getOfferInfoResp.setServiceMobile(serviceMobile);
         getOfferInfoResp.setChangeLog(buildChangeLog(getOfferInfoResp.getFrontValue(), getOfferInfoResp));
-        List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByContactUserId(CookieAuthUtils.getCurrentUser());
+        List<DryTower> ownDryInfo = dryTowerDao.selectDryTowerByContactUserId(Sets.newHashSet(CookieAuthUtils.getCurrentUser()));
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = Lists.newArrayList();
         if (!CollectionUtils.isEmpty(ownDryInfo)) {
             ownDryInfo.stream().forEach(x -> {

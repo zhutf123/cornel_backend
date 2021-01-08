@@ -438,12 +438,12 @@ import lombok.extern.slf4j.Slf4j;
             supplierInfoResp.setMobile(userInfo.getMobile().iterator().next());
         }
         supplierInfoResp.setStatus(SupplierInfoResp.CODE_ENUE.SUCCESS.getValue());
-        List<DryTower> dryTowers = dryTowerDao.selectDryTowerByContactUserId(userId);
+        List<DryTower> dryTowers = dryTowerDao.selectDryTowerByContactUserId(Sets.newHashSet(userId));
         if (dryTowers == null) {
             supplierInfoResp.setTowerInfos(Collections.EMPTY_LIST);
             return JsonResult.success(supplierInfoResp);
         }
-        supplierInfoResp.setCompanyInfo(companyInfoMapper.selectByUserId(userId));
+        supplierInfoResp.setCompanyInfo(companyInfoMapper.selectByUserId(Sets.newHashSet(userId)));
         List<SupplierInfoResp.TowerInfo> towerInfos = new ArrayList<>(dryTowers.size());
         dryTowers.stream().forEach(x -> {
             SupplierInfoResp.TowerInfo towerInfo = new SupplierInfoResp.TowerInfo();

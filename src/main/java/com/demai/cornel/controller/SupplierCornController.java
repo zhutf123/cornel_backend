@@ -33,6 +33,7 @@ import com.demai.cornel.vo.user.UserLoginResp;
 import com.demai.cornel.vo.user.UserLoginSendMsgParam;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -249,7 +250,7 @@ import java.util.Optional;
      * @return
      */
     @RequestMapping(value = "/get-tower.json", method = RequestMethod.POST) @ResponseBody public JsonResult getDryTowerByUserId() {
-        return JsonResult.success(dryTowerDao.selectDryTowerByContactUserId(CookieAuthUtils.getCurrentUser()));
+        return JsonResult.success(dryTowerDao.selectDryTowerByContactUserId(Sets.newHashSet(CookieAuthUtils.getCurrentUser())));
     }
 
     /**
