@@ -356,16 +356,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
             log.debug("cur user {}  get system quote list empty", CookieAuthUtils.getCurrentUser());
             return Collections.EMPTY_LIST;
         }
+        List<DryTower> towers = dryTowerDao.selectDryTowerByContactUserId(Sets.newHashSet(towerUserId));
 
         if (StringUtils.isNotEmpty(towerUserId)){
             systemQuote.stream().forEach(x -> {
-                SpecialQuote specialQuote = specialQuoteMapper
-                        .selectSpecialQuoteByCommodityId(towerUserId, x.getCommodityId());
                 x.setSysQuote(x.getQuote());
-                if (specialQuote != null) {
-                    x.setQuote(specialQuote.getQuote());
-                    x.setUnitPrice(specialQuote.getUnitPrice());
-                    x.setUnitWeight(specialQuote.getUnitWeight());
+                if (CollectionUtils.isNotEmpty(towers)){
+                    SpecialQuote specialQuote = specialQuoteMapper
+                            .selectSpecialQuoteByCommodityId(towers.get(0).getTowerId(), x.getCommodityId());
+                    if (specialQuote != null) {
+                        x.setQuote(specialQuote.getQuote());
+                        x.setUnitPrice(specialQuote.getUnitPrice());
+                        x.setUnitWeight(specialQuote.getUnitWeight());
+                    }
                 }
             });
         }

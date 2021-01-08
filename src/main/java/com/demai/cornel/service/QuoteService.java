@@ -367,30 +367,27 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
             clickSystemQuoteResp.setMobile(userInfo.getMobile().iterator().next());
         }
         SystemQuote systemQuote = systemQuoteDao.getSystemQuoteByCommodityId(commodityId);
-        SpecialQuote specialQuote = specialQuoteMapper.selectSpecialQuoteByCommodityId(userId,commodityId);
         clickSystemQuoteResp.setCommodity(commodity);
-//        clickSystemQuoteResp.setShipmentWeight(
-//                systemQuote.getMinShipmentWeight() != null ? systemQuote.getMinShipmentWeight() : MIN_SHIPMENT_WEIGHT);
         clickSystemQuoteResp.setUnitWeight(systemQuote.getUnitWeight());
         clickSystemQuoteResp.setUnitPrice(systemQuote.getUnitPrice());
         clickSystemQuoteResp.setQuote(systemQuote.getQuote());
         clickSystemQuoteResp.setSysQuote(systemQuote.getQuote());
-        if (specialQuote != null){
-            //clickSystemQuoteResp.setShipmentWeight(specialQuote.getMinShipmentWeight());
-            clickSystemQuoteResp.setUnitWeight(specialQuote.getUnitWeight());
-            clickSystemQuoteResp.setUnitPrice(specialQuote.getUnitPrice());
-            clickSystemQuoteResp.setQuote(specialQuote.getQuote());
-            clickSystemQuoteResp.setSysQuote(specialQuote.getQuote());
-        }
 
-        clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         List<ClickSystemQuoteResp.DryTowerInfo> dryTowerInfo = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(ownDryInfo)) {
             ownDryInfo.stream().forEach(x -> {
                 dryTowerInfo.add(new ClickSystemQuoteResp.DryTowerInfo(String.valueOf(x.getTowerId()), x.getLocation(),
                         x.getLocationArea(), x.getLocationDetail()));
             });
+            SpecialQuote specialQuote = specialQuoteMapper.selectSpecialQuoteByCommodityId(ownDryInfo.get(0).getTowerId(),commodityId);
+            if (specialQuote != null){
+                clickSystemQuoteResp.setUnitWeight(specialQuote.getUnitWeight());
+                clickSystemQuoteResp.setUnitPrice(specialQuote.getUnitPrice());
+                clickSystemQuoteResp.setQuote(specialQuote.getQuote());
+                clickSystemQuoteResp.setSysQuote(specialQuote.getQuote());
+            }
         }
+        clickSystemQuoteResp.setStatus(ClickSystemQuoteResp.STATUS_ENUE.SUCCESS.getValue());
         clickSystemQuoteResp.setDryTowerInfo(dryTowerInfo);
         return clickSystemQuoteResp;
     }

@@ -228,7 +228,7 @@
         select location from dry_tower
         where
             contact_user_id <![CDATA[ @> ]]> #{userID,javaType=java.util.Set,typeHandler=com.demai.cornel.databaseHandler.ArrayStringSetTypeHandler}
-            and status=1  order by default_flag desc,id desc limit 1;
+            and status=1 order by default_flag desc,id desc limit 1;
     </select>
 
     <select id="selectDryTowerByUserId" resultMap="BaseResultMap">
