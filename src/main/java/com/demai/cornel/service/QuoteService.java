@@ -304,13 +304,18 @@ import static com.demai.cornel.util.DateFormatUtils.ISO_DATE_PATTERN;
             log.warn("get system quote empty");
             return Collections.EMPTY_LIST;
         }
-        List<SpecialQuote> specialQuote = specialQuoteMapper
-                .selectSpecialQuoteByTargetUserId(CookieAuthUtils.getCurrentUser());
+        
         Map<String, BigDecimal> bigDecimalHashMap = null;
-        if (specialQuote != null) {
-            bigDecimalHashMap = specialQuote.stream().collect(Collectors
-                    .toMap(SpecialQuote::getCommodityId, SpecialQuote::getQuote, (oldValue, newValue) -> newValue));
+        List<DryTower> dryTowers = dryTowerDao.selectDryTowerByContactUserId(Sets.newHashSet(CookieAuthUtils.getCurrentUser()));
+        if (CollectionUtils.isNotEmpty(dryTowers)){
+            List<SpecialQuote> specialQuote = specialQuoteMapper
+                    .selectSpecialQuoteByTargetTowerId(dryTowers.get(0).getTowerId());
+            if (specialQuote != null) {
+                bigDecimalHashMap = specialQuote.stream().collect(Collectors
+                        .toMap(SpecialQuote::getCommodityId, SpecialQuote::getQuote, (oldValue, newValue) -> newValue));
+            }
         }
+
         if (bigDecimalHashMap != null) {
             Map<String, BigDecimal> finalBigDecimalHashMap = bigDecimalHashMap;
             gerQuoteListResp.stream().forEach(x -> {

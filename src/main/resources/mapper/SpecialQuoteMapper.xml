@@ -124,10 +124,10 @@
     <update id="updateCommodityIdquoteStatus">
     update special_quote set status=0 where commodity_id=#{commodityId} and target_user_id=#{userId,jdbcType=VARCHAR}
     </update>
-    <select id="selectSpecialQuoteByTargetUserId" resultMap="BaseResultMap">
+    <select id="selectSpecialQuoteByTargetTowerId" resultMap="BaseResultMap">
         select
         <include refid="base_cloumn"/>
-        from special_quote where status=1 and target_user_id=#{userId,jdbcType=VARCHAR}
+        from special_quote where status=1 and target_tower_id=#{towerId,jdbcType=VARCHAR}
     </select>
     <select id="getNearestCommodityPrice" resultType="java.math.BigDecimal">
         select quote from special_quote where target_user_id=#{userId,jdbcType=VARCHAR} and

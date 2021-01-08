@@ -19,7 +19,7 @@ public interface SpecialQuoteMapper {
 
     int updateCommodityIdquoteStatus(@Param("commodityId") String commodityId, @Param("userId") String userId);
 
-    List<SpecialQuote> selectSpecialQuoteByTargetUserId(@Param("userId") String userId);
+    List<SpecialQuote> selectSpecialQuoteByTargetTowerId(@Param("towerId") String towerId);
 
     BigDecimal getNearestCommodityPrice(@Param("userId")String userId,@Param("commodityId")String commodityId,@Param("time") Date time);
 

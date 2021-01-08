@@ -42,6 +42,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 /**
  * @Author binz.zhang
@@ -382,19 +383,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
         if (!adminUserLoginService.checkAdminToken(token, userId)) {
             return Collections.EMPTY_LIST;
         }
-        List<SpecialQuote> specialQuote = specialQuoteMapper.selectSpecialQuoteByTargetUserId(towerUserId);
-        if (CollectionUtils.isEmpty(specialQuote)) {
-            log.debug("cur user {}  get AdminGetTowerQuLiResp list empty", CookieAuthUtils.getCurrentUser());
-            return Collections.EMPTY_LIST;
-        }
         List<AdminGetTowerQuLiResp> resp = new ArrayList<>();
-        specialQuote.stream().forEach(x -> {
-            Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
-            AdminGetTowerQuLiResp adminGetTowerQuLiResp = new AdminGetTowerQuLiResp();
-            BeanUtils.copyProperties(x, adminGetTowerQuLiResp);
-            adminGetTowerQuLiResp.setCommodityName(commodity.getName());
-            resp.add(adminGetTowerQuLiResp);
-        });
+        List<DryTower> dryTowers = dryTowerDao.selectDryTowerByContactUserId(Sets.newHashSet(towerUserId));
+        if (CollectionUtils.isNotEmpty(dryTowers)){
+            List<SpecialQuote> specialQuote = specialQuoteMapper
+                    .selectSpecialQuoteByTargetTowerId(dryTowers.get(0).getTowerId());
+            if (CollectionUtils.isEmpty(specialQuote)) {
+                log.debug("cur user {}  get AdminGetTowerQuLiResp list empty", CookieAuthUtils.getCurrentUser());
+                return Collections.EMPTY_LIST;
+            }
+            
+            specialQuote.stream().forEach(x -> {
+                Commodity commodity = commodityDao.getCommodityByCommodityId(x.getCommodityId());
+                AdminGetTowerQuLiResp adminGetTowerQuLiResp = new AdminGetTowerQuLiResp();
+                BeanUtils.copyProperties(x, adminGetTowerQuLiResp);
+                adminGetTowerQuLiResp.setCommodityName(commodity.getName());
+                resp.add(adminGetTowerQuLiResp);
+            });
+        }
+        
         return resp;
     }
 
