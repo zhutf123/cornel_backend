@@ -444,6 +444,10 @@ import lombok.extern.slf4j.Slf4j;
             return JsonResult.success(supplierInfoResp);
         }
         supplierInfoResp.setCompanyInfo(companyInfoMapper.selectByUserId(Sets.newHashSet(userId)));
+        if (userId.equals(supplierInfoResp.getCompanyInfo().getUserId())){
+            supplierInfoResp.setCanEditComp(Boolean.TRUE);
+        }
+
         List<SupplierInfoResp.TowerInfo> towerInfos = new ArrayList<>(dryTowers.size());
         dryTowers.stream().forEach(x -> {
             SupplierInfoResp.TowerInfo towerInfo = new SupplierInfoResp.TowerInfo();

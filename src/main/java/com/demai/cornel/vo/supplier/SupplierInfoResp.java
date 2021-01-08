@@ -33,6 +33,7 @@ public class SupplierInfoResp {
     private Integer userNum;
     private List<ImgInfoReq> imgs;
     private CompanyInfo companyInfo;
+    private Boolean canEditComp;
 
     @Data public static class TowerInfo {
         List<Commodity> commoditys;

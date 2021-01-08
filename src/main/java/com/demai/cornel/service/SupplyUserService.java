@@ -70,7 +70,7 @@ import java.util.concurrent.TimeUnit;
     public List<SupplierInfoResp> getOtherUserInfo(String curUser, String towerId) {
         List<SupplierInfoResp> result = Lists.newArrayList();
         DryTower dryTower = dryTowerDao.selectByTowerId(towerId);
-        if (dryTower == null || !dryTower.getBindUserId().equals(curUser)) {
+        if (dryTower == null || !dryTower.getContactUserId().contains(curUser)) {
             return result;
         }
         Set<String> userIds = dryTower.getContactUserId();
