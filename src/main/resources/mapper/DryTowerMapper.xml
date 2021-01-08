@@ -231,7 +231,7 @@
             and status=1 order by default_flag desc,id desc limit 1;
     </select>
 
-    <select id="selectDryTowerByUserId" resultMap="BaseResultMap">
+    <select id="selectDryTowerByBindUserId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from dry_tower where bind_user_id=#{userID} and status=1 order by default_flag desc,id desc ;

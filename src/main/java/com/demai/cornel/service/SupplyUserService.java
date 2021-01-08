@@ -18,6 +18,7 @@ import com.demai.cornel.vo.delivery.SupplierCplUserInfoReq;
 import com.demai.cornel.vo.delivery.SupplierCpllUserInfoResp;
 import com.demai.cornel.vo.delivery.SupplierOtherUserInfoReq;
 import com.demai.cornel.vo.supplier.SupplierInfoResp;
+import com.demai.cornel.vo.user.OtherUserInfoListResp;
 import com.demai.cornel.vo.user.UserLoginParam;
 import com.demai.cornel.vo.user.UserLoginResp;
 import com.google.common.base.Joiner;
@@ -67,15 +68,19 @@ import java.util.concurrent.TimeUnit;
         return Boolean.TRUE;
     }
 
-    public List<SupplierInfoResp> getOtherUserInfo(String curUser, String towerId) {
-        List<SupplierInfoResp> result = Lists.newArrayList();
+    public OtherUserInfoListResp getOtherUserInfo(String curUser, String towerId) {
+        OtherUserInfoListResp result = new OtherUserInfoListResp();
+        List<SupplierInfoResp> supplierInfoResps = Lists.newArrayList();
         DryTower dryTower = dryTowerDao.selectByTowerId(towerId);
         if (dryTower == null || !dryTower.getContactUserId().contains(curUser)) {
             return result;
         }
         Set<String> userIds = dryTower.getContactUserId();
         userIds.remove(curUser);
-
+        if (dryTower.getBindUserId().equals(curUser)){
+            result.setCanEdit(Boolean.TRUE);
+        }
+        
         List<UserInfo> userInfos = userInfoDao.getUserInfoByUserIds(userIds);
         userInfos.forEach(userInfo -> {
             SupplierInfoResp supplierInfoResp = new SupplierInfoResp();
@@ -89,9 +94,10 @@ import java.util.concurrent.TimeUnit;
             }
             supplierInfoResp.setStatus(SupplierInfoResp.CODE_ENUE.SUCCESS.getValue());
             supplierInfoResp.setImgs(imgService.getUserImgs(userInfo.getUserId()));
-            result.add(supplierInfoResp);
+            supplierInfoResps.add(supplierInfoResp);
         });
-        result.sort(Comparator.comparing(SupplierInfoResp::getId).reversed());
+        supplierInfoResps.sort(Comparator.comparing(SupplierInfoResp::getId).reversed());
+        result.setUserInfos(supplierInfoResps);
         return result;
     }
 

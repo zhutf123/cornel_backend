@@ -30,6 +30,7 @@ import com.demai.cornel.vo.supplier.*;
 import com.demai.cornel.vo.tower.TowerOperaResp;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -470,8 +471,12 @@ import lombok.extern.slf4j.Slf4j;
     }
     public GetSupplierCornInfoResp getSupplierInfo(String userId) {
         GetSupplierCornInfoResp supplierCornInfoResp = new GetSupplierCornInfoResp();
-
         UserInfo userInfo = userInfoDao.getSupplierUserInfoByUserId(userId);
+        List<DryTower> dryTowers = dryTowerDao.selectDryTowerByBindUserId(userId);
+        if (CollectionUtils.isNotEmpty(dryTowers)){
+            supplierCornInfoResp.setCanAddOther(Boolean.TRUE);
+        }
+
         if (userInfo == null) {
             supplierCornInfoResp.setOptResult(GetDriverCornInfoResp.STATUS.NO_USER.getValue());
             return supplierCornInfoResp;
